@@ -1,6 +1,6 @@
 var courier = courier || {};
 
-    courier.dismiss =  courier.dismiss || {};
+courier.dismiss =  courier.dismiss || {};
 
 courier.dismiss = ( function( $ ) {
 

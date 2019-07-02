@@ -243,13 +243,13 @@ class Courier {
 		}
 		?>
 		<h5><?php esc_html_e( 'Notice Expiration', 'courier' ); ?></h5>
-		<p class="description"><?php esc_html_e( 'Enter a date and time this notice should expire (using 24 hour time format).', 'courier' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Enter a date and time this notice should expire.', 'courier' ); ?></p>
 
 		<fieldset id="courier-timestampdiv">
 			<legend class="screen-reader-text"><?php esc_html_e( 'Expiration date and time', 'courier' ); ?></legend>
 			<div class="timestamp-wrap">
 				<label for="courier_expire_date">
-					<input type="text" class="widefat" id="courier_expire_date" name="courier_expire_date" value="<?php echo esc_attr( $current_date ); ?>">
+					<input type="text" class="widefat" autocomplete="off" id="courier_expire_date" name="courier_expire_date" value="<?php echo esc_attr( $current_date ); ?>">
 				</label>
 			</div>
 		</fieldset>
