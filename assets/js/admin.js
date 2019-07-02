@@ -28,17 +28,17 @@ courier.admin = ( function( $ ) {
             $('#courier_expire_date').datetimepicker({
                 minDate: 0,
                 controlType: 'select',
-                timeFormat: 'hh:mm TT',
+                timeFormat: 'hh:mm tt',
                 dateFormat: 'MM dd, yy',
                 oneLine: true,
-                beforeShow:function() {
-                    // @todo why is this not working?
-                    $('.ui-datepicker-current').addClass('button-primary');
-                    $('.ui-datepicker-close').addClass('button-secondary');
+                firstDay: 0,
+                afterInject:function() {
+                    $('button.ui-datepicker-current').addClass('button button-secondary');
+                    $('button.ui-datepicker-close').addClass('right button button-primary');
                 }
             });
 
-            if ( 'courier_notice' == localized_data.post_type ) {
+            if ( 'courier_notice' === localized_data.post_type ) {
                 $doc
                     .on('ready', self.populate_status);
 
