@@ -14,7 +14,7 @@ class Courier {
 		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ) );
 		add_filter( 'views_edit-courier_notice', array( $this, 'views_addition' ) );
 
-		add_action( 'add_meta_boxes_courier_notice', array( $this, 'add_meta_boxes_courier_notice' ) );
+		add_action( 'add_meta_boxes_courier_notice', array( $this, 'add_meta_boxes_courier_notice' ), 99 );
 		add_action( 'save_post_courier_notice', array( $this, 'save_post_courier_notice' ), 10, 2 );
 
 		add_action( 'wp_insert_post', array( $this, 'wp_insert_post' ), 10, 3 );
@@ -196,12 +196,23 @@ class Courier {
 		global $post;
 
 		wp_nonce_field( '_courier_info_nonce', '_courier_info_noncename' );
+
+		// If autodraft check the global flag by default, else fall back to the scope
+		if ( 'auto-draft' === get_post_status( $post->ID ) ) {
+			$scope = true;
+		} else {
+			$scope = has_term( 'Global', 'courier_scope', $post->ID );
+		}
+
 		?>
 		<div class="misc-pub-section courier-scope">
-			<span class="dashicons dashicons-sticky wp-media-buttons-icon"></span>&nbsp;<label for="courier_scope"><?php esc_html_e( 'Global Notice:', 'courier' ); ?></label>&nbsp;<input type="checkbox" name="courier_scope" id="courier_scope" value="1" <?php checked( has_term( 'Global', 'courier_scope', $post->ID ) ); ?> />
+			<span class="dashicons dashicons-sticky wp-media-buttons-icon"></span>&nbsp;<label for="courier_scope"><?php esc_html_e( 'Global Notice:', 'courier' ); ?></label>&nbsp
+			<input type="checkbox" name="courier_scope" id="courier_scope" value="1" <?php checked( $scope ); ?> />
 		</div>
 		<div class="misc-pub-section courier-dismissable">
-			<span class="dashicons dashicons-no-alt wp-media-buttons-icon"></span>&nbsp;<label for="courier_dismissible"><?php esc_html_e( 'Dismissible Notice:', 'courier' ); ?></label>&nbsp;<input type="checkbox" name="courier_dismissible" id="courier_dismissible" value="1" <?php checked( get_post_meta( $post->ID, '_courier_dismissible', true ) ); ?> />
+			<span class="dashicons dashicons-no-alt wp-media-buttons-icon"></span>&nbsp;
+			<label for="courier_dismissible"><?php esc_html_e( 'Dismissible Notice:', 'courier' ); ?></label>&nbsp;
+			<input type="checkbox" name="courier_dismissible" id="courier_dismissible" value="1" <?php checked( get_post_meta( $post->ID, '_courier_dismissible', true ) ); ?> />
 		</div>
 		<div class="misc-pub-section">
 			<label for="courier-shortcode" aria-hidden="true" class="screen-reader-text"><?php esc_html_e( 'Courier Shortcode', 'courier' ); ?></label>
@@ -218,7 +229,7 @@ class Courier {
 	public function add_meta_boxes_courier_notice() {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'post_submitbox_misc_actions' ) );
 
-		add_meta_box( 'courier_meta_box', esc_html__( 'Notice Information', 'courier' ), array( $this, 'courier_meta_box' ), 'courier_notice', 'side', 'high' );
+		add_meta_box( 'courier_meta_box', esc_html__( 'Notice Information', 'courier' ), array( $this, 'courier_meta_box' ), 'courier_notice', 'side', 'default' );
 	}
 
 	/**
@@ -232,7 +243,39 @@ class Courier {
 	public function courier_meta_box( $post ) {
 		wp_nonce_field( 'courier_expiration_nonce', 'courier_expiration_noncename' );
 
-		global $wp_locale;
+		global $wp_local;
+
+		?>
+
+		<h4><?php esc_html_e( 'Notice Type', 'courier' ); ?></h4>
+		<?php
+
+		if ( has_term( '', 'courier_type' ) ) {
+			$selected_courier_type = get_the_terms( $post->ID, 'courier_type' );
+		}
+
+		if ( ! empty( $selected_courier_type ) ) {
+			$selected_courier_type = $selected_courier_type[0]->slug;
+		} else {
+			$selected_courier_type = 'info';
+		}
+
+		// Create and display the dropdown menu.
+		wp_dropdown_categories(
+			array(
+				'orderby'           => 'name',
+				'taxonomy'          => 'courier_type',
+				'value_field'       => 'slug',
+				'name'              => 'courier_type',
+				'class'             => 'widefat',
+				'hide_empty'        => false,
+				'required'          => true,
+				'option_none_value' => apply_filters( 'courier_default_notice_type', 'info' ),
+				'selected'          => $selected_courier_type,
+			)
+		);
+		?>
+		<?php
 
 		$current_date = (int) get_post_meta( $post->ID, '_courier_expiration', true );
 
@@ -242,7 +285,7 @@ class Courier {
 			$current_date = '';
 		}
 		?>
-		<h5><?php esc_html_e( 'Notice Expiration', 'courier' ); ?></h5>
+		<h4><?php esc_html_e( 'Notice Expiration', 'courier' ); ?></h4>
 		<p class="description"><?php esc_html_e( 'Enter a date and time this notice should expire.', 'courier' ); ?></p>
 
 		<fieldset id="courier-timestampdiv">
@@ -258,23 +301,37 @@ class Courier {
 		wp_nonce_field( 'courier_recipient_nonce', 'courier_recipient_noncename' );
 
 		$author = new \WP_User( $post->post_author );
+
+		$show_user_select = ( has_term( 'Global', 'courier_scope' ) ) ? 'hidden' : '';
 		?>
+		<div id="courier-author-container" class="<?php echo esc_attr( $show_user_select ); ?>">
+			<h4><?php esc_html_e( 'Assign Notice to User', 'courier' ); ?></h4>
 
-		<h5><?php esc_html_e( 'Assign Notice to User', 'courier' ); ?></h5>
-
-		<p class="description">
-			<?php if ( ! has_term( 'Global', 'courier_scope' ) ) : ?>
-				<?php esc_html_e( "Type in a user's information. You must click on the user you want to assign the notice to.", 'courier' ); ?>
-			<?php else : ?>
-				<?php esc_html_e( 'Global notices may not be assigned to a specific user. They apply to ALL users', 'courier' ); ?>
-			<?php endif; ?>
-		</p>
-		<p>
-			<label for="courier_recipient_field" aria-hidden="true" class="screen-reader-text"><?php esc_html_e( 'Recipient', 'courier' ); ?></label>
-			<input type="text" name="courier_recipient" id="courier_recipient_field" class="widefat" placeholder="<?php esc_html_e( 'Type name or email...', 'courier' ); ?>" value="<?php echo esc_attr( $author->user_email ); ?>" <?php disabled( has_term( 'Global', 'courier_scope' ) ); ?> required />
-			<input type="hidden" name="post_author_override" id="post_author_override" value="<?php echo esc_attr( $author->ID ); ?>" />
-		</p>
+			<p class="description">
+				<?php if ( ! has_term( 'Global', 'courier_scope' ) ) : ?>
+					<?php esc_html_e( "Type in a user's information. You must click on the user you want to assign the notice to.", 'courier' ); ?>
+				<?php else : ?>
+					<?php esc_html_e( 'Global notices may not be assigned to a specific user. They apply to ALL users', 'courier' ); ?>
+				<?php endif; ?>
+			</p>
+			<p>
+				<label for="courier_recipient_field" aria-hidden="true" class="screen-reader-text"><?php esc_html_e( 'Recipient', 'courier' ); ?></label>
+				<input type="text" name="courier_recipient" id="courier_recipient_field" class="widefat" placeholder="<?php esc_html_e( 'Type name, username or email...', 'courier' ); ?>" value="<?php echo esc_attr( $author->user_email ); ?>" <?php disabled( has_term( 'Global', 'courier_scope' ) ); ?> required />
+			</p>
+		</div>
+		<input type="hidden" name="post_author_override" id="post_author_override" value="<?php echo esc_attr( $author->ID ); ?>" />
 		<?php
+	}
+
+	/**
+	 * Get the currently selected type of notice.
+	 *
+	 * @since 1.0
+	 *
+	 * @return string
+	 */
+	public function get_notice_selected_type() {
+		return 'info';
 	}
 
 	/**
@@ -307,6 +364,15 @@ class Courier {
 				delete_post_meta( $post_id, '_courier_dismissible' );
 			} else {
 				update_post_meta( $post_id, '_courier_dismissible', 1 );
+			}
+
+			if ( empty( $_POST['courier_type'] ) ) {
+				wp_set_object_terms( $post_id, null, 'courier_type' );
+			} else {
+				// Only set the courier type if the type actually exists.
+				if ( term_exists( $_POST['courier_type'], 'courier_type' ) ) {
+					wp_set_object_terms( $post_id, (string) $_POST['courier_type'], 'courier_type' );
+				}
 			}
 		}
 
