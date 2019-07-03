@@ -10,7 +10,7 @@ class Cron {
 	/**
 	 * Courier_Cron constructor.
 	 */
-	function register_actions() {
+	public function register_actions() {
 
 		// Load cron functionality.
 		if ( ! defined( 'DOING_CRON' ) || ! DOING_CRON ) {
@@ -24,7 +24,7 @@ class Cron {
 	/**
 	 * Delete Courier notices that are older than 6 months.
 	 */
-	function courier_purge() {
+	public function courier_purge() {
 		$args = array(
 			'post_type'      => 'courier_notice',
 			'offset'         => 0,
@@ -46,7 +46,7 @@ class Cron {
 			}
 
 			$args['offset'] = $args['offset'] + $args['posts_per_page'];
-			$notices_query = new \WP_Query( $args );
+			$notices_query  = new \WP_Query( $args );
 		}
 
 		wp_cache_delete( 'courier-global-notices', 'courier' );
@@ -55,7 +55,7 @@ class Cron {
 	/**
 	 * Expire notices if their expiration date has passed.
 	 */
-	function courier_expire() {
+	public function courier_expire() {
 		$args = array(
 			'post_type'      => 'courier_notice',
 			'offset'         => 0,
@@ -63,10 +63,10 @@ class Cron {
 			'fields'         => 'ids',
 			'meta_query'     => array(
 				array(
-					'key' => '_courier_expiration',
-					'value' => current_time( 'timestamp' ),
+					'key'     => '_courier_expiration',
+					'value'   => current_time( 'timestamp' ),
 					'compare' => '<',
-					'type' => 'NUMERIC',
+					'type'    => 'NUMERIC',
 				),
 			),
 		);
@@ -75,10 +75,12 @@ class Cron {
 
 		while ( $notices_query->have_posts() ) {
 			foreach ( $notices_query->posts as $post ) {
-				wp_update_post( array(
-					'ID'          => $post,
-					'post_status' => 'expired',
-				) );
+				wp_update_post(
+					array(
+						'ID'          => $post,
+						'post_status' => 'courier_expired',
+					)
+				);
 			}
 
 			$args['offset'] = $args['offset'] + $args['posts_per_page'];
