@@ -13,6 +13,7 @@ courier.admin = ( function( $ ) {
     var $doc  = $(document),
         $body = $('body'),
         self,
+        $courier_recipient = $( "#courier_recipient_field" ),
         localized_data;
 
     return {
@@ -22,7 +23,7 @@ courier.admin = ( function( $ ) {
          * Add our events
          */
         init : function() {
-            self = courier.admin;
+            self           = courier.admin;
             localized_data = courier_admin_data;
 
             $('#courier_expire_date').datetimepicker({
@@ -31,7 +32,7 @@ courier.admin = ( function( $ ) {
                 timeFormat: 'hh:mm tt',
                 dateFormat: 'MM dd, yy',
                 oneLine: true,
-                firstDay: 0,
+                // firstDay: 0,
                 afterInject:function() {
                     $('button.ui-datepicker-current').addClass('button button-secondary');
                     $('button.ui-datepicker-close').addClass('right button button-primary');
@@ -46,7 +47,7 @@ courier.admin = ( function( $ ) {
                     .on('change', $body, self.toggle_global);
             }
 
-            $("#courier_recipient_field").autocomplete({
+            $courier_recipient.autocomplete({
                     minLength: 3,
                     source: function( request, response ) {
                         $.ajax({
@@ -58,11 +59,15 @@ courier.admin = ( function( $ ) {
                         });
                     },
                     focus: function( event, ui ) {
-                        $( "#courier_recipient_field" ).val( ui.item.display_name );
+                        if ( $courier_recipient.is(':visible' ) ) {
+                            $courier_recipient.val(ui.item.display_name);
+                        }
                         return false;
                     },
                     select: function( event, ui ) {
-                        $( "#courier_recipient_field" ).val( ui.item.display_name );
+                        if ( $courier_recipient.is(':visible' ) ) {
+                            $courier_recipient.val(ui.item.display_name);
+                        }
                         $( "#post_author_override" ).val( ui.item.ID );
 
                         return false;
@@ -75,7 +80,7 @@ courier.admin = ( function( $ ) {
                  */
                     var $a = $('<a><span class="courier-display-name"></span><br><span class="courier-user-email"></span></a>');
                         $a.find( '.courier-display-name' ).text( item.display_name );
-                        $a.find( '.courier-user-email' ).text( item_user_email );
+                        $a.find( '.courier-user-email' ).text( item.user_email );
 
                     return $( '<li>' ).append( $a ).appendTo( ul );
                 };
@@ -97,8 +102,8 @@ courier.admin = ( function( $ ) {
             var $option = $('<option />').val('courier_expired').text( localized_data.strings.label );
 
             if ( localized_data.post_status === 'courier_expired' ) {
-                $( '#post-status-display').text( 'Expired' );
-                $option.attr( 'selected', 'selected')
+                $( '#post-status-display').text( localized_data.strings.expired );
+                $option.attr( 'selected', 'selected' );
             }
 
             $('#post_status').append( $option );
@@ -106,18 +111,21 @@ courier.admin = ( function( $ ) {
 
         /**
          * When a notice is marked as global, the current user needs to be the author.
-         * When a notice is not global, then it can be assigned to other people.
+         * When a notice is not global, then it can be assigned to the selected user.
          */
         toggle_global : function() {
-            var $this          = $(this),
-                $author_select = $( '#courier_recipient_field', $body ),
-                $author_value  = $( '#post_author_override', $body );
+            var $this             = $(this),
+                $author_select    = $( '#courier_recipient_field' ),
+                $author_value     = $( '#post_author_override' ),
+                $author_container = $( '#courier-author-container');
 
             if ( $this.prop( 'checked' ) ) {
-                $author_select.val( localized_data.current_user.display_name ).prop( 'disabled', 'disabled');
+                $author_select.val( localized_data.current_user.display_name ).prop( 'disabled', 'disabled' );
                 $author_value.val( localized_data.current_user.ID );
+                $author_container.hide();
             } else {
-                $author_select.prop( 'disabled', null).val( '' );
+                $author_select.prop( 'disabled', null ).val( '' );
+                $author_container.show();
             }
         },
 
@@ -144,6 +152,10 @@ courier.admin = ( function( $ ) {
             }, 300 );
         },
 
+        /**
+         * Reactivate a notice.
+         * @param e
+         */
         reactivate_notice : function( e ) {
             e.preventDefault();
             e.stopPropagation();
