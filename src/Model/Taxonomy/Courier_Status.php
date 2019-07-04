@@ -66,7 +66,7 @@ class Courier_Status {
 			'hierarchical'      => false,
 			'public'            => false,
 			'show_in_nav_menus' => false,
-			'show_ui'           => true,
+			'show_ui'           => false,
 			'show_admin_column' => false,
 			'query_var'         => true,
 			'rewrite'           => false,

@@ -17,6 +17,8 @@ class Courier {
 		add_action( 'add_meta_boxes_courier_notice', array( $this, 'add_meta_boxes_courier_notice' ), 99 );
 		add_action( 'save_post_courier_notice', array( $this, 'save_post_courier_notice' ), 10, 2 );
 
+		add_action( 'init', array( $this, 'add_expired_status' ) );
+
 		add_action( 'wp_insert_post', array( $this, 'wp_insert_post' ), 10, 3 );
 
 		add_filter( 'request', array( $this, 'request' ) );
@@ -37,6 +39,25 @@ class Courier {
 		if ( has_action( 'wp_body_open' ) ) {
 			add_action( 'wp_body_open', '' );
 		}
+	}
+
+	/**
+	 * Add a custom post status for expired notices
+	 * @since 1.0
+	 *
+	 */
+	public function add_expired_status() {
+		register_post_status(
+			'courier_expired',
+			array(
+				'label'                     => esc_html_x( 'Expired', 'courier_notice' ),
+				'public'                    => false,
+				'exclude_from_search'       => true,
+				'show_in_admin_all_list'    => true,
+				'show_in_admin_status_list' => true,
+				'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>' ),
+			)
+		);
 	}
 
 	/**
@@ -197,7 +218,7 @@ class Courier {
 
 		wp_nonce_field( '_courier_info_nonce', '_courier_info_noncename' );
 
-		// If autodraft check the global flag by default, else fall back to the scope
+		// If auto-draft check the global flag by default, else fall back to the scope
 		if ( 'auto-draft' === get_post_status( $post->ID ) ) {
 			$scope = true;
 		} else {
@@ -246,7 +267,6 @@ class Courier {
 		global $wp_local;
 
 		?>
-
 		<h4><?php esc_html_e( 'Notice Type', 'courier' ); ?></h4>
 		<?php
 
@@ -275,7 +295,38 @@ class Courier {
 			)
 		);
 		?>
+
+		<h4><?php esc_html_e( 'Notice Placement / Type', 'courier' ); ?></h4>
 		<?php
+
+		if ( has_term( '', 'courier_placement' ) ) {
+			$selected_courier_placement = get_the_terms( $post->ID, 'courier_placement' );
+		}
+
+		if ( ! empty( $selected_courier_placement ) ) {
+			$selected_courier_placement = $selected_courier_placement[0]->slug;
+		} else {
+			$selected_courier_placement = 'header';
+		}
+
+		// Create and display the dropdown menu.
+		wp_dropdown_categories(
+			array(
+				'orderby'           => 'name',
+				'taxonomy'          => 'courier_placement',
+				'value_field'       => 'slug',
+				'name'              => 'courier_placement',
+				'class'             => 'widefat',
+				'hide_empty'        => false,
+				'required'          => true,
+				'option_none_value' => apply_filters( 'courier_default_notice_placement', 'header' ),
+				'selected'          => $selected_courier_placement,
+			)
+		);
+		?>
+		<?php
+
+		// Date Display
 
 		$current_date = (int) get_post_meta( $post->ID, '_courier_expiration', true );
 
@@ -302,7 +353,12 @@ class Courier {
 
 		$author = new \WP_User( $post->post_author );
 
-		$show_user_select = ( has_term( 'Global', 'courier_scope' ) ) ? 'hidden' : '';
+		if ( 'auto-draft' === get_post_status( $post->ID ) ) {
+			$show_user_select = 'hidden';
+		} else {
+			$show_user_select = ( has_term( 'Global', 'courier_scope' ) ) ? 'hidden' : '';
+		}
+
 		?>
 		<div id="courier-author-container" class="<?php echo esc_attr( $show_user_select ); ?>">
 			<h4><?php esc_html_e( 'Assign Notice to User', 'courier' ); ?></h4>
@@ -316,7 +372,7 @@ class Courier {
 			</p>
 			<p>
 				<label for="courier_recipient_field" aria-hidden="true" class="screen-reader-text"><?php esc_html_e( 'Recipient', 'courier' ); ?></label>
-				<input type="text" name="courier_recipient" id="courier_recipient_field" class="widefat" placeholder="<?php esc_html_e( 'Type name, username or email...', 'courier' ); ?>" value="<?php echo esc_attr( $author->user_email ); ?>" <?php disabled( has_term( 'Global', 'courier_scope' ) ); ?> required />
+				<input type="text" name="courier_recipient" id="courier_recipient_field" class="widefat" placeholder="<?php esc_html_e( 'Type name, username or email...', 'courier' ); ?>" value="<?php echo esc_attr( $author->user_email ); ?>" <?php disabled( has_term( 'Global', 'courier_scope' ) ); ?> />
 			</p>
 		</div>
 		<input type="hidden" name="post_author_override" id="post_author_override" value="<?php echo esc_attr( $author->ID ); ?>" />
@@ -364,6 +420,15 @@ class Courier {
 				delete_post_meta( $post_id, '_courier_dismissible' );
 			} else {
 				update_post_meta( $post_id, '_courier_dismissible', 1 );
+			}
+
+			if ( empty( $_POST['courier_placement'] ) ) {
+				wp_set_object_terms( $post_id, null, 'courier_placement' );
+			} else {
+				// Only set the courier type if the type actually exists.
+				if ( term_exists( $_POST['courier_placement'], 'courier_placement' ) ) {
+					wp_set_object_terms( $post_id, (string) $_POST['courier_placement'], 'courier_placement' );
+				}
 			}
 
 			if ( empty( $_POST['courier_type'] ) ) {
@@ -473,7 +538,16 @@ class Courier {
 		$include_global    = (boolean) $query->get( 'courier_include_global' );
 		$include_dismissed = (boolean) $query->get( 'courier_include_dismissed' );
 
-		$notices = courier_get_notices( get_current_user_id(), $include_global, $include_dismissed, true, true, 100 );
+		$notices = courier_get_notices(
+			array(
+				'user_id'                      => get_current_user_id(),
+				'include_global'               => $include_global,
+				'include_dismissed'            => $include_dismissed,
+				'prioritize_persistent_global' => true,
+				'ids_only'                     => true,
+				'number'                       => 100,
+			)
+		);
 
 		// If no notices are found, be super specific to ensure an empty result is in fact returned to the user.
 		if ( empty( $notices ) ) {

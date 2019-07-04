@@ -44,8 +44,7 @@ class Install {
 
 	/**
 	 * Handle upgrade tasks
-	 *
-	 * @param $current_version
+	 * @since 1.0
 	 */
 	public function upgrade() {
 		$current_version = get_option( 'courier_version', '0.0.0' );
@@ -66,6 +65,7 @@ class Install {
 	public function install( $current_version ) {
 		$plugin_options = get_option( 'courier_options', array() );
 
+		// This is the type of notification that is being displayed to the user.
 		wp_insert_term( esc_html__( 'Success', 'courier' ), 'courier_type' );
 		wp_insert_term( esc_html__( 'Warning', 'courier' ), 'courier_type' );
 		wp_insert_term( esc_html__( 'Info', 'courier' ), 'courier_type' );
@@ -73,10 +73,18 @@ class Install {
 		wp_insert_term( esc_html__( 'Secondary', 'courier' ), 'courier_type' );
 		wp_insert_term( esc_html__( 'Feedback', 'courier' ), 'courier_type' );
 
+		// Is this notification for all viewers to see.
+		// This is checked by default.
 		wp_insert_term( esc_html__( 'Global', 'courier' ), 'courier_scope' );
 
+		// Has the notification been viewed and/or dismissed
 		wp_insert_term( esc_html__( 'Viewed', 'courier' ), 'courier_status' );
 		wp_insert_term( esc_html__( 'Dismissed', 'courier' ), 'courier_status' );
+
+		// Select where the notification is placed.
+		wp_insert_term( esc_html__( 'Header', 'courier' ), 'courier_placement' );
+		wp_insert_term( esc_html__( 'Footer', 'courier' ), 'courier_placement' );
+		wp_insert_term( esc_html__( 'Popup/Modal', 'courier' ), 'courier_placement' );
 
 		// Keep the plugin version up to date
 		$plugin_options['plugin_version'] = $this->config->get( 'version' );

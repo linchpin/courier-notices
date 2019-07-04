@@ -415,3 +415,15 @@
     background: #5fb37c;
     color: #fff;
 }
+
+#taxonomy-courier_type {
+    width:100px;
+}
+
+#courier-date {
+    width:140px;
+}
+
+#courier-global {
+    width:60px;
+}

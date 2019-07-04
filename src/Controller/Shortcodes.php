@@ -9,8 +9,8 @@ namespace Courier\Controller;
 class Shortcodes {
 
 	public function register_actions() {
-		add_shortcode( 'courier_notifications', array( $this, 'courier_notifications' ) );
-		add_shortcode( 'get_courier_notice', array( $this, 'get_courier_notice' ) );
+		add_shortcode( 'courier_notices', array( $this, 'courier_notices' ) );
+		add_shortcode( 'courier_notice', array( $this, 'courier_notice' ) );
 	}
 
 	/**
@@ -20,7 +20,7 @@ class Shortcodes {
 	 *
 	 * @return false|string
 	 */
-	public function courier_notifications( $atts = array() ) {
+	public function courier_notices( $atts = array() ) {
 		$atts = wp_parse_args(
 			$atts,
 			array(
@@ -33,7 +33,17 @@ class Shortcodes {
 			)
 		);
 
-		$notices = courier_get_notices( $atts['user_id'], $atts['include_global'], $atts['include_dismissed'], $atts['prioritize_persistent_global'], false, $atts['number'] );
+		$notices = courier_get_notices(
+			array(
+				'user_id'                      => $atts['user_id'],
+				'include_global'               => $atts['include_global'],
+				'include_dismissed'            => $atts['include_dismissed'],
+				'prioritize_persistent_global' => $atts['prioritize_persistent_global'],
+				'ids_only'                     => false,
+				'number'                       => $atts['number'],
+				'query_args'                   => array(),
+			)
+		);
 
 		ob_start();
 		if ( empty( $notices ) ) : ?>
@@ -84,12 +94,12 @@ class Shortcodes {
 	 *
 	 * @return false|string|void
 	 */
-	function get_courier_notice( $atts, $content = null ) {
+	public function courier_notice( $atts, $content = null ) {
 		$atts = shortcode_atts( array(
 			'id'        => '',
 			'flag'      => 'Alert',
 			'show_flag' => 'true',
-		), $atts, 'get_courier_notice' );
+		), $atts, 'courier_notice' );
 
 		$id = (int) $atts['id'];
 

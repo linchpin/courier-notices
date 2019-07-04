@@ -36,9 +36,9 @@ class Courier_Notice {
 		$this->config = new Config();
 
 		$default_labels = array(
-			'name'                  => esc_html__( 'Notices', 'courier' ),
+			'name'                  => esc_html__( 'Courier Notices', 'courier' ),
 			'singular_name'         => esc_html__( 'Notice', 'courier' ),
-			'all_items'             => esc_html__( 'Notices', 'courier' ),
+			'all_items'             => esc_html__( 'All Notices', 'courier' ),
 			'new_item'              => esc_html__( 'New notice', 'courier' ),
 			'add_new'               => esc_html__( 'Add New', 'courier' ),
 			'add_new_item'          => esc_html__( 'Add New notice', 'courier' ),
@@ -48,7 +48,7 @@ class Courier_Notice {
 			'not_found'             => esc_html__( 'No notices found', 'courier' ),
 			'not_found_in_trash'    => esc_html__( 'No notices found in trash', 'courier' ),
 			'parent_item_colon'     => esc_html__( 'Parent notice', 'courier' ),
-			'menu_name'             => esc_html__( 'Notices', 'courier' ),
+			'menu_name'             => esc_html__( 'Courier Notices', 'courier' ),
 			'name_admin_bar'        => esc_html__( 'Notice', 'courier' ),
 			'archives'              => esc_html__( 'Notice Archives', 'courier' ),
 			'attributes'            => esc_html__( 'Notice Attributes', 'courier' ),
@@ -71,7 +71,7 @@ class Courier_Notice {
 			'label'               => esc_html__( 'Notice', 'courier' ),
 			'description'         => esc_html__( 'Notices', 'courier' ),
 			'labels'              => $this->labels,
-			'supports'            => array( 'title', 'editor', 'page-attributes' ),
+			'supports'            => array( 'title', 'editor' ),
 			'taxonomies'          => array( 'courier_type', 'courier_status', 'courier_scope' ),
 			'hierarchical'        => false,
 			'public'              => false,

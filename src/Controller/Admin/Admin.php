@@ -17,7 +17,7 @@ class Admin {
 	public function register_actions() {
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
-		add_action( 'manage_courier_notice_posts_custom_column' , array( $this, 'manage_posts_custom_column' ), 10, 2 );
+		add_action( 'manage_courier_notice_posts_custom_column', array( $this, 'manage_posts_custom_column' ), 10, 2 );
 		add_filter( 'manage_courier_notice_posts_columns', array( $this, 'manage_posts_columns' ), 999 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
@@ -32,17 +32,27 @@ class Admin {
 	 * @return array
 	 */
 	public function manage_posts_columns( $columns ) {
-		if ( ! empty( $_GET['courier_scope'] ) && 'global' == $_GET['courier_scope'] ) {
+		if ( ! empty( $_GET['courier_scope'] ) && 'global' === $_GET['courier_scope'] ) {
 			return $columns;
 		}
 
-		unset( $columns['date'] );
+		$type      = $columns['taxonomy-courier_type'];
+		$placement = $columns['taxonomy-courier_placement'];
 
-		return array_merge( $columns, array(
-			'courier-global'  => esc_html__( 'Global', 'courier' ),
-			'courier-summary' => esc_html__( 'Summary' , 'courier' ),
-			'courier-date'    => esc_html__( 'Date', 'courier' ),
-		) );
+		unset( $columns['date'] );
+		unset( $columns['taxonomy-courier_type'] );
+		unset( $columns['taxonomy-courier_placement'] );
+
+		return array_merge(
+			$columns,
+			array(
+				'courier-summary'            => esc_html__( 'Summary', 'courier' ),
+				'taxonomy-courier_type'      => $type,
+				'taxonomy-courier_placement' => $placement,
+				'courier-global'             => esc_html__( 'Global', 'courier' ),
+				'courier-date'               => esc_html__( 'Expiration', 'courier' ),
+			)
+		);
 	}
 
 	/**
@@ -54,23 +64,29 @@ class Admin {
 	public function manage_posts_custom_column( $column, $post_id ) {
 		switch ( $column ) {
 			case 'courier-global':
-				if ( has_term( 'Global', 'courier_scope', $post_id ) ) {
-					echo '<span class="dashicons dashicons-admin-site"></span>';
-				}
-			break;
-			case 'courier-summary':
-
-				$summary = apply_filters( 'the_content', get_post_field('post_content', $post_id ));
-
-				if ( ! empty( $summary  ) ) {
-					echo wp_trim_words(  wp_kses_post( $summary ), 20 );
-				}
-			break;
-			case 'courier-date':
 				if ( has_term( 'global', 'courier_scope', $post_id ) ) {
 					echo '<span class="dashicons dashicons-admin-site"></span>';
 				}
-			break;
+				break;
+			case 'courier-summary':
+				$summary = apply_filters( 'the_content', get_post_field( 'post_content', $post_id ) );
+
+				if ( ! empty( $summary ) ) {
+					echo wp_kses_post( wp_trim_words( $summary, 20 ) );
+				}
+				break;
+			case 'courier-date':
+				$expiration = (int) get_post_meta( $post_id, '_courier_expiration', true );
+
+				if ( ! empty( $expiration ) ) {
+					$expiration = date( get_option( 'date_format' ) . ' h:i A', $expiration );
+				} else {
+					$expiration = '';
+				}
+
+				echo esc_html( $expiration );
+
+				break;
 		}
 	}
 
@@ -135,7 +151,7 @@ class Admin {
 		}
 
 		if ( 'edit.php' === $hook ) {
-			if ( 'courier_notice' !== $_GET['post_type'] ) {
+			if ( isset( $_GET['post_type'] ) && 'courier_notice' !== $_GET['post_type'] ) {
 				return;
 			}
 		}
@@ -168,9 +184,10 @@ class Admin {
 					'display_name' => $current_user->display_name,
 				),
 				'strings'             => array(
-					'label'  => esc_html__( 'Expired', 'courier' ),
-					'copy'   => esc_html__( 'Copy this shortcode to your clipboard', 'courier' ),
-					'copied' => esc_html__( 'Courier shortcode has been copied to your clipboard.', 'courier' ),
+					'expired' => esc_html__( 'Expired', 'courier' ),
+					'label'   => esc_html__( 'Expired', 'courier' ),
+					'copy'    => esc_html__( 'Copy this shortcode to your clipboard', 'courier' ),
+					'copied'  => esc_html__( 'Courier shortcode has been copied to your clipboard.', 'courier' ),
 				),
 			)
 		);
@@ -184,8 +201,15 @@ class Admin {
 	 * @param $hook
 	 */
 	public function admin_enqueue_styles( $hook ) {
-		if ( ! in_array( $hook, array( 'post-new.php', 'post.php' ), true ) ) {
+
+		if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'edit.php' ), true ) ) {
 			return;
+		}
+
+		if ( 'edit.php' === $hook ) {
+			if ( isset( $_GET['post_type'] ) && 'courier_notice' !== $_GET['post_type'] ) {
+				return;
+			}
 		}
 
 		wp_enqueue_style( 'courier-admin', COURIER_PLUGIN_URL . 'assets/css/admin.css', array(), COURIER_VERSION );

@@ -66,7 +66,7 @@ class Courier_Scope {
 			'hierarchical'      => false,
 			'public'            => false,
 			'show_in_nav_menus' => false,
-			'show_ui'           => true,
+			'show_ui'           => false,
 			'show_admin_column' => false,
 			'query_var'         => true,
 			'rewrite'           => false,
@@ -77,7 +77,7 @@ class Courier_Scope {
 				'assign_terms' => 'edit_posts',
 			),
 
-			'show_tagcloud'     => true,
+			'show_tagcloud'     => false,
 		);
 
 		$this->args = apply_filters( 'courier_courier_scope_args', $default_args );

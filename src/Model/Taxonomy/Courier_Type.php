@@ -37,8 +37,7 @@ class Courier_Type {
 		$this->config = new Config();
 
 		$default_labels = array(
-
-			'name'                       => esc_html__( 'Notice Types', 'courier' ),
+			'name'                       => esc_html__( 'Types', 'courier' ),
 			'singular_name'              => esc_html_x( 'Notice Type', 'taxonomy general name', 'courier' ),
 			'search_items'               => esc_html__( 'Search notice types', 'courier' ),
 			'popular_items'              => esc_html__( 'Popular notice types', 'courier' ),
@@ -52,7 +51,7 @@ class Courier_Type {
 			'separate_items_with_commas' => esc_html__( 'Notice Types separated by comma', 'courier' ),
 			'add_or_remove_items'        => esc_html__( 'Add or remove notice types', 'courier' ),
 			'choose_from_most_used'      => esc_html__( 'Choose from the most used notice types', 'courier' ),
-			'menu_name'                  => esc_html__( 'Notice Types', 'courier' ),
+			'menu_name'                  => esc_html__( 'Types', 'courier' ),
 			'view_item'                  => esc_html__( 'View Type', 'courier' ),
 			'not_found'                  => esc_html__( 'Not Found', 'courier' ),
 			'no_terms'                   => esc_html__( 'No types', 'courier' ),
@@ -65,9 +64,10 @@ class Courier_Type {
 		$default_args = array(
 			'labels'            => $this->labels,
 			'hierarchical'      => false,
-			'public'            => false,
+			'public'            => true,
 			'show_in_nav_menus' => false,
 			'show_ui'           => true,
+			'meta_box_cb'       => false,
 			'show_admin_column' => true,
 			'query_var'         => false,
 			'rewrite'           => false,

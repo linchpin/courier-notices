@@ -5,6 +5,7 @@ namespace Courier\Controller;
 use \Courier\Model\Config;
 use \Courier\Model\Post_Type\Courier_Notice as Courier_Notice_Post_Type;
 // use \Courier\Model\Request;
+use Courier\Model\Taxonomy\Courier_Placement;
 use \Courier\Model\Taxonomy\Courier_Scope;
 use \Courier\Model\Taxonomy\Courier_Status;
 use \Courier\Model\Taxonomy\Courier_Type;
@@ -126,9 +127,10 @@ class Courier_Notices {
 	 * @since   1.0.0
 	 */
 	public function register_taxonomies() {
-		$courier_type_taxonomy_model   = new Courier_Type();
-		$courier_scope_taxonomy_model  = new Courier_Scope();
-		$courier_status_taxonomy_model = new Courier_Status();
+		$courier_type_taxonomy_model      = new Courier_Type();
+		$courier_scope_taxonomy_model     = new Courier_Scope();
+		$courier_status_taxonomy_model    = new Courier_Status();
+		$courier_placement_taxonomy_model = new Courier_Placement();
 
 		if ( ! taxonomy_exists( $courier_type_taxonomy_model->name ) ) {
 			register_taxonomy( $courier_type_taxonomy_model->name, array( 'courier_notice' ), $courier_type_taxonomy_model->get_args() );
@@ -140,6 +142,10 @@ class Courier_Notices {
 
 		if ( ! taxonomy_exists( $courier_status_taxonomy_model->name ) ) {
 			register_taxonomy( $courier_status_taxonomy_model->name, array( 'courier_notice' ), $courier_status_taxonomy_model->get_args() );
+		}
+
+		if ( ! taxonomy_exists( $courier_placement_taxonomy_model->name ) ) {
+			register_taxonomy( $courier_placement_taxonomy_model->name, array( 'courier_notice' ), $courier_placement_taxonomy_model->get_args() );
 		}
 	}
 }
