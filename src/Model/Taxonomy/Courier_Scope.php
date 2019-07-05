@@ -33,7 +33,7 @@ class Courier_Scope {
 	 * Courier_Status constructor.
 	 *
 	 */
-	function __construct() {
+	public function __construct() {
 		$this->config = new Config();
 
 		$default_labels = array(
@@ -62,22 +62,22 @@ class Courier_Scope {
 		$this->labels = apply_filters( 'courier_courier_scope_labels', $default_labels );
 
 		$default_args = array(
-			'labels'            => $this->labels,
-			'hierarchical'      => false,
-			'public'            => false,
-			'show_in_nav_menus' => false,
-			'show_ui'           => false,
-			'show_admin_column' => false,
-			'query_var'         => true,
-			'rewrite'           => false,
-			'capabilities'      => array(
+			'labels'                => $this->labels,
+			'hierarchical'          => false,
+			'public'                => false,
+			'show_in_nav_menus'     => false,
+			'show_ui'               => false,
+			'show_admin_column'     => false,
+			'query_var'             => true,
+			'rewrite'               => false,
+			'capabilities'          => array(
 				'manage_terms' => 'edit_posts',
 				'edit_terms'   => 'edit_posts',
 				'delete_terms' => 'edit_posts',
 				'assign_terms' => 'edit_posts',
 			),
-
-			'show_tagcloud'     => false,
+			'show_tagcloud'         => false,
+			'update_count_callback' => '_update_generic_term_count',
 		);
 
 		$this->args = apply_filters( 'courier_courier_scope_args', $default_args );

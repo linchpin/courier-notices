@@ -69,7 +69,7 @@ class Courier_Type {
 			'show_ui'           => true,
 			'meta_box_cb'       => false,
 			'show_admin_column' => true,
-			'query_var'         => false,
+			'query_var'         => true,
 			'rewrite'           => false,
 			'show_tagcloud'     => true,
 			'capabilities'      => array(
