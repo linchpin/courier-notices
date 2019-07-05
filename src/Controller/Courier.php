@@ -39,6 +39,47 @@ class Courier {
 		if ( has_action( 'wp_body_open' ) ) {
 			add_action( 'wp_body_open', '' );
 		}
+
+		add_action( 'restrict_manage_posts', array( $this, 'filter_courier_notices' ), 10, 2 );
+	}
+
+	/**
+	 * Allow for filtering of notices
+	 *
+	 * @since 1.0
+	 *
+	 * @param $post_type
+	 * @param $which
+	 */
+	public function filter_courier_notices( $post_type, $which ) {
+
+		if ( 'courier_notice' !== $post_type ) {
+			return;
+		}
+
+		// A list of taxonomy slugs to filter by
+		$taxonomies = array( 'courier_type' );
+
+		foreach ( $taxonomies as $taxonomy_slug ) {
+
+			$taxonomy_obj  = get_taxonomy( $taxonomy_slug );
+			$taxonomy_name = $taxonomy_obj->labels->name;
+			$terms         = get_terms( $taxonomy_slug );
+			$selected      = ( isset( $_GET[ $taxonomy_slug ] ) && '' !== $_GET[ $taxonomy_slug ] ) ? sanitize_text_field( $_GET[ $taxonomy_slug ] ) : '';
+
+			wp_dropdown_categories(
+				array(
+					'orderby'           => 'name',
+					'taxonomy'          => $taxonomy_slug,
+					'value_field'       => 'slug',
+					'name'              => $taxonomy_slug,
+					'hide_empty'        => false,
+					'option_none_value' => apply_filters( 'courier_default_notice_type', 'info' ),
+					'selected'          => $selected, // @todo extra sanitization
+				)
+			);
+		}
+
 	}
 
 	/**
@@ -130,7 +171,7 @@ class Courier {
 						'operator' => 'IN',
 					),
 				),
-				'no_found_rows'  => true,
+				// 'no_found_rows'  => true,
 			)
 		);
 

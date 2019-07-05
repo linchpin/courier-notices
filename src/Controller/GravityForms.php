@@ -48,7 +48,7 @@ class GravityForms {
 
 		$confirmation_type = rgar( $confirmation, 'type' ) ? rgar( $confirmation, 'type' ) : 'message';
 
-		//Add a radio button option.
+		// Add a radio button option.
 		ob_start(); ?>
 		&nbsp;&nbsp;
 		<input type="radio" id="form_confirmation_courier" name="form_confirmation" <?php checked( 'courier', $confirmation_type ); ?> value="courier" onclick="ToggleConfirmation();" />
@@ -82,7 +82,7 @@ class GravityForms {
 					);
 				?>
 			</td>
-			<?php echo $this->subsetting_close; // @todo does this need to be sanitized? ?>
+			<?php echo $this->subsetting_close; // WPCS ok. ?>
 		</tr>
 
 		<tr id="form_confirmation_courier_page_container" <?php echo 'courier' !== $confirmation_type ? 'style="display:none;"' : '' ?>>
@@ -198,9 +198,9 @@ class GravityForms {
                 };
 
                 setTimeout( function() {
-                   // courier.gforms.toggleConfirmation();
+                    $('#form_confirmation_courier_container').detatch().insertAfter( '#form_confirmation_redirect_container' );
 
-                    $('#form_confirmation_courier_container').after( $('#form_confirmation_redirect_container' ) );
+                    courier.gforms.toggleConfirmation();
                 }, 300 );
             });
 		</script>
