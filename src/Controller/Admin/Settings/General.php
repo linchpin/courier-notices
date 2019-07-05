@@ -73,6 +73,8 @@ class General {
 	 */
 	public static function add_admin_menu() {
 		add_options_page( COURIER_PLUGIN_NAME, COURIER_PLUGIN_NAME, 'manage_options', self::$settings_page, array( __CLASS__, 'add_options_page' ) );
+		add_submenu_page( 'edit.php?post_type=courier_notice', COURIER_PLUGIN_NAME, esc_html__( 'Settings', 'courier' ), 'manage_options', self::$settings_page, array( __CLASS__, 'add_options_page' ) );
+
 	}
 
 	/**
@@ -242,7 +244,7 @@ class General {
 	 */
 	public static function get_tabs() {
 		$tabs = array(
-			'settings'  => array (
+			'settings'  => array(
 				'label'    => esc_html__( 'General Settings', 'courier' ),
 				'sub_tabs' => array(),
 			),

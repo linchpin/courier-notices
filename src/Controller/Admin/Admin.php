@@ -32,7 +32,7 @@ class Admin {
 	 * @return array
 	 */
 	public function manage_posts_columns( $columns ) {
-		if ( ! empty( $_GET['courier_scope'] ) && 'global' === $_GET['courier_scope'] ) {
+		if ( empty( $_GET['post_type'] ) || 'courier_notice' !== $_GET['post_type'] ) { // wpcs ok.
 			return $columns;
 		}
 
