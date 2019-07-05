@@ -22,17 +22,21 @@ class Admin {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ) );
+
+		add_action( 'restrict_manage_posts', array( $this, 'filter_courier_notices' ), 10, 2 );
 	}
 
 	/**
-	 * Add some custom columns.
+	 * Add custom columns.
+	 *
+	 * @since 1.0
 	 *
 	 * @param $columns
 	 *
 	 * @return array
 	 */
 	public function manage_posts_columns( $columns ) {
-		if ( empty( $_GET['post_type'] ) || 'courier_notice' !== $_GET['post_type'] ) { // wpcs ok.
+		if ( empty( $_GET['post_type'] ) || 'courier_notice' !== $_GET['post_type'] ) { // @codingStandardsIgnoreLine
 			return $columns;
 		}
 
@@ -49,8 +53,16 @@ class Admin {
 				'courier-summary'            => esc_html__( 'Summary', 'courier' ),
 				'taxonomy-courier_type'      => $type,
 				'taxonomy-courier_placement' => $placement,
-				'courier-global'             => esc_html__( 'Global', 'courier' ),
-				'courier-date'               => esc_html__( 'Expiration', 'courier' ),
+				'courier-global'             => esc_html__( 'Usage', 'courier' ),
+				'courier-date'               => wp_kses(
+					__( 'Expiration <a href="#" class="courier-info-icon" title="Non-expiry notices do not expire and will always be shown to users if the notice is not dismissable">?</a>', 'courier' ),
+					array(
+						'a' => array(
+							'href'  => array(),
+							'title' => array(),
+						),
+					)
+				),
 			)
 		);
 	}
@@ -62,10 +74,17 @@ class Admin {
 	 * @param $post_id
 	 */
 	public function manage_posts_custom_column( $column, $post_id ) {
+
+		global $post;
+
 		switch ( $column ) {
 			case 'courier-global':
 				if ( has_term( 'global', 'courier_scope', $post_id ) ) {
 					echo '<span class="dashicons dashicons-admin-site"></span>';
+				} else {
+					$user = get_userdata( $post->post_author );
+
+					echo esc_html( $user->display_name );
 				}
 				break;
 			case 'courier-summary':
@@ -80,11 +99,10 @@ class Admin {
 
 				if ( ! empty( $expiration ) ) {
 					$expiration = date( get_option( 'date_format' ) . ' h:i A', $expiration );
+					echo esc_html( $expiration );
 				} else {
-					$expiration = '';
+					esc_html_e( 'Non-expiry', 'courier' );
 				}
-
-				echo esc_html( $expiration );
 
 				break;
 		}
@@ -151,12 +169,12 @@ class Admin {
 		}
 
 		if ( 'edit.php' === $hook ) {
-			if ( isset( $_GET['post_type'] ) && 'courier_notice' !== $_GET['post_type'] ) {
+			if ( isset( $_GET['post_type'] ) && 'courier_notice' !== $_GET['post_type'] ) { // @codingStandardsIgnoreLine
 				return;
 			}
 		}
 
-		wp_enqueue_script( 'courier-admin', COURIER_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-autocomplete', 'jquery-ui-datepicker' ), COURIER_VERSION, true );
+		wp_enqueue_script( 'courier-admin', COURIER_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-autocomplete', 'jquery-ui-datepicker', 'jquery-ui-tooltip' ), COURIER_VERSION, true );
 
 		global $post;
 
@@ -207,7 +225,7 @@ class Admin {
 		}
 
 		if ( 'edit.php' === $hook ) {
-			if ( isset( $_GET['post_type'] ) && 'courier_notice' !== $_GET['post_type'] ) {
+			if ( isset( $_GET['post_type'] ) && 'courier_notice' !== $_GET['post_type'] ) { // @codingStandardsIgnoreLine
 				return;
 			}
 		}
@@ -238,5 +256,45 @@ class Admin {
 		}
 
 		return $date_time->getTimestamp();
+	}
+
+	/**
+	 * Allow for filtering of notices
+	 *
+	 * @since 1.0
+	 *
+	 * @param $post_type
+	 * @param $which
+	 */
+	public function filter_courier_notices( $post_type, $which ) {
+
+		if ( 'courier_notice' !== $post_type ) {
+			return;
+		}
+
+		// A list of taxonomy slugs to filter by
+		$taxonomies = array( 'courier_type', 'courier_placement', 'courier_status' );
+
+		foreach ( $taxonomies as $taxonomy_slug ) {
+
+			$taxonomy_obj  = get_taxonomy( $taxonomy_slug );
+			$taxonomy_name = $taxonomy_obj->labels->name;
+			$terms         = get_terms( $taxonomy_slug );
+			$selected      = ( isset( $_GET[ $taxonomy_slug ] ) && '' !== $_GET[ $taxonomy_slug ] ) ? sanitize_text_field( $_GET[ $taxonomy_slug ] ) : ''; // @codingStandardsIgnoreLine
+
+			wp_dropdown_categories(
+				array(
+					// translators: %1$s escaped taxonomy  name
+					'show_option_all' => sprintf( __( 'All %1$s', 'courier' ), esc_html( $taxonomy_name ) ),
+					'orderby'         => 'name',
+					'taxonomy'        => $taxonomy_slug,
+					'value_field'     => 'slug',
+					'name'            => $taxonomy_slug,
+					'hide_empty'      => false,
+					'selected'        => $selected,
+				)
+			);
+		}
+
 	}
 }

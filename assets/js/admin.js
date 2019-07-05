@@ -92,6 +92,8 @@ courier.admin = ( function( $ ) {
                 .on( 'focus', '#courier-shortcode', function() {
 	                $('#courier-shortcode').select();
                 } );
+
+            $(document).tooltip();
         },
 
         /**

@@ -39,47 +39,6 @@ class Courier {
 		if ( has_action( 'wp_body_open' ) ) {
 			add_action( 'wp_body_open', '' );
 		}
-
-		add_action( 'restrict_manage_posts', array( $this, 'filter_courier_notices' ), 10, 2 );
-	}
-
-	/**
-	 * Allow for filtering of notices
-	 *
-	 * @since 1.0
-	 *
-	 * @param $post_type
-	 * @param $which
-	 */
-	public function filter_courier_notices( $post_type, $which ) {
-
-		if ( 'courier_notice' !== $post_type ) {
-			return;
-		}
-
-		// A list of taxonomy slugs to filter by
-		$taxonomies = array( 'courier_type' );
-
-		foreach ( $taxonomies as $taxonomy_slug ) {
-
-			$taxonomy_obj  = get_taxonomy( $taxonomy_slug );
-			$taxonomy_name = $taxonomy_obj->labels->name;
-			$terms         = get_terms( $taxonomy_slug );
-			$selected      = ( isset( $_GET[ $taxonomy_slug ] ) && '' !== $_GET[ $taxonomy_slug ] ) ? sanitize_text_field( $_GET[ $taxonomy_slug ] ) : '';
-
-			wp_dropdown_categories(
-				array(
-					'orderby'           => 'name',
-					'taxonomy'          => $taxonomy_slug,
-					'value_field'       => 'slug',
-					'name'              => $taxonomy_slug,
-					'hide_empty'        => false,
-					'option_none_value' => apply_filters( 'courier_default_notice_type', 'info' ),
-					'selected'          => $selected, // @todo extra sanitization
-				)
-			);
-		}
-
 	}
 
 	/**
@@ -91,12 +50,13 @@ class Courier {
 		register_post_status(
 			'courier_expired',
 			array(
-				'label'                     => esc_html_x( 'Expired', 'courier_notice' ),
+				'label'                     => esc_html_x( 'Expired', 'courier_notice', 'courier' ),
 				'public'                    => false,
 				'exclude_from_search'       => true,
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
-				'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>' ),
+				// translators: %1$s count of hoow many terms have expired
+				'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'courier' ),
 			)
 		);
 	}
@@ -122,13 +82,12 @@ class Courier {
 
 		$messages['courier_notice'] = array(
 			0  => '', // Unused. Messages start at index 1.
-			/* translators: %s: link to notice */
-			1  => sprintf( __( 'Notice updated. <a target="_blank" href="%s">View notice</a>', 'courier' ), esc_url( $permalink ) ),
+			1  => esc_html__( 'Courier notice updated.', 'courier' ),
 			2  => esc_html__( 'Custom field updated.', 'courier' ),
 			3  => esc_html__( 'Custom field deleted.', 'courier' ),
 			4  => esc_html__( 'Notice updated.', 'courier' ),
 			/* translators: %s: date and time of the revision */
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Notice restored to revision from %s', 'courier' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Notice restored to revision from %s', 'courier' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // @codingStandardsIgnoreLine
 			/* translators: %s: link to notice */
 			6  => sprintf( __( 'Notice published. <a href="%1$s">View notice</a>', 'courier' ), esc_url( $permalink ) ),
 			7  => esc_html__( 'Notice saved.', 'courier' ),
@@ -171,7 +130,6 @@ class Courier {
 						'operator' => 'IN',
 					),
 				),
-				// 'no_found_rows'  => true,
 			)
 		);
 
@@ -214,7 +172,6 @@ class Courier {
 				'post_type'      => 'courier_notice',
 				'posts_per_page' => 1,
 				'post_status'    => 'courier_expired',
-				'no_found_rows'  => true,
 			)
 		);
 
