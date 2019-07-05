@@ -136,6 +136,9 @@ class General {
 
 		// Setup General Settings
 		self::setup_general_settings();
+
+		// Setup Design Settings
+		self::setup_design_settings();
 	}
 
 	/**
@@ -157,23 +160,6 @@ class General {
 		);
 
 		/**
-		 * Disable output of frontent css
-		 */
-		add_settings_field(
-			'uninstall',
-			esc_html__( 'Disable CSS on front end', 'courier' ),
-			array( '\Courier\Controller\Admin\Fields\Fields', 'add_checkbox' ),
-			$tab_section,
-			'courier_general_settings_section',
-			array(
-				'field'   => 'disable_css',
-				'section' => $tab_section,
-				'options' => 'courier_settings',
-				'label'   => esc_html__( 'Yes disable CSS', 'courier' ),
-			)
-		);
-
-		/**
 		 * @todo this doesn't do anything yet.
 		 */
 		add_settings_field(
@@ -187,6 +173,38 @@ class General {
 				'section' => $tab_section,
 				'options' => 'courier_settings',
 				'label'   => esc_html__( 'Yes clear data', 'courier' ),
+			)
+		);
+	}
+
+	private static function setup_design_settings() {
+		$tab_section = 'courier_design';
+
+		register_setting( $tab_section, $tab_section );
+
+		// Default Settings Section.
+		add_settings_section(
+			'courier_design_settings_section',
+			'',
+			array( __CLASS__, 'create_section' ),
+			$tab_section
+		);
+
+		/**
+		 * Disable output of frontent css
+		 */
+		add_settings_field(
+			'disable_css',
+			esc_html__( 'Disable CSS on front end', 'courier' ),
+			array( '\Courier\Controller\Admin\Fields\Fields', 'add_checkbox' ),
+			$tab_section,
+			'courier_design_settings_section',
+			array(
+				'field'   => 'disable_css',
+				'section' => $tab_section,
+				'options' => 'courier_design',
+				'label'   => esc_html__( 'Yes disable CSS', 'courier' ),
+				'description' => esc_html__( 'This is useful if you are using your own styles as part of your theme or overriding the css using the CSS Customizer', 'courier' ),
 			)
 		);
 	}
@@ -246,6 +264,10 @@ class General {
 		$tabs = array(
 			'settings'  => array(
 				'label'    => esc_html__( 'General Settings', 'courier' ),
+				'sub_tabs' => array(),
+			),
+			'design'    => array(
+				'label'    => esc_html__( 'Design', 'courier' ),
 				'sub_tabs' => array(),
 			),
 			'addons'    => array(

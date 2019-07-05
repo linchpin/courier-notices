@@ -82,6 +82,8 @@ if ( ! function_exists( 'add_action' ) ) {
 				<?php if ( empty( $active_sub_tab ) ) : ?>
 					<?php if ( 'settings' === $active_tab ) : ?>
 						<?php require_once COURIER_PATH . 'templates/admin/settings-general.php'; ?>
+					<?php elseif ( 'design' === $active_tab ) : ?>
+						<?php require_once COURIER_PATH . 'templates/admin/settings-design.php'; ?>
 					<?php elseif ( 'about' === $active_tab ) : ?>
 						<?php require_once COURIER_PATH . 'templates/admin/settings-about-courier.php'; ?>
 					<?php elseif ( 'addons' === $active_tab ) : ?>
