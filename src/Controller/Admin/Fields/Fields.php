@@ -188,23 +188,18 @@ class Fields {
 
 		// Parse incoming $args into an array and merge it with $defaults.
 		$args    = wp_parse_args( $args, $defaults );
-		$options = get_option( $args['section'] );
+		/* ?>
 
-		// @since 1.0
-		// @todo this needs to be cleaned up to meet wpcs
-		$select_options = ( ! empty( $args['options_cb'] ) && is_callable( $args['options_cb'] ) )
-			? call_user_func_array( $args['options_cb'], $args )
-			: $args['options'];
-
-		?>
 		<label for="<?php echo esc_attr( $args['id'] ); ?>"><?php echo esc_html( $args['label'] ); ?></label>
-		<?php
+		<?php */
 		self::$type_list_table = new Type_List_Table();
 		self::$type_list_table->prepare_items();
+
+		/*
 		?>
 		<?php if ( ! empty( $args['description'] ) ) : ?>
 			<p class="description"><?php echo esc_html( $args['description'] ); ?></p>
-		<?php endif; ?>
+		<?php endif; */ ?>
 
 		<div class="wrap">
 			<div id="nds-post-body">
