@@ -3,6 +3,8 @@
 namespace Courier\Controller\Admin\Fields;
 
 // Make sure we don't expose any info if called directly.
+use Courier\Helper\Type_List_Table as Type_List_Table;
+
 if ( ! function_exists( 'add_action' ) ) {
 	exit;
 }
@@ -20,6 +22,11 @@ if ( ! function_exists( 'add_action' ) ) {
  * @package Courier\Controller\Admin\Fields
  */
 class Fields {
+
+	/**
+	 * @var
+	 */
+	private static $type_list_table;
 
 	/**
 	 * FIELD CONTROLS
@@ -64,7 +71,7 @@ class Fields {
 	/**
 	 * Used any time we need to add in a select field
 	 *
-	 * @since 1.2.0
+	 * @since 1.0
 	 *
 	 * @param array $args Args for Customization.
 	 */
@@ -159,4 +166,54 @@ class Fields {
 		<input type="checkbox" class="<?php echo esc_attr( $args['class'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>" name="<?php echo esc_attr( $args['name'] ); ?>" value="1" <?php checked( $checked ); ?>>
 		<?php
 	}
+
+	/**
+	 * Add a custom table to display options
+	 *
+	 * @since 1.0
+	 *
+	 * @param $args
+	 */
+	public static function add_table( $args ) {
+
+		/**
+		 * Define our field defaults
+		 */
+		$defaults = array(
+			'class'   => '',
+			'options' => array(),
+			'name'    => $args['section'] . '[' . $args['field'] . ']',
+			'id'      => $args['section'] . '_' . $args['field'],
+		);
+
+		// Parse incoming $args into an array and merge it with $defaults.
+		$args    = wp_parse_args( $args, $defaults );
+		$options = get_option( $args['section'] );
+
+		// @since 1.0
+		// @todo this needs to be cleaned up to meet wpcs
+		$select_options = ( ! empty( $args['options_cb'] ) && is_callable( $args['options_cb'] ) )
+			? call_user_func_array( $args['options_cb'], $args )
+			: $args['options'];
+
+		?>
+		<label for="<?php echo esc_attr( $args['id'] ); ?>"><?php echo esc_html( $args['label'] ); ?></label>
+		<?php
+		self::$type_list_table = new Type_List_Table();
+		self::$type_list_table->prepare_items();
+		?>
+		<?php if ( ! empty( $args['description'] ) ) : ?>
+			<p class="description"><?php echo esc_html( $args['description'] ); ?></p>
+		<?php endif; ?>
+
+		<div class="wrap">
+			<div id="nds-post-body">
+				<form id="nds-user-list-form" method="get">
+					<?php self::$type_list_table->display(); ?>
+				</form>
+			</div>
+		</div>
+		<?php
+	}
+
 }

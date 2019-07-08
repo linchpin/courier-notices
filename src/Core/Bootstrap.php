@@ -40,6 +40,8 @@ class Bootstrap {
 
 		// Include helper functions.
 		include_once $this->config->get( 'plugin_path' ) . 'src/Helper/Functions.php';
+		include_once $this->config->get( 'plugin_path' ) . 'src/Helper/WP_List_Table.php';
+		include_once $this->config->get( 'plugin_path' ) . 'src/Helper/Type_List_Table.php';
 
 		// The plugin is ready.
 		do_action( 'courier_ready', $this );

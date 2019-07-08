@@ -2,7 +2,7 @@
 /*
 Plugin Name: Courier
 Plugin URI:  https://wordpress.org/plugins/courier
-Description: A way to display, manage, and control front end notifications to users, globally or individually.
+Description: A way to display, manage, and control front end notifications for users, globally or individually.
 Version:     1.0
 Author:      Linchpin
 Author URI:  http://linchpin.com
@@ -79,7 +79,7 @@ register_activation_hook( __FILE__, 'courier_activation' );
  * Setup Crons to purge notifications upon plugin activation.
  */
 function courier_activation() {
-	// Create our crons.
+	// Create our cron events.
 	wp_schedule_event( current_time( 'timestamp' ), 'hourly', 'courier_purge' );
 	wp_schedule_event( current_time( 'timestamp' ), 'hourly', 'courier_expire' );
 

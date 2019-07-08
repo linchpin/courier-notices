@@ -8,6 +8,7 @@ if ( ! function_exists( 'add_action' ) ) {
 }
 
 use \Courier\Controller\Admin\Fields\Fields as Fields;
+use \Courier\Helper\Type_List_Table as Type_List_Table;
 
 /**
  * Control all of our plugin Settings
@@ -38,6 +39,11 @@ class General {
 	public static $plugin_name = COURIER_PLUGIN_NAME;
 
 	/**
+	 * @var
+	 */
+	private static $type_list_table;
+
+	/**
 	 * Initialize our plugin settings.
 	 *
 	 * @since 1.0.0
@@ -50,31 +56,11 @@ class General {
 	}
 
 	/**
-	 * Because we have settings that change pages.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @param $old_value
-	 * @param $new_value
-	 * @param $option_name
-	 */
-	public static function flush_rewrite_rules( $old_value, $new_value, $option_name ) {
-
-		delete_option( 'rewrite_rules' );
-
-		// and make sure rules are regenerated when admin is visited.
-		set_transient( 'courier_flush_rewrite_rules', '' );
-
-		flush_rewrite_rules();
-	}
-
-	/**
 	 * Add the options page to our settings menu
 	 */
 	public static function add_admin_menu() {
-		add_options_page( COURIER_PLUGIN_NAME, COURIER_PLUGIN_NAME, 'manage_options', self::$settings_page, array( __CLASS__, 'add_options_page' ) );
-		add_submenu_page( 'edit.php?post_type=courier_notice', COURIER_PLUGIN_NAME, esc_html__( 'Settings', 'courier' ), 'manage_options', self::$settings_page, array( __CLASS__, 'add_options_page' ) );
-
+		add_options_page( COURIER_PLUGIN_NAME, COURIER_PLUGIN_NAME, 'manage_options', self::$settings_page, array( __CLASS__, 'add_settings_page' ) );
+		add_submenu_page( 'edit.php?post_type=courier_notice', COURIER_PLUGIN_NAME, esc_html__( 'Settings', 'courier' ), 'manage_options', self::$settings_page, array( __CLASS__, 'add_settings_page' ) );
 	}
 
 	/**
@@ -177,6 +163,9 @@ class General {
 		);
 	}
 
+	/**
+	 * Design Panel
+	 */
 	private static function setup_design_settings() {
 		$tab_section = 'courier_design';
 
@@ -191,7 +180,7 @@ class General {
 		);
 
 		/**
-		 * Disable output of frontent css
+		 * Disable output of frontend css
 		 */
 		add_settings_field(
 			'disable_css',
@@ -200,10 +189,25 @@ class General {
 			$tab_section,
 			'courier_design_settings_section',
 			array(
-				'field'   => 'disable_css',
-				'section' => $tab_section,
-				'options' => 'courier_design',
-				'label'   => esc_html__( 'Yes disable CSS', 'courier' ),
+				'field'       => 'disable_css',
+				'section'     => $tab_section,
+				'options'     => 'courier_design',
+				'label'       => esc_html__( 'Yes disable CSS', 'courier' ),
+				'description' => esc_html__( 'This is useful if you are using your own styles as part of your theme or overriding the css using the CSS Customizer', 'courier' ),
+			)
+		);
+
+		add_settings_field(
+			'notice_type_designs',
+			esc_html__( 'Design Panel', 'courier' ),
+			array( '\Courier\Controller\Admin\Fields\Fields', 'add_table' ),
+			$tab_section,
+			'courier_design_settings_section',
+			array(
+				'field'       => 'notice_type_designs',
+				'section'     => $tab_section,
+				'options'     => 'courier_design',
+				'label'       => esc_html__( 'Yes disable CSS', 'courier' ),
 				'description' => esc_html__( 'This is useful if you are using your own styles as part of your theme or overriding the css using the CSS Customizer', 'courier' ),
 			)
 		);
@@ -214,7 +218,7 @@ class General {
 	 *
 	 * @since 1.0
 	 */
-	public static function add_options_page() {
+	public static function add_settings_page() {
 
 		$tabs        = self::get_tabs();
 		$default_tab = self::get_default_tab_slug();
