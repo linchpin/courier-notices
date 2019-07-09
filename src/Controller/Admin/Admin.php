@@ -55,7 +55,7 @@ class Admin {
 				'taxonomy-courier_placement' => $placement,
 				'courier-global'             => esc_html__( 'Usage', 'courier' ),
 				'courier-date'               => wp_kses(
-					__( 'Expiration <a href="#" class="courier-info-icon" title="Non-expiry notices do not expire and will always be shown to users if the notice is not dismissable">?</a>', 'courier' ),
+					__( 'Expiration <a href="#" class="courier-info-icon courier-help" title="Non-expiry notices do not expire and will always be shown to users if the notice is not dismissable">?</a>', 'courier' ),
 					array(
 						'a' => array(
 							'href'  => array(),

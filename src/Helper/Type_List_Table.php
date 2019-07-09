@@ -42,8 +42,8 @@ class Type_List_Table extends WP_List_Table {
 			case 'cb':
 			case 'title':
 			case 'notice_icon':
-			case 'notice_text_color':
 			case 'notice_color':
+			case 'notice_text_color':
 				return $item[ $column_name ];
 			default:
 				return print_r( $item, true ) ;
@@ -119,8 +119,11 @@ class Type_List_Table extends WP_List_Table {
 	 */
 	protected function column_cb( $item ) {
 		return sprintf(
-			'<label class="screen-reader-text" for="courier_type_' . $item[ 'ID' ] . '">' . sprintf( esc_html__( 'Select %s' ), $item[ 'title' ] ) . '</label>'
-			. "<input type='checkbox' name='courier_types[]' id='courier_type_{$item['ID']}' value='{$item['ID']}' />"
+			'<label class="screen-reader-text" for="courier_type_%2$s">%3$s</label><input type="checkbox" name="courier_types[]" id="courier_type_%2$s" value="%1$s" />',
+			esc_attr( (int) $item['ID'] ),
+			esc_attr( $item['slug'] ),
+			// translators: %1$s Title of the term
+			sprintf( esc_html__( 'Select %1$s', 'courier' ), $item['title'] )
 		);
 	}
 
@@ -145,8 +148,16 @@ class Type_List_Table extends WP_List_Table {
 				$color = get_term_meta( $type->term_id, '_courier_type_color', true );
 
 				if ( empty( $color ) ) {
-					$color = '';
+					$color = '#cccccc';
 				}
+
+				$color_input = sprintf(
+					'<label class="screen-reader-text" for="courier_type_%2$s_color">%3$s</label><input type="text" name="courier_type_%2$s_color" id="courier_type_%2$s_color" class="courier-type-color" value="%1$s" />',
+					esc_attr( $color ),
+					esc_attr( $type->slug ),
+					// translators: %1$s Title of the term
+					sprintf( esc_html__( '%1$s Color', 'courier' ), $type->name )
+				);
 
 				$icon = get_term_meta( $type->term_id, '_courier_type_icon', true );
 
@@ -156,12 +167,27 @@ class Type_List_Table extends WP_List_Table {
 					$icon = '';
 				}
 
+				$text_color = get_term_meta( $type->term_id, '_courier_type_text_color', true );
+
+				if ( empty( $text_color ) ) {
+					$text_color = '#ffffff';
+				}
+
+				$text_input = sprintf(
+					'<label class="screen-reader-text" for="courier_type_%2$s_text_color">%3$s</label><input type="text" name="courier_type_%2$s_text_color" id="courier_type_%2$s_text_color" class="courier-type-color" value="%1$s" />',
+					esc_attr( $text_color ),
+					esc_attr( $type->slug ),
+					// translators: %1$s Title of the term
+					sprintf( esc_html__( '%1$s Text Color', 'courier' ), $type->name )
+				);
+
 				$data[] = array(
-					'cb'           => '<input type="checkbox" />',
-					'ID'           => $type->term_id,
-					'notice_icon'  => $icon,
-					'notice_color' => sprintf( '<input type="text" value="%1$s" class="courier-type-color">', esc_attr( $color ) ),
-					'title'        => $type->name,
+					'cb'                => '<input type="checkbox" />',
+					'ID'                => $type->term_id,
+					'notice_icon'       => $icon,
+					'notice_color'      => $color_input,
+					'notice_text_color' => $text_input,
+					'title'             => $type->name,
 				);
 			}
 		}
