@@ -483,3 +483,23 @@
     z-index:1000;
     position:absolute;
 }
+
+.courier-info-icon {
+    background: #ccc;
+    border-radius: 50%;
+    width: 18px;
+    display: inline-block;
+    text-align: center;
+    color: #fff;
+    font-size: 10px;
+    line-height: 18px;
+}
+
+.courier-info-icon:hover {
+    background: #00a0d2;
+    color:#fff;
+}
+
+.column-courier-global {
+    text-align:center;
+}

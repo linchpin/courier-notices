@@ -42,8 +42,8 @@ class Type_List_Table extends WP_List_Table {
 			case 'cb':
 			case 'title':
 			case 'notice_icon':
-			case 'notice_text_color':
 			case 'notice_color':
+			case 'notice_text_color':
 				return $item[ $column_name ];
 			default:
 				return print_r( $item, true ) ;
@@ -64,11 +64,19 @@ class Type_List_Table extends WP_List_Table {
 	//Query, filter data, handle sorting, pagination, and any other data-manipulation required prior to rendering
 	public function prepare_items() {
 
-		// code to handle bulk actions
+		// check if a search was performed.
+		$term_search_key = isset( $_REQUEST['s'] ) ? wp_unslash( trim( $_REQUEST['s'] ) ) : '';
+
+		// check and process any actions such as bulk actions.
+		$this->handle_table_actions();
 
 		//used by WordPress to build and fetch the _column_headers property
 		// $this->_column_headers = $this->get_column_info();
 		$term_table_data = $this->fetch_table_data();
+
+		if( $term_search_key ) {
+			$term_table_data = $this->filter_table_data( $term_table_data, $term_search_key );
+		}
 
 		$columns  = $this->get_columns();
 		$hidden   = $this->get_hidden_columns();
@@ -119,8 +127,11 @@ class Type_List_Table extends WP_List_Table {
 	 */
 	protected function column_cb( $item ) {
 		return sprintf(
-			'<label class="screen-reader-text" for="courier_type_' . $item[ 'ID' ] . '">' . sprintf( esc_html__( 'Select %s' ), $item[ 'title' ] ) . '</label>'
-			. "<input type='checkbox' name='courier_types[]' id='courier_type_{$item['ID']}' value='{$item['ID']}' />"
+			'<label class="screen-reader-text" for="courier_type_%2$s">%3$s</label><input type="checkbox" name="courier_types[]" id="courier_type_%2$s" value="%1$s" />',
+			esc_attr( (int) $item['ID'] ),
+			esc_attr( $item['slug'] ),
+			// translators: %1$s Title of the term
+			sprintf( esc_html__( 'Select %1$s', 'courier' ), $item['title'] )
 		);
 	}
 
@@ -145,8 +156,16 @@ class Type_List_Table extends WP_List_Table {
 				$color = get_term_meta( $type->term_id, '_courier_type_color', true );
 
 				if ( empty( $color ) ) {
-					$color = '';
+					$color = '#cccccc';
 				}
+
+				$color_input = sprintf(
+					'<label class="screen-reader-text" for="courier_type_%2$s_color">%3$s</label><input type="text" name="courier_type_%2$s_color" id="courier_type_%2$s_color" class="courier-type-color" value="%1$s" />',
+					esc_attr( $color ),
+					esc_attr( $type->slug ),
+					// translators: %1$s Title of the term
+					sprintf( esc_html__( '%1$s Color', 'courier' ), $type->name )
+				);
 
 				$icon = get_term_meta( $type->term_id, '_courier_type_icon', true );
 
@@ -156,17 +175,63 @@ class Type_List_Table extends WP_List_Table {
 					$icon = '';
 				}
 
+				$text_color = get_term_meta( $type->term_id, '_courier_type_text_color', true );
+
+				if ( empty( $text_color ) ) {
+					$text_color = '#ffffff';
+				}
+
+				$text_input = sprintf(
+					'<label class="screen-reader-text" for="courier_type_%2$s_text_color">%3$s</label><input type="text" name="courier_type_%2$s_text_color" id="courier_type_%2$s_text_color" class="courier-type-color" value="%1$s" />',
+					esc_attr( $text_color ),
+					esc_attr( $type->slug ),
+					// translators: %1$s Title of the term
+					sprintf( esc_html__( '%1$s Text Color', 'courier' ), $type->name )
+				);
+
+				$edit_link = sprintf(
+					'<a href="%1$s">%2$s</a>',
+					esc_attr( get_edit_term_link( $type->term_id, 'courier_type' ) ),
+					esc_html( $type->name )
+				);
+
 				$data[] = array(
-					'cb'           => '<input type="checkbox" />',
-					'ID'           => $type->term_id,
-					'notice_icon'  => $icon,
-					'notice_color' => sprintf( '<input type="text" value="%1$s" class="courier-type-color">', esc_attr( $color ) ),
-					'title'        => $type->name,
+					'cb'                => '<input type="checkbox" />',
+					'slug'              => $type->slug,
+					'ID'                => $type->term_id,
+					'notice_icon'       => $icon,
+					'notice_color'      => $color_input,
+					'notice_text_color' => $text_input,
+					'title'             => $edit_link,
 				);
 			}
 		}
 
 		// return result array to prepare_items.
 		return $data;
+	}
+
+	/**
+	 * Filter the terms based on searching the table
+	 * @param $table_data
+	 * @param $search_key
+	 *
+	 * @return array
+	 */
+	public function filter_table_data( $table_data, $search_key ) {
+		$filtered_table_data = array_values( array_filter( $table_data, function( $row ) use( $search_key ) {
+			foreach( $row as $row_val ) {
+				if( stripos( $row_val, $search_key ) !== false ) {
+					return true;
+				}
+			}
+		} ) );
+		return $filtered_table_data;
+	}
+
+	public function handle_table_actions() {
+		/**
+		 * Add any bulk actions. Maybe bulk delete?
+		 */
 	}
 }

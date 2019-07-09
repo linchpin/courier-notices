@@ -187,7 +187,7 @@ class Fields {
 		);
 
 		// Parse incoming $args into an array and merge it with $defaults.
-		$args    = wp_parse_args( $args, $defaults );
+		$args = wp_parse_args( $args, $defaults );
 		/* ?>
 
 		<label for="<?php echo esc_attr( $args['id'] ); ?>"><?php echo esc_html( $args['label'] ); ?></label>
@@ -203,6 +203,8 @@ class Fields {
 		<div class="wrap">
 			<div id="nds-post-body">
 				<form id="nds-user-list-form" method="get">
+					<input type="hidden" name="page" value="<?php echo esc_attr( (int) $_REQUEST['page'] ); ?>" />
+					<?php self::$type_list_table->search_box( esc_html__( 'Find', 'courier' ), 'courier-find-type' ); ?>
 					<?php self::$type_list_table->display(); ?>
 				</form>
 			</div>

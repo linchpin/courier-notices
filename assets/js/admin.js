@@ -96,7 +96,7 @@ courier.admin = ( function( $ ) {
             // Setup type edit screen js within settings.
             self.setup_type_editing();
 
-            $(document).tooltip();
+            $('.courier-info-icon').tooltip();
         },
 
         /**

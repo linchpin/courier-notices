@@ -55,11 +55,12 @@ class Admin {
 				'taxonomy-courier_placement' => $placement,
 				'courier-global'             => esc_html__( 'Usage', 'courier' ),
 				'courier-date'               => wp_kses(
-					__( 'Expiration <a href="#" class="courier-info-icon" title="Non-expiry notices do not expire and will always be shown to users if the notice is not dismissable">?</a>', 'courier' ),
+					__( 'Expiration <a href="#" class="courier-info-icon courier-help" title="Non-expiry notices do not expire and will always be shown to users if the notice is not dismissable">?</a>', 'courier' ),
 					array(
 						'a' => array(
 							'href'  => array(),
 							'title' => array(),
+							'class' => array(),
 						),
 					)
 				),
@@ -280,7 +281,7 @@ class Admin {
 
 			$taxonomy_obj  = get_taxonomy( $taxonomy_slug );
 			$taxonomy_name = $taxonomy_obj->labels->name;
-			$terms         = get_terms( $taxonomy_slug );
+			// $terms         = get_terms( $taxonomy_slug );
 			$selected      = ( isset( $_GET[ $taxonomy_slug ] ) && '' !== $_GET[ $taxonomy_slug ] ) ? sanitize_text_field( $_GET[ $taxonomy_slug ] ) : ''; // @codingStandardsIgnoreLine
 
 			wp_dropdown_categories(
