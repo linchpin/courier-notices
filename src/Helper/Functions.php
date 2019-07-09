@@ -285,12 +285,6 @@ function courier_get_notices( $args = array() ) {
 	$defaults = apply_filters( 'courier_get_notices_default_settings', $defaults );
 	$args     = wp_parse_args( $args, $defaults );
 
-	if ( empty( $args['user_id'] ) ) {
-		if ( ! $args['user_id'] = get_current_user_id() ) {
-			return array();
-		}
-	}
-
 	$number = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
 	$number = apply_filters( 'courier_override_notices_number', $number );
 
@@ -307,10 +301,33 @@ function courier_get_notices( $args = array() ) {
 		'tax_query'      => array(
 			'relation' => 'AND',
 		),
-		'author'         => $args['user_id'],
 		'fields'         => 'ids',
 		'no_found_rows'  => true,
 	);
+
+	if ( is_user_logged_in() ) {
+		// User is logged in but no user_id is set, use current user ID
+		if ( empty( $args['user_id'] ) ) {
+			$args['user_id'] = get_current_user_id();
+		}
+
+		/**
+		 * Exclude global notices written by this user.
+		 * This prevents dismissed global notices from persisting for the admin that created it.
+		 */
+		if ( current_user_can( 'edit_posts' ) ) {
+			$query_args['tax_query'][] = array(
+				'taxonomy' => 'courier_scope',
+				'field'    => 'name',
+				'terms'    => array( 'Global' ),
+				'operator' => 'NOT IN',
+			);
+		}
+	}
+
+	if ( ! empty( $args['user_id'] ) ) {
+		$query_args['author'] = $args['user_id'];
+	}
 
 	// Do not include dismissed notices
 	if ( ! $args['include_dismissed'] ) {
@@ -334,19 +351,6 @@ function courier_get_notices( $args = array() ) {
 				'terms'    => is_array( $args['placement'] ) ? $args['placement'] : array( $args['placement'] ),
 				'operator' => 'IN',
 			),
-		);
-	}
-
-	/**
-	 * Exclude global notices written by this user.
-	 * This prevents dismissed global notices from persisting for the admin that created it.
-	 */
-	if ( current_user_can( 'edit_posts' ) ) {
-		$query_args['tax_query'][] = array(
-			'taxonomy' => 'courier_scope',
-			'field'    => 'name',
-			'terms'    => array( 'Global' ),
-			'operator' => 'NOT IN',
 		);
 	}
 
