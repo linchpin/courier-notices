@@ -487,6 +487,62 @@ function courier_display_notices( $args = array() ) {
 	echo $output; // @todo this should probably be filtered more extensively.
 }
 
+	/**
+	 * Display Courier modal(s) on the front end
+	 *
+	 * @since 1.0
+	 *
+	 * @param array $args
+	 */
+	function courier_display_modals( $args = array() ) {
+		$args = wp_parse_args( $args, array(
+			'placement' => 'popup-modal',
+		) );
+
+		$notices = courier_get_notices( $args );
+
+		if ( empty( $notices ) ) {
+			return;
+		}
+
+		ob_start();
+		?>
+		<div class="courier-modal-overlay" style="display:none;">
+			<?php
+				$feedback_notices = array();
+
+				foreach ( $notices as $notice ) {
+					setup_postdata( $notice );
+					?>
+					<div class="courier-notices modal" data-courier-notice-id="<?php echo esc_attr( get_the_ID() ); ?>" <?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>data-closable<?php endif; ?>>
+						<?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>
+							<a href="#" class="courier-close close">&times;</a>
+						<?php endif; ?>
+						<?php the_content(); ?>
+					</div>
+					<?php
+
+					if ( has_term( 'feedback', 'courier_type' ) ) {
+						$feedback_notices[] = get_the_ID();
+					}
+
+					if ( ! empty( $feedback_notices ) ) {
+						courier_dismiss_notices( $feedback_notices );
+					}
+				}
+				wp_reset_postdata();
+			?>
+		</div>
+		<?php
+
+		$output = ob_get_contents();
+
+		$output = apply_filters( 'courier_notices', $output );
+		ob_end_clean();
+
+		echo $output; // @todo this should probably be filtered more extensively.
+	}
+
 /**
  * Get a user's owned dismissed notices
  *
