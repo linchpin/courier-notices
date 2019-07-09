@@ -164,7 +164,7 @@ class Admin {
 	 * @param $hook
 	 */
 	public function admin_enqueue_scripts( $hook ) {
-		if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'edit.php' ), true ) ) {
+		if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'edit.php', 'courier_notice_page_courier' ), true ) ) {
 			return;
 		}
 
@@ -174,7 +174,7 @@ class Admin {
 			}
 		}
 
-		wp_enqueue_script( 'courier-admin', COURIER_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-autocomplete', 'jquery-ui-datepicker', 'jquery-ui-tooltip' ), COURIER_VERSION, true );
+		wp_enqueue_script( 'courier-admin', COURIER_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-autocomplete', 'jquery-ui-datepicker', 'jquery-ui-tooltip', 'wp-color-picker' ), COURIER_VERSION, true );
 
 		global $post;
 
@@ -220,7 +220,7 @@ class Admin {
 	 */
 	public function admin_enqueue_styles( $hook ) {
 
-		if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'edit.php' ), true ) ) {
+		if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'edit.php', 'courier_notice_page_courier' ), true ) ) {
 			return;
 		}
 
@@ -230,6 +230,7 @@ class Admin {
 			}
 		}
 
+		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_style( 'courier-admin', COURIER_PLUGIN_URL . 'assets/css/admin.css', array(), COURIER_VERSION );
 	}
 

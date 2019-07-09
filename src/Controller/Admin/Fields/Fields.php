@@ -195,11 +195,10 @@ class Fields {
 		self::$type_list_table = new Type_List_Table();
 		self::$type_list_table->prepare_items();
 
-		/*
 		?>
 		<?php if ( ! empty( $args['description'] ) ) : ?>
 			<p class="description"><?php echo esc_html( $args['description'] ); ?></p>
-		<?php endif; */ ?>
+		<?php endif; ?>
 
 		<div class="wrap">
 			<div id="nds-post-body">
@@ -210,5 +209,4 @@ class Fields {
 		</div>
 		<?php
 	}
-
 }

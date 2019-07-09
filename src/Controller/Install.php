@@ -58,6 +58,11 @@ class Install {
 		}
 	}
 
+	private function insert_term_meta( $term, $class_name, $hex_color ) {
+		add_term_meta( $term['term_id'], '_courier_type_color', $hex_color, true );
+		add_term_meta( $term['term_id'], '_courier_type_icon', $class_name, true );
+	}
+
 	/**
 	 * Install our default options and version number
 	 * @param $current_version
@@ -66,12 +71,30 @@ class Install {
 		$plugin_options = get_option( 'courier_options', array() );
 
 		// This is the type of notification that is being displayed to the user.
-		wp_insert_term( esc_html__( 'Success', 'courier' ), 'courier_type' );
-		wp_insert_term( esc_html__( 'Warning', 'courier' ), 'courier_type' );
-		wp_insert_term( esc_html__( 'Info', 'courier' ), 'courier_type' );
-		wp_insert_term( esc_html__( 'Alert', 'courier' ), 'courier_type' );
-		wp_insert_term( esc_html__( 'Secondary', 'courier' ), 'courier_type' );
-		wp_insert_term( esc_html__( 'Feedback', 'courier' ), 'courier_type' );
+
+		// Success
+		$success = wp_insert_term( esc_html__( 'Success', 'courier' ), 'courier_type' );
+		$this->insert_term_meta( $success, 'success', '#69DF44' );
+
+		// Warnings
+		$warning = wp_insert_term( esc_html__( 'Warning', 'courier' ), 'courier_type' );
+		$this->insert_term_meta( $warning, 'warning', '#EBBE61' );
+
+		// Info
+		$info = wp_insert_term( esc_html__( 'Info', 'courier' ), 'courier_type' );
+		$this->insert_term_meta( $info, 'info', '#A4E2FF' );
+
+		// Alert / Error
+		$alert = wp_insert_term( esc_html__( 'Alert', 'courier' ), 'courier_type' );
+		$this->insert_term_meta( $alert, 'alert', '#A4E2FF' );
+
+		// Secondary
+		$secondary = wp_insert_term( esc_html__( 'Secondary', 'courier' ), 'courier_type' );
+		$this->insert_term_meta( $secondary, 'secondary', '#cecece' );
+
+		// Feedback is similar to success for form feedback
+		$feedback = wp_insert_term( esc_html__( 'Feedback', 'courier' ), 'courier_type' );
+		$this->insert_term_meta( $feedback, 'feedback', '#cecece' );
 
 		// Is this notification for all viewers to see.
 		// This is checked by default.

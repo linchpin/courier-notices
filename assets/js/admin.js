@@ -93,6 +93,8 @@ courier.admin = ( function( $ ) {
 	                $('#courier-shortcode').select();
                 } );
 
+            $('.courier-type-color').wpColorPicker();
+
             $(document).tooltip();
         },
 

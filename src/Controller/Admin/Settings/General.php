@@ -179,6 +179,21 @@ class General {
 			$tab_section
 		);
 
+		add_settings_field(
+			'notice_type_designs',
+			esc_html__( 'Types', 'courier' ),
+			array( '\Courier\Controller\Admin\Fields\Fields', 'add_table' ),
+			$tab_section,
+			'courier_design_settings_section',
+			array(
+				'field'       => 'notice_type_designs',
+				'section'     => $tab_section,
+				'options'     => 'courier_design',
+				'label'       => esc_html__( 'Courier Types', 'courier' ),
+				'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier' ),
+			)
+		);
+
 		/**
 		 * Disable output of frontend css
 		 */
@@ -193,22 +208,7 @@ class General {
 				'section'     => $tab_section,
 				'options'     => 'courier_design',
 				'label'       => esc_html__( 'Yes disable CSS', 'courier' ),
-				'description' => esc_html__( 'This is useful if you are using your own styles as part of your theme or overriding the css using the CSS Customizer', 'courier' ),
-			)
-		);
-
-		add_settings_field(
-			'notice_type_designs',
-			esc_html__( 'Design Panel', 'courier' ),
-			array( '\Courier\Controller\Admin\Fields\Fields', 'add_table' ),
-			$tab_section,
-			'courier_design_settings_section',
-			array(
-				'field'       => 'notice_type_designs',
-				'section'     => $tab_section,
-				'options'     => 'courier_design',
-				'label'       => esc_html__( 'Yes disable CSS', 'courier' ),
-				'description' => esc_html__( 'This is useful if you are using your own styles as part of your theme or overriding the css using the CSS Customizer', 'courier' ),
+				'description' => esc_html__( 'This is useful if you are using your own styles as part of your theme or overriding the css using the Appearance -> Customizer', 'courier' ),
 			)
 		);
 	}
@@ -271,7 +271,7 @@ class General {
 				'sub_tabs' => array(),
 			),
 			'design'    => array(
-				'label'    => esc_html__( 'Design', 'courier' ),
+				'label'    => esc_html__( 'Notice Types / Design', 'courier' ),
 				'sub_tabs' => array(),
 			),
 			'addons'    => array(

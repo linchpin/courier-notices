@@ -21,7 +21,7 @@ class Type_List_Table extends WP_List_Table {
 	public function get_columns() {
 		$table_columns = array(
 			'cb'           => '<input type="checkbox" />', // to display the checkbox.
-			'title'        => __( 'Name', 'courier' ),
+			'title'        => __( 'Type', 'courier' ),
 			'notice_icon'  => __( 'Icon', 'courier' ),
 			'notice_color' => __( 'Color', 'courier' ),
 		);
@@ -107,6 +107,21 @@ class Type_List_Table extends WP_List_Table {
 		return array( 'title' => array( 'title', false ) );
 	}
 
+
+	/**
+	 * Get value for checkbox column.
+	 *
+	 * @param object $item A row's data.
+	 *
+	 * @return string Text to be placed inside the column <td>.
+	 */
+	protected function column_cb( $item ) {
+		return sprintf(
+			'<label class="screen-reader-text" for="courier_type_' . $item[ 'ID' ] . '">' . sprintf( esc_html__( 'Select %s' ), $item[ 'title' ] ) . '</label>'
+			. "<input type='checkbox' name='courier_types[]' id='courier_type_{$item['ID']}' value='{$item['ID']}' />"
+		);
+	}
+
 	/**
 	 * Get the data for our table
 	 * @return array
@@ -124,10 +139,26 @@ class Type_List_Table extends WP_List_Table {
 
 		if ( ! empty( $types ) ) {
 			foreach ( $types as $type ) {
+
+				$color = get_term_meta( $type->term_id, '_courier_type_color', true );
+
+				if ( empty( $color ) ) {
+					$color = '';
+				}
+
+				$icon = get_term_meta( $type->term_id, '_courier_type_icon', true );
+
+				if ( ! empty( $icon ) ) {
+					$icon = sprintf( '<img src="%1$s" alt="%2$s" class="courier-type-icon" />', esc_url( $icon ), esc_attr( $type->slug ) );
+				} else {
+					$icon = '';
+				}
+
 				$data[] = array(
+					'cb'           => '<input type="checkbox" />',
 					'ID'           => $type->term_id,
-					'notice_icon'  => get_term_meta( $type->term_id, '_courier_type_icon', true ),
-					'notice_color' => get_term_meta( $type->term_id, '_courier_type_color', true ),
+					'notice_icon'  => $icon,
+					'notice_color' => sprintf( '<input type="text" value="%1$s" class="courier-type-color">', esc_attr( $color ) ),
 					'title'        => $type->name,
 				);
 			}
