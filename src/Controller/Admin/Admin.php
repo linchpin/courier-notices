@@ -60,6 +60,7 @@ class Admin {
 						'a' => array(
 							'href'  => array(),
 							'title' => array(),
+							'class' => array(),
 						),
 					)
 				),
@@ -280,7 +281,7 @@ class Admin {
 
 			$taxonomy_obj  = get_taxonomy( $taxonomy_slug );
 			$taxonomy_name = $taxonomy_obj->labels->name;
-			$terms         = get_terms( $taxonomy_slug );
+			// $terms         = get_terms( $taxonomy_slug );
 			$selected      = ( isset( $_GET[ $taxonomy_slug ] ) && '' !== $_GET[ $taxonomy_slug ] ) ? sanitize_text_field( $_GET[ $taxonomy_slug ] ) : ''; // @codingStandardsIgnoreLine
 
 			wp_dropdown_categories(
