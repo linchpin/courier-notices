@@ -58,6 +58,12 @@ class Install {
 		}
 	}
 
+	/**
+	 * Add in our term meta for our courier types.
+	 * @param $term
+	 * @param $class_name
+	 * @param $hex_color
+	 */
 	private function insert_term_meta( $term, $class_name, $hex_color ) {
 		add_term_meta( $term['term_id'], '_courier_type_color', $hex_color, true );
 		add_term_meta( $term['term_id'], '_courier_type_icon', $class_name, true );
@@ -74,19 +80,19 @@ class Install {
 
 		// Success
 		$success = wp_insert_term( esc_html__( 'Success', 'courier' ), 'courier_type' );
-		$this->insert_term_meta( $success, 'success', '#69DF44' );
+		$this->insert_term_meta( $success, 'success', '#A5FF82' );
 
 		// Warnings
 		$warning = wp_insert_term( esc_html__( 'Warning', 'courier' ), 'courier_type' );
-		$this->insert_term_meta( $warning, 'warning', '#EBBE61' );
+		$this->insert_term_meta( $warning, 'warning', '#FFB64B' );
 
 		// Info
 		$info = wp_insert_term( esc_html__( 'Info', 'courier' ), 'courier_type' );
-		$this->insert_term_meta( $info, 'info', '#A4E2FF' );
+		$this->insert_term_meta( $info, 'info', '#6BCCE8' );
 
 		// Alert / Error
 		$alert = wp_insert_term( esc_html__( 'Alert', 'courier' ), 'courier_type' );
-		$this->insert_term_meta( $alert, 'alert', '#A4E2FF' );
+		$this->insert_term_meta( $alert, 'alert', '#FF4053' );
 
 		// Secondary
 		$secondary = wp_insert_term( esc_html__( 'Secondary', 'courier' ), 'courier_type' );
@@ -94,10 +100,9 @@ class Install {
 
 		// Feedback is similar to success for form feedback
 		$feedback = wp_insert_term( esc_html__( 'Feedback', 'courier' ), 'courier_type' );
-		$this->insert_term_meta( $feedback, 'feedback', '#cecece' );
+		$this->insert_term_meta( $feedback, 'feedback', '#7D86E8' );
 
-		// Is this notification for all viewers to see.
-		// This is checked by default.
+		// Is this notification for all viewers to see. This is checked by default.
 		wp_insert_term( esc_html__( 'Global', 'courier' ), 'courier_scope' );
 
 		// Has the notification been viewed and/or dismissed

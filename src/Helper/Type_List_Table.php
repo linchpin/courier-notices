@@ -20,10 +20,11 @@ class Type_List_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$table_columns = array(
-			'cb'           => '<input type="checkbox" />', // to display the checkbox.
-			'title'        => __( 'Type', 'courier' ),
-			'notice_icon'  => __( 'Icon', 'courier' ),
-			'notice_color' => __( 'Color', 'courier' ),
+			'cb'                => '<input type="checkbox" />', // to display the checkbox.
+			'title'             => esc_html__( 'Type', 'courier' ),
+			'notice_icon'       => esc_html__( 'Icon', 'courier' ),
+			'notice_color'      => esc_html__( 'Notice Color', 'courier' ),
+			'notice_text_color' => esc_html__( 'Notice Text Color', 'courier' ),
 		);
 		return $table_columns;
 	}
@@ -41,6 +42,7 @@ class Type_List_Table extends WP_List_Table {
 			case 'cb':
 			case 'title':
 			case 'notice_icon':
+			case 'notice_text_color':
 			case 'notice_color':
 				return $item[ $column_name ];
 			default:

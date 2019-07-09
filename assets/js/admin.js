@@ -93,7 +93,8 @@ courier.admin = ( function( $ ) {
 	                $('#courier-shortcode').select();
                 } );
 
-            $('.courier-type-color').wpColorPicker();
+            // Setup type edit screen js within settings.
+            self.setup_type_editing();
 
             $(document).tooltip();
         },
@@ -158,15 +159,15 @@ courier.admin = ( function( $ ) {
 
         /**
          * Reactivate a notice.
-         * @param e
+         * @param event
          */
-        reactivate_notice : function( e ) {
-            e.preventDefault();
-            e.stopPropagation();
+        reactivate_notice : function( event ) {
+            event.preventDefault();
+            event.stopPropagation();
 
-            var $this   = $(this),
+            var $this     = $(this),
                 notice_id = $this.attr( 'data-courier-notice-id'),
-                $notice = $this.parents( '.notice' );
+                $notice   = $this.parents( '.notice' );
 
             $.post( courier_admin_data.reactivate_endpoint + notice_id + '/', {
                 success: function( data ) {
@@ -175,6 +176,11 @@ courier.admin = ( function( $ ) {
             });
         },
 
+        /**
+         * Copy the shortcode
+         *
+         * @param event
+         */
         copy_text : function ( event ) {
 	        event.preventDefault();
 
@@ -214,6 +220,13 @@ courier.admin = ( function( $ ) {
 					$indicator.text( '' );
 				}, 3000 );
 			}
+        },
+
+        /**
+         * Setup Courier Type Editing Screen
+         */
+        setup_type_editing : function() {
+            $('.courier-type-color').wpColorPicker();
         }
     };
 
