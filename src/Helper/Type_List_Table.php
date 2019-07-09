@@ -197,6 +197,7 @@ class Type_List_Table extends WP_List_Table {
 
 				$data[] = array(
 					'cb'                => '<input type="checkbox" />',
+					'slug'              => $type->slug,
 					'ID'                => $type->term_id,
 					'notice_icon'       => $icon,
 					'notice_color'      => $color_input,
