@@ -94,3 +94,43 @@ courier.dismiss = (function ($) {
 })(jQuery);
 
 courier.dismiss.init();
+
+courier.modal = courier.modal || {};
+
+courier.modal = (function ($) {
+
+	var $body = $('body'),
+		$window = $(window),
+		self;
+
+	return {
+
+		/**
+		 * Initialize our modal
+		 * Add our events
+		 */
+		init: function () {
+			self = courier.modal;
+
+			$window
+				.on('load', self.display_modal);
+		},
+
+		/**
+		 * Shows the modal (if there is one) after the page is fully loaded
+		 */
+		display_modal: function () {
+			var $modal_overlay = $('.courier-modal-overlay');
+
+			if ( $modal_overlay.length < 1 ) {
+				return;
+			}
+
+			$modal_overlay.show();
+		}
+
+	};
+
+})(jQuery);
+
+courier.modal.init();
