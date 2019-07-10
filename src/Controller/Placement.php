@@ -14,6 +14,7 @@ class Placement {
 	public function register_actions() {
 		add_filter( 'get_header', array( $this, 'place_header_notices' ), 100 );
 		add_filter( 'get_footer', array( $this, 'place_footer_notices' ), 100 );
+		add_filter( 'get_footer', array( $this, 'place_modal_notices' ), 100 );
 	}
 
 	/**
@@ -36,5 +37,9 @@ class Placement {
 				'placement' => 'footer',
 			)
 		);
+	}
+
+	public function place_modal_notices( $footer ) {
+		courier_display_modals();
 	}
 }

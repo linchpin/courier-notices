@@ -61,6 +61,81 @@ function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = f
 	}
 }
 
+function courier_get_user_notices( $args = array() ) {
+	$number = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
+	$number = apply_filters( 'courier_override_notices_number', $number );
+
+	$query_args = array(
+		'post_type'      => 'courier_notice',
+		'post_status'    => array(
+			'publish',
+		),
+		'posts_per_page' => $number,
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+		'tax_query'      => array(
+			'relation' => 'AND',
+		),
+		'fields'         => 'ids',
+		'no_found_rows'  => true,
+	);
+
+	if ( is_user_logged_in() ) {
+		// User is logged in but no user_id is set, use current user ID
+		if ( empty( $args['user_id'] ) ) {
+			$args['user_id'] = get_current_user_id();
+		}
+
+		/**
+		 * Exclude global notices written by this user.
+		 * This prevents dismissed global notices from persisting for the admin that created it.
+		 */
+		if ( current_user_can( 'edit_posts' ) ) {
+			$query_args['tax_query'][] = array(
+				'taxonomy' => 'courier_scope',
+				'field'    => 'name',
+				'terms'    => array( 'Global' ),
+				'operator' => 'NOT IN',
+			);
+		}
+	}
+
+	if ( ! empty( $args['user_id'] ) ) {
+		$query_args['author'] = $args['user_id'];
+	} else {
+		return array();
+	}
+
+	// Do not include dismissed notices
+	if ( ! $args['include_dismissed'] ) {
+		$query_args['tax_query'][] = array(
+			'taxonomy' => 'courier_status',
+			'field'    => 'name',
+			'terms'    => array( 'Dismissed' ),
+			'operator' => 'NOT IN',
+		);
+	}
+
+	// Only include the notices for a specific placement
+	if ( ! empty( $args['placement'] ) ) {
+		$query_args['tax_query']['relation'] = 'AND';
+
+		$query_args['tax_query'][] = array(
+			'relation' => 'AND',
+			array(
+				'taxonomy' => 'courier_placement',
+				'field'    => 'slug',
+				'terms'    => is_array( $args['placement'] ) ? $args['placement'] : array( $args['placement'] ),
+				'operator' => 'IN',
+			),
+		);
+	}
+
+	$notices_query = new WP_Query( $query_args );
+
+	return $notices_query->posts;
+}
+
 /**
  * Query global notices. Cache appropriately
  *
@@ -254,7 +329,7 @@ function courier_get_persistent_global_notices( $args = array() ) {
 }
 
 /**
- * Get Courier notices for a user.
+ * Get Courier all notices.
  *
  * @since 1.0
  *
@@ -270,7 +345,6 @@ function courier_get_persistent_global_notices( $args = array() ) {
  */
 
 function courier_get_notices( $args = array() ) {
-
 	$defaults = array(
 		'user_id'                      => '',
 		'include_global'               => true,
@@ -285,72 +359,12 @@ function courier_get_notices( $args = array() ) {
 	$defaults = apply_filters( 'courier_get_notices_default_settings', $defaults );
 	$args     = wp_parse_args( $args, $defaults );
 
-	if ( empty( $args['user_id'] ) ) {
-		if ( ! $args['user_id'] = get_current_user_id() ) {
-			return array();
-		}
-	}
-
 	$number = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
 	$number = apply_filters( 'courier_override_notices_number', $number );
 
 	$results = array();
 
-	$query_args = array(
-		'post_type'      => 'courier_notice',
-		'post_status'    => array(
-			'publish',
-		),
-		'posts_per_page' => $number,
-		'orderby'        => 'date',
-		'order'          => 'DESC',
-		'tax_query'      => array(
-			'relation' => 'AND',
-		),
-		'author'         => $args['user_id'],
-		'fields'         => 'ids',
-		'no_found_rows'  => true,
-	);
-
-	// Do not include dismissed notices
-	if ( ! $args['include_dismissed'] ) {
-		$query_args['tax_query'][] = array(
-			'taxonomy' => 'courier_status',
-			'field'    => 'name',
-			'terms'    => array( 'Dismissed' ),
-			'operator' => 'NOT IN',
-		);
-	}
-
-	// Only include the notices for a specific placement
-	if ( ! empty( $args['placement'] ) ) {
-		$query_args['tax_query']['relation'] = 'AND';
-
-		$query_args['tax_query'][] = array(
-			'relation' => 'AND',
-			array(
-				'taxonomy' => 'courier_placement',
-				'field'    => 'slug',
-				'terms'    => is_array( $args['placement'] ) ? $args['placement'] : array( $args['placement'] ),
-				'operator' => 'IN',
-			),
-		);
-	}
-
-	/**
-	 * Exclude global notices written by this user.
-	 * This prevents dismissed global notices from persisting for the admin that created it.
-	 */
-	if ( current_user_can( 'edit_posts' ) ) {
-		$query_args['tax_query'][] = array(
-			'taxonomy' => 'courier_scope',
-			'field'    => 'name',
-			'terms'    => array( 'Global' ),
-			'operator' => 'NOT IN',
-		);
-	}
-
-	$notices_query = new WP_Query( $query_args );
+	$user_notices = courier_get_user_notices( $args );
 
 	// Account for global notices
 	$global_posts = array();
@@ -375,7 +389,8 @@ function courier_get_notices( $args = array() ) {
 		}
 	}
 
-	$post_list = array_merge( $notices_query->posts, $global_posts );
+	$post_list = array_merge( $user_notices, $global_posts );
+	$post_list = wp_list_pluck( $post_list, 'ID' );
 
 	// Prioritize Persistent Global Notes to the top by getting them separately and putting them at the front of the line.
 	if ( true === $args['prioritize_persistent_global'] ) {
@@ -455,8 +470,9 @@ function courier_display_notices( $args = array() ) {
 		<?php
 		$feedback_notices = array();
 
-		foreach ( $notices as $notice ) {
-			setup_postdata( $notice );
+		global $post;
+		foreach ( $notices as $post ) {
+			setup_postdata( $post );
 			?>
 			<div data-courier-notice-id="<?php echo esc_attr( get_the_ID() ); ?>" data-alert <?php post_class( 'courier-notice courier_notice callout alert alert-box' ); ?><?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>data-closable<?php endif; ?>>
 				<?php the_content(); ?>
@@ -486,6 +502,63 @@ function courier_display_notices( $args = array() ) {
 
 	echo $output; // @todo this should probably be filtered more extensively.
 }
+
+	/**
+	 * Display Courier modal(s) on the front end
+	 *
+	 * @since 1.0
+	 *
+	 * @param array $args
+	 */
+	function courier_display_modals( $args = array() ) {
+		$args = wp_parse_args( $args, array(
+			'placement' => 'popup-modal',
+		) );
+
+		$notices = courier_get_notices( $args );
+
+		if ( empty( $notices ) ) {
+			return;
+		}
+
+		ob_start();
+		?>
+		<div class="courier-modal-overlay" style="display:none;">
+			<?php
+				$feedback_notices = array();
+
+				global $post;
+				foreach ( $notices as $post ) {
+					setup_postdata( $post );
+					?>
+					<div class="courier-notices modal" data-courier-notice-id="<?php echo esc_attr( get_the_ID() ); ?>" <?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>data-closable<?php endif; ?>>
+						<?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>
+							<a href="#" class="courier-close close">&times;</a>
+						<?php endif; ?>
+						<?php the_content(); ?>
+					</div>
+					<?php
+
+					if ( has_term( 'feedback', 'courier_type' ) ) {
+						$feedback_notices[] = get_the_ID();
+					}
+
+					if ( ! empty( $feedback_notices ) ) {
+						courier_dismiss_notices( $feedback_notices );
+					}
+				}
+				wp_reset_postdata();
+			?>
+		</div>
+		<?php
+
+		$output = ob_get_contents();
+
+		$output = apply_filters( 'courier_notices', $output );
+		ob_end_clean();
+
+		echo $output; // @todo this should probably be filtered more extensively.
+	}
 
 /**
  * Get a user's owned dismissed notices
@@ -540,10 +613,13 @@ function courier_get_dismissed_notices( $user_id = '' ) {
  * @return array|void
  */
 function courier_get_global_dismissed_notices( $user_id = '' ) {
+	// If user isn't logged in, use cookies
+	if ( ! is_user_logged_in() && isset( $_COOKIE['dismissed_notices'] ) ) {
+		return array_map( 'intval', json_decode( stripslashes( $_COOKIE['dismissed_notices'] ) ) );
+	}
+
 	if ( empty( $user_id ) ) {
-		if ( ! $user_id = get_current_user_id() ) {
-			return array();
-		}
+		$user_id = get_current_user_id();
 	}
 
 	if ( ! $dismissed_notices = get_user_option( 'courier_dismissals', $user_id ) ) {

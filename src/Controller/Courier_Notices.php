@@ -79,7 +79,13 @@ class Courier_Notices {
 
 		wp_register_style( 'courier-css', $config->get( 'plugin_url' ) . 'assets/css/courier.css', array(), $config->get( 'version' ) );
 
-		$localized_data = array();
+		$localized_data = array(
+			'endpoint' => site_url( '/courier/notice/' ),
+			'strings'  => array(
+				'close'   => esc_html__( 'Close', 'courier' ),
+				'dismiss' => esc_html__( 'Dismiss', 'courier' ),
+			),
+		);
 
 		wp_register_script( 'courier', $config->get( 'plugin_url' ) . 'assets/js/courier.js', $js_dependencies, $config->get( 'version' ), true );
 		wp_enqueue_script( 'courier' );
