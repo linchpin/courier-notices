@@ -29,8 +29,6 @@ class Courier {
 
 		add_filter( 'post_class', array( $this, 'post_class' ), 10, 3 );
 
-		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
-
 		add_filter( 'courier_excerpt', 'wp_trim_excerpt' );
 		add_filter( 'courier_excerpt', 'wptexturize' );
 		add_filter( 'courier_excerpt', 'convert_smilies' );
@@ -625,25 +623,6 @@ class Courier {
 		}
 
 		return $classes;
-	}
-
-	/**
-	 * Enqueue and localize our scripts.
-	 *
-	 * @since 1.0
-	 */
-	public function wp_enqueue_scripts() {
-		wp_enqueue_script( 'courier', COURIER_PLUGIN_URL . 'assets/js/courier.js', array( 'jquery' ), COURIER_VERSION, true );
-
-		$courier = array(
-			'endpoint' => site_url( '/courier/notice/' ),
-			'strings'  => array(
-				'close'   => esc_html__( 'Close', 'courier' ),
-				'dismiss' => esc_html__( 'Dismiss', 'courier' ),
-			),
-		);
-
-		wp_localize_script( 'courier', 'courier_data', $courier );
 	}
 }
 
