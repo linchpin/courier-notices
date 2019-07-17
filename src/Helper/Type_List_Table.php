@@ -74,7 +74,7 @@ class Type_List_Table extends WP_List_Table {
 		// $this->_column_headers = $this->get_column_info();
 		$term_table_data = $this->fetch_table_data();
 
-		if( $term_search_key ) {
+		if ( $term_search_key ) {
 			$term_table_data = $this->filter_table_data( $term_table_data, $term_search_key );
 		}
 
@@ -189,12 +189,6 @@ class Type_List_Table extends WP_List_Table {
 					sprintf( esc_html__( '%1$s Text Color', 'courier' ), $type->name )
 				);
 
-				$edit_link = sprintf(
-					'<a href="%1$s">%2$s</a>',
-					esc_attr( get_edit_term_link( $type->term_id, 'courier_type' ) ),
-					esc_html( $type->name )
-				);
-
 				$data[] = array(
 					'cb'                => '<input type="checkbox" />',
 					'slug'              => $type->slug,
@@ -202,7 +196,7 @@ class Type_List_Table extends WP_List_Table {
 					'notice_icon'       => $icon,
 					'notice_color'      => $color_input,
 					'notice_text_color' => $text_input,
-					'title'             => $edit_link,
+					'title'             => $type->name, // Custom Callback
 				);
 			}
 		}
@@ -234,4 +228,24 @@ class Type_List_Table extends WP_List_Table {
 		 * Add any bulk actions. Maybe bulk delete?
 		 */
 	}
+
+	/**
+	 *
+	 * Method for rendering the user_login column.
+	 * Adds row action links to the user_login column.
+	 * e.g. url/users.php?page=nds-wp-list-table-demo&action=view_usermeta&user=18&_wpnonce=1984253e5e
+	 */
+	protected function column_title( $item ) {
+
+		$edit_link = sprintf(
+			'<strong><a href="%1$s">%2$s</a></strong>',
+			esc_attr( get_edit_term_link( $item['ID'], 'courier_type' ) ),
+			esc_html( $item['title'] )
+		);
+
+		$actions = [];
+		// $actions['preview'] = sprintf( '<a href="#">%1$s</a>', esc_html__( 'Preview', 'courier' ) );
+		return $edit_link . $this->row_actions( $actions );
+	}
+
 }
