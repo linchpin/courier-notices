@@ -470,12 +470,13 @@
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
+
 .arrow.top:after {
     bottom: -20px;
     top: auto;
 }
 
-.courier_notice_page_courier .form-table th {
+table.courier_notice_page_courier .form-table th {
     padding:10px;
 }
 
