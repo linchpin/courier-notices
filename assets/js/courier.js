@@ -85,6 +85,7 @@ courier.dismiss = (function ($) {
 
                 $.each(notice_ids, function (index, value) {
                     $(".courier_notice[data-courier-notice-id='" + value + "']").fadeOut();
+                    $('.courier-modal-overlay').hide();
                     self.set_cookie( value );
                 });
             });
