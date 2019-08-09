@@ -108,7 +108,7 @@ class Shortcodes {
 		}
 
 		$notice_args = array(
-			'post_type'     => 'courier_notiice',
+			'post_type'     => 'courier_notice',
 			'post_per_page' => 1,
 			'no_found_rows' => true,
 			'p'             => $atts['id'],
