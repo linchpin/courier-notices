@@ -12,15 +12,15 @@ class Placement {
 	 * Register our actions for where notifications will be placed.
 	 */
 	public function register_actions() {
-		add_filter( 'get_header', array( $this, 'place_header_notices' ), 100 );
-		add_filter( 'get_footer', array( $this, 'place_footer_notices' ), 100 );
-		add_filter( 'get_footer', array( $this, 'place_modal_notices' ), 100 );
+		add_action( 'wp_body_open', array( __CLASS__, 'place_header_notices' ), 100 );
+		add_filter( 'get_footer', array( __CLASS__, 'place_footer_notices' ), 100 );
+		add_filter( 'get_footer', array( __CLASS__, 'place_modal_notices' ), 100 );
 	}
 
 	/**
 	 * Place all of our header notifications
 	 */
-	public function place_header_notices( $header ) {
+	public static function place_header_notices( $header ) {
 		courier_display_notices(
 			array(
 				'placement' => 'header',
@@ -31,7 +31,7 @@ class Placement {
 	/**
 	 * Place all of our footer notifications
 	 */
-	public function place_footer_notices( $footer ) {
+	public static function place_footer_notices( $footer ) {
 		courier_display_notices(
 			array(
 				'placement' => 'footer',
@@ -39,7 +39,7 @@ class Placement {
 		);
 	}
 
-	public function place_modal_notices( $footer ) {
+	public static function place_modal_notices( $footer ) {
 		courier_display_modals();
 	}
 }

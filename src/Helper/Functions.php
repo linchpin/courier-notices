@@ -464,13 +464,18 @@ function courier_display_notices( $args = array() ) {
 		return;
 	}
 
+	$courier_placement = ( !empty( $args['placement'] ) ) ? 'courier-location-' . $args['placement'] : '';
+
 	ob_start();
 	?>
-	<div class="courier-notices alerts">
+	<div class="courier-notices alerts <?php echo $courier_placement; ?>">
 		<?php
 		$feedback_notices = array();
 
 		global $post;
+
+		$prev_post = $post;
+
 		foreach ( $notices as $post ) {
 			setup_postdata( $post );
 			?>
@@ -491,6 +496,9 @@ function courier_display_notices( $args = array() ) {
 			}
 		}
 		wp_reset_postdata();
+
+		$post = $prev_post;
+		
 		?>
 	</div>
 	<?php
