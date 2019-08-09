@@ -234,7 +234,7 @@ class Courier {
 		</div>
 		<div class="misc-pub-section">
 			<label for="courier-shortcode" aria-hidden="true" class="screen-reader-text"><?php esc_html_e( 'Courier Shortcode', 'courier' ); ?></label>
-			<textarea id="courier-shortcode" class="widefat">[get_courier_notice id="<?php echo esc_attr( $post->ID ); ?>"]</textarea>
+			<textarea id="courier-shortcode" class="widefat">[courier_notice id="<?php echo esc_attr( $post->ID ); ?>"]</textarea>
 			<p><a class="copy-text button" data-copy="courier-shortcode"><?php esc_html_e( 'Copy Courier Shortcode', 'courier' ); ?></a></p>
 			<span class="copy-link-indicator"></span>
 		</div>
