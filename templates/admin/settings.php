@@ -19,7 +19,7 @@ if ( ! function_exists( 'add_action' ) ) {
  *
  * Renders the settings page contents.
  *
- * @since       1.1.0
+ * @since       1.0.0
  */
 ?>
 <div class="courier-wrap" id="courier-settings">
@@ -32,7 +32,7 @@ if ( ! function_exists( 'add_action' ) ) {
 		?>
 		</h3>
 		<div class="clearfix"></div>
-	</div>
+	</div>welcome.php
 	<?php settings_errors( self::$plugin_name . '-notices' ); ?>
 	<h2 class="nav-tab-wrapper negative-bg">
 		<?php

@@ -14,7 +14,7 @@ class Ajax {
 	/**
 	 * Courier_AJAX constructor.
 	 */
-	function register_actions() {
+	public function register_actions() {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'template_redirect', array( $this, 'template_redirect' ) );
 		add_action( 'template_redirect', array( $this, 'template_redirect_admin' ) );

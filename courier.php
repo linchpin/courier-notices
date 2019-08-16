@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: Courier
-Plugin URI:  https://wordpress.org/plugins/courier
-Description: A way to display, manage, and control front end notifications for users, globally or individually.
+Plugin URI:  https://wordpress.org/plugins/courier-notices
+Description: A way to display, manage, and control front end notifications for users, globally or individually, in the header,footer, by shortcode or by page.
 Version:     1.0
 Author:      Linchpin
 Author URI:  http://linchpin.com

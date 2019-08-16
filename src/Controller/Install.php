@@ -30,6 +30,22 @@ class Install {
 	}
 
 	/**
+	 * When the option doesn't exist, it should be a new install.
+	 *
+	 * @return bool
+	 */
+	public function is_first_install() {
+
+		$options = get_option( 'courier_options' );
+
+		if ( ! empty( $options ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Check to see if we have any updates
 	 */
 	public function check_for_updates() {

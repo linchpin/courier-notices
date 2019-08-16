@@ -1,0 +1,35 @@
+/**
+ *
+ * 01. Global Helpers
+ * 02. Admin Pointers
+ *
+ **/
+
+// 01. Global Helpers
+.hide {
+	display: none;
+}
+
+// 02. Admin Pointers
+.wp-pointer {
+	&.courier-pointer-top-left,
+	&.courier-pointer-top-right {
+		.wp-pointer-arrow {
+			top: 30px;
+		}
+	}
+
+	&.courier-pointer-top-left {
+		.wp-pointer-arrow,
+		.wp-pointer-arrow-inner {
+			border-right-color: $pointer-title-bg;
+		}
+	}
+
+	&.courier-pointer-top-right {
+		.wp-pointer-arrow,
+		.wp-pointer-arrow-inner {
+			border-left-color: $pointer-title-bg;
+		}
+	}
+}
