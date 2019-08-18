@@ -1,34 +1,36 @@
 <?php
-
+/**
+ * The Courier Controller
+ *
+ * @package Courier\Controller
+ */
 namespace Courier\Controller;
 
 /**
- * Class Courier
- * @package Courier\Controller
+ * Courier Class
  */
 class Courier {
 
+	/**
+	 * Register the hooks and filters
+	 *
+	 * @since 1.0
+	 */
 	public function register_actions() {
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
-
-		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ) );
-		add_filter( 'views_edit-courier_notice', array( $this, 'views_addition' ) );
-
 		add_action( 'add_meta_boxes_courier_notice', array( $this, 'add_meta_boxes_courier_notice' ), 99 );
 		add_action( 'save_post_courier_notice', array( $this, 'save_post_courier_notice' ), 10, 2 );
-
 		add_action( 'init', array( $this, 'add_expired_status' ) );
-
 		add_action( 'wp_insert_post', array( $this, 'wp_insert_post' ), 10, 3 );
+		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
 
 		add_filter( 'request', array( $this, 'request' ) );
 		add_filter( 'query_vars', array( $this, 'query_vars' ) );
-		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
 		add_filter( 'template_include', array( $this, 'template_include' ) );
 		add_filter( 'document_title_parts', array( $this, 'document_title_parts' ) );
-
+		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ) );
+		add_filter( 'views_edit-courier_notice', array( $this, 'views_addition' ) );
 		add_filter( 'post_class', array( $this, 'post_class' ), 10, 3 );
-
 		add_filter( 'courier_excerpt', 'wp_trim_excerpt' );
 		add_filter( 'courier_excerpt', 'wptexturize' );
 		add_filter( 'courier_excerpt', 'convert_smilies' );
@@ -40,9 +42,9 @@ class Courier {
 	}
 
 	/**
-	 * Add a custom post status for expired notices
-	 * @since 1.0
+	 * Adds a custom post status for expired notices
 	 *
+	 * @since 1.0
 	 */
 	public function add_expired_status() {
 		register_post_status(
@@ -53,7 +55,7 @@ class Courier {
 				'exclude_from_search'       => true,
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
-				// translators: %1$s count of hoow many terms have expired
+				// translators: %1$s count of hoow many terms have expired.
 				'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'courier' ),
 			)
 		);
@@ -61,6 +63,8 @@ class Courier {
 
 	/**
 	 * Check and schedule plugin upgrading if necessary.
+	 *
+	 * @since 1.0
 	 */
 	public function plugins_loaded() {
 		if ( version_compare( COURIER_VERSION, get_option( 'courier_version', '0.0.0' ), '>' ) ) {
@@ -69,7 +73,11 @@ class Courier {
 	}
 
 	/**
-	 * @param $messages
+	 * Post updated messages
+	 *
+	 * @since 1.0
+	 *
+	 * @param array $messages Array of messages.
 	 *
 	 * @return mixed
 	 */
@@ -85,7 +93,7 @@ class Courier {
 			3  => esc_html__( 'Custom field deleted.', 'courier' ),
 			4  => esc_html__( 'Notice updated.', 'courier' ),
 			/* translators: %s: date and time of the revision */
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Notice restored to revision from %s', 'courier' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // @codingStandardsIgnoreLine
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Notice restored to revision from %s', 'courier' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // phpcs:ignore WordPress.Security.NonceVerification
 			/* translators: %s: link to notice */
 			6  => sprintf( __( 'Notice published. <a href="%1$s">View notice</a>', 'courier' ), esc_url( $permalink ) ),
 			7  => esc_html__( 'Notice saved.', 'courier' ),
@@ -94,7 +102,7 @@ class Courier {
 			9  => sprintf(
 				/* translators: %1$s: date and time of the revision, %2$s: link to notice */
 				__( 'Notice scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview notice</a>', 'courier' ),
-				// translators: Publish box date format, see http://php.net/date
+				// translators: Publish box date format, see http://php.net/date.
 				date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ),
 				esc_url( $permalink )
 			),
@@ -108,7 +116,9 @@ class Courier {
 	/**
 	 * Add a links for global and expired notices in the admin table view.
 	 *
-	 * @param $views
+	 * @since 1.0
+	 *
+	 * @param array $views Array of views.
 	 *
 	 * @return array
 	 */
@@ -147,7 +157,7 @@ class Courier {
 
 			$notice_class = '';
 
-			if ( isset( $_GET['courier_scope'] ) && 'global' === $_GET['courier_scope'] ) {
+			if ( isset( $_GET['courier_scope'] ) && 'global' === $_GET['courier_scope'] ) { // phpcs:ignore WordPress.Security.NonceVerification
 				$notice_class = ' class="current"';
 			}
 
@@ -188,7 +198,7 @@ class Courier {
 
 			$expired_notice_class = '';
 
-			if ( isset( $_GET['post_status'] ) && 'courier_expired' === $_GET['post_status'] ) {
+			if ( isset( $_GET['post_status'] ) && 'courier_expired' === $_GET['post_status'] ) { // phpcs:ignore WordPress.Security.NonceVerification
 				$expired_notice_class = ' class="current"';
 			}
 
@@ -208,13 +218,15 @@ class Courier {
 
 	/**
 	 * Show select for selecting notice type
+	 *
+	 * @since 1.0
 	 */
 	public function post_submitbox_misc_actions() {
 		global $post;
 
 		wp_nonce_field( '_courier_info_nonce', '_courier_info_noncename' );
 
-		// If auto-draft check the global flag by default, else fall back to the scope
+		// If auto-draft check the global flag by default, else fall back to the scope.
 		if ( 'auto-draft' === get_post_status( $post->ID ) ) {
 			$scope = true;
 		} else {
@@ -243,6 +255,8 @@ class Courier {
 
 	/**
 	 * Add an option for selecting notice type
+	 *
+	 * @since 1.0
 	 */
 	public function add_meta_boxes_courier_notice() {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'post_submitbox_misc_actions' ) );
@@ -256,7 +270,9 @@ class Courier {
 	 * Set expiration on a notice
 	 * Assign a notice to a specific user in within WordPress
 	 *
-	 * @param $post
+	 * @since 1.0
+	 *
+	 * @param object $post The post object.
 	 */
 	public function courier_meta_box( $post ) {
 		wp_nonce_field( 'courier_expiration_nonce', 'courier_expiration_noncename' );
@@ -323,8 +339,7 @@ class Courier {
 		?>
 		<?php
 
-		// Date Display
-
+		// Date Display.
 		$current_date = (int) get_post_meta( $post->ID, '_courier_expiration', true );
 
 		if ( ! empty( $current_date ) ) {
@@ -390,8 +405,10 @@ class Courier {
 	/**
 	 * Save our notice data
 	 *
-	 * @param int $post_id
-	 * @param object|array $post
+	 * @since 1.0
+	 *
+	 * @param int          $post_id The post ID.
+	 * @param object|array $post The post object.
 	 */
 	public function save_post_courier_notice( $post_id, $post ) {
 
@@ -455,11 +472,12 @@ class Courier {
 
 	/**
 	 * When creating new notice for a specific user, log who created it.
+	 *
 	 * @since 1.0
 	 *
-	 * @param int          $post_id
-	 * @param array|object $post
-	 * @param bool         $update
+	 * @param int          $post_id The post ID.
+	 * @param array|object $post The post object.
+	 * @param bool         $update Whether or not to update.
 	 */
 	public function wp_insert_post( $post_id, $post, $update ) {
 		if ( ! is_admin() ) {
@@ -480,7 +498,9 @@ class Courier {
 	/**
 	 * Add some custom query vars
 	 *
-	 * @param $vars
+	 * @since 1.0
+	 *
+	 * @param array $vars Array of vars.
 	 *
 	 * @return array
 	 */
@@ -498,7 +518,9 @@ class Courier {
 	/**
 	 * Force a login when trying to visit the notifications page
 	 *
-	 * @param $vars
+	 * @since 1.0
+	 *
+	 * @param array $vars Array of vars.
 	 *
 	 * @return mixed
 	 */
@@ -521,7 +543,9 @@ class Courier {
 	/**
 	 * Use custom query vars to include specific scopes of notices
 	 *
-	 * @param $query
+	 * @since 1.0
+	 *
+	 * @param object $query Query object.
 	 */
 	public function pre_get_posts( $query ) {
 		if ( is_admin() ) {
@@ -532,8 +556,8 @@ class Courier {
 			return;
 		}
 
-		$include_global    = (boolean) $query->get( 'courier_include_global' );
-		$include_dismissed = (boolean) $query->get( 'courier_include_dismissed' );
+		$include_global    = (bool) $query->get( 'courier_include_global' );
+		$include_dismissed = (bool) $query->get( 'courier_include_dismissed' );
 
 		$notices = courier_get_notices(
 			array(
@@ -557,7 +581,9 @@ class Courier {
 	/**
 	 * If a custom template exists in the current theme for notifications, use that one instead.
 	 *
-	 * @param $template
+	 * @since 1.0
+	 *
+	 * @param string $template The template to include.
 	 *
 	 * @return string
 	 */
@@ -580,7 +606,9 @@ class Courier {
 	/**
 	 * When viewing the notification page, filter the title.
 	 *
-	 * @param mixed $title
+	 * @since 1.0
+	 *
+	 * @param mixed $title The title.
 	 *
 	 * @return mixed
 	 */
@@ -599,9 +627,11 @@ class Courier {
 	/**
 	 * Add classes for dismissed and global notice for notices.
 	 *
-	 * @param $classes
-	 * @param $class
-	 * @param $post_id
+	 * @since 1.0
+	 *
+	 * @param array  $classes Array of classes.
+	 * @param string $class   The class.
+	 * @param int    $post_id The post ID.
 	 *
 	 * @return array
 	 */
@@ -613,8 +643,8 @@ class Courier {
 		if ( has_term( 'Global', 'courier_scope', $post_id ) ) {
 			$classes[] = 'courier-notice-global';
 
-			// Mark dismissed global notices as such
-			if ( $global_dismissals = courier_get_global_dismissed_notices() ) {
+			// Mark dismissed global notices as such.
+			if ( $global_dismissals = courier_get_global_dismissed_notices() ) { // phpcs:ignore
 				if ( in_array( $post_id, $global_dismissals, true ) ) {
 					$classes[] = 'courier-notice-dismissed';
 				}

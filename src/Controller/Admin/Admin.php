@@ -1,18 +1,21 @@
 <?php
+/**
+ * All things related to the admin.
+ *
+ * @package Courier\Controller\Admin
+ */
 
 namespace Courier\Controller\Admin;
 
 /**
- * Class Admin
- *
- * All things related to the admin.
- *
- * @package Courier\Controller\Admin
+ * Admin Class
  */
 class Admin {
 
 	/**
 	 * Register Actions
+	 *
+	 * @since 1.0
 	 */
 	public function register_actions() {
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
@@ -31,7 +34,7 @@ class Admin {
 	 *
 	 * @since 1.0
 	 *
-	 * @param $columns
+	 * @param array $columns The post columns.
 	 *
 	 * @return array
 	 */
@@ -71,8 +74,10 @@ class Admin {
 	/**
 	 * Populate custom columns.
 	 *
-	 * @param $column
-	 * @param $post_id
+	 * @since 1.0
+	 *
+	 * @param array $column  The column.
+	 * @param int   $post_id The post ID.
 	 */
 	public function manage_posts_custom_column( $column, $post_id ) {
 
@@ -114,9 +119,7 @@ class Admin {
 	 * alert the user that the person will not see this notice because it has been dismissed.
 	 *
 	 * @todo this could probably have a filter the output of the markup.
-	 *
 	 * @since 1.0
-	 *
 	 */
 	public function admin_notices() {
 		$current_screen = get_current_screen();
@@ -162,7 +165,7 @@ class Admin {
 	 *
 	 * @since 1.0
 	 *
-	 * @param $hook
+	 * @param string $hook The hook.
 	 */
 	public function admin_enqueue_scripts( $hook ) {
 		if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'edit.php', 'courier_notice_page_courier' ), true ) ) {
@@ -217,7 +220,7 @@ class Admin {
 	 *
 	 * @since 1.0
 	 *
-	 * @param $hook
+	 * @param string $hook The hook.
 	 */
 	public function admin_enqueue_styles( $hook ) {
 
@@ -239,11 +242,14 @@ class Admin {
 	 * Get a timestamp based on a date and duration
 	 * The duration should be the number of months
 	 *
-	 * @param $date
-	 * @param $duration
+	 * @since 1.0
+	 *
+	 * @throws \Exception If anything goes wrong.
+	 *
+	 * @param string $date     The date to get the timestamp for.
+	 * @param string $duration The duration.
 	 *
 	 * @return int
-	 * @throws \Exception
 	 */
 	private function get_timestamp( $date, $duration ) {
 		$date_time = new \DateTime( $date );
@@ -265,8 +271,8 @@ class Admin {
 	 *
 	 * @since 1.0
 	 *
-	 * @param $post_type
-	 * @param $which
+	 * @param string $post_type The post type.
+	 * @param string $which     Which notice.
 	 */
 	public function filter_courier_notices( $post_type, $which ) {
 
@@ -274,7 +280,7 @@ class Admin {
 			return;
 		}
 
-		// A list of taxonomy slugs to filter by
+		// A list of taxonomy slugs to filter by.
 		$taxonomies = array( 'courier_type', 'courier_placement', 'courier_status' );
 
 		foreach ( $taxonomies as $taxonomy_slug ) {
@@ -286,7 +292,7 @@ class Admin {
 
 			wp_dropdown_categories(
 				array(
-					// translators: %1$s escaped taxonomy  name
+					// translators: %1$s escaped taxonomy name.
 					'show_option_all' => sprintf( __( 'All %1$s', 'courier' ), esc_html( $taxonomy_name ) ),
 					'orderby'         => 'name',
 					'taxonomy'        => $taxonomy_slug,
@@ -297,6 +303,5 @@ class Admin {
 				)
 			);
 		}
-
 	}
 }

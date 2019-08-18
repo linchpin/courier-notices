@@ -1,36 +1,51 @@
 <?php
+/**
+ * Courier Placement Taxonomy Model
+ *
+ * @package Courier\Model\Taxonomy
+ */
+
 namespace Courier\Model\Taxonomy;
 
 use \Courier\Model\Config;
 
 /**
- * Class Courier_Type
- * @package Courier\Model\Taxonomy
+ * Courier_Placement Class
  */
 class Courier_Placement {
 
 	/**
+	 * Configuration
+	 *
 	 * @var Config
 	 */
 	private $config;
 
 	/**
+	 * Placement name
+	 *
 	 * @var string
 	 */
 	public $name = 'courier_placement';
 
 	/**
-	 * @var array|mixed|void
+	 * Labels
+	 *
+	 * @var array
 	 */
 	private $labels = array();
 
 	/**
-	 * @var array|mixed|void
+	 * Arguments
+	 *
+	 * @var array
 	 */
 	private $args = array();
 
 	/**
 	 * Courier_Placement constructor.
+	 *
+	 * @since 1.0
 	 */
 	public function __construct() {
 		$this->config = new Config();
@@ -83,7 +98,11 @@ class Courier_Placement {
 	}
 
 	/**
-	 * @return array|mixed|void
+	 * Returns the arguments
+	 *
+	 * @since 1.0
+	 *
+	 * @return array
 	 */
 	public function get_args() {
 		return $this->args;

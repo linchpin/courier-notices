@@ -1,13 +1,15 @@
 <?php
-/*
-Plugin Name: Courier
-Plugin URI:  https://wordpress.org/plugins/courier
-Description: A way to display, manage, and control front end notifications for users, globally or individually.
-Version:     1.0
-Author:      Linchpin
-Author URI:  http://linchpin.com
-Text Domain: courier
-*/
+/**
+ * Plugin Name: Courier
+ * Plugin URI:  https://wordpress.org/plugins/courier
+ * Description: A way to display, manage, and control front end notifications for users, globally or individually.
+ * Version:     1.0
+ * Author:      Linchpin
+ * Author URI:  http://linchpin.com
+ * Text Domain: courier
+ *
+ * @package Courier
+ */
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -22,7 +24,7 @@ if ( ! defined( 'COURIER_VERSION' ) ) {
 	define( 'COURIER_VERSION', '1.0.0' );
 }
 
-// Define the main plugin file to make it easy to reference in subdirectories
+// Define the main plugin file to make it easy to reference in subdirectories.
 if ( ! defined( 'COURIER_FILE' ) ) {
 	define( 'COURIER_FILE', __FILE__ );
 }
@@ -67,7 +69,7 @@ function courier_init() {
 	try {
 		$courier->run();
 	} catch ( Exception $e ) {
-		wp_die( print_r( $e, true ) );
+		wp_die( esc_html( $e->getMessage() ) );
 	}
 
 	do_action( 'after_courier_init' );
@@ -92,6 +94,7 @@ register_deactivation_hook( __FILE__, 'courier_deactivation' );
 
 /**
  * Clear hooks to clean up existing notifications
+ *
  * @todo this should also clear out all data from the DB if the user requests to delete all information
  *       upon uninstall.
  */

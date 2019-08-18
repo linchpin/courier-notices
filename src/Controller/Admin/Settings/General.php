@@ -1,4 +1,10 @@
 <?php
+/**
+ * Control all of our plugin Settings
+ *
+ * @since   1.0
+ * @package Courier\Controller\Admin\Settings
+ */
 
 namespace Courier\Controller\Admin\Settings;
 
@@ -11,16 +17,7 @@ use \Courier\Controller\Admin\Fields\Fields as Fields;
 use \Courier\Helper\Type_List_Table as Type_List_Table;
 
 /**
- * Control all of our plugin Settings
- *
- * @since      1.0
- * @package    Courier
- * @subpackage Settings
- */
-
-/**
- * Class Settings
- * @package LinchpinHelpdesk\Controller\Admin
+ * Settings Class.
  */
 class General {
 
@@ -39,14 +36,16 @@ class General {
 	public static $plugin_name = COURIER_PLUGIN_NAME;
 
 	/**
-	 * @var
+	 * Instance of Type_List_Table
+	 *
+	 * @var Type_List_Table
 	 */
 	private static $type_list_table;
 
 	/**
-	 * Initialize our plugin settings.
+	 * Initialize our plugin settings
 	 *
-	 * @since 1.0.0
+	 * @since 1.0
 	 */
 	public static function register_actions() {
 		add_action( 'admin_menu', array( __CLASS__, 'add_admin_menu' ) );
@@ -57,6 +56,8 @@ class General {
 
 	/**
 	 * Add the options page to our settings menu
+	 *
+	 * @since 1.0
 	 */
 	public static function add_admin_menu() {
 		add_options_page( COURIER_PLUGIN_NAME, COURIER_PLUGIN_NAME, 'manage_options', self::$settings_page, array( __CLASS__, 'add_settings_page' ) );
@@ -64,8 +65,12 @@ class General {
 	}
 
 	/**
-	 * @param $actions
-	 * @param $plugin_file
+	 * Add settings link
+	 *
+	 * @since 1.0
+	 *
+	 * @param array  $actions     Actions.
+	 * @param string $plugin_file Plugin file.
 	 *
 	 * @return array
 	 */
@@ -92,8 +97,9 @@ class General {
 	/**
 	 * Create our settings section
 	 *
-	 * @param $args
-	 * @since 1.0.0
+	 * @since 1.0
+	 *
+	 * @param array $args Array of arguments.
 	 */
 	public static function create_section( $args ) {
 		?>
@@ -110,27 +116,26 @@ class General {
 	/**
 	 * Add all of our settings from the API
 	 *
-	 * @since 1.1.0
-	 *
+	 * @since 1.0
 	 */
 	public static function settings_init() {
 
-		// If we have save our settings flush the rewrite rules for our new structure
+		// If we have save our settings flush the rewrite rules for our new structure.
 		if ( delete_transient( 'courier_flush_rewrite_rules' ) ) {
 			flush_rewrite_rules();
 		}
 
-		// Setup General Settings
+		// Setup General Settings.
 		self::setup_general_settings();
 
-		// Setup Design Settings
+		// Setup Design Settings.
 		self::setup_design_settings();
 	}
 
 	/**
 	 * Get our general settings registered
 	 *
-	 * @since 1.1.0
+	 * @since 1.0
 	 */
 	private static function setup_general_settings() {
 		$tab_section = 'courier_settings';
@@ -146,6 +151,8 @@ class General {
 		);
 
 		/**
+		 * Add settings field
+		 *
 		 * @todo this doesn't do anything yet.
 		 */
 		add_settings_field(
@@ -165,6 +172,8 @@ class General {
 
 	/**
 	 * Design Panel
+	 *
+	 * @since 1.0
 	 */
 	private static function setup_design_settings() {
 		$tab_section = 'courier_design';
@@ -222,15 +231,17 @@ class General {
 
 		$tabs        = self::get_tabs();
 		$default_tab = self::get_default_tab_slug();
-		$active_tab  = isset( $_GET['tab'] ) && array_key_exists( sanitize_text_field( wp_unslash( $_GET['tab'] ) ), $tabs ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : $default_tab; // WPCS: input var okay, CSRF ok.
+		$active_tab  = isset( $_GET['tab'] ) && array_key_exists( sanitize_text_field( wp_unslash( $_GET['tab'] ) ), $tabs ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : $default_tab; // phpcs:ignore WordPress.Security.NonceVerification
 
 		require_once COURIER_PATH . 'templates/admin/settings.php';
 	}
 
 	/**
-	 * Allow filtering of the settings tabs.
+	 * Allow filtering of the settings tabs
 	 *
-	 * @param array $default_settings Default Settings Array.
+	 * @since 1.0
+	 *
+	 * @param array $default_settings Default settings array.
 	 *
 	 * @return array
 	 */
@@ -252,6 +263,8 @@ class General {
 	/**
 	 * Get the default tab slug
 	 *
+	 * @since 1.0
+	 *
 	 * @return mixed
 	 */
 	public static function get_default_tab_slug() {
@@ -261,8 +274,9 @@ class General {
 	/**
 	 * Retrieve settings tabs
 	 *
-	 * @since    1.0.0
-	 * @return   array $tabs Settings tabs
+	 * @since 1.0
+	 *
+	 * @return array $tabs Settings tabs
 	 */
 	public static function get_tabs() {
 		$tabs = array(
@@ -303,9 +317,9 @@ class General {
 	 * Build out our submenu if we have one.
 	 * Allow for this to be extended by addons.
 	 *
-	 * @since 1.2.0
+	 * @since 1.0
 	 *
-	 * @param $parent_tab
+	 * @param string $parent_tab The parent of the sub tab to retrieve.
 	 *
 	 * @return mixed
 	 */
@@ -320,19 +334,20 @@ class General {
 	 * Utility Method to get a request parameter within the admin
 	 * Strip it of malicious things.
 	 *
-	 * @since        1.2.0
-	 * @param string $key
-	 * @param string $default
+	 * @since 1.0
+	 *
+	 * @param string $key     The parameter key.
+	 * @param string $default The default value.
 	 *
 	 * @return string
 	 */
 	public static function get_request_param( $key, $default = '' ) {
-		// If not request set
-		if ( ! isset( $_REQUEST[ $key ] ) || empty( $_REQUEST[ $key ] ) ) {
+		// If request not set.
+		if ( ! isset( $_REQUEST[ $key ] ) || empty( $_REQUEST[ $key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return $default;
 		}
 
-		// Set so process it
-		return strip_tags( (string) wp_unslash( $_REQUEST[ $key ] ) );
+		// It's set, so process it.
+		return wp_strip_all_tags( (string) wp_unslash( $_REQUEST[ $key ] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 	}
 }

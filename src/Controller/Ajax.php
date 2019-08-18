@@ -1,20 +1,23 @@
 <?php
 /**
  * Handles everything specific to AJAX calls/responses
+ *
+ * @package Courier\Controller
  */
 
 namespace Courier\Controller;
 
 /**
- * Class Ajax
- * @package Linchpin\Courier\Controller
+ * Ajax Class
  */
 class Ajax {
 
 	/**
-	 * Courier_AJAX constructor.
+	 * Register the hooks and filters
+	 *
+	 * @since 1.0
 	 */
-	function register_actions() {
+	public function register_actions() {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'template_redirect', array( $this, 'template_redirect' ) );
 		add_action( 'template_redirect', array( $this, 'template_redirect_admin' ) );
@@ -22,6 +25,8 @@ class Ajax {
 
 	/**
 	 * Register our endpoint for Courier AJAX requests
+	 *
+	 * @since 1.0
 	 */
 	public function init() {
 		add_rewrite_tag( '%courier_notice_id%', '([0-9]+)' );
@@ -36,6 +41,8 @@ class Ajax {
 
 	/**
 	 * Detect and handle Courier AJAX requests
+	 *
+	 * @since 1.0
 	 */
 	public function template_redirect() {
 		global $wp_query;
@@ -78,6 +85,8 @@ class Ajax {
 
 	/**
 	 * Perform a user search for assigning a notice to a user.
+	 *
+	 * @since 1.0
 	 */
 	public function template_redirect_admin() {
 		if ( ! current_user_can( 'edit_posts' ) ) {

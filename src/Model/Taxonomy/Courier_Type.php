@@ -1,39 +1,53 @@
 <?php
+/**
+ * Courier Type Taxonomy Model
+ *
+ * @package Courier\Model\Taxonomy
+ */
+
 namespace Courier\Model\Taxonomy;
 
 use \Courier\Model\Config;
 
 /**
- * Class Courier_Type
- * @package Courier\Model\Taxonomy
+ * Courier_Type Class
  */
 class Courier_Type {
 
 	/**
+	 * Configuration
+	 *
 	 * @var Config
 	 */
 	private $config;
 
 	/**
+	 * Courier type name
+	 *
 	 * @var string
 	 */
 	public $name = 'courier_type';
 
 	/**
-	 * @var array|mixed|void
+	 * Labels
+	 *
+	 * @var array
 	 */
 	private $labels = array();
 
 	/**
-	 * @var array|mixed|void
+	 * Arguments
+	 *
+	 * @var array
 	 */
 	private $args = array();
 
 	/**
-	 * Courier_Status constructor.
+	 * Courier_Type constructor.
 	 *
+	 * @since 1.0
 	 */
-	function __construct() {
+	public function __construct() {
 		$this->config = new Config();
 
 		$default_labels = array(
@@ -85,7 +99,11 @@ class Courier_Type {
 	}
 
 	/**
-	 * @return array|mixed|void
+	 * Returns the arguments
+	 *
+	 * @since 1.0
+	 *
+	 * @return array
 	 */
 	public function get_args() {
 		return $this->args;

@@ -1,10 +1,14 @@
 <?php
+/**
+ * GravityForms Controller.
+ *
+ * @package Courier\Controller
+ */
 
 namespace Courier\Controller;
 
 /**
  * Class GravityForms
- * @package Courier\Controller
  */
 class GravityForms {
 
@@ -13,38 +17,44 @@ class GravityForms {
 	 */
 
 	/**
+	 * Sub-setting open
+	 *
 	 * @var string
 	 */
 	private $subsetting_open = '<td colspan="2" class="gf_sub_settings_cell"><div class="gf_animate_sub_settings"><table style="width:100%"><tr>';
 
 	/**
+	 * Sub-setting close
+	 *
 	 * @var string
 	 */
 	private $subsetting_close = '</tr></table></div></td>';
 
 	/**
-	 * GravityForms constructor.
+	 * GravityForms constructor
+	 *
+	 * @since 1.0
 	 */
 	public function __construct() {
-		add_filter( 'gform_confirmation_ui_settings', array( $this, 'gform_confirmation_ui_settings' ), 10, 3 );
-		add_filter( 'gform_pre_confirmation_save', array( $this, 'gform_pre_confirmation_save' ), 10, 2 );
+		add_action( 'admin_print_scripts', array( $this, 'admin_print_scripts' ), 999 );
 
+		add_filter( 'gform_confirmation_ui_settings', array( $this, 'gform_confirmation_ui_settings' ), 10, 2 );
+		add_filter( 'gform_pre_confirmation_save', array( $this, 'gform_pre_confirmation_save' ) );
 		add_filter( 'gform_pre_submission_filter', array( $this, 'gform_pre_submission_filter' ) );
 		add_filter( 'gform_confirmation', array( $this, 'gform_confirmation' ), 10, 4 );
-
-		add_action( 'admin_print_scripts', array( $this, 'admin_print_scripts' ), 999 );
 	}
 
 	/**
 	 * Add a Courier option to the confirmation area.
 	 *
-	 * @param $ui_settings
-	 * @param $confirmation
-	 * @param $form
+	 * @since 1.0
+	 *
+	 * @param array $ui_settings  The Settings page markup.
+	 * @param array $confirmation Contains the confirmation details.
 	 *
 	 * @return mixed
 	 */
-	public function gform_confirmation_ui_settings( $ui_settings, $confirmation, $form ) {
+	public function gform_confirmation_ui_settings( $ui_settings, $confirmation ) {
 
 		$confirmation_type = rgar( $confirmation, 'type' ) ? rgar( $confirmation, 'type' ) : 'message';
 
@@ -62,12 +72,12 @@ class GravityForms {
 
 		$ui_settings['confirmation_type'] = str_replace( '</td>', $courier_radio, $ui_settings['confirmation_type'] );
 
-		// Add Courier notice setting container
+		// Add Courier notice setting container.
 		ob_start();
-	?>
+		?>
 
-		<tr id="form_confirmation_courier_container" <?php echo $confirmation_type != 'courier' ? 'style="display:none;"' : ''; ?> >
-			<?php echo $this->subsetting_open; ?>
+		<tr id="form_confirmation_courier_container" <?php echo 'courier' !== $confirmation_type ? 'style="display:none;"' : ''; ?> >
+			<?php echo $this->subsetting_open; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<th><?php esc_html_e( 'Courier Notice', 'courier' ); ?></th>
 			<td>
 				<span class="mt-form_confirmation_courier"></span>
@@ -82,11 +92,11 @@ class GravityForms {
 					);
 				?>
 			</td>
-			<?php echo $this->subsetting_close; // WPCS ok. ?>
+			<?php echo $this->subsetting_close; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</tr>
 
-		<tr id="form_confirmation_courier_page_container" <?php echo 'courier' !== $confirmation_type ? 'style="display:none;"' : '' ?>>
-			<?php echo $this->subsetting_open; ?>
+		<tr id="form_confirmation_courier_page_container" <?php echo 'courier' !== $confirmation_type ? 'style="display:none;"' : ''; ?>>
+			<?php echo $this->subsetting_open; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<th><?php esc_html_e( 'Redirect Page', 'gravityforms' ); ?></th>
 			<td>
 				<?php
@@ -99,7 +109,7 @@ class GravityForms {
 				);
 				?>
 			</td>
-			<?php echo $this->subsetting_close; // @todo does this need to be sanitized? ?>
+			<?php echo $this->subsetting_close; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</tr>
 
 		<?php
@@ -118,12 +128,13 @@ class GravityForms {
 	/**
 	 * Save a Courier Confirmation data.
 	 *
-	 * @param $confirmation
-	 * @param $form
+	 * @since 1.0
+	 *
+	 * @param array $confirmation The confirmation details.
 	 *
 	 * @return mixed
 	 */
-	public function gform_pre_confirmation_save( $confirmation, $form ) {
+	public function gform_pre_confirmation_save( $confirmation ) {
 		$type = rgpost( 'form_confirmation' );
 		$page = rgpost( 'form_courier_page' );
 
@@ -149,7 +160,10 @@ class GravityForms {
 	/**
 	 * Provide a custom function for changing confirmation type.
 	 *
-	 * This is copied from Gravity Forms. We need this because the options are hard coded, not allowing dynamic addition of confirmation types.
+	 * This is copied from Gravity Forms. We need this because the options are hard coded, not allowing dynamic addition
+	 * of confirmation types.
+	 *
+	 * @since 1.0
 	 */
 	public function admin_print_scripts() {
 		$current_screen = get_current_screen();
@@ -172,37 +186,37 @@ class GravityForms {
 						isPage      = $("#form_confirmation_show_page").is(":checked"),
 						isCourier   = $("#form_confirmation_courier").is(":checked");
 
-					if ( isRedirect ) {
-                        showElement = ".form_confirmation_redirect_container";
-                        hideElement = "#form_confirmation_message_container, .form_confirmation_page_container, #form_confirmation_courier_container, #form_confirmation_courier_page_container";
-                        ClearConfirmationSettings(['text', 'page']);
-                    } else if( isPage ) {
-                        showElement = ".form_confirmation_page_container";
-                        hideElement = "#form_confirmation_message_container, .form_confirmation_redirect_container, #form_confirmation_courier_container, #form_confirmation_courier_page_container";
-                        ClearConfirmationSettings(['text', 'redirect']);
-                    } else if( isCourier ) {
-                        showElement = "#form_confirmation_courier_container, #form_confirmation_courier_page_container";
-                        hideElement = "#form_confirmation_message_container, .form_confirmation_redirect_container, .form_confirmation_page_container";
-                        ClearConfirmationSettings(['text', 'courier']);
-                    } else {
-                        showElement = "#form_confirmation_message_container";
-                        hideElement = ".form_confirmation_page_container, .form_confirmation_redirect_container, #form_confirmation_courier_container, #form_confirmation_courier_page_container";
-                        ClearConfirmationSettings(['page', 'redirect']);
-                    }
+					if (isRedirect) {
+						showElement = ".form_confirmation_redirect_container";
+						hideElement = "#form_confirmation_message_container, .form_confirmation_page_container, #form_confirmation_courier_container, #form_confirmation_courier_page_container";
+						ClearConfirmationSettings(['text', 'page']);
+					} else if (isPage) {
+						showElement = ".form_confirmation_page_container";
+						hideElement = "#form_confirmation_message_container, .form_confirmation_redirect_container, #form_confirmation_courier_container, #form_confirmation_courier_page_container";
+						ClearConfirmationSettings(['text', 'redirect']);
+					} else if (isCourier) {
+						showElement = "#form_confirmation_courier_container, #form_confirmation_courier_page_container";
+						hideElement = "#form_confirmation_message_container, .form_confirmation_redirect_container, .form_confirmation_page_container";
+						ClearConfirmationSettings(['text', 'courier']);
+					} else {
+						showElement = "#form_confirmation_message_container";
+						hideElement = ".form_confirmation_page_container, .form_confirmation_redirect_container, #form_confirmation_courier_container, #form_confirmation_courier_page_container";
+						ClearConfirmationSettings(['page', 'redirect']);
+					}
 
-                    ToggleQueryString();
-                    TogglePageQueryString();
+					ToggleQueryString();
+					TogglePageQueryString();
 
-                    $(hideElement).hide();
-                    $(showElement).show();
-                };
+					$(hideElement).hide();
+					$(showElement).show();
+				};
 
-                setTimeout( function() {
-                    $('#form_confirmation_courier_container').detatch().insertAfter( '#form_confirmation_redirect_container' );
+				setTimeout(function () {
+					$('#form_confirmation_courier_container').detatch().insertAfter('#form_confirmation_redirect_container');
 
-                    courier.gforms.toggleConfirmation();
-                }, 300 );
-            });
+					courier.gforms.toggleConfirmation();
+				}, 300);
+			});
 		</script>
 		<?php
 	}
@@ -210,12 +224,14 @@ class GravityForms {
 	/**
 	 * If a user is not logged in, change the confirmation type to a default message if the form uses Courier Notice.
 	 *
-	 * @param $form
+	 * @since 1.0
+	 *
+	 * @param array $form The form being submitted.
 	 *
 	 * @return mixed
 	 */
-	function gform_pre_submission_filter( $form ) {
-		if ( 'courier' != $form['confirmation']['type'] ) {
+	public function gform_pre_submission_filter( $form ) {
+		if ( 'courier' !== $form['confirmation']['type'] ) {
 			return $form;
 		}
 
@@ -245,10 +261,12 @@ class GravityForms {
 	/**
 	 * Filter form confirmations to work appropriately for Courier notices.
 	 *
-	 * @param $confirmation
-	 * @param $form
-	 * @param $entry
-	 * @param $is_ajax
+	 * @since 1.0
+	 *
+	 * @param string $confirmation Confirmation URL.
+	 * @param array  $form         Form object.
+	 * @param array  $entry        The Entry Object.
+	 * @param bool   $is_ajax      If AJAX is being used.
 	 *
 	 * @return mixed
 	 */
@@ -258,7 +276,7 @@ class GravityForms {
 			return $confirmation;
 		}
 
-		// Courier notice data
+		// Courier notice data.
 		$notice = array(
 			// translators: %s Form Title.
 			'post_title'   => sprintf( __( '%s Submission' ), esc_html( $form['title'] ) ),
@@ -290,13 +308,16 @@ class GravityForms {
 	/**
 	 * Perform a front end redirect on successful submission.
 	 *
-	 * @param $url
-	 * @param $ajax
+	 * @since 1.0
+	 *
+	 * @param string $url  The redirect URL.
+	 * @param bool   $ajax If AJAX is being used.
 	 *
 	 * @return string
 	 */
 	public function get_js_redirect_confirmation( $url, $ajax ) {
-		$confirmation = "<script type=\"text/javascript\">" . apply_filters( 'gform_cdata_open', '' ) . " function gformRedirect(){document.location.href='$url';}";
+		$confirmation = '<script type="text/javascript">' . apply_filters( 'gform_cdata_open', '' ) . ' function gformRedirect(){document.location.href="$url";}';
+
 		if ( ! $ajax ) {
 			$confirmation .= 'gformRedirect();';
 		}

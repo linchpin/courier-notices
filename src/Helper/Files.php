@@ -1,18 +1,26 @@
 <?php
+/**
+ * File Helpers
+ *
+ * @package Courier\Helpers
+ */
 
 namespace Courier\Helper;
 
 /**
- * Class Files
- * @package Courier\Helper
+ * Files Class
  */
 class Files {
 
 	/**
-	 * @param     $pattern
-	 * @param int $flags
+	 * Recursive version of the PHP glob function.
 	 *
-	 * @return array|false
+	 * @since 1.0
+	 *
+	 * @param string $pattern Specifies the pattern to search for.
+	 * @param int    $flags   Specifies special settings.
+	 *
+	 * @return array|false Array of filenames or directories matching a specified pattern
 	 */
 	public static function glob_recursive( $pattern, $flags = 0 ) {
 		$files = glob( $pattern, $flags );
