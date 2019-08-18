@@ -1,26 +1,35 @@
 <?php
+/**
+ * Placement Controller.
+ *
+ * @package Courier\Controller
+ */
 
 namespace Courier\Controller;
 
 /**
- * Class Placement
- * @package Courier\Controller
+ * Placement Class
  */
 class Placement {
 
 	/**
-	 * Register our actions for where notifications will be placed.
+	 * Registers our actions for where notifications will be placed.
+	 *
+	 * @since 1.0
 	 */
 	public function register_actions() {
 		add_action( 'wp_body_open', array( __CLASS__, 'place_header_notices' ), 100 );
+
 		add_filter( 'get_footer', array( __CLASS__, 'place_footer_notices' ), 100 );
 		add_filter( 'get_footer', array( __CLASS__, 'place_modal_notices' ), 100 );
 	}
 
 	/**
-	 * Place all of our header notifications
+	 * Places all of our header notifications
+	 *
+	 * @since 1.0
 	 */
-	public static function place_header_notices( $header ) {
+	public static function place_header_notices() {
 		courier_display_notices(
 			array(
 				'placement' => 'header',
@@ -29,9 +38,11 @@ class Placement {
 	}
 
 	/**
-	 * Place all of our footer notifications
+	 * Places all of our footer notifications
+	 *
+	 * @since 1.0
 	 */
-	public static function place_footer_notices( $footer ) {
+	public static function place_footer_notices() {
 		courier_display_notices(
 			array(
 				'placement' => 'footer',
@@ -39,7 +50,12 @@ class Placement {
 		);
 	}
 
-	public static function place_modal_notices( $footer ) {
+	/**
+	 * Places all of our modal notices
+	 *
+	 * @since 1.0
+	 */
+	public static function place_modal_notices() {
 		courier_display_modals();
 	}
 }

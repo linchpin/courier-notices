@@ -1,28 +1,37 @@
 <?php
+/**
+ * View functionality
+ *
+ * @package Courier\Core
+ */
 
 namespace Courier\Core;
 
 /**
- * Class View
- * @package Courier\Core
+ * View Class
  */
 class View {
 	/**
-	 * Variables for substitution in templates.
+	 * Variables for substitution in templates
 	 *
 	 * @var array
 	 */
 	protected $variables = array();
 
 	/**
-	 * View constructor.
-	 * * @param null $config
+	 * View constructor
+	 *
+	 * @since 1.0
+	 *
+	 * @param null $config The configuration.
 	 */
 	public function __construct( $config = null ) {
 	}
 
 	/**
-	 * Load all assets on boot-up.
+	 * Load all assets on boot-up
+	 *
+	 * @since 1.0
 	 *
 	 * @return void
 	 */
@@ -30,10 +39,12 @@ class View {
 	}
 
 	/**
-	 * Render HTML file.
+	 * Render HTML file
 	 *
-	 * @param string $file     File to get HTML string
-	 * @param string $view_dir View directory
+	 * @since 1.0
+	 *
+	 * @param string $file     File to get HTML string.
+	 * @param string $view_dir View directory.
 	 *
 	 * @return void
 	 */
@@ -56,8 +67,10 @@ class View {
 	/**
 	 * Assign variable for substitution in templates.
 	 *
-	 * @param string $variable Name variable to assign
-	 * @param mixed  $value    Value variable for assign
+	 * @since 1.0
+	 *
+	 * @param string $variable Name variable to assign.
+	 * @param mixed  $value    Value variable for assign.
 	 *
 	 * @return void
 	 */
@@ -67,10 +80,12 @@ class View {
 
 
 	/**
-	 * Get HTML from file.
+	 * Get HTML from file
 	 *
-	 * @paramg string $file File to get HTML string
-	 * @param string $view_dir View directory
+	 * @since 1.0
+	 *
+	 * @param string $file File to get HTML string.
+	 * @param string $view_dir View directory.
 	 *
 	 * @return string $html HTML output as string
 	 */
@@ -99,6 +114,8 @@ class View {
 
 	/**
 	 * Reset the variables
+	 *
+	 * @since 1.0
 	 */
 	protected function init_assignments() {
 		$this->variables = array();

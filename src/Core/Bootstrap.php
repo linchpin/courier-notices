@@ -1,27 +1,37 @@
 <?php
+/**
+ * Bootstrap the plugin
+ *
+ * @package Courier\Core
+ */
 namespace Courier\Core;
 
 use \Courier\Model\Config;
 use \Courier\Helper\Files;
 
 /**
- * Class Bootstrap
- * @package Courier\Core
+ * Bootstrap Class
  */
 class Bootstrap {
 
 	/**
+	 * Config
+	 *
 	 * @var array|Config
 	 */
 	private $config = array();
 
 	/**
+	 * Controllers
+	 *
 	 * @var array
 	 */
 	private $controllers = array();
 
 	/**
-	 * Bootstrap constructor.
+	 * Bootstrap constructor
+	 *
+	 * @since 1.0
 	 */
 	public function __construct() {
 		$this->config = new Config();
@@ -29,6 +39,8 @@ class Bootstrap {
 
 	/**
 	 * Run the bootstrap
+	 *
+	 * @since 1.0
 	 */
 	public function run() {
 
@@ -50,6 +62,8 @@ class Bootstrap {
 	/**
 	 * Loop over all php files in the Controllers directory and add them to
 	 * the $controllers array
+	 *
+	 * @since 1.0
 	 */
 	private function load_controllers() {
 		$namespace = $this->config->get( 'namespace' );
@@ -57,14 +71,16 @@ class Bootstrap {
 		foreach ( Files::glob_recursive( $this->config->get( 'plugin_path' ) . 'src/Controller/*.php' ) as $file ) {
 			preg_match( '/\/Controller\/(.+)\.php/', $file, $matches, PREG_OFFSET_CAPTURE );
 			$name  = str_replace( '/', '\\', $matches[1][0] );
-			$class = "\\" . $namespace . "\\Controller\\" . $name;
+			$class = '\\' . $namespace . '\\Controller\\' . $name;
 
-			$this->controllers[ $name ] = new $class;
+			$this->controllers[ $name ] = new $class();
 		}
 	}
 
 	/**
 	 * Initialize and Register any of our actions.
+	 *
+	 * @since 1.0
 	 */
 	private function register_actions() {
 		foreach ( $this->controllers as $name => $class ) {

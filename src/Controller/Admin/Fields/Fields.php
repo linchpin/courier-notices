@@ -1,4 +1,9 @@
 <?php
+/**
+ * Fields Class
+ *
+ * @package Courier\Controller\Admin\Fields
+ */
 
 namespace Courier\Controller\Admin\Fields;
 
@@ -18,25 +23,27 @@ if ( ! function_exists( 'add_action' ) ) {
  */
 
 /**
- * Class Fields
- * @package Courier\Controller\Admin\Fields
+ * Fields Class
  */
 class Fields {
 
 	/**
-	 * @var
+	 * Instance of Type_List_Table
+	 *
+	 * @var Type_List_Table
 	 */
 	private static $type_list_table;
 
 	/**
 	 * FIELD CONTROLS
 	 *
-	 * Below you will find all field control.
+	 * Below you will find all field controls.
 	 */
 
 	/**
-	 * Build out our settings fields as needed.
-	 * Echos our field html.
+	 * Build out our settings fields as needed
+	 *
+	 * Echos our field html
 	 *
 	 * @since 1.0
 	 *
@@ -117,14 +124,14 @@ class Fields {
 					$selected = selected( $option['value'], $args['default'], false );
 				}
 				?>
-				<option value="<?php echo esc_attr( $option['value'] ); ?>" <?php echo $selected; // XSS Okay. ?>><?php echo esc_html( $option['label'] ); ?></option>
+				<option value="<?php echo esc_attr( $option['value'] ); ?>" <?php echo $selected; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html( $option['label'] ); ?></option>
 			<?php endforeach; ?>
 		</select>
 		<?php
 	}
 
 	/**
-	 * Create a checkbox field.
+	 * Create a checkbox field
 	 *
 	 * @since 1.0
 	 *
@@ -172,7 +179,7 @@ class Fields {
 	 *
 	 * @since 1.0
 	 *
-	 * @param $args
+	 * @param array $args Array of arguments.
 	 */
 	public static function add_table( $args ) {
 
@@ -188,10 +195,7 @@ class Fields {
 
 		// Parse incoming $args into an array and merge it with $defaults.
 		$args = wp_parse_args( $args, $defaults );
-		/* ?>
 
-		<label for="<?php echo esc_attr( $args['id'] ); ?>"><?php echo esc_html( $args['label'] ); ?></label>
-		<?php */
 		self::$type_list_table = new Type_List_Table();
 		self::$type_list_table->prepare_items();
 
@@ -203,7 +207,9 @@ class Fields {
 		<div class="wrap">
 			<div id="nds-post-body">
 				<form id="nds-user-list-form" method="get">
-					<input type="hidden" name="page" value="<?php echo esc_attr( (int) $_REQUEST['page'] ); ?>" />
+					<?php if ( isset( $_REQUEST['page'] ) ) : // phpcs:ignore WordPress.Security.NonceVerification ?>
+						<input type="hidden" name="page" value="<?php echo esc_attr( (int) $_REQUEST['page'] ); // phpcs:ignore WordPress.Security.NonceVerification ?>" />
+					<?php endif; ?>
 					<?php self::$type_list_table->search_box( esc_html__( 'Find', 'courier' ), 'courier-find-type' ); ?>
 					<?php self::$type_list_table->display(); ?>
 				</form>

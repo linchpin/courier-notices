@@ -1,4 +1,10 @@
 <?php
+/**
+ * Control all of our plugin Settings
+ *
+ * @since   1.0
+ * @package Courier\Controller\Admin\Settings
+ */
 
 namespace Courier\Controller\Admin\Settings;
 
@@ -11,21 +17,14 @@ if ( ! function_exists( 'add_action' ) ) {
 }
 
 /**
- * Control all of our plugin Settings
- *
- * @since      1.0
- * @package    Courier
- * @subpackage Settings
- */
-
-/**
- * Class GravityForms
- * @package Courier\Controller\Admin\Settings
+ * GravityForms Class
  */
 class GravityForms {
 
 	/**
 	 * Define our settings page
+	 *
+	 * @since 1.0
 	 *
 	 * @var string
 	 */
@@ -34,6 +33,8 @@ class GravityForms {
 	/**
 	 * Give our plugin a name
 	 *
+	 * @since 1.0
+	 *
 	 * @var string
 	 */
 	public static $plugin_name = COURIER_PLUGIN_NAME;
@@ -41,7 +42,7 @@ class GravityForms {
 	/**
 	 * Initialize our plugin settings.
 	 *
-	 * @since 1.0.0
+	 * @since 1.0
 	 */
 	public function register_actions() {
 		add_filter( 'courier_settings_tabs', array( $this, 'add_gravityforms_tab' ), 10, 1 );
@@ -52,8 +53,11 @@ class GravityForms {
 	/**
 	 * Add Settings Tab for Gravity Forms Integration
 	 *
-	 * @since    1.0
-	 * @return   array $tabs Settings tabs
+	 * @since 1.0
+	 *
+	 * @param array $tabs The tabs to add.
+	 *
+	 * @return array $tabs Settings tabs
 	 */
 	public function add_gravityforms_tab( $tabs ) {
 		$tabs['addons']['sub_tabs']['gravityforms'] = array(
@@ -85,6 +89,10 @@ class GravityForms {
 	}
 
 	/**
+	 * Get forms
+	 *
+	 * @since 1.0
+	 *
 	 * @return array
 	 */
 	public static function get_forms() {

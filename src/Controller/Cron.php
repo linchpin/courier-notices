@@ -1,14 +1,20 @@
 <?php
+/**
+ * Cron Controller.
+ *
+ * @package Courier\Controller
+ */
 
 namespace Courier\Controller;
 
 /**
- * Class Cron
- * @package Courier\Controller
+ * Cron Class
  */
 class Cron {
 	/**
 	 * Courier_Cron constructor.
+	 *
+	 * @since 1.0
 	 */
 	public function register_actions() {
 
@@ -23,6 +29,8 @@ class Cron {
 
 	/**
 	 * Delete Courier notices that are older than 6 months.
+	 *
+	 * @since 1.0
 	 */
 	public function courier_purge() {
 		$args = array(
@@ -54,6 +62,8 @@ class Cron {
 
 	/**
 	 * Expire notices if their expiration date has passed.
+	 *
+	 * @since 1.0
 	 */
 	public function courier_expire() {
 		$args = array(
