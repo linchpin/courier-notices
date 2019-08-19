@@ -22,10 +22,10 @@ PATHS:
   dist: ""
   # Paths to static assets that aren't images, CSS, or JavaScript
   assets:
-    - "assets/**/*"
-    - "!assets/{img,js,scss}/**/*"
+    - "assets/fonts/*"
+    - "!assets/{img,js,scss,css}/**/*"
   # Paths to JavaScript entry points for webpack to bundle modules
   entries:
-    - "assets/js/admin.js"
+    - "assets/js/courier-admin.js"
 
 LOCAL_PATH: "http://courier.test"

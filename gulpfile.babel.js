@@ -2,7 +2,6 @@
 
 var plugins       = require('gulp-load-plugins');
 var yargs         = require('yargs');
-var browser       = require('browser-sync');
 var gulp          = require('gulp');
 var rimraf        = require('rimraf');
 var yaml          = require('js-yaml');
@@ -44,7 +43,6 @@ let webpackConfig = {
     },
     externals: {
         jquery: 'jQuery',
-        'jquery-ui': 'jquery-ui',
     },
     devtool: ! PRODUCTION && 'source-map'
 };
@@ -73,11 +71,11 @@ function setProductionMode(done) {
 // Build the "dist" folder by running all of the below tasks
 // Sass must be run later so UnCSS can search for used classes in the others assets.
 gulp.task('build:production',
-    gulp.series(setProductionMode, clean, javascript, sass)); // removed copy from (javascript, images, copy)
+    gulp.series(setProductionMode, clean, javascript, sass, copy)); // removed copy from (javascript, images, copy)
 
 // Build the site, run the server, and watch for file changes
 gulp.task('default',
-    gulp.series(clean, javascript, sass, gulp.parallel(watch))); // removed server from middle
+    gulp.series(clean, javascript, sass, copy, gulp.parallel(watch))); // removed server from middle
 
 // This happens every time a build starts
 function clean(done) {
@@ -89,19 +87,19 @@ function clean(done) {
 // This task skips over the "img", "js", and "scss" folders, which are parsed separately
 function copy() {
     return gulp.src(PATHS.assets)
-        .pipe(gulp.dest('other/assets'));
+        .pipe( gulp.dest('css/fonts'));
 }
 
 // In production, the CSS is compressed
 function sass() {
-
+/*
     const postCssPlugins = [
         // Autoprefixer
         autoprefixer({ browsers: COMPATIBILITY }),
 
         // UnCSS - Uncomment to remove unused styles in production
         // PRODUCTION && uncss.postcssPlugin(UNCSS_OPTIONS),
-    ].filter(Boolean);
+    ].filter(Boolean); */
 
     return gulp.src('assets/scss/*.scss')
         .pipe($.sourcemaps.init())
@@ -109,9 +107,9 @@ function sass() {
             includePaths: PATHS.sass
         })
             .on('error', $.sass.logError))
-        .pipe($.postcss(postCssPlugins))
-        .pipe($.if(sassConfig.production, $.cleanCss({ compatibility: 'ie10' })))
-        .pipe($.if(!sassConfig.production, $.sourcemaps.write()))
+      //  .pipe($.postcss(postCssPlugins))
+      //  .pipe($.if(sassConfig.production, $.cleanCss({ compatibility: 'ie10' })))
+      //  .pipe($.if(!sassConfig.production, $.sourcemaps.write()))
         .pipe(gulp.dest('css'));
 }
 
@@ -131,7 +129,7 @@ function javascript() {
 
 // Watch for changes to static assets, Sass, and JavaScript
 function watch() {
-    // gulp.watch(PATHS.assets, copy);
-    gulp.watch('assets/scss/**/*.scss').on('all', sass);
+    gulp.watch('assets/scss/**/*.scss').on('all', sass );
     gulp.watch('assets/js/**/*.js').on('all', gulp.series(javascript));
+    gulp.watch( PATHS.assets, copy );
 }

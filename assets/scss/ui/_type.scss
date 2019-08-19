@@ -11,15 +11,64 @@
 
 // Courier logo font icon. Can be used anywhere in the WordPress admin
 @font-face {
-	font-family: 'coureir';
-	src:  url('fonts/courier.eot?2cd9aa');
-	src:  url('fonts/courier.eot?2cd9aa#iefix') format('embedded-opentype'),
-	url('fonts/courier.ttf?2cd9aa') format('truetype'),
-	url('fonts/courier.woff?2cd9aa') format('woff'),
-	url('fonts/courier.svg?2cd9aa#courier') format('svg');
-	font-weight: normal;
-	font-style: normal;
+  font-family: '#{$icomoon-font-family}';
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?ejncdb');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?ejncdb#iefix') format('embedded-opentype'),
+  url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff2?ejncdb') format('woff2'),
+  url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?ejncdb') format('truetype'),
+  url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?ejncdb') format('woff'),
+  url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?ejncdb##{$icomoon-font-family}') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: '#{$icomoon-font-family}' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-success {
+  &:before {
+	content: $icon-success;
+  }
+}
+.icon-warning {
+  &:before {
+	content: $icon-warning;
+  }
+}
+
+.icon-info {
+  &:before {
+	content: $icon-info;
+  }
+}
+.icon-error {
+  &:before {
+	content: $icon-error;
+  }
+}
+.icon-alert {
+  &:before {
+	content: $icon-alert;
+  }
+}
+.icon-feedback {
+  &:before {
+	content: $icon-feedback;
+  }
+}
+
 // Apply the courier font icon to the menu icon
 .dashicons-courier-logo:before,
 .icon-courier:before {
@@ -119,7 +168,6 @@
 		float: right;
 	}
 
-
 	// 03. Buttons/Links
 	a {
 		cursor: pointer;
@@ -157,7 +205,6 @@
 
 		&.dashicons-before:before {
 			vertical-align: middle;
-
 		}
 	}
 
@@ -207,11 +254,5 @@
 
 	.nowrap {
 		white-space: nowrap;
-	}
-}
-
-#courier-notice-welcome-panel {
-	.welcome-icon:before {
-		vertical-align: middle;
 	}
 }

@@ -85,7 +85,7 @@ class Admin {
 				} else {
 					$user = get_userdata( $post->post_author );
 
-					echo esc_html( $user->display_name );
+					echo '<span class="dashicons dashicons-admin-users"></span> ' . esc_html( $user->display_name );
 				}
 				break;
 			case 'courier-summary':
@@ -179,13 +179,14 @@ class Admin {
 
 		wp_enqueue_script(
 			'courier-admin',
-			COURIER_PLUGIN_URL . 'assets/js/admin.js',
-			array( 'jquery',
-				   'jquery-ui-core',
-				   'jquery-ui-autocomplete',
-				   'jquery-ui-datepicker',
-				   'jquery-ui-tooltip',
-				   'wp-color-picker'
+			COURIER_PLUGIN_URL . 'js/courier-admin.js',
+			array(
+				'jquery',
+				'jquery-ui-core',
+				'jquery-ui-autocomplete',
+				'jquery-ui-datepicker',
+				'jquery-ui-tooltip',
+				'wp-color-picker',
 			),
 			COURIER_VERSION,
 			true
@@ -257,7 +258,12 @@ class Admin {
 		}
 
 		wp_enqueue_style( 'wp-color-picker' );
-		wp_enqueue_style( 'courier-admin', COURIER_PLUGIN_URL . 'assets/css/admin.css', array(), COURIER_VERSION );
+		wp_enqueue_style(
+			'courier-admin',
+			COURIER_PLUGIN_URL . 'css/admin-courier.css',
+			array(),
+			COURIER_VERSION
+		);
 	}
 
 	/**

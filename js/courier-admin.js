@@ -86,23 +86,25 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./assets/js/admin.js":
-/*!****************************!*\
-  !*** ./assets/js/admin.js ***!
-  \****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./assets/js/admin/core.js":
+/*!*********************************!*\
+  !*** ./assets/js/admin/core.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return core; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 /*! jQuery Timepicker Addon - v1.6.3 - 2016-04-20
  * http://trentrichardson.com/examples/timepicker
  * Copyright (c) 2016 Trent Richardson; Licensed MIT */
 !function (a) {
-   true ? !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "jquery"), __webpack_require__(/*! jquery-ui */ "jquery-ui")], __WEBPACK_AMD_DEFINE_FACTORY__ = (a),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : undefined;
+  "function" == typeof define && __webpack_require__(/*! !webpack amd options */ "./node_modules/webpack/buildin/amd-options.js") ? define(["jquery", "jquery-ui"], a) : a(jquery__WEBPACK_IMPORTED_MODULE_0___default.a);
 }(function ($) {
   if ($.ui.timepicker = $.ui.timepicker || {}, !$.ui.timepicker.version) {
     $.extend($.ui, {
@@ -1153,222 +1155,317 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     }), $.timepicker.version = "1.6.3";
   }
 });
-var courier = courier || {};
-courier.admin = courier.admin || {};
 
-courier.admin = function ($) {
+var $ = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
+function core() {
   var $doc = $(document),
       $body = $('body'),
       self,
       $courier_recipient = $("#courier_recipient_field"),
       localized_data;
-  return {
-    /**
-     * Initialize our dismiss
-     * Add our events
-     */
-    init: function init() {
-      self = courier.admin;
-      localized_data = courier_admin_data;
-      $('#courier_expire_date').datetimepicker({
-        minDate: 0,
-        controlType: 'select',
-        timeFormat: 'hh:mm tt',
-        dateFormat: 'MM dd, yy',
-        oneLine: true,
-        // firstDay: 0,
-        afterInject: function afterInject() {
-          $('button.ui-datepicker-current').addClass('button button-secondary');
-          $('button.ui-datepicker-close').addClass('right button button-primary');
-        }
-      });
+  init();
+  /**
+   * Initialize our dismiss
+   * Add our events
+   */
 
-      if ('courier_notice' === localized_data.post_type) {
-        $doc.on('ready', self.populate_status);
-        $('#courier_scope').on('change', $body, self.toggle_global);
+  function init() {
+    localized_data = courier_admin_data;
+    $('#courier_expire_date').datetimepicker({
+      minDate: 0,
+      controlType: 'select',
+      timeFormat: 'hh:mm tt',
+      dateFormat: 'MM dd, yy',
+      oneLine: true,
+      // firstDay: 0,
+      afterInject: function afterInject() {
+        $('button.ui-datepicker-current').addClass('button button-secondary');
+        $('button.ui-datepicker-close').addClass('right button button-primary');
       }
+    });
 
-      $courier_recipient.autocomplete({
-        minLength: 3,
-        source: function source(request, response) {
-          $.ajax({
-            url: courier_admin_data.user_endpoint + request.term + '/',
-            dataType: "json",
-            success: function success(data) {
-              response(data);
-            }
-          });
-        },
-        focus: function focus(event, ui) {
-          if ($courier_recipient.is(':visible')) {
-            $courier_recipient.val(ui.item.display_name);
+    if ('courier_notice' === localized_data.post_type) {
+      $doc.on('ready', populate_status);
+      $('#courier_scope').on('change', $body, toggle_global);
+    }
+
+    $courier_recipient.autocomplete({
+      minLength: 3,
+      source: function source(request, response) {
+        $.ajax({
+          url: courier_admin_data.user_endpoint + request.term + '/',
+          dataType: "json",
+          success: function success(data) {
+            response(data);
           }
-
-          return false;
-        },
-        select: function select(event, ui) {
-          if ($courier_recipient.is(':visible')) {
-            $courier_recipient.val(ui.item.display_name);
-          }
-
-          $("#post_author_override").val(ui.item.ID);
-          return false;
+        });
+      },
+      focus: function focus(event, ui) {
+        if ($courier_recipient.is(':visible')) {
+          $courier_recipient.val(ui.item.display_name);
         }
-      }).autocomplete("instance")._renderItem = function (ul, item) {
-        /**
-         * Build our dropdown structure. use text to strip html from display
-         * @type {*}
-         */
-        var $a = $('<a><span class="courier-display-name"></span><br><span class="courier-user-email"></span></a>');
-        $a.find('.courier-display-name').text(item.display_name);
-        $a.find('.courier-user-email').text(item.user_email);
-        return $('<li>').append($a).appendTo(ul);
-      };
 
-      $body.on('click', '.editinline', self.quick_edit_populate_status).on('click', '.courier-reactivate-notice', self.reactivate_notice).on('click', '.copy-text', self.copy_text).on('focus', '#courier-shortcode', function () {
-        $('#courier-shortcode').select();
-      }); // Setup type edit screen js within settings.
-
-      self.setup_type_editing();
-      $('.courier-info-icon').tooltip();
-    },
-
-    /**
-     * When the page loads, push our custom post status into the post status select.
-     * If that is the current status of the post, select it and push the text to the on screen label.
-     */
-    populate_status: function populate_status() {
-      var $option = $('<option />').val('courier_expired').text(localized_data.strings.label);
-
-      if (localized_data.post_status === 'courier_expired') {
-        $('#post-status-display').text(localized_data.strings.expired);
-        $option.attr('selected', 'selected');
-      }
-
-      $('#post_status').append($option);
-    },
-
-    /**
-     * When a notice is marked as global, the current user needs to be the author.
-     * When a notice is not global, then it can be assigned to the selected user.
-     */
-    toggle_global: function toggle_global() {
-      var $this = $(this),
-          $author_select = $('#courier_recipient_field'),
-          $author_value = $('#post_author_override'),
-          $author_container = $('#courier-author-container');
-
-      if ($this.prop('checked')) {
-        $author_select.val(localized_data.current_user.display_name).prop('disabled', 'disabled');
-        $author_value.val(localized_data.current_user.ID);
-        $author_container.hide();
-      } else {
-        $author_select.prop('disabled', null).val('');
-        $author_container.show();
-      }
-    },
-
-    /**
-     * Puts an Expired option in the quick edit dropdown menu.
-     */
-    quick_edit_populate_status: function quick_edit_populate_status() {
-      var $this = $(this),
-          $row = $this.parents('tr.iedit'),
-          post_id = $row.attr('id').replace('post-', ''),
-          post_status = $('#inline_' + post_id + ' ._status').text(),
-          $edit_row = '',
-          $select = '',
-          $expired_option = $('<option />').text(localized_data.strings.label).attr('value', 'courier_expired'); // Delay things to ensure the quick edit row has been added to the page.
-
-      setTimeout(function () {
-        $edit_row = $('#edit-' + post_id);
-        $select = $('#edit-' + post_id + ' select[name="_status"]');
-        $select.append($expired_option);
-        $select.val(post_status);
-      }, 300);
-    },
-
-    /**
-     * Reactivate a notice.
-     * @param event
-     */
-    reactivate_notice: function reactivate_notice(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      var $this = $(this),
-          notice_id = $this.attr('data-courier-notice-id'),
-          $notice = $this.parents('.notice');
-      $.post(courier_admin_data.reactivate_endpoint + notice_id + '/', {
-        success: function success(data) {
-          $notice.fadeOut();
+        return false;
+      },
+      select: function select(event, ui) {
+        if ($courier_recipient.is(':visible')) {
+          $courier_recipient.val(ui.item.display_name);
         }
-      });
-    },
 
-    /**
-     * Copy the shortcode
-     *
-     * @param event
-     */
-    copy_text: function copy_text(event) {
-      event.preventDefault();
-      var $this = $(this),
-          $copyID = $this.data('copy'),
-          $copy = $('#' + $copyID),
-          $indicator = $('.copy-link-indicator'),
-          UA = navigator.userAgent,
-          isIE = !window.ActiveXObject && "ActiveXObject" in window || UA.indexOf('MSIE') != -1;
-      var copyURL = '';
+        $("#post_author_override").val(ui.item.ID);
+        return false;
+      }
+    }).autocomplete("instance")._renderItem = function (ul, item) {
+      /**
+       * Build our dropdown structure. use text to strip html from display
+       * @type {*}
+       */
+      var $a = $('<a><span class="courier-display-name"></span><br><span class="courier-user-email"></span></a>');
+      $a.find('.courier-display-name').text(item.display_name);
+      $a.find('.courier-user-email').text(item.user_email);
+      return $('<li>').append($a).appendTo(ul);
+    };
 
-      if (!isIE) {
-        $copy.select();
+    $body.on('click', '.editinline', quick_edit_populate_status).on('click', '.courier-reactivate-notice', reactivate_notice).on('click', '.copy-text', copy_text).on('focus', '#courier-shortcode', function () {
+      $('#courier-shortcode').select();
+    }); // Setup type edit screen js within settings.
 
-        try {
-          var success = document.execCommand('copy');
+    setup_type_editing();
+    $('.courier-info-icon').tooltip();
+  }
+  /**
+   * When the page loads, push our custom post status into the post status select.
+   * If that is the current status of the post, select it and push the text to the on screen label.
+   */
 
-          if (success) {
-            copyURL = true;
-          }
 
-          if (!success) {
-            copyURL = prompt(courier_admin_data.strings.copy, $copy.text());
-          }
-        } catch (err) {
+  function populate_status() {
+    var $option = $('<option />').val('courier_expired').text(localized_data.strings.label);
+
+    if (localized_data.post_status === 'courier_expired') {
+      $('#post-status-display').text(localized_data.strings.expired);
+      $option.attr('selected', 'selected');
+    }
+
+    $('#post_status').append($option);
+  }
+  /**
+   * When a notice is marked as global, the current user needs to be the author.
+   * When a notice is not global, then it can be assigned to the selected user.
+   */
+
+
+  function toggle_global() {
+    var $this = $(this),
+        $author_select = $('#courier_recipient_field'),
+        $author_value = $('#post_author_override'),
+        $author_container = $('#courier-author-container');
+
+    if ($this.prop('checked')) {
+      $author_select.val(localized_data.current_user.display_name).prop('disabled', 'disabled');
+      $author_value.val(localized_data.current_user.ID);
+      $author_container.hide();
+    } else {
+      $author_select.prop('disabled', null).val('');
+      $author_container.show();
+    }
+  }
+  /**
+   * Puts an Expired option in the quick edit dropdown menu.
+   */
+
+
+  function quick_edit_populate_status() {
+    var $this = $(this),
+        $row = $this.parents('tr.iedit'),
+        post_id = $row.attr('id').replace('post-', ''),
+        post_status = $('#inline_' + post_id + ' ._status').text(),
+        $edit_row = '',
+        $select = '',
+        $expired_option = $('<option />').text(localized_data.strings.label).attr('value', 'courier_expired'); // Delay things to ensure the quick edit row has been added to the page.
+
+    setTimeout(function () {
+      $edit_row = $('#edit-' + post_id);
+      $select = $('#edit-' + post_id + ' select[name="_status"]');
+      $select.append($expired_option);
+      $select.val(post_status);
+    }, 300);
+  }
+  /**
+   * Reactivate a notice.
+   * @param event
+   */
+
+
+  function reactivate_notice(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    var $this = $(this),
+        notice_id = $this.attr('data-courier-notice-id'),
+        $notice = $this.parents('.notice');
+    $.post(courier_admin_data.reactivate_endpoint + notice_id + '/', {
+      success: function success(data) {
+        $notice.fadeOut();
+      }
+    });
+  }
+  /**
+   * Copy the shortcode
+   *
+   * @param event
+   */
+
+
+  function copy_text(event) {
+    event.preventDefault();
+    var $this = $(this),
+        $copyID = $this.data('copy'),
+        $copy = $('#' + $copyID),
+        $indicator = $('.copy-link-indicator'),
+        UA = navigator.userAgent,
+        isIE = !window.ActiveXObject && "ActiveXObject" in window || UA.indexOf('MSIE') != -1;
+    var copyURL = '';
+
+    if (!isIE) {
+      $copy.select();
+
+      try {
+        var success = document.execCommand('copy');
+
+        if (success) {
+          copyURL = true;
+        }
+
+        if (!success) {
           copyURL = prompt(courier_admin_data.strings.copy, $copy.text());
         }
-      } else {
+      } catch (err) {
         copyURL = prompt(courier_admin_data.strings.copy, $copy.text());
       }
-
-      if (copyURL) {
-        $indicator.addClass('copied').text(courier_admin_data.strings.copied);
-        setTimeout(function () {
-          $indicator.text('');
-        }, 3000);
-      }
-    },
-
-    /**
-     * Setup Courier Type Editing Screen
-     */
-    setup_type_editing: function setup_type_editing() {
-      $('.courier-type-color').wpColorPicker();
+    } else {
+      copyURL = prompt(courier_admin_data.strings.copy, $copy.text());
     }
-  };
-}(jQuery);
 
-courier.admin.init();
+    if (copyURL) {
+      $indicator.addClass('copied').text(courier_admin_data.strings.copied);
+      setTimeout(function () {
+        $indicator.text('');
+      }, 3000);
+    }
+  }
+  /**
+   * Setup Courier Type Editing Screen
+   */
+
+
+  function setup_type_editing() {
+    $('.courier-type-color').wpColorPicker();
+  }
+}
+
+/***/ }),
+
+/***/ "./assets/js/admin/welcome.js":
+/*!************************************!*\
+  !*** ./assets/js/admin/welcome.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return welcome; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * Controls Welcome area display
+ *
+ * @package    Courier
+ * @subpackage Welcome
+ * @since      1.0
+ */
+
+var $ = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
+function welcome() {
+  // Private Variables
+  var $window = $(window),
+      $doc = $(document),
+      $body = $('body'),
+      $welcomePanel = $('#mesh-template-welcome-panel');
+
+  function init() {
+    $welcomePanel.find('.courier-notices-welcome-panel-close').on('click', function (event) {
+      event.preventDefault();
+      $welcomePanel.addClass('hidden');
+      updateWelcomePanel(0);
+    });
+  }
+  /**
+   * Show or Hide our Courier Notices Welcome Panel
+   * Based on the Welcome Panel in WP Core
+   *
+   * @param visible
+   */
+
+
+  function updateWelcomePanel(visible) {
+    $.post(ajaxurl, {
+      action: 'courier_notices_update_welcome_panel',
+      visible: visible,
+      courier_notices_welcome_nonce: $('#courier-notices-welcome-panel-nonce').val()
+    });
+  }
+
+  init(); // kick everything off for welcome onboarding
+}
+
+/***/ }),
+
+/***/ "./assets/js/courier-admin.js":
+/*!************************************!*\
+  !*** ./assets/js/courier-admin.js ***!
+  \************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _admin_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin/core */ "./assets/js/admin/core.js");
+/* harmony import */ var _admin_welcome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./admin/welcome */ "./assets/js/admin/welcome.js");
+
+
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
+  Object(_admin_core__WEBPACK_IMPORTED_MODULE_1__["default"])();
+  Object(_admin_welcome__WEBPACK_IMPORTED_MODULE_2__["default"])();
+});
+
+/***/ }),
+
+/***/ "./node_modules/webpack/buildin/amd-options.js":
+/*!****************************************!*\
+  !*** (webpack)/buildin/amd-options.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
+module.exports = __webpack_amd_options__;
+
+/* WEBPACK VAR INJECTION */}.call(this, {}))
 
 /***/ }),
 
 /***/ 0:
-/*!**********************************!*\
-  !*** multi ./assets/js/admin.js ***!
-  \**********************************/
+/*!******************************************!*\
+  !*** multi ./assets/js/courier-admin.js ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/aware/vvv/www/couriier/public_html/wp-content/plugins/courier/assets/js/admin.js */"./assets/js/admin.js");
+module.exports = __webpack_require__(/*! /Users/aware/vvv/www/couriier/public_html/wp-content/plugins/courier/assets/js/courier-admin.js */"./assets/js/courier-admin.js");
 
 
 /***/ }),
@@ -1382,18 +1479,7 @@ module.exports = __webpack_require__(/*! /Users/aware/vvv/www/couriier/public_ht
 
 module.exports = jQuery;
 
-/***/ }),
-
-/***/ "jquery-ui":
-/*!****************************!*\
-  !*** external "jquery-ui" ***!
-  \****************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = jquery-ui;
-
 /***/ })
 
 /******/ });
-//# sourceMappingURL=admin.js.map
+//# sourceMappingURL=courier-admin.js.map

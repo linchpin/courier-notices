@@ -32,7 +32,7 @@ if ( ! function_exists( 'add_action' ) ) {
 		?>
 		</h3>
 		<div class="clearfix"></div>
-	</div>welcome.php
+	</div>
 	<?php settings_errors( self::$plugin_name . '-notices' ); ?>
 	<h2 class="nav-tab-wrapper negative-bg">
 		<?php

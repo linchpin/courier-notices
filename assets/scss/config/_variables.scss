@@ -4,6 +4,7 @@
  * 02. Colors
  * 03. Animations
  * 04. Breakpoints
+ * 05. Icons
  *
  **/
 
@@ -17,14 +18,15 @@ $block_padding:   10px;
 
 // 02. Colors
 $blue:         #009fd4;
-$green:        #46B450;
+$green:        #94C169;
+$darker-green: #4F8C7E;
 $darkest-grey: #666;
 $dark-grey:    #ccc;
 $grey:         #dedede;
 $light-grey:   #f5f5f5;
 $super-light-grey: #fafafa;
 
-$primary:       $blue;
+$primary:       $green;
 $primary-light: scale-color( $primary, $lightness: 8% );
 $primary-dark:  scale-color( $primary, $lightness: -8% );
 
@@ -36,8 +38,8 @@ $cerise: #d43c9e;
 $dark-purple: #812d8f;
 $blue-gem: #2c0c82;
 $darker-blue: #1B0253;
-$caribbean-green: #00baa3;
-$lochinvar: #2e9080;
+$caribbean-green: $primary;
+$lochinvar: $darker-green;
 $white-smoke: #f5f5f5;
 $gray: #e8e8e8;
 //Other Global items
@@ -51,3 +53,17 @@ $global_easing: ease-out;
 $courier-small: 'screen and (max-width: 1023px)';
 $courier-medium-up: 'screen and (min-width: 1024px)';
 $courier-medium-only: 'screen and (min-width: 1024px) and (max-width: 1279px)';
+
+// 05. Icons
+
+$icomoon-font-family: "courier" !default;
+$icomoon-font-path: "fonts" !default;
+
+$icon-success: "\e900";
+$icon-warning: "\e901";
+$icon-info: "\e902";
+$icon-error: "\e903";
+$icon-alert: "\e904";
+$icon-feedback: "\e905";
+
+
