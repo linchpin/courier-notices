@@ -53,23 +53,6 @@ class Install {
 	}
 
 	/**
-	 * Handles upgrade tasks
-	 *
-	 * @since 1.0
-	 */
-	public function upgrade() {
-		$current_version = get_option( 'courier_version', '0.0.0' );
-
-		if ( version_compare( '1.0.0', $current_version, '>' ) ) {
-			flush_rewrite_rules();
-			wp_schedule_event( current_time( 'timestamp' ), 'hourly', 'courier_expire' );
-
-			$current_version = '1.0.0';
-			update_option( 'courier_version', $current_version );
-		}
-	}
-
-	/**
 	 * Adds in our term meta for our courier types
 	 *
 	 * @since 1.0

@@ -28,8 +28,7 @@ $safe_content = array(
 			</div>
 			<div class="gray-bg negative-bg">
 				<div class="wrapper">
-					<h2 class="color-darkpurple light-weight">
-
+					<h2 class="color-darkgreen light-weight">
 						<?php
 						printf(
 							wp_kses(
@@ -46,34 +45,12 @@ $safe_content = array(
 			</div>
 
 			<div class="wrapper help-row table">
-				<div class="help-columns-6 table-cell">
-					<h3><?php esc_html_e( 'A Quick 2 Minute Primer', 'courier' ); ?></h3>
-					<p class="steps"><strong><?php esc_html_e( 'Enable:', 'courier' ); ?></strong>
-						<?php
-						printf(
-							wp_kses(
-								// translators: %1$s Settings Tab, %2$s Settings Label.
-								__(
-									'By default Courier is only enabled on Pages. If you you would like to enable Courier for other post types (including blog posts) head over to the <a href="%1$s">%2$s</a>.',
-									'courier'
-								),
-								$safe_content
-							),
-							esc_url( admin_url( '/options-general.php?page=help&tab=settings' ) ),
-							esc_html__( 'settings', 'courier' )
-						);
-						?>
-					</p>
-					<p><?php esc_html_e( 'Visit an existing page, post, custom post type or create a new one where Courier has been enabled.', 'courier' ); ?></p>
-					<p><?php esc_html_e( 'You will now see a new area below "The Editor".', 'courier' ); ?></p>
-
-					<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/add-new-section2.png' ); ?>" alt="<?php esc_attr_e( 'Add New Courier Section', 'courier' ); ?>" height="40%">
-
-					<h3 class="steps"><?php esc_html_e( 'Follow the Tool Tips', 'courier' ); ?></h3>
-					<p><?php esc_html_e( 'The first time you create sections and blocks in Courier you will be presented with useful tool tips that will guide you along the way.', 'courier' ); ?></p>
+				<div class="courier-columns-6 table-cell">
+					<h3 class="color-darkgreen"><?php esc_html_e( 'A Quick 2 Minute Primer', 'courier' ); ?></h3>
+					<p><?php esc_html_e( 'Courier allows you to notify your site visitors/users of different information and events on your site.', 'courier' ); ?></p>
 				</div>
 
-				<div class="help-columns-6 right table-cell">
+				<div class="courier-columns-6 right table-cell">
 					<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/help-admin-comp2.gif' ); ?>" alt="<?php esc_attr_e( 'Enable Courier', 'courier' ); ?>" width="90%"/>
 				</div>
 			</div>
@@ -82,43 +59,49 @@ $safe_content = array(
 				<div class="wrapper">
 					<h2 class="color-darkpurple light-weight"><?php esc_html_e( 'More Quick Tips', 'courier' ); ?></h2>
 					<div class="grey-box-container help-row" data-equalizer="">
-						<div class="help-columns-6">
+						<div class="courier-columns-6">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
 									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/feature-easy-familiar-2.svg' ); ?>" alt=""/>
 								</div>
 								<div class="about-box-copy">
 									<h4 class="no-margin"><?php esc_html_e( 'Familiar &amp; Easy to Use', 'courier' ); ?></h4>
-									<p><?php esc_html_e( 'Create content using an interface similar to default pages and posts in WordPress.', 'courier' ); ?></p>
+									<p><?php esc_html_e( 'Create site notices using an interface similar to default pages and posts in WordPress.', 'courier' ); ?></p>
 								</div>
 							</div>
 						</div>
 
-						<div class="help-columns-6">
+						<div class="courier-columns-6">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
 									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/feature-visualize.svg' ); ?>" alt=""/>
 								</div>
 								<div class="about-box-copy">
-									<h4 class="no-margin"><?php esc_html_e( 'Lay Out Your Content', 'courier' ); ?></h4>
-									<p><?php esc_html_e( 'Easily build rows and columns of content without writing a line of code or editing templates.', 'courier' ); ?></p>
+									<h4 class="no-margin"><?php esc_html_e( 'Notices For Users/Visitors', 'courier' ); ?></h4>
+									<ul class="courier-notice-types-list">
+										<li><?php esc_html_e( 'Global Notices (For all users)', 'courier' ); ?></li>
+										<li><?php esc_html_e( 'User Specific Notices', 'courier' ); ?></li>
+										<li><?php esc_html_e( 'User Group Notices (Coming Soon)', 'courier' ); ?></li>
+									</ul>
+									<p><?php esc_html_e( 'More features coming soon.', 'courier' ); ?></p>
 								</div>
 							</div>
 						</div>
 
-						<div class="help-columns-6">
+						<div class="courier-columns-6">
 							<div class="grey-box " data-equalizer-watch="">
 								<div class="about-box-icon">
 									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/feature-responsive.svg' ); ?>" alt=""/>
 								</div>
 								<div class="about-box-copy">
-									<h4 class="no-margin"><?php esc_html_e( 'Fully Responsive', 'courier' ); ?></h4>
-									<p><?php esc_html_e( 'Rest easy knowing your content will display seamlessly across browsers and devices.', 'courier' ); ?></p>
+									<h4 class="no-margin"><?php esc_html_e( 'Create Your Own Notice Types ', 'courier' ); ?></h4>
+									<p><?php esc_html_e( 'You can use the default Courier notice types or feel free to add your own.', 'courier' ); ?></p>
+									<p><?php esc_html_e( 'Pick your own notice colors and icons, disable the styles completely to theme Courier yourself.', 'courier' ); ?></p>
 								</div>
 							</div>
 						</div>
 
-						<div class="help-columns-6">
+						<div class="courier-columns-6">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
 									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/feature-plays-well.svg' ); ?>" alt=""/>
@@ -128,9 +111,29 @@ $safe_content = array(
 									<p>
 										<?php
 										printf(
-											// translators: %s Courier Knowlegebase URL.
-											wp_kses( __( 'Continually updated with hooks and filters to extend functionality. For a full list, check out <a href="%s" target="_blank" rel="noopener">CourierPlugin.com</a>.', 'courier' ), $safe_content ),
-											esc_url( 'https://meshplugin.com/knowledge-base' )
+											// translators: %s Courier github URL.
+											wp_kses( __( 'Continually updated with hooks and filters to extend functionality. For a full list, check out <a href="%s" target="_blank" rel="noopener">Courier on github.com</a>.', 'courier' ), $safe_content ),
+											esc_url( 'https://github.com/linchpin/courier' )
+										);
+										?>
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="courier-columns-6">
+							<div class="grey-box" data-equalizer-watch="">
+								<div class="about-box-icon">
+									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/feature-plays-well.svg' ); ?>" alt=""/>
+								</div>
+								<div class="about-box-copy">
+									<h4 class="no-margin"><?php esc_html_e( 'Addons', 'courier' ); ?></h4>
+									<p>
+										<?php
+										printf(
+										// translators: %s Courier github URL.
+											wp_kses( __( 'If you\'re using gravity forms, you can even use courier as your gravity forms confirmation. Simply visit your forms confirmation area and you will see a new confirmation type of "Courier Notice"', 'courier' ), $safe_content ),
+											esc_url( 'https://github.com/linchpin/courier' )
 										);
 										?>
 									</p>
@@ -142,7 +145,7 @@ $safe_content = array(
 			</div>
 
 			<div class="wrapper help-row">
-				<h2 class="color-darkpurple light-weight"><?php esc_html_e( 'About the Team Behind .help', 'courier' ); ?></h2>
+				<h2 class="color-darkgreen light-weight"><?php esc_html_e( 'About the Team Behind Courier', 'courier' ); ?></h2>
 				<div class="about-devs-container help-columns-12">
 					<div class="no-margin">
 						<p class="no-margin">
@@ -189,15 +192,13 @@ $safe_content = array(
 								wp_kses(
 									// translators: %1$s Linchpin URL, %2$s Linchpin. %3$s Jetpack.pro url, %4$s Jetpack.pro label.
 									__(
-										'<a href="%1$s">%2$s</a> | <a href="%3$s">%4$s</a> | ',
+										'<a href="%1$s">%2$s</a> |',
 										'courier'
 									),
 									$safe_content
 								),
 								esc_url( 'https://linchpin.com' ),
-								esc_html( 'Linchpin' ),
-								esc_url( 'https://jetpack.pro/profile/linchpin/' ),
-								esc_html( 'jetpack.pro' )
+								esc_html( 'Linchpin' )
 							);
 							?>
 							<?php

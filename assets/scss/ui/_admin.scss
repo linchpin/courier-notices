@@ -645,14 +645,14 @@ table.courier_notice_page_courier .form-table th {
     color: $white-smoke;
   }
 
-  .color-darkpurple {
-    color: $dark-purple;
+  .color-darkgreen {
+    color: $darker-green;
   }
 
   // tabs
   .nav-tab-wrapper {
     a {
-      color: $darker-blue !important;
+      color: $darker-green !important;
       border-radius: .25rem .25rem 0 0;
       &.nav-tab-active {
         border-bottom: 1px solid transparent !important;

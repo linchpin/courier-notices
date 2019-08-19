@@ -17,7 +17,6 @@ class Courier {
 	 * @since 1.0
 	 */
 	public function register_actions() {
-		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
 		add_action( 'add_meta_boxes_courier_notice', array( $this, 'add_meta_boxes_courier_notice' ), 99 );
 		add_action( 'save_post_courier_notice', array( $this, 'save_post_courier_notice' ), 10, 2 );
 		add_action( 'init', array( $this, 'add_expired_status' ) );
@@ -59,17 +58,6 @@ class Courier {
 				'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'courier' ),
 			)
 		);
-	}
-
-	/**
-	 * Check and schedule plugin upgrading if necessary.
-	 *
-	 * @since 1.0
-	 */
-	public function plugins_loaded() {
-		if ( version_compare( COURIER_VERSION, get_option( 'courier_version', '0.0.0' ), '>' ) ) {
-			add_action( 'admin_init', array( $this, 'upgrade' ), 999 );
-		}
 	}
 
 	/**

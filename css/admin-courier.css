@@ -1420,10 +1420,10 @@ table.courier_notice_page_courier .form-table th {
       width: auto; }
   .courier_notice_page_courier #wpcontent .color-white, #about-courier .color-white, #whats-new .color-white, #courier-settings .color-white {
     color: #f5f5f5; }
-  .courier_notice_page_courier #wpcontent .color-darkpurple, #about-courier .color-darkpurple, #whats-new .color-darkpurple, #courier-settings .color-darkpurple {
-    color: #812d8f; }
+  .courier_notice_page_courier #wpcontent .color-darkgreen, #about-courier .color-darkgreen, #whats-new .color-darkgreen, #courier-settings .color-darkgreen {
+    color: #4F8C7E; }
   .courier_notice_page_courier #wpcontent .nav-tab-wrapper a, #about-courier .nav-tab-wrapper a, #whats-new .nav-tab-wrapper a, #courier-settings .nav-tab-wrapper a {
-    color: #1B0253 !important;
+    color: #4F8C7E !important;
     border-radius: .25rem .25rem 0 0; }
     .courier_notice_page_courier #wpcontent .nav-tab-wrapper a.nav-tab-active, #about-courier .nav-tab-wrapper a.nav-tab-active, #whats-new .nav-tab-wrapper a.nav-tab-active, #courier-settings .nav-tab-wrapper a.nav-tab-active {
       border-bottom: 1px solid transparent !important;

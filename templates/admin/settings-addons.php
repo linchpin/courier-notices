@@ -1,8 +1,8 @@
 <?php
 /**
- * Updates, Bug Fixes and News Template
+ * Addons and other fun things
  *
- * @since      1.0.0
+ * @since      1.0
  * @package    Courier
  * @subpackage Admin
  */
@@ -24,14 +24,13 @@ $safe_content = array(
 		<div id="postbox-container" class="postbox-container">
 			<div class="whatsnew hero negative-bg">
 				<div class="hero-text">
-					<h1><?php echo esc_html__( 'Addons', 'courier' ); ?></h1>
+					<h1><?php esc_html_e( 'Addons', 'courier' ); ?></h1>
 				</div>
 			</div>
 			<div class="gray-bg negative-bg versioninfo">
 				<div class="wrapper">
 					<h2 class="light-weight">
-
-						<?php esc_html__( 'Add Ons Coming Soon', 'courier' ); ?>
+						<?php esc_html_e( 'More Add Ons Coming Soon', 'courier' ); ?>
 					</h2>
 				</div>
 			</div>
