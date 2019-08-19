@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:ignoreFile -- this is not our code
 namespace Courier\Core;
 
 /**

@@ -1,10 +1,10 @@
 <?php
 /**
- * Provide a dashboard view for the plugin
+ * Provides a dashboard view for the plugin
  *
  * This file is used to markup the plugin settings and faq pages
  *
- * @since      1.0.0
+ * @since      1.0
  * @package    Courier
  * @subpackage Admin
  */

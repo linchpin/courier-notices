@@ -1,22 +1,33 @@
 <?php
+/**
+ * Shortcodes Controller
+ *
+ * @package Courier\Controller
+ */
 
 namespace Courier\Controller;
 
 /**
- * Class Shortcodes
- * @package Courier\Controller
+ * Shortcodes Class
  */
 class Shortcodes {
 
+	/**
+	 * Registers the shortcodes.
+	 *
+	 * @since 1.0
+	 */
 	public function register_actions() {
 		add_shortcode( 'courier_notices', array( $this, 'courier_notices' ) );
 		add_shortcode( 'courier_notice', array( $this, 'courier_notice' ) );
 	}
 
 	/**
-	 * Output Courier Notifications.
+	 * Output Courier Notifications
 	 *
-	 * @param $atts
+	 * @since 1.0
+	 *
+	 * @param array $atts Array of attributes.
 	 *
 	 * @return false|string
 	 */
@@ -79,9 +90,9 @@ class Shortcodes {
 			<?php else : ?>
 				</ul>
 			<?php endif; ?>
-		<?php
-		endif;
+		<?php endif; ?>
 
+		<?php
 		return ob_get_clean();
 	}
 
@@ -89,17 +100,22 @@ class Shortcodes {
 	 * Get the courier notice based on the attributes
 	 *
 	 * @since 1.0
-	 * @param      $atts
-	 * @param null $content
+	 *
+	 * @param array  $atts    Array of attributes.
+	 * @param string $content Notice content.
 	 *
 	 * @return false|string|void
 	 */
 	public function courier_notice( $atts, $content = null ) {
-		$atts = shortcode_atts( array(
-			'id'        => '',
-			'flag'      => 'Alert',
-			'show_flag' => 'true',
-		), $atts, 'courier_notice' );
+		$atts = shortcode_atts(
+			array(
+				'id'        => '',
+				'flag'      => 'Alert',
+				'show_flag' => 'true',
+			),
+			$atts,
+			'courier_notice'
+		);
 
 		$id = (int) $atts['id'];
 
@@ -122,18 +138,18 @@ class Shortcodes {
 			ob_start();
 			?>
 			<div <?php post_class(); ?>>
-				<?php if ( 'true' == $atts['show_flag'] ) : ?>
-					<span class="courier-notice-flag"><?php _e( $atts['flag'], 'courier' ) ?></span>
+				<?php if ( 'true' === $atts['show_flag'] ) : ?>
+					<span class="courier-notice-flag"><?php echo esc_attr( $atts['flag'], 'courier' ); ?></span>
 				<?php endif; ?>
 				<?php the_title( '<h4>', '</h4>', true ); ?>
-				<small><?php echo get_the_content(); ?></small>
+				<small><?php echo wp_kses_post( get_the_content() ); ?></small>
 			</div>
 			<?php
 			$output = ob_get_contents();
 
 			ob_end_clean();
 
-            wp_reset_postdata();
+			wp_reset_postdata();
 
 			return $output;
 		} else {

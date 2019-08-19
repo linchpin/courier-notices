@@ -1,4 +1,9 @@
 <?php
+/**
+ * Type List Table
+ *
+ * @package Courier\Helper
+ */
 
 namespace Courier\Helper;
 
@@ -10,12 +15,15 @@ if ( ! function_exists( 'add_action' ) ) {
 use \Courier\Helper\WP_List_Table as WP_List_Table;
 
 /**
- * Class Type_List_Table
- * @package Courier\Controller\Admin\Fields
+ * Type_List_Table Class
  */
 class Type_List_Table extends WP_List_Table {
 
 	/**
+	 * Returns columns.
+	 *
+	 * @since 1.0
+	 *
 	 * @return array|void
 	 */
 	public function get_columns() {
@@ -32,8 +40,10 @@ class Type_List_Table extends WP_List_Table {
 	/**
 	 * Define what data to show on each column of the table
 	 *
-	 * @param  Array $item        Data
-	 * @param  String $column_name - Current column name
+	 * @since 1.0
+	 *
+	 * @param array  $item         Data.
+	 * @param string $column_name Current column name.
 	 *
 	 * @return Mixed
 	 */
@@ -46,12 +56,14 @@ class Type_List_Table extends WP_List_Table {
 			case 'notice_text_color':
 				return $item[ $column_name ];
 			default:
-				return print_r( $item, true ) ;
+				return print_r( $item, true ) ; // phpcs:ignore
 		}
 	}
 
 	/**
+	 * Text for when no items are available.
 	 *
+	 * @since 1.0
 	 */
 	public function no_items() {
 		esc_html_e( 'No types available.', 'courier' );
@@ -59,19 +71,19 @@ class Type_List_Table extends WP_List_Table {
 
 	/**
 	 * Prepare Items in the list.
+	 *
+	 * Query, filter data, handle sorting, pagination, and any other data-manipulation required prior to rendering.
+	 *
+	 * @since 1.0
 	 */
-
-	//Query, filter data, handle sorting, pagination, and any other data-manipulation required prior to rendering
 	public function prepare_items() {
-
 		// check if a search was performed.
-		$term_search_key = isset( $_REQUEST['s'] ) ? wp_unslash( trim( $_REQUEST['s'] ) ) : '';
+		$term_search_key = isset( $_REQUEST['s'] ) ? wp_unslash( trim( $_REQUEST['s'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		// check and process any actions such as bulk actions.
 		$this->handle_table_actions();
 
-		//used by WordPress to build and fetch the _column_headers property
-		// $this->_column_headers = $this->get_column_info();
+		// Used by WordPress to build and fetch the _column_headers property.
 		$term_table_data = $this->fetch_table_data();
 
 		if ( $term_search_key ) {
@@ -103,20 +115,24 @@ class Type_List_Table extends WP_List_Table {
 	/**
 	 * Define which columns are hidden
 	 *
-	 * @return Array
+	 * @since 1.0
+	 *
+	 * @return array
 	 */
 	public function get_hidden_columns() {
 		return array();
 	}
+
 	/**
 	 * Define the sortable columns
 	 *
-	 * @return Array
+	 * @since 1.0
+	 *
+	 * @return array
 	 */
 	public function get_sortable_columns() {
 		return array( 'title' => array( 'title', false ) );
 	}
-
 
 	/**
 	 * Get value for checkbox column.
@@ -130,17 +146,19 @@ class Type_List_Table extends WP_List_Table {
 			'<label class="screen-reader-text" for="courier_type_%2$s">%3$s</label><input type="checkbox" name="courier_types[]" id="courier_type_%2$s" value="%1$s" />',
 			esc_attr( (int) $item['ID'] ),
 			esc_attr( $item['slug'] ),
-			// translators: %1$s Title of the term
+			// translators: %1$s Title of the term.
 			sprintf( esc_html__( 'Select %1$s', 'courier' ), $item['title'] )
 		);
 	}
 
 	/**
 	 * Get the data for our table
+	 *
+	 * @since 1.0
+	 *
 	 * @return array
 	 */
 	public function fetch_table_data() {
-
 		$types = get_terms(
 			array(
 				'hide_empty' => false,
@@ -163,7 +181,7 @@ class Type_List_Table extends WP_List_Table {
 					'<label class="screen-reader-text" for="courier_type_%2$s_color">%3$s</label><input type="text" name="courier_type_%2$s_color" id="courier_type_%2$s_color" class="courier-type-color" value="%1$s" />',
 					esc_attr( $color ),
 					esc_attr( $type->slug ),
-					// translators: %1$s Title of the term
+					// translators: %1$s Title of the term.
 					sprintf( esc_html__( '%1$s Color', 'courier' ), $type->name )
 				);
 
@@ -185,7 +203,7 @@ class Type_List_Table extends WP_List_Table {
 					'<label class="screen-reader-text" for="courier_type_%2$s_text_color">%3$s</label><input type="text" name="courier_type_%2$s_text_color" id="courier_type_%2$s_text_color" class="courier-type-color" value="%1$s" />',
 					esc_attr( $text_color ),
 					esc_attr( $type->slug ),
-					// translators: %1$s Title of the term
+					// translators: %1$s Title of the term.
 					sprintf( esc_html__( '%1$s Text Color', 'courier' ), $type->name )
 				);
 
@@ -196,33 +214,47 @@ class Type_List_Table extends WP_List_Table {
 					'notice_icon'       => $icon,
 					'notice_color'      => $color_input,
 					'notice_text_color' => $text_input,
-					'title'             => $type->name, // Custom Callback
+					'title'             => $type->name, // Custom Callback.
 				);
 			}
 		}
 
-		// return result array to prepare_items.
+		// Return result array to prepare_items.
 		return $data;
 	}
 
 	/**
 	 * Filter the terms based on searching the table
-	 * @param $table_data
-	 * @param $search_key
+	 *
+	 * @since 1.0
+	 *
+	 * @param array  $table_data The table data.
+	 * @param string $search_key The search key.
 	 *
 	 * @return array
 	 */
 	public function filter_table_data( $table_data, $search_key ) {
-		$filtered_table_data = array_values( array_filter( $table_data, function( $row ) use( $search_key ) {
-			foreach( $row as $row_val ) {
-				if( stripos( $row_val, $search_key ) !== false ) {
-					return true;
+		$filtered_table_data = array_values(
+			array_filter(
+				$table_data,
+				function ( $row ) use ( $search_key ) {
+					foreach ( $row as $row_val ) {
+						if ( stripos( $row_val, $search_key ) !== false ) {
+							return true;
+						}
+					}
 				}
-			}
-		} ) );
+			)
+		);
+
 		return $filtered_table_data;
 	}
 
+	/**
+	 * Handles bulk actions.
+	 *
+	 * @since 1.0
+	 */
 	public function handle_table_actions() {
 		/**
 		 * Add any bulk actions. Maybe bulk delete?
@@ -230,13 +262,18 @@ class Type_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 *
 	 * Method for rendering the user_login column.
+	 *
 	 * Adds row action links to the user_login column.
 	 * e.g. url/users.php?page=nds-wp-list-table-demo&action=view_usermeta&user=18&_wpnonce=1984253e5e
+	 *
+	 * @since 1.0
+	 *
+	 * @param array $item The current item.
+	 *
+	 * @return string
 	 */
 	protected function column_title( $item ) {
-
 		$edit_link = sprintf(
 			'<strong><a href="%1$s">%2$s</a></strong>',
 			esc_attr( get_edit_term_link( $item['ID'], 'courier_type' ) ),
@@ -244,7 +281,7 @@ class Type_List_Table extends WP_List_Table {
 		);
 
 		$actions = [];
-		// $actions['preview'] = sprintf( '<a href="#">%1$s</a>', esc_html__( 'Preview', 'courier' ) );
+
 		return $edit_link . $this->row_actions( $actions );
 	}
 

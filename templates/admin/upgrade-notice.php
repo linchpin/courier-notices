@@ -14,7 +14,7 @@ $courier_version = get_option( 'courier_version' );
 <div class="courier-notice courier-update-notice notice notice-info is-dismissible" data-type="update-notice">
 	<div class="table">
 		<div class="table-cell">
-			<img src="<?php echo esc_attr( COURIER_PLUGIN_URL . 'assets/images/courier-full-logo-full-color@2x.png' ); ?>" >
+			<img src="<?php echo esc_attr( COURIER_PLUGIN_URL . 'assets/images/courier-full-logo-full-color@2x.png' ); ?>" alt="">
 		</div>
 		<div class="table-cell">
 			<p class="no-margin">

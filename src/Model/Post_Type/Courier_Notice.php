@@ -1,36 +1,50 @@
 <?php
+/**
+ * Courier Notice Model
+ *
+ * @package Courier\Model\Post_Type
+ */
 namespace Courier\Model\Post_Type;
 
 use \Courier\Model\Config;
 
 /**
- * Class Courier_Notice
- * @package Courier\Model\Post_Type
+ * Courier_Notice Class
  */
 class Courier_Notice {
 
 	/**
+	 * Configuration
+	 *
 	 * @var Config
 	 */
 	private $config;
 
 	/**
+	 * Notice Name
+	 *
 	 * @var string
 	 */
 	public $name = 'courier_notice';
 
 	/**
-	 * @var array|mixed|void
+	 * Labels
+	 *
+	 * @var array
 	 */
 	private $labels = array();
 
 	/**
-	 * @var array|mixed|void
+	 * Arguments
+	 *
+	 * @var array
 	 */
 	private $args = array();
 
 	/**
-	 * Welcome constructor.
+	 * Courier_Notice constructor
+	 *
+	 * @since 1.0
 	 */
 	public function __construct() {
 		$this->config = new Config();
@@ -94,7 +108,11 @@ class Courier_Notice {
 	}
 
 	/**
-	 * @return array|mixed|void
+	 * Returns the arguments
+	 *
+	 * @since 1.0
+	 *
+	 * @return array
 	 */
 	public function get_args() {
 		return $this->args;

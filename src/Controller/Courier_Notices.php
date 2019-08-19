@@ -1,61 +1,67 @@
 <?php
+/**
+ * Courier Notices Controller
+ *
+ * @package Courier\Controller
+ */
 
 namespace Courier\Controller;
 
 use \Courier\Model\Config;
 use \Courier\Model\Post_Type\Courier_Notice as Courier_Notice_Post_Type;
-// use \Courier\Model\Request;
-use Courier\Model\Taxonomy\Courier_Placement;
+use \Courier\Model\Taxonomy\Courier_Placement;
 use \Courier\Model\Taxonomy\Courier_Scope;
 use \Courier\Model\Taxonomy\Courier_Status;
 use \Courier\Model\Taxonomy\Courier_Type;
 
 /**
- * Class Courier_Notices
- * @package Courier\Controller
+ * Courier_Notices Class
  */
 class Courier_Notices {
 
 	/**
 	 * JS handle
-	 * @var   string
+	 *
+	 * @var string
 	 */
 	protected static $handle = 'courier-admin';
 
 	/**
 	 * JS variable name
-	 * @var   string
+	 *
+	 * @var string
 	 */
 	protected static $js_variable = 'courier_data';
 
 	/**
-	 * dependencies
-	 * @var   array
+	 * Dependencies
+	 *
+	 * @var array
 	 */
 	protected static $dependencies = array( 'jquery' => 'jquery' );
 
 	/**
-	 * Register our hooks.
+	 * Register our hooks
+	 *
+	 * @since 1.0
 	 */
 	public function register_actions() {
 		add_action( 'init', array( $this, 'register_custom_post_type' ) );
 		add_action( 'init', array( $this, 'register_taxonomies' ), 0 );
-
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
 
-		//  Exclude requests from the sitemap regardless of options
+		// Exclude requests from the sitemap regardless of options.
 		add_filter( 'wpseo_sitemap_exclude_post_type', array( $this, 'exclude_hidden_from_search' ), 10, 2 );
-
 		add_filter( 'add_query_vars', array( $this, 'add_query_vars' ) );
 	}
 
 	/**
-	 * Exclude Courier Notices from WordPress SEO Sitemaps.
+	 * Exclude Courier Notices from WordPress SEO Sitemaps
 	 *
 	 * @since 1.0
 	 *
-	 * @param $value
-	 * @param $post_type
+	 * @param bool   $value     Default false.
+	 * @param string $post_type Post type name.
 	 *
 	 * @return bool
 	 */
@@ -69,6 +75,7 @@ class Courier_Notices {
 
 	/**
 	 * Enqueue all of our needed scripts
+	 *
 	 * @since 1.0
 	 */
 	public function wp_enqueue_scripts() {
@@ -101,14 +108,15 @@ class Courier_Notices {
 
 	/**
 	 * Add admin Query Vars
+	 *
 	 * @since 1.0
 	 *
-	 * @param $vars
+	 * @param array $vars Array of query vars.
 	 *
 	 * @return array
 	 */
 	public function add_query_vars( $vars ) {
-		// Admin Vars
+		// Admin Vars.
 		$vars[] = 'tab';
 		$vars[] = 'subtab';
 
@@ -129,8 +137,7 @@ class Courier_Notices {
 	/**
 	 * Register the taxonomies for the courier_notice post type
 	 *
-	 * @wp-hook init
-	 * @since   1.0.0
+	 * @since   1.0
 	 */
 	public function register_taxonomies() {
 		$courier_type_taxonomy_model      = new Courier_Type();

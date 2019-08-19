@@ -1,20 +1,27 @@
 <?php
+/**
+ * Courier Functions
+ *
+ * @package Courier/Helper
+ */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Utility method to add a new notice within the system.
  *
- * @param $notice
- * @param string|array $types
- * @param bool $global
- * @param bool $dismissible
- * @param string $user_id
+ * @since 1.0
+ *
+ * @param string       $notice      The notice text.
+ * @param string|array $types       The type(s) of notice.
+ * @param bool         $global      Whether this notice is global or not.
+ * @param bool         $dismissible Whether this notice is dismissible or not.
+ * @param int          $user_id     The ID of the user this notice is for.
  *
  * @return bool
  */
-function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = false, $dismissible = true, $user_id = '' ) {
+function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = false, $dismissible = true, $user_id = 0 ) {
 
 	$notice_args = array(
 		'post_type'    => 'courier_notice',
@@ -26,7 +33,7 @@ function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = f
 		'post_content' => empty( $notice['post_content'] ) ? '' : wp_kses_post( $notice['post_content'] ),
 	);
 
-	//If the notice won't have any content in it, just bail.
+	// If the notice won't have any content in it, just bail.
 	if ( empty( $notice_args['post_content'] ) ) {
 		if ( empty( $notice_args['post_title'] ) ) {
 			return '';
@@ -35,7 +42,7 @@ function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = f
 		}
 	}
 
-	if ( $notice_id = wp_insert_post( $notice_args ) ) {
+	if ( $notice_id = wp_insert_post( $notice_args ) ) { // phpcs:ignore
 		if ( ! is_array( $types ) ) {
 			$types = explode( ',', $types );
 		}
@@ -45,7 +52,7 @@ function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = f
 		if ( $global ) {
 			wp_set_object_terms( $notice_id, array( 'Global' ), 'courier_scope', false );
 
-			//Clear the global notice cache
+			// Clear the global notice cache.
 			wp_cache_delete( 'global-notices', 'courier' );
 			wp_cache_delete( 'global-dismissible-notices', 'courier' );
 			wp_cache_delete( 'global-persistent-notices', 'courier' );
@@ -61,6 +68,15 @@ function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = f
 	}
 }
 
+/**
+ * Returns the user notices.
+ *
+ * @since 1.0
+ *
+ * @param array $args Array of arguments.
+ *
+ * @return array
+ */
 function courier_get_user_notices( $args = array() ) {
 	$number = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
 	$number = apply_filters( 'courier_override_notices_number', $number );
@@ -81,7 +97,7 @@ function courier_get_user_notices( $args = array() ) {
 	);
 
 	if ( is_user_logged_in() ) {
-		// User is logged in but no user_id is set, use current user ID
+		// User is logged in but no user_id is set, use current user ID.
 		if ( empty( $args['user_id'] ) ) {
 			$args['user_id'] = get_current_user_id();
 		}
@@ -106,7 +122,7 @@ function courier_get_user_notices( $args = array() ) {
 		return array();
 	}
 
-	// Do not include dismissed notices
+	// Do not include dismissed notices.
 	if ( ! $args['include_dismissed'] ) {
 		$query_args['tax_query'][] = array(
 			'taxonomy' => 'courier_status',
@@ -116,7 +132,7 @@ function courier_get_user_notices( $args = array() ) {
 		);
 	}
 
-	// Only include the notices for a specific placement
+	// Only include the notices for a specific placement.
 	if ( ! empty( $args['placement'] ) ) {
 		$query_args['tax_query']['relation'] = 'AND';
 
@@ -139,7 +155,9 @@ function courier_get_user_notices( $args = array() ) {
 /**
  * Query global notices. Cache appropriately
  *
- * @param array $args
+ * @since 1.0
+ *
+ * @param array $args Array of arguments.
  *
  * @return array|bool|mixed
  */
@@ -184,7 +202,7 @@ function courier_get_global_notices( $args = array() ) {
 		'no_found_rows'  => true,
 	);
 
-	// Only include the notices for a specific placement
+	// Only include the notices for a specific placement.
 	if ( ! empty( $args['placement'] ) ) {
 		$query_args['tax_query']['relation'] = 'AND';
 		$query_args['tax_query'][] = array(
@@ -209,7 +227,9 @@ function courier_get_global_notices( $args = array() ) {
 /**
  * Query dismissible global notices. Cache appropriately.
  *
- * @param bool $ids_only
+ * @since 1.0
+ *
+ * @param bool $ids_only Whether to return only IDs.
  *
  * @return array|bool|mixed
  */
@@ -266,7 +286,9 @@ function courier_get_dismissible_global_notices( $ids_only = false ) {
 /**
  * Query not dismissible global notices. Cache appropriately.
  *
- * @param array $args
+ * @since 1.0
+ *
+ * @param array $args Array of arguments.
  *
  * @return array|bool|mixed
  */
@@ -333,17 +355,10 @@ function courier_get_persistent_global_notices( $args = array() ) {
  *
  * @since 1.0
  *
- * @param string $user_id
- * @param bool   $include_global
- * @param bool   $dismissed
- * @param bool   $prioritize_persistent_global
- * @param bool   $ids_only
- * @param int    $number
- * @param array  $wp_query_args
+ * @param array $args Array of arguments.
  *
  * @return array
  */
-
 function courier_get_notices( $args = array() ) {
 	$defaults = array(
 		'user_id'                      => '',
@@ -366,7 +381,7 @@ function courier_get_notices( $args = array() ) {
 
 	$user_notices = courier_get_user_notices( $args );
 
-	// Account for global notices
+	// Account for global notices.
 	$global_posts = array();
 
 	if ( true === $args['include_global'] ) {
@@ -377,7 +392,7 @@ function courier_get_notices( $args = array() ) {
 			)
 		);
 
-		// Exclude dismissed
+		// Exclude dismissed.
 		if ( ! $args['include_dismissed'] ) {
 			$global_dismissed = courier_get_global_dismissed_notices( $args['user_id'] );
 
@@ -454,7 +469,7 @@ function courier_get_notices( $args = array() ) {
  *
  * @since 1.0
  *
- * @param array $args
+ * @param array $args Array of arguments.
  */
 function courier_display_notices( $args = array() ) {
 
@@ -464,11 +479,11 @@ function courier_display_notices( $args = array() ) {
 		return;
 	}
 
-	$courier_placement = ( !empty( $args['placement'] ) ) ? 'courier-location-' . $args['placement'] : '';
+	$courier_placement = ( ! empty( $args['placement'] ) ) ? 'courier-location-' . $args['placement'] : '';
 
 	ob_start();
 	?>
-	<div class="courier-notices alerts <?php echo $courier_placement; ?>">
+	<div class="courier-notices alerts <?php echo esc_attr( $courier_placement ); ?>">
 		<?php
 		$feedback_notices = array();
 
@@ -476,7 +491,7 @@ function courier_display_notices( $args = array() ) {
 
 		$prev_post = $post;
 
-		foreach ( $notices as $post ) {
+		foreach ( $notices as $post ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 			setup_postdata( $post );
 			?>
 			<div data-courier-notice-id="<?php echo esc_attr( get_the_ID() ); ?>" data-alert <?php post_class( 'courier-notice courier_notice callout alert alert-box' ); ?><?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>data-closable<?php endif; ?>>
@@ -497,8 +512,8 @@ function courier_display_notices( $args = array() ) {
 		}
 		wp_reset_postdata();
 
-		$post = $prev_post;
-		
+		$post = $prev_post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+
 		?>
 	</div>
 	<?php
@@ -511,73 +526,78 @@ function courier_display_notices( $args = array() ) {
 	echo $output; // @todo this should probably be filtered more extensively.
 }
 
-	/**
-	 * Display Courier modal(s) on the front end
-	 *
-	 * @since 1.0
-	 *
-	 * @param array $args
-	 */
-	function courier_display_modals( $args = array() ) {
-		$args = wp_parse_args( $args, array(
+/**
+ * Display Courier modal(s) on the front end
+ *
+ * @since 1.0
+ *
+ * @param array $args Array of arguments.
+ */
+function courier_display_modals( $args = array() ) {
+	$args = wp_parse_args(
+		$args,
+		array(
 			'placement' => 'popup-modal',
-		) );
+		)
+	);
 
-		$notices = courier_get_notices( $args );
+	$notices = courier_get_notices( $args );
 
-		if ( empty( $notices ) ) {
-			return;
-		}
-
-		ob_start();
-		?>
-		<div class="courier-modal-overlay" style="display:none;">
-			<?php
-				$feedback_notices = array();
-
-				global $post;
-				foreach ( $notices as $post ) {
-					setup_postdata( $post );
-					?>
-					<div class="courier-notices modal" data-courier-notice-id="<?php echo esc_attr( get_the_ID() ); ?>" <?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>data-closable<?php endif; ?>>
-						<?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>
-							<a href="#" class="courier-close close">&times;</a>
-						<?php endif; ?>
-						<?php the_content(); ?>
-					</div>
-					<?php
-
-					if ( has_term( 'feedback', 'courier_type' ) ) {
-						$feedback_notices[] = get_the_ID();
-					}
-
-					if ( ! empty( $feedback_notices ) ) {
-						courier_dismiss_notices( $feedback_notices );
-					}
-				}
-				wp_reset_postdata();
-			?>
-		</div>
-		<?php
-
-		$output = ob_get_contents();
-
-		$output = apply_filters( 'courier_notices', $output );
-		ob_end_clean();
-
-		echo $output; // @todo this should probably be filtered more extensively.
+	if ( empty( $notices ) ) {
+		return;
 	}
+
+	ob_start();
+	?>
+	<div class="courier-modal-overlay" style="display:none;">
+		<?php
+		$feedback_notices = array();
+
+		global $post;
+		foreach ( $notices as $post ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+			setup_postdata( $post );
+			?>
+			<div class="courier-notices modal" data-courier-notice-id="<?php echo esc_attr( get_the_ID() ); ?>" <?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>data-closable<?php endif; ?>>
+				<?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>
+					<a href="#" class="courier-close close">&times;</a>
+				<?php endif; ?>
+				<?php the_content(); ?>
+			</div>
+			<?php
+
+			if ( has_term( 'feedback', 'courier_type' ) ) {
+				$feedback_notices[] = get_the_ID();
+			}
+
+			if ( ! empty( $feedback_notices ) ) {
+				courier_dismiss_notices( $feedback_notices );
+			}
+		}
+		wp_reset_postdata();
+		?>
+	</div>
+	<?php
+
+	$output = ob_get_contents();
+
+	$output = apply_filters( 'courier_notices', $output );
+	ob_end_clean();
+
+	echo $output; // @todo this should probably be filtered more extensively.
+}
 
 /**
  * Get a user's owned dismissed notices
  *
- * @param string $user_id
+ * @since 1.0
+ *
+ * @param int $user_id The ID of the user to get notices for.
  *
  * @return array|void
  */
-function courier_get_dismissed_notices( $user_id = '' ) {
+function courier_get_dismissed_notices( $user_id = 0 ) {
 	if ( empty( $user_id ) ) {
-		if ( ! $user_id = get_current_user_id() ) {
+		if ( ! $user_id = get_current_user_id() ) { // phpcs:ignore
 			return array();
 		}
 	}
@@ -616,12 +636,12 @@ function courier_get_dismissed_notices( $user_id = '' ) {
  *
  * @since 1.0
  *
- * @param string $user_id
+ * @param int $user_id The ID of the user to get notices for.
  *
  * @return array|void
  */
-function courier_get_global_dismissed_notices( $user_id = '' ) {
-	// If user isn't logged in, use cookies
+function courier_get_global_dismissed_notices( $user_id = 0 ) {
+	// If user isn't logged in, use cookies.
 	if ( ! is_user_logged_in() && isset( $_COOKIE['dismissed_notices'] ) ) {
 		return array_map( 'intval', json_decode( stripslashes( $_COOKIE['dismissed_notices'] ) ) );
 	}
@@ -630,7 +650,7 @@ function courier_get_global_dismissed_notices( $user_id = '' ) {
 		$user_id = get_current_user_id();
 	}
 
-	if ( ! $dismissed_notices = get_user_option( 'courier_dismissals', $user_id ) ) {
+	if ( ! $dismissed_notices = get_user_option( 'courier_dismissals', $user_id ) ) { // phpcs:ignore
 		$dismissed_notices = array();
 	}
 
@@ -640,14 +660,15 @@ function courier_get_global_dismissed_notices( $user_id = '' ) {
 /**
  * Get all dismissed notices for a user
  *
- * @param string $user_id
- * @param bool|false $global_only
+ * @since 1.0
+ *
+ * @param int $user_id The ID of the user to get notices for.
  *
  * @return array|bool|mixed
  */
-function courier_get_all_dismissed_notices( $user_id = '' ) {
+function courier_get_all_dismissed_notices( $user_id = 0 ) {
 	if ( empty( $user_id ) ) {
-		if ( ! $user_id = get_current_user_id() ) {
+		if ( ! $user_id = get_current_user_id() ) { // phpcs:ignore
 			return false;
 		}
 	}
@@ -658,16 +679,16 @@ function courier_get_all_dismissed_notices( $user_id = '' ) {
 /**
  * Dismiss a notice for a user
  *
- * @param        $notice_ids
- * @param string $user_id
- * @param bool   $force_dismiss
- * @param bool   $force_trash
+ * @param array $notice_ids    Array of notice IDs.
+ * @param int   $user_id       The ID of the user to get notices for.
+ * @param bool  $force_dismiss Whether to force dismiss.
+ * @param bool  $force_trash   Whether to force trash.
  *
  * @return bool|WP_Error
  */
-function courier_dismiss_notices( $notice_ids, $user_id = '', $force_dismiss = false, $force_trash = false ) {
+function courier_dismiss_notices( $notice_ids, $user_id = 0, $force_dismiss = false, $force_trash = false ) {
 	if ( empty( $user_id ) ) {
-		if ( ! $user_id = get_current_user_id() ) {
+		if ( ! $user_id = get_current_user_id() ) { // phpcs:ignore
 			return false;
 		}
 	}
@@ -678,7 +699,7 @@ function courier_dismiss_notices( $notice_ids, $user_id = '', $force_dismiss = f
 	$notice_ids = (array) $notice_ids;
 
 	foreach ( $notice_ids as $n_id ) {
-		if ( ! $notice = get_post( $n_id ) ) {
+		if ( ! $notice = get_post( $n_id ) ) { // phpcs:ignore
 			$errors->add( 'courier_does_not_exist', esc_html__( 'The notice you tried to dismiss does not exist.', 'courier' ) );
 			continue;
 		}

@@ -1,20 +1,28 @@
 <?php
+/**
+ * Configuration Model
+ *
+ * @package Courier\Model
+ */
 
 namespace Courier\Model;
 
 /**
- * Class Config
- * @package Courier\Model
+ * Config Class
  */
 class Config {
 
 	/**
+	 * Properties
+	 *
 	 * @var array
 	 */
 	private $properties = array();
 
 	/**
-	 * Config constructor.
+	 * Config constructor
+	 *
+	 * @since 1.0
 	 */
 	public function __construct() {
 		$this->setup_plugin_config();
@@ -22,6 +30,9 @@ class Config {
 
 	/**
 	 * Define our configuration settings
+	 *
+	 * @since 1.0
+	 *
 	 * @return bool|mixed
 	 */
 	private function setup_plugin_config() {
@@ -65,7 +76,9 @@ class Config {
 	/**
 	 * Config Getter
 	 *
-	 * @param $name
+	 * @since 1.0
+	 *
+	 * @param string $name The name of the property to get.
 	 *
 	 * @return bool|mixed
 	 */
@@ -78,10 +91,12 @@ class Config {
 	}
 
 	/**
-	 * Config Getter
+	 * Config Setter
 	 *
-	 * @param $name
-	 * @param $value
+	 * @since 1.0
+	 *
+	 * @param string $name  The name of the property to set.
+	 * @param mixed  $value The value of the property being set.
 	 *
 	 * @return $this
 	 */
@@ -94,7 +109,11 @@ class Config {
 	/**
 	 * Config Importer
 	 *
-	 * @param $var
+	 * @since 1.0
+	 *
+	 * Sets multiple properties at once.
+	 *
+	 * @param array|object $var An array or object or properties and values to set.
 	 *
 	 * @return $this|bool
 	 */
