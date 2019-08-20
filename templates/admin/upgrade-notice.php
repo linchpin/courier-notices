@@ -8,7 +8,7 @@
  * @subpackage Admin
  */
 
-$courier_version = get_option( 'courier_version' );
+$courier_version = get_option( 'courier_version', '0.0' );
 
 ?>
 <div class="courier-notice courier-update-notice notice notice-info is-dismissible" data-type="update-notice">

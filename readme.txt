@@ -1,5 +1,5 @@
 === Courier ===
-Contributors: linchpin_agency, aware, desrosj, fischfood
+Contributors: linchpin_agency, aware, ncallen, desrosj, fischfood
 Tags: linchpin, front end, notices, notifications, alerts, dismissible, responsive, foundation, gravity forms
 Requires at least: 4.0
 Tested up to: 5.2.2

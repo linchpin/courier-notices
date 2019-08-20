@@ -82,7 +82,7 @@ class Courier_Type {
 			'show_in_nav_menus' => false,
 			'show_ui'           => true,
 			'meta_box_cb'       => false,
-			'show_admin_column' => true,
+			'show_admin_column' => false,
 			'query_var'         => true,
 			'rewrite'           => false,
 			'show_tagcloud'     => true,

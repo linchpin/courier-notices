@@ -43,18 +43,16 @@ class Admin {
 			return $columns;
 		}
 
-		$type      = $columns['taxonomy-courier_type'];
 		$placement = $columns['taxonomy-courier_placement'];
 
 		unset( $columns['date'] );
-		unset( $columns['taxonomy-courier_type'] );
 		unset( $columns['taxonomy-courier_placement'] );
 
 		return array_merge(
 			$columns,
 			array(
 				'courier-summary'            => esc_html__( 'Summary', 'courier' ),
-				'taxonomy-courier_type'      => $type,
+				'courier-type'               => esc_html__( 'Type', 'courier' ),
 				'taxonomy-courier_placement' => $placement,
 				'courier-global'             => esc_html__( 'Usage', 'courier' ),
 				'courier-date'               => wp_kses(
@@ -90,7 +88,7 @@ class Admin {
 				} else {
 					$user = get_userdata( $post->post_author );
 
-					echo esc_html( $user->display_name );
+					echo '<span class="dashicons dashicons-admin-users"></span> ' . esc_html( $user->display_name );
 				}
 				break;
 			case 'courier-summary':
@@ -99,6 +97,26 @@ class Admin {
 				if ( ! empty( $summary ) ) {
 					echo wp_kses_post( wp_trim_words( $summary, 20 ) );
 				}
+				break;
+			case 'courier-type':
+				$types = get_the_terms( $post->ID, 'courier_type' );
+
+				$links = array();
+
+				if ( ! empty( $types ) ) :
+					?>
+				<ul>
+					<?php
+
+					foreach ( $types as $term ) {
+						$link    = get_edit_term_link( $term->term_id, 'courier_type' );
+						$links[] = '<li><a href="' . esc_url( $link ) . '" rel="tag"><span class="courier-icon icon-' . esc_attr( $term->slug ) . '"></span>' . $term->name . '</a></li>';
+					}
+					echo wp_kses_post( join( '', $links ) );
+					?>
+				</ul>
+					<?php
+				endif;
 				break;
 			case 'courier-date':
 				$expiration = (int) get_post_meta( $post_id, '_courier_expiration', true );
@@ -172,13 +190,28 @@ class Admin {
 			return;
 		}
 
+		global $current_screen, $post;
+
 		if ( 'edit.php' === $hook ) {
 			if ( isset( $_GET['post_type'] ) && 'courier_notice' !== $_GET['post_type'] ) { // @codingStandardsIgnoreLine
 				return;
 			}
 		}
 
-		wp_enqueue_script( 'courier-admin', COURIER_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-autocomplete', 'jquery-ui-datepicker', 'jquery-ui-tooltip', 'wp-color-picker' ), COURIER_VERSION, true );
+		wp_enqueue_script(
+			'courier-admin',
+			COURIER_PLUGIN_URL . 'js/courier-admin.js',
+			array(
+				'jquery',
+				'jquery-ui-core',
+				'jquery-ui-autocomplete',
+				'jquery-ui-datepicker',
+				'jquery-ui-tooltip',
+				'wp-color-picker',
+			),
+			COURIER_VERSION,
+			true
+		);
 
 		global $post;
 
@@ -192,26 +225,37 @@ class Admin {
 
 		$current_user = wp_get_current_user();
 
+		$strings = array(
+			'expired' => esc_html__( 'Expired', 'courier-notices' ),
+			'label'   => esc_html__( 'Expired', 'courier-notices' ),
+			'copy'    => esc_html__( 'Copy this shortcode to your clipboard', 'courier-notices' ),
+			'copied'  => esc_html__( 'Courier Notice shortcode has been copied to your clipboard.', 'courier-notices' ),
+		);
+
+		$strings = apply_filters( 'courier_notices_admin_strings', $strings ); // Allow filtering of localization strings.
+
+		$courier_notices_admin_data = array(
+			'post_id'             => ! is_null( $post ) ? $post->ID : 0,
+			'post_type'           => ! is_null( $post ) ? $post->post_type : $current_screen->post_type,
+			'site_uri'            => site_url(),
+			'screen'              => $current_screen->base,
+			'post_status'         => $status,
+			'user_endpoint'       => trailingslashit( site_url( 'courier/user-search' ) ),
+			'reactivate_endpoint' => trailingslashit( site_url( 'courier/reactivate' ) ),
+			'dateFormat'          => get_option( 'date_format' ),
+			'current_user'        => array(
+				'ID'           => $current_user->ID,
+				'display_name' => $current_user->display_name,
+			),
+			'strings'             => $strings,
+		);
+
+		$courier_notices_admin_data = apply_filters( 'courier_notices_admin_data', $courier_notices_admin_data ); // Allow filtering of the entire localized dataset.
+
 		wp_localize_script(
 			'courier-admin',
 			'courier_admin_data',
-			array(
-				'post_status'         => $status,
-				'post_type'           => $post_type,
-				'user_endpoint'       => trailingslashit( site_url( 'courier/user-search' ) ),
-				'reactivate_endpoint' => trailingslashit( site_url( 'courier/reactivate' ) ),
-				'dateFormat'          => get_option( 'date_format' ),
-				'current_user'        => array(
-					'ID'           => $current_user->ID,
-					'display_name' => $current_user->display_name,
-				),
-				'strings'             => array(
-					'expired' => esc_html__( 'Expired', 'courier' ),
-					'label'   => esc_html__( 'Expired', 'courier' ),
-					'copy'    => esc_html__( 'Copy this shortcode to your clipboard', 'courier' ),
-					'copied'  => esc_html__( 'Courier shortcode has been copied to your clipboard.', 'courier' ),
-				),
-			)
+			$courier_notices_admin_data
 		);
 	}
 
@@ -235,7 +279,12 @@ class Admin {
 		}
 
 		wp_enqueue_style( 'wp-color-picker' );
-		wp_enqueue_style( 'courier-admin', COURIER_PLUGIN_URL . 'assets/css/admin.css', array(), COURIER_VERSION );
+		wp_enqueue_style(
+			'courier-admin',
+			COURIER_PLUGIN_URL . 'css/admin-courier.css',
+			array(),
+			COURIER_VERSION
+		);
 	}
 
 	/**

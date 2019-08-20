@@ -19,7 +19,7 @@ if ( ! function_exists( 'add_action' ) ) {
  *
  * Renders the settings page contents.
  *
- * @since       1.1.0
+ * @since       1.0.0
  */
 ?>
 <div class="courier-wrap" id="courier-settings">

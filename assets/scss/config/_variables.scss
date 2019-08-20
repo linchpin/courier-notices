@@ -1,0 +1,76 @@
+/**
+ *
+ * 01. Dimensions
+ * 02. Colors
+ * 03. Animations
+ * 04. Breakpoints
+ * 05. Icons
+ *
+ **/
+
+// 01. Dimensions
+$base:            16px;
+$input_height:    28px;
+$input_padding_x: 5px;
+$input_padding_y: 3px;
+$inside_padding:  12px;
+$block_padding:   10px;
+
+// 02. Colors
+$blue:         #009fd4;
+$green:        #94C169;
+$darker-green: #4F8C7E;
+$darkest-grey: #666;
+$dark-grey:    #ccc;
+$grey:         #dedede;
+$light-grey:   #f5f5f5;
+$super-light-grey: #fafafa;
+
+$primary:       $green;
+$primary-light: scale-color( $primary, $lightness: 8% );
+$primary-dark:  scale-color( $primary, $lightness: -8% );
+
+$pointer-title-bg: #00a0d2;
+$pointer-border:   #3592b6;
+
+//Colors
+$cerise: #d43c9e;
+$dark-purple: #812d8f;
+$blue-gem: #2c0c82;
+$darker-blue: #1B0253;
+$caribbean-green: $primary;
+$lochinvar: $darker-green;
+$white-smoke: #f5f5f5;
+$gray: #e8e8e8;
+//Other Global items
+$global-radius: .25rem;
+
+// 03. Animations
+$global_timing: 300ms;
+$global_easing: ease-out;
+
+// 04. Breakpoints
+$courier-small: 'screen and (max-width: 1023px)';
+$courier-medium-up: 'screen and (min-width: 1024px)';
+$courier-medium-only: 'screen and (min-width: 1024px) and (max-width: 1279px)';
+
+// 05. Icons
+
+$icomoon-font-family: "courier" !default;
+$icomoon-font-path: "fonts" !default;
+
+$icon-success: "\e900";
+$icon-warning: "\e901";
+$icon-info: "\e902";
+$icon-error: "\e903";
+$icon-alert: "\e904";
+$icon-feedback: "\e905";
+$icon-welcome: "\e906";
+$icon-courier-logo: "\e907";
+$icon-linchpin-logo-fill: "\e908";
+$icon-github-logo: "\e909";
+$icon-twitter: "\e90a";
+$icon-fb: "\e90b";
+$icon-instagram: "\e90c";
+
+

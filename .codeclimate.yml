@@ -1,0 +1,53 @@
+---
+exclude_paths:
+- tests/
+- node_modules/
+- languages/
+- vendor/
+- js/vendor/
+- lib/
+- ".sass-cache/"
+- "*.min.css"
+- "*.min.js"
+- "css/**.css"
+- "js/*.js"
+
+engines:
+  csslint:
+    enabled: false
+  duplication:
+    enabled: false
+    config:
+      languages:
+      - javascript
+      - php
+  eslint:
+    enabled: true
+    channel: eslint-3
+  fixme:
+    enabled: true
+  markdownlint:
+    enabled: false
+  phpcodesniffer:
+    enabled: true
+    config:
+      file_extensions: php
+      standard: WordPress
+      ignore_warnings: false
+      encoding: utf-8
+  phpmd:
+    enabled: true
+    config:
+      file_extensions: php
+      rulesets: codesize,naming,unusedcode
+  scss-lint:
+    enabled: true
+ratings:
+  paths:
+  - "**.md"
+  - "**.inc"
+  - "**.js"
+  - "**.json"
+  - "**.php"
+  - "**.css"
+  - "**.scss"
