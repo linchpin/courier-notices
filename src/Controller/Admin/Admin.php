@@ -43,18 +43,16 @@ class Admin {
 			return $columns;
 		}
 
-		$type      = $columns['taxonomy-courier_type'];
 		$placement = $columns['taxonomy-courier_placement'];
 
 		unset( $columns['date'] );
-		unset( $columns['taxonomy-courier_type'] );
 		unset( $columns['taxonomy-courier_placement'] );
 
 		return array_merge(
 			$columns,
 			array(
 				'courier-summary'            => esc_html__( 'Summary', 'courier' ),
-				'taxonomy-courier_type'      => $type,
+				'courier-type'               => esc_html__( 'Type', 'courier' ),
 				'taxonomy-courier_placement' => $placement,
 				'courier-global'             => esc_html__( 'Usage', 'courier' ),
 				'courier-date'               => wp_kses(
@@ -99,6 +97,26 @@ class Admin {
 				if ( ! empty( $summary ) ) {
 					echo wp_kses_post( wp_trim_words( $summary, 20 ) );
 				}
+				break;
+			case 'courier-type':
+				$types = get_the_terms( $post->ID, 'courier_type' );
+
+				$links = array();
+
+				if ( ! empty( $types ) ) :
+					?>
+				<ul>
+					<?php
+
+					foreach ( $types as $term ) {
+						$link    = get_edit_term_link( $term->term_id, 'courier_type' );
+						$links[] = '<li><a href="' . esc_url( $link ) . '" rel="tag"><span class="courier-icon icon-' . esc_attr( $term->slug ) . '"></span>' . $term->name . '</a></li>';
+					}
+					echo wp_kses_post( join( '', $links ) );
+					?>
+				</ul>
+					<?php
+				endif;
 				break;
 			case 'courier-date':
 				$expiration = (int) get_post_meta( $post_id, '_courier_expiration', true );

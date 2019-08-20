@@ -608,6 +608,14 @@
   #courier-description.collapse {
     padding: 1px 12px; }
 
+#courier-type,
+.courier-type {
+  width: 150px; }
+  #courier-type ul,
+  .courier-type ul {
+    padding: 0;
+    margin: 0; }
+
 .courier-row-padding {
   padding: 8px 50px 8px 12px; }
 
