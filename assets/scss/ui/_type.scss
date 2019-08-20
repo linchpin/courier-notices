@@ -12,12 +12,12 @@
 // Courier logo font icon. Can be used anywhere in the WordPress admin
 @font-face {
   font-family: '#{$icomoon-font-family}';
-  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?ejncdb');
-  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?ejncdb#iefix') format('embedded-opentype'),
-  url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff2?ejncdb') format('woff2'),
-  url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?ejncdb') format('truetype'),
-  url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?ejncdb') format('woff'),
-  url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?ejncdb##{$icomoon-font-family}') format('svg');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?f4juv');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?f4juv#iefix') format('embedded-opentype'),
+  url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff2?f4juv') format('woff2'),
+  url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?f4juv') format('truetype'),
+  url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?f4juv') format('woff'),
+  url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?f4juv##{$icomoon-font-family}') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -37,6 +37,20 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.courier-icon {
+  &:before {
+	color: #82878c;
+	speak: none;
+	display: inline-block;
+	padding: 0 10px 0 0;
+	position: relative;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+	vertical-align: top;
+  }
+}
+
 .icon-success {
   &:before {
 	content: $icon-success;
@@ -47,7 +61,6 @@
 	content: $icon-warning;
   }
 }
-
 .icon-info {
   &:before {
 	content: $icon-info;
@@ -68,80 +81,40 @@
 	content: $icon-feedback;
   }
 }
-
-// Apply the courier font icon to the menu icon
-.dashicons-courier-logo:before,
-.icon-courier:before {
-	content: "\2635";
-	font-family: 'courier' !important;
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+.icon-welcome {
+  &:before {
+	content: $icon-welcome;
+  }
 }
-.icon-facebook:before {
-	content: "\e900";
-	font-family: 'courier' !important;
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+.icon-courier-logo {
+  &:before {
+	content: $icon-courier-logo;
+  }
 }
-.icon-github:before {
-	content: "\e901";
-	font-family: 'courier' !important;
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+.icon-linchpin-logo-fill {
+  &:before {
+	content: $icon-linchpin-logo-fill;
+  }
 }
-.icon-linchpin-logo:before {
-	content: "\e902";
-	font-family: 'courier' !important;
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+.icon-github-logo {
+  &:before {
+	content: $icon-github-logo;
+  }
 }
-.icon-linchpin-logo-alt:before {
-	content: "\e903";
-	font-family: 'courier' !important;
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+.icon-twitter {
+  &:before {
+	content: $icon-twitter;
+  }
 }
-.icon-twitter:before {
-	content: "\e904";
-	font-family: 'courier' !important;
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+.icon-fb {
+  &:before {
+	content: $icon-fb;
+  }
+}
+.icon-instagram {
+  &:before {
+	content: $icon-instagram;
+  }
 }
 
 // We want all styles in the context of the MCS container, as to not overwrite any

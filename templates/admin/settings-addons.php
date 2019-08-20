@@ -35,9 +35,9 @@ $safe_content = array(
 				</div>
 			</div>
 			<div class="wrapper">
-				<p>Add Ons are a great way to extend the functionality of Courier</p>
-				<p>There are numerous ways to do this including our own premium library of plugins</p>
-				<p>Or take a look at our growing developer documentation</p>
+				<p><?php esc_html_e( 'Add Ons are a great way to extend the functionality of Courier', 'courier' ); ?></p>
+				<p><?php esc_html_e( 'There are numerous ways to do this including our own premium library of plugins', 'courier' ); ?></p>
+				<p><?php esc_html_e( 'Or take a look at our growing developer documentation', 'courier' ); ?></p>
 			</div>
 		</div>
 	</div>

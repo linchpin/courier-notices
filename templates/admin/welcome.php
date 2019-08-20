@@ -43,9 +43,9 @@ if ( ! $show ) {
 			<div class="welcome-panel-column">
 				<h3><?php esc_html_e( 'More Actions', 'mesh' ); ?></h3>
 				<ul>
-					<li><?php printf( '<a href="%s" class="welcome-icon welcome-learn-more" target="_blank">' . esc_html__( 'Learn more about Courier', 'courier' ) . '</a>', esc_url( __( 'https://github.com/linchpin/courier', 'courier' ) ) ); ?></li>
-					<li><?php printf( '<a href="%s" class="welcome-icon welcome-view-linchin icon-linchpin-logo" target="_blank">' . esc_html__( 'About Linchpin', 'mesh' ) . '</a>', esc_url( __( 'https://linchpin.com', 'courier' ) ) ); ?></li>
-					<li><?php printf( '<a href="%s" class="welcome-icon welcome-view-github icon-github" target="_blank">' . esc_html__( 'View Features Requests', 'mesh' ) . '</a>', esc_url( __( 'https://github.com/linchpin/courier/issues', 'courier' ) ) ); ?></li>
+					<li><?php printf( '<a href="%s" target="_blank"><span class="welcome-icon welcome-learn-more"></span>' . esc_html__( 'Learn more about Courier', 'courier' ) . '</a>', esc_url( __( 'https://github.com/linchpin/courier', 'courier' ) ) ); ?></li>
+					<li><?php printf( '<a href="%s" target="_blank"><span class="courier-icon icon-linchpin-logo-fill"></span>' . esc_html__( 'About Linchpin', 'mesh' ) . '</a>', esc_url( __( 'https://linchpin.com', 'courier' ) ) ); ?></li>
+					<li><?php printf( '<a href="%s" target="_blank"><span class="courier-icon icon-github-logo"></span>' . esc_html__( 'View Features Requests', 'mesh' ) . '</a>', esc_url( __( 'https://github.com/linchpin/courier/issues', 'courier' ) ) ); ?></li>
 				</ul>
 			</div>
 		</div>

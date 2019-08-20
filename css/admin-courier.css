@@ -625,6 +625,14 @@
 #courier-settings li {
   margin-left: 10px; }
 
+#courier-settings .courier-sub-menu {
+  padding: 10px 25px;
+  margin-left: -22px;
+  background: #f5f5f5; }
+  #courier-settings .courier-sub-menu a {
+    text-decoration: none;
+    color: #4F8C7E; }
+
 .courier-section-block .courier-section-control-featured_image {
   float: right; }
 
@@ -638,8 +646,8 @@
  **/
 @font-face {
   font-family: "courier";
-  src: url("fonts/courier.eot?ejncdb");
-  src: url("fonts/courier.eot?ejncdb#iefix") format("embedded-opentype"), url("fonts/courier.woff2?ejncdb") format("woff2"), url("fonts/courier.ttf?ejncdb") format("truetype"), url("fonts/courier.woff?ejncdb") format("woff"), url("fonts/courier.svg?ejncdb#courier") format("svg");
+  src: url("fonts/courier.eot?f4juv");
+  src: url("fonts/courier.eot?f4juv#iefix") format("embedded-opentype"), url("fonts/courier.woff2?f4juv") format("woff2"), url("fonts/courier.ttf?f4juv") format("truetype"), url("fonts/courier.woff?f4juv") format("woff"), url("fonts/courier.svg?f4juv#courier") format("svg");
   font-weight: normal;
   font-style: normal; }
 
@@ -655,6 +663,17 @@
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+
+.courier-icon:before {
+  color: #82878c;
+  speak: none;
+  display: inline-block;
+  padding: 0 10px 0 0;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-decoration: none !important;
+  vertical-align: top; }
 
 .icon-success:before {
   content: ""; }
@@ -674,78 +693,26 @@
 .icon-feedback:before {
   content: ""; }
 
-.dashicons-courier-logo:before,
-.icon-courier:before {
-  content: "\2635";
-  font-family: 'courier' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
+.icon-welcome:before {
+  content: ""; }
 
-.icon-facebook:before {
-  content: "\e900";
-  font-family: 'courier' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
+.icon-courier-logo:before {
+  content: ""; }
 
-.icon-github:before {
-  content: "\e901";
-  font-family: 'courier' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
+.icon-linchpin-logo-fill:before {
+  content: ""; }
 
-.icon-linchpin-logo:before {
-  content: "\e902";
-  font-family: 'courier' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-
-.icon-linchpin-logo-alt:before {
-  content: "\e903";
-  font-family: 'courier' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
+.icon-github-logo:before {
+  content: ""; }
 
 .icon-twitter:before {
-  content: "\e904";
-  font-family: 'courier' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
+  content: ""; }
+
+.icon-fb:before {
+  content: ""; }
+
+.icon-instagram:before {
+  content: ""; }
 
 #courier-container .text-left {
   text-align: left; }
@@ -1638,18 +1605,19 @@ table.courier_notice_page_courier .form-table th {
     .courier-update-notice a:hover, .courier-update-notice a:focus, .courier-update-notice a:active {
       color: #4F8C7E; }
 
-#settings h2 {
-  display: none !important; }
-  #settings h2.color-darkpurple {
-    display: inline-block !important; }
+.form-table td .courier_notice_page_courier td {
+  padding: 8px 10px; }
 
-#settings form.settings-form .form-table {
+.form-table td .courier_notice_page_courier thead th, .form-table td .courier_notice_page_courier thead td {
+  padding: 0 8px; }
+
+#courier-settings form.settings-form .form-table {
   width: 90%;
   margin: 2rem 5%; }
 
-#settings form.settings-form .submit {
+#courier-settings form.settings-form .submit {
   width: 90%;
   margin: 2rem 5%; }
 
-#settings input[type=checkbox]:checked:before {
+#courier-settings input[type=checkbox]:checked:before {
   color: #d43c9e; }

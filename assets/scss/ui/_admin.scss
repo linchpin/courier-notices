@@ -992,14 +992,21 @@ table.courier_notice_page_courier .form-table th {
   }
 }
 
-// Settings
-#settings {
-  h2 {
-    display: none !important;
-    &.color-darkpurple {
-      display: inline-block !important;
+.form-table td {
+  .courier_notice_page_courier {
+    td {
+      padding:8px 10px;
+    }
+
+    thead th, thead td {
+      padding:0 8px;
     }
   }
+}
+
+// Settings
+#courier-settings {
+
   form.settings-form {
     .form-table {
       width: 90%;
