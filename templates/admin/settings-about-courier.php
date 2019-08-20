@@ -7,6 +7,8 @@
  * @subpackage Admin
  */
 
+use \Courier\Helper\Utils as Utils;
+
 $safe_content = array(
 	'a'    => array(
 		'href'  => array(),
@@ -37,7 +39,7 @@ $safe_content = array(
 								$safe_content
 							),
 							esc_html( 'Getting Started:' ),
-							esc_html( 'Using Courier to notify your users of anything you want!' )
+							esc_html( 'Using Courier Notices to provide your vistors/users with helpful information' )
 						);
 						?>
 					</h2>
@@ -48,6 +50,21 @@ $safe_content = array(
 				<div class="courier-columns-6 table-cell">
 					<h3 class="color-darkgreen"><?php esc_html_e( 'A Quick 2 Minute Primer', 'courier' ); ?></h3>
 					<p><?php esc_html_e( 'Courier allows you to notify your site visitors/users of different information and events on your site.', 'courier' ); ?></p>
+					<p><?php esc_html_e( 'We built this plugin as a base notification system for a few other projects and decided to share it with the community.', 'courier' ); ?></p>
+					<?php if ( ! Utils::is_wp_cron_disabled() ) : ?>
+					<p>
+						<strong><?php esc_html_e( 'Recommendation: If you are using the default WP Cron, we suggest utilizing an alternate cron so the timing of notice expiration is more accurate.', 'courier' ); ?></strong>
+					</p>
+					<p>
+						<?php
+						printf(
+							// translators: %s WP Cron Documentation.
+							wp_kses( __( 'You can read more about <a href="%s" target="_blank" rel="noopener">WP Cron Here</a>.', 'courier' ), $safe_content ),
+							esc_url( 'https://developer.wordpress.org/plugins/cron/' )
+						);
+						?>
+					</p>
+					<?php endif; ?>
 				</div>
 
 				<div class="courier-columns-6 right table-cell">
@@ -57,7 +74,54 @@ $safe_content = array(
 
 			<div class="gray-bg negative-bg">
 				<div class="wrapper">
-					<h2 class="color-darkpurple light-weight"><?php esc_html_e( 'More Quick Tips', 'courier' ); ?></h2>
+					<h2 class="color-darkgreen light-weight"><?php esc_html_e( 'Getting Started / Directions', 'courier' ); ?></h2>
+					<div class="grey-box-container help-row" data-equalizer="">
+						<div class="courier-columns-12">
+							<div class="grey-box" data-equalizer-watch="">
+								<div class="about-box-icon">
+									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/feature-easy-familiar-2.svg' ); ?>" alt=""/>
+								</div>
+								<div class="about-box-copy">
+									<h4 class="no-margin"><?php esc_html_e( 'Settings', 'courier' ); ?></h4>
+									<p><?php esc_html_e( 'Create site notices using an interface similar to default pages and posts in WordPress.', 'courier' ); ?></p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="grey-box-container help-row" data-equalizer="">
+						<div class="courier-columns-12">
+							<div class="grey-box" data-equalizer-watch="">
+								<div class="about-box-icon">
+									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/feature-easy-familiar-2.svg' ); ?>" alt=""/>
+								</div>
+								<div class="about-box-copy">
+									<h4 class="no-margin"><?php esc_html_e( 'Adding / Editing Notices', 'courier' ); ?></h4>
+									<p><?php esc_html_e( 'Creating and Editing notices is similar to pages and posts. Where each notice has a title and content.', 'courier' ); ?></p>
+									<h5 class="no-margin"><?php esc_html_e( 'More Settings', 'courier' ); ?></h5>
+									<dl>
+										<dt><?php esc_html_e( 'Notice Types', 'courier' ); ?></dt>
+										<dd><?php esc_html_e( 'Notice Types are used to display, success, error, warning and informational notices to your users' ); ?></dd>
+										<dd><?php esc_html_e( 'You can also create more notice types as needed.' ); ?></dd>
+										<dt><?php esc_html_e( 'Notice Placement', 'courier' ); ?></dt>
+										<dd>
+											<ul>
+												<li><?php esc_html_e( 'Header', 'courier' ); ?></li>
+												<li><?php esc_html_e( 'Footer', 'courier' ); ?></li>
+												<li><?php esc_html_e( 'Modal / Popup', 'courier' ); ?></li>
+											</ul>
+										</dd>
+										<dt><?php esc_html_e( 'Notice Expriration', 'courier' ); ?></dt>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="gray-bg negative-bg">
+				<div class="wrapper">
+					<h2 class="color-darkgreen light-weight"><?php esc_html_e( 'More Quick Tips', 'courier' ); ?></h2>
 					<div class="grey-box-container help-row" data-equalizer="">
 						<div class="courier-columns-6">
 							<div class="grey-box" data-equalizer-watch="">

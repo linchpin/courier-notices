@@ -24,7 +24,7 @@ class Welcome {
 	 */
 	public function update_welcome_panel() {
 
-		check_ajax_referer( 'courier_welcome_panel_nonce', 'courier_welcome_panel_nonce' );
+		check_ajax_referer( 'courier_notices_welcome_panel_nonce', 'courier_notices_welcome_panel' );
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			wp_die( - 1 );

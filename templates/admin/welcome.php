@@ -21,7 +21,7 @@ if ( ! $show ) {
 
 ?>
 <div id="courier-notices-welcome-panel" class="<?php echo esc_attr( $classes ); ?>">
-	<?php wp_nonce_field( 'courier_welcome_nonce', 'courier-welcome-nonce', false ); ?>
+	<?php wp_nonce_field( 'courier_notices_welcome_panel_nonce', 'courier_notices_welcome_panel', false ); ?>
 	<a class="courier-notices-welcome-panel-close" href="<?php echo esc_url( admin_url( 'edit.php?post_type=courier_notice&courier_welcome=0' ) ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the Mesh templates welcome panel', 'mesh' ); ?>"><?php esc_html_e( 'Dismiss', 'mesh' ); ?></a>
 	<div class="courier welcome-panel-content">
 		<h2><?php esc_html_e( 'Get ready to keep your users in the loop with Courier', 'courier' ); ?></h2>
@@ -50,4 +50,5 @@ if ( ! $show ) {
 			</div>
 		</div>
 	</div>
+	<img class="linchpin-logo bottom-right" src="<?php echo esc_url( COURIER_PLUGIN_URL . 'img/linchpin-logo-spacing-color@2x.png' ); ?>" alt="Linchpin linchpin.com" />
 </div>

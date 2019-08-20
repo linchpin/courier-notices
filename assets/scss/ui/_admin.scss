@@ -755,7 +755,7 @@ table.courier_notice_page_courier .form-table th {
   }
 
   .green-bg {
-    background-color: $caribbean-green;
+    background-color: $primary;
     padding: 1px;
     border-radius: 0 0 $global-radius $global-radius;
 
@@ -766,8 +766,8 @@ table.courier_notice_page_courier .form-table th {
       font-weight: 600;
 
       &:hover, &:focus, &:active {
-        color: $lochinvar !important;
-        border-bottom: 2px solid $lochinvar;
+        color: $darker-green !important;
+        border-bottom: 2px solid $darker-green;
       }
     }
   }
@@ -879,7 +879,7 @@ table.courier_notice_page_courier .form-table th {
     .new-tag {
       line-height: 45px;
       display: inline-block;
-      color: $cerise;
+      color: $primary;
       font-weight: 700;
       margin: 0 !important;
       vertical-align: middle;
@@ -964,9 +964,11 @@ table.courier_notice_page_courier .form-table th {
 // UPDATE Notification
 .courier-update-notice {
   padding: 10px 38px;
-  border-left-color: $cerise;
-  margin: 25px 20px 0 2px ;
+  border-left-color: $primary;
+  margin: 25px 20px 0 2px;
+
   img {
+    width:100px;
     max-width:100px !important;
     float:left;
     padding-right: 38px;
@@ -982,12 +984,12 @@ table.courier_notice_page_courier .form-table th {
 
   a {
     text-decoration: none;
-    color: $caribbean-green;
+    color: $primary;
     font-weight: bolder;
     transition: background-color 0.25s ease-out,color 0.25s ease-out;
 
     &:hover, &:focus, &:active {
-      color: $lochinvar;
+      color: $darker-green;
     }
   }
 }
@@ -1020,6 +1022,6 @@ table.courier_notice_page_courier .form-table th {
   }
 
   input[type=checkbox]:checked:before {
-    color: $cerise;
+    color: $primary;
   }
 }
