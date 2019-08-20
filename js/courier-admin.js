@@ -1391,7 +1391,10 @@ function welcome() {
   var $window = $(window),
       $doc = $(document),
       $body = $('body'),
-      $welcomePanel = $('#mesh-template-welcome-panel');
+      $welcomePanel = $('#courier-notices-welcome-panel');
+  /**
+   * Add some event listeners
+   */
 
   function init() {
     $welcomePanel.find('.courier-notices-welcome-panel-close').on('click', function (event) {
@@ -1412,7 +1415,7 @@ function welcome() {
     $.post(ajaxurl, {
       action: 'courier_notices_update_welcome_panel',
       visible: visible,
-      courier_notices_welcome_nonce: $('#courier-notices-welcome-panel-nonce').val()
+      courier_notices_welcome_panel: $('#courier_notices_welcome_panel').val()
     });
   }
 

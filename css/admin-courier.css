@@ -804,6 +804,12 @@
   float: left;
   padding: 5px; }
 
+.post-type-courier_notice .linchpin-logo {
+  max-width: 100px;
+  position: absolute;
+  bottom: 0;
+  right: 0; }
+
 .post-type-courier_notice .welcome-panel {
   margin: 30px 20px 16px 0; }
 
@@ -812,6 +818,9 @@
 
 .post-type-courier_notice #courier-notices-welcome-panel .welcome-icon:before {
   vertical-align: middle; }
+
+.post-type-courier_notice #courier-notices-welcome-panel h2 {
+  margin-bottom: 5px; }
 
 .post-type-courier_notice .courier-notices-welcome-panel-close {
   position: absolute;
@@ -1539,7 +1548,7 @@ table.courier_notice_page_courier .form-table th {
   .courier_notice_page_courier #wpcontent .new-title .new-tag, #about-courier .new-title .new-tag, #whats-new .new-title .new-tag, #courier-settings .new-title .new-tag {
     line-height: 45px;
     display: inline-block;
-    color: #d43c9e;
+    color: #94C169;
     font-weight: 700;
     margin: 0 !important;
     vertical-align: middle; }
@@ -1593,9 +1602,10 @@ table.courier_notice_page_courier .form-table th {
 
 .courier-update-notice {
   padding: 10px 38px;
-  border-left-color: #d43c9e;
+  border-left-color: #94C169;
   margin: 25px 20px 0 2px; }
   .courier-update-notice img {
+    width: 100px;
     max-width: 100px !important;
     float: left;
     padding-right: 38px; }
@@ -1628,4 +1638,4 @@ table.courier_notice_page_courier .form-table th {
   margin: 2rem 5%; }
 
 #courier-settings input[type=checkbox]:checked:before {
-  color: #d43c9e; }
+  color: #94C169; }

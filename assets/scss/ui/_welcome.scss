@@ -9,6 +9,13 @@
 	padding: 5px;
   }
 
+  .linchpin-logo {
+	max-width:100px;
+	position: absolute;
+	bottom:0;
+	right:0;
+  }
+
   .welcome-panel {
 	margin: 30px 20px 16px 0;
   }
@@ -20,6 +27,10 @@
   #courier-notices-welcome-panel {
 	.welcome-icon:before {
 	  vertical-align: middle;
+	}
+
+	h2 {
+	  margin-bottom:5px;
 	}
   }
 
