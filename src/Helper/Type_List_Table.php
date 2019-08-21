@@ -188,7 +188,7 @@ class Type_List_Table extends WP_List_Table {
 				$icon = get_term_meta( $type->term_id, '_courier_type_icon', true );
 
 				if ( ! empty( $icon ) ) {
-					$icon = sprintf( '<img src="%1$s" alt="%2$s" class="courier-type-icon" />', esc_url( $icon ), esc_attr( $type->slug ) );
+					$icon = sprintf( '<span alt="%2$s" class="courier-type-icon icon-%1$s"></span>', esc_attr( $icon ), esc_attr( $type->slug ) );
 				} else {
 					$icon = '';
 				}
