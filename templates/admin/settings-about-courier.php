@@ -7,17 +7,12 @@
  * @subpackage Admin
  */
 
-use \Courier\Helper\Utils as Utils;
+// Make sure we don't expose any info if called directly.
+if ( ! function_exists( 'add_action' ) ) {
+	exit;
+}
 
-$safe_content = array(
-	'a'    => array(
-		'href'  => array(),
-		'class' => array(),
-	),
-	'span' => array(
-		'class' => array(),
-	),
-);
+use \Courier\Helper\Utils as Utils;
 
 ?>
 <div id="about-courier">
@@ -36,7 +31,7 @@ $safe_content = array(
 							wp_kses(
 								// translators: %1$s Getting Started, %2$s Using Courier.
 								__( '<span class="bold">%1$s</span> %2$s', 'courier' ),
-								$safe_content
+								Utils::get_safe_markup()
 							),
 							esc_html( 'Getting Started:' ),
 							esc_html( 'Using Courier Notices to provide your vistors/users with helpful information' )
@@ -176,7 +171,7 @@ $safe_content = array(
 										<?php
 										printf(
 											// translators: %s Courier github URL.
-											wp_kses( __( 'Continually updated with hooks and filters to extend functionality. For a full list, check out <a href="%s" target="_blank" rel="noopener">Courier on github.com</a>.', 'courier' ), $safe_content ),
+											wp_kses( __( 'Continually updated with hooks and filters to extend functionality. For a full list, check out <a href="%s" target="_blank" rel="noopener">Courier on github.com</a>.', 'courier' ), Utils::get_safe_markup() ),
 											esc_url( 'https://github.com/linchpin/courier' )
 										);
 										?>
@@ -195,8 +190,8 @@ $safe_content = array(
 									<p>
 										<?php
 										printf(
-										// translators: %s Courier github URL.
-											wp_kses( __( 'If you\'re using gravity forms, you can even use courier as your gravity forms confirmation. Simply visit your forms confirmation area and you will see a new confirmation type of "Courier Notice"', 'courier' ), $safe_content ),
+											// translators: %s Courier github URL.
+											wp_kses( __( 'If you\'re using gravity forms, you can even use courier as your gravity forms confirmation. Simply visit your forms confirmation area and you will see a new confirmation type of "Courier Notice"', 'courier' ), Utils::get_safe_markup() ),
 											esc_url( 'https://github.com/linchpin/courier' )
 										);
 										?>
@@ -226,7 +221,7 @@ $safe_content = array(
 										speaking at or sponsoring local WordCamp conferences in the greater New England area.',
 										'courier'
 									),
-									$safe_content
+									Utils::get_safe_markup()
 								),
 								esc_url( 'https://linchpin.com' ),
 								esc_url( 'https://profiles.wordpress.org/linchpin_agency/' ),
@@ -243,7 +238,7 @@ $safe_content = array(
 										' <a href="%s">Check out our website</a>, connect with us or come say hi at a local event.',
 										'courier'
 									),
-									$safe_content
+									Utils::get_safe_markup()
 								),
 								esc_url( 'https://linchpin.com' )
 							);
@@ -259,10 +254,10 @@ $safe_content = array(
 										'<a href="%1$s">%2$s</a> |',
 										'courier'
 									),
-									$safe_content
+									Utils::get_safe_markup()
 								),
 								esc_url( 'https://linchpin.com' ),
-								esc_html( 'Linchpin' )
+								esc_html__( 'Linchpin', 'courier' )
 							);
 							?>
 							<?php
@@ -273,12 +268,12 @@ $safe_content = array(
 										'<a href="%1$s">%2$s</a> | <a href="%3$s">%4$s</a> | ',
 										'courier'
 									),
-									$safe_content
+									Utils::get_safe_markup()
 								),
 								esc_url( 'https://facebook.com/linchpinagency' ),
-								esc_html( 'Facebook' ),
+								esc_html__( 'Facebook', 'courier' ),
 								esc_url( 'https://twitter.com/linchpin_agency' ),
-								esc_html( 'Twitter' )
+								esc_html__( 'Twitter', 'courier' )
 							);
 							?>
 							<?php
@@ -289,10 +284,10 @@ $safe_content = array(
 											'<a href="%1$s">%2$s</a>',
 											'courier'
 										),
-										$safe_content
+										Utils::get_safe_markup()
 									),
 									esc_url( 'https://www.instagram.com/linchpinagency/' ),
-									esc_html( 'Instagram' )
+									esc_html__( 'Instagram', 'courier' )
 								);
 								?>
 							</p>

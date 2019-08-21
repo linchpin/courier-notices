@@ -6,6 +6,10 @@
  * @since   1.0.0
  */
 
+// Make sure we don't expose any info if called directly.
+if ( ! function_exists( 'add_action' ) ) {
+	exit;
+}
 
 // @todo this logic should be done before the template.
 $classes = 'welcome-panel';

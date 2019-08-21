@@ -7,18 +7,12 @@
  * @subpackage Admin
  */
 
-$safe_content = array(
-	'a'    => array(
-		'href'  => array(),
-		'class' => array(),
-	),
-	'span' => array(
-		'class' => array(),
-	),
-);
+// Make sure we don't expose any info if called directly.
+if ( ! function_exists( 'add_action' ) ) {
+	exit;
+}
 
 ?>
-
 <div id="whats-new">
 	<div id="post-body" class="metabox-holder">
 		<div id="postbox-container" class="postbox-container">
@@ -41,7 +35,7 @@ $safe_content = array(
 				</div>
 			</div>
 			<div class="wrapper">
-				<p>It's new we don't have much to say</p>
+				<p><?php esc_html_e( "It's all new, we don't have much to add here. Check out the about page.", 'courier' ); ?></p>
 			</div>
 		</div>
 	</div>
