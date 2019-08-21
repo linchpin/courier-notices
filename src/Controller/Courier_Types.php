@@ -58,12 +58,23 @@ class Courier_Types {
 
 		check_ajax_referer( 'courier_notices_delete_type_nonce', 'courier_notices_delete_type' );
 
-		if ( empty( $_POST['courier_notice_id'] ) ) {
+		if ( empty( $_POST['courier_notices_type'] ) ) {
 			return wp_json_encode( -1 );
 		}
 
 		if ( ! current_user_can( 'delete_courier_notices' ) ) {
 			return wp_json_encode( -1 );
+		}
+
+		$term_id = (int) $_POST['courier_notices_type'];
+
+		// Confirm that the term does indeed exist.
+		if ( term_exists( $term_id, 'courier_type' ) ) {
+			$deleted = wp_delete_term( $term_id, 'courier_type', array( 'force_default' => true ) );
+
+			if ( is_wp_error( $deleted ) ) {
+				return wp_json_encode( -1 );
+			}
 		}
 
 		return wp_json_encode( 1 );

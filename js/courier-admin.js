@@ -1365,6 +1365,83 @@ function core() {
 
 /***/ }),
 
+/***/ "./assets/js/admin/types.js":
+/*!**********************************!*\
+  !*** ./assets/js/admin/types.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return types; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * Controls Notice Types admin area within settings
+ *
+ * @package    Courier
+ * @subpackage Types
+ * @since      1.0
+ */
+
+var $ = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
+function types() {
+  // Private Variables
+  var $window = $(window),
+      $doc = $(document),
+      $body = $('body'),
+      $types = $('.courier_notice_page_courier');
+  /**
+   * Add some event listeners
+   */
+
+  function init() {
+    $types.find('.courier-notices-type-delete').on('click', confirmDeleteCourierNoticeType);
+  }
+  /**
+   * Confirm delete of Courier Notice type term
+   *
+   * @since 1.0
+   *
+   * @param event
+   */
+
+
+  function confirmDeleteCourierNoticeType(event) {
+    event.preventDefault();
+    var $this = $(this);
+
+    if (true !== $this.data('confirm')) {
+      $this.find('dashicons-trash').hide();
+      $this.addClass('button button-primary').text(courier_admin_data.strings.confirm_delete).data('confirm', true);
+    } else {
+      $this.addClass('disabled').text(courier_admin_data.strings.deleting);
+      deleteCourierNoticeType($this);
+    }
+  }
+  /**
+   * Delete the Courier Notice Type
+   *
+   * @since 1.0
+   */
+
+
+  function deleteCourierNoticeType($target) {
+    $.post(ajaxurl, {
+      action: 'courier_notices_delete_type',
+      courier_notices_delete_type: courier_admin_data.delete_nonce,
+      courier_notices_type: parseInt($target.data('term-id'))
+    }).success(function () {
+      $target.closest('tr').fadeOut('fast');
+    });
+  }
+
+  init(); // kick everything off controlling types
+}
+
+/***/ }),
+
 /***/ "./assets/js/admin/welcome.js":
 /*!************************************!*\
   !*** ./assets/js/admin/welcome.js ***!
@@ -1437,12 +1514,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _admin_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin/core */ "./assets/js/admin/core.js");
 /* harmony import */ var _admin_welcome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./admin/welcome */ "./assets/js/admin/welcome.js");
+/* harmony import */ var _admin_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./admin/types */ "./assets/js/admin/types.js");
+
 
 
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
   Object(_admin_core__WEBPACK_IMPORTED_MODULE_1__["default"])();
   Object(_admin_welcome__WEBPACK_IMPORTED_MODULE_2__["default"])();
+  Object(_admin_types__WEBPACK_IMPORTED_MODULE_3__["default"])();
 });
 
 /***/ }),
