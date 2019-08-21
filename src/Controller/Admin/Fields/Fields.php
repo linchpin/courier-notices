@@ -210,7 +210,14 @@ class Fields {
 					<?php if ( isset( $_REQUEST['page'] ) ) : // phpcs:ignore WordPress.Security.NonceVerification ?>
 						<input type="hidden" name="page" value="<?php echo esc_attr( (int) $_REQUEST['page'] ); // phpcs:ignore WordPress.Security.NonceVerification ?>" />
 					<?php endif; ?>
-					<?php self::$type_list_table->search_box( esc_html__( 'Find', 'courier' ), 'courier-find-type' ); ?>
+					<div class="courier-row">
+						<div class="courier-columns courier-columns-7">
+							Add a new Courier Type
+						</div>
+						<div class="courier-columns courier-columns-5">
+							<?php self::$type_list_table->search_box( esc_html__( 'Find', 'courier' ), 'courier-find-type' ); ?>
+						</div>
+					</div>
 					<?php self::$type_list_table->display(); ?>
 				</form>
 			</div>
