@@ -12,16 +12,6 @@ if ( ! function_exists( 'add_action' ) ) {
 	exit;
 }
 
-$safe_content = array(
-	'a'    => array(
-		'href'  => array(),
-		'class' => array(),
-	),
-	'span' => array(
-		'class' => array(),
-	),
-);
-
 ?>
 
 <div id="whats-new">

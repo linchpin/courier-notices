@@ -31,7 +31,7 @@ class Type_List_Table extends WP_List_Table {
 			'cb'                => '<input type="checkbox" />', // to display the checkbox.
 			'notice_default'    => esc_html__( 'Default', 'courier' ),
 			'title'             => esc_html__( 'Type', 'courier' ),
-			'notice_icon'       => esc_html__( 'Icon', 'courier' ),
+			'notice_icon'       => esc_html__( 'Icon / CSS Class', 'courier' ),
 			'notice_color'      => esc_html__( 'Notice Color', 'courier' ),
 			'notice_text_color' => esc_html__( 'Notice Text Color', 'courier' ),
 			'notice_delete'     => '',
@@ -172,15 +172,6 @@ class Type_List_Table extends WP_List_Table {
 
 		$data = [];
 
-		$default_types = array(
-			'alert',
-			'feedback',
-			'info',
-			'secondary',
-			'success',
-			'warning',
-		);
-
 		if ( ! empty( $types ) ) {
 			foreach ( $types as $type ) {
 
@@ -201,7 +192,7 @@ class Type_List_Table extends WP_List_Table {
 				$icon = get_term_meta( $type->term_id, '_courier_type_icon', true );
 
 				if ( ! empty( $icon ) ) {
-					$icon = sprintf( '<label class="screen-reader-text" for="courier_type_%2$s_icon">%1$s</label><span alt="%1$s" class="courier-type-icon icon-%2$s"></span><input type="text" name="courier_type_%2$s_icon" id="courier_type_%2$s_icon" class="courier-type-icon" value="%1$s" />',
+					$icon = sprintf( '<label class="screen-reader-text" for="courier_type_%2$s_icon">%1$s</label><span alt="%1$s" class="courier-type-icon icon-%2$s"></span><pre name="courier_type_%2$s_icon" id="courier_type_%2$s_icon" class="courier-type-icon">icon-%1$s</pre>',
 						esc_attr( $icon ),
 						esc_attr( $type->slug )
 					);
@@ -223,20 +214,16 @@ class Type_List_Table extends WP_List_Table {
 					sprintf( esc_html__( '%1$s Text Color', 'courier' ), $type->name )
 				);
 
-				if ( in_array( $type->slug, $default_types ) ) {
-					$is_default_item = '<span class="dashicons dashicons-shield-alt"></span>';
-				}
-
 				$data[] = array(
 					'cb'                => '<input type="checkbox" />',
-					'notice_default'    => $is_default_item,
+					'notice_default'    => '', // Custom Callback.
 					'slug'              => $type->slug,
 					'ID'                => $type->term_id,
 					'notice_icon'       => $icon,
 					'notice_color'      => $color_input,
 					'notice_text_color' => $text_input,
 					'title'             => $type->name, // Custom Callback.
-					'notice_delete'     => '' // Custom Callback. $this->notice_delete( $type->term_id ),
+					'notice_delete'     => '', // Custom Callback.
 				);
 			}
 		}
@@ -296,17 +283,30 @@ class Type_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function column_title( $item ) {
+
 		$edit_link = sprintf(
-			'<span class="dashicons dashicons-edit"></span><a href="%1$s">%2$s</a></strong>',
-			esc_attr( get_edit_term_link( $item['ID'], 'courier_type' ) ),
+			'<strong>%1$s</strong>',
 			esc_html( $item['title'] )
 		);
 
-		$actions = [];
+		$actions = [
+			'edit' => sprintf(
+				'<a href="%1$s">%2$s</a>',
+				get_edit_term_link( $item['ID'], 'courier_type' ),
+				esc_html__( 'Edit', 'courier' )
+			),
+		];
 
 		return $edit_link . $this->row_actions( $actions );
 	}
 
+	/**
+	 * Display if this is a default term
+	 *
+	 * @param $item
+	 *
+	 * @return string
+	 */
 	protected function column_notice_delete( $item ) {
 		$edit_link = sprintf(
 			'<a class="courier-notices-type-delete" href="#" data-term-id="%1$s"><span class="dashicons dashicons-trash"></span></a></strong>',
@@ -323,10 +323,10 @@ class Type_List_Table extends WP_List_Table {
 	 *
 	 * @return string
 	 */
-	protected function column_default_item( $item ) {
+	protected function column_notice_default( $item ) {
 
 		$is_default_item = '';
-		$default_types = array(
+		$default_types   = array(
 			'alert',
 			'feedback',
 			'info',
@@ -335,7 +335,7 @@ class Type_List_Table extends WP_List_Table {
 			'warning',
 		);
 
-		if ( in_array( $item->slug, $default_types ) ) {
+		if ( in_array( $item['slug'], $default_types, true ) ) {
 			$is_default_item = '<span class="dashicons dashicons-shield-alt"></span>';
 		}
 

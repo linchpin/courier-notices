@@ -530,6 +530,14 @@ table.courier_notice_page_courier .form-table th {
   text-align:center;
 }
 
+pre.courier-type-icon {
+  display: inline-block;
+  border: 1px solid #cccccc;
+  padding: 4px;
+  margin-left: 10px;
+  background-color: #efefef;
+}
+
 // Top area
 .courier_notice_page_courier #wpcontent {
 

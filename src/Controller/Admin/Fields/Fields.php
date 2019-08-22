@@ -8,6 +8,7 @@
 namespace Courier\Controller\Admin\Fields;
 
 // Make sure we don't expose any info if called directly.
+use Courier\Core\View;
 use Courier\Helper\Type_List_Table as Type_List_Table;
 
 if ( ! function_exists( 'add_action' ) ) {
@@ -223,5 +224,8 @@ class Fields {
 			</div>
 		</div>
 		<?php
+
+		$view = new View();
+		$view->render( 'admin/js/courier-notice-type-row' );
 	}
 }
