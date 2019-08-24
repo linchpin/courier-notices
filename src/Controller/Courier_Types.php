@@ -30,7 +30,27 @@ class Courier_Types {
 			wp_die( - 1 );
 		}
 
-		wp_die( 1 );
+		$notice_type_title = sanitize_text_field( $_POST['courier-notice-type-new-title'] );
+
+		// If not css class is passed, fall back to the title
+		if ( ! isset( $_POST['courier-notice-type-new-css-class'] ) || '' === $_POST['courier-notice-type-new-css-class'] ) {
+			$notice_type_class = $_POST['courier-notice-type-new-title'];
+		} else {
+			$notice_type_class = $_POST['courier-notice-type-new-css-class'];
+		}
+
+		$notice_type_class      = sanitize_html_class( $notice_type_class );
+		$notice_type_color      = sanitize_hex_color( $_POST['courier-notice-type-new-color'] );
+		$notice_type_text_color = sanitize_hex_color( $_POST['courier-notice-type-new-text-color'] );
+
+		$success = wp_insert_term( $notice_type_title, 'courier_type' );
+		$this->insert_term_meta( $success, $notice_type_class, $notice_type_color, $notice_type_text_color );
+
+		wp_json_encode(
+			array(
+				'success' => $success,
+			)
+		);
 	}
 
 	/**
@@ -78,5 +98,22 @@ class Courier_Types {
 		}
 
 		return wp_json_encode( 1 );
+	}
+
+
+	/**
+	 * Adds in our term meta for our courier types
+	 *
+	 * @since 1.0
+	 *
+	 * @param array  $term        The term to add meta to.
+	 * @param string $class_name  The class name.
+	 * @param string $hex_color   The hex color.
+	 * @param string $label_color The hex color label.
+	 */
+	private function insert_term_meta( $term, $class_name, $hex_color, $label_color ) {
+		add_term_meta( $term['term_id'], '_courier_type_color', $hex_color, true );
+		add_term_meta( $term['term_id'], '_courier_type_label', $label_color, true );
+		add_term_meta( $term['term_id'], '_courier_type_icon', $class_name, true );
 	}
 }

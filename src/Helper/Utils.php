@@ -46,4 +46,16 @@ class Utils {
 
 		return apply_filters( 'courier_notices_safe_markup', $safe_content );
 	}
+
+	/**
+	 * Get a random hex value
+	 * This is primarily used when adding a new notice type
+	 *
+	 * @since 1.0
+	 *
+	 * @return mixed
+	 */
+	public static function get_random_color() {
+		return sprintf( '#%06X', wp_rand( 0, 0xFFFFFF ) );
+	}
 }

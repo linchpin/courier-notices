@@ -1161,8 +1161,7 @@ function core() {
   var $doc = $(document),
       $body = $('body'),
       self,
-      $courier_recipient = $("#courier_recipient_field"),
-      localized_data;
+      $courier_recipient = $("#courier_recipient_field");
   init();
   /**
    * Initialize our dismiss
@@ -1170,7 +1169,6 @@ function core() {
    */
 
   function init() {
-    localized_data = courier_admin_data;
     $('#courier_expire_date').datetimepicker({
       minDate: 0,
       controlType: 'select',
@@ -1184,7 +1182,7 @@ function core() {
       }
     });
 
-    if ('courier_notice' === localized_data.post_type) {
+    if ('courier_notice' === courier_admin_data.post_type) {
       $doc.on('ready', populate_status);
       $('#courier_scope').on('change', $body, toggle_global);
     }
@@ -1228,9 +1226,7 @@ function core() {
 
     $body.on('click', '.editinline', quick_edit_populate_status).on('click', '.courier-reactivate-notice', reactivate_notice).on('click', '.copy-text', copy_text).on('focus', '#courier-shortcode', function () {
       $('#courier-shortcode').select();
-    }); // Setup type edit screen js within settings.
-
-    setup_type_editing();
+    });
     $('.courier-info-icon').tooltip();
   }
   /**
@@ -1240,10 +1236,10 @@ function core() {
 
 
   function populate_status() {
-    var $option = $('<option />').val('courier_expired').text(localized_data.strings.label);
+    var $option = $('<option />').val('courier_expired').text(courier_admin_data.strings.label);
 
-    if (localized_data.post_status === 'courier_expired') {
-      $('#post-status-display').text(localized_data.strings.expired);
+    if (courier_admin_data.post_status === 'courier_expired') {
+      $('#post-status-display').text(courier_admin_data.strings.expired);
       $option.attr('selected', 'selected');
     }
 
@@ -1262,8 +1258,8 @@ function core() {
         $author_container = $('#courier-author-container');
 
     if ($this.prop('checked')) {
-      $author_select.val(localized_data.current_user.display_name).prop('disabled', 'disabled');
-      $author_value.val(localized_data.current_user.ID);
+      $author_select.val(courier_admin_data.current_user.display_name).prop('disabled', 'disabled');
+      $author_value.val(courier_admin_data.current_user.ID);
       $author_container.hide();
     } else {
       $author_select.prop('disabled', null).val('');
@@ -1282,7 +1278,7 @@ function core() {
         post_status = $('#inline_' + post_id + ' ._status').text(),
         $edit_row = '',
         $select = '',
-        $expired_option = $('<option />').text(localized_data.strings.label).attr('value', 'courier_expired'); // Delay things to ensure the quick edit row has been added to the page.
+        $expired_option = $('<option />').text(courier_admin_data.strings.label).attr('value', 'courier_expired'); // Delay things to ensure the quick edit row has been added to the page.
 
     setTimeout(function () {
       $edit_row = $('#edit-' + post_id);
@@ -1353,14 +1349,6 @@ function core() {
       }, 3000);
     }
   }
-  /**
-   * Setup Courier Type Editing Screen
-   */
-
-
-  function setup_type_editing() {
-    $('.courier-type-color').wpColorPicker();
-  }
 }
 
 /***/ }),
@@ -1391,16 +1379,55 @@ function types() {
   var $window = $(window),
       $doc = $(document),
       $body = $('body'),
-      $types = $('.courier_notice_page_courier');
+      $types = $('.courier_notice_page_courier'),
+      $new_container = $('#courier-notice-type-new'),
+      courierNoticeTypeTemplate = $('#courier-notice-type-template').text().split(/\{(.+?)\}/g),
+      inputTemplate = {
+    indicator: $('#courier-notice-loader').html(),
+    cancel: courier_admin_data.strings.cancel,
+    cancelcssclass: 'btn btn-danger',
+    submitcssclass: 'btn btn-success',
+    maxlength: 50,
+    showfn: function showfn(elem) {
+      elem.fadeIn('fast');
+    },
+    submit: courier_admin_data.strings.save,
+    tooltip: courier_admin_data.strings.editurl,
+    width: '100%'
+  };
   /**
    * Add some event listeners
    */
 
   function init() {
+    // Setup type edit screen js within settings.
+    setupTypeEditing();
     $types.find('.courier-notices-type-delete').on('click', confirmDeleteCourierNoticeType);
+    $body.on('click', '#add-courier-notice-type', addNewCourierNoticeTypeRow).on('click', '$new_container .save-button', addCourierNoticeType);
+  }
+  /**
+   * Add a new courier type.
+   *
+   * @since 1.0
+   *
+   * @param event
+   */
+
+
+  function addNewCourierNoticeTypeRow(event) {
+    event.preventDefault();
+    $(this).addClass('disabled').attr('disabled', 'disabled'); // Only show the new row if it's visible.
+
+    if (!$new_container.is(':visible')) {
+      var options = {};
+      var input = $.extend(true, options, inputTemplate);
+      displayNewCourierNoticeTypeTemplate(input);
+    }
   }
   /**
    * Confirm delete of Courier Notice type term
+  *
+  * @todo there should be some sort of busy/loading indicator
    *
    * @since 1.0
    *
@@ -1436,8 +1463,59 @@ function types() {
       $target.closest('tr').fadeOut('fast');
     });
   }
+  /**
+   * Setup Courier Type Editing Screen
+   */
 
-  init(); // kick everything off controlling types
+
+  function setupTypeEditing() {
+    $('.courier-type-color').wpColorPicker();
+  }
+  /**
+   * Render our template including our properties.
+   *
+   * This is a temp solution prior to move to react.
+   *
+   * @param props
+   * @returns {Function}
+   */
+
+
+  function render(props) {
+    return function (token, i) {
+      return i % 2 ? props[token] : token;
+    };
+  }
+  /**
+   * display the template.
+   * @param item
+   */
+
+
+  function displayNewCourierNoticeTypeTemplate(item) {
+    var $noticeRow = $(courierNoticeTypeTemplate.map(render(item)).join(''));
+    $('table.courier_notice_page_courier tbody').append($($noticeRow));
+    setupTypeEditing();
+  }
+  /**
+   * Add / Save our new courier notice type
+   */
+
+
+  function addCourierNoticeType() {
+    $.post(ajaxurl, {
+      action: 'courier_notices_add_type',
+      'courier-notice-type-add-nonce': courier_admin_data.delete_nonce,
+      'courier-notice-type-new-title': $('#ccourier-notice-type-new-title').val(),
+      'courier-notice-type-new-css-class': $('#courier-notice-type-new-css-class').val(),
+      'courier-notice-type-new-color': $('#courier-notice-type-new-color').val(),
+      'courier-notice-type-new-text-color': $('#courier-notice-type-new-text-color').val()
+    }).success(function () {
+      $target.closest('tr').fadeOut('fast');
+    });
+  }
+
+  init(); // kick everything off controlling types.
 }
 
 /***/ }),
