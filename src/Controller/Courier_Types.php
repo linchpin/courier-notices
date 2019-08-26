@@ -2,6 +2,8 @@
 
 namespace Courier\Controller;
 
+use Courier\Controller\Admin\Fields\Fields;
+
 /**
  * Class Courier_Types
  * @package Courier\Controller
@@ -27,28 +29,47 @@ class Courier_Types {
 		check_ajax_referer( 'courier_notices_add_type_nonce', 'courier_notices_add_type' );
 
 		if ( ! current_user_can( 'edit_courier_notices' ) ) {
-			wp_die( - 1 );
+			return wp_json_encode( -1 );
 		}
 
-		$notice_type_title = sanitize_text_field( $_POST['courier-notice-type-new-title'] );
+		$notice_type_title = sanitize_text_field( $_POST['courier_notice_type_new_title'] );
 
 		// If not css class is passed, fall back to the title
-		if ( ! isset( $_POST['courier-notice-type-new-css-class'] ) || '' === $_POST['courier-notice-type-new-css-class'] ) {
-			$notice_type_class = $_POST['courier-notice-type-new-title'];
+		if ( ! isset( $_POST['courier_notice_type_new_css_class'] ) || '' === $_POST['courier_notice_type_new_css_class'] ) {
+			$notice_type_class = $_POST['courier_notice_type_new_title'];
 		} else {
-			$notice_type_class = $_POST['courier-notice-type-new-css-class'];
+			$notice_type_class = $_POST['courier_notice_type_new_css_class'];
 		}
 
 		$notice_type_class      = sanitize_html_class( $notice_type_class );
-		$notice_type_color      = sanitize_hex_color( $_POST['courier-notice-type-new-color'] );
-		$notice_type_text_color = sanitize_hex_color( $_POST['courier-notice-type-new-text-color'] );
+		$notice_type_color      = sanitize_hex_color( $_POST['courier_notice_type_new_color'] );
+		$notice_type_text_color = sanitize_hex_color( $_POST['courier_notice_type_new_text_color'] );
 
-		$success = wp_insert_term( $notice_type_title, 'courier_type' );
-		$this->insert_term_meta( $success, $notice_type_class, $notice_type_color, $notice_type_text_color );
+		$type = wp_insert_term( $notice_type_title, 'courier_type' );
 
-		wp_json_encode(
+		if ( ! is_wp_error( $type ) ) {
+			$this->insert_term_meta( $type, $notice_type_class, $notice_type_color, $notice_type_text_color );
+		} else {
+			wp_die( $type );
+		}
+
+		$data = array(
+			'field'       => 'notice_type_designs',
+			'section'     => 'courier_design',
+			'options'     => 'courier_design',
+			'label'       => esc_html__( 'Courier Types', 'courier' ),
+			'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier' ),
+		);
+
+		ob_start();
+		Fields::add_table( $data );
+		$table = ob_get_contents();
+		ob_end_clean();
+
+		echo wp_json_encode(
 			array(
-				'success' => $success,
+				'success' => $type,
+				'table'   => $table,
 			)
 		);
 	}

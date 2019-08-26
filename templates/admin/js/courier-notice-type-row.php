@@ -4,17 +4,17 @@
 		<td></td>
 		<td>
 			<label aria-hidden="true" class="hide-if-js" for="courier-notice-type-new-title"><?php esc_html_e( 'Notice Type Title', 'courier' ); ?></label>
-			<input type="text" id="courier-notice-type-new-title" name="courier-notice-type-new-title">
+			<input type="text" id="courier-notice-type-new-title" name="courier_notice_type_new_title">
 		</td>
 		<td>
 			<label aria-hidden="true" class="hide-if-js" for="courier-notice-type-new-css-class"><?php esc_html_e( 'Notice Type CSS Class', 'courier' ); ?></label>
-			<input type="text" id="courier-notice-type-new-css-class" name="courier-notice-type-new-css-class">
+			<input type="text" id="courier-notice-type-new-css-class" name="courier_notice_type_new_css_class">
 		</td>
 		<td>
-			<input type="text" id="courier-notice-type-new-color" name="courier-notice-type-new-color" class="courier-type-color" value="<?php echo esc_attr( $notice_color ); ?>">
+			<input type="text" id="courier-notice-type-new-color" name="courier_notice_type_new_color" class="courier-type-color" value="<?php echo esc_attr( $notice_color ); ?>">
 		</td>
 		<td>
-			<input type="text" id="courier-notice-type-new-text-color" name="courier-notice-type-new-text-color" class="courier-type-color" value="<?php echo esc_attr( $text_color ); ?>">
+			<input type="text" id="courier-notice-type-new-text-color" name="courier_notice_type_new_text_color" class="courier-type-color" value="<?php echo esc_attr( $text_color ); ?>">
 		</td>
 		<td>
 			<button class="button button-primary save-button"><?php esc_html_e( 'Save', 'courier' ); ?></button>

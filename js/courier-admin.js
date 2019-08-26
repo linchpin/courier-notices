@@ -1403,7 +1403,7 @@ function types() {
     // Setup type edit screen js within settings.
     setupTypeEditing();
     $types.find('.courier-notices-type-delete').on('click', confirmDeleteCourierNoticeType);
-    $body.on('click', '#add-courier-notice-type', addNewCourierNoticeTypeRow).on('click', '$new_container .save-button', addCourierNoticeType);
+    $body.on('click', '#add-courier-notice-type', addNewCourierNoticeTypeRow).on('click', '#courier-notice-type-new .save-button', addCourierNoticeType);
   }
   /**
    * Add a new courier type.
@@ -1502,15 +1502,17 @@ function types() {
    */
 
 
-  function addCourierNoticeType() {
+  function addCourierNoticeType(event) {
+    event.preventDefault();
+    $(this).addClass('disabled').attr('disabled', 'disabled');
     $.post(ajaxurl, {
       action: 'courier_notices_add_type',
-      'courier-notice-type-add-nonce': courier_admin_data.delete_nonce,
-      'courier-notice-type-new-title': $('#ccourier-notice-type-new-title').val(),
-      'courier-notice-type-new-css-class': $('#courier-notice-type-new-css-class').val(),
-      'courier-notice-type-new-color': $('#courier-notice-type-new-color').val(),
-      'courier-notice-type-new-text-color': $('#courier-notice-type-new-text-color').val()
-    }).success(function () {
+      'courier_notices_add_type': courier_admin_data.add_nonce,
+      'courier_notice_type_new_title': $('#courier-notice-type-new-title').val(),
+      'courier_notice_type_new_css_class': $('#courier-notice-type-new-css-class').val(),
+      'courier_notice_type_new_color': $('#courier-notice-type-new-color').val(),
+      'courier_notice_type_new_text_color': $('#courier-notice-type-new-text-color').val()
+    }).success(function (response) {
       $target.closest('tr').fadeOut('fast');
     });
   }

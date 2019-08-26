@@ -199,16 +199,18 @@ class Fields {
 		self::$type_list_table = new Type_List_Table();
 		self::$type_list_table->prepare_items();
 
+		$page = ( isset( $_REQUEST['page'] ) && '' !== $_REQUEST['page'] ) ? $_REQUEST['page'] : 1; // phpcs:ignore WordPress.Security.NonceVerification
+
 		// Create Table View
 		$table = new View();
 		$table->assign( 'description', esc_html( $args['description'] ) );
 		$table->assign( 'type_list_table', self::$type_list_table );
-		$table->assign( 'page', (int) $_REQUEST['page'] ); // phpcs:ignore WordPress.Security.NonceVerification
+		$table->assign( 'page', (int) $page );
 		$table->render( 'admin/fields/field-table' );
 
 		// Create New Row for JavaScript
 		$newCourierType = new View();
-		$newCourierType->assign( 'text_color', Utils::get_random_color() );
+		$newCourierType->assign( 'text_color', '#ffffff' );
 		$newCourierType->assign( 'notice_color', Utils::get_random_color() );
 		$newCourierType->render( 'admin/js/courier-notice-type-row' );
 	}

@@ -41,11 +41,11 @@ export default function types() {
 		// Setup type edit screen js within settings.
 		setupTypeEditing();
 
-        $types.find('.courier-notices-type-delete').on('click', confirmDeleteCourierNoticeType);
+        $types.find( '.courier-notices-type-delete' ).on( 'click', confirmDeleteCourierNoticeType );
 
         $body
 			.on( 'click', '#add-courier-notice-type', addNewCourierNoticeTypeRow )
-			.on( 'click', '$new_container .save-button', addCourierNoticeType );
+			.on( 'click', '#courier-notice-type-new .save-button', addCourierNoticeType );
 	}
 
 	/**
@@ -59,7 +59,7 @@ export default function types() {
 
 		event.preventDefault();
 
-		$(this).addClass('disabled').attr( 'disabled', 'disabled' );
+		$(this).addClass( 'disabled' ).attr( 'disabled', 'disabled' );
 
         // Only show the new row if it's visible.
         if ( ! $new_container.is(':visible') ) {
@@ -86,11 +86,11 @@ export default function types() {
 
         var $this = $(this);
 
-        if (true !== $this.data('confirm')) {
+        if ( true !== $this.data('confirm') ) {
             $this.find('dashicons-trash').hide();
             $this.addClass('button button-primary').text(courier_admin_data.strings.confirm_delete).data('confirm', true);
         } else {
-            $this.addClass('disabled').text(courier_admin_data.strings.deleting);
+            $this.addClass('disabled').text( courier_admin_data.strings.deleting );
 
             deleteCourierNoticeType($this);
         }
@@ -139,7 +139,7 @@ export default function types() {
 	 */
 	function displayNewCourierNoticeTypeTemplate ( item ) {
 
-		var $noticeRow = $( courierNoticeTypeTemplate.map( render( item ) ).join('') );
+		var $noticeRow = $( courierNoticeTypeTemplate.map( render( item ) ).join( '' ) );
 		$('table.courier_notice_page_courier tbody').append( $( $noticeRow ) );
 
 		setupTypeEditing();
@@ -148,16 +148,20 @@ export default function types() {
 	/**
 	 * Add / Save our new courier notice type
 	 */
-	function addCourierNoticeType() {
+	function addCourierNoticeType( event ) {
+
+		event.preventDefault();
+
+		$(this).addClass('disabled').attr('disabled', 'disabled');
+
 		$.post( ajaxurl, {
 			action: 'courier_notices_add_type',
-			'courier-notice-type-add-nonce': courier_admin_data.delete_nonce,
-			'courier-notice-type-new-title' : $('#ccourier-notice-type-new-title').val(),
-			'courier-notice-type-new-css-class' : $('#courier-notice-type-new-css-class').val(),
-			'courier-notice-type-new-color' : $('#courier-notice-type-new-color').val(),
-			'courier-notice-type-new-text-color' : $('#courier-notice-type-new-text-color').val()
-		}).success(function () {
-			
+			'courier_notices_add_type': courier_admin_data.add_nonce,
+			'courier_notice_type_new_title' : $('#courier-notice-type-new-title').val(),
+			'courier_notice_type_new_css_class' : $('#courier-notice-type-new-css-class').val(),
+			'courier_notice_type_new_color' : $('#courier-notice-type-new-color').val(),
+			'courier_notice_type_new_text_color' : $('#courier-notice-type-new-text-color').val()
+		}).success( function ( response ) {
 			$target.closest('tr').fadeOut('fast');
 		});
 	}
