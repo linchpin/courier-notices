@@ -40,12 +40,15 @@ export default function types() {
 
 		// Setup type edit screen js within settings.
 		setupTypeEditing();
+		setupControls();
+	}
 
-        $types.find( '.courier-notices-type-delete' ).on( 'click', confirmDeleteCourierNoticeType );
-
-        $body
+	function setupControls() {
+		$body
+			.on( 'click', '.courier-notices-type-delete', confirmDeleteCourierNoticeType )
 			.on( 'click', '#add-courier-notice-type', addNewCourierNoticeTypeRow )
 			.on( 'click', '#courier-notice-type-new .save-button', addCourierNoticeType );
+
 	}
 
 	/**
@@ -61,14 +64,14 @@ export default function types() {
 
 		$(this).addClass( 'disabled' ).attr( 'disabled', 'disabled' );
 
-        // Only show the new row if it's visible.
-        if ( ! $new_container.is(':visible') ) {
+        // Only show the new row if it's not visible.
+       // if ( ! $new_container.is(':visible') ) {
 
         	var options = {};
 			var input   = $.extend( true, options, inputTemplate );
 
 			displayNewCourierNoticeTypeTemplate( input );
-        }
+        // }
     }
 
     /**
@@ -140,7 +143,7 @@ export default function types() {
 	function displayNewCourierNoticeTypeTemplate ( item ) {
 
 		var $noticeRow = $( courierNoticeTypeTemplate.map( render( item ) ).join( '' ) );
-		$('table.courier_notice_page_courier tbody').append( $( $noticeRow ) );
+		$( 'table.courier_notice_page_courier tbody' ).append( $( $noticeRow ) );
 
 		setupTypeEditing();
 	}
@@ -154,16 +157,33 @@ export default function types() {
 
 		$(this).addClass('disabled').attr('disabled', 'disabled');
 
+		var $target = $('#courier-notice-type-new');
+
 		$.post( ajaxurl, {
 			action: 'courier_notices_add_type',
+			'page': 'courier',
 			'courier_notices_add_type': courier_admin_data.add_nonce,
 			'courier_notice_type_new_title' : $('#courier-notice-type-new-title').val(),
 			'courier_notice_type_new_css_class' : $('#courier-notice-type-new-css-class').val(),
 			'courier_notice_type_new_color' : $('#courier-notice-type-new-color').val(),
-			'courier_notice_type_new_text_color' : $('#courier-notice-type-new-text-color').val()
+			'courier_notice_type_new_text_color' : $('#courier-notice-type-new-text-color').val(),
+			contentType: "application/json"
 		}).success( function ( response ) {
-			$target.closest('tr').fadeOut('fast');
-		});
+
+			response = JSON.parse( response );
+
+			if ( response && response.fragments ) {
+				$target.fadeOut('fast').promise().done( function () {
+					$('#add-courier-notice-type').removeAttr('disabled').removeClass('disabled');
+
+					for ( var fragment in  response.fragments ) {
+						$( fragment ).html( response.fragments[ fragment ] );
+					}
+
+					setupTypeEditing();
+				} );
+			}
+		} );
 	}
 
 	init(); // kick everything off controlling types.

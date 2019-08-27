@@ -51,6 +51,12 @@
   }
 }
 
+.courier_notice_page_courier {
+	.form-table tbody tr th[scope="row"] {
+		width:200px;
+	}
+}
+
 .icon-success {
   &:before {
 	content: $icon-success;
