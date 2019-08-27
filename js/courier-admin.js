@@ -1406,7 +1406,16 @@ function types() {
   }
 
   function setupControls() {
-    $body.on('click', '.courier-notices-type-delete', confirmDeleteCourierNoticeType).on('click', '#add-courier-notice-type', addNewCourierNoticeTypeRow).on('click', '#courier-notice-type-new .save-button', addCourierNoticeType);
+    $body.on('click', '.courier-notices-type-delete', confirmDeleteCourierNoticeType).on('click', '#add-courier-notice-type', addNewCourierNoticeTypeRow).on('click', '#courier-notice-type-new .save-button', addCourierNoticeType).on('click', '#courier-notice-type-new .close-button', cancelAddCourierNoticeType);
+  }
+
+  function cancelAddCourierNoticeType(event) {
+    event.preventDefault();
+    var $target = $('#courier-notice-type-new');
+    $target.fadeOut('fast').promise().done(function () {
+      $('#add-courier-notice-type').removeAttr('disabled').removeClass('disabled');
+      $(this).remove();
+    });
   }
   /**
    * Add a new courier type.
@@ -1462,7 +1471,9 @@ function types() {
       courier_notices_delete_type: courier_admin_data.delete_nonce,
       courier_notices_type: parseInt($target.data('term-id'))
     }).success(function () {
-      $target.closest('tr').fadeOut('fast');
+      $target.closest('tr').fadeOut('fast').promise().done(function () {
+        $(this).remove(); // Remove the row from the table after it fades out.
+      });
     });
   }
   /**

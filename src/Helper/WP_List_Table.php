@@ -1181,7 +1181,6 @@ class WP_List_Table {
 		<?php $this->print_column_headers( false ); ?>
 	</tr>
 	</tfoot>
-
 </table>
 		<?php
 		$this->display_tablenav( 'bottom' );

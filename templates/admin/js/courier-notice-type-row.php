@@ -3,11 +3,11 @@
 		<th></th>
 		<td></td>
 		<td>
-			<label aria-hidden="true" class="hide-if-js" for="courier-notice-type-new-title"><?php esc_html_e( 'Notice Type Title', 'courier' ); ?></label>
+			<label for="courier-notice-type-new-title"><?php esc_html_e( 'Notice Type Title', 'courier' ); ?></label>
 			<input type="text" id="courier-notice-type-new-title" name="courier_notice_type_new_title">
 		</td>
 		<td>
-			<label aria-hidden="true" class="hide-if-js" for="courier-notice-type-new-css-class"><?php esc_html_e( 'Notice Type CSS Class', 'courier' ); ?></label>
+			<label for="courier-notice-type-new-css-class"><?php esc_html_e( 'Notice Type CSS Class', 'courier' ); ?></label>
 			<input type="text" id="courier-notice-type-new-css-class" name="courier_notice_type_new_css_class">
 		</td>
 		<td>
