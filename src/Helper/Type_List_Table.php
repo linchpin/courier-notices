@@ -29,10 +29,12 @@ class Type_List_Table extends WP_List_Table {
 	public function get_columns() {
 		$table_columns = array(
 			'cb'                => '<input type="checkbox" />', // to display the checkbox.
+			'notice_default'    => esc_html__( 'Default', 'courier' ),
 			'title'             => esc_html__( 'Type', 'courier' ),
-			'notice_icon'       => esc_html__( 'Icon', 'courier' ),
+			'notice_icon'       => esc_html__( 'Icon / CSS Class', 'courier' ),
 			'notice_color'      => esc_html__( 'Notice Color', 'courier' ),
 			'notice_text_color' => esc_html__( 'Notice Text Color', 'courier' ),
+			'notice_delete'     => '',
 		);
 		return $table_columns;
 	}
@@ -51,8 +53,10 @@ class Type_List_Table extends WP_List_Table {
 		switch ( $column_name ) {
 			case 'cb':
 			case 'title':
+			case 'notice_default':
 			case 'notice_icon':
 			case 'notice_color':
+			case 'notice_delete':
 			case 'notice_text_color':
 				return $item[ $column_name ];
 			default:
@@ -188,7 +192,10 @@ class Type_List_Table extends WP_List_Table {
 				$icon = get_term_meta( $type->term_id, '_courier_type_icon', true );
 
 				if ( ! empty( $icon ) ) {
-					$icon = sprintf( '<img src="%1$s" alt="%2$s" class="courier-type-icon" />', esc_url( $icon ), esc_attr( $type->slug ) );
+					$icon = sprintf( '<label class="screen-reader-text" for="courier_type_%2$s_icon">%1$s</label><span alt="%1$s" class="courier-type-icon icon-%2$s"></span><pre name="courier_type_%2$s_icon" id="courier_type_%2$s_icon" class="courier-type-icon">icon-%1$s</pre>',
+						esc_attr( $icon ),
+						esc_attr( $type->slug )
+					);
 				} else {
 					$icon = '';
 				}
@@ -209,12 +216,14 @@ class Type_List_Table extends WP_List_Table {
 
 				$data[] = array(
 					'cb'                => '<input type="checkbox" />',
+					'notice_default'    => '', // Custom Callback.
 					'slug'              => $type->slug,
 					'ID'                => $type->term_id,
 					'notice_icon'       => $icon,
 					'notice_color'      => $color_input,
 					'notice_text_color' => $text_input,
 					'title'             => $type->name, // Custom Callback.
+					'notice_delete'     => '', // Custom Callback.
 				);
 			}
 		}
@@ -274,15 +283,63 @@ class Type_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function column_title( $item ) {
+
 		$edit_link = sprintf(
-			'<strong><a href="%1$s">%2$s</a></strong>',
-			esc_attr( get_edit_term_link( $item['ID'], 'courier_type' ) ),
+			'<strong>%1$s</strong>',
 			esc_html( $item['title'] )
 		);
 
-		$actions = [];
+		$actions = [
+			'edit' => sprintf(
+				'<a href="%1$s" class="courier-notice-type-edit">%2$s</a>',
+				get_edit_term_link( $item['ID'], 'courier_type' ),
+				esc_html__( 'Edit', 'courier' )
+			),
+		];
 
 		return $edit_link . $this->row_actions( $actions );
+	}
+
+	/**
+	 * Display if this is a default term
+	 *
+	 * @param $item
+	 *
+	 * @return string
+	 */
+	protected function column_notice_delete( $item ) {
+		$edit_link = sprintf(
+			'<a class="courier-notices-type-delete" href="#" data-term-id="%1$s"><span class="dashicons dashicons-trash"></span></a></strong>',
+			esc_attr( $item['ID'] )
+		);
+
+		return $edit_link;
+	}
+
+	/**
+	 * Show is a column is a default title.
+	 *
+	 * @param $item
+	 *
+	 * @return string
+	 */
+	protected function column_notice_default( $item ) {
+
+		$is_default_item = '';
+		$default_types   = array(
+			'alert',
+			'feedback',
+			'info',
+			'secondary',
+			'success',
+			'warning',
+		);
+
+		if ( in_array( $item['slug'], $default_types, true ) ) {
+			$is_default_item = '<span class="dashicons dashicons-shield-alt"></span>';
+		}
+
+		return $is_default_item;
 	}
 
 }

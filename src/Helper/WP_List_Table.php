@@ -1181,7 +1181,6 @@ class WP_List_Table {
 		<?php $this->print_column_headers( false ); ?>
 	</tr>
 	</tfoot>
-
 </table>
 		<?php
 		$this->display_tablenav( 'bottom' );
@@ -1195,7 +1194,7 @@ class WP_List_Table {
 	 * @return array List of CSS classes for the table tag.
 	 */
 	protected function get_table_classes() {
-		return array( 'widefat', 'fixed', 'striped', $this->_args['plural'] );
+		return array( 'widefat', 'fixed', 'striped', 'courier_notice_page_courier', $this->_args['plural'] );
 	}
 
 	/**

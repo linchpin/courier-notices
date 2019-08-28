@@ -226,10 +226,12 @@ class Admin {
 		$current_user = wp_get_current_user();
 
 		$strings = array(
-			'expired' => esc_html__( 'Expired', 'courier-notices' ),
-			'label'   => esc_html__( 'Expired', 'courier-notices' ),
-			'copy'    => esc_html__( 'Copy this shortcode to your clipboard', 'courier-notices' ),
-			'copied'  => esc_html__( 'Courier Notice shortcode has been copied to your clipboard.', 'courier-notices' ),
+			'expired'        => esc_html__( 'Expired', 'courier-notices' ),
+			'label'          => esc_html__( 'Expired', 'courier-notices' ),
+			'copy'           => esc_html__( 'Copy this shortcode to your clipboard', 'courier-notices' ),
+			'copied'         => esc_html__( 'Courier Notice shortcode has been copied to your clipboard.', 'courier-notices' ),
+			'confirm_delete' => esc_html__( 'Confirm Delete?', 'courier-notices' ),
+			'deleting'       => esc_html__( 'Deleting...', 'courier-notices' ),
 		);
 
 		$strings = apply_filters( 'courier_notices_admin_strings', $strings ); // Allow filtering of localization strings.
@@ -243,6 +245,9 @@ class Admin {
 			'user_endpoint'       => trailingslashit( site_url( 'courier/user-search' ) ),
 			'reactivate_endpoint' => trailingslashit( site_url( 'courier/reactivate' ) ),
 			'dateFormat'          => get_option( 'date_format' ),
+			'add_nonce'           => wp_create_nonce( 'courier_notices_add_type_nonce' ),
+			'update_nonce'        => wp_create_nonce( 'courier_notices_update_type_nonce' ),
+			'delete_nonce'        => wp_create_nonce( 'courier_notices_delete_type_nonce' ),
 			'current_user'        => array(
 				'ID'           => $current_user->ID,
 				'display_name' => $current_user->display_name,

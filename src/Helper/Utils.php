@@ -24,4 +24,38 @@ class Utils {
 	public static function is_wp_cron_disabled() {
 		return ( defined( 'DISABLE_CRON' ) && true === DISABLE_CRON );
 	}
+
+	/**
+	 * Get an array of safe markup and classes to be used
+	 * on settings pages.
+	 *
+	 * @since 1.0
+	 *
+	 * @return mixed|void
+	 */
+	public static function get_safe_markup() {
+		$safe_content = array(
+			'a'    => array(
+				'href'  => array(),
+				'class' => array(),
+			),
+			'span' => array(
+				'class' => array(),
+			),
+		);
+
+		return apply_filters( 'courier_notices_safe_markup', $safe_content );
+	}
+
+	/**
+	 * Get a random hex value
+	 * This is primarily used when adding a new notice type
+	 *
+	 * @since 1.0
+	 *
+	 * @return mixed
+	 */
+	public static function get_random_color() {
+		return sprintf( '#%06X', wp_rand( 0, 0xFFFFFF ) );
+	}
 }

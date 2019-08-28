@@ -10,6 +10,8 @@
  */
 
 // Make sure we don't expose any info if called directly.
+use Courier\Core\View;
+
 if ( ! function_exists( 'add_action' ) ) {
 	exit;
 }
@@ -81,19 +83,31 @@ if ( ! function_exists( 'add_action' ) ) {
 			<div id="postbox-container" class="postbox-container">
 				<?php if ( empty( $active_sub_tab ) ) : ?>
 					<?php if ( 'settings' === $active_tab ) : ?>
-						<?php require_once COURIER_PATH . 'templates/admin/settings-general.php'; ?>
+						<?php
+						$general = new View();
+						$general->render( 'admin/settings-general' );
+						?>
 					<?php elseif ( 'design' === $active_tab ) : ?>
-						<?php require_once COURIER_PATH . 'templates/admin/settings-design.php'; ?>
+						<?php
+						$design = new View();
+						$design->render( 'admin/settings-design' );
+						?>
 					<?php elseif ( 'about' === $active_tab ) : ?>
-						<?php require_once COURIER_PATH . 'templates/admin/settings-about-courier.php'; ?>
+						<?php
+						$about_courier = new View();
+						$about_courier->render( 'admin/settings-about-courier' );
+						?>
 					<?php elseif ( 'addons' === $active_tab ) : ?>
-						<?php require_once COURIER_PATH . 'templates/admin/settings-addons.php'; ?>
+						<?php
+						$addons = new View();
+						$addons->render( 'admin/settings-addons' );
+						?>
 					<?php elseif ( 'new' === $active_tab ) : ?>
 						<?php require_once COURIER_PATH . 'templates/admin/settings-whats-new.php'; ?>
 					<?php else : ?>
 						<?php do_action( 'courier_setting_' . sanitize_title( $active_tab ) ); ?>
 					<?php endif; ?>
-				<?php elseif( $active_sub_tab ) : ?>
+				<?php elseif ( $active_sub_tab ) : ?>
 					<?php do_action( 'courier_setting_' . sanitize_title( $active_sub_tab ) ); ?>
 				<?php endif; ?>
 			</div>

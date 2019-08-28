@@ -7,9 +7,11 @@
 
 namespace Courier\Controller\Admin\Fields;
 
-// Make sure we don't expose any info if called directly.
+use Courier\Core\View;
+use Courier\Helper\Utils;
 use Courier\Helper\Type_List_Table as Type_List_Table;
 
+// Make sure we don't expose any info if called directly.
 if ( ! function_exists( 'add_action' ) ) {
 	exit;
 }
@@ -164,14 +166,12 @@ class Fields {
 		if ( ! empty( $options[ $args['field'] ] ) ) {
 			$checked = true;
 		}
-		?>
 
-		<?php if ( ! empty( $args['description'] ) ) : ?>
-			<p class="description"><?php echo esc_html( $args['description'] ); ?></p>
-		<?php endif; ?>
-		<label for="<?php echo esc_attr( $args['id'] ); ?>"><?php echo esc_html( $args['label'] ); ?></label>
-		<input type="checkbox" class="<?php echo esc_attr( $args['class'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>" name="<?php echo esc_attr( $args['name'] ); ?>" value="1" <?php checked( $checked ); ?>>
-		<?php
+		$checkbox = new View();
+		$checkbox->assign( 'checked', $checked );
+		$checkbox->assign( 'args', $args );
+
+		$checkbox->render( 'admin/fields/field-checkbox' );
 	}
 
 	/**
@@ -199,22 +199,13 @@ class Fields {
 		self::$type_list_table = new Type_List_Table();
 		self::$type_list_table->prepare_items();
 
-		?>
-		<?php if ( ! empty( $args['description'] ) ) : ?>
-			<p class="description"><?php echo esc_html( $args['description'] ); ?></p>
-		<?php endif; ?>
+		$page = ( isset( $_REQUEST['page'] ) && '' !== $_REQUEST['page'] ) ? $_REQUEST['page'] : ''; // phpcs:ignore WordPress.Security.NonceVerification
 
-		<div class="wrap">
-			<div id="nds-post-body">
-				<form id="nds-user-list-form" method="get">
-					<?php if ( isset( $_REQUEST['page'] ) ) : // phpcs:ignore WordPress.Security.NonceVerification ?>
-						<input type="hidden" name="page" value="<?php echo esc_attr( (int) $_REQUEST['page'] ); // phpcs:ignore WordPress.Security.NonceVerification ?>" />
-					<?php endif; ?>
-					<?php self::$type_list_table->search_box( esc_html__( 'Find', 'courier' ), 'courier-find-type' ); ?>
-					<?php self::$type_list_table->display(); ?>
-				</form>
-			</div>
-		</div>
-		<?php
+		// Create Table View
+		$table = new View();
+		$table->assign( 'description', esc_html( $args['description'] ) );
+		$table->assign( 'type_list_table', self::$type_list_table );
+		$table->assign( 'page', $page );
+		$table->render( 'admin/fields/field-table' );
 	}
 }

@@ -1161,8 +1161,7 @@ function core() {
   var $doc = $(document),
       $body = $('body'),
       self,
-      $courier_recipient = $("#courier_recipient_field"),
-      localized_data;
+      $courier_recipient = $("#courier_recipient_field");
   init();
   /**
    * Initialize our dismiss
@@ -1170,7 +1169,6 @@ function core() {
    */
 
   function init() {
-    localized_data = courier_admin_data;
     $('#courier_expire_date').datetimepicker({
       minDate: 0,
       controlType: 'select',
@@ -1184,7 +1182,7 @@ function core() {
       }
     });
 
-    if ('courier_notice' === localized_data.post_type) {
+    if ('courier_notice' === courier_admin_data.post_type) {
       $doc.on('ready', populate_status);
       $('#courier_scope').on('change', $body, toggle_global);
     }
@@ -1228,9 +1226,7 @@ function core() {
 
     $body.on('click', '.editinline', quick_edit_populate_status).on('click', '.courier-reactivate-notice', reactivate_notice).on('click', '.copy-text', copy_text).on('focus', '#courier-shortcode', function () {
       $('#courier-shortcode').select();
-    }); // Setup type edit screen js within settings.
-
-    setup_type_editing();
+    });
     $('.courier-info-icon').tooltip();
   }
   /**
@@ -1240,10 +1236,10 @@ function core() {
 
 
   function populate_status() {
-    var $option = $('<option />').val('courier_expired').text(localized_data.strings.label);
+    var $option = $('<option />').val('courier_expired').text(courier_admin_data.strings.label);
 
-    if (localized_data.post_status === 'courier_expired') {
-      $('#post-status-display').text(localized_data.strings.expired);
+    if (courier_admin_data.post_status === 'courier_expired') {
+      $('#post-status-display').text(courier_admin_data.strings.expired);
       $option.attr('selected', 'selected');
     }
 
@@ -1262,8 +1258,8 @@ function core() {
         $author_container = $('#courier-author-container');
 
     if ($this.prop('checked')) {
-      $author_select.val(localized_data.current_user.display_name).prop('disabled', 'disabled');
-      $author_value.val(localized_data.current_user.ID);
+      $author_select.val(courier_admin_data.current_user.display_name).prop('disabled', 'disabled');
+      $author_value.val(courier_admin_data.current_user.ID);
       $author_container.hide();
     } else {
       $author_select.prop('disabled', null).val('');
@@ -1282,7 +1278,7 @@ function core() {
         post_status = $('#inline_' + post_id + ' ._status').text(),
         $edit_row = '',
         $select = '',
-        $expired_option = $('<option />').text(localized_data.strings.label).attr('value', 'courier_expired'); // Delay things to ensure the quick edit row has been added to the page.
+        $expired_option = $('<option />').text(courier_admin_data.strings.label).attr('value', 'courier_expired'); // Delay things to ensure the quick edit row has been added to the page.
 
     setTimeout(function () {
       $edit_row = $('#edit-' + post_id);
@@ -1353,14 +1349,241 @@ function core() {
       }, 3000);
     }
   }
+}
+
+/***/ }),
+
+/***/ "./assets/js/admin/types.js":
+/*!**********************************!*\
+  !*** ./assets/js/admin/types.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return types; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * Controls Notice Types admin area within settings
+ *
+ * @package    Courier
+ * @subpackage Types
+ * @since      1.0
+ */
+
+var $ = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
+function types() {
+  // Private Variables
+  var $window = $(window),
+      $doc = $(document),
+      $body = $('body'),
+      $types = $('.courier_notice_page_courier'),
+      $new_container = $('#courier-notice-type-new'),
+      courierNoticeTypeTemplate = $('#courier-notice-type-template').text().split(/\{(.+?)\}/g),
+      courierNoticeTypeEditTemplate = $('#courier-notice-type-edit-template').text().split(/\{(.+?)\}/g),
+      inputTemplate = {
+    indicator: $('#courier-notice-loader').html(),
+    cancel: courier_admin_data.strings.cancel,
+    cancelcssclass: 'btn btn-danger',
+    submitcssclass: 'btn btn-success',
+    maxlength: 50,
+    showfn: function showfn(elem) {
+      elem.fadeIn('fast');
+    },
+    submit: courier_admin_data.strings.save,
+    tooltip: courier_admin_data.strings.editurl,
+    width: '100%'
+  },
+      courierNoticeTypeCurrent = '';
   /**
-   * Setup Courier Type Editing Screen
+   * Add some event listeners
+   */
+
+  function init() {
+    // Setup type edit screen js within settings.
+    setupTypeEditing();
+    setupControls();
+  }
+
+  function setupControls() {
+    $body.on('click', '.courier-notices-type-delete', confirmDeleteCourierNoticeType).on('click', '#add-courier-notice-type', addNewCourierNoticeTypeRow).on('click', '#courier-notice-type-new .save-button', addCourierNoticeType).on('click', '#courier-notice-type-new .close-button', cancelAddCourierNoticeType).on('click', '.courier-notice-type-edit', editCourierNoticeType);
+  }
+  /**
+   * Edit a courier notice
+   *
+   * @since 1.0
+   *
+   * @param event
    */
 
 
-  function setup_type_editing() {
+  function editCourierNoticeType(event) {
+    event.preventDefault();
+    var $parentRow = $(this).closest('tr');
+    $parentRow.addClass('editing');
+    courierNoticeTypeCurrent = $parentRow.detach(); // Store our row for usage later, if some on decides not to edit.
+  }
+  /**
+   * display the template.
+   * @param item
+   */
+
+
+  function displayEditCourierNoticeTypeTemplate(item) {
+    var $noticeRow = $(courierNoticeTypeEditTemplate.map(render(item)).join(''));
+    $('table.courier_notice_page_courier tbody').append($($noticeRow));
+    setupTypeEditing();
+  }
+  /**
+   * Cancel adding a new Courier Notice Type.
+   *
+   * @since 1.0
+   *
+   * @param event
+   */
+
+
+  function cancelAddCourierNoticeType(event) {
+    event.preventDefault();
+    var $target = $('#courier-notice-type-new');
+    $target.fadeOut('fast').promise().done(function () {
+      $('#add-courier-notice-type').removeAttr('disabled').removeClass('disabled');
+      $(this).remove();
+    });
+  }
+  /**
+   * Add a new courier type.
+   *
+   * @since 1.0
+   *
+   * @param event
+   */
+
+
+  function addNewCourierNoticeTypeRow(event) {
+    event.preventDefault();
+    $(this).addClass('disabled').attr('disabled', 'disabled'); // Only show the new row if it's not visible.
+    // if ( ! $new_container.is(':visible') ) {
+
+    var options = {};
+    var input = $.extend(true, options, inputTemplate);
+    displayNewCourierNoticeTypeTemplate(input); // }
+  }
+  /**
+   * Confirm delete of Courier Notice type term
+   *
+   * @todo there should be some sort of busy/loading indicator
+   *
+   * @since 1.0
+   *
+   * @param event
+   */
+
+
+  function confirmDeleteCourierNoticeType(event) {
+    event.preventDefault();
+    var $this = $(this);
+
+    if (true !== $this.data('confirm')) {
+      $this.find('dashicons-trash').hide();
+      $this.addClass('button button-primary').text(courier_admin_data.strings.confirm_delete).data('confirm', true);
+    } else {
+      $this.addClass('disabled').text(courier_admin_data.strings.deleting);
+      deleteCourierNoticeType($this);
+    }
+  }
+  /**
+   * Delete the Courier Notice Type
+   *
+   * @since 1.0
+   */
+
+
+  function deleteCourierNoticeType($target) {
+    $.post(ajaxurl, {
+      action: 'courier_notices_delete_type',
+      courier_notices_delete_type: courier_admin_data.delete_nonce,
+      courier_notices_type: parseInt($target.data('term-id'))
+    }).success(function () {
+      $target.closest('tr').fadeOut('fast').promise().done(function () {
+        $(this).remove(); // Remove the row from the table after it fades out.
+      });
+    });
+  }
+  /**
+   * Setup Courier Type Editing Screen
+   *
+   * @since 1.0
+   */
+
+
+  function setupTypeEditing() {
     $('.courier-type-color').wpColorPicker();
   }
+  /**
+   * Render our template including our properties.
+   *
+   * This is a temp solution prior to move to react.
+   *
+   * @param props
+   * @returns {Function}
+   */
+
+
+  function render(props) {
+    return function (token, i) {
+      return i % 2 ? props[token] : token;
+    };
+  }
+  /**
+   * Display the template for adding a new Notice Type.
+   * @param item
+   */
+
+
+  function displayNewCourierNoticeTypeTemplate(item) {
+    var $noticeRow = $(courierNoticeTypeTemplate.map(render(item)).join(''));
+    $('table.courier_notice_page_courier tbody').append($($noticeRow));
+    setupTypeEditing();
+  }
+  /**
+   * Add / Save our new courier notice type
+   */
+
+
+  function addCourierNoticeType(event) {
+    event.preventDefault();
+    $(this).addClass('disabled').attr('disabled', 'disabled');
+    var $target = $('#courier-notice-type-new');
+    $.post(ajaxurl, {
+      action: 'courier_notices_add_type',
+      'page': 'courier',
+      'courier_notices_add_type': courier_admin_data.add_nonce,
+      'courier_notice_type_new_title': $('#courier-notice-type-new-title').val(),
+      'courier_notice_type_new_css_class': $('#courier-notice-type-new-css-class').val(),
+      'courier_notice_type_new_color': $('#courier-notice-type-new-color').val(),
+      'courier_notice_type_new_text_color': $('#courier-notice-type-new-text-color').val(),
+      contentType: "application/json"
+    }).success(function (response) {
+      response = JSON.parse(response);
+
+      if (response && response.fragments) {
+        $target.fadeOut('fast').promise().done(function () {
+          $('#add-courier-notice-type').removeAttr('disabled').removeClass('disabled');
+
+          for (var fragment in response.fragments) {
+            $(fragment).html(response.fragments[fragment]);
+          }
+
+          setupTypeEditing();
+        });
+      }
+    });
+  }
+
+  init(); // kick everything off controlling types.
 }
 
 /***/ }),
@@ -1437,12 +1660,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _admin_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin/core */ "./assets/js/admin/core.js");
 /* harmony import */ var _admin_welcome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./admin/welcome */ "./assets/js/admin/welcome.js");
+/* harmony import */ var _admin_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./admin/types */ "./assets/js/admin/types.js");
+
 
 
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
   Object(_admin_core__WEBPACK_IMPORTED_MODULE_1__["default"])();
   Object(_admin_welcome__WEBPACK_IMPORTED_MODULE_2__["default"])();
+  Object(_admin_types__WEBPACK_IMPORTED_MODULE_3__["default"])();
 });
 
 /***/ }),

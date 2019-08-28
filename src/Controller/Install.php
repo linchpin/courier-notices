@@ -35,10 +35,33 @@ class Install {
 	 */
 	public function register_actions() {
 		add_action( 'admin_notices', array( $this, 'check_for_updates' ) );
+		add_action( 'init', array( $this, 'add_capabilities' ), 11 );
 	}
 
 	/**
-	 * Checks to see if we have any updates
+	 * Add new capabilities to administrators.
+	 *
+	 * @since 1.0
+	 */
+	public function add_capabilities() {
+
+		// Get the administrator role.
+		$role = get_role( 'administrator' );
+
+		if ( $role ) {
+			if ( ! $role->has_cap( 'edit_courier_notices' ) ) {
+				// Add new capabilities.
+				$role->add_cap( 'delete_courier_notices', true );
+				$role->add_cap( 'delete_others_courier_notices', true );
+				$role->add_cap( 'edit_courier_notices', true );
+				$role->add_cap( 'edit_published_courier_notices', true );
+				$role->add_cap( 'edit_others_courier_notices', true );
+			}
+		}
+	}
+
+	/**
+	 * Checks to see if we have any updates.
 	 *
 	 * @since 1.0
 	 */

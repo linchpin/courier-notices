@@ -10,6 +10,11 @@
 
 $courier_version = get_option( 'courier_version', '0.0' );
 
+// Make sure we don't expose any info if called directly.
+if ( ! function_exists( 'add_action' ) ) {
+	exit;
+}
+
 ?>
 <div class="courier-notice courier-update-notice notice notice-info is-dismissible" data-type="update-notice">
 	<div class="table">

@@ -14,8 +14,7 @@ export default function core() {
     var $doc = $(document),
         $body = $('body'),
         self,
-        $courier_recipient = $("#courier_recipient_field"),
-        localized_data;
+        $courier_recipient = $("#courier_recipient_field");
 
     init();
 
@@ -24,7 +23,6 @@ export default function core() {
      * Add our events
      */
     function init() {
-        localized_data = courier_admin_data;
 
         $('#courier_expire_date').datetimepicker({
             minDate: 0,
@@ -39,7 +37,7 @@ export default function core() {
             }
         });
 
-        if ('courier_notice' === localized_data.post_type) {
+        if ('courier_notice' === courier_admin_data.post_type) {
             $doc
                 .on('ready', populate_status );
 
@@ -93,9 +91,6 @@ export default function core() {
                 $('#courier-shortcode').select();
             });
 
-        // Setup type edit screen js within settings.
-        setup_type_editing();
-
         $('.courier-info-icon').tooltip();
     }
 
@@ -104,10 +99,10 @@ export default function core() {
      * If that is the current status of the post, select it and push the text to the on screen label.
      */
     function populate_status() {
-        var $option = $('<option />').val('courier_expired').text(localized_data.strings.label);
+        var $option = $('<option />').val('courier_expired').text(courier_admin_data.strings.label);
 
-        if (localized_data.post_status === 'courier_expired') {
-            $('#post-status-display').text(localized_data.strings.expired);
+        if (courier_admin_data.post_status === 'courier_expired') {
+            $('#post-status-display').text(courier_admin_data.strings.expired);
             $option.attr('selected', 'selected');
         }
 
@@ -125,8 +120,8 @@ export default function core() {
             $author_container = $('#courier-author-container');
 
         if ($this.prop('checked')) {
-            $author_select.val(localized_data.current_user.display_name).prop('disabled', 'disabled');
-            $author_value.val(localized_data.current_user.ID);
+            $author_select.val(courier_admin_data.current_user.display_name).prop('disabled', 'disabled');
+            $author_value.val(courier_admin_data.current_user.ID);
             $author_container.hide();
         } else {
             $author_select.prop('disabled', null).val('');
@@ -144,7 +139,7 @@ export default function core() {
             post_status = $('#inline_' + post_id + ' ._status').text(),
             $edit_row = '',
             $select = '',
-            $expired_option = $('<option />').text(localized_data.strings.label).attr('value', 'courier_expired');
+            $expired_option = $('<option />').text(courier_admin_data.strings.label).attr('value', 'courier_expired');
 
         // Delay things to ensure the quick edit row has been added to the page.
         setTimeout(function () {
@@ -220,12 +215,5 @@ export default function core() {
                 $indicator.text('');
             }, 3000);
         }
-    }
-
-    /**
-     * Setup Courier Type Editing Screen
-     */
-    function setup_type_editing() {
-        $('.courier-type-color').wpColorPicker();
     }
 }
