@@ -291,7 +291,7 @@ class Type_List_Table extends WP_List_Table {
 
 		$actions = [
 			'edit' => sprintf(
-				'<a href="%1$s">%2$s</a>',
+				'<a href="%1$s" class="courier-notice-type-edit">%2$s</a>',
 				get_edit_term_link( $item['ID'], 'courier_type' ),
 				esc_html__( 'Edit', 'courier' )
 			),

@@ -1382,6 +1382,7 @@ function types() {
       $types = $('.courier_notice_page_courier'),
       $new_container = $('#courier-notice-type-new'),
       courierNoticeTypeTemplate = $('#courier-notice-type-template').text().split(/\{(.+?)\}/g),
+      courierNoticeTypeEditTemplate = $('#courier-notice-type-edit-template').text().split(/\{(.+?)\}/g),
       inputTemplate = {
     indicator: $('#courier-notice-loader').html(),
     cancel: courier_admin_data.strings.cancel,
@@ -1394,7 +1395,8 @@ function types() {
     submit: courier_admin_data.strings.save,
     tooltip: courier_admin_data.strings.editurl,
     width: '100%'
-  };
+  },
+      courierNoticeTypeCurrent = '';
   /**
    * Add some event listeners
    */
@@ -1406,8 +1408,42 @@ function types() {
   }
 
   function setupControls() {
-    $body.on('click', '.courier-notices-type-delete', confirmDeleteCourierNoticeType).on('click', '#add-courier-notice-type', addNewCourierNoticeTypeRow).on('click', '#courier-notice-type-new .save-button', addCourierNoticeType).on('click', '#courier-notice-type-new .close-button', cancelAddCourierNoticeType);
+    $body.on('click', '.courier-notices-type-delete', confirmDeleteCourierNoticeType).on('click', '#add-courier-notice-type', addNewCourierNoticeTypeRow).on('click', '#courier-notice-type-new .save-button', addCourierNoticeType).on('click', '#courier-notice-type-new .close-button', cancelAddCourierNoticeType).on('click', '.courier-notice-type-edit', editCourierNoticeType);
   }
+  /**
+   * Edit a courier notice
+   *
+   * @since 1.0
+   *
+   * @param event
+   */
+
+
+  function editCourierNoticeType(event) {
+    event.preventDefault();
+    var $parentRow = $(this).closest('tr');
+    $parentRow.addClass('editing');
+    courierNoticeTypeCurrent = $parentRow.detach(); // Store our row for usage later, if some on decides not to edit.
+  }
+  /**
+   * display the template.
+   * @param item
+   */
+
+
+  function displayEditCourierNoticeTypeTemplate(item) {
+    var $noticeRow = $(courierNoticeTypeEditTemplate.map(render(item)).join(''));
+    $('table.courier_notice_page_courier tbody').append($($noticeRow));
+    setupTypeEditing();
+  }
+  /**
+   * Cancel adding a new Courier Notice Type.
+   *
+   * @since 1.0
+   *
+   * @param event
+   */
+
 
   function cancelAddCourierNoticeType(event) {
     event.preventDefault();
@@ -1437,8 +1473,8 @@ function types() {
   }
   /**
    * Confirm delete of Courier Notice type term
-  *
-  * @todo there should be some sort of busy/loading indicator
+   *
+   * @todo there should be some sort of busy/loading indicator
    *
    * @since 1.0
    *
@@ -1478,6 +1514,8 @@ function types() {
   }
   /**
    * Setup Courier Type Editing Screen
+   *
+   * @since 1.0
    */
 
 
@@ -1500,7 +1538,7 @@ function types() {
     };
   }
   /**
-   * display the template.
+   * Display the template for adding a new Notice Type.
    * @param item
    */
 

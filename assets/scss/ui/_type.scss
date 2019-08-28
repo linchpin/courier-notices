@@ -51,9 +51,19 @@
   }
 }
 
-.courier_notice_page_courier {
+body.courier_notice_page_courier {
 	.form-table tbody tr th[scope="row"] {
 		width:200px;
+	}
+
+	tr:hover .row-actions {
+		position: relative;
+	}
+
+	.wp-list-table.courier_notice_page_courier {
+		tr:hover .row-actions {
+			position: static;
+		}
 	}
 }
 
