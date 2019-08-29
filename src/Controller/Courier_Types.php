@@ -38,7 +38,9 @@ class Courier_Types {
 			'class'       => array(),
 		),
 		'pre'    => array(
-			'class' => array(),
+			'class'          => array(),
+			'id'             => array(),
+			'data-css-class' => array(),
 		),
 		'div'    => array(
 			'id'    => array(),
@@ -68,6 +70,10 @@ class Courier_Types {
 			'class'        => array(),
 			'href'         => array(),
 			'data-term-id' => array(),
+		),
+		'strong' => array(
+			'class'      => array(),
+			'data-title' => array(),
 		),
 		'tfoot'  => array(),
 		'br'     => array(
