@@ -25,7 +25,7 @@
 	</tr>
 </script>
 <script id="courier-notice-type-edit-template" type="text/template">
-	<tr id="courier-notice-type-edit">
+	<tr id="courier-notice-type-edit" class="courier-notice-editing" data-term-id="{notice_type_id}">
 		<th></th>
 		<td></td>
 		<td>

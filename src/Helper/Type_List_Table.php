@@ -182,7 +182,7 @@ class Type_List_Table extends WP_List_Table {
 				}
 
 				$color_input = sprintf(
-					'<label class="screen-reader-text" for="courier_type_%2$s_color">%3$s</label><input type="text" name="courier_type_%2$s_color" id="courier_type_%2$s_color" class="courier-type-color" value="%1$s" />',
+					'<label class="screen-reader-text" for="courier_type_%2$s_color">%3$s</label><input type="text" name="courier_type_%2$s_color" id="courier_type_%2$s_color" class="courier-type-color courier-notice-type-color" value="%1$s" />',
 					esc_attr( $color ),
 					esc_attr( $type->slug ),
 					// translators: %1$s Title of the term.
@@ -192,7 +192,7 @@ class Type_List_Table extends WP_List_Table {
 				$icon = get_term_meta( $type->term_id, '_courier_type_icon', true );
 
 				if ( ! empty( $icon ) ) {
-					$icon = sprintf( '<label class="screen-reader-text" for="courier_type_%2$s_icon">%1$s</label><span alt="%1$s" class="courier-type-icon icon-%2$s"></span><pre name="courier_type_%2$s_icon" id="courier_type_%2$s_icon" class="courier-type-icon">icon-%1$s</pre>',
+					$icon = sprintf( '<label class="screen-reader-text" for="courier_type_%2$s_icon">%1$s</label><span alt="%1$s" class="courier-type-icon icon-%2$s"></span><pre name="courier_type_%2$s_icon" data-css-class="icon-%2$s" id="courier_type_%2$s_icon" class="courier-notice-type-css-class">icon-%1$s</pre>',
 						esc_attr( $icon ),
 						esc_attr( $type->slug )
 					);
@@ -207,7 +207,7 @@ class Type_List_Table extends WP_List_Table {
 				}
 
 				$text_input = sprintf(
-					'<label class="screen-reader-text" for="courier_type_%2$s_text_color">%3$s</label><input type="text" name="courier_type_%2$s_text_color" id="courier_type_%2$s_text_color" class="courier-type-color" value="%1$s" />',
+					'<label class="screen-reader-text" for="courier_type_%2$s_text_color">%3$s</label><input type="text" name="courier_type_%2$s_text_color" id="courier_type_%2$s_text_color" class="courier-type-color courier-notice-type-text-color" value="%1$s" />',
 					esc_attr( $text_color ),
 					esc_attr( $type->slug ),
 					// translators: %1$s Title of the term.
@@ -285,15 +285,17 @@ class Type_List_Table extends WP_List_Table {
 	protected function column_title( $item ) {
 
 		$edit_link = sprintf(
-			'<strong>%1$s</strong>',
-			esc_html( $item['title'] )
+			'<strong class="courier-notice-type-title" data-title="%2$s">%1$s</strong>',
+			esc_html( $item['title'] ),
+			esc_attr( $item['title'] )
 		);
 
 		$actions = [
 			'edit' => sprintf(
-				'<a href="%1$s" class="courier-notice-type-edit">%2$s</a>',
+				'<a href="%1$s" class="courier-notice-type-edit" data-term-id="%3$d">%2$s</a>',
 				get_edit_term_link( $item['ID'], 'courier_type' ),
-				esc_html__( 'Edit', 'courier' )
+				esc_html__( 'Edit', 'courier' ),
+				esc_attr( $item['ID'] )
 			),
 		];
 

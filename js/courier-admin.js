@@ -1376,9 +1376,7 @@ __webpack_require__.r(__webpack_exports__);
 var $ = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 function types() {
   // Private Variables
-  var $window = $(window),
-      $doc = $(document),
-      $body = $('body'),
+  var $body = $('body'),
       $types = $('.courier_notice_page_courier'),
       $new_container = $('#courier-notice-type-new'),
       courierNoticeTypeTemplate = $('#courier-notice-type-template').text().split(/\{(.+?)\}/g),
@@ -1398,7 +1396,7 @@ function types() {
   },
       courierNoticeTypeCurrent = '';
   /**
-   * Add some event listeners
+   * Intialize the module
    */
 
   function init() {
@@ -1406,12 +1404,16 @@ function types() {
     setupTypeEditing();
     setupControls();
   }
+  /**
+   * Create all the event listeners for the module
+   */
+
 
   function setupControls() {
-    $body.on('click', '.courier-notices-type-delete', confirmDeleteCourierNoticeType).on('click', '#add-courier-notice-type', addNewCourierNoticeTypeRow).on('click', '#courier-notice-type-new .save-button', addCourierNoticeType).on('click', '#courier-notice-type-new .close-button', cancelAddCourierNoticeType).on('click', '.courier-notice-type-edit', editCourierNoticeType);
+    $body.on('click', '.courier-notices-type-delete', confirmDeleteCourierNoticeType).on('click', '#add-courier-notice-type', addNewCourierNoticeTypeRow).on('click', '#courier-notice-type-new .save-button', addCourierNoticeType).on('click', '#courier-notice-type-new .close-button', cancelAddCourierNoticeType).on('click', '.courier-notice-editing .close-button', cancelEditCourierNoticeType).on('click', '.courier-notice-editing .save-button', updateCourierNoticeType).on('click', '.courier-notice-type-edit', editCourierNoticeType);
   }
   /**
-   * Edit a courier notice
+   * Edit a courier notice type
    *
    * @since 1.0
    *
@@ -1422,18 +1424,52 @@ function types() {
   function editCourierNoticeType(event) {
     event.preventDefault();
     var $parentRow = $(this).closest('tr');
-    $parentRow.addClass('editing');
-    courierNoticeTypeCurrent = $parentRow.detach(); // Store our row for usage later, if some on decides not to edit.
+    $parentRow.addClass('courier-notice-editing');
+    courierNoticeTypeCurrent = $parentRow.clone(true); // Store our row for usage later, if some on decides not to edit.
+
+    var options = {
+      'notice_type_title': $parentRow.find('.courier-notice-type-title').data('title'),
+      'notice_type_css_class': $parentRow.find('.courier-notice-type-css-class').data('css-class'),
+      'notice_type_color': $parentRow.find('.courier-notice-type-color').val(),
+      'notice_type_text_color': $parentRow.find('.courier-notice-type-text-color').val(),
+      'notice_type_id': $(this).data('term-id')
+    };
+    displayEditTemplate(inputTemplate, options);
   }
   /**
-   * display the template.
-   * @param item
+   * Cancel editing an existing Courier Notice Type.
+   *
+   * @since 1.0
+   *
+   * @param event
    */
 
 
-  function displayEditCourierNoticeTypeTemplate(item) {
-    var $noticeRow = $(courierNoticeTypeEditTemplate.map(render(item)).join(''));
-    $('table.courier_notice_page_courier tbody').append($($noticeRow));
+  function cancelEditCourierNoticeType(event) {
+    event.preventDefault();
+    var $target = $('#courier-notice-type-edit').replaceWith(courierNoticeTypeCurrent);
+    $('.courier-notice-editing').removeClass('courier-notice-editing');
+  }
+  /**
+   * Display the edit template.
+   *
+   * @since 1.0
+   *
+   * @param template
+   * @param options
+   */
+
+
+  function displayEditTemplate(template, options) {
+    // If no template, die early
+    if (typeof template === 'undefined') {
+      return;
+    }
+
+    options = options ? options : {};
+    var input = $.extend(true, options, template);
+    var $noticeRow = $(courierNoticeTypeEditTemplate.map(render(input)).join(''));
+    $('.courier-notice-editing').replaceWith($($noticeRow));
     setupTypeEditing();
   }
   /**
@@ -1573,6 +1609,42 @@ function types() {
         $target.fadeOut('fast').promise().done(function () {
           $('#add-courier-notice-type').removeAttr('disabled').removeClass('disabled');
 
+          for (var fragment in response.fragments) {
+            $(fragment).html(response.fragments[fragment]);
+          }
+
+          setupTypeEditing();
+        });
+      }
+    });
+  }
+  /**
+   * Update courier notice type
+   *
+   * @since 1.0
+   */
+
+
+  function updateCourierNoticeType(event) {
+    event.preventDefault();
+    var $this = $(this),
+        $target = $('#courier-notice-type-edit');
+    $this.addClass('disabled').attr('disabled', 'disabled');
+    $.post(ajaxurl, {
+      action: 'courier_notices_update_type',
+      'page': 'courier',
+      'courier_notices_update_type': courier_admin_data.update_nonce,
+      'courier_notice_type_edit_title': $('#courier-notice-type-edit-title').val(),
+      'courier_notice_type_edit_css_class': $('#courier-notice-type-eddit-css-class').val(),
+      'courier_notice_type_edit_color': $('#courier-notice-type-edit-color').val(),
+      'courier_notice_type_edit_text_color': $('#courier-notice-type-edit-text-color').val(),
+      'courier_notice_type_id': parseInt($target.data('term-id')),
+      contentType: "application/json"
+    }).success(function (response) {
+      response = JSON.parse(response);
+
+      if (response && response.fragments) {
+        $target.fadeOut('fast').promise().done(function () {
           for (var fragment in response.fragments) {
             $(fragment).html(response.fragments[fragment]);
           }
