@@ -12,6 +12,75 @@ use Courier\Helper\Utils;
  */
 class Courier_Types {
 
+	private $kses_template = array(
+		'p'      => array(
+			'class' => array(),
+		),
+		'button' => array(
+			'class' => array(),
+			'value' => array(),
+			'type'  => array(),
+			'id'    => array(),
+		),
+		'label'  => array(
+			'for'   => array(),
+			'class' => array(),
+		),
+		'input'  => array(
+			'type'  => array(),
+			'value' => array(),
+			'class' => array(),
+			'name'  => array(),
+			'id'    => array(),
+		),
+		'span'   => array(
+			'aria-hidden' => array(),
+			'class'       => array(),
+		),
+		'pre'    => array(
+			'class'          => array(),
+			'id'             => array(),
+			'data-css-class' => array(),
+		),
+		'div'    => array(
+			'id'    => array(),
+			'class' => array(),
+		),
+		'table'  => array(
+			'class' => array(),
+		),
+		'thead'  => array(),
+		'tbody'  => array(
+			'id'    => array(),
+			'class' => array(),
+		),
+		'tr'     => array(),
+		'td'     => array(
+			'data-colname' => array(),
+			'class'        => array(),
+			'scope'        => array(),
+			'id'           => array(),
+		),
+		'th'     => array(
+			'class' => array(),
+			'scope' => array(),
+			'id'    => array(),
+		),
+		'a'      => array(
+			'class'        => array(),
+			'href'         => array(),
+			'data-term-id' => array(),
+		),
+		'strong' => array(
+			'class'      => array(),
+			'data-title' => array(),
+		),
+		'tfoot'  => array(),
+		'br'     => array(
+			'class' => array(),
+		),
+	);
+
 	/**
 	 * Register our actions for courier type administration.
 	 */
@@ -96,68 +165,7 @@ class Courier_Types {
 				'fragments' => array(
 					'table.form-table tbody tr td:first' => wp_kses(
 						$table,
-						array(
-							'p'      => array(
-								'class' => array(),
-							),
-							'button' => array(
-								'class' => array(),
-								'value' => array(),
-								'type'  => array(),
-								'id'    => array(),
-							),
-							'label'  => array(
-								'for'   => array(),
-								'class' => array(),
-							),
-							'input'  => array(
-								'type'  => array(),
-								'value' => array(),
-								'class' => array(),
-								'name'  => array(),
-								'id'    => array(),
-							),
-							'span'   => array(
-								'aria-hidden' => array(),
-								'class'       => array(),
-							),
-							'pre'    => array(
-								'class' => array(),
-							),
-							'div'    => array(
-								'id'    => array(),
-								'class' => array(),
-							),
-							'table'  => array(
-								'class' => array(),
-							),
-							'thead'  => array(),
-							'tbody'  => array(
-								'id'    => array(),
-								'class' => array(),
-							),
-							'tr'     => array(),
-							'td'     => array(
-								'data-colname' => array(),
-								'class'        => array(),
-								'scope'        => array(),
-								'id'           => array(),
-							),
-							'th'     => array(
-								'class' => array(),
-								'scope' => array(),
-								'id'    => array(),
-							),
-							'a'      => array(
-								'class'        => array(),
-								'href'         => array(),
-								'data-term-id' => array(),
-							),
-							'tfoot'  => array(),
-							'br'     => array(
-								'class' => array(),
-							),
-						)
+						$this->kses_template
 					),
 				),
 			)
@@ -172,7 +180,7 @@ class Courier_Types {
 
 		check_ajax_referer( 'courier_notices_update_type_nonce', 'courier_notices_update_type' );
 
-		if ( empty( $_POST['courier_notice_id'] ) ) {
+		if ( empty( $_POST['courier_notice_type_id'] ) ) {
 			return wp_json_encode( -1 );
 		}
 
@@ -180,7 +188,52 @@ class Courier_Types {
 			return wp_json_encode( -1 );
 		}
 
-		return wp_json_encode( 1 );
+		$notice_type_title = sanitize_text_field( $_POST['courier_notice_type_edit_title'] );
+
+		// If not css class is passed, fall back to the title
+		if ( ! isset( $_POST['courier_notice_type_edit_css_class'] ) || '' === $_POST['courier_notice_type_edit_css_class'] ) {
+			$notice_type_class = $_POST['courier_notice_type_edit_title'];
+		} else {
+			$notice_type_class = $_POST['courier_notice_type_edit_css_class'];
+		}
+
+		$notice_type_class      = sanitize_title_with_dashes( $notice_type_class );
+		$notice_type_color      = sanitize_hex_color( $_POST['courier_notice_type_edit_color'] );
+		$notice_type_text_color = sanitize_hex_color( $_POST['courier_notice_type_edit_text_color'] );
+
+		$type = wp_update_term( (int) $_POST['courier_notice_type_id'], 'courier_type', array( 'name' => $notice_type_title ) );
+
+		if ( ! is_wp_error( $type ) ) {
+			$this->insert_term_meta( $type, $notice_type_class, $notice_type_color, $notice_type_text_color );
+		} else {
+			wp_die( esc_html( $type ) );
+		}
+
+		$data = array(
+			'field'       => 'notice_type_designs',
+			'section'     => 'courier_design',
+			'options'     => 'courier_design',
+			'label'       => esc_html__( 'Courier Types', 'courier' ),
+			'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier' ),
+		);
+
+		ob_start();
+		Fields::add_table( $data );
+		$table = ob_get_contents();
+		ob_end_clean();
+
+		echo wp_json_encode(
+			array(
+				'success'   => $type,
+				'fragments' => array(
+					'table.form-table tbody tr td:first' => wp_kses(
+						$table,
+						$this->kses_template
+					),
+				),
+			)
+		);
+		exit;
 	}
 
 	/**
@@ -216,7 +269,6 @@ class Courier_Types {
 		exit;
 	}
 
-
 	/**
 	 * Adds in our term meta for our courier types
 	 *
@@ -233,16 +285,18 @@ class Courier_Types {
 			return;
 		}
 
-		if ( ! empty( $term['term_id'] ) && ! empty( $hex_color ) ) {
-			add_term_meta( $term['term_id'], '_courier_type_color', $hex_color, true );
+		$term_id = (int) $term['term_id'];
+
+		if ( ! empty( $term_id ) && ! empty( $hex_color ) ) {
+			update_term_meta( $term_id, '_courier_type_color', $hex_color );
 		}
 
-		if ( ! empty( $term['term_id'] ) && ! empty( $label_color ) ) {
-			add_term_meta( $term['term_id'], '_courier_type_label', $label_color, true );
+		if ( ! empty( $term_id ) && ! empty( $label_color ) ) {
+			update_term_meta( $term_id, '_courier_type_text_color', $label_color );
 		}
 
-		if ( ! empty( $term['term_id'] ) && ! empty( $class_name ) ) {
-			add_term_meta( $term['term_id'], '_courier_type_icon', $class_name, true );
+		if ( ! empty( $term_id ) && ! empty( $class_name ) ) {
+			update_term_meta( $term_id, '_courier_type_icon', $class_name );
 		}
 	}
 }
