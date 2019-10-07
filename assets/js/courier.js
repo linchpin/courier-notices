@@ -18,7 +18,8 @@ courier.dismiss = (function ($) {
             self = courier.dismiss;
 
             $body
-                .on('click', '.courier-close', self.close_click);
+                .on('click', '.courier-close', self.close_click)
+                .on('click', '.trigger-close', self.close_click);
         },
 
         /**
@@ -30,20 +31,28 @@ courier.dismiss = (function ($) {
          */
         close_click: function (event) {
 
-            var $this = $(this);
+	        var $this = $(this);
 
-            if (true !== $this.data('dismiss')) {
-                event.preventDefault();
-                event.stopPropagation();
+	        var href = $this.attr('href');
 
-                // Store that our notice should be dismissed
-                // This will stop an infinite loop.
-                $this.data('dismiss', true);
+	        if (true !== $this.data('dismiss')) {
+		        event.preventDefault();
+		        event.stopPropagation();
 
-                $notices = $this.parent();
+		        // Store that our notice should be dismissed
+		        // This will stop an infinite loop.
+		        $this.data('dismiss', true);
 
-                self.ajax(parseInt($notices.data('courier-notice-id')));
-            }
+		        $notices = $this.parents('.courier-notices');
+
+		        self.ajax(parseInt($notices.data('courier-notice-id')));
+
+		        if ( href != undefined && href != '#') {
+			        $(document).ajaxComplete(function (event, request, settings) {
+				        window.location = href ;
+			        });
+		        }
+	        }
         },
 
         /**
