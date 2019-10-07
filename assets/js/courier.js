@@ -178,6 +178,11 @@ courier.cookie = (function () {
         },
         setItem: function (sKey, sValue, vEnd, sPath, sDomain, bSecure) {
             if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) { return false; }
+
+            if (!sPath) {
+            	sPath = '/';
+            }
+
             var sExpires = "";
             if (vEnd) {
                 switch (vEnd.constructor) {
