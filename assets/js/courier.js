@@ -143,13 +143,23 @@ courier.modal = (function ($) {
          * Shows the modal (if there is one) after the page is fully loaded
          */
         display_modal: function () {
-            var $modal_overlay = $('.courier-modal-overlay');
 
-            if ( $modal_overlay.length < 1 ) {
-                return;
-            }
+	        var notice_ids = courier.cookie.getItem( 'dismissed_notices' );
 
-            $modal_overlay.show();
+	        notice_ids = JSON.parse( notice_ids );
+	        notice_ids = notice_ids || [];
+
+	        $.each( notice_ids, function( i, val ) {
+		        $('div[data-courier-notice-id="' + val + '"]').remove();
+	        });
+
+	        var $modal_overlay = $('.courier-modal-overlay');
+
+	        if ( $modal_overlay.length < 1 || $('div.courier-notices', $modal_overlay).length < 1) {
+		        return;
+	        }
+
+	        $modal_overlay.show();
         }
 
     };
