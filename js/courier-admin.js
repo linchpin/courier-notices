@@ -1159,13 +1159,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 var $ = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 function core() {
   var $doc = $(document),
-      $body = $('body'),
-      self,
-      $courier_recipient = $("#courier_recipient_field");
+      $body = $('body');
   init();
   /**
    * Initialize our dismiss
    * Add our events
+  *
+  * @since 1.0
    */
 
   function init() {
@@ -1184,45 +1184,7 @@ function core() {
 
     if ('courier_notice' === courier_admin_data.post_type) {
       $doc.on('ready', populate_status);
-      $('#courier_scope').on('change', $body, toggle_global);
     }
-
-    $courier_recipient.autocomplete({
-      minLength: 3,
-      source: function source(request, response) {
-        $.ajax({
-          url: courier_admin_data.user_endpoint + request.term + '/',
-          dataType: "json",
-          success: function success(data) {
-            response(data);
-          }
-        });
-      },
-      focus: function focus(event, ui) {
-        if ($courier_recipient.is(':visible')) {
-          $courier_recipient.val(ui.item.display_name);
-        }
-
-        return false;
-      },
-      select: function select(event, ui) {
-        if ($courier_recipient.is(':visible')) {
-          $courier_recipient.val(ui.item.display_name);
-        }
-
-        $("#post_author_override").val(ui.item.ID);
-        return false;
-      }
-    }).autocomplete("instance")._renderItem = function (ul, item) {
-      /**
-       * Build our dropdown structure. use text to strip html from display
-       * @type {*}
-       */
-      var $a = $('<a><span class="courier-display-name"></span><br><span class="courier-user-email"></span></a>');
-      $a.find('.courier-display-name').text(item.display_name);
-      $a.find('.courier-user-email').text(item.user_email);
-      return $('<li>').append($a).appendTo(ul);
-    };
 
     $body.on('click', '.editinline', quick_edit_populate_status).on('click', '.courier-reactivate-notice', reactivate_notice).on('click', '.copy-text', copy_text).on('focus', '#courier-shortcode', function () {
       $('#courier-shortcode').select();
@@ -1232,6 +1194,8 @@ function core() {
   /**
    * When the page loads, push our custom post status into the post status select.
    * If that is the current status of the post, select it and push the text to the on screen label.
+  *
+  * @since 1.0
    */
 
 
@@ -1246,28 +1210,9 @@ function core() {
     $('#post_status').append($option);
   }
   /**
-   * When a notice is marked as global, the current user needs to be the author.
-   * When a notice is not global, then it can be assigned to the selected user.
-   */
-
-
-  function toggle_global() {
-    var $this = $(this),
-        $author_select = $('#courier_recipient_field'),
-        $author_value = $('#post_author_override'),
-        $author_container = $('#courier-author-container');
-
-    if ($this.prop('checked')) {
-      $author_select.val(courier_admin_data.current_user.display_name).prop('disabled', 'disabled');
-      $author_value.val(courier_admin_data.current_user.ID);
-      $author_container.hide();
-    } else {
-      $author_select.prop('disabled', null).val('');
-      $author_container.show();
-    }
-  }
-  /**
    * Puts an Expired option in the quick edit dropdown menu.
+  *
+  * @since 1.0
    */
 
 

@@ -857,6 +857,9 @@ body.courier_notice_page_courier .wp-list-table.courier_notice_page_courier tr:h
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale; }
 
+.courier-user-search {
+  width: 100%; }
+
 /*
  * Expiration Times
  */

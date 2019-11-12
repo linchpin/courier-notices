@@ -226,12 +226,12 @@ class Admin {
 		$current_user = wp_get_current_user();
 
 		$strings = array(
-			'expired'        => esc_html__( 'Expired', 'courier-notices' ),
-			'label'          => esc_html__( 'Expired', 'courier-notices' ),
-			'copy'           => esc_html__( 'Copy this shortcode to your clipboard', 'courier-notices' ),
-			'copied'         => esc_html__( 'Courier Notice shortcode has been copied to your clipboard.', 'courier-notices' ),
-			'confirm_delete' => esc_html__( 'Confirm Delete?', 'courier-notices' ),
-			'deleting'       => esc_html__( 'Deleting...', 'courier-notices' ),
+			'expired'          => esc_html__( 'Expired', 'courier-notices' ),
+			'label'            => esc_html__( 'Expired', 'courier-notices' ),
+			'copy'             => esc_html__( 'Copy this shortcode to your clipboard', 'courier-notices' ),
+			'copied'           => esc_html__( 'Courier Notice shortcode has been copied to your clipboard.', 'courier-notices' ),
+			'confirm_delete'   => esc_html__( 'Confirm Delete?', 'courier-notices' ),
+			'deleting'         => esc_html__( 'Deleting...', 'courier-notices' ),
 		);
 
 		$strings = apply_filters( 'courier_notices_admin_strings', $strings ); // Allow filtering of localization strings.
@@ -252,6 +252,7 @@ class Admin {
 				'ID'           => $current_user->ID,
 				'display_name' => $current_user->display_name,
 			),
+			'version'             => COURIER_VERSION,
 			'strings'             => $strings,
 		);
 

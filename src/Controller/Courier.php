@@ -6,6 +6,8 @@
  */
 namespace Courier\Controller;
 
+use Courier\Controller\Admin\Fields\Fields;
+
 /**
  * Courier Class
  */
@@ -213,19 +215,7 @@ class Courier {
 		global $post;
 
 		wp_nonce_field( '_courier_info_nonce', '_courier_info_noncename' );
-
-		// If auto-draft check the global flag by default, else fall back to the scope.
-		if ( 'auto-draft' === get_post_status( $post->ID ) ) {
-			$scope = true;
-		} else {
-			$scope = has_term( 'Global', 'courier_scope', $post->ID );
-		}
-
 		?>
-		<div class="misc-pub-section courier-scope">
-			<span class="dashicons dashicons-sticky wp-media-buttons-icon"></span>&nbsp;<label for="courier_scope"><?php esc_html_e( 'Global Notice:', 'courier' ); ?></label>&nbsp
-			<input type="checkbox" name="courier_scope" id="courier_scope" value="1" <?php checked( $scope ); ?> />
-		</div>
 		<div class="misc-pub-section courier-dismissable">
 			<span class="dashicons dashicons-no-alt wp-media-buttons-icon"></span>&nbsp;
 			<label for="courier_dismissible"><?php esc_html_e( 'Dismissible Notice:', 'courier' ); ?></label>&nbsp;
@@ -347,36 +337,44 @@ class Courier {
 				</label>
 			</div>
 		</fieldset>
-
 		<?php
-		wp_nonce_field( 'courier_recipient_nonce', 'courier_recipient_noncename' );
+	}
 
-		$author = new \WP_User( $post->post_author );
+	/**
+	 * Get a list of available post types to select from.
+	 *
+	 * @since 1.1
+	 *
+	 * @return array|mixed|void List of public/visible post types.
+	 */
+	private function get_scope_options() {
+		$public_post_types = get_post_types( array( 'public' => true ) );
 
-		if ( 'auto-draft' === get_post_status( $post->ID ) ) {
-			$show_user_select = 'hidden';
-		} else {
-			$show_user_select = ( has_term( 'Global', 'courier_scope' ) ) ? 'hidden' : '';
+		unset( $public_post_types['attachment'] ); // Do not allow notifications on attachments by default.
+
+		$options = array(
+			array(
+				'value' => '1',
+				'label' => esc_html__( 'Global (All Users)', 'courier' ),
+			),
+			array(
+				'value' => 'user',
+				'label' => esc_html__( 'User', 'courier' ),
+			),
+		);
+
+		// Build out our list of post types
+		foreach ( $public_post_types as $key => $post_type ) {
+			$options[] = array(
+				'value' => $key,
+				'label' => ucwords( $key ),
+			);
 		}
 
-		?>
-		<div id="courier-author-container" class="<?php echo esc_attr( $show_user_select ); ?>">
-			<h4><?php esc_html_e( 'Assign Notice to User', 'courier' ); ?></h4>
+		// Allow for the list of options to be filtered
+		$options = apply_filters( 'courier_visibility_scope_options', $options );
 
-			<p class="description">
-				<?php if ( ! has_term( 'Global', 'courier_scope' ) ) : ?>
-					<?php esc_html_e( "Type in a user's information. You must click on the user you want to assign the notice to.", 'courier' ); ?>
-				<?php else : ?>
-					<?php esc_html_e( 'Global notices may not be assigned to a specific user. They apply to ALL users', 'courier' ); ?>
-				<?php endif; ?>
-			</p>
-			<p>
-				<label for="courier_recipient_field" aria-hidden="true" class="screen-reader-text"><?php esc_html_e( 'Recipient', 'courier' ); ?></label>
-				<input type="text" name="courier_recipient" id="courier_recipient_field" class="widefat" placeholder="<?php esc_html_e( 'Type name, username or email...', 'courier' ); ?>" value="<?php echo esc_attr( $author->user_email ); ?>" <?php disabled( has_term( 'Global', 'courier_scope' ) ); ?> />
-			</p>
-		</div>
-		<input type="hidden" name="post_author_override" id="post_author_override" value="<?php echo esc_attr( $author->ID ); ?>" />
-		<?php
+		return $options;
 	}
 
 	/**
@@ -414,7 +412,10 @@ class Courier {
 			if ( empty( $_POST['courier_scope'] ) ) {
 				wp_set_object_terms( $post_id, null, 'courier_scope' );
 			} else {
-				wp_set_object_terms( $post_id, 'Global', 'courier_scope', false );
+
+				$scope = sanitize_text_field( $_POST['courier_scope'] );
+
+				wp_set_object_terms( $post_id, $scope, 'courier_scope', false );
 				wp_remove_object_terms( $post_id, array( 'dismissed' ), 'courier_status' );
 			}
 

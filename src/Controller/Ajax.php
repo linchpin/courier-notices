@@ -20,7 +20,7 @@ class Ajax {
 	public function register_actions() {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'template_redirect', array( $this, 'template_redirect' ) );
-		add_action( 'template_redirect', array( $this, 'template_redirect_admin' ) );
+		add_action( 'template_redirect', array( $this, 'template_redirect_user_search' ) );
 	}
 
 	/**
@@ -88,7 +88,7 @@ class Ajax {
 	 *
 	 * @since 1.0
 	 */
-	public function template_redirect_admin() {
+	public function template_redirect_user_search() {
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			return;
 		}
