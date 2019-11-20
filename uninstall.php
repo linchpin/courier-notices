@@ -45,7 +45,7 @@ function courier_uninstall_delete_posts( $post_type ) {
 			$total += $args['posts_per_page'];
 		}
 
-		$mesh_posts = new WP_Query( $args );
+		$courier_notices = new WP_Query( $args );
 	}
 }
 
