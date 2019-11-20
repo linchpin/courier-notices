@@ -60,7 +60,7 @@ class View {
 			return;
 		}
 
-		include_once $view_file;
+		require $view_file;
 	}
 
 

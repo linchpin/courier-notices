@@ -156,6 +156,26 @@ class General {
 		 * @todo this doesn't do anything yet.
 		 */
 		add_settings_field(
+			'ajax_notices',
+			esc_html__( 'Use Ajax to display courier notices?', 'courier' ),
+			array( '\Courier\Controller\Admin\Fields\Fields', 'add_checkbox' ),
+			$tab_section,
+			'courier_general_settings_section',
+			array(
+				'field'       => 'ajax_notices',
+				'section'     => $tab_section,
+				'options'     => 'courier_settings',
+				'label'       => esc_html__( 'Yes use Ajax', 'courier' ),
+				'description' => esc_html__( 'Using ajax allows for Courier Notices to potentially load quicker. It also helps with issues that may come up with more advanced caching (Varnish, or other full page caching)', 'courier' ),
+			)
+		);
+
+		/**
+		 * Add settings field
+		 *
+		 * @todo this doesn't do anything yet.
+		 */
+		add_settings_field(
 			'uninstall',
 			esc_html__( 'Remove All Data on Uninstall?', 'courier' ),
 			array( '\Courier\Controller\Admin\Fields\Fields', 'add_checkbox' ),
