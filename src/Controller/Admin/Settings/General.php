@@ -83,13 +83,25 @@ class General {
 
 		if ( $plugin === $plugin_file ) {
 
-			$settings  = array( 'settings' => '<a href="options-general.php?page=' . esc_attr( self::$settings_page ) . '">' . esc_html__( 'Settings', 'courier' ) . '</a>' );
-			$site_link = array( 'faq' => '<a href="https://linchpin.com/plugins/courier/" target="_blank">' . esc_html__( 'FAQ', 'courier' ) . '</a>' );
+			$settings  = array(
+				'settings' => '<a href="options-general.php?page=' . esc_attr( self::$settings_page ) . '">' . esc_html__( 'Settings', 'courier' ) . '</a>',
+			);
+
+			$site_link = array(
+				'faq'    => '<a href="https://linchpin.com/plugins/courier/" target="_blank">' . esc_html__( 'FAQ', 'courier' ) . '</a>',
+				'go_pro' => '<a href="https://linchpin.com/plugins/courier-pro/" target="_blank">' . esc_html__( 'Go Pro', 'courier' ) . '</a>',
+			);
 
 			$actions = array_merge( $settings, $actions );
 			$actions = array_merge( $site_link, $actions );
-
 		}
+
+		/**
+		 * Allow for settings links to be filtered.
+		 *
+		 * @since 1.0
+		 */
+		$actions = apply_filters( 'courier_settings_links', $actions );
 
 		return $actions;
 	}
