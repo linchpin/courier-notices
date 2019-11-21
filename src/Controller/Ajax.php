@@ -29,9 +29,6 @@ class Ajax {
 	 * @since 1.0
 	 */
 	public function init() {
-		add_rewrite_tag( '%courier_notice_id%', '([0-9]+)' );
-		add_rewrite_rule( 'courier/notice/([0-9\,]+)/?', 'index.php?courier_notice_id=$matches[1]', 'top' );
-
 		add_rewrite_tag( '%courier_reactivate_notice_id%', '([0-9]+)' );
 		add_rewrite_rule( 'courier/reactivate/(.*)/?', 'index.php?courier_reactivate_notice_id=$matches[1]', 'top' );
 

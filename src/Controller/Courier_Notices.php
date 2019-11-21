@@ -102,15 +102,34 @@ class Courier_Notices {
 	 */
 	public function wp_enqueue_scripts() {
 
+		if ( is_admin() ) {
+			return;
+		}
+
 		$config = new Config();
 
 		$js_dependencies = array( 'jquery' );
 
 		wp_register_style( 'courier-css', $config->get( 'plugin_url' ) . 'assets/css/courier.css', array(), $config->get( 'version' ) );
 
+		global $post;
+
 		$localized_data = array(
-			'endpoint' => site_url( '/courier/notice/' ),
-			'strings'  => array(
+			'endpoint'  => site_url( '/wp-json/courier/v1/notice/' ),
+			'post_info' => array(
+				'ID'            => ( ! empty( $post ) ) ? $post->ID : -1,
+				'is_single'     => is_single(),
+				'is_archive'    => is_archive(),
+				'is_front_page' => is_front_page(),
+				'is_home'       => is_home(),
+				'is_author'     => is_author(),
+				'is_category'   => is_category(),
+				'post_type'     => ( ! empty( $post ) ) ? get_post_type( $post->ID ) : '',
+				'is_tax'        => is_tax(),
+				'is_page'       => is_page(),
+				'is_404'        => is_404(),
+			),
+			'strings'   => array(
 				'close'   => esc_html__( 'Close', 'courier' ),
 				'dismiss' => esc_html__( 'Dismiss', 'courier' ),
 			),

@@ -42,7 +42,7 @@ courier.dismiss = (function ($) {
 
                 $notices = $this.parent();
 
-                self.ajax(parseInt($notices.data('courier-notice-id')));
+                self.ajax( parseInt( $notices.data('courier-notice-id') ) );
             }
         },
 
@@ -72,18 +72,18 @@ courier.dismiss = (function ($) {
         },
 
         /**
-         * Call our to our ajax endpoint pass either a single id or a comma
+         * Call out to our ajax endpoint pass either a single id or a comma
          * delimited list of id
          *
          * @param notice_ids example 1 or 1,2,3
          */
-        ajax: function (notice_ids) {
-            $.get(courier_data.endpoint + notice_ids + '/').done(function () {
+        ajax: function ( notice_ids ) {
+            $.get( courier_data.endpoint + notice_ids + '/').done( function () {
                 $notices.find('.courier-close').trigger('click');
 
                 notice_ids = String(notice_ids).split(',');
 
-                $.each(notice_ids, function (index, value) {
+                $.each( notice_ids, function ( index, value ) {
                     $(".courier_notice[data-courier-notice-id='" + value + "']").fadeOut();
                     $('.courier-modal-overlay').hide();
                     self.set_cookie( value );

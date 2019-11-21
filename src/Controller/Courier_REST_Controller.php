@@ -2,6 +2,11 @@
 
 namespace Courier\Controller;
 
+/**
+ * Class Courier_REST_Controller
+ *
+ * @package Courier\Controller
+ */
 class Courier_REST_Controller extends \WP_REST_Controller {
 
 	public function register_actions() {
@@ -14,16 +19,31 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 	public function register_routes() {
 		$version   = '1';
 		$namespace = 'courier/v' . $version;
-		$base      = 'post-type-search';
+		$base      = 'notice';
 
+		// Display a single notice
 		register_rest_route(
 			$namespace,
-			'/' . $base . '/(?P<post_type>[\w]+)/(?P<post_title>[\w]+)',
+			'/' . $base . '/(?P<notice_id>\d+)/',
 			array(
 				array(
 					'methods'             => \WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_post_types' ),
-					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+					'callback'            => array( $this, 'get_notice' ),
+					'permission_callback' => array( $this, 'get_notice_permissions_check' ),
+					'args'                => array(),
+				),
+			)
+		);
+
+		// Display all notices for the specific user
+		register_rest_route(
+			$namespace,
+			'/notices/display/',
+			array(
+				array(
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'display_notices' ),
+					'permission_callback' => array( $this, 'get_notice_permissions_check' ),
 					'args'                => array(),
 				),
 			)
@@ -31,21 +51,23 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 	}
 
 	/**
-	 * Get a collection of items
+	 * Get a single notice
+	 *
+	 * @since 1.0
 	 *
 	 * @param \WP_REST_Request $request Full data about the request.
 	 * @return \WP_Error|\WP_REST_Response
 	 */
-	public function get_post_types( $request ) {
+	public function get_notice( $request ) {
 
 		$data = array();
 
 		$args = array(
-			'post_type'      => sanitize_text_field( $request['post_type'] ),
+			'post_type'      => 'courier_notice',
 			'post_status'    => 'publish',
-			's'              => sanitize_text_field( $request['post_title'] ),
 			'no_found_rows'  => true,
-			'posts_per_page' => 50,
+			'posts_per_page' => 1,
+			'p'              => (int) $request['notice_id'],
 		);
 
 		$search = new \WP_Query( $args );
@@ -56,8 +78,9 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 				$search->the_post();
 
 				$item = array(
-					'id'    => get_the_ID(),
-					'title' => get_the_title(),
+					'id'          => get_the_ID(),
+					'title'       => get_the_title(),
+					'description' => get_the_content(),
 				);
 
 				$data[] = $this->prepare_response_for_collection( $item );
@@ -67,6 +90,27 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 		}
 
 		return new \WP_REST_Response( $data, 200 );
+	}
+
+	/**
+	 * Disable a notice in the front end.
+	 *
+	 * @param $request
+	 */
+	public function disable_notice( $request ) {
+
+	}
+
+	/**
+	 * Display all notices on the frontend based on our logic
+	 *
+	 * @since 1.0
+	 *
+	 * @param \WP_REST_Request $request Full data about the request.
+	 * @return \WP_Error|\WP_REST_Response
+	 */
+	public function display_notices( $request ) {
+
 	}
 
 	/**
