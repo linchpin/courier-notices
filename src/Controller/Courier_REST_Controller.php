@@ -97,7 +97,7 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 	 *
 	 * @param $request
 	 */
-	public function disable_notice( $request ) {
+	public function dismiss_notice( $request ) {
 
 	}
 
@@ -208,9 +208,14 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 
 		$query_args          = wp_parse_args( $args['query_args'], $query_args );
 		$final_notices_query = new \WP_Query( $query_args );
-		$data                = array_merge( $results, $final_notices_query->posts );
+		$dataset             = array_merge( $results, $final_notices_query->posts );
 
-		return new \WP_REST_Response( $data, 200 );
+		/**
+		 * Allow for the dataset to be filtered one last time before display
+		 */
+		$dataset = apply_filters( 'courier_notices_display_notices', $dataset );
+
+		return new \WP_REST_Response( $dataset, 200 );
 	}
 
 	/**
