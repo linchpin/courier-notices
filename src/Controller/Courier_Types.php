@@ -89,6 +89,8 @@ class Courier_Types {
 		add_action( 'wp_ajax_courier_notices_update_type', array( $this, 'update_type' ) );
 		add_action( 'wp_ajax_courier_notices_delete_type', array( $this, 'delete_type' ) );
 
+		add_action( 'courier_notices_save_css', array( $this, 'save_css_transient' ) );
+
 		add_action( 'admin_footer', array( $this, 'add_templates' ) );
 	}
 
@@ -154,6 +156,8 @@ class Courier_Types {
 			'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier' ),
 		);
 
+		do_action( 'courier_notices_save_css' );
+
 		ob_start();
 		Fields::add_table( $data );
 		$table = ob_get_contents();
@@ -174,7 +178,9 @@ class Courier_Types {
 	}
 
 	/**
-	 * Update a courier notice type
+	 * Update a courier notice type.
+	 *
+	 * @since 1.0
 	 */
 	public function update_type() {
 
@@ -217,6 +223,8 @@ class Courier_Types {
 			'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier' ),
 		);
 
+		do_action( 'courier_notices_save_css' );
+
 		ob_start();
 		Fields::add_table( $data );
 		$table = ob_get_contents();
@@ -238,6 +246,8 @@ class Courier_Types {
 
 	/**
 	 * Delete a courier notice type.
+	 *
+	 * @since 1.0
 	 */
 	public function delete_type() {
 
@@ -264,6 +274,8 @@ class Courier_Types {
 				exit;
 			}
 		}
+
+		do_action( 'courier_notices_save_css' );
 
 		echo wp_json_encode( 1 );
 		exit;
@@ -297,6 +309,73 @@ class Courier_Types {
 
 		if ( ! empty( $term_id ) && ! empty( $class_name ) ) {
 			update_term_meta( $term_id, '_courier_type_icon', $class_name );
+		}
+
+		do_action( 'courier_notices_save_css' );
+	}
+
+	/**
+	 * When saving Courier Notice Types save the customizations as CSS in a transient.
+	 *
+	 * Loop through all available courier_type terms
+	 *
+	 * @since 1.0
+	 */
+	public function save_css_transient() {
+
+		$types = get_terms(
+			array(
+				'hide_empty' => false,
+				'taxonomy'   => 'courier_type',
+			)
+		);
+
+		$css_output = '';
+		$css        = array();
+
+		if ( ! empty( $types ) ) {
+			foreach ( $types as $type ) {
+
+				$background_color = get_term_meta( $type->term_id, '_courier_type_color', true );
+
+				if ( empty( $background_color ) ) {
+					$background_color = '#cccccc';
+				}
+
+				$icon = get_term_meta( $type->term_id, '_courier_type_icon', true );
+
+				if ( empty( $icon ) ) {
+					$icon = '';
+				}
+
+				$text_color = get_term_meta( $type->term_id, '_courier_type_text_color', true );
+
+				if ( empty( $text_color ) ) {
+					$text_color = '#ffffff';
+				}
+
+				$css[ 'courier_type-' . $type->slug ] = array(
+					'background-color' => sanitize_hex_color( $background_color ),
+					'color'            => sanitize_hex_color( $text_color ),
+					'icon'             => esc_attr( $icon ),
+				);
+			}
+			$css = apply_filters( 'courier_notices_type_css_objects', $css );
+		}
+
+		if ( ! empty( $css ) ) {
+			foreach ( $css as $css_key => $css_selector ) {
+				$css_output .= ".{$css_key} {\n";
+				$css_output .= "\tbackground-color:{$css_selector['background-color']};\n";
+				$css_output .= "\tcolor:{$css_selector['color']};\n";
+				$css_output .= "}\n";
+			}
+
+			$css_output = apply_filters( 'courier_notices_type_css', $css_output );
+
+			// Save a transient that doesn't expire.
+			// This will be cleared out any time a type is saved, updated or deleted.
+			set_transient( 'courier_notice_css', $css_output );
 		}
 	}
 }

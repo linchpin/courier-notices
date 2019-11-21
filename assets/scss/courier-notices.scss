@@ -1,0 +1,220 @@
+$alert-box-height: 3.5rem;
+$color_light-grey: #efefef;
+$color_white: #fff;
+
+.courier-notices {
+	.courier-notice {
+		border: none;
+		border-bottom: 2px solid $color_light-grey;
+		line-height: 1.2rem;
+
+		&:before {
+			@extend [class^="icon-"];
+			@extend .icon-notifications-filled !optional;
+		}
+
+		// Default Types
+		&.courier_type-warning,
+		&.courier_type-error,
+		&.courier_type-alert {
+			@extend .icon-error-filled !optional;
+		}
+		&.courier_type-success {
+			@extend .icon-success-filled !optional;
+		}
+	}
+
+	.admin-link {
+		color: rgba( $color_white, .7 );
+		&:hover {
+			color: $color_white;
+		}
+
+		html.touch &:active {
+			color: rgba( $color_white, .7 );
+		}
+	}
+
+	.alert-box {
+		background-color: #44d3be;
+		color: $color_white;
+		border-width: 0px 0px 2px 0px;
+		line-height: 1.6rem;
+		font-size: 1rem;
+
+		&:before {
+			left: 0;
+		}
+
+		p {
+			margin-right: 1.25rem;
+		}
+
+		a:not(.close) {
+			color: $color_white;
+			text-decoration: underline;
+			font-weight: normal;
+			&:hover, &:focus {
+				color: $color_slate;
+			}
+		}
+
+		html.touch & {
+			a:not(.close):active {
+				color: $color_white;
+			}
+		}
+
+		.close {
+			color: $color_white;
+			background: transparent;
+			font-size: 30px;
+			position: absolute;
+			right: 1rem;
+			top: 18px;
+			top: calc(50% - 10px);
+		}
+		&.courier_type-alert {
+			@include alert-box( 'alert' );
+		}
+		&.courier_type-warning {
+			@include alert-box( 'warning' );
+		}
+		&.courier_type-error {
+			@include alert-box( 'error' );
+		}
+		&.courier_type-info {
+			@include alert-box( 'info' );
+		}
+		&.courier_type-secondary {
+			@include alert-box( 'secondary' );
+		}
+		&.courier_type-success {
+			@include alert-box( 'success' );
+		}
+	}
+}
+
+/* Alerts */
+.alert-box {
+	background-color: transparent;
+	border: 2px solid;
+	color: #3ddcca;
+	padding-left: $dim_base * 2;
+	padding-left: $alert-box-height + 1rem;
+	position: relative;
+
+	/* @extend .icon-notifications; */
+
+	&:before { /* Icon */
+		@extend [class^="icon-"];
+		//background-color: $color_purple;
+		color: $color_white;
+		font-size: 2rem;
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		line-height: 1.8;
+		text-align: center;
+		width: $alert-box-height;
+		z-index: 2;
+
+		height: calc(#{$alert-box-height} * 1);
+		top: calc(50% - ( #{$alert-box-height} / 2 ) );
+
+		content: "\e901"; // Notifications Icon
+	}
+	&:after {
+		content: "";
+		background-color:  #3ddcca;
+		height: 100%;
+		width: $alert-box-height;
+		left: 0;
+		top: 0;
+		position: absolute;
+	}
+	p {
+		font: {
+			size: inherit;
+			weight: 400;
+		};
+		margin: 0;
+	}
+}
+
+@media #{$large-up} {
+	.courier-notice .alert-box {
+		p {
+			margin-right: 4rem;
+		}
+	}
+}
+
+/* Courier Notice Widget */
+.courier-notifications {
+	min-width: 100%;
+	.courier_note {
+		height: 1.4rem;
+		@extend .icon-my-account-filled !optional;
+		&:before {
+			font-size: 1.5rem;
+			margin-right: $dim_base;
+			margin-right: 1rem;
+			vertical-align: -5px;
+		}
+		&.courier_type-alert {
+			@include widget-alert( 'alert' );
+			@extend .icon-error-filled !optional; //.icon-notifications-filled;
+		}
+		&.courier_type-warning {
+			@include widget-alert( 'warning' );
+			@extend .icon-error-filled !optional;
+		}
+		&.courier_type-error {
+			@include widget-alert( 'error' );
+			@extend .icon-error-filled !optional;
+		}
+		&.courier_type-info {
+			@include widget-alert( 'info' );
+			@extend .icon-notifications-filled !optional;
+		}
+		&.courier_type-secondary {
+			@include widget-alert( 'secondary' );
+			@extend .icon-notifications-filled !optional;
+		}
+		&.courier_type-success {
+			@include widget-alert( 'success' );
+			@extend .icon-success-filled !optional;
+		}
+		&.courier-note-dismissed {
+			&:before, .meta, p {
+				color: $color_grey
+			}
+		}
+		&.callout>:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.courier-notifications tr.courier_note {
+	&:before {
+		padding-top: 7px;
+		padding-left: 10px;
+		min-width: 7%;
+		display: table-cell;
+	}
+	.meta {
+		display: table-cell;
+		vertical-align: top;
+	}
+
+	p {
+		margin-bottom: 0;
+	}
+
+	td, p {
+		font-size: .875rem;
+	}
+}

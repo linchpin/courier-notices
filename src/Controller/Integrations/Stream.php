@@ -5,7 +5,7 @@
  * @package Courier\Controller
  */
 
-namespace Courier\Controller;
+namespace Courier\Controller\Integrations;
 
 /**
  * Stream Class

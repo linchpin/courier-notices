@@ -409,15 +409,10 @@ class Courier {
 		}
 
 		if ( isset( $_POST['_courier_info_noncename'] ) && wp_verify_nonce( $_POST['_courier_info_noncename'], '_courier_info_nonce' ) ) {
-			if ( empty( $_POST['courier_scope'] ) ) {
-				wp_set_object_terms( $post_id, null, 'courier_scope' );
-			} else {
 
-				$scope = sanitize_text_field( $_POST['courier_scope'] );
-
-				wp_set_object_terms( $post_id, $scope, 'courier_scope', false );
-				wp_remove_object_terms( $post_id, array( 'dismissed' ), 'courier_status' );
-			}
+			// By default set an object to be global
+			wp_set_object_terms( $post_id, 'global', 'courier_scope', false );
+			wp_remove_object_terms( $post_id, array( 'dismissed' ), 'courier_status' );
 
 			if ( empty( $_POST['courier_dismissible'] ) ) {
 				delete_post_meta( $post_id, '_courier_dismissible' );
