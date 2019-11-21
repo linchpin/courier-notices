@@ -1355,7 +1355,14 @@ function types() {
 
 
   function setupControls() {
-    $body.on('click', '.courier-notices-type-delete', confirmDeleteCourierNoticeType).on('click', '#add-courier-notice-type', addNewCourierNoticeTypeRow).on('click', '#courier-notice-type-new .save-button', addCourierNoticeType).on('click', '#courier-notice-type-new .close-button', cancelAddCourierNoticeType).on('click', '.courier-notice-editing .close-button', cancelEditCourierNoticeType).on('click', '.courier-notice-editing .save-button', updateCourierNoticeType).on('click', '.courier-notice-type-edit', editCourierNoticeType);
+    $body.on('click', '.courier-notices-type-delete', confirmDeleteCourierNoticeType).on('click', '#add-courier-notice-type', addNewCourierNoticeTypeRow).on('click', '#courier-notice-type-new .save-button', addCourierNoticeType).on('click', '#courier-notice-type-new .close-button', cancelAddCourierNoticeType).on('click', '.courier-notice-editing .close-button', cancelEditCourierNoticeType).on('click', '.courier-notice-editing .save-button', updateCourierNoticeType).on('click', '.courier-notice-type-edit', editCourierNoticeType).on('click', '#courier-settings .settings-form #submit', disableTypeControls);
+  }
+
+  function disableTypeControls(event) {
+    event.stopPropagation();
+    $('table.courier_notice_page_courier').find('input,button').attr('disabled', 'disabled');
+    $('#nds-post-body').find('input[type="hidden"]').attr('disabled', 'disabled');
+    $('.settings-form').submit();
   }
   /**
    * Edit a courier notice type

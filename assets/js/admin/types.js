@@ -54,7 +54,28 @@ export default function types() {
 			.on( 'click', '#courier-notice-type-new .close-button', cancelAddCourierNoticeType )
 			.on( 'click', '.courier-notice-editing .close-button', cancelEditCourierNoticeType )
 			.on( 'click', '.courier-notice-editing .save-button', updateCourierNoticeType )
-			.on( 'click', '.courier-notice-type-edit', editCourierNoticeType );
+			.on( 'click', '.courier-notice-type-edit', editCourierNoticeType )
+			.on( 'click', '#courier-settings .settings-form #submit', disableTypeControls );
+	}
+
+	/**
+	 * Due to the complexity of this input type, we need to disable all the hidden fields associated with it
+	 * so they are not saved to the options table.
+	 *
+	 * @since 1.0
+	 *
+	 * @param event
+	 */
+	function disableTypeControls( event ) {
+
+		event.stopPropagation();
+
+		$('table.courier_notice_page_courier').find('input,button').attr( 'disabled', 'disabled' );
+
+
+		$('#nds-post-body').find('input[type="hidden"]').attr( 'disabled', 'disabled' );
+
+		$('.settings-form').submit();
 	}
 
 	/**
