@@ -35,7 +35,7 @@ if ( ! function_exists( 'add_action' ) ) {
 		</h3>
 		<div class="clearfix"></div>
 	</div>
-	<?php settings_errors( self::$plugin_name . '-notices' ); ?>
+	<?php settings_errors( $plugin_name . '-notices' ); ?>
 	<h2 class="nav-tab-wrapper negative-bg">
 		<?php
 		foreach ( $tabs as $tab_slug => $tab ) :
@@ -53,11 +53,10 @@ if ( ! function_exists( 'add_action' ) ) {
 			</a>
 		<?php endforeach; ?>
 	</h2>
-	<?php $sub_tabs = self::get_sub_tabs( $active_tab ); ?>
 	<?php if ( ! empty( $sub_tabs ) ) : ?>
 	<div class="courier-sub-menu">
 		<?php
-			$active_sub_tab = self::get_request_param( 'subtab', '' );
+			$active_sub_tab = $request_sub_tab;
 
 			foreach ( $sub_tabs as $sub_tab_slug => $sub_tab ) :
 
@@ -103,7 +102,10 @@ if ( ! function_exists( 'add_action' ) ) {
 						$addons->render( 'admin/settings-addons' );
 						?>
 					<?php elseif ( 'new' === $active_tab ) : ?>
-						<?php require_once COURIER_PATH . 'templates/admin/settings-whats-new.php'; ?>
+						<?php
+						$whats_news = new View();
+						$whats_news->render( 'admin/settings-whats-new' );
+						?>
 					<?php else : ?>
 						<?php do_action( 'courier_setting_' . sanitize_title( $active_tab ) ); ?>
 					<?php endif; ?>

@@ -14,6 +14,7 @@ if ( ! function_exists( 'add_action' ) ) {
 }
 
 use \Courier\Controller\Admin\Fields\Fields as Fields;
+use Courier\Core\View;
 use \Courier\Helper\Type_List_Table as Type_List_Table;
 
 /**
@@ -83,7 +84,7 @@ class General {
 
 		if ( $plugin === $plugin_file ) {
 
-			$settings  = array(
+			$settings = array(
 				'settings' => '<a href="options-general.php?page=' . esc_attr( self::$settings_page ) . '">' . esc_html__( 'Settings', 'courier' ) . '</a>',
 			);
 
@@ -265,7 +266,14 @@ class General {
 		$default_tab = self::get_default_tab_slug();
 		$active_tab  = isset( $_GET['tab'] ) && array_key_exists( sanitize_text_field( wp_unslash( $_GET['tab'] ) ), $tabs ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : $default_tab; // phpcs:ignore WordPress.Security.NonceVerification
 
-		require_once COURIER_PATH . 'templates/admin/settings.php';
+		$settings = new View();
+		$settings->assign( 'tabs', $tabs );
+		$settings->assign( 'sub_tabs', self::get_sub_tabs( $active_tab ) );
+		$settings->assign( 'default_tab', $default_tab );
+		$settings->assign( 'active_tab', $active_tab );
+		$settings->assign( 'request_sub_tab', self::get_request_param( 'subtab', '' ) );
+		$settings->assign( 'plugin_name', self::$plugin_name );
+		$settings->render( 'admin/settings' );
 	}
 
 	/**
