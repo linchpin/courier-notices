@@ -85,8 +85,10 @@ class Install {
 	 * @param string $hex_color  The hex color.
 	 */
 	private function insert_term_meta( $term, $class_name, $hex_color ) {
-		add_term_meta( $term['term_id'], '_courier_type_color', $hex_color, true );
-		add_term_meta( $term['term_id'], '_courier_type_icon', $class_name, true );
+		if ( !is_wp_error( $term ) ) {
+			add_term_meta( $term['term_id'], '_courier_type_color', $hex_color, true );
+			add_term_meta( $term['term_id'], '_courier_type_icon', $class_name, true );
+		}
 	}
 
 	/**

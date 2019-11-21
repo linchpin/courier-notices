@@ -1357,6 +1357,15 @@ function types() {
   function setupControls() {
     $body.on('click', '.courier-notices-type-delete', confirmDeleteCourierNoticeType).on('click', '#add-courier-notice-type', addNewCourierNoticeTypeRow).on('click', '#courier-notice-type-new .save-button', addCourierNoticeType).on('click', '#courier-notice-type-new .close-button', cancelAddCourierNoticeType).on('click', '.courier-notice-editing .close-button', cancelEditCourierNoticeType).on('click', '.courier-notice-editing .save-button', updateCourierNoticeType).on('click', '.courier-notice-type-edit', editCourierNoticeType).on('click', '#courier-settings .settings-form #submit', disableTypeControls);
   }
+  /**
+   * Due to the complexity of this input type, we need to disable all the hidden fields associated with it
+   * so they are not saved to the options table.
+   *
+   * @since 1.0
+   *
+   * @param event
+   */
+
 
   function disableTypeControls(event) {
     event.stopPropagation();
@@ -1718,7 +1727,7 @@ module.exports = __webpack_amd_options__;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/aware/vvv/www/couriier/public_html/wp-content/plugins/courier/assets/js/courier-admin.js */"./assets/js/courier-admin.js");
+module.exports = __webpack_require__(/*! /Users/bfischer/vagrant-local/www/test/public_html/wp-content/plugins/courier/assets/js/courier-admin.js */"./assets/js/courier-admin.js");
 
 
 /***/ }),
