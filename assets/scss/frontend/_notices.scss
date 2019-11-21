@@ -1,0 +1,192 @@
+/**
+ * 00. Global
+ * 01. Header
+ * 02. Footer
+ * 03. Modal
+ */
+
+// 00. Global
+
+.courier-notices {
+
+	.courier-notice {
+		position: relative;
+		margin: 0 auto;
+		z-index: 2;
+		border-width: 0;
+		border-radius: 0;
+		width: 100%;
+
+		@include notice();
+
+		&:after {
+			content: '';
+			position: absolute;
+			width: 200vw;
+			height: 100%;
+			left: -66vw;
+			top: 0;
+			background: inherit;
+			z-index: -1;
+		}
+
+		.courier-content-wrapper {
+			position: relative;
+			margin: 0 auto;
+			max-width: $courier-max-content-width;
+			padding: $courier-padding;
+
+			&:before, &:after {
+				position: absolute;
+				left: 0;
+				width: 3rem;
+			}
+
+			&:before {
+				z-index: 1;
+				top: 0;
+				bottom: 0;
+			}
+
+			&:after {
+				z-index: 2;
+				font-size: .875rem;
+				text-align: center;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+		}
+
+		a {
+			text-decoration: underline;
+			transition: opacity $global-timing $global-easing;
+
+			&.close {
+				color: inherit;
+				text-decoration: none;
+			}
+		}
+
+		p:first-of-type {
+			margin-top: 0;
+		}
+
+		p:last-of-type {
+			margin-bottom: 0;
+		}
+
+		&[data-closable] {
+			padding-right: 3rem;
+
+			.courier-close {
+				position: absolute;
+				right: 0;
+				height: 100%;
+				top: 0;
+				width: 3rem;
+				text-align: center;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				font-size: 1.5rem;
+				font-weight: normal;
+				color: inherit;
+			}
+		}
+	}
+
+	$courier_list: (
+			('alert', $notice-default-alert, $black, $icon-alert, '', ''),
+			('feedback', $notice-default-info, $black, $icon-feedback, '', ''),
+			('info', $notice-default-feedback, $black, $icon-info, '', ''),
+			('secondary', $notice-default-secondary, $black, $icon-info, '', ''),
+			('success', $notice-default-success, $black, $icon-success, '', ''),
+			('warning', $notice-default-warning, $black, $icon-warning, '', '')
+	);
+
+	@each $courier in $courier_list {
+		.courier_type-#{nth($courier, 1)} {
+			@include notice( nth($courier, 2), nth( $courier, 3), nth( $courier, 4), nth( $courier, 5) );
+
+			+ .courier_type-#{ nth($courier,1) } {
+				border-top: 2px solid rgba(0,0,0,.05);
+				margin-top: -2px;
+			}
+		}
+	}
+}
+
+.courier-location-header, .courier-location-footer {
+	font-size: .875rem;
+	line-height: 1.2;
+
+	p {
+		font-size: .875rem;
+		line-height: 1.2;
+	}
+}
+
+// 01. Header
+
+// 02. Footer
+.courier-location-footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 100;
+}
+
+// 03. Modal
+
+.courier-modal-overlay {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background: rgba(0,0,0,.55);
+	z-index: 9999;
+	top: 0;
+	left: 0;
+
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-align-content: center;
+	-ms-flex-line-pack: center;
+	align-content: center;
+
+	a.close {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		height: 2rem;
+		width: 2rem;
+		line-height: 2rem;
+		text-align: center;
+		background: rgba( $medium-gray, .75);
+		border: 1px solid rgba( $white, .6 );
+		color: $white;
+		font-size: 1.5rem;
+		z-index: 5;
+	}
+
+	.modal {
+		position: relative;
+		text-align: center;
+		background: $white;
+		min-height: 5rem;
+		max-height: 80vh;
+		overflow-y: scroll;
+		width: 80vw;
+		max-width: 50rem;
+	}
+}

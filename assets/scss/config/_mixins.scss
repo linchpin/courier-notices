@@ -32,3 +32,50 @@
 		-moz-osx-font-smoothing: grayscale;
 	}
 }
+
+// Mixins
+@mixin notice( $bg: $light-gray, $text_color: false, $icon: false, $border: false, $link_color: $text_color) {
+	background: $bg;
+
+	@if ( $text_color != false and $text_color != '' ) {
+		color: $text_color;
+
+		.courier-content-wrapper {
+			&:after {
+				color: $text_color;
+			}
+		}
+	}
+
+	@if ( $border != false and $border != '') {
+		border: 1px solid $border;
+	}
+
+	@if ( $link_color != false and $link_color != '') {
+		a {
+			color: $link_color;
+		}
+	} @else {
+		@if ( $text_color != false and $text_color != '' ) {
+			a {
+				color: $text_color;
+			}
+		}
+	}
+
+	@if ( $icon != false and $icon != '' ) {
+		.courier-content-wrapper {
+			padding-left: 3rem;
+
+			@include icon-font();
+
+			&:before {
+				content: '';
+			}
+
+			&:after {
+				content: $icon;
+			}
+		}
+	}
+}

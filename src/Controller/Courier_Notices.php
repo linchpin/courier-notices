@@ -49,6 +49,7 @@ class Courier_Notices {
 		add_action( 'init', array( $this, 'register_custom_post_type' ) );
 		add_action( 'init', array( $this, 'register_taxonomies' ), 0 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_styles' ) );
 
 		// Exclude requests from the sitemap regardless of options.
 		add_filter( 'wpseo_sitemap_exclude_post_type', array( $this, 'exclude_courier_notice_from_search' ), 10, 2 );
@@ -146,6 +147,18 @@ class Courier_Notices {
 			'courier_data',
 			$localized_data
 		);
+	}
+
+	public function wp_enqueue_styles() {
+
+		if ( is_admin() ) {
+			return;
+		}
+
+		$config = new Config();
+		wp_register_style( 'courier', $config->get( 'plugin_url' ) . 'css/courier-notices.css', '', $config->get( 'version' ) );
+		wp_enqueue_style( 'courier' );
+
 	}
 
 	/**

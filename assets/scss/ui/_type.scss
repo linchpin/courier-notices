@@ -166,7 +166,7 @@ body.courier_notice_page_courier {
 		&.primary {
 			background-color: $primary;
 			border-color: $primary-dark;
-			color: $light-grey;
+			color: $light-gray;
 
 			&:hover {
 				background-color: $primary-light;
@@ -233,12 +233,12 @@ body.courier_notice_page_courier {
 	.plain-link {
 		text-decoration: none;
 	    &.disabled {
-		    color:$darkest-grey;
+		    color:$darkest-gray;
 		}
 	}
 
 	.grey-link {
-		color: $darkest-grey;
+		color: $darkest-gray;
 	}
 
 	.nowrap {

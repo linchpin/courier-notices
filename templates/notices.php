@@ -11,10 +11,12 @@
 		setup_postdata( $post );
 		?>
 		<div data-courier-notice-id="<?php echo esc_attr( get_the_ID() ); ?>" data-alert <?php post_class( 'courier-notice courier_notice callout alert alert-box' ); ?><?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>data-closable<?php endif; ?>>
-			<?php the_content(); ?>
-			<?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>
-				<a href="#" class="courier-close close">&times;</a>
-			<?php endif; ?>
+			<div class="courier-content-wrapper">
+				<?php the_content(); ?>
+				<?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>
+					<a href="#" class="courier-close close">&times;</a>
+				<?php endif; ?>
+			</div>
 		</div>
 		<?php
 
