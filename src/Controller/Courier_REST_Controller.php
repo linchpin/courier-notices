@@ -44,7 +44,14 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'display_notices' ),
 					'permission_callback' => array( $this, 'get_notice_permissions_check' ),
-					'args'                => array(),
+					'args'                => array(
+						'placement' => array(
+							'description'       => esc_html__( 'Set where the notices should display.', 'courier' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_text_field',
+							'validate_callback' => 'rest_validate_request_arg',
+						),
+					),
 				),
 			)
 		);
@@ -106,6 +113,11 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 	 *
 	 * @since 1.0
 	 *
+	 * Retrieves the following courier notices
+	 *
+	 * 1. User Specific Notices
+	 * 2. Global Notices
+	 *
 	 * @param \WP_REST_Request $request Full data about the request.
 	 * @return \WP_Error|\WP_REST_Response
 	 */
@@ -123,7 +135,7 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 		);
 
 		$defaults     = apply_filters( 'courier_get_notices_default_settings', $defaults );
-		$args         = wp_parse_args( $request, $defaults );
+		$args         = wp_parse_args( $request->get_params(), $defaults );
 		$number       = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
 		$number       = apply_filters( 'courier_override_notices_number', $number );
 		$results      = array();
@@ -155,7 +167,7 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 		$post_list = array_merge( $user_notices, $global_posts );
 		$post_list = wp_list_pluck( $post_list, 'ID' );
 
-		// Prioritize Persistent Global Notes to the top by getting them separately and putting them at the front of the line.
+		// Prioritize Persistent Global Notices to the top by getting them separately and putting them at the front of the line.
 		if ( true === $args['prioritize_persistent_global'] ) {
 			$persistent_global = courier_get_persistent_global_notices(
 				array(
@@ -179,36 +191,41 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 
 				// If there is no difference, then the persistent global notices are the only ones left.
 				if ( empty( $difference ) ) {
-					return $results;
+					return new \WP_REST_Response( $results );
 				} else {
 					$post_list = $difference;
 				}
 			}
 		}
 
-		if ( empty( $post_list ) ) {
-			return \WP_REST_Response( array(), 200 );
+		$final_notices = array();
+
+		if ( ! empty( $post_list ) ) {
+			$query_args = array(
+				'post_type'      => 'courier_notice',
+				'post_status'    => array(
+					'publish',
+				),
+				'posts_per_page' => $number,
+				'orderby'        => 'date',
+				'order'          => 'DESC',
+				'tax_query'      => array(),
+				'post__in'       => $post_list,
+			);
+
+			if ( true === $args['ids_only'] ) {
+				$query_args['fields'] = 'ids';
+			}
+
+			$query_args          = wp_parse_args( $args['query_args'], $query_args );
+			$final_notices_query = new \WP_Query( $query_args );
+
+			if ( $final_notices_query->have_posts() ) {
+				$final_notices = $final_notices_query->posts;
+			}
 		}
 
-		$query_args = array(
-			'post_type'      => 'courier_notice',
-			'post_status'    => array(
-				'publish',
-			),
-			'posts_per_page' => $number,
-			'orderby'        => 'date',
-			'order'          => 'DESC',
-			'tax_query'      => array(),
-			'post__in'       => $post_list,
-		);
-
-		if ( true === $args['ids_only'] ) {
-			$query_args['fields'] = 'ids';
-		}
-
-		$query_args          = wp_parse_args( $args['query_args'], $query_args );
-		$final_notices_query = new \WP_Query( $query_args );
-		$dataset             = array_merge( $results, $final_notices_query->posts );
+		$dataset = array_merge( $results, $final_notices );
 
 		/**
 		 * Allow for the dataset to be filtered one last time before display

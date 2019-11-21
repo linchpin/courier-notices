@@ -473,57 +473,31 @@ function courier_get_notices( $args = array() ) {
  */
 function courier_display_notices( $args = array() ) {
 
-	$notices = courier_get_notices( $args );
+	$courier_placement = ( ! empty( $args['placement'] ) ) ? 'courier-location-' . $args['placement'] : '';
+	$courier_options   = get_option( 'courier_settings', array() );
+	$courier_notices   = new \Courier\Core\View();
 
-	if ( empty( $notices ) ) {
-		return;
+	$courier_notices->assign( 'courier_placement', $courier_placement );
+
+	if ( true === (bool) $courier_options['ajax_notices'] ) {
+
+		$output = $courier_notices->get_text_view( 'notices-ajax' );
+	} else {
+
+		$notices = courier_get_notices( $args );
+
+		if ( empty( $notices ) ) {
+			return;
+		}
+
+		$courier_notices->assign( 'notices', $notices );
+
+		$output = $courier_notices->get_text_view( 'notices' );
 	}
 
-	$courier_placement = ( ! empty( $args['placement'] ) ) ? 'courier-location-' . $args['placement'] : '';
-
-	ob_start();
-	?>
-	<div class="courier-notices alerts <?php echo esc_attr( $courier_placement ); ?>">
-		<?php
-		$feedback_notices = array();
-
-		global $post;
-
-		$prev_post = $post;
-
-		foreach ( $notices as $post ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-			setup_postdata( $post );
-			?>
-			<div data-courier-notice-id="<?php echo esc_attr( get_the_ID() ); ?>" data-alert <?php post_class( 'courier-notice courier_notice callout alert alert-box' ); ?><?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>data-closable<?php endif; ?>>
-				<?php the_content(); ?>
-				<?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>
-					<a href="#" class="courier-close close">&times;</a>
-				<?php endif; ?>
-			</div>
-			<?php
-
-			if ( has_term( 'feedback', 'courier_type' ) ) {
-				$feedback_notices[] = get_the_ID();
-			}
-
-			if ( ! empty( $feedback_notices ) ) {
-				courier_dismiss_notices( $feedback_notices );
-			}
-		}
-		wp_reset_postdata();
-
-		$post = $prev_post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-
-		?>
-	</div>
-	<?php
-
-	$output = ob_get_contents();
-
 	$output = apply_filters( 'courier_notices', $output );
-	ob_end_clean();
 
-	echo $output; // @todo this should probably be filtered more extensively.
+	echo wp_kses_post( $output ); // @todo this should probably be sanitized more extensively.
 }
 
 /**
