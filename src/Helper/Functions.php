@@ -479,7 +479,7 @@ function courier_display_notices( $args = array() ) {
 
 	$courier_notices->assign( 'courier_placement', $courier_placement );
 
-	if ( true === (bool) $courier_options['ajax_notices'] ) {
+	if ( isset( $courier_options['ajax_notices'] ) && true === (bool) $courier_options['ajax_notices'] ) {
 
 		$output = $courier_notices->get_text_view( 'notices-ajax' );
 	} else {
