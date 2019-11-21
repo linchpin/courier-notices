@@ -18,7 +18,8 @@ courier.dismiss = (function ($) {
             self = courier.dismiss;
 
             $body
-                .on('click', '.courier-close', self.close_click);
+                .on('click', '.courier-close', self.close_click)
+                .on('click', '.trigger-close', self.close_click);
         },
 
         /**
@@ -30,20 +31,28 @@ courier.dismiss = (function ($) {
          */
         close_click: function (event) {
 
-            var $this = $(this);
+	        var $this = $(this);
 
-            if (true !== $this.data('dismiss')) {
-                event.preventDefault();
-                event.stopPropagation();
+	        var href = $this.attr('href');
 
-                // Store that our notice should be dismissed
-                // This will stop an infinite loop.
-                $this.data('dismiss', true);
+	        if (true !== $this.data('dismiss')) {
+		        event.preventDefault();
+		        event.stopPropagation();
 
-                $notices = $this.parent();
+		        // Store that our notice should be dismissed
+		        // This will stop an infinite loop.
+		        $this.data('dismiss', true);
 
-                self.ajax( parseInt( $notices.data('courier-notice-id') ) );
-            }
+		        $notices = $this.parents('.courier-notices');
+
+		        self.ajax(parseInt($notices.data('courier-notice-id')));
+
+		        if ( href != undefined && href != '#') {
+			        $(document).ajaxComplete(function (event, request, settings) {
+				        window.location = href ;
+			        });
+		        }
+	        }
         },
 
         /**
@@ -134,13 +143,23 @@ courier.modal = (function ($) {
          * Shows the modal (if there is one) after the page is fully loaded
          */
         display_modal: function () {
-            var $modal_overlay = $('.courier-modal-overlay');
 
-            if ( $modal_overlay.length < 1 ) {
-                return;
-            }
+	        var notice_ids = courier.cookie.getItem( 'dismissed_notices' );
 
-            $modal_overlay.show();
+	        notice_ids = JSON.parse( notice_ids );
+	        notice_ids = notice_ids || [];
+
+	        $.each( notice_ids, function( i, val ) {
+		        $('div[data-courier-notice-id="' + val + '"]').remove();
+	        });
+
+	        var $modal_overlay = $('.courier-modal-overlay');
+
+	        if ( $modal_overlay.length < 1 || $('div.courier-notices', $modal_overlay).length < 1) {
+		        return;
+	        }
+
+	        $modal_overlay.show();
         }
 
     };
@@ -159,6 +178,11 @@ courier.cookie = (function () {
         },
         setItem: function (sKey, sValue, vEnd, sPath, sDomain, bSecure) {
             if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) { return false; }
+
+            if (!sPath) {
+            	sPath = '/';
+            }
+
             var sExpires = "";
             if (vEnd) {
                 switch (vEnd.constructor) {
