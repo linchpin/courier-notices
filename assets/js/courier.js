@@ -4,7 +4,8 @@ courier.dismiss = courier.dismiss || {};
 
 courier.dismiss = (function ($) {
 
-    var $body = $('body'),
+    var $body   = $('body'),
+		$window = $(window),
         $notices,
         self;
 
@@ -18,8 +19,53 @@ courier.dismiss = (function ($) {
             self = courier.dismiss;
 
             $body
-                .on('click', '.courier-close', self.close_click)
-                .on('click', '.trigger-close', self.close_click);
+                .on('click', '.courier-close', self.close_click )
+                .on('click', '.trigger-close', self.close_click );
+
+			document.addEventListener("DOMContentLoaded", function() {
+				var $notice_container = $('.courier-notices[data-courier-ajax="true"]' );
+					$notice_container.data('loaded', false);
+
+					// If no notice containers expecting ajax, die early.
+					if ( $notice_container.length === 0 ) {
+						return;
+					}
+
+				var observer = new IntersectionObserver( function( entries, observer ) {
+
+					entries.forEach( function( entry ) {
+						if ( entry.intersectionRatio === 1  && false === $notice_container.data('loaded') ) {
+
+							var settings = {
+								contentType: "application/json",
+								placement: $notice_container.data('courier-placement'),
+								format: 'html',
+							};
+
+							var data = $.extend({}, courier_data.post_info, settings );
+
+							$.get( courier_data.notices_endpoint, data ).success( function( response ) {
+
+								if ( response.notices ) {
+
+									$.each( response.notices, function( index ) {
+
+										var $notice = $( response.notices[ index ] ).hide();
+
+										$( '.courier-notices[data-courier-placement="' +  data.placement + '"]' )
+											.append( $notice );
+
+										$notice.slideDown('fast');
+									} );
+								}
+							});
+
+							$notice_container.data('loaded', true );
+						}
+					} );
+				}, { threshold: 1 } );
+				observer.observe( document.querySelector( '.courier-notices[data-courier-ajax="true"]') );
+			});
         },
 
         /**
@@ -87,7 +133,7 @@ courier.dismiss = (function ($) {
          * @param notice_ids example 1 or 1,2,3
          */
         ajax: function ( notice_ids ) {
-            $.get( courier_data.endpoint + notice_ids + '/').done( function () {
+            $.get( courier_data.endpoint + notice_ids + '/' ).done( function () {
                 $notices.find('.courier-close').trigger('click');
 
                 notice_ids = String(notice_ids).split(',');

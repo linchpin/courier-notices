@@ -71,10 +71,7 @@ export default function types() {
 		event.stopPropagation();
 
 		$('table.courier_notice_page_courier').find('input,button').attr( 'disabled', 'disabled' );
-
-
 		$('#nds-post-body').find('input[type="hidden"]').attr( 'disabled', 'disabled' );
-
 		$('.settings-form').submit();
 	}
 
@@ -235,7 +232,7 @@ export default function types() {
 	 * @since 1.0
 	 */
 	function setupTypeEditing() {
-		$('.courier-type-color').wpColorPicker();
+		$( '.courier-type-color' ).wpColorPicker();
 	}
 
 	/**

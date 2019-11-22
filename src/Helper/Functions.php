@@ -473,7 +473,7 @@ function courier_get_notices( $args = array() ) {
  */
 function courier_display_notices( $args = array() ) {
 
-	$courier_placement = ( ! empty( $args['placement'] ) ) ? 'courier-location-' . $args['placement'] : '';
+	$courier_placement = ( ! empty( $args['placement'] ) ) ? $args['placement'] : '';
 	$courier_options   = get_option( 'courier_settings', array() );
 	$courier_notices   = new \Courier\Core\View();
 

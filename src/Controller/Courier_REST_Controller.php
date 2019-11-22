@@ -2,6 +2,8 @@
 
 namespace Courier\Controller;
 
+use Courier\Core\View;
+
 /**
  * Class Courier_REST_Controller
  *
@@ -46,6 +48,12 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 					'permission_callback' => array( $this, 'get_notice_permissions_check' ),
 					'args'                => array(
 						'placement' => array(
+							'description'       => esc_html__( 'Set where the notices should display.', 'courier' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_text_field',
+							'validate_callback' => 'rest_validate_request_arg',
+						),
+						'format'   => array(
 							'description'       => esc_html__( 'Set where the notices should display.', 'courier' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
@@ -225,7 +233,26 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 			}
 		}
 
-		$dataset = array_merge( $results, $final_notices );
+		$final_notices = array_merge( $results, $final_notices );
+
+		if ( 'html' === $args['format'] ) {
+			$notices = array();
+
+			foreach ( $final_notices as $courier_notice ) {
+				$notice = new View();
+				$notice->assign( 'notice_id', $courier_notice->ID );
+				$notice->assign( 'post_class', implode( ' ', get_post_class( 'courier-notice courier_notice callout alert alert-box', $courier_notice->ID ) ) );
+				$notice->assign( 'dismissable', get_post_meta( $courier_notice->ID, '_courier_dismissible', true ) );
+				$notice->assign( 'post_content', $courier_notice->post_content );
+				$notices[] = $notice->get_text_view( 'notice' );
+			}
+
+			$final_notices = $notices;
+		}
+
+		$dataset = array(
+			'notices' => $final_notices,
+		);
 
 		/**
 		 * Allow for the dataset to be filtered one last time before display

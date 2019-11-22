@@ -323,6 +323,13 @@ class Courier_Types {
 	 */
 	public function save_css_transient() {
 
+		$courier_settings = get_option( 'courier_design', array() );
+
+		// If CSS is disabled there is no need to
+		if ( isset( $courier_settings['disable_css'] ) && 1 === $courier_settings['disable_css'] ) {
+			return;
+		}
+
 		$types = get_terms(
 			array(
 				'hide_empty' => false,

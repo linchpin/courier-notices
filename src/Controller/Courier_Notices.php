@@ -116,9 +116,10 @@ class Courier_Notices {
 		global $post;
 
 		$localized_data = array(
-			'endpoint'      => site_url( '/wp-json/courier/v1/notice/' ),
-			'notices_nonce' => wp_create_nonce( 'courier_notice_get_notices' ),
-			'post_info'     => array(
+			'notice_endpoint'  => site_url( '/wp-json/courier/v1/notice/' ),
+			'notices_endpoint' => site_url( '/wp-json/courier/v1/notices/display/' ),
+			'notices_nonce'    => wp_create_nonce( 'courier_notice_get_notices' ),
+			'post_info'        => array(
 				'ID'            => ( ! empty( $post ) ) ? $post->ID : -1,
 				'is_single'     => is_single(),
 				'is_archive'    => is_archive(),
@@ -130,8 +131,9 @@ class Courier_Notices {
 				'is_tax'        => is_tax(),
 				'is_page'       => is_page(),
 				'is_404'        => is_404(),
+				'is_logged_in'  => is_user_logged_in(),
 			),
-			'strings'       => array(
+			'strings'          => array(
 				'close'   => esc_html__( 'Close', 'courier' ),
 				'dismiss' => esc_html__( 'Dismiss', 'courier' ),
 			),
