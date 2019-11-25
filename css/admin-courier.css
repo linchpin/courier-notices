@@ -873,15 +873,32 @@ body.courier_notice_page_courier .wp-list-table.courier_notice_page_courier tr:h
 #courier-timestampdiv {
   padding-top: 5px;
   line-height: 23px; }
+  #courier-timestampdiv label {
+    display: block;
+    position: relative; }
+    #courier-timestampdiv label:after {
+      content: '\f508';
+      display: block;
+      font-family: 'dashicons';
+      font-size: 22px;
+      line-height: 28px;
+      position: absolute;
+      top: 0;
+      right: 6px; }
   #courier-timestampdiv input {
+    border-style: solid;
     border-width: 1px;
-    border-style: solid; }
+    height: 28px;
+    line-height: 28px;
+    margin: 0;
+    padding: 0 28px 0 6px;
+    text-align: left; }
   #courier-timestampdiv select {
+    font-size: 12px;
     height: 21px;
     line-height: 14px;
     padding: 0;
-    vertical-align: top;
-    font-size: 12px; }
+    vertical-align: top; }
 
 #courier_expire_year,
 #courier_expire_day,

@@ -1,8 +1,9 @@
-@import 'grid',
-'helpers',
-'structure',
-'type',
-'welcome'
+@import
+	'grid',
+	'helpers',
+	'structure',
+	'type',
+	'welcome'
 ;
 
 .courier-user-search {
@@ -13,39 +14,66 @@
  * Expiration Times
  */
 #courier-timestampdiv {
-  padding-top: 5px;
-  line-height: 23px;
+	padding-top: 5px;
+	line-height: 23px;
 
-  input {
-    border-width: 1px;
-    border-style: solid;
-  }
+	label {
+		display: block;
+		position: relative;
 
-  select {
-    height: 21px;
-    line-height: 14px;
-    padding: 0;
-    vertical-align: top;
-    font-size: 12px;
-  }
+		&:after {
+			content: '\f508';
+
+			display: block;
+			font: {
+				family: 'dashicons';
+				size: 22px;
+			};
+			line-height: 28px;
+
+			position: absolute;
+			top: 0;
+			right: 6px;
+		}
+	}
+
+	input {
+		border: {
+			style: solid;
+			width: 1px;
+		};
+		height: 28px;
+		line-height: 28px;
+		margin: 0;
+		padding: 0 28px 0 6px;
+		text-align: left;
+	}
+
+	select {
+		font-size: 12px;
+		height: 21px;
+		line-height: 14px;
+		padding: 0;
+		vertical-align: top;
+	}
 }
 
 #courier_expire_year,
 #courier_expire_day,
 #courier_expire_hour,
 #courier_expire_minute {
-  padding: 1px;
-  font-size: 12px;
+	padding: 1px;
+	font-size: 12px;
 }
 
 #courier_expire_day,
 #courier_expire_hour,
 #courier_expire_minute {
-  width: 2em;
+	width: 2em;
 }
 
 #courier_expire_year {
-  width: 3.4em;
+	width: 3.4em;
 }
 
 .timestamp-wrap input {
