@@ -557,7 +557,7 @@ table.courier_notice_page_courier .form-table th {
 }
 
 #notice_delete {
-  width:30px;
+	width: 100px;
 }
 
 .column-notice_delete {
@@ -728,7 +728,10 @@ pre.courier-notice-type-css-class {
   }
 
   //buttons
-  input[type="submit"], .button-primary {
+  input[type="submit"],
+  .button-primary,
+  .button-secondary,
+  .button-cancel {
     margin: 0 0 1rem 0;
     padding: 0.85em 1em;
     -webkit-appearance: none;
@@ -741,21 +744,52 @@ pre.courier-notice-type-css-class {
     line-height: 1;
     text-align: center;
     cursor: pointer;
-    background-color: $caribbean-green;
-    color: white !important;
     height: auto !important;
     text-shadow: none;
     box-shadow: none;
     -webkit-box-shadow: none;
 
     &:hover, &:focus, &:active {
-      background-color: $green;
-      color: $white-smoke;
       border: 1px solid transparent;
       box-shadow: none !important;
       -webkit-box-shadow: none !important;
     }
   }
+
+	.button-primary {
+		background-color: $caribbean-green;
+		color: white !important;
+
+		&:hover, &:focus, &:active {
+			background-color: $green;
+			color: $white-smoke;
+		}
+	}
+
+	.button {
+		&.wp-color-result {
+			margin-bottom: 0;
+		}
+
+		&.button-editing {
+			margin: 0;
+			padding: .375rem .5rem;
+
+			&.button-secondary {
+				background-color: $notice-default-alert;
+				color: $white;
+
+				&.button-cancel {
+					background-color: $gray;
+					color: $blue;
+				}
+			}
+		}
+	}
+
+	.editing-buttons-container {
+		text-align: center;
+	}
 
 // About courier
   .about.hero {
@@ -1072,6 +1106,24 @@ pre.courier-notice-type-css-class {
 			.manage-column {
 				padding-left: 3px;
 			}
+		}
+
+		thead,
+		tbody,
+		tfoot {
+			.column-notice_default {
+				padding-left: 8px;
+			}
+		}
+
+		.check-column {
+			visibility: hidden;
+			width: 0 !important;
+		}
+
+		.courier-type-icon {
+			display: inline-block;
+			min-width: 14px;
 		}
 	}
 }

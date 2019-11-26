@@ -103,29 +103,29 @@ class Install {
 
 		// This is the type of notification that is being displayed to the user.
 
+		// Secondary.
+		$primary = wp_insert_term( esc_html__( 'Primary', 'courier' ), 'courier_type' );
+		$this->insert_term_meta( $primary, 'primary', '#039ad6' );
+
 		// Success.
 		$success = wp_insert_term( esc_html__( 'Success', 'courier' ), 'courier_type' );
-		$this->insert_term_meta( $success, 'success', '#A5FF82' );
-
-		// Warnings.
-		$warning = wp_insert_term( esc_html__( 'Warning', 'courier' ), 'courier_type' );
-		$this->insert_term_meta( $warning, 'warning', '#FFB64B' );
-
-		// Info.
-		$info = wp_insert_term( esc_html__( 'Info', 'courier' ), 'courier_type' );
-		$this->insert_term_meta( $info, 'info', '#6BCCE8' );
+		$this->insert_term_meta( $success, 'success', '#04a84e' );
 
 		// Alert / Error.
 		$alert = wp_insert_term( esc_html__( 'Alert', 'courier' ), 'courier_type' );
-		$this->insert_term_meta( $alert, 'alert', '#FF4053' );
+		$this->insert_term_meta( $alert, 'alert', '#f97600' );
 
-		// Secondary.
-		$secondary = wp_insert_term( esc_html__( 'Secondary', 'courier' ), 'courier_type' );
-		$this->insert_term_meta( $secondary, 'secondary', '#cecece' );
+		// Warnings.
+		$warning = wp_insert_term( esc_html__( 'Warning', 'courier' ), 'courier_type' );
+		$this->insert_term_meta( $warning, 'warning', '#ea3118' );
 
 		// Feedback is similar to success for form feedback.
 		$feedback = wp_insert_term( esc_html__( 'Feedback', 'courier' ), 'courier_type' );
-		$this->insert_term_meta( $feedback, 'feedback', '#7D86E8' );
+		$this->insert_term_meta( $feedback, 'feedback', '#8839d3' );
+
+		// Info.
+		$info = wp_insert_term( esc_html__( 'Info', 'courier' ), 'courier_type' );
+		$this->insert_term_meta( $info, 'info', '#878787' );
 
 		// Is this notification for all viewers to see. This is checked by default.
 		wp_insert_term( esc_html__( 'Global', 'courier' ), 'courier_scope' );

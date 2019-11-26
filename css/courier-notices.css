@@ -87,8 +87,64 @@
       font-weight: normal;
       color: inherit; }
 
+.courier-notices .courier_type-primary {
+  background: #039AD6;
+  color: #222; }
+  .courier-notices .courier_type-primary .courier-content-wrapper:after {
+    color: #222; }
+  .courier-notices .courier_type-primary a {
+    color: #222; }
+  .courier-notices .courier_type-primary .courier-content-wrapper {
+    padding-left: 3rem;
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: "courier" !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale; }
+    .courier-notices .courier_type-primary .courier-content-wrapper:before {
+      content: ''; }
+    .courier-notices .courier_type-primary .courier-content-wrapper:after {
+      content: ""; }
+  .courier-notices .courier_type-primary + .courier_type-primary {
+    border-top: 2px solid rgba(0, 0, 0, 0.05);
+    margin-top: -2px; }
+
+.courier-notices .courier_type-success {
+  background: #04A84E;
+  color: #222; }
+  .courier-notices .courier_type-success .courier-content-wrapper:after {
+    color: #222; }
+  .courier-notices .courier_type-success a {
+    color: #222; }
+  .courier-notices .courier_type-success .courier-content-wrapper {
+    padding-left: 3rem;
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: "courier" !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale; }
+    .courier-notices .courier_type-success .courier-content-wrapper:before {
+      content: ''; }
+    .courier-notices .courier_type-success .courier-content-wrapper:after {
+      content: ""; }
+  .courier-notices .courier_type-success + .courier_type-success {
+    border-top: 2px solid rgba(0, 0, 0, 0.05);
+    margin-top: -2px; }
+
 .courier-notices .courier_type-alert {
-  background: #FF4053;
+  background: #F97600;
   color: #222; }
   .courier-notices .courier_type-alert .courier-content-wrapper:after {
     color: #222; }
@@ -110,13 +166,41 @@
     .courier-notices .courier_type-alert .courier-content-wrapper:before {
       content: ''; }
     .courier-notices .courier_type-alert .courier-content-wrapper:after {
-      content: ""; }
+      content: ""; }
   .courier-notices .courier_type-alert + .courier_type-alert {
     border-top: 2px solid rgba(0, 0, 0, 0.05);
     margin-top: -2px; }
 
+.courier-notices .courier_type-warning {
+  background: #EA3118;
+  color: #222; }
+  .courier-notices .courier_type-warning .courier-content-wrapper:after {
+    color: #222; }
+  .courier-notices .courier_type-warning a {
+    color: #222; }
+  .courier-notices .courier_type-warning .courier-content-wrapper {
+    padding-left: 3rem;
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: "courier" !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale; }
+    .courier-notices .courier_type-warning .courier-content-wrapper:before {
+      content: ''; }
+    .courier-notices .courier_type-warning .courier-content-wrapper:after {
+      content: ""; }
+  .courier-notices .courier_type-warning + .courier_type-warning {
+    border-top: 2px solid rgba(0, 0, 0, 0.05);
+    margin-top: -2px; }
+
 .courier-notices .courier_type-feedback {
-  background: #6BCCE8;
+  background: #878787;
   color: #222; }
   .courier-notices .courier_type-feedback .courier-content-wrapper:after {
     color: #222; }
@@ -144,7 +228,7 @@
     margin-top: -2px; }
 
 .courier-notices .courier_type-info {
-  background: #7D86E8;
+  background: #8839D3;
   color: #222; }
   .courier-notices .courier_type-info .courier-content-wrapper:after {
     color: #222; }
@@ -168,90 +252,6 @@
     .courier-notices .courier_type-info .courier-content-wrapper:after {
       content: ""; }
   .courier-notices .courier_type-info + .courier_type-info {
-    border-top: 2px solid rgba(0, 0, 0, 0.05);
-    margin-top: -2px; }
-
-.courier-notices .courier_type-secondary {
-  background: #cecece;
-  color: #222; }
-  .courier-notices .courier_type-secondary .courier-content-wrapper:after {
-    color: #222; }
-  .courier-notices .courier_type-secondary a {
-    color: #222; }
-  .courier-notices .courier_type-secondary .courier-content-wrapper {
-    padding-left: 3rem;
-    /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: "courier" !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale; }
-    .courier-notices .courier_type-secondary .courier-content-wrapper:before {
-      content: ''; }
-    .courier-notices .courier_type-secondary .courier-content-wrapper:after {
-      content: ""; }
-  .courier-notices .courier_type-secondary + .courier_type-secondary {
-    border-top: 2px solid rgba(0, 0, 0, 0.05);
-    margin-top: -2px; }
-
-.courier-notices .courier_type-success {
-  background: #A5FF82;
-  color: #222; }
-  .courier-notices .courier_type-success .courier-content-wrapper:after {
-    color: #222; }
-  .courier-notices .courier_type-success a {
-    color: #222; }
-  .courier-notices .courier_type-success .courier-content-wrapper {
-    padding-left: 3rem;
-    /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: "courier" !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale; }
-    .courier-notices .courier_type-success .courier-content-wrapper:before {
-      content: ''; }
-    .courier-notices .courier_type-success .courier-content-wrapper:after {
-      content: ""; }
-  .courier-notices .courier_type-success + .courier_type-success {
-    border-top: 2px solid rgba(0, 0, 0, 0.05);
-    margin-top: -2px; }
-
-.courier-notices .courier_type-warning {
-  background: #FFB64B;
-  color: #222; }
-  .courier-notices .courier_type-warning .courier-content-wrapper:after {
-    color: #222; }
-  .courier-notices .courier_type-warning a {
-    color: #222; }
-  .courier-notices .courier_type-warning .courier-content-wrapper {
-    padding-left: 3rem;
-    /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: "courier" !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale; }
-    .courier-notices .courier_type-warning .courier-content-wrapper:before {
-      content: ''; }
-    .courier-notices .courier_type-warning .courier-content-wrapper:after {
-      content: ""; }
-  .courier-notices .courier_type-warning + .courier_type-warning {
     border-top: 2px solid rgba(0, 0, 0, 0.05);
     margin-top: -2px; }
 

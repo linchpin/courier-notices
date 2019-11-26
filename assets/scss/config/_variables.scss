@@ -46,12 +46,13 @@ $lochinvar: $darker-green;
 $white-smoke: #f5f5f5;
 $gray: #e8e8e8;
 
-$notice-default-alert: #FF4053;
-$notice-default-info: #6BCCE8;
-$notice-default-feedback: #7D86E8;
+$notice-default-primary: #039AD6;
+$notice-default-success: #04A84E;
+$notice-default-alert: #F97600;
+$notice-default-warning: #EA3118;
+$notice-default-feedback: #8839D3;
+$notice-default-info: #878787;
 $notice-default-secondary: #cecece;
-$notice-default-success: #A5FF82;
-$notice-default-warning: #FFB64B;
 
 //Other Global items
 $global-radius: .25rem;

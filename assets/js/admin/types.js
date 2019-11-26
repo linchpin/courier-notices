@@ -49,6 +49,7 @@ export default function types() {
 	function setupControls() {
 		$body
 			.on( 'click', '.courier-notices-type-delete', confirmDeleteCourierNoticeType )
+			.on( 'click', '.courier-notices-type-cancel-delete', cancelDeleteCourierNoticeType )
 			.on( 'click', '#add-courier-notice-type', addNewCourierNoticeTypeRow )
 			.on( 'click', '#courier-notice-type-new .save-button', addCourierNoticeType )
 			.on( 'click', '#courier-notice-type-new .close-button', cancelAddCourierNoticeType )
@@ -196,11 +197,25 @@ export default function types() {
 
 		event.preventDefault();
 
-		var $this = $(this);
+		var $this = $(this),
+			$cancel = $('<button />', {
+				'class' : 'courier-notices-type-cancel-delete button button-secondary button-cancel button-editing close-button',
+				'href'  : '#'
+			}),
+			$cancel_icon = $('<span />', {
+				'class' : 'dashicons dashicons-no'
+			});
 
 		if (true !== $this.data('confirm')) {
-			$this.find('dashicons-trash').hide();
-			$this.addClass('button button-primary').text(courier_admin_data.strings.confirm_delete).data('confirm', true);
+			// $this.find('dashicons-trash').hide();
+			$cancel.append( $cancel_icon );
+
+			$this
+				.addClass('button button-secondary button-editing')
+				.attr('aria-label', courier_admin_data.strings.confirm_delete)
+				.data('confirm', true);
+
+			$this.after( $cancel ).after('<span class="spacer">&nbsp;</span>');
 		} else {
 			$this.addClass('disabled').text(courier_admin_data.strings.deleting);
 
@@ -224,6 +239,27 @@ export default function types() {
 				$(this).remove(); // Remove the row from the table after it fades out.
 			});
 		});
+	}
+
+	/**
+	 * Cancel deleting of the Courier Notice Type
+	 *
+	 * @since 1.0
+	 */
+	function cancelDeleteCourierNoticeType( event ) {
+		event.preventDefault();
+
+		var $this   = $(this),
+			$spacer = $this.siblings('.spacer'),
+			$trash  = $this.siblings('.courier-notices-type-delete');
+
+		$this.remove();
+		$spacer.remove();
+
+		$trash
+			.removeClass('button button-secondary button-editing')
+			.removeAttr('aria-label')
+			.data('confirm', false);
 	}
 
 	/**

@@ -68,69 +68,84 @@ body.courier_notice_page_courier {
 }
 
 .icon-success {
-  &:before {
-	content: $icon-success;
-  }
-}
-.icon-warning {
-  &:before {
-	content: $icon-warning;
-  }
-}
-.icon-info {
-  &:before {
-	content: $icon-info;
-  }
-}
-.icon-error {
-  &:before {
-	content: $icon-error;
-  }
+	&:before {
+		content: $icon-success;
+	}
 }
 .icon-alert {
-  &:before {
-	content: $icon-alert;
-  }
+	&:before {
+		content: $icon-alert;
+	}
+}
+.icon-info {
+	&:before {
+		content: $icon-info;
+	}
+}
+.icon-warning {
+	&:before {
+		content: $icon-warning;
+	}
+}
+.icon-primary {
+	&:before {
+		content: $icon-primary;
+	}
 }
 .icon-feedback {
-  &:before {
-	content: $icon-feedback;
-  }
+	&:before {
+		content: $icon-feedback;
+	}
 }
 .icon-welcome {
-  &:before {
-	content: $icon-welcome;
-  }
+	&:before {
+		content: $icon-welcome;
+	}
 }
 .icon-courier-logo {
-  &:before {
-	content: $icon-courier-logo;
-  }
+	&:before {
+		content: $icon-courier-logo;
+	}
 }
 .icon-linchpin-logo-fill {
-  &:before {
-	content: $icon-linchpin-logo-fill;
-  }
+	&:before {
+		content: $icon-linchpin-logo-fill;
+	}
 }
 .icon-github-logo {
-  &:before {
-	content: $icon-github-logo;
-  }
+	&:before {
+		content: $icon-github-logo;
+	}
 }
 .icon-twitter {
-  &:before {
-	content: $icon-twitter;
-  }
+	&:before {
+		content: $icon-twitter;
+	}
 }
 .icon-fb {
-  &:before {
-	content: $icon-fb;
-  }
+	&:before {
+		content: $icon-fb;
+	}
 }
 .icon-instagram {
-  &:before {
-	content: $icon-instagram;
-  }
+	&:before {
+		content: $icon-instagram;
+	}
+}
+.icon-close {
+	&:before {
+		content: $icon-close;
+	}
+}
+.icon-plus {
+	&:before {
+		content: $icon-plus;
+	}
+}
+.icon-minus {
+	&:before {
+		content: $icon-minus;
+	}
 }
 
 // We want all styles in the context of the MCS container, as to not overwrite any

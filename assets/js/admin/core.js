@@ -50,7 +50,7 @@ export default function core() {
                 $('#courier-shortcode').select();
             });
 
-        $('.courier-info-icon').tooltip();
+        $('.courier-help').tooltip();
     }
 
     /**
@@ -152,10 +152,12 @@ export default function core() {
         }
 
         if (copyURL) {
-            $indicator.addClass('copied').text(courier_admin_data.strings.copied);
+            $indicator.text(courier_admin_data.strings.copied).fadeIn();
 
             setTimeout(function () {
-                $indicator.text('');
+                $indicator.fadeOut(function () {
+                	$indicator.text('');
+				});
             }, 3000);
         }
     }

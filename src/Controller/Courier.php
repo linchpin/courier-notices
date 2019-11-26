@@ -220,19 +220,15 @@ class Courier {
 			<span class="dashicons dashicons-no-alt wp-media-buttons-icon"></span>&nbsp;
 			<label for="courier_dismissible"><?php esc_html_e( 'Dismissible Notice:', 'courier' ); ?></label>&nbsp;
 			<input type="checkbox" name="courier_dismissible" id="courier_dismissible" value="1" <?php checked( get_post_meta( $post->ID, '_courier_dismissible', true ) ); ?> />
-			<a href="#" class="courier-info-icon courier-help" title="Allow the notice to be dismissed by users">?</a>
+			<a href="#" class="courier-info-icon courier-help" title="<?php esc_html_e( 'Allow the notice to be dismissed by users', 'courier' ); ?>">?</a>
 		</div>
 		<div id="courier-shortcode-container" class="misc-pub-section">
 			<div class="copy-text" data-copy="courier-shortcode">
 				<label for="courier-shortcode" aria-hidden="true" class="screen-reader-text"><?php esc_html_e( 'Courier Shortcode', 'courier' ); ?></label>
 				<textarea readonly id="courier-shortcode" class="widefat">[courier_notice id="<?php echo esc_attr( $post->ID ); ?>"]</textarea>
-				<span class="copy-text dashicons dashicons-clipboard" data-copy="courier-shortcode"></span>
+				<span class="copy-text dashicons dashicons-clipboard courier-help" data-copy="courier-shortcode" title="<?php esc_html_e( 'Copy Courier Shortcode', 'courier' ); ?>"></span>
 			</div>
-			<span class="copy-link-indicator"></span>
-			<?php /*
-			<p><a class="copy-text button" data-copy="courier-shortcode"><?php esc_html_e( 'Copy Courier Shortcode', 'courier' ); ?></a></p>
-            */
-			?>
+			<span class="copy-link-indicator" style="display: none;"></span>
 		</div>
 		<?php
 	}

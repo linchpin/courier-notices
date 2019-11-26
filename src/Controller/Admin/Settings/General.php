@@ -115,15 +115,17 @@ class General {
 	 * @param array $args Array of arguments.
 	 */
 	public static function create_section( $args ) {
-		?>
-		<div class="gray-bg negative-bg">
-			<div class="wrapper">
-				<h2 class="color-darkpurple light-weight">
-					<?php echo esc_html( $args['title'] ); ?>
-				</h2>
+		if ( ! empty( $args['title'] ) ) {
+			?>
+			<div class="gray-bg negative-bg">
+				<div class="wrapper">
+					<h2 class="color-darkpurple light-weight">
+						<?php echo esc_html( $args['title'] ); ?>
+					</h2>
+				</div>
 			</div>
-		</div>
-		<?php
+			<?php
+		}
 	}
 
 	/**

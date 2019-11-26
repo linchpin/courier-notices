@@ -1189,7 +1189,7 @@ function core() {
     $body.on('click', '.editinline', quick_edit_populate_status).on('click', '.courier-reactivate-notice', reactivate_notice).on('click', '.copy-text', copy_text).on('focus', '#courier-shortcode', function () {
       $('#courier-shortcode').select();
     });
-    $('.courier-info-icon').tooltip();
+    $('.courier-help').tooltip();
   }
   /**
    * When the page loads, push our custom post status into the post status select.
@@ -1288,9 +1288,11 @@ function core() {
     }
 
     if (copyURL) {
-      $indicator.addClass('copied').text(courier_admin_data.strings.copied);
+      $indicator.text(courier_admin_data.strings.copied).fadeIn();
       setTimeout(function () {
-        $indicator.text('');
+        $indicator.fadeOut(function () {
+          $indicator.text('');
+        });
       }, 3000);
     }
   }
@@ -1355,7 +1357,7 @@ function types() {
 
 
   function setupControls() {
-    $body.on('click', '.courier-notices-type-delete', confirmDeleteCourierNoticeType).on('click', '#add-courier-notice-type', addNewCourierNoticeTypeRow).on('click', '#courier-notice-type-new .save-button', addCourierNoticeType).on('click', '#courier-notice-type-new .close-button', cancelAddCourierNoticeType).on('click', '.courier-notice-editing .close-button', cancelEditCourierNoticeType).on('click', '.courier-notice-editing .save-button', updateCourierNoticeType).on('click', '.courier-notice-type-edit', editCourierNoticeType).on('click', '#courier-settings .settings-form #submit', disableTypeControls);
+    $body.on('click', '.courier-notices-type-delete', confirmDeleteCourierNoticeType).on('click', '.courier-notices-type-cancel-delete', cancelDeleteCourierNoticeType).on('click', '#add-courier-notice-type', addNewCourierNoticeTypeRow).on('click', '#courier-notice-type-new .save-button', addCourierNoticeType).on('click', '#courier-notice-type-new .close-button', cancelAddCourierNoticeType).on('click', '.courier-notice-editing .close-button', cancelEditCourierNoticeType).on('click', '.courier-notice-editing .save-button', updateCourierNoticeType).on('click', '.courier-notice-type-edit', editCourierNoticeType).on('click', '#courier-settings .settings-form #submit', disableTypeControls);
   }
   /**
    * Due to the complexity of this input type, we need to disable all the hidden fields associated with it
@@ -1481,11 +1483,20 @@ function types() {
 
   function confirmDeleteCourierNoticeType(event) {
     event.preventDefault();
-    var $this = $(this);
+    var $this = $(this),
+        $cancel = $('<button />', {
+      'class': 'courier-notices-type-cancel-delete button button-secondary button-cancel button-editing close-button',
+      'href': '#'
+    }),
+        $cancel_icon = $('<span />', {
+      'class': 'dashicons dashicons-no'
+    });
 
     if (true !== $this.data('confirm')) {
-      $this.find('dashicons-trash').hide();
-      $this.addClass('button button-primary').text(courier_admin_data.strings.confirm_delete).data('confirm', true);
+      // $this.find('dashicons-trash').hide();
+      $cancel.append($cancel_icon);
+      $this.addClass('button button-secondary button-editing').attr('aria-label', courier_admin_data.strings.confirm_delete).data('confirm', true);
+      $this.after($cancel).after('<span class="spacer">&nbsp;</span>');
     } else {
       $this.addClass('disabled').text(courier_admin_data.strings.deleting);
       deleteCourierNoticeType($this);
@@ -1508,6 +1519,22 @@ function types() {
         $(this).remove(); // Remove the row from the table after it fades out.
       });
     });
+  }
+  /**
+   * Cancel deleting of the Courier Notice Type
+   *
+   * @since 1.0
+   */
+
+
+  function cancelDeleteCourierNoticeType(event) {
+    event.preventDefault();
+    var $this = $(this),
+        $spacer = $this.siblings('.spacer'),
+        $trash = $this.siblings('.courier-notices-type-delete');
+    $this.remove();
+    $spacer.remove();
+    $trash.removeClass('button button-secondary button-editing').removeAttr('aria-label').data('confirm', false);
   }
   /**
    * Setup Courier Type Editing Screen
@@ -1727,7 +1754,7 @@ module.exports = __webpack_amd_options__;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/aware/vvv/www/couriier/public_html/wp-content/plugins/courier/assets/js/courier-admin.js */"./assets/js/courier-admin.js");
+module.exports = __webpack_require__(/*! /Users/maxwellmorgan/vvv-local/vagrant-local/www/courier/public_html/wp-content/plugins/courier/assets/js/courier-admin.js */"./assets/js/courier-admin.js");
 
 
 /***/ }),

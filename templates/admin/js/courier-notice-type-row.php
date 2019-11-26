@@ -16,10 +16,12 @@
 		<td>
 			<input type="text" id="courier-notice-type-new-text-color" name="courier_notice_type_new_text_color" class="courier-type-color" value="<?php echo esc_attr( $text_color ); ?>">
 		</td>
-		<td>
-			<button class="button button-primary save-button"><?php esc_html_e( 'Save', 'courier' ); ?></button>
-			<button class="button button-secondary close-button" aria-label="<?php esc_html_e( 'Cancel', 'courier' ); ?>">
-				<span aria-hidden="true">&times;</span>
+		<td class="editing-buttons-container">
+			<button class="button button-editing button-primary save-button" aria-label="<?php esc_html_e( 'Save', 'courier' ); ?>">
+				<span class="dashicons dashicons-yes"></span>
+			</button>
+			<button class="button button-editing button-secondary close-button" aria-label="<?php esc_html_e( 'Cancel', 'courier' ); ?>">
+				<span class="dashicons dashicons-no"></span>
 			</button>
 		</td>
 	</tr>
@@ -42,10 +44,12 @@
 		<td>
 			<input type="text" id="courier-notice-type-edit-text-color" name="courier_notice_type_edit_text_color" class="courier-type-color" value="{notice_type_text_color}">
 		</td>
-		<td>
-			<button class="button button-primary save-button"><?php esc_html_e( 'Save', 'courier' ); ?></button>
-			<button class="button button-secondary close-button" aria-label="<?php esc_html_e( 'Cancel', 'courier' ); ?>">
-				<span aria-hidden="true">&times;</span>
+		<td class="editing-buttons-container">
+			<button class="button button-editing button-primary save-button courier-help" title="<?php esc_html_e( 'Save', 'courier' ); ?>" aria-label="<?php esc_html_e( 'Save', 'courier' ); ?>">
+				<span class="dashicons dashicons-yes"></span>
+			</button>
+			<button class="button button-editing button-secondary close-button courier-help" title="<?php esc_html_e( 'Cancel', 'courier' ); ?>" aria-label="<?php esc_html_e( 'Cancel', 'courier' ); ?>">
+				<span class="dashicons dashicons-no"></span>
 			</button>
 		</td>
 	</tr>
