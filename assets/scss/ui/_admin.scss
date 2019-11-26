@@ -3,7 +3,8 @@
 	'helpers',
 	'structure',
 	'type',
-	'welcome'
+	'welcome',
+	'post-editor'
 ;
 
 .courier-user-search {
@@ -1052,15 +1053,27 @@ pre.courier-notice-type-css-class {
 }
 
 .form-table td {
-  .courier_notice_page_courier {
-    td {
-      padding:8px 10px;
-    }
+	.courier_notice_page_courier {
+		td {
+			padding:8px 10px;
+		}
 
-    thead th, thead td {
-      padding:0 8px;
-    }
-  }
+		thead,
+		tfoot {
+			th,
+			td {
+				padding: 12px 8px;
+
+				a {
+					padding: 0;
+				}
+			}
+
+			.manage-column {
+				padding-left: 3px;
+			}
+		}
+	}
 }
 
 // Settings

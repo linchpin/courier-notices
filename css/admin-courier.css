@@ -864,6 +864,31 @@ body.courier_notice_page_courier .wp-list-table.courier_notice_page_courier tr:h
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale; }
 
+/**
+ * 01. Courier Shortcode
+ */
+.post-php.post-type-courier_notice #courier-shortcode-container {
+  margin: 6px 10px 8px;
+  padding: 0;
+  position: relative; }
+  .post-php.post-type-courier_notice #courier-shortcode-container .dashicons-clipboard {
+    display: block;
+    font-family: 'dashicons';
+    font-size: 22px;
+    line-height: 28px;
+    position: absolute;
+    top: 0;
+    right: 6px; }
+
+.post-php.post-type-courier_notice #courier-shortcode {
+  background: white;
+  height: 28px;
+  line-height: 28px;
+  margin: 0;
+  overflow: hidden;
+  padding: 0 28px 0 6px;
+  resize: none; }
+
 .courier-user-search {
   width: 100%; }
 
@@ -1681,8 +1706,20 @@ pre.courier-notice-type-css-class {
 .form-table td .courier_notice_page_courier td {
   padding: 8px 10px; }
 
-.form-table td .courier_notice_page_courier thead th, .form-table td .courier_notice_page_courier thead td {
-  padding: 0 8px; }
+.form-table td .courier_notice_page_courier thead th,
+.form-table td .courier_notice_page_courier thead td,
+.form-table td .courier_notice_page_courier tfoot th,
+.form-table td .courier_notice_page_courier tfoot td {
+  padding: 12px 8px; }
+  .form-table td .courier_notice_page_courier thead th a,
+  .form-table td .courier_notice_page_courier thead td a,
+  .form-table td .courier_notice_page_courier tfoot th a,
+  .form-table td .courier_notice_page_courier tfoot td a {
+    padding: 0; }
+
+.form-table td .courier_notice_page_courier thead .manage-column,
+.form-table td .courier_notice_page_courier tfoot .manage-column {
+  padding-left: 3px; }
 
 #courier-settings form.settings-form .form-table {
   width: 90%;

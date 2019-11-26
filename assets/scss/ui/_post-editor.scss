@@ -1,0 +1,37 @@
+/**
+ * 01. Courier Shortcode
+ */
+
+
+// 01. Courier Shortcode
+
+.post-php.post-type-courier_notice {
+	#courier-shortcode-container {
+		margin: 6px 10px 8px;
+		padding: 0;
+		position: relative;
+
+		.dashicons-clipboard {
+			display: block;
+			font: {
+				family: 'dashicons';
+				size: 22px;
+			};
+			line-height: 28px;
+
+			position: absolute;
+			top: 0;
+			right: 6px;
+		}
+	}
+
+	#courier-shortcode {
+		background: white;
+		height: 28px;
+		line-height: 28px;
+		margin: 0;
+		overflow: hidden;
+		padding: 0 28px 0 6px;
+		resize: none;
+	}
+}

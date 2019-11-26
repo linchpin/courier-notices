@@ -222,11 +222,17 @@ class Courier {
 			<input type="checkbox" name="courier_dismissible" id="courier_dismissible" value="1" <?php checked( get_post_meta( $post->ID, '_courier_dismissible', true ) ); ?> />
 			<a href="#" class="courier-info-icon courier-help" title="Allow the notice to be dismissed by users">?</a>
 		</div>
-		<div class="misc-pub-section">
-			<label for="courier-shortcode" aria-hidden="true" class="screen-reader-text"><?php esc_html_e( 'Courier Shortcode', 'courier' ); ?></label>
-			<textarea id="courier-shortcode" class="widefat">[courier_notice id="<?php echo esc_attr( $post->ID ); ?>"]</textarea>
-			<p><a class="copy-text button" data-copy="courier-shortcode"><?php esc_html_e( 'Copy Courier Shortcode', 'courier' ); ?></a></p>
+		<div id="courier-shortcode-container" class="misc-pub-section">
+			<div class="copy-text" data-copy="courier-shortcode">
+				<label for="courier-shortcode" aria-hidden="true" class="screen-reader-text"><?php esc_html_e( 'Courier Shortcode', 'courier' ); ?></label>
+				<textarea readonly id="courier-shortcode" class="widefat">[courier_notice id="<?php echo esc_attr( $post->ID ); ?>"]</textarea>
+				<span class="copy-text dashicons dashicons-clipboard" data-copy="courier-shortcode"></span>
+			</div>
 			<span class="copy-link-indicator"></span>
+			<?php /*
+			<p><a class="copy-text button" data-copy="courier-shortcode"><?php esc_html_e( 'Copy Courier Shortcode', 'courier' ); ?></a></p>
+            */
+			?>
 		</div>
 		<?php
 	}
