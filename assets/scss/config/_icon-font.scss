@@ -30,10 +30,10 @@ $icomoon-font-path: "../assets/fonts" !default;
 }
 
 $icon-success: "\e900";
-$icon-warning: "\e901";
+$icon-alert: "\e901";
 $icon-info: "\e902";
-$icon-error: "\e903";
-$icon-alert: "\e904";
+$icon-warning: "\e903";
+$icon-primary: "\e904";
 $icon-feedback: "\e905";
 $icon-welcome: "\e906";
 $icon-courier-logo: "\e907";
@@ -42,3 +42,6 @@ $icon-github-logo: "\e909";
 $icon-twitter: "\e90a";
 $icon-fb: "\e90b";
 $icon-instagram: "\e90c";
+$icon-close: "\e90d";
+$icon-plus: "\e90e";
+$icon-minus: "\e90f";

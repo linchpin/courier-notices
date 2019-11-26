@@ -96,12 +96,12 @@
 	}
 
 	$courier_list: (
-			('alert', $notice-default-alert, $black, $icon-alert, '', ''),
-			('feedback', $notice-default-info, $black, $icon-feedback, '', ''),
-			('info', $notice-default-feedback, $black, $icon-info, '', ''),
-			('secondary', $notice-default-secondary, $black, $icon-info, '', ''),
-			('success', $notice-default-success, $black, $icon-success, '', ''),
-			('warning', $notice-default-warning, $black, $icon-warning, '', '')
+		('primary', $notice-default-primary, $black, $icon-primary, '', ''),
+		('success', $notice-default-success, $black, $icon-success, '', ''),
+		('alert', $notice-default-alert, $black, $icon-alert, '', ''),
+		('warning', $notice-default-warning, $black, $icon-warning, '', ''),
+		('feedback', $notice-default-info, $black, $icon-feedback, '', ''),
+		('info', $notice-default-feedback, $black, $icon-info, '', '')
 	);
 
 	@each $courier in $courier_list {
