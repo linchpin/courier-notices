@@ -36,6 +36,7 @@ class Courier_Types {
 		'span'   => array(
 			'aria-hidden' => array(),
 			'class'       => array(),
+			'style'       => array(),
 		),
 		'pre'    => array(
 			'class'          => array(),
@@ -107,7 +108,7 @@ class Courier_Types {
 		if ( 'courier' === $page && 'design' === $tab ) {
 			// Create New Row to be rendered using JavaScript
 			$new_courier_ype = new View();
-			$new_courier_ype->assign( 'text_color', '#ffffff' );
+			$new_courier_ype->assign( 'text_color', '#000000' );
 			$new_courier_ype->assign( 'notice_color', Utils::get_random_color() );
 			$new_courier_ype->render( 'admin/js/courier-notice-type-row' );
 		}
@@ -358,7 +359,7 @@ class Courier_Types {
 				$text_color = get_term_meta( $type->term_id, '_courier_type_text_color', true );
 
 				if ( empty( $text_color ) ) {
-					$text_color = '#ffffff';
+					$text_color = '#000000';
 				}
 
 				$css[ 'courier_type-' . $type->slug ] = array(

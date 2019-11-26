@@ -219,7 +219,7 @@ class Type_List_Table extends WP_List_Table {
 				}
 
 				$color_input = sprintf(
-					'<label class="screen-reader-text" for="courier_type_%2$s_color">%3$s</label><input type="text" name="courier_type_%2$s_color" id="courier_type_%2$s_color" class="courier-type-color courier-notice-type-color" value="%1$s" />',
+					'<span class="static-color-visual"><span class="static-color-visual-swatch" style="background-color: %1$s;"></span> %1$s</span><span class="color-editor hide"><label class="screen-reader-text" for="courier_type_%2$s_color">%3$s</label><input type="text" name="courier_type_%2$s_color" id="courier_type_%2$s_color" class="courier-type-color courier-notice-type-color" value="%1$s" /></span>',
 					esc_attr( $color ),
 					esc_attr( $type->slug ),
 					// translators: %1$s Title of the term.
@@ -240,11 +240,11 @@ class Type_List_Table extends WP_List_Table {
 				$text_color = get_term_meta( $type->term_id, '_courier_type_text_color', true );
 
 				if ( empty( $text_color ) ) {
-					$text_color = '#ffffff';
+					$text_color = '#000000';
 				}
 
 				$text_input = sprintf(
-					'<label class="screen-reader-text" for="courier_type_%2$s_text_color">%3$s</label><input type="text" name="courier_type_%2$s_text_color" id="courier_type_%2$s_text_color" class="courier-type-color courier-notice-type-text-color" value="%1$s" />',
+					'<span class="static-color-visual"><span class="static-color-visual-swatch" style="background-color: %1$s;"></span> %1$s</span><span class="color-editor hide"><label class="screen-reader-text" for="courier_type_%2$s_text_color">%3$s</label><input type="text" name="courier_type_%2$s_text_color" id="courier_type_%2$s_text_color" class="courier-type-color courier-notice-type-text-color" value="%1$s" /></span>',
 					esc_attr( $text_color ),
 					esc_attr( $type->slug ),
 					// translators: %1$s Title of the term.

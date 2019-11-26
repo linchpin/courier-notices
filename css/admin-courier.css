@@ -1806,6 +1806,12 @@ pre.courier-notice-type-css-class {
   display: inline-block;
   min-width: 14px; }
 
+.form-table td .static-color-visual-swatch {
+  display: inline-block;
+  height: 22px;
+  width: 22px;
+  vertical-align: middle; }
+
 #courier-settings form.settings-form .form-table {
   width: 90%;
   margin: 2rem 5%; }
