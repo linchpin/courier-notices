@@ -96,6 +96,8 @@ export default function types() {
 			'notice_type_css_class': $parentRow.find('.courier-notice-type-css-class').data('css-class'),
 			'notice_type_color': $parentRow.find('.courier-notice-type-color').val(),
 			'notice_type_text_color': $parentRow.find('.courier-notice-type-text-color').val(),
+			'notice_type_icon_color': $parentRow.find('.courier-notice-type-icon-color').val(),
+			'notice_type_bg_color': $parentRow.find('.courier-notice-type-bg-color').val(),
 			'notice_type_id':$(this).data('term-id')
 		};
 
@@ -316,6 +318,8 @@ export default function types() {
 			'courier_notice_type_new_css_class': $('#courier-notice-type-new-css-class').val(),
 			'courier_notice_type_new_color': $('#courier-notice-type-new-color').val(),
 			'courier_notice_type_new_text_color': $('#courier-notice-type-new-text-color').val(),
+			'courier_notice_type_new_icon_color': $('#courier-notice-type-new-icon-color').val(),
+			'courier_notice_type_new_bg_color': $('#courier-notice-type-new-bg-color').val(),
 			contentType: "application/json"
 		}).success(function (response) {
 
@@ -356,6 +360,8 @@ export default function types() {
 			'courier_notice_type_edit_css_class': $('#courier-notice-type-eddit-css-class').val(),
 			'courier_notice_type_edit_color': $('#courier-notice-type-edit-color').val(),
 			'courier_notice_type_edit_text_color': $('#courier-notice-type-edit-text-color').val(),
+			'courier_notice_type_edit_icon_color': $('#courier-notice-type-edit-icon-color').val(),
+			'courier_notice_type_edit_bg_color': $('#courier-notice-type-edit-bg-color').val(),
 			'courier_notice_type_id': parseInt( $target.data('term-id') ),
 			contentType: "application/json"
 		}).success(function (response) {

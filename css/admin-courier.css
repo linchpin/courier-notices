@@ -15,6 +15,11 @@
   font-style: normal;
   font-display: block; }
 
+/**
+ * 01. Clearfix
+ * 02. Dashicons
+ * 03. Notice
+ */
 /* @mixin clearfix
  *
  * Standard clearfix, for parents of floated elements.
@@ -1777,6 +1782,8 @@ pre.courier-notice-type-css-class {
 
 .form-table td .courier_notice_page_courier td {
   padding: 8px 10px; }
+  .form-table td .courier_notice_page_courier td input {
+    max-width: 100%; }
 
 .form-table td .courier_notice_page_courier thead th,
 .form-table td .courier_notice_page_courier thead td,
@@ -1806,6 +1813,15 @@ pre.courier-notice-type-css-class {
   display: inline-block;
   min-width: 14px; }
 
+.form-table td .courier_notice_page_courier #title {
+  width: 150px; }
+
+.form-table td .courier_notice_page_courier #notice_color,
+.form-table td .courier_notice_page_courier #notice_text_color,
+.form-table td .courier_notice_page_courier #notice_icon_color,
+.form-table td .courier_notice_page_courier #notice_bg_color {
+  width: 130px; }
+
 .form-table td .static-color-visual-swatch {
   display: inline-block;
   height: 22px;
@@ -1813,8 +1829,8 @@ pre.courier-notice-type-css-class {
   vertical-align: middle; }
 
 #courier-settings form.settings-form .form-table {
-  width: 90%;
-  margin: 2rem 5%; }
+  width: 100%;
+  margin: 2rem 0; }
 
 #courier-settings form.settings-form .submit {
   width: 90%;

@@ -1090,6 +1090,10 @@ pre.courier-notice-type-css-class {
 	.courier_notice_page_courier {
 		td {
 			padding:8px 10px;
+
+			input {
+				max-width: 100%;
+			}
 		}
 
 		thead,
@@ -1125,6 +1129,17 @@ pre.courier-notice-type-css-class {
 			display: inline-block;
 			min-width: 14px;
 		}
+
+		#title {
+			width: 150px;
+		}
+
+		#notice_color,
+		#notice_text_color,
+		#notice_icon_color,
+		#notice_bg_color {
+			width: 130px;
+		}
 	}
 
 	.static-color-visual-swatch {
@@ -1140,8 +1155,8 @@ pre.courier-notice-type-css-class {
 
   form.settings-form {
     .form-table {
-      width: 90%;
-      margin: 2rem 5%;
+      width: 100%;
+      margin: 2rem 0;
     }
 
     .submit {

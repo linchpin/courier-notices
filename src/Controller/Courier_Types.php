@@ -110,6 +110,8 @@ class Courier_Types {
 			$new_courier_ype = new View();
 			$new_courier_ype->assign( 'text_color', '#000000' );
 			$new_courier_ype->assign( 'notice_color', Utils::get_random_color() );
+			$new_courier_ype->assign( 'icon_color', '#ffffff' );
+			$new_courier_ype->assign( 'bg_color', '#dddddd' );
 			$new_courier_ype->render( 'admin/js/courier-notice-type-row' );
 		}
 
@@ -140,11 +142,13 @@ class Courier_Types {
 		$notice_type_class      = sanitize_title_with_dashes( $notice_type_class );
 		$notice_type_color      = sanitize_hex_color( $_POST['courier_notice_type_new_color'] );
 		$notice_type_text_color = sanitize_hex_color( $_POST['courier_notice_type_new_text_color'] );
+		$notice_type_icon_color = sanitize_hex_color( $_POST['courier_notice_type_new_icon_color'] );
+		$notice_type_bg_color = sanitize_hex_color( $_POST['courier_notice_type_new_bg_color'] );
 
 		$type = wp_insert_term( $notice_type_title, 'courier_type' );
 
 		if ( ! is_wp_error( $type ) ) {
-			$this->insert_term_meta( $type, $notice_type_class, $notice_type_color, $notice_type_text_color );
+			$this->insert_term_meta( $type, $notice_type_class, $notice_type_color, $notice_type_text_color, $notice_type_icon_color, $notice_type_bg_color );
 		} else {
 			wp_die( esc_html( $type ) );
 		}
@@ -207,11 +211,13 @@ class Courier_Types {
 		$notice_type_class      = sanitize_title_with_dashes( $notice_type_class );
 		$notice_type_color      = sanitize_hex_color( $_POST['courier_notice_type_edit_color'] );
 		$notice_type_text_color = sanitize_hex_color( $_POST['courier_notice_type_edit_text_color'] );
+		$notice_type_icon_color = sanitize_hex_color( $_POST['courier_notice_type_edit_icon_color'] );
+		$notice_type_bg_color = sanitize_hex_color( $_POST['courier_notice_type_edit_bg_color'] );
 
 		$type = wp_update_term( (int) $_POST['courier_notice_type_id'], 'courier_type', array( 'name' => $notice_type_title ) );
 
 		if ( ! is_wp_error( $type ) ) {
-			$this->insert_term_meta( $type, $notice_type_class, $notice_type_color, $notice_type_text_color );
+			$this->insert_term_meta( $type, $notice_type_class, $notice_type_color, $notice_type_text_color, $notice_type_icon_color, $notice_type_bg_color );
 		} else {
 			wp_die( esc_html( $type ) );
 		}
@@ -292,7 +298,7 @@ class Courier_Types {
 	 * @param string $hex_color   The hex color.
 	 * @param string $label_color The hex color label.
 	 */
-	private function insert_term_meta( $term, $class_name = '', $hex_color = '', $label_color = '' ) {
+	private function insert_term_meta( $term, $class_name = '', $hex_color = '', $label_color = '', $icon_color = '', $bg_color = '' ) {
 
 		if ( empty( $term ) ) {
 			return;
@@ -306,6 +312,14 @@ class Courier_Types {
 
 		if ( ! empty( $term_id ) && ! empty( $label_color ) ) {
 			update_term_meta( $term_id, '_courier_type_text_color', $label_color );
+		}
+
+		if ( ! empty( $term_id ) && ! empty( $icon_color ) ) {
+			update_term_meta( $term_id, '_courier_type_icon_color', $icon_color );
+		}
+
+		if ( ! empty( $term_id ) && ! empty( $bg_color ) ) {
+			update_term_meta( $term_id, '_courier_type_bg_color', $bg_color );
 		}
 
 		if ( ! empty( $term_id ) && ! empty( $class_name ) ) {
@@ -362,9 +376,23 @@ class Courier_Types {
 					$text_color = '#000000';
 				}
 
+				$icon_color = get_term_meta( $type->term_id, '_courier_type_icon_color', true );
+
+				if ( empty( $icon_color ) ) {
+					$icon_color = '#ffffff';
+				}
+
+				$bg_color = get_term_meta( $type->term_id, '_courier_type_bg_color', true );
+
+				if ( empty( $bg_color ) ) {
+					$bg_color = '#dddddd';
+				}
+
 				$css[ 'courier_type-' . $type->slug ] = array(
 					'background-color' => sanitize_hex_color( $background_color ),
 					'color'            => sanitize_hex_color( $text_color ),
+					'icon_color'       => sanitize_hex_color( $icon_color ),
+					'bg_color'         => sanitize_hex_color( $bg_color ),
 					'icon'             => esc_attr( $icon ),
 				);
 			}

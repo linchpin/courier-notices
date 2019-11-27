@@ -15,6 +15,11 @@
   font-style: normal;
   font-display: block; }
 
+/**
+ * 01. Clearfix
+ * 02. Dashicons
+ * 03. Notice
+ */
 /* @mixin clearfix
  *
  * Standard clearfix, for parents of floated elements.

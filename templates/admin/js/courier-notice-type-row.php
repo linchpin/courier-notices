@@ -16,6 +16,12 @@
 		<td>
 			<input type="text" id="courier-notice-type-new-text-color" name="courier_notice_type_new_text_color" class="courier-type-color" value="<?php echo esc_attr( $text_color ); ?>">
 		</td>
+		<td>
+			<input type="text" id="courier-notice-type-new-icon-color" name="courier_notice_type_new_icon_color" class="courier-type-color" value="<?php echo esc_attr( $notice_icon_color ); ?>">
+		</td>
+		<td>
+			<input type="text" id="courier-notice-type-new-bg-color" name="courier_notice_type_new_bg_color" class="courier-type-color" value="<?php echo esc_attr( $notice_bg_color ); ?>">
+		</td>
 		<td class="editing-buttons-container">
 			<button class="button button-editing button-primary save-button" aria-label="<?php esc_html_e( 'Save', 'courier' ); ?>">
 				<span class="dashicons dashicons-yes"></span>
@@ -43,6 +49,12 @@
 		</td>
 		<td>
 			<input type="text" id="courier-notice-type-edit-text-color" name="courier_notice_type_edit_text_color" class="courier-type-color" value="{notice_type_text_color}">
+		</td>
+		<td>
+			<input type="text" id="courier-notice-type-edit-icon-color" name="courier_notice_type_edit_icon_color" class="courier-type-color" value="{notice_type_icon_color}">
+		</td>
+		<td>
+			<input type="text" id="courier-notice-type-edit-bg-color" name="courier_notice_type_edit_bg_color" class="courier-type-color" value="{notice_type_bg_color}">
 		</td>
 		<td class="editing-buttons-container">
 			<button class="button button-editing button-primary save-button courier-help" title="<?php esc_html_e( 'Save', 'courier' ); ?>" aria-label="<?php esc_html_e( 'Save', 'courier' ); ?>">

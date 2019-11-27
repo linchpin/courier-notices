@@ -32,8 +32,10 @@ class Type_List_Table extends WP_List_Table {
 			'notice_default'    => esc_html__( 'Default', 'courier' ),
 			'title'             => esc_html__( 'Type', 'courier' ),
 			'notice_icon'       => esc_html__( 'Icon / CSS Class', 'courier' ),
-			'notice_color'      => esc_html__( 'Notice Color', 'courier' ),
-			'notice_text_color' => esc_html__( 'Notice Text Color', 'courier' ),
+			'notice_color'      => esc_html__( 'Accent Color', 'courier' ),
+			'notice_text_color' => esc_html__( 'Text Color', 'courier' ),
+			'notice_icon_color' => esc_html__( 'Icon Color', 'courier' ),
+			'notice_bg_color'   => esc_html__( 'BG Color', 'courier' ),
 			'notice_delete'     => '',
 		);
 		return $table_columns;
@@ -58,6 +60,8 @@ class Type_List_Table extends WP_List_Table {
 			case 'notice_color':
 			case 'notice_delete':
 			case 'notice_text_color':
+			case 'notice_icon_color':
+			case 'notice_bg_color':
 				return $item[ $column_name ];
 			default:
 				return print_r( $item, true ) ; // phpcs:ignore
@@ -211,7 +215,7 @@ class Type_List_Table extends WP_List_Table {
 
 		if ( ! empty( $types ) ) {
 			foreach ( $types as $type ) {
-
+				// Notice Accent Color
 				$color = get_term_meta( $type->term_id, '_courier_type_color', true );
 
 				if ( empty( $color ) ) {
@@ -226,6 +230,7 @@ class Type_List_Table extends WP_List_Table {
 					sprintf( esc_html__( '%1$s Color', 'courier' ), $type->name )
 				);
 
+				// Notice Icon
 				$icon = get_term_meta( $type->term_id, '_courier_type_icon', true );
 
 				if ( ! empty( $icon ) ) {
@@ -237,6 +242,7 @@ class Type_List_Table extends WP_List_Table {
 					$icon = '';
 				}
 
+				// Notice Text Color
 				$text_color = get_term_meta( $type->term_id, '_courier_type_text_color', true );
 
 				if ( empty( $text_color ) ) {
@@ -251,6 +257,36 @@ class Type_List_Table extends WP_List_Table {
 					sprintf( esc_html__( '%1$s Text Color', 'courier' ), $type->name )
 				);
 
+				// Notice Icon Color
+				$icon_color = get_term_meta( $type->term_id, '_courier_type_icon_color', true );
+
+				if ( empty( $icon_color ) ) {
+					$icon_color = '#ffffff';
+				}
+
+				$icon_color_input = sprintf(
+					'<span class="static-color-visual"><span class="static-color-visual-swatch" style="background-color: %1$s;"></span> %1$s</span><span class="color-editor hide"><label class="screen-reader-text" for="courier_type_%2$s_color">%3$s</label><input type="text" name="courier_type_%2$s_color" id="courier_type_%2$s_color" class="courier-type-color courier-notice-type-icon-color" value="%1$s" /></span>',
+					esc_attr( $icon_color ),
+					esc_attr( $type->slug ),
+					// translators: %1$s Title of the term.
+					sprintf( esc_html__( '%1$s Color', 'courier' ), $type->name )
+				);
+
+				// Notice Background Color
+				$bg_color = get_term_meta( $type->term_id, '_courier_type_bg_color', true );
+
+				if ( empty( $bg_color ) ) {
+					$bg_color = '#dddddd';
+				}
+
+				$bg_color_input = sprintf(
+					'<span class="static-color-visual"><span class="static-color-visual-swatch" style="background-color: %1$s;"></span> %1$s</span><span class="color-editor hide"><label class="screen-reader-text" for="courier_type_%2$s_color">%3$s</label><input type="text" name="courier_type_%2$s_color" id="courier_type_%2$s_color" class="courier-type-color courier-notice-type-bg-color" value="%1$s" /></span>',
+					esc_attr( $bg_color ),
+					esc_attr( $type->slug ),
+					// translators: %1$s Title of the term.
+					sprintf( esc_html__( '%1$s Color', 'courier' ), $type->name )
+				);
+
 				$data[] = array(
 					'cb'                => '<input type="checkbox" />',
 					'notice_default'    => '', // Custom Callback.
@@ -259,6 +295,8 @@ class Type_List_Table extends WP_List_Table {
 					'notice_icon'       => $icon,
 					'notice_color'      => $color_input,
 					'notice_text_color' => $text_input,
+					'notice_icon_color' => $icon_color_input,
+					'notice_bg_color'   => $bg_color_input,
 					'title'             => $type->name, // Custom Callback.
 					'notice_delete'     => '', // Custom Callback.
 				);
@@ -332,6 +370,12 @@ class Type_List_Table extends WP_List_Table {
 				'<a href="%1$s" class="courier-notice-type-edit" data-term-id="%3$d">%2$s</a>',
 				get_edit_term_link( $item['ID'], 'courier_type' ),
 				esc_html__( 'Edit', 'courier' ),
+				esc_attr( $item['ID'] )
+			),
+			'options' => sprintf(
+				'<a href="%1$s" class="courier-notice-type-options" data-term-id="%3$s">%2$s</a>',
+				'#',
+				esc_html__( 'Options', 'courier' ),
 				esc_attr( $item['ID'] )
 			),
 		];

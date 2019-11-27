@@ -1,3 +1,12 @@
+/**
+ * 01. Clearfix
+ * 02. Dashicons
+ * 03. Notice
+ */
+
+
+// 01. Clearfix
+
 /* @mixin clearfix
  *
  * Standard clearfix, for parents of floated elements.
@@ -14,6 +23,9 @@
 		clear: both;
 	}
 }
+
+
+// 02. Dashicons
 
 @mixin dashicons( $icon: '\f324', $position: 'before' ) {
 	&:#{$position} {
@@ -33,7 +45,9 @@
 	}
 }
 
-// Mixins
+
+// 03. Notice
+
 @mixin notice( $bg: $light-gray, $text_color: false, $icon: false, $border: false, $link_color: $text_color) {
 	background: $bg;
 
