@@ -87,6 +87,10 @@ export default function types() {
 		event.preventDefault();
 
 		var $parentRow = $(this).closest('tr');
+
+		$('.notice-options', $parentRow).show();
+
+		/*
 		$parentRow.addClass('courier-notice-editing');
 
 		courierNoticeTypeCurrent = $parentRow.clone(true); // Store our row for usage later, if some on decides not to edit.
@@ -102,6 +106,7 @@ export default function types() {
 		};
 
 		displayEditTemplate(inputTemplate, options);
+		*/
 	}
 
 	/**

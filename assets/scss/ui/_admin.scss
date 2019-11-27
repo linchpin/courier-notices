@@ -1140,6 +1140,10 @@ pre.courier-notice-type-css-class {
 		#notice_bg_color {
 			width: 130px;
 		}
+
+		#notice_preview {
+			width: 100%;
+		}
 	}
 
 	.static-color-visual-swatch {
@@ -1147,6 +1151,16 @@ pre.courier-notice-type-css-class {
 		height: 22px;
 		width: 22px;
 		vertical-align: middle;
+	}
+
+	.notice-options {
+		.notice-option {
+			display: inline-block;
+		}
+	}
+
+	.courier-notice {
+		@include notice;
 	}
 }
 

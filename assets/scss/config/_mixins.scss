@@ -48,7 +48,27 @@
 
 // 03. Notice
 
-@mixin notice( $bg: $light-gray, $text_color: false, $icon: false, $border: false, $link_color: $text_color) {
+@mixin courier-note-base {
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	flex-flow: row wrap;
+
+	.courier-icon,
+	.courier-close {
+		display: block;
+		flex: 0 0 auto;
+		width: auto;
+	}
+
+	.courier-content {
+		display: block;
+		flex: 1 1 0px;
+		width: auto;
+	}
+}
+
+@mixin notice( $bg: $gray, $text_color: false, $icon: false, $border: false, $link_color: $text_color) {
 	background: $bg;
 
 	@if ( $text_color != false and $text_color != '' ) {

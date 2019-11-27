@@ -12,6 +12,7 @@ if ( ! function_exists( 'add_action' ) ) {
 	exit;
 }
 
+use Courier\Core\View;
 use \Courier\Helper\WP_List_Table as WP_List_Table;
 
 /**
@@ -31,11 +32,7 @@ class Type_List_Table extends WP_List_Table {
 			'cb'                => '<input type="checkbox" />', // to display the checkbox.
 			'notice_default'    => esc_html__( 'Default', 'courier' ),
 			'title'             => esc_html__( 'Type', 'courier' ),
-			'notice_icon'       => esc_html__( 'Icon / CSS Class', 'courier' ),
-			'notice_color'      => esc_html__( 'Accent Color', 'courier' ),
-			'notice_text_color' => esc_html__( 'Text Color', 'courier' ),
-			'notice_icon_color' => esc_html__( 'Icon Color', 'courier' ),
-			'notice_bg_color'   => esc_html__( 'BG Color', 'courier' ),
+			'notice_preview'    => esc_html__( 'Notice Preview', 'courier' ),
 			'notice_delete'     => '',
 		);
 		return $table_columns;
@@ -56,12 +53,8 @@ class Type_List_Table extends WP_List_Table {
 			case 'cb':
 			case 'title':
 			case 'notice_default':
-			case 'notice_icon':
-			case 'notice_color':
+			case 'notice_preview':
 			case 'notice_delete':
-			case 'notice_text_color':
-			case 'notice_icon_color':
-			case 'notice_bg_color':
 				return $item[ $column_name ];
 			default:
 				return print_r( $item, true ) ; // phpcs:ignore
@@ -232,6 +225,7 @@ class Type_List_Table extends WP_List_Table {
 
 				// Notice Icon
 				$icon = get_term_meta( $type->term_id, '_courier_type_icon', true );
+				$icon_class = $icon;
 
 				if ( ! empty( $icon ) ) {
 					$icon = sprintf( '<label class="screen-reader-text" for="courier_type_%2$s_icon">%1$s</label><span alt="%1$s" class="courier-type-icon icon-%2$s"></span><pre name="courier_type_%2$s_icon" data-css-class="icon-%2$s" id="courier_type_%2$s_icon" class="courier-notice-type-css-class">icon-%1$s</pre>',
@@ -287,11 +281,23 @@ class Type_List_Table extends WP_List_Table {
 					sprintf( esc_html__( '%1$s Color', 'courier' ), $type->name )
 				);
 
+
+				$notice_view = new View();
+				$notice_view->assign( 'notice_id', $type->term_id );
+				$notice_view->assign( 'icon', $icon_class );
+				$notice_view->assign( 'post_class', 'post_class' );
+				$notice_view->assign( 'post_class', implode( ' ', get_post_class( 'courier-notice courier_notice callout alert alert-box', $type->term_id ) ) );
+				$notice_view->assign( 'dismissable', true );
+				$notice_view->assign( 'post_content', 'post_content' );
+				$notice_view->assign( 'type', $type );
+				$notice_preview = $notice_view->get_text_view( 'admin/notice-preview' );
+
 				$data[] = array(
 					'cb'                => '<input type="checkbox" />',
 					'notice_default'    => '', // Custom Callback.
 					'slug'              => $type->slug,
 					'ID'                => $type->term_id,
+					'notice_preview'    => $notice_preview,
 					'notice_icon'       => $icon,
 					'notice_color'      => $color_input,
 					'notice_text_color' => $text_input,
@@ -370,12 +376,6 @@ class Type_List_Table extends WP_List_Table {
 				'<a href="%1$s" class="courier-notice-type-edit" data-term-id="%3$d">%2$s</a>',
 				get_edit_term_link( $item['ID'], 'courier_type' ),
 				esc_html__( 'Edit', 'courier' ),
-				esc_attr( $item['ID'] )
-			),
-			'options' => sprintf(
-				'<a href="%1$s" class="courier-notice-type-options" data-term-id="%3$s">%2$s</a>',
-				'#',
-				esc_html__( 'Options', 'courier' ),
 				esc_attr( $item['ID'] )
 			),
 		];

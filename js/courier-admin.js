@@ -1387,19 +1387,21 @@ function types() {
   function editCourierNoticeType(event) {
     event.preventDefault();
     var $parentRow = $(this).closest('tr');
+    $('.notice-options', $parentRow).show();
+    /*
     $parentRow.addClass('courier-notice-editing');
-    courierNoticeTypeCurrent = $parentRow.clone(true); // Store our row for usage later, if some on decides not to edit.
-
-    var options = {
-      'notice_type_title': $parentRow.find('.courier-notice-type-title').data('title'),
-      'notice_type_css_class': $parentRow.find('.courier-notice-type-css-class').data('css-class'),
-      'notice_type_color': $parentRow.find('.courier-notice-type-color').val(),
-      'notice_type_text_color': $parentRow.find('.courier-notice-type-text-color').val(),
-      'notice_type_icon_color': $parentRow.find('.courier-notice-type-icon-color').val(),
-      'notice_type_bg_color': $parentRow.find('.courier-notice-type-bg-color').val(),
-      'notice_type_id': $(this).data('term-id')
+    	courierNoticeTypeCurrent = $parentRow.clone(true); // Store our row for usage later, if some on decides not to edit.
+    	let options = {
+    	'notice_type_title': $parentRow.find('.courier-notice-type-title').data('title'),
+    	'notice_type_css_class': $parentRow.find('.courier-notice-type-css-class').data('css-class'),
+    	'notice_type_color': $parentRow.find('.courier-notice-type-color').val(),
+    	'notice_type_text_color': $parentRow.find('.courier-notice-type-text-color').val(),
+    	'notice_type_icon_color': $parentRow.find('.courier-notice-type-icon-color').val(),
+    	'notice_type_bg_color': $parentRow.find('.courier-notice-type-bg-color').val(),
+    	'notice_type_id':$(this).data('term-id')
     };
-    displayEditTemplate(inputTemplate, options);
+    	displayEditTemplate(inputTemplate, options);
+    */
   }
   /**
    * Cancel editing an existing Courier Notice Type.
