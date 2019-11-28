@@ -53,8 +53,8 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => 'rest_validate_request_arg',
 						),
-						'format'   => array(
-							'description'       => esc_html__( 'Set where the notices should display.', 'courier' ),
+						'format'    => array(
+							'description'       => esc_html__( 'Set the response, either html or json.', 'courier' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => 'rest_validate_request_arg',
@@ -225,6 +225,11 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 				$query_args['fields'] = 'ids';
 			}
 
+			/**
+			 * Allow for the ability to override the query used to display notices
+			 * @since 1.0
+			 */
+			$query_args          = apply_filters( 'courier_notices_display_notices_query', $query_args );
 			$query_args          = wp_parse_args( $args['query_args'], $query_args );
 			$final_notices_query = new \WP_Query( $query_args );
 
