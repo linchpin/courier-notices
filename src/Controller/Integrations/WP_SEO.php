@@ -1,11 +1,9 @@
 <?php
 /**
  * WordPress SEO Integrations
- *
- * @package Courier\Controller
  */
 
-namespace Courier\Controller;
+namespace Courier\Controller\Integrations;
 
 /**
  * Class WP_SEO
@@ -15,11 +13,11 @@ class WP_SEO {
 
 	/**
 	 * Register our hooks
+	 * Exclude notice related post types and taxonomies from the sitemap regardless of options.
 	 *
-	 * @since 1.0
+	 * @since 1.1
 	 */
 	public function register_actions() {
-		// Exclude requests from the sitemap regardless of options.
 		add_filter( 'wpseo_sitemap_exclude_post_type', array( $this, 'exclude_courier_notice_from_search' ), 10, 2 );
 		add_filter( 'wpseo_sitemap_exclude_taxonomy', array( $this, 'exclude_courier_notice_taxonomies' ), 10, 2 );
 	}
