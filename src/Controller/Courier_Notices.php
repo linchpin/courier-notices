@@ -52,48 +52,7 @@ class Courier_Notices {
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_styles' ) );
 
 		// Exclude requests from the sitemap regardless of options.
-		add_filter( 'wpseo_sitemap_exclude_post_type', array( $this, 'exclude_courier_notice_from_search' ), 10, 2 );
-		add_filter( 'wpseo_sitemap_exclude_taxonomy', array( $this, 'exclude_courier_notice_taxonomies' ), 10, 2 );
 		add_filter( 'add_query_vars', array( $this, 'add_query_vars' ) );
-	}
-
-	/**
-	 * Exclude One Taxonomy From Yoast SEO Sitemap
-	 *
-	 * @since 1.0
-	 *
-	 * @param $value
-	 * @param $taxonomy
-	 *
-	 * @return bool
-	 */
-	public function exclude_courier_notice_taxonomies( $value, $taxonomy ) {
-		$taxonomy_to_exclude = array( 'courier_type', 'courier_scope', 'courier_placement', 'courier_status' );
-
-		if ( in_array( $taxonomy, $taxonomy_to_exclude, true ) ) {
-			return true;
-		}
-
-		return false;
-	}
-
-
-	/**
-	 * Exclude Courier Notices from WordPress SEO Sitemaps
-	 *
-	 * @since 1.0
-	 *
-	 * @param bool   $value     Default false.
-	 * @param string $post_type Post type name.
-	 *
-	 * @return bool
-	 */
-	public function exclude_courier_notice_from_search( $value, $post_type ) {
-		if ( 'courier_notice' === $post_type ) {
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
