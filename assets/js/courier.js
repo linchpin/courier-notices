@@ -44,7 +44,14 @@ courier.dismiss = (function ($) {
 
 							var data = $.extend({}, courier_data.post_info, settings );
 
-							$.get( courier_data.notices_endpoint, data ).success( function( response ) {
+							$.ajax( {
+									method: 'GET',
+									beforeSend: function ( xhr ) {
+										xhr.setRequestHeader( 'X-WP-Nonce', courier_data.wp_rest_nonce );
+									},
+									'url' : courier_data.notices_endpoint,
+									'data' : data,
+								} ).success( function( response ) {
 
 								if ( response.notices ) {
 

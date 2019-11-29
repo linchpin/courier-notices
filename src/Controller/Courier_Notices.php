@@ -78,6 +78,7 @@ class Courier_Notices {
 			'notice_endpoint'  => site_url( '/wp-json/courier/v1/notice/' ),
 			'notices_endpoint' => site_url( '/wp-json/courier/v1/notices/display/' ),
 			'notices_nonce'    => wp_create_nonce( 'courier_notice_get_notices' ),
+			'wp_rest_nonce'    => wp_create_nonce( 'wp_rest' ),
 			'post_info'        => array(
 				'ID'            => ( ! empty( $post ) ) ? $post->ID : -1,
 				'is_single'     => is_single(),

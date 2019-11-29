@@ -85,10 +85,6 @@ class Admin {
 			case 'courier-global':
 				if ( has_term( 'global', 'courier_scope', $post_id ) ) {
 					echo '<span class="dashicons dashicons-admin-site"></span>';
-				} else {
-					$user = get_userdata( $post->post_author );
-
-					echo '<span class="dashicons dashicons-admin-users"></span> ' . esc_html( $user->display_name );
 				}
 				break;
 			case 'courier-summary':

@@ -23,7 +23,7 @@ class WP_SEO {
 	}
 
 	/**
-	 * Exclude One Taxonomy From Yoast SEO Sitemap
+	 * Exclude Taxonomy From Yoast SEO Sitemap
 	 *
 	 * @since 1.0
 	 *
