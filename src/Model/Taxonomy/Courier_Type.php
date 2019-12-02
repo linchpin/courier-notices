@@ -78,7 +78,7 @@ class Courier_Type {
 		$default_args = array(
 			'labels'            => $this->labels,
 			'hierarchical'      => false,
-			'public'            => true,
+			'public'            => false,
 			'show_in_nav_menus' => false,
 			'show_ui'           => true,
 			'meta_box_cb'       => false,
