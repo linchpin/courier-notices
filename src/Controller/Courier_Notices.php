@@ -91,6 +91,7 @@ class Courier_Notices {
 				'is_tax'        => is_tax(),
 				'is_page'       => is_page(),
 				'is_404'        => is_404(),
+				'is_search'     => is_search(),
 				'is_logged_in'  => is_user_logged_in(),
 			),
 			'strings'          => array(

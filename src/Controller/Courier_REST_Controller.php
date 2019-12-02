@@ -225,9 +225,6 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 		//	$query_args['fields'] = 'ids';
 		}
 
-		error_log( 'pre filter');
-		error_log( print_r( $query_args, true ) );
-
 		/**
 		 * Allow for the ability to override the query used to display notices
 		 * $query_args The arguments used for our notice post query
@@ -237,9 +234,6 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 		 */
 		$query_args          = apply_filters( 'courier_notices_display_notices_query', $query_args, $request_args );
 		$query_args          = wp_parse_args( $request_args['query_args'], $query_args );
-
-		error_log( 'filtered');
-		error_log( print_r( $query_args, true ) );
 
 		$final_notices_query = new \WP_Query( $query_args );
 
