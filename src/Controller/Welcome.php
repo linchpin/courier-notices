@@ -2,6 +2,8 @@
 
 namespace Courier\Controller;
 
+use Courier\Core\View;
+
 /**
  * Class Welcome
  * @package Courier\Controller
@@ -51,10 +53,14 @@ class Welcome {
 	}
 
 	/**
-	 * Output our welcome markup
+	 * Output our welcome markup for first time users
+	 *
+	 * @since 1.0
+	 *
 	 */
 	public function welcome_message() {
-		include_once COURIER_PATH . 'templates/admin/welcome.php';
+		$welcome = new View();
+		$welcome->render( 'admin/welcome' );
 	}
 
 	/**

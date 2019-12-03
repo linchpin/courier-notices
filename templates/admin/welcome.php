@@ -26,14 +26,14 @@ if ( ! $show ) {
 ?>
 <div id="courier-notices-welcome-panel" class="<?php echo esc_attr( $classes ); ?>">
 	<?php wp_nonce_field( 'courier_notices_welcome_panel_nonce', 'courier_notices_welcome_panel', false ); ?>
-	<a class="courier-notices-welcome-panel-close" href="<?php echo esc_url( admin_url( 'edit.php?post_type=courier_notice&courier_welcome=0' ) ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the Mesh templates welcome panel', 'mesh' ); ?>"><?php esc_html_e( 'Dismiss', 'mesh' ); ?></a>
+	<a class="courier-notices-welcome-panel-close" href="<?php echo esc_url( admin_url( 'edit.php?post_type=courier_notice&courier_welcome=0' ) ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the Courier welcome panel', 'mesh' ); ?>"><?php esc_html_e( 'Dismiss', 'courier-notices' ); ?></a>
 	<div class="courier welcome-panel-content">
 		<h2><?php esc_html_e( 'Get ready to keep your users in the loop with Courier', 'courier' ); ?></h2>
 		<div class="courier-intro">
-			<img class="courier-logo" src="<?php echo esc_url( COURIER_PLUGIN_URL . 'img/courier-logo-mark@2x.png' ); ?>" alt="<?php esc_attr_e( 'Courier Logo', 'courier' ); ?>" />
+			<img class="courier-logo" src="<?php echo esc_url( COURIER_PLUGIN_URL . 'img/courier-logo-mark@2x.png' ); ?>" alt="<?php esc_attr_e( 'Courier Logo', 'courier-notices' ); ?>" />
 			<div class="float-left">
 				<p class="about-description"><?php esc_html_e( 'Courier allows you to notify users about the happening(s) on your site', 'mesh' ); ?></p>
-				<p class="about-description"><?php esc_html_e( "You can have notices displayed globally, per user, per page, by shortcode or even using it's numerous filters", 'courier' ); ?></p>
+				<p class="about-description"><?php esc_html_e( "You can have notices displayed globally, per user, per page, by shortcode or even using it's numerous filters", 'courier-notices' ); ?></p>
 				<p class="about-description"><?php esc_html_e( 'We&#8217;ve assembled some links to get you started:', 'courier' ); ?></p>
 			</div>
 		</div>
