@@ -330,10 +330,6 @@ class General {
 				'label'    => esc_html__( 'Notice Types / Design', 'courier' ),
 				'sub_tabs' => array(),
 			),
-			'addons'    => array(
-				'label'    => esc_html__( 'Add Ons', 'courier' ),
-				'sub_tabs' => array(),
-			),
 			'about'     => array(
 				'label'    => esc_html__( 'About Courier', 'courier' ),
 				'sub_tabs' => array(),

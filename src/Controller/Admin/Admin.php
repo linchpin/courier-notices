@@ -35,9 +35,9 @@ class Admin {
 	 * Override the publish message to not show a link to the notice
 	 *
 	 * @since 1.0
-	 * @param $messages
+	 * @param array $messages Array of post type messages
 	 *
-	 * @return mixed
+	 * @return array Array of messages
 	 */
 	public function post_updated_messages( $messages ) {
 

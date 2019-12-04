@@ -50,10 +50,12 @@ if ( ! function_exists( 'add_action' ) ) {
 		<?php
 		foreach ( $tabs as $tab_slug => $tab ) :
 
-			$tab_url = add_query_arg( array(
-				'settings-updated' => false,
-				'tab'              => $tab_slug,
-			) );
+			$tab_url = add_query_arg(
+				array(
+					'settings-updated' => false,
+					'tab'              => $tab_slug,
+				)
+			);
 
 			$active = ( $active_tab === $tab_slug ) ? ' nav-tab-active' : '';
 
