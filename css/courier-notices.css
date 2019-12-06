@@ -78,21 +78,21 @@
     margin-top: 0; }
   .courier-notices .courier-notice p:last-of-type {
     margin-bottom: 0; }
-  .courier-notices .courier-notice[data-closable] {
+  .courier-notices .courier-notice[data-closable] .courier-content-wrapper {
     padding-right: 3rem; }
-    .courier-notices .courier-notice[data-closable] .courier-close {
-      position: absolute;
-      right: 0;
-      height: 100%;
-      top: 0;
-      width: 3rem;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      font-size: 1.5rem;
-      font-weight: normal;
-      color: inherit; }
+  .courier-notices .courier-notice[data-closable] .courier-close {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    top: 0;
+    width: 3rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: normal;
+    color: inherit; }
 
 .courier-notices .courier_type-primary {
   background: #039AD6;

@@ -76,7 +76,9 @@
 		}
 
 		&[data-closable] {
-			padding-right: 3rem;
+			.courier-content-wrapper {
+				padding-right: 3rem;
+			}
 
 			.courier-close {
 				position: absolute;
