@@ -7,6 +7,8 @@
  * 04. Breakpoints
  *
  **/
+/* Brand Colors */
+/* Notice Colors */
 @font-face {
   font-family: "courier";
   src: url("../assets/fonts/courier.eot?j1xoo0");
@@ -1501,11 +1503,11 @@ pre.courier-notice-type-css-class {
   .courier_notice_page_courier #wpcontent .color-darkgreen, #about-courier .color-darkgreen, #whats-new .color-darkgreen, #courier-settings .color-darkgreen {
     color: #4F8C7E; }
   .courier_notice_page_courier #wpcontent .nav-tab-wrapper a, #about-courier .nav-tab-wrapper a, #whats-new .nav-tab-wrapper a, #courier-settings .nav-tab-wrapper a {
-    color: #4F8C7E !important;
+    color: #01365e !important;
     border-radius: .25rem .25rem 0 0; }
     .courier_notice_page_courier #wpcontent .nav-tab-wrapper a.nav-tab-active, #about-courier .nav-tab-wrapper a.nav-tab-active, #whats-new .nav-tab-wrapper a.nav-tab-active, #courier-settings .nav-tab-wrapper a.nav-tab-active {
-      border-bottom: 1px solid transparent !important;
-      color: #94C169 !important;
+      border-bottom: none !important;
+      color: #00c1c6 !important;
       background-color: #f5f5f5; }
     .courier_notice_page_courier #wpcontent .nav-tab-wrapper a:first-child, #about-courier .nav-tab-wrapper a:first-child, #whats-new .nav-tab-wrapper a:first-child, #courier-settings .nav-tab-wrapper a:first-child {
       margin-left: 22px; }
@@ -1582,10 +1584,10 @@ pre.courier-notice-type-css-class {
       box-shadow: none !important;
       -webkit-box-shadow: none !important; }
   .courier_notice_page_courier #wpcontent .button-primary, #about-courier .button-primary, #whats-new .button-primary, #courier-settings .button-primary {
-    background-color: #94C169;
+    background-color: #00c1c6;
     color: white !important; }
     .courier_notice_page_courier #wpcontent .button-primary:hover, .courier_notice_page_courier #wpcontent .button-primary:focus, .courier_notice_page_courier #wpcontent .button-primary:active, #about-courier .button-primary:hover, #about-courier .button-primary:focus, #about-courier .button-primary:active, #whats-new .button-primary:hover, #whats-new .button-primary:focus, #whats-new .button-primary:active, #courier-settings .button-primary:hover, #courier-settings .button-primary:focus, #courier-settings .button-primary:active {
-      background-color: #94C169;
+      background-color: #01365e;
       color: #f5f5f5; }
   .courier_notice_page_courier #wpcontent .button.wp-color-result, #about-courier .button.wp-color-result, #whats-new .button.wp-color-result, #courier-settings .button.wp-color-result {
     margin-bottom: 0; }
@@ -1601,13 +1603,9 @@ pre.courier-notice-type-css-class {
   .courier_notice_page_courier #wpcontent .editing-buttons-container, #about-courier .editing-buttons-container, #whats-new .editing-buttons-container, #courier-settings .editing-buttons-container {
     text-align: center; }
   .courier_notice_page_courier #wpcontent .about.hero, #about-courier .about.hero, #whats-new .about.hero, #courier-settings .about.hero {
-    background-image: url("../img/courier-wp-admin-background.png");
-    background-position: right center;
-    background-size: cover; }
+    background-color: #00c1c6; }
   .courier_notice_page_courier #wpcontent .whatsnew.hero, #about-courier .whatsnew.hero, #whats-new .whatsnew.hero, #courier-settings .whatsnew.hero {
-    background-image: url("../img/courier-wp-admin-background.png");
-    background-position: right center;
-    background-size: cover; }
+    background-color: #00c1c6; }
   .courier_notice_page_courier #wpcontent .hero .hero-text, #about-courier .hero .hero-text, #whats-new .hero .hero-text, #courier-settings .hero .hero-text {
     padding: 3rem 5%;
     width: 70%; }

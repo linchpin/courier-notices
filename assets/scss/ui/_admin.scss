@@ -710,11 +710,11 @@ pre.courier-notice-type-css-class {
   // tabs
   .nav-tab-wrapper {
     a {
-      color: $darker-green !important;
+      color: $secondary-color !important;
       border-radius: .25rem .25rem 0 0;
       &.nav-tab-active {
-        border-bottom: 1px solid transparent !important;
-        color: $caribbean-green !important;
+        border-bottom: none !important;
+        color: $primary-color !important;
         background-color: $white-smoke;
       }
 
@@ -757,11 +757,11 @@ pre.courier-notice-type-css-class {
   }
 
 	.button-primary {
-		background-color: $caribbean-green;
+		background-color: $primary-color;
 		color: white !important;
 
 		&:hover, &:focus, &:active {
-			background-color: $green;
+			background-color: $secondary-color;
 			color: $white-smoke;
 		}
 	}
@@ -793,15 +793,11 @@ pre.courier-notice-type-css-class {
 
 // About courier
   .about.hero {
-    background-image: url('../img/courier-wp-admin-background.png');
-    background-position: right center;
-    background-size: cover;
+	  background-color: $primary-color
   }
 
   .whatsnew.hero {
-    background-image: url('../img/courier-wp-admin-background.png');
-    background-position: right center;
-    background-size: cover;
+	  background-color: $primary-color
   }
 
   .hero {

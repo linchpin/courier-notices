@@ -53,8 +53,8 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => 'rest_validate_request_arg',
 						),
-						'format'   => array(
-							'description'       => esc_html__( 'Set where the notices should display.', 'courier' ),
+						'format'    => array(
+							'description'       => esc_html__( 'Set the response, either html or json.', 'courier' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => 'rest_validate_request_arg',
@@ -143,26 +143,27 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 		);
 
 		$defaults     = apply_filters( 'courier_get_notices_default_settings', $defaults );
-		$args         = wp_parse_args( $request->get_params(), $defaults );
-		$number       = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
-		$number       = apply_filters( 'courier_override_notices_number', $number );
-		$results      = array();
-		$user_notices = courier_get_user_notices( $args );
+		$request_args = wp_parse_args( $request->get_params(), $defaults );
 
+		// Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
+		$number = min( $request_args['number'], 100 );
+		$number = apply_filters( 'courier_override_notices_number', $number );
+
+		$results      = array();
 		// Account for global notices.
 		$global_posts = array();
 
-		if ( true === $args['include_global'] ) {
+		if ( true === $request_args['include_global'] ) {
 			$global_posts = courier_get_global_notices(
 				array(
 					'ids_only'  => false,
-					'placement' => $args['placement'],
+					'placement' => $request_args['placement'],
 				)
 			);
 
 			// Exclude dismissed.
-			if ( ! $args['include_dismissed'] ) {
-				$global_dismissed = courier_get_global_dismissed_notices( $args['user_id'] );
+			if ( ! $request_args['include_dismissed'] ) {
+				$global_dismissed = courier_get_global_dismissed_notices( $request_args['user_id'] );
 
 				foreach ( $global_posts as $key => $global_post ) {
 					if ( ( is_object( $global_post ) && in_array( $global_post->ID, $global_dismissed, true ) ) || in_array( $global_post, $global_dismissed, true ) ) {
@@ -172,15 +173,15 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 			}
 		}
 
-		$post_list = array_merge( $user_notices, $global_posts );
+		$post_list = $global_posts; // array_merge( $user_notices, $global_posts );
 		$post_list = wp_list_pluck( $post_list, 'ID' );
 
 		// Prioritize Persistent Global Notices to the top by getting them separately and putting them at the front of the line.
-		if ( true === $args['prioritize_persistent_global'] ) {
+		if ( true === $request_args['prioritize_persistent_global'] ) {
 			$persistent_global = courier_get_persistent_global_notices(
 				array(
 					'ids_only'  => false,
-					'placement' => $args['placement'],
+					'placement' => $request_args['placement'],
 				)
 			);
 
@@ -188,7 +189,7 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 
 				$results = array_merge( $results, $persistent_global );
 
-				if ( false === $args['ids_only'] ) {
+				if ( false === $request_args['ids_only'] ) {
 					$difference = array_diff( $post_list, $persistent_global );
 				} else {
 					$difference = array_diff(
@@ -208,34 +209,41 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 
 		$final_notices = array();
 
-		if ( ! empty( $post_list ) ) {
-			$query_args = array(
-				'post_type'      => 'courier_notice',
-				'post_status'    => array(
-					'publish',
-				),
-				'posts_per_page' => $number,
-				'orderby'        => 'date',
-				'order'          => 'DESC',
-				'tax_query'      => array(),
-				'post__in'       => $post_list,
-			);
+		$query_args = array(
+			'post_type'      => 'courier_notice',
+			'post_status'    => array(
+				'publish',
+			),
+			'posts_per_page' => $number,
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+			'tax_query'      => array(),
+			'post__in'       => $post_list,
+		);
 
-			if ( true === $args['ids_only'] ) {
-				$query_args['fields'] = 'ids';
-			}
+		if ( true === $request_args['ids_only'] ) {
+		//	$query_args['fields'] = 'ids';
+		}
 
-			$query_args          = wp_parse_args( $args['query_args'], $query_args );
-			$final_notices_query = new \WP_Query( $query_args );
+		/**
+		 * Allow for the ability to override the query used to display notices
+		 * $query_args The arguments used for our notice post query
+		 * $args The request arguments from our ajax call
+		 *
+		 * @since 1.0
+		 */
+		$query_args          = apply_filters( 'courier_notices_display_notices_query', $query_args, $request_args );
+		$query_args          = wp_parse_args( $request_args['query_args'], $query_args );
 
-			if ( $final_notices_query->have_posts() ) {
-				$final_notices = $final_notices_query->posts;
-			}
+		$final_notices_query = new \WP_Query( $query_args );
+
+		if ( $final_notices_query->have_posts() ) {
+			$final_notices = $final_notices_query->posts;
 		}
 
 		$final_notices = array_merge( $results, $final_notices );
 
-		if ( 'html' === $args['format'] ) {
+		if ( 'html' === $request_args['format'] ) {
 			$notices = array();
 
 			foreach ( $final_notices as $courier_notice ) {

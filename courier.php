@@ -81,6 +81,8 @@ register_activation_hook( __FILE__, 'courier_activation' );
  * Setup Crons to purge notifications upon plugin activation.
  */
 function courier_activation() {
+	add_option( 'courier_activation', true );
+
 	// Create our cron events.
 	wp_schedule_event( current_time( 'timestamp' ), 'hourly', 'courier_purge' );
 	wp_schedule_event( current_time( 'timestamp' ), 'hourly', 'courier_expire' );
@@ -88,6 +90,8 @@ function courier_activation() {
 	if ( ! get_option( 'courier_flush_rewrite_rules' ) ) {
 		add_option( 'courier_flush_rewrite_rules', true );
 	}
+
+	do_action( 'courier_activate' );
 }
 
 register_deactivation_hook( __FILE__, 'courier_deactivation' );
@@ -101,6 +105,8 @@ register_deactivation_hook( __FILE__, 'courier_deactivation' );
 function courier_deactivation() {
 	wp_clear_scheduled_hook( 'courier_purge' );
 	wp_clear_scheduled_hook( 'courier_expire' );
+
+	do_action( 'courier_deactivate' );
 }
 
 add_action( 'init', 'courier_flush_rewrite_rules', 20 );

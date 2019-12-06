@@ -23,10 +23,27 @@ class Admin {
 		add_action( 'manage_courier_notice_posts_custom_column', array( $this, 'manage_posts_custom_column' ), 10, 2 );
 		add_filter( 'manage_courier_notice_posts_columns', array( $this, 'manage_posts_columns' ), 999 );
 
+		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ), 10, 1 );
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ) );
 
 		add_action( 'restrict_manage_posts', array( $this, 'filter_courier_notices' ), 10, 2 );
+	}
+
+	/**
+	 * Override the publish message to not show a link to the notice
+	 *
+	 * @since 1.0
+	 * @param array $messages Array of post type messages
+	 *
+	 * @return array Array of messages
+	 */
+	public function post_updated_messages( $messages ) {
+
+		$messages['courier_notice'][6] = esc_html__( 'Courier Notice Published.', 'courier-notice' );
+
+		return $messages;
 	}
 
 	/**
@@ -85,10 +102,6 @@ class Admin {
 			case 'courier-global':
 				if ( has_term( 'global', 'courier_scope', $post_id ) ) {
 					echo '<span class="dashicons dashicons-admin-site"></span>';
-				} else {
-					$user = get_userdata( $post->post_author );
-
-					echo '<span class="dashicons dashicons-admin-users"></span> ' . esc_html( $user->display_name );
 				}
 				break;
 			case 'courier-summary':

@@ -51,8 +51,13 @@ class General {
 	public static function register_actions() {
 		add_action( 'admin_menu', array( __CLASS__, 'add_admin_menu' ) );
 		add_action( 'admin_init', array( __CLASS__, 'settings_init' ) );
+		add_action( 'admin_notices', array( __CLASS__, 'settings_errors' ) );
 
 		add_filter( 'plugin_action_links', array( __CLASS__, 'add_settings_link' ), 10, 5 );
+	}
+
+	public static function settings_errors() {
+		settings_errors();
 	}
 
 	/**
@@ -61,8 +66,38 @@ class General {
 	 * @since 1.0
 	 */
 	public static function add_admin_menu() {
-		add_options_page( COURIER_PLUGIN_NAME, COURIER_PLUGIN_NAME, 'manage_options', self::$settings_page, array( __CLASS__, 'add_settings_page' ) );
+	//	add_submenu_page( 'options-general.php', COURIER_PLUGIN_NAME . ' pro', COURIER_PLUGIN_NAME . ' pro', 'manage_options', 'courier', array( __CLASS__, 'add_settings_page' ) );
+
+		/**
+		 * Override our default settings menu item with our custom menu item.
+		 * Kind of a hacky work around. @todo investigate a cleaner solution.
+		 */
+	//	global $submenu;
+
+	//	$courier_menu = self::override_settings_link( $submenu['options-general.php'], 'courier' );
+	//	$submenu['options-general.php'][ $courier_menu ][2] = 'edit.php?post_type=courier_notice&page=' . esc_attr( self::$settings_page );
+
 		add_submenu_page( 'edit.php?post_type=courier_notice', COURIER_PLUGIN_NAME, esc_html__( 'Settings', 'courier' ), 'manage_options', self::$settings_page, array( __CLASS__, 'add_settings_page' ) );
+	}
+
+	/**
+	 * @param $options
+	 * @param $search_key
+	 *
+	 * @return bool|int|string
+	 */
+	private static function override_settings_link( $options = array(), $search_key ) {
+
+		if ( ! empty( $options ) ) {
+			foreach ( $options as $key => $option ) {
+				if ( array_search( $search_key, $option, true ) !== false ) {
+					// if value not found in array.....
+					return $key;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -328,10 +363,6 @@ class General {
 			),
 			'design'    => array(
 				'label'    => esc_html__( 'Notice Types / Design', 'courier' ),
-				'sub_tabs' => array(),
-			),
-			'addons'    => array(
-				'label'    => esc_html__( 'Add Ons', 'courier' ),
 				'sub_tabs' => array(),
 			),
 			'about'     => array(
