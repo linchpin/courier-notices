@@ -51,8 +51,13 @@ class General {
 	public static function register_actions() {
 		add_action( 'admin_menu', array( __CLASS__, 'add_admin_menu' ) );
 		add_action( 'admin_init', array( __CLASS__, 'settings_init' ) );
+		add_action( 'admin_notices', array( __CLASS__, 'settings_errors' ) );
 
 		add_filter( 'plugin_action_links', array( __CLASS__, 'add_settings_link' ), 10, 5 );
+	}
+
+	public static function settings_errors() {
+		settings_errors();
 	}
 
 	/**
