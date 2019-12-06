@@ -281,7 +281,6 @@ class Type_List_Table extends WP_List_Table {
 					sprintf( esc_html__( '%1$s Color', 'courier' ), $type->name )
 				);
 
-
 				$notice_view = new View();
 				$notice_view->assign( 'notice_id', $type->term_id );
 				$notice_view->assign( 'icon', $icon_class );

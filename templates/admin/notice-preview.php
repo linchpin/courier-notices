@@ -1,4 +1,47 @@
 <?php
+// Color
+$color = get_term_meta( $notice_id, '_courier_type_color', true );
+
+if ( empty( $color ) ) {
+	$color = '#cccccc';
+}
+
+// Notice Text Color
+$text_color = get_term_meta( $notice_id, '_courier_type_text_color', true );
+
+if ( empty( $text_color ) ) {
+	$text_color = '#000000';
+}
+
+// Notice Background Color
+$bg_color = get_term_meta( $notice_id, '_courier_type_bg_color', true );
+
+if ( empty( $bg_color ) ) {
+	$bg_color = '#dddddd';
+}
+
+// Notice Icon Color
+$icon_color = get_term_meta( $notice_id, '_courier_type_icon_color', true );
+
+if ( empty( $icon_color ) ) {
+	$icon_color = '#ffffff';
+}
+
+?>
+<style id="notice-preview-<?php echo esc_attr( $notice_id ); ?>">
+	[data-courier-notice-id="<?php echo esc_attr( $notice_id ); ?>"] .courier-content-wrapper {
+		background: <?php echo esc_attr( $bg_color ); ?>;
+		color: <?php echo esc_attr( $text_color ); ?>;
+	}
+	[data-courier-notice-id="<?php echo esc_attr( $notice_id ); ?>"] .courier-icon {
+		background: <?php echo esc_attr( $color ); ?>;;
+	}
+
+	[data-courier-notice-id="<?php echo esc_attr( $notice_id ); ?>"] .courier-icon:before {
+		color: <?php echo esc_attr( $icon_color ); ?>;
+	}
+</style>
+<?php
 	use Courier\Core\View;
 
 	$notice_view = new View();
@@ -11,12 +54,6 @@
 ?>
 
 <?php
-	// Color
-	$color = get_term_meta( $notice_id, '_courier_type_color', true );
-
-	if ( empty( $color ) ) {
-		$color = '#cccccc';
-	}
 
 	$color_input = sprintf(
 		'<span class="color-editor"><label class="screen-reader-text" for="courier_type_%2$s_color">%3$s</label><input type="text" name="courier_type_%2$s_color" id="courier_type_%2$s_color" class="courier-type-color courier-notice-type-color" value="%1$s" /></span>',
@@ -26,13 +63,6 @@
 		sprintf( esc_html__( '%1$s Color', 'courier' ), $type->name )
 	);
 
-	// Notice Text Color
-	$text_color = get_term_meta( $notice_id, '_courier_type_text_color', true );
-
-	if ( empty( $text_color ) ) {
-		$text_color = '#000000';
-	}
-
 	$text_input = sprintf(
 		'<span class="color-editor"><label class="screen-reader-text" for="courier_type_%2$s_text_color">%3$s</label><input type="text" name="courier_type_%2$s_text_color" id="courier_type_%2$s_text_color" class="courier-type-color courier-notice-type-text-color" value="%1$s" /></span>',
 		esc_attr( $text_color ),
@@ -41,13 +71,6 @@
 		sprintf( esc_html__( '%1$s Text Color', 'courier' ), $type->name )
 	);
 
-	// Notice Icon Color
-	$icon_color = get_term_meta( $notice_id, '_courier_type_icon_color', true );
-
-	if ( empty( $icon_color ) ) {
-		$icon_color = '#ffffff';
-	}
-
 	$icon_color_input = sprintf(
 		'<span class="color-editor"><label class="screen-reader-text" for="courier_type_%2$s_color">%3$s</label><input type="text" name="courier_type_%2$s_color" id="courier_type_%2$s_color" class="courier-type-color courier-notice-type-icon-color" value="%1$s" /></span>',
 		esc_attr( $icon_color ),
@@ -55,13 +78,6 @@
 		// translators: %1$s Title of the term.
 		sprintf( esc_html__( '%1$s Color', 'courier' ), $type->name )
 	);
-
-	// Notice Background Color
-	$bg_color = get_term_meta( $notice_id, '_courier_type_bg_color', true );
-
-	if ( empty( $bg_color ) ) {
-		$bg_color = '#dddddd';
-	}
 
 	$bg_color_input = sprintf(
 		'<span class="color-editor"><label class="screen-reader-text" for="courier_type_%2$s_color">%3$s</label><input type="text" name="courier_type_%2$s_color" id="courier_type_%2$s_color" class="courier-type-color courier-notice-type-bg-color" value="%1$s" /></span>',
