@@ -376,7 +376,7 @@ class Type_List_Table extends WP_List_Table {
 				get_edit_term_link( $item['ID'], 'courier_type' ),
 				esc_html__( 'Edit', 'courier' ),
 				esc_attr( $item['ID'] )
-			),
+			)
 		];
 
 		return $edit_link . $this->row_actions( $actions );
@@ -390,12 +390,22 @@ class Type_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function column_notice_delete( $item ) {
-		$edit_link = sprintf(
-			'<a class="courier-notices-type-delete" href="#" data-term-id="%1$s"><span class="dashicons dashicons-trash"></span></a></strong>',
-			esc_attr( $item['ID'] )
+		$action_links = array(
+			sprintf(
+				'<a class="courier-notices-type-delete" href="#" data-term-id="%1$s"><span class="dashicons dashicons-trash"></span></a></strong>',
+				esc_attr( $item['ID'] )
+			),
+			sprintf(
+				'<button class="button button-editing button-primary save-button" title="%1$s" aria-label="%1$s"><span class="dashicons dashicons-yes"></span></button>',
+				esc_html( 'Save', 'courier' )
+			),
+			sprintf(
+				'<button class="button button-editing button-secondary close-button" title="%1$s" aria-label="%1$s"><span class="dashicons dashicons-no"></span></button>',
+				esc_html( 'Cancel', 'courier' )
+			)
 		);
 
-		return $edit_link;
+		return implode( ' ', $action_links );
 	}
 
 	/**

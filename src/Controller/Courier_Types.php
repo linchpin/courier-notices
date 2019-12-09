@@ -219,7 +219,7 @@ class Courier_Types {
 		if ( ! is_wp_error( $type ) ) {
 			$this->insert_term_meta( $type, $notice_type_class, $notice_type_color, $notice_type_text_color, $notice_type_icon_color, $notice_type_bg_color );
 		} else {
-			wp_die( esc_html( $type ) );
+			wp_die( print_r( $type, true ) );
 		}
 
 		$data = array(

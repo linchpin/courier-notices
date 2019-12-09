@@ -686,16 +686,17 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.courier-icon:before {
-  color: #82878c;
-  speak: none;
-  display: inline-block;
-  padding: 0 10px 0 0;
-  position: relative;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-decoration: none !important;
-  vertical-align: top; }
+.courier-icon {
+  color: #82878c; }
+  .courier-icon:before {
+    speak: none;
+    display: inline-block;
+    padding: 0 10px 0 0;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: none !important;
+    vertical-align: top; }
 
 body.courier_notice_page_courier .form-table tbody tr th[scope="row"] {
   width: 200px; }
@@ -1649,6 +1650,12 @@ table.courier_notice_page_courier .form-table th {
 
 .column-notice_delete {
   text-align: center; }
+  .column-notice_delete .button-editing[aria-label="Save"], .column-notice_delete .button-editing[aria-label="Cancel"] {
+    display: none; }
+  .courier-notice-editing .column-notice_delete .button-editing[aria-label="Save"], .courier-notice-editing .column-notice_delete .button-editing[aria-label="Cancel"] {
+    display: inline-block; }
+  .courier-notice-editing .column-notice_delete .courier-notices-type-delete {
+    display: none; }
 
 pre.courier-notice-type-css-class {
   display: inline-block;

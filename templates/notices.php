@@ -10,9 +10,19 @@
 	foreach ( $notices as $post ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		setup_postdata( $post );
 
+		$post_meta = get_post_meta( get_the_ID() );
+
+		$post_classes = 'courier-notice courier_notice callout alert alert-box';
+
+		$dismissable = get_post_meta( get_the_ID(), '_courier_dismissible', true );
+
+		if ( $dismissable ) {
+			$post_classes .= ' courier-notice-dismissable';
+		}
+
 		$notice = new \Courier\Core\View();
 		$notice->assign( 'notice_id', get_the_ID() );
-		$notice->assign( 'post_class', get_post_class( 'courier-notice courier_notice callout alert alert-box' ) );
+		$notice->assign( 'post_class', get_post_class( $post_classes, get_the_ID() ) );
 		$notice->assign( 'dismissable', get_post_meta( get_the_ID(), '_courier_dismissible', true ) );
 		$notice->assign( 'post_content', apply_filters( 'the_content', get_the_content() ) );
 		$notice->render( 'notice' );

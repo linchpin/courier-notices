@@ -678,6 +678,26 @@ table.courier_notice_page_courier .form-table th {
 
 .column-notice_delete {
   text-align:center;
+
+	.button-editing {
+		&[aria-label="Save"],
+		&[aria-label="Cancel"] {
+			display: none;
+		}
+	}
+
+	.courier-notice-editing & {
+		.button-editing {
+			&[aria-label="Save"],
+			&[aria-label="Cancel"] {
+				display: inline-block;
+			}
+		}
+
+		.courier-notices-type-delete {
+			display: none;
+		}
+	}
 }
 
 pre.courier-notice-type-css-class {

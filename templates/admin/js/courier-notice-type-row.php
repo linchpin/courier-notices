@@ -66,3 +66,11 @@
 		</td>
 	</tr>
 </script>
+<script id="courier-save-cancel-template" type="text/template">
+	<button class="button button-editing button-primary save-button courier-help" title="<?php esc_html_e( 'Save', 'courier' ); ?>" aria-label="<?php esc_html_e( 'Save', 'courier' ); ?>">
+		<span class="dashicons dashicons-yes"></span>
+	</button>
+	<button class="button button-editing button-secondary close-button courier-help" title="<?php esc_html_e( 'Cancel', 'courier' ); ?>" aria-label="<?php esc_html_e( 'Cancel', 'courier' ); ?>">
+		<span class="dashicons dashicons-no"></span>
+	</button>
+</script>

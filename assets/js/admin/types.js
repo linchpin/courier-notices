@@ -90,9 +90,9 @@ export default function types() {
 
 		$('.notice-options', $parentRow).show();
 
-		/*
 		$parentRow.addClass('courier-notice-editing');
 
+		/*
 		courierNoticeTypeCurrent = $parentRow.clone(true); // Store our row for usage later, if some on decides not to edit.
 
 		let options = {
@@ -105,8 +105,10 @@ export default function types() {
 			'notice_type_id':$(this).data('term-id')
 		};
 
+		let options = {};
+
 		displayEditTemplate(inputTemplate, options);
-		*/
+		 */
 	}
 
 	/**
@@ -122,6 +124,9 @@ export default function types() {
 		var $target = $('#courier-notice-type-edit')
 			.replaceWith( courierNoticeTypeCurrent );
 
+		var $parentRow = $(this).closest('tr');
+
+		$('.notice-options', $parentRow).hide();
 		$('.courier-notice-editing').removeClass('courier-notice-editing');
 	}
 
@@ -353,23 +358,27 @@ export default function types() {
 
 		event.preventDefault();
 		var $this   = $(this),
-			$target = $('#courier-notice-type-edit');
+			$target = $(this).closest('tr');
 
 		$this.addClass('disabled').attr('disabled', 'disabled');
+
+		console.log(parseInt( $('[data-courier-notice-id]', $target).data('courier-notice-id') ));
 
 		$.post(ajaxurl, {
 			action: 'courier_notices_update_type',
 			'page': 'courier',
 			'courier_notices_update_type': courier_admin_data.update_nonce,
-			'courier_notice_type_edit_title': $('#courier-notice-type-edit-title').val(),
-			'courier_notice_type_edit_css_class': $('#courier-notice-type-eddit-css-class').val(),
-			'courier_notice_type_edit_color': $('#courier-notice-type-edit-color').val(),
-			'courier_notice_type_edit_text_color': $('#courier-notice-type-edit-text-color').val(),
-			'courier_notice_type_edit_icon_color': $('#courier-notice-type-edit-icon-color').val(),
-			'courier_notice_type_edit_bg_color': $('#courier-notice-type-edit-bg-color').val(),
-			'courier_notice_type_id': parseInt( $target.data('term-id') ),
+			'courier_notice_type_edit_title': $('.courier-notice-type-edit-title', $target).val(),
+			'courier_notice_type_edit_css_class': $('.courier-notice-type-eddit-css-class', $target).val(),
+			'courier_notice_type_edit_color': $('.courier-notice-type-edit-color', $target).val(),
+			'courier_notice_type_edit_text_color': $('.courier-notice-type-edit-text-color', $target).val(),
+			'courier_notice_type_edit_icon_color': $('.courier-notice-type-edit-icon-color', $target).val(),
+			'courier_notice_type_edit_bg_color': $('.courier-notice-type-edit-bg-color', $target).val(),
+			'courier_notice_type_id': parseInt( $('[data-courier-notice-id]', $target).data('courier-notice-id') ),
 			contentType: "application/json"
 		}).success(function (response) {
+
+			console.log(response);
 
 			response = JSON.parse(response);
 
