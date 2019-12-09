@@ -363,11 +363,20 @@ class Type_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function column_title( $item ) {
+		$icon = get_term_meta( $item['ID'], '_courier_type_icon', true );
 
 		$edit_link = sprintf(
 			'<strong class="courier-notice-type-title" data-title="%2$s">%1$s</strong>',
 			esc_html( $item['title'] ),
 			esc_attr( $item['title'] )
+		);
+
+		$option_fields = sprintf(
+			'<div class="notice-options hide"><div class="notice-option"><strong class="notice-option-title">%1$s</strong><br /><input type="text" class="courier-notice-type-edit-title" name="courier_notice_type_edit_title" value="%2$s"></div><div class="notice-option"><strong class="notice-option-title">%3$s</strong><br /><input type="text" class="courier-notice-type-edit-css-class" name="courier_notice_type_edit_css_class" value="%4$s"></div></div>',
+			esc_html( 'Title', 'courier' ),
+			$item['title'],
+			esc_html( 'Icon Class', 'courier' ),
+			esc_attr($icon)
 		);
 
 		$actions = [
@@ -379,7 +388,7 @@ class Type_List_Table extends WP_List_Table {
 			)
 		];
 
-		return $edit_link . $this->row_actions( $actions );
+		return $edit_link . $option_fields . $this->row_actions( $actions );
 	}
 
 	/**

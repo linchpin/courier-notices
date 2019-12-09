@@ -75,6 +75,22 @@
 			margin-bottom: 0;
 		}
 
+		.courier-icon {
+			text-align: center;
+			width: 2.5rem;
+
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+
+			&:before {
+				padding: 0;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+		}
+
 		&[data-closable] {
 			.courier-content-wrapper {
 				padding-right: 3rem;

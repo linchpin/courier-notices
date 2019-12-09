@@ -53,7 +53,7 @@
     position: relative;
     margin: 0 auto;
     max-width: 100%;
-    padding: 0.75rem 1rem; }
+    padding: 0.75rem 1rem 0.75rem 3rem; }
     .courier-notices .courier-notice .courier-content-wrapper:before, .courier-notices .courier-notice .courier-content-wrapper:after {
       position: absolute;
       left: 0;
@@ -78,6 +78,17 @@
     margin-top: 0; }
   .courier-notices .courier-notice p:last-of-type {
     margin-bottom: 0; }
+  .courier-notices .courier-notice .courier-icon {
+    text-align: center;
+    width: 2.5rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0; }
+    .courier-notices .courier-notice .courier-icon:before {
+      padding: 0;
+      top: 50%;
+      transform: translateY(-50%); }
   .courier-notices .courier-notice[data-closable] .courier-content-wrapper {
     padding-right: 3rem; }
   .courier-notices .courier-notice[data-closable] .courier-close {

@@ -1398,8 +1398,14 @@ function types() {
 
   function editCourierNoticeType(event) {
     event.preventDefault();
+
+    if ($('#the-list .courier-notice-editing').length) {
+      $('#the-list .courier-notice-editing .button-editing.close-button').trigger('click');
+    }
+
     var $parentRow = $(this).closest('tr');
     $('.notice-options', $parentRow).show();
+    $('.courier-notice-type-title', $parentRow).hide();
     $parentRow.addClass('courier-notice-editing');
     /*
     courierNoticeTypeCurrent = $parentRow.clone(true); // Store our row for usage later, if some on decides not to edit.
@@ -1430,6 +1436,7 @@ function types() {
     var $target = $('#courier-notice-type-edit').replaceWith(courierNoticeTypeCurrent);
     var $parentRow = $(this).closest('tr');
     $('.notice-options', $parentRow).hide();
+    $('.courier-notice-type-title', $parentRow).show();
     $('.courier-notice-editing').removeClass('courier-notice-editing');
   }
   /**

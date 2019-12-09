@@ -3,24 +3,40 @@
 		<th></th>
 		<td></td>
 		<td>
-			<label for="courier-notice-type-new-title"><?php esc_html_e( 'Notice Type Title', 'courier' ); ?></label>
-			<input type="text" id="courier-notice-type-new-title" name="courier_notice_type_new_title">
+			<div class="notice-options">
+				<div class="notice-option">
+					<label for="courier-notice-type-new-title"><?php esc_html_e( 'Notice Type Title', 'courier' ); ?></label>
+					<input type="text" id="courier-notice-type-new-title" name="courier_notice_type_new_title">
+				</div>
+
+				<div class="notice-option">
+					<label for="courier-notice-type-new-css-class"><strong class="notice-option-title"><?php esc_html_e( 'Icon Class', 'courier' ); ?></strong></label><br />
+					<input type="text" id="courier-notice-type-new-css-class" name="courier_notice_type_new_css_class">
+				</div>
+			</div>
 		</td>
 		<td>
-			<label for="courier-notice-type-new-css-class"><?php esc_html_e( 'Notice Type CSS Class', 'courier' ); ?></label>
-			<input type="text" id="courier-notice-type-new-css-class" name="courier_notice_type_new_css_class">
-		</td>
-		<td>
-			<input type="text" id="courier-notice-type-new-color" name="courier_notice_type_new_color" class="courier-type-color" value="<?php echo esc_attr( $notice_color ); ?>">
-		</td>
-		<td>
-			<input type="text" id="courier-notice-type-new-text-color" name="courier_notice_type_new_text_color" class="courier-type-color" value="<?php echo esc_attr( $text_color ); ?>">
-		</td>
-		<td>
-			<input type="text" id="courier-notice-type-new-icon-color" name="courier_notice_type_new_icon_color" class="courier-type-color" value="<?php echo esc_attr( $notice_icon_color ); ?>">
-		</td>
-		<td>
-			<input type="text" id="courier-notice-type-new-bg-color" name="courier_notice_type_new_bg_color" class="courier-type-color" value="<?php echo esc_attr( $notice_bg_color ); ?>">
+			<div class="notice-options">
+				<div class="notice-option">
+					<label for="courier-notice-type-new-color"><strong class="notice-option-title">Accent Color</strong></label><br />
+					<input type="text" id="courier-notice-type-new-color" name="courier_notice_type_new_color" class="courier-type-color" value="<?php echo esc_attr( $notice_color ); ?>">
+				</div>
+
+				<div class="notice-option">
+					<label for="courier-notice-type-new-icon-color"><strong class="notice-option-title">Icon Color</strong></label><br />
+					<input type="text" id="courier-notice-type-new-icon-color" name="courier_notice_type_new_icon_color" class="courier-type-color" value="<?php echo esc_attr( $notice_icon_color ); ?>">
+				</div>
+
+				<div class="notice-option">
+					<label for="courier-notice-type-new-text-color"><strong class="notice-option-title">Text Color</strong></label><br />
+					<input type="text" id="courier-notice-type-new-text-color" name="courier_notice_type_new_text_color" class="courier-type-color" value="<?php echo esc_attr( $text_color ); ?>">
+				</div>
+
+				<div class="notice-option">
+					<label for="courier-notice-type-new-bg-color"><strong class="notice-option-title">Background Color</strong></label><br />
+					<input type="text" id="courier-notice-type-new-bg-color" name="courier_notice_type_new_bg_color" class="courier-type-color" value="<?php echo esc_attr( $notice_bg_color ); ?>">
+				</div>
+			</div>
 		</td>
 		<td class="editing-buttons-container">
 			<button class="button button-editing button-primary save-button" aria-label="<?php esc_html_e( 'Save', 'courier' ); ?>">
