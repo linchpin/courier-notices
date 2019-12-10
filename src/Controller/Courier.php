@@ -7,6 +7,7 @@
 namespace Courier\Controller;
 
 use Courier\Controller\Admin\Fields\Fields;
+use Courier\Core\View;
 
 /**
  * Courier Class
@@ -215,22 +216,23 @@ class Courier {
 		global $post;
 
 		wp_nonce_field( '_courier_info_nonce', '_courier_info_noncename' );
-		?>
+?>
 		<div class="misc-pub-section courier-dismissable">
 			<span class="dashicons dashicons-no-alt wp-media-buttons-icon"></span>&nbsp;
 			<label for="courier_dismissible"><?php esc_html_e( 'Dismissible Notice:', 'courier' ); ?></label>&nbsp;
-			<input type="checkbox" name="courier_dismissible" id="courier_dismissible" value="1" <?php checked( get_post_meta( $post->ID, '_courier_dismissible', true ) ); ?> />
-			<a href="#" class="courier-info-icon courier-help" title="<?php esc_html_e( 'Allow the notice to be dismissed by users', 'courier' ); ?>">?</a>
-		</div>
-		<div id="courier-shortcode-container" class="misc-pub-section">
-			<div class="copy-text" data-copy="courier-shortcode">
-				<label for="courier-shortcode" aria-hidden="true" class="screen-reader-text"><?php esc_html_e( 'Courier Shortcode', 'courier' ); ?></label>
-				<textarea readonly id="courier-shortcode" class="widefat">[courier_notice id="<?php echo esc_attr( $post->ID ); ?>"]</textarea>
-				<span class="copy-text dashicons dashicons-clipboard courier-help" data-copy="courier-shortcode" title="<?php esc_html_e( 'Copy Courier Shortcode', 'courier' ); ?>"></span>
-			</div>
-			<span class="copy-link-indicator" style="display: none;"></span>
+			<input type="checkbox" name="courier_dismissible" id="courier_dismissible" value="1" <?php checked( get_post_meta( $post_id, '_courier_dismissible', true ) ); ?> />
+			<a href="#" class="courier-info-icon courier-help" title="<?php esc_html_e( 'Allow this notice to be dismissed by users', 'courier' ); ?>">?</a>
 		</div>
 		<?php
+
+		$copy_shortcode_info = new View();
+		$copy_shortcode_info->assign( 'type', 'info' );
+		$copy_shortcode_info->assign( 'message', __( 'Copy this notice <strong>shortcode</strong> to display in your content or in a widget!', 'courier' ) );
+		$copy_shortcode_info->render( 'admin/notifications' );
+
+		$copy_shortcode = new View();
+		$copy_shortcode->assign( 'post_id', $post->ID );
+		$copy_shortcode->render( 'admin/copy-shortcode' );
 	}
 
 	/**

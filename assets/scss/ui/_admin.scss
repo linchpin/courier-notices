@@ -1295,3 +1295,11 @@ pre.courier-notice-type-css-class {
     color: $primary;
   }
 }
+
+.courier-admin-notice {
+  border: 2px solid #f3f3f3;
+  background: #f7f7f7;
+  border-radius: 5px;
+  box-shadow: none;
+  margin: 0 0 5px 0;
+}
