@@ -363,11 +363,20 @@ class Type_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function column_title( $item ) {
+		$icon = get_term_meta( $item['ID'], '_courier_type_icon', true );
 
 		$edit_link = sprintf(
 			'<strong class="courier-notice-type-title" data-title="%2$s">%1$s</strong>',
 			esc_html( $item['title'] ),
 			esc_attr( $item['title'] )
+		);
+
+		$option_fields = sprintf(
+			'<div class="notice-options hide"><div class="notice-option"><strong class="notice-option-title">%1$s</strong><br /><input type="text" class="courier-notice-type-edit-title" name="courier_notice_type_edit_title" value="%2$s"></div><div class="notice-option"><strong class="notice-option-title">%3$s</strong><br /><input type="text" class="courier-notice-type-edit-css-class" name="courier_notice_type_edit_css_class" value="%4$s"></div></div>',
+			esc_html( 'Title', 'courier' ),
+			$item['title'],
+			esc_html( 'Icon Class', 'courier' ),
+			esc_attr($icon)
 		);
 
 		$actions = [
@@ -376,10 +385,10 @@ class Type_List_Table extends WP_List_Table {
 				get_edit_term_link( $item['ID'], 'courier_type' ),
 				esc_html__( 'Edit', 'courier' ),
 				esc_attr( $item['ID'] )
-			),
+			)
 		];
 
-		return $edit_link . $this->row_actions( $actions );
+		return $edit_link . $option_fields . $this->row_actions( $actions );
 	}
 
 	/**
@@ -390,12 +399,22 @@ class Type_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function column_notice_delete( $item ) {
-		$edit_link = sprintf(
-			'<a class="courier-notices-type-delete" href="#" data-term-id="%1$s"><span class="dashicons dashicons-trash"></span></a></strong>',
-			esc_attr( $item['ID'] )
+		$action_links = array(
+			sprintf(
+				'<a class="courier-notices-type-delete" href="#" data-term-id="%1$s"><span class="dashicons dashicons-trash"></span></a></strong>',
+				esc_attr( $item['ID'] )
+			),
+			sprintf(
+				'<button class="button button-editing button-primary save-button" title="%1$s" aria-label="%1$s"><span class="dashicons dashicons-yes"></span></button>',
+				esc_html( 'Save', 'courier' )
+			),
+			sprintf(
+				'<button class="button button-editing button-secondary close-button" title="%1$s" aria-label="%1$s"><span class="dashicons dashicons-no"></span></button>',
+				esc_html( 'Cancel', 'courier' )
+			)
 		);
 
-		return $edit_link;
+		return implode( ' ', $action_links );
 	}
 
 	/**

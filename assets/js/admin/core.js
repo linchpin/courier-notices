@@ -51,6 +51,10 @@ export default function core() {
             });
 
         $('.courier-help').tooltip();
+
+        $('[data-equalizer]').each(function () {
+        	$(this).equalize();
+		} );
     }
 
     /**
@@ -162,3 +166,14 @@ export default function core() {
         }
     }
 }
+
+$.fn.equalize = function() {
+	var equalize_items = $('[data-equalizer-watch]', this);
+	var equalize_height = 0;
+
+	equalize_items.each(function () {
+		equalize_height = $(this).height() > equalize_height ? $(this).height() : equalize_height;
+	} ).height(equalize_height);
+
+	return this;
+};

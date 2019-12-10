@@ -1190,6 +1190,9 @@ function core() {
       $('#courier-shortcode').select();
     });
     $('.courier-help').tooltip();
+    $('[data-equalizer]').each(function () {
+      $(this).equalize();
+    });
   }
   /**
    * When the page loads, push our custom post status into the post status select.
@@ -1297,6 +1300,15 @@ function core() {
     }
   }
 }
+
+$.fn.equalize = function () {
+  var equalize_items = $('[data-equalizer-watch]', this);
+  var equalize_height = 0;
+  equalize_items.each(function () {
+    equalize_height = $(this).height() > equalize_height ? $(this).height() : equalize_height;
+  }).height(equalize_height);
+  return this;
+};
 
 /***/ }),
 
@@ -1449,11 +1461,17 @@ function types() {
 
   function editCourierNoticeType(event) {
     event.preventDefault();
+
+    if ($('#the-list .courier-notice-editing').length) {
+      $('#the-list .courier-notice-editing .button-editing.close-button').trigger('click');
+    }
+
     var $parentRow = $(this).closest('tr');
     $('.notice-options', $parentRow).show();
-    /*
+    $('.courier-notice-type-title', $parentRow).hide();
     $parentRow.addClass('courier-notice-editing');
-    	courierNoticeTypeCurrent = $parentRow.clone(true); // Store our row for usage later, if some on decides not to edit.
+    /*
+    courierNoticeTypeCurrent = $parentRow.clone(true); // Store our row for usage later, if some on decides not to edit.
     	let options = {
     	'notice_type_title': $parentRow.find('.courier-notice-type-title').data('title'),
     	'notice_type_css_class': $parentRow.find('.courier-notice-type-css-class').data('css-class'),
@@ -1463,8 +1481,9 @@ function types() {
     	'notice_type_bg_color': $parentRow.find('.courier-notice-type-bg-color').val(),
     	'notice_type_id':$(this).data('term-id')
     };
+    	let options = {};
     	displayEditTemplate(inputTemplate, options);
-    */
+     */
   }
   /**
    * Cancel editing an existing Courier Notice Type.
@@ -1478,7 +1497,16 @@ function types() {
   function cancelEditCourierNoticeType(event) {
     event.preventDefault();
     var $target = $('#courier-notice-type-edit').replaceWith(courierNoticeTypeCurrent);
+    var $parentRow = $(this).closest('tr');
+    $('.courier-icon', $parentRow).removeAttr('style');
+    $('.courier-content-wrapper', $parentRow).removeAttr('style');
+    $('.notice-options', $parentRow).hide();
+    $('.courier-notice-type-title', $parentRow).show();
     $('.courier-notice-editing').removeClass('courier-notice-editing');
+    $parentRow.find('.courier-type-color').each(function () {
+      $(this).val($(this).data('default-color'));
+    });
+    $parentRow.find('.courier-type-color').trigger('change');
   }
   /**
    * Display the edit template.
@@ -1611,7 +1639,33 @@ function types() {
 
 
   function setupTypeEditing() {
-    $('.courier-type-color').wpColorPicker();
+    $('.courier-type-color').wpColorPicker({
+      change: function change(event, ui) {
+        var $target = $(this).closest('.notice_preview'),
+            notice_ui = $(this).closest('.notice-option').data('notice-option-color');
+        setTimeout(function () {
+          var color_value = event.target.value;
+
+          switch (notice_ui) {
+            case 'accent':
+              $('.courier-icon', $target).css('background', color_value);
+              break;
+
+            case 'icon':
+              $('.courier-icon', $target).css('color', color_value);
+              break;
+
+            case 'text':
+              $('.courier-content-wrapper', $target).css('color', color_value);
+              break;
+
+            case 'bg':
+              $('.courier-content-wrapper', $target).css('background', color_value);
+              break;
+          }
+        }, 1);
+      }
+    });
   }
   /**
    * Render our template including our properties.
@@ -1685,19 +1739,19 @@ function types() {
   function updateCourierNoticeType(event) {
     event.preventDefault();
     var $this = $(this),
-        $target = $('#courier-notice-type-edit');
+        $target = $(this).closest('tr');
     $this.addClass('disabled').attr('disabled', 'disabled');
     $.post(ajaxurl, {
       action: 'courier_notices_update_type',
       'page': 'courier',
       'courier_notices_update_type': courier_admin_data.update_nonce,
-      'courier_notice_type_edit_title': $('#courier-notice-type-edit-title').val(),
-      'courier_notice_type_edit_css_class': $('#courier-notice-type-eddit-css-class').val(),
-      'courier_notice_type_edit_color': $('#courier-notice-type-edit-color').val(),
-      'courier_notice_type_edit_text_color': $('#courier-notice-type-edit-text-color').val(),
-      'courier_notice_type_edit_icon_color': $('#courier-notice-type-edit-icon-color').val(),
-      'courier_notice_type_edit_bg_color': $('#courier-notice-type-edit-bg-color').val(),
-      'courier_notice_type_id': parseInt($target.data('term-id')),
+      'courier_notice_type_edit_title': $('.courier-notice-type-edit-title', $target).val(),
+      'courier_notice_type_edit_css_class': $('.courier-notice-type-eddit-css-class', $target).val(),
+      'courier_notice_type_edit_color': $('.courier-notice-type-edit-color', $target).val(),
+      'courier_notice_type_edit_text_color': $('.courier-notice-type-edit-text-color', $target).val(),
+      'courier_notice_type_edit_icon_color': $('.courier-notice-type-edit-icon-color', $target).val(),
+      'courier_notice_type_edit_bg_color': $('.courier-notice-type-edit-bg-color', $target).val(),
+      'courier_notice_type_id': parseInt($('[data-courier-notice-id]', $target).data('courier-notice-id')),
       contentType: "application/json"
     }).success(function (response) {
       response = JSON.parse(response);
@@ -1828,7 +1882,7 @@ module.exports = __webpack_amd_options__;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/aware/vvv/www/couriier/public_html/wp-content/plugins/courier/assets/js/courier-admin.js */"./assets/js/courier-admin.js");
+module.exports = __webpack_require__(/*! /Users/maxwellmorgan/vvv-local/vagrant-local/www/courier/public_html/wp-content/plugins/courier/assets/js/courier-admin.js */"./assets/js/courier-admin.js");
 
 
 /***/ }),

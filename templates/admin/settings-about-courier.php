@@ -41,7 +41,7 @@ use \Courier\Helper\Utils as Utils;
 				</div>
 			</div>
 
-			<div class="wrapper help-row table">
+			<div class="wrapper courier-row table">
 				<div class="courier-columns-6 table-cell">
 					<h3><?php esc_html_e( 'A Quick 2 Minute Primer', 'courier' ); ?></h3>
 					<p><?php esc_html_e( 'Courier allows you to notify your site visitors/users of different information and events on your site.', 'courier' ); ?></p>
@@ -70,7 +70,7 @@ use \Courier\Helper\Utils as Utils;
 			<div class="gray-bg negative-bg">
 				<div class="wrapper">
 					<h2 class="light-weight"><?php esc_html_e( 'Getting Started / Directions', 'courier' ); ?></h2>
-					<div class="grey-box-container help-row" data-equalizer="">
+					<div class="grey-box-container courier-row" data-equalizer="">
 						<div class="courier-columns-12">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
@@ -83,7 +83,7 @@ use \Courier\Helper\Utils as Utils;
 							</div>
 						</div>
 					</div>
-					<div class="grey-box-container help-row" data-equalizer="">
+					<div class="grey-box-container courier-row" data-equalizer="">
 						<div class="courier-columns-12">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
@@ -117,7 +117,7 @@ use \Courier\Helper\Utils as Utils;
 			<div class="gray-bg negative-bg">
 				<div class="wrapper">
 					<h2 class="light-weight"><?php esc_html_e( 'More Quick Tips', 'courier' ); ?></h2>
-					<div class="grey-box-container help-row" data-equalizer="">
+					<div class="grey-box-container courier-row" data-equalizer="">
 						<div class="courier-columns-6">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
@@ -203,7 +203,7 @@ use \Courier\Helper\Utils as Utils;
 				</div>
 			</div>
 
-			<div class="wrapper help-row">
+			<div class="wrapper courier-row">
 				<h2 class="light-weight"><?php esc_html_e( 'About the Team Behind Courier', 'courier' ); ?></h2>
 				<div class="about-devs-container help-columns-12">
 					<div class="no-margin">
