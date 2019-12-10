@@ -5,7 +5,7 @@
 		<td>
 			<div class="notice-options">
 				<div class="notice-option">
-					<label for="courier-notice-type-new-title"><?php esc_html_e( 'Notice Type Title', 'courier' ); ?></label>
+					<label for="courier-notice-type-new-title"><strong class="notice-option-title"><?php esc_html_e( 'Title', 'courier' ); ?></strong></label>
 					<input type="text" id="courier-notice-type-new-title" name="courier_notice_type_new_title">
 				</div>
 
@@ -17,22 +17,22 @@
 		</td>
 		<td>
 			<div class="notice-options">
-				<div class="notice-option">
+				<div class="notice-option" data-notice-option-color="accent">
 					<label for="courier-notice-type-new-color"><strong class="notice-option-title">Accent Color</strong></label><br />
 					<input type="text" id="courier-notice-type-new-color" name="courier_notice_type_new_color" class="courier-type-color" value="<?php echo esc_attr( $notice_color ); ?>">
 				</div>
 
-				<div class="notice-option">
+				<div class="notice-option" data-notice-option-color="icon">
 					<label for="courier-notice-type-new-icon-color"><strong class="notice-option-title">Icon Color</strong></label><br />
 					<input type="text" id="courier-notice-type-new-icon-color" name="courier_notice_type_new_icon_color" class="courier-type-color" value="<?php echo esc_attr( $notice_icon_color ); ?>">
 				</div>
 
-				<div class="notice-option">
+				<div class="notice-option" data-notice-option-color="text">
 					<label for="courier-notice-type-new-text-color"><strong class="notice-option-title">Text Color</strong></label><br />
 					<input type="text" id="courier-notice-type-new-text-color" name="courier_notice_type_new_text_color" class="courier-type-color" value="<?php echo esc_attr( $text_color ); ?>">
 				</div>
 
-				<div class="notice-option">
+				<div class="notice-option" data-notice-option-color="bg">
 					<label for="courier-notice-type-new-bg-color"><strong class="notice-option-title">Background Color</strong></label><br />
 					<input type="text" id="courier-notice-type-new-bg-color" name="courier_notice_type_new_bg_color" class="courier-type-color" value="<?php echo esc_attr( $notice_bg_color ); ?>">
 				</div>

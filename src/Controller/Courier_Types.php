@@ -13,50 +13,59 @@ use Courier\Helper\Utils;
 class Courier_Types {
 
 	private $kses_template = array(
-		'p'      => array(
+		'style'  => array(
+			'id' => array(),
+		),
+		'p'         => array(
 			'class' => array(),
 		),
-		'button' => array(
-			'class' => array(),
-			'value' => array(),
-			'type'  => array(),
-			'id'    => array(),
+		'button'         => array(
+			'class'      => array(),
+			'value'      => array(),
+			'type'       => array(),
+			'id'         => array(),
+			'aria-label' => array(),
+			'title'      => array(),
 		),
-		'label'  => array(
+		'label'     => array(
 			'for'   => array(),
 			'class' => array(),
 		),
-		'input'  => array(
+		'input'     => array(
 			'type'  => array(),
 			'value' => array(),
 			'class' => array(),
 			'name'  => array(),
 			'id'    => array(),
 		),
-		'span'   => array(
+		'span'            => array(
 			'aria-hidden' => array(),
 			'class'       => array(),
 			'style'       => array(),
 		),
-		'pre'    => array(
+		'pre'                => array(
 			'class'          => array(),
 			'id'             => array(),
 			'data-css-class' => array(),
 		),
-		'div'    => array(
-			'id'    => array(),
-			'class' => array(),
+		'div'                          => array(
+			'id'                       => array(),
+			'class'                    => array(),
+			'data-courier-notice-id'   => array(),
+			'data-alert'               => array(),
+			'data-closable'            => array(),
+			'data-notice-option-color' => array(),
 		),
-		'table'  => array(
+		'table'     => array(
 			'class' => array(),
 		),
 		'thead'  => array(),
-		'tbody'  => array(
+		'tbody'     => array(
 			'id'    => array(),
 			'class' => array(),
 		),
-		'tr'     => array(),
-		'td'     => array(
+		'tr'               => array(),
+		'td'               => array(
 			'data-colname' => array(),
 			'class'        => array(),
 			'scope'        => array(),

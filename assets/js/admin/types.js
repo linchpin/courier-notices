@@ -131,9 +131,18 @@ export default function types() {
 
 		var $parentRow = $(this).closest('tr');
 
+		$('.courier-icon', $parentRow).removeAttr('style');
+		$('.courier-content-wrapper', $parentRow).removeAttr('style');
+
 		$('.notice-options', $parentRow).hide();
 		$('.courier-notice-type-title', $parentRow).show();
 		$('.courier-notice-editing').removeClass('courier-notice-editing');
+
+		$parentRow.find('.courier-type-color').each(function () {
+			$(this).val( $(this).data('default-color') );
+		} );
+
+		$parentRow.find('.courier-type-color').trigger('change');
 	}
 
 	/**
@@ -286,7 +295,34 @@ export default function types() {
 	 * @since 1.0
 	 */
 	function setupTypeEditing() {
-		$( '.courier-type-color' ).wpColorPicker();
+		$( '.courier-type-color' ).wpColorPicker({
+			change: function ( event, ui ) {
+				var $target =  $(this).closest('.notice_preview'),
+					notice_ui = $(this).closest('.notice-option').data('notice-option-color');
+
+				setTimeout(function(){
+					var color_value = event.target.value;
+
+					switch ( notice_ui ) {
+						case 'accent':
+							$('.courier-icon', $target).css('background', color_value);
+							break;
+
+						case 'icon':
+							$('.courier-icon', $target).css('color', color_value);
+							break;
+
+						case 'text':
+							$('.courier-content-wrapper', $target).css('color', color_value);
+							break;
+
+						case 'bg':
+							$('.courier-content-wrapper', $target).css('background', color_value);
+							break;
+					}
+				},1);
+			}
+		});
 	}
 
 	/**
@@ -368,8 +404,6 @@ export default function types() {
 
 		$this.addClass('disabled').attr('disabled', 'disabled');
 
-		console.log(parseInt( $('[data-courier-notice-id]', $target).data('courier-notice-id') ));
-
 		$.post(ajaxurl, {
 			action: 'courier_notices_update_type',
 			'page': 'courier',
@@ -383,9 +417,6 @@ export default function types() {
 			'courier_notice_type_id': parseInt( $('[data-courier-notice-id]', $target).data('courier-notice-id') ),
 			contentType: "application/json"
 		}).success(function (response) {
-
-			console.log(response);
-
 			response = JSON.parse(response);
 
 			if (response && response.fragments) {
