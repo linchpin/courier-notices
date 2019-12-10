@@ -21,6 +21,8 @@ class Ajax {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'template_redirect', array( $this, 'template_redirect' ) );
 		add_action( 'template_redirect', array( $this, 'template_redirect_user_search' ) );
+
+		add_action( 'wp_ajax_courier_dismiss_notification', array( $this, 'dismiss_notification' ) );
 	}
 
 	/**
@@ -34,6 +36,35 @@ class Ajax {
 
 		add_rewrite_tag( '%courier_user_search%', '([0-9]+)' );
 		add_rewrite_rule( 'courier/user-search/(.*)/?', 'index.php?courier_user_search=$matches[1]', 'top' );
+	}
+
+	/**
+	 * Add the ability to store when notifications are dismissed
+	 *
+	 * @since 1.0
+	 */
+	public function dismiss_notification() {
+		check_ajax_referer( 'courier_dismiss_notification_nonce', 'courier_dismiss_notification_nonce' );
+
+		$user_id = get_current_user_id();
+
+		if ( ! isset( $_POST['courier_notification_type'] ) || empty( $_POST['courier_notification_type'] ) ) { // Input var okay.
+			return -1;
+		}
+
+		$notification_type = sanitize_title( wp_unslash( $_POST['courier_notification_type'] ) ); // Input var okay.
+		$notifications     = maybe_unserialize( get_user_option( 'courier_notifications', $user_id ) );
+
+		if ( empty( $notifications ) ) {
+			$notifications = array();
+		}
+
+		$notifications[ $notification_type ] = '1';
+
+		if ( current_user_can( 'edit_posts' ) ) {
+			update_user_option( $user_id, 'courier_notifications', $notifications );
+			wp_die( 1 );
+		}
 	}
 
 	/**

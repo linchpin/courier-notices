@@ -1312,6 +1312,69 @@ $.fn.equalize = function () {
 
 /***/ }),
 
+/***/ "./assets/js/admin/notifications.js":
+/*!******************************************!*\
+  !*** ./assets/js/admin/notifications.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return notifications; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * Controls Notification Administration
+ *
+ * @since 1.2
+ */
+
+/**
+ * Controls Welcome area display
+ *
+ * @package    Courier
+ * @subpackage Welcome
+ * @since      1.0
+ */
+
+var $ = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
+function notifications() {
+  var $body = $('body');
+  init();
+  /**
+   * Initialize Notifications
+   */
+
+  function init() {
+    $body.on('click', '.courier-update-notice .notice-dismiss', dismissNotification).on('click', '.courier-review-notice .review-dismiss, .courier-review-notice .notice-dismiss', dismissNotification);
+  }
+  /**
+   * Ajax call to dismiss notifications.
+   *
+   * @since 1.2
+   */
+
+
+  function dismissNotification(event) {
+    event.preventDefault();
+    var $notice = $(this).parents('.mesh-notice');
+    $.post(ajaxurl, {
+      action: 'courier_dismiss_notification',
+      mesh_notification_type: $notice.attr('data-type'),
+      _wpnonce: courier_data.dismiss_nonce
+    }, function (response) {
+      $notice.fadeTo(100, 0, function () {
+        $notice.slideUp(100, function () {
+          $notice.remove();
+        });
+      });
+    });
+  }
+}
+
+/***/ }),
+
 /***/ "./assets/js/admin/types.js":
 /*!**********************************!*\
   !*** ./assets/js/admin/types.js ***!
@@ -1783,6 +1846,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin/core */ "./assets/js/admin/core.js");
 /* harmony import */ var _admin_welcome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./admin/welcome */ "./assets/js/admin/welcome.js");
 /* harmony import */ var _admin_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./admin/types */ "./assets/js/admin/types.js");
+/* harmony import */ var _admin_notifications__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./admin/notifications */ "./assets/js/admin/notifications.js");
+
 
 
 
@@ -1791,6 +1856,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
   Object(_admin_core__WEBPACK_IMPORTED_MODULE_1__["default"])();
   Object(_admin_welcome__WEBPACK_IMPORTED_MODULE_2__["default"])();
   Object(_admin_types__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  Object(_admin_notifications__WEBPACK_IMPORTED_MODULE_4__["default"])();
 });
 
 /***/ }),
