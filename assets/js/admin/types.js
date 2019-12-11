@@ -409,7 +409,7 @@ export default function types() {
 			'page': 'courier',
 			'courier_notices_update_type': courier_admin_data.update_nonce,
 			'courier_notice_type_edit_title': $('.courier-notice-type-edit-title', $target).val(),
-			'courier_notice_type_edit_css_class': $('.courier-notice-type-eddit-css-class', $target).val(),
+			'courier_notice_type_edit_css_class': $('.courier-notice-type-edit-css-class', $target).val(),
 			'courier_notice_type_edit_color': $('.courier-notice-type-edit-color', $target).val(),
 			'courier_notice_type_edit_text_color': $('.courier-notice-type-edit-text-color', $target).val(),
 			'courier_notice_type_edit_icon_color': $('.courier-notice-type-edit-icon-color', $target).val(),
