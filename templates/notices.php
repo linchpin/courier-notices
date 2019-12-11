@@ -1,3 +1,9 @@
+<?php $courier_css = get_transient( 'courier_notice_css' ); ?>
+
+<style id="courier_notice_css">
+	<?php echo $courier_css; ?>
+</style>
+
 <div class="courier-notices alerts <?php echo esc_attr( 'courier-location-' . $courier_placement ); ?>" data-courier>
 	<?php
 
@@ -11,8 +17,9 @@
 		setup_postdata( $post );
 
 		$post_meta = get_post_meta( get_the_ID() );
+		$notice_type = get_the_terms( get_the_ID(), 'courier_type' );
 
-		$post_classes = 'courier-notice courier_notice callout alert alert-box';
+		$post_classes = 'courier-notice courier_notice callout alert alert-box courier_type-' . $notice_type[0]->slug;
 
 		$dismissable = get_post_meta( get_the_ID(), '_courier_dismissible', true );
 
@@ -25,6 +32,7 @@
 		$notice->assign( 'post_class', get_post_class( $post_classes, get_the_ID() ) );
 		$notice->assign( 'dismissable', get_post_meta( get_the_ID(), '_courier_dismissible', true ) );
 		$notice->assign( 'post_content', apply_filters( 'the_content', get_the_content() ) );
+		$notice->assign( 'icon', get_term_meta( $notice_type[0]->term_id, '_courier_type_icon', true ) );
 		$notice->render( 'notice' );
 
 		if ( has_term( 'feedback', 'courier_type' ) ) {

@@ -78,6 +78,8 @@ function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = f
  * @return array
  */
 function courier_get_user_notices( $args = array() ) {
+	$courier_css = get_transient( 'courier_notice_css' );
+
 	$number = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
 	$number = apply_filters( 'courier_override_notices_number', $number );
 
@@ -497,7 +499,24 @@ function courier_display_notices( $args = array() ) {
 
 	$output = apply_filters( 'courier_notices', $output );
 
-	echo wp_kses_post( $output ); // @todo this should probably be sanitized more extensively.
+	$allowed_html = array(
+		'div' => array(
+			'class' => array(),
+			'data-courier' => array(),
+			'data-courier-notice-id' => array(),
+			'data-alert' => array(),
+			'data-closable' => array(),
+		),
+		'span' => array(
+			'class' => array(),
+		),
+		'p' => array(),
+		'style' => array(
+			'id' => array(),
+		),
+	);
+
+	echo wp_kses( $output, $allowed_html ); // @todo this should probably be sanitized more extensively.
 }
 
 /**

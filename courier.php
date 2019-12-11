@@ -49,6 +49,21 @@ $loader = new \Courier\Core\Psr4Autoloader();
 $loader->addNamespace( 'Courier', dirname( __FILE__ ) . '/src' );
 $loader->register();
 
+/*
+require_once "includes/scssphp/scss.inc.php";
+
+use ScssPhp\ScssPhp\Compiler;
+
+$scss = new Compiler();
+
+$compiled_css = $scss->compile('
+  $color: #abc;
+  div { color: lighten($color, 20%); }
+');
+
+file_put_contents( 'css/courier-frontend.css', $compiled_css );
+*/
+
 /***
  * Kick everything off when plugins are loaded
  */

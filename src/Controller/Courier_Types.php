@@ -366,11 +366,28 @@ class Courier_Types {
 
 		if ( ! empty( $types ) ) {
 			foreach ( $types as $type ) {
+				$accent_color = get_term_meta( $type->term_id, '_courier_type_color', true );
 
-				$background_color = get_term_meta( $type->term_id, '_courier_type_color', true );
+				if ( empty( $accent_color ) ) {
+					$accent_color = '#';
+				}
+
+				$icon_color = get_term_meta( $type->term_id, '_courier_type_icon_color', true );
+
+				if ( empty( $icon_color ) ) {
+					$icon_color = '#';
+				}
+
+				$text_color = get_term_meta( $type->term_id, '_courier_type_text_color', true );
+
+				if ( empty( $text_color ) ) {
+					$text_color = '#';
+				}
+
+				$background_color = get_term_meta( $type->term_id, '_courier_type_bg_color', true );
 
 				if ( empty( $background_color ) ) {
-					$background_color = '#cccccc';
+					$background_color = '#';
 				}
 
 				$icon = get_term_meta( $type->term_id, '_courier_type_icon', true );
@@ -379,29 +396,14 @@ class Courier_Types {
 					$icon = '';
 				}
 
-				$text_color = get_term_meta( $type->term_id, '_courier_type_text_color', true );
-
-				if ( empty( $text_color ) ) {
-					$text_color = '#000000';
-				}
-
-				$icon_color = get_term_meta( $type->term_id, '_courier_type_icon_color', true );
-
-				if ( empty( $icon_color ) ) {
-					$icon_color = '#ffffff';
-				}
-
-				$bg_color = get_term_meta( $type->term_id, '_courier_type_bg_color', true );
-
-				if ( empty( $bg_color ) ) {
-					$bg_color = '#dddddd';
-				}
-
-				$css[ 'courier_type-' . $type->slug ] = array(
+				$css[ '.courier_type-' . $type->slug . ' .courier-content-wrapper' ] = array(
+					'color'       => sanitize_hex_color( $text_color ),
 					'background-color' => sanitize_hex_color( $background_color ),
-					'color'            => sanitize_hex_color( $text_color ),
-					'icon_color'       => sanitize_hex_color( $icon_color ),
-					'bg_color'         => sanitize_hex_color( $bg_color ),
+				);
+
+				$css[ '.courier_type-' . $type->slug . ' .courier-icon' ] = array(
+					'background-color'     => sanitize_hex_color( $accent_color ),
+					'color'       => sanitize_hex_color( $icon_color ),
 					'icon'             => esc_attr( $icon ),
 				);
 			}
@@ -410,7 +412,7 @@ class Courier_Types {
 
 		if ( ! empty( $css ) ) {
 			foreach ( $css as $css_key => $css_selector ) {
-				$css_output .= ".{$css_key} {\n";
+				$css_output .= "{$css_key} {\n";
 				$css_output .= "\tbackground-color:{$css_selector['background-color']};\n";
 				$css_output .= "\tcolor:{$css_selector['color']};\n";
 				$css_output .= "}\n";

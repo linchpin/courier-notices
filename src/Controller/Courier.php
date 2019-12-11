@@ -388,8 +388,16 @@ class Courier {
 	 *
 	 * @return string
 	 */
-	public function get_notice_selected_type() {
-		return 'info';
+	public function get_notice_selected_type( $post_id ) {
+		if ( empty( $post_id ) ) {
+			global $post;
+
+			$post_id = $post->ID;
+		}
+
+		$notice_type = get_the_terms( $post_id, 'courier_type' );
+
+		return $notice_type;
 	}
 
 	/**

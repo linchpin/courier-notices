@@ -45,3 +45,97 @@ $icon-instagram: "\e90c";
 $icon-close: "\e90d";
 $icon-plus: "\e90e";
 $icon-minus: "\e90f";
+
+body:not(.wp-admin) [class*="icon-"] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: '#{$icomoon-font-family}' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body.wp-admin table.courier_notice_page_courier [class*="icon-"] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: '#{$icomoon-font-family}' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-success:before {
+	content: $icon-success;
+}
+
+.icon-alert:before {
+	content: $icon-alert;
+}
+
+.icon-info:before {
+	content: $icon-info;
+}
+
+.icon-warning:before {
+	content: $icon-warning;
+}
+
+.icon-primary:before {
+	content: $icon-primary;
+}
+
+.icon-feedback:before {
+	content: $icon-feedback;
+}
+
+.icon-welcome:before {
+	content: $icon-welcome;
+}
+
+.icon-courier-logo:before {
+	content: $icon-courier-logo;
+}
+
+.icon-linchpin-logo-fill:before {
+	content: $icon-linchpin-logo-fill;
+}
+
+.icon-github-logo:before {
+	content: $icon-github-logo;
+}
+
+.icon-twitter:before {
+	content: $icon-twitter;
+}
+
+.icon-fb:before {
+	content: $icon-fb;
+}
+
+.icon-instagram:before {
+	content: $icon-instagram;
+}
+
+.icon-close:before {
+	content: $icon-close;
+}
+
+.icon-plus:before {
+	content: $icon-plus;
+}
+
+.icon-minus:before {
+	content: $icon-minus;
+}
