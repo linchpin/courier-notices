@@ -16,7 +16,7 @@ if ( ! function_exists( 'add_action' ) ) {
 <form action="options.php" class="settings-form" method="post">
 	<div class="about hero negative-bg">
 		<div class="hero-text">
-			<h1><?php esc_html_e( 'Notice Types / Design Settings', 'courier' ); ?></h1>
+			<h1><?php esc_html_e( 'Notice Types / Design Settings', 'courier-notices' ); ?></h1>
 		</div>
 	</div>
 	<?php settings_fields( 'courier_design' ); ?>

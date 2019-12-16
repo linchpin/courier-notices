@@ -166,8 +166,8 @@ class Courier_Types {
 			'field'       => 'notice_type_designs',
 			'section'     => 'courier_design',
 			'options'     => 'courier_design',
-			'label'       => esc_html__( 'Courier Types', 'courier' ),
-			'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier' ),
+			'label'       => esc_html__( 'Courier Types', 'courier-notices' ),
+			'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier-notices' ),
 		);
 
 		do_action( 'courier_notices_save_css' );
@@ -235,8 +235,8 @@ class Courier_Types {
 			'field'       => 'notice_type_designs',
 			'section'     => 'courier_design',
 			'options'     => 'courier_design',
-			'label'       => esc_html__( 'Courier Types', 'courier' ),
-			'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier' ),
+			'label'       => esc_html__( 'Courier Types', 'courier-notices' ),
+			'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier-notices' ),
 		);
 
 		do_action( 'courier_notices_save_css' );

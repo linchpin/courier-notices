@@ -60,7 +60,7 @@ if ( empty( $icon_color ) ) {
 		esc_attr( $color ),
 		esc_attr( $type->slug ),
 		// translators: %1$s Title of the term.
-		sprintf( esc_html__( '%1$s Accent Color', 'courier' ), $type->name )
+		sprintf( esc_html__( '%1$s Accent Color', 'courier-notices' ), $type->name )
 	);
 
 	$icon_color_input = sprintf(
@@ -68,7 +68,7 @@ if ( empty( $icon_color ) ) {
 		esc_attr( $icon_color ),
 		esc_attr( $type->slug ),
 		// translators: %1$s Title of the term.
-		sprintf( esc_html__( '%1$s Icon Color', 'courier' ), $type->name )
+		sprintf( esc_html__( '%1$s Icon Color', 'courier-notices' ), $type->name )
 	);
 
 	$text_input = sprintf(
@@ -76,7 +76,7 @@ if ( empty( $icon_color ) ) {
 		esc_attr( $text_color ),
 		esc_attr( $type->slug ),
 		// translators: %1$s Title of the term.
-		sprintf( esc_html__( '%1$s Text Color', 'courier' ), $type->name )
+		sprintf( esc_html__( '%1$s Text Color', 'courier-notices' ), $type->name )
 	);
 
 	$bg_color_input = sprintf(
@@ -84,28 +84,28 @@ if ( empty( $icon_color ) ) {
 		esc_attr( $bg_color ),
 		esc_attr( $type->slug ),
 		// translators: %1$s Title of the term.
-		sprintf( esc_html__( '%1$s Background Color', 'courier' ), $type->name )
+		sprintf( esc_html__( '%1$s Background Color', 'courier-notices' ), $type->name )
 	);
 ?>
 
 <div class="notice-options hide">
 	<div class="notice-option" data-notice-option-color="accent">
-		<strong class="notice-option-title">Accent Color</strong><br />
+		<strong class="notice-option-title"><?php esc_html_e( 'Accent Color', 'courier-notices' ); ?></strong><br />
 		<input type="text" class="courier-notice-type-edit-color courier-type-color" name="courier_notice_type_edit_color" data-default-color="<?php echo esc_attr( $color ); ?>" value="<?php echo esc_attr( $color ); ?>">
 	</div>
 
 	<div class="notice-option" data-notice-option-color="icon">
-		<strong class="notice-option-title">Icon Color</strong><br />
+		<strong class="notice-option-title"><?php esc_html_e( 'Icon Color', 'courier-notices' ); ?></strong><br />
 		<input type="text" class="courier-notice-type-edit-icon-color courier-type-color" name="courier_notice_type_edit_icon_color" value="<?php echo esc_attr( $icon_color ); ?>"">
 	</div>
 
 	<div class="notice-option" data-notice-option-color="text">
-		<strong class="notice-option-title">Text Color</strong><br />
+		<strong class="notice-option-title"><?php esc_html_e( 'Text Color', 'courier-notices' ); ?></strong><br />
 		<input type="text" class="courier-notice-type-edit-text-color courier-type-color" name="courier_notice_type_edit_text_color" value="<?php echo esc_attr( $text_color ); ?>">
 	</div>
 
 	<div class="notice-option" data-notice-option-color="bg">
-		<strong class="notice-option-title">Background Color</strong><br />
+		<strong class="notice-option-title"><?php esc_html_e( 'Background Color', 'courier-notices' ); ?></strong><br />
 		<input type="text" class="courier-notice-type-edit-bg-color courier-type-color" name="courier_notice_type_edit_bg_color" value="<?php echo esc_attr( $bg_color ); ?>">
 	</div>
 </div>

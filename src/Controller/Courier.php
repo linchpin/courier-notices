@@ -52,13 +52,13 @@ class Courier {
 		register_post_status(
 			'courier_expired',
 			array(
-				'label'                     => esc_html_x( 'Expired', 'courier_notice', 'courier' ),
+				'label'                     => esc_html_x( 'Expired', 'courier_notice', 'courier-notices' ),
 				'public'                    => false,
 				'exclude_from_search'       => true,
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 				// translators: %1$s count of hoow many terms have expired.
-				'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'courier' ),
+				'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'courier-notices' ),
 			)
 		);
 	}
@@ -79,26 +79,26 @@ class Courier {
 
 		$messages['courier_notice'] = array(
 			0  => '', // Unused. Messages start at index 1.
-			1  => esc_html__( 'Courier notice updated.', 'courier' ),
-			2  => esc_html__( 'Custom field updated.', 'courier' ),
-			3  => esc_html__( 'Custom field deleted.', 'courier' ),
-			4  => esc_html__( 'Notice updated.', 'courier' ),
+			1  => esc_html__( 'Courier notice updated.', 'courier-notices' ),
+			2  => esc_html__( 'Custom field updated.', 'courier-notices' ),
+			3  => esc_html__( 'Custom field deleted.', 'courier-notices' ),
+			4  => esc_html__( 'Notice updated.', 'courier-notices' ),
 			/* translators: %s: date and time of the revision */
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Notice restored to revision from %s', 'courier' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // phpcs:ignore WordPress.Security.NonceVerification
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Notice restored to revision from %s', 'courier-notices' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // phpcs:ignore WordPress.Security.NonceVerification
 			/* translators: %s: link to notice */
-			6  => sprintf( __( 'Notice published. <a href="%1$s">View notice</a>', 'courier' ), esc_url( $permalink ) ),
-			7  => esc_html__( 'Notice saved.', 'courier' ),
+			6  => sprintf( __( 'Notice published. <a href="%1$s">View notice</a>', 'courier-notices' ), esc_url( $permalink ) ),
+			7  => esc_html__( 'Notice saved.', 'courier-notices' ),
 			/* translators: %1$s: link to preview */
-			8  => sprintf( __( 'Notice submitted. <a target="_blank" href="%1$s">Preview notice</a>', 'courier' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+			8  => sprintf( __( 'Notice submitted. <a target="_blank" href="%1$s">Preview notice</a>', 'courier-notices' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
 			9  => sprintf(
 				/* translators: %1$s: date and time of the revision, %2$s: link to notice */
-				__( 'Notice scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview notice</a>', 'courier' ),
+				__( 'Notice scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview notice</a>', 'courier-notices' ),
 				// translators: Publish box date format, see http://php.net/date.
 				date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ),
 				esc_url( $permalink )
 			),
 			/* translators: %1$s: date and time of the revision, %2$s: link to notice */
-			10 => sprintf( __( 'Notice draft updated. <a target="_blank" href="%s">Preview notice</a>', 'courier' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+			10 => sprintf( __( 'Notice draft updated. <a target="_blank" href="%s">Preview notice</a>', 'courier-notices' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
 		);
 
 		return $messages;
@@ -156,7 +156,7 @@ class Courier {
 				'<a href="%1$s" %2$s>%3$s <span class="count">(%4$d)</span></a>',
 				$global_notice_url,
 				$notice_class,
-				esc_html__( 'Global', 'courier' ),
+				esc_html__( 'Global', 'courier-notices' ),
 				(int) $count
 			);
 
@@ -197,7 +197,7 @@ class Courier {
 				'<a href="%1$s" %2$s>%3$s <span class="count">(%4$d)</span></a>',
 				$expired_notice_url,
 				$expired_notice_class,
-				esc_html__( 'Expired', 'courier' ),
+				esc_html__( 'Expired', 'courier-notices' ),
 				(int) $count
 			);
 
@@ -219,15 +219,15 @@ class Courier {
 ?>
 		<div class="misc-pub-section courier-dismissable">
 			<span class="dashicons dashicons-no-alt wp-media-buttons-icon"></span>&nbsp;
-			<label for="courier_dismissible"><?php esc_html_e( 'Dismissible Notice:', 'courier' ); ?></label>&nbsp;
+			<label for="courier_dismissible"><?php esc_html_e( 'Dismissible Notice:', 'courier-notices' ); ?></label>&nbsp;
 			<input type="checkbox" name="courier_dismissible" id="courier_dismissible" value="1" <?php checked( get_post_meta( $post_id, '_courier_dismissible', true ) ); ?> />
-			<a href="#" class="courier-info-icon courier-help" title="<?php esc_html_e( 'Allow this notice to be dismissed by users', 'courier' ); ?>">?</a>
+			<a href="#" class="courier-info-icon courier-help" title="<?php esc_html_e( 'Allow this notice to be dismissed by users', 'courier-notices' ); ?>">?</a>
 		</div>
 		<?php
 
 		$copy_shortcode_info = new View();
 		$copy_shortcode_info->assign( 'type', 'info' );
-		$copy_shortcode_info->assign( 'message', __( 'Copy this notice <strong>shortcode</strong> to display in your content or in a widget!', 'courier' ) );
+		$copy_shortcode_info->assign( 'message', __( 'Copy this notice <strong>shortcode</strong> to display in your content or in a widget!', 'courier-notices' ) );
 		$copy_shortcode_info->render( 'admin/notifications' );
 
 		$copy_shortcode = new View();
@@ -243,7 +243,7 @@ class Courier {
 	public function add_meta_boxes_courier_notice() {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'post_submitbox_misc_actions' ) );
 
-		add_meta_box( 'courier_meta_box', esc_html__( 'Notice Information', 'courier' ), array( $this, 'courier_meta_box' ), 'courier_notice', 'side', 'default' );
+		add_meta_box( 'courier_meta_box', esc_html__( 'Notice Information', 'courier-notices' ), array( $this, 'courier_meta_box' ), 'courier_notice', 'side', 'default' );
 	}
 
 	/**
@@ -262,7 +262,7 @@ class Courier {
 		global $wp_local;
 
 		?>
-		<h4><?php esc_html_e( 'Notice Type', 'courier' ); ?></h4>
+		<h4><?php esc_html_e( 'Notice Type', 'courier-notices' ); ?></h4>
 		<?php
 
 		if ( has_term( '', 'courier_type' ) ) {
@@ -291,7 +291,7 @@ class Courier {
 		);
 		?>
 
-		<h4><?php esc_html_e( 'Notice Placement / Type', 'courier' ); ?></h4>
+		<h4><?php esc_html_e( 'Notice Placement / Type', 'courier-notices' ); ?></h4>
 		<?php
 
 		if ( has_term( '', 'courier_placement' ) ) {
@@ -330,11 +330,11 @@ class Courier {
 			$current_date = '';
 		}
 		?>
-		<h4><?php esc_html_e( 'Notice Expiration', 'courier' ); ?></h4>
-		<p class="description"><?php esc_html_e( 'Enter a date and time this notice should expire.', 'courier' ); ?></p>
+		<h4><?php esc_html_e( 'Notice Expiration', 'courier-notices' ); ?></h4>
+		<p class="description"><?php esc_html_e( 'Enter a date and time this notice should expire.', 'courier-notices' ); ?></p>
 
 		<fieldset id="courier-timestampdiv">
-			<legend class="screen-reader-text"><?php esc_html_e( 'Expiration date and time', 'courier' ); ?></legend>
+			<legend class="screen-reader-text"><?php esc_html_e( 'Expiration date and time', 'courier-notices' ); ?></legend>
 			<div class="timestamp-wrap">
 				<label for="courier_expire_date">
 					<input type="text" class="widefat" autocomplete="off" id="courier_expire_date" name="courier_expire_date" value="<?php echo esc_attr( $current_date ); ?>">
@@ -359,11 +359,11 @@ class Courier {
 		$options = array(
 			array(
 				'value' => '1',
-				'label' => esc_html__( 'Global (All Users)', 'courier' ),
+				'label' => esc_html__( 'Global (All Users)', 'courier-notices' ),
 			),
 			array(
 				'value' => 'user',
-				'label' => esc_html__( 'User', 'courier' ),
+				'label' => esc_html__( 'User', 'courier-notices' ),
 			),
 		);
 
@@ -615,7 +615,7 @@ class Courier {
 			return $title;
 		}
 
-		$title['title'] = esc_html__( 'Notifications', 'courier' );
+		$title['title'] = esc_html__( 'Notifications', 'courier-notices' );
 
 		return $title;
 	}

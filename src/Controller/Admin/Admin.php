@@ -68,12 +68,12 @@ class Admin {
 		return array_merge(
 			$columns,
 			array(
-				'courier-summary'            => esc_html__( 'Summary', 'courier' ),
-				'courier-type'               => esc_html__( 'Type', 'courier' ),
+				'courier-summary'            => esc_html__( 'Summary', 'courier-notices' ),
+				'courier-type'               => esc_html__( 'Type', 'courier-notices' ),
 				'taxonomy-courier_placement' => $placement,
-				'courier-global'             => esc_html__( 'Usage', 'courier' ),
+				'courier-global'             => esc_html__( 'Usage', 'courier-notices' ),
 				'courier-date'               => wp_kses(
-					__( 'Expiration <a href="#" class="courier-info-icon courier-help" title="Non-expiry notices do not expire and will always be shown to users if the notice is not dismissable">?</a>', 'courier' ),
+					__( 'Expiration <a href="#" class="courier-info-icon courier-help" title="Non-expiry notices do not expire and will always be shown to users if the notice is not dismissable">?</a>', 'courier-notices' ),
 					array(
 						'a' => array(
 							'href'  => array(),
@@ -138,7 +138,7 @@ class Admin {
 					$expiration = date( get_option( 'date_format' ) . ' h:i A', $expiration );
 					echo esc_html( $expiration );
 				} else {
-					esc_html_e( 'Non-expiry', 'courier' );
+					esc_html_e( 'Non-expiry', 'courier-notices' );
 				}
 
 				break;
@@ -169,7 +169,7 @@ class Admin {
 			?>
 
 			<div class="notice notice-dismissible update-nag">
-				<strong><?php esc_html_e( 'This is a global notice and may have been dismissed by some users. It is recommended that you create a new global notice to ensure every user sees your new information.', 'courier' ); ?></strong>
+				<strong><?php esc_html_e( 'This is a global notice and may have been dismissed by some users. It is recommended that you create a new global notice to ensure every user sees your new information.', 'courier-notices' ); ?></strong>
 			</div>
 
 			<?php
@@ -182,9 +182,9 @@ class Admin {
 		?>
 
 		<div class="notice notice-dismissible update-nag">
-			<?php esc_html_e( 'This notice has already been dismissed. Any changes made will not be seen by the user.', 'courier' ); ?>
+			<?php esc_html_e( 'This notice has already been dismissed. Any changes made will not be seen by the user.', 'courier-notices' ); ?>
 			<a href="#" class="courier-reactivate-notice" data-courier-notice-id="<?php echo esc_attr( $post->ID ); ?>">
-				<?php esc_html_e( 'Reactivate this notice', 'courier' ); ?>
+				<?php esc_html_e( 'Reactivate this notice', 'courier-notices' ); ?>
 			</a>.
 		</div>
 
@@ -361,7 +361,7 @@ class Admin {
 			wp_dropdown_categories(
 				array(
 					// translators: %1$s escaped taxonomy name.
-					'show_option_all' => sprintf( __( 'All %1$s', 'courier' ), esc_html( $taxonomy_name ) ),
+					'show_option_all' => sprintf( __( 'All %1$s', 'courier-notices' ), esc_html( $taxonomy_name ) ),
 					'orderby'         => 'name',
 					'taxonomy'        => $taxonomy_slug,
 					'value_field'     => 'slug',

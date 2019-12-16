@@ -693,7 +693,7 @@ function courier_dismiss_notices( $notice_ids, $user_id = 0, $force_dismiss = fa
 
 	foreach ( $notice_ids as $n_id ) {
 		if ( ! $notice = get_post( $n_id ) ) { // phpcs:ignore
-			$errors->add( 'courier_does_not_exist', esc_html__( 'The notice you tried to dismiss does not exist.', 'courier' ) );
+			$errors->add( 'courier_does_not_exist', esc_html__( 'The notice you tried to dismiss does not exist.', 'courier-notices' ) );
 			continue;
 		}
 
@@ -705,7 +705,7 @@ function courier_dismiss_notices( $notice_ids, $user_id = 0, $force_dismiss = fa
 
 		if ( false === $force_dismiss ) {
 			if ( ! get_post_meta( $notice->ID, '_courier_dismissible', true ) ) {
-				$errors->add( 'courier_not_dismissible', esc_html__( 'This notice is not dismissible.', 'courier' ) );
+				$errors->add( 'courier_not_dismissible', esc_html__( 'This notice is not dismissible.', 'courier-notices' ) );
 				continue;
 			}
 		}

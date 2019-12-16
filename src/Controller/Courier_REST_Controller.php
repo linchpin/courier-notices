@@ -48,13 +48,13 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 					'permission_callback' => array( $this, 'get_notice_permissions_check' ),
 					'args'                => array(
 						'placement' => array(
-							'description'       => esc_html__( 'Set where the notices should display.', 'courier' ),
+							'description'       => esc_html__( 'Set where the notices should display.', 'courier-notices' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => 'rest_validate_request_arg',
 						),
 						'format'    => array(
-							'description'       => esc_html__( 'Set the response, either html or json.', 'courier' ),
+							'description'       => esc_html__( 'Set the response, either html or json.', 'courier-notices' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => 'rest_validate_request_arg',

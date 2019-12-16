@@ -84,18 +84,18 @@ class Courier_Notices {
 				'ID' => ( ! empty( $post ) ) ? $post->ID : -1,
 			),
 			'strings'          => array(
-				'close'   => esc_html__( 'Close', 'courier' ),
-				'dismiss' => esc_html__( 'Dismiss', 'courier' ),
+				'close'   => esc_html__( 'Close', 'courier-notices' ),
+				'dismiss' => esc_html__( 'Dismiss', 'courier-notices' ),
 			),
 		);
 
-		wp_register_script( 'courier', $config->get( 'plugin_url' ) . 'assets/js/courier.js', $js_dependencies, $config->get( 'version' ), true );
-		wp_enqueue_script( 'courier' );
+		wp_register_script( 'courier_notices', $config->get( 'plugin_url' ) . 'assets/js/courier.js', $js_dependencies, $config->get( 'version' ), true );
+		wp_enqueue_script( 'courier_notices' );
 
 		$localized_data = apply_filters( 'courier_localized_data', $localized_data );
 
 		wp_localize_script(
-			'courier',
+			'courier_notices',
 			'courier_data',
 			$localized_data
 		);
@@ -108,8 +108,8 @@ class Courier_Notices {
 		}
 
 		$config = new Config();
-		wp_register_style( 'courier', $config->get( 'plugin_url' ) . 'css/courier-notices.css', '', $config->get( 'version' ) );
-		wp_enqueue_style( 'courier' );
+		wp_register_style( 'courier_notices', $config->get( 'plugin_url' ) . 'css/courier-notices.css', '', $config->get( 'version' ) );
+		wp_enqueue_style( 'courier_notices' );
 
 	}
 

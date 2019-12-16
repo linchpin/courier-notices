@@ -38,7 +38,7 @@ if ( ! defined( 'COURIER_PLUGIN_URL' ) ) {
 }
 
 if ( ! defined( 'COURIER_PLUGIN_NAME' ) ) {
-	define( 'COURIER_PLUGIN_NAME', esc_html__( 'Courier', 'courier' ) );
+	define( 'COURIER_PLUGIN_NAME', esc_html__( 'Courier', 'courier-notices' ) );
 }
 
 /**

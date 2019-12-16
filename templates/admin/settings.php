@@ -28,7 +28,7 @@ if ( ! function_exists( 'add_action' ) ) {
 	<div class="table">
 		<h2>
 			<?php
-			$plugin_title = esc_html__( 'Courier', 'courier' );
+			$plugin_title = esc_html__( 'Courier', 'courier-notices' );
 			$plugin_title = apply_filters( 'courier_notices_plugin_title', $plugin_title );
 			echo esc_html( $plugin_title );
 			?>
@@ -37,9 +37,9 @@ if ( ! function_exists( 'add_action' ) ) {
 		<?php
 			printf(
 				// translators: %1$s: Linchpin Website URL %2$s: Visit CTA. WPCS: xss ok.
-				wp_kses_post( __( '<a href="%1$s" class="button" target="_blank">%2$s</a>', 'courier' ) ),
+				wp_kses_post( __( '<a href="%1$s" class="button" target="_blank">%2$s</a>', 'courier-notices' ) ),
 				esc_url( 'https://linchpin.com' ),
-				esc_html__( 'Visit linchpin.com', 'courier' )
+				esc_html__( 'Visit linchpin.com', 'courier-notices' )
 			); // phpcs:ignore Standard.Category.SniffName.ErrorCode
 		?>
 		</h3>

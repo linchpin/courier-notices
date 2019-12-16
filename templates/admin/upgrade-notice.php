@@ -27,7 +27,7 @@ if ( ! function_exists( 'add_action' ) ) {
 				printf(
 					wp_kses_post(
 						// translators: %1$s: Version Number %2$s: Link to what's new tab.
-						__( 'Thanks for updating Courier to v. (%1$s). <strong>Major release</strong>. <a href="%2$s">what\'s new</a>', 'courier' )
+						__( 'Thanks for updating Courier to v. (%1$s). <strong>Major release</strong>. <a href="%2$s">what\'s new</a>', 'courier-notices' )
 					),
 					esc_html( $courier_version ),
 					esc_url( admin_url( 'options-general.php?page=courier&tab=new' ) )
@@ -35,7 +35,7 @@ if ( ! function_exists( 'add_action' ) ) {
 				?>
 			</p>
 			<p class="no-margin">
-				<?php echo wp_kses_post( __( 'Initial Release', 'courier' ) ); ?>
+				<?php echo wp_kses_post( __( 'Initial Release', 'courier-notices' ) ); ?>
 			</p>
 		</div>
 	</div>

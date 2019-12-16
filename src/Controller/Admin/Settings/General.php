@@ -77,7 +77,7 @@ class General {
 	//	$courier_menu = self::override_settings_link( $submenu['options-general.php'], 'courier' );
 	//	$submenu['options-general.php'][ $courier_menu ][2] = 'edit.php?post_type=courier_notice&page=' . esc_attr( self::$settings_page );
 
-		add_submenu_page( 'edit.php?post_type=courier_notice', COURIER_PLUGIN_NAME, esc_html__( 'Settings', 'courier' ), 'manage_options', self::$settings_page, array( __CLASS__, 'add_settings_page' ) );
+		add_submenu_page( 'edit.php?post_type=courier_notice', COURIER_PLUGIN_NAME, esc_html__( 'Settings', 'courier-notices' ), 'manage_options', self::$settings_page, array( __CLASS__, 'add_settings_page' ) );
 	}
 
 	/**
@@ -120,12 +120,12 @@ class General {
 		if ( $plugin === $plugin_file ) {
 
 			$settings = array(
-				'settings' => '<a href="options-general.php?page=' . esc_attr( self::$settings_page ) . '">' . esc_html__( 'Settings', 'courier' ) . '</a>',
+				'settings' => '<a href="options-general.php?page=' . esc_attr( self::$settings_page ) . '">' . esc_html__( 'Settings', 'courier-notices' ) . '</a>',
 			);
 
 			$site_link = array(
-				'faq'    => '<a href="https://linchpin.com/plugins/courier/" target="_blank">' . esc_html__( 'FAQ', 'courier' ) . '</a>',
-				'go_pro' => '<a href="https://linchpin.com/plugins/courier-pro/" target="_blank">' . esc_html__( 'Go Pro', 'courier' ) . '</a>',
+				'faq'    => '<a href="https://linchpin.com/plugins/courier/" target="_blank">' . esc_html__( 'FAQ', 'courier-notices' ) . '</a>',
+				'go_pro' => '<a href="https://linchpin.com/plugins/courier-pro/" target="_blank">' . esc_html__( 'Go Pro', 'courier-notices' ) . '</a>',
 			);
 
 			$actions = array_merge( $settings, $actions );
@@ -207,7 +207,7 @@ class General {
 		 */
 		add_settings_field(
 			'ajax_notices',
-			esc_html__( 'Use Ajax to display courier notices?', 'courier' ),
+			esc_html__( 'Use Ajax to display courier notices?', 'courier-notices' ),
 			array( '\Courier\Controller\Admin\Fields\Fields', 'add_checkbox' ),
 			$tab_section,
 			'courier_general_settings_section',
@@ -215,8 +215,8 @@ class General {
 				'field'       => 'ajax_notices',
 				'section'     => $tab_section,
 				'options'     => 'courier_settings',
-				'label'       => esc_html__( 'Yes use Ajax', 'courier' ),
-				'description' => esc_html__( 'Using ajax allows for Courier Notices to potentially load quicker. It also helps with issues that may come up with more advanced caching (Varnish, or other full page caching)', 'courier' ),
+				'label'       => esc_html__( 'Yes use Ajax', 'courier-notices' ),
+				'description' => esc_html__( 'Using ajax allows for Courier Notices to potentially load quicker. It also helps with issues that may come up with more advanced caching (Varnish, or other full page caching)', 'courier-notices' ),
 			)
 		);
 
@@ -227,7 +227,7 @@ class General {
 		 */
 		add_settings_field(
 			'uninstall',
-			esc_html__( 'Remove All Data on Uninstall?', 'courier' ),
+			esc_html__( 'Remove All Data on Uninstall?', 'courier-notices' ),
 			array( '\Courier\Controller\Admin\Fields\Fields', 'add_checkbox' ),
 			$tab_section,
 			'courier_general_settings_section',
@@ -235,7 +235,7 @@ class General {
 				'field'   => 'uninstall',
 				'section' => $tab_section,
 				'options' => 'courier_settings',
-				'label'   => esc_html__( 'Yes clear data', 'courier' ),
+				'label'   => esc_html__( 'Yes clear data', 'courier-notices' ),
 			)
 		);
 	}
@@ -260,7 +260,7 @@ class General {
 
 		add_settings_field(
 			'notice_type_designs',
-			esc_html__( 'Types', 'courier' ),
+			esc_html__( 'Types', 'courier-notices' ),
 			array( '\Courier\Controller\Admin\Fields\Fields', 'add_table' ),
 			$tab_section,
 			'courier_design_settings_section',
@@ -268,8 +268,8 @@ class General {
 				'field'       => 'notice_type_designs',
 				'section'     => $tab_section,
 				'options'     => 'courier_design',
-				'label'       => esc_html__( 'Courier Types', 'courier' ),
-				'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier' ),
+				'label'       => esc_html__( 'Courier Types', 'courier-notices' ),
+				'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier-notices' ),
 			)
 		);
 
@@ -278,7 +278,7 @@ class General {
 		 */
 		add_settings_field(
 			'disable_css',
-			esc_html__( 'Disable CSS on front end', 'courier' ),
+			esc_html__( 'Disable CSS on front end', 'courier-notices' ),
 			array( '\Courier\Controller\Admin\Fields\Fields', 'add_checkbox' ),
 			$tab_section,
 			'courier_design_settings_section',
@@ -286,8 +286,8 @@ class General {
 				'field'       => 'disable_css',
 				'section'     => $tab_section,
 				'options'     => 'courier_design',
-				'label'       => esc_html__( 'Yes disable CSS', 'courier' ),
-				'description' => esc_html__( 'This is useful if you are using your own styles as part of your theme or overriding the css using the Appearance -> Customizer', 'courier' ),
+				'label'       => esc_html__( 'Yes disable CSS', 'courier-notices' ),
+				'description' => esc_html__( 'This is useful if you are using your own styles as part of your theme or overriding the css using the Appearance -> Customizer', 'courier-notices' ),
 			)
 		);
 	}
@@ -358,27 +358,27 @@ class General {
 	public static function get_tabs() {
 		$tabs = array(
 			'settings'  => array(
-				'label'    => esc_html__( 'General Settings', 'courier' ),
+				'label'    => esc_html__( 'General Settings', 'courier-notices' ),
 				'sub_tabs' => array(),
 			),
 			'design'    => array(
-				'label'    => esc_html__( 'Notice Types / Design', 'courier' ),
+				'label'    => esc_html__( 'Notice Types / Design', 'courier-notices' ),
 				'sub_tabs' => array(),
 			),
 			'about'     => array(
-				'label'    => esc_html__( 'About Courier', 'courier' ),
+				'label'    => esc_html__( 'About Courier', 'courier-notices' ),
 				'sub_tabs' => array(),
 			),
 			'new'       => array(
-				'label'    => esc_html__( "What's New", 'courier' ),
+				'label'    => esc_html__( "What's New", 'courier-notices' ),
 				'sub_tabs' => array(),
 			),
 			'changelog' => array(
-				'label'    => esc_html__( 'Change Log', 'courier' ),
+				'label'    => esc_html__( 'Change Log', 'courier-notices' ),
 				'sub_tabs' => array(),
 			),
 			'linchpin'  => array(
-				'label'    => esc_html__( 'About Linchpin', 'courier' ),
+				'label'    => esc_html__( 'About Linchpin', 'courier-notices' ),
 				'sub_tabs' => array(),
 			),
 		);

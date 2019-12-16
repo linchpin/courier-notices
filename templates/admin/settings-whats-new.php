@@ -18,7 +18,7 @@ if ( ! function_exists( 'add_action' ) ) {
 		<div id="postbox-container" class="postbox-container">
 			<div class="whatsnew hero negative-bg">
 				<div class="hero-text">
-					<h1><?php echo esc_html__( 'Everything is new', 'courier' ); ?></h1>
+					<h1><?php echo esc_html__( 'Everything is new', 'courier-notices' ); ?></h1>
 				</div>
 			</div>
 			<div class="gray-bg negative-bg versioninfo">
@@ -28,14 +28,14 @@ if ( ! function_exists( 'add_action' ) ) {
 						printf(
 							'Courier Version %s <span class="green-pipe">|</span> Released %s',
 							esc_html( get_option( 'courier_version' ) ),
-							esc_html__( 'November 22nd, 2019', 'courier' )
+							esc_html__( 'November 22nd, 2019', 'courier-notices' )
 						);
 						?>
 					</h2>
 				</div>
 			</div>
 			<div class="wrapper">
-				<p><?php esc_html_e( "It's all new, we don't have much to add here. Check out the about page.", 'courier' ); ?></p>
+				<p><?php esc_html_e( "It's all new, we don't have much to add here. Check out the about page.", 'courier-notices' ); ?></p>
 			</div>
 		</div>
 	</div>

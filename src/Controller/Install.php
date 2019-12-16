@@ -104,40 +104,40 @@ class Install {
 		// This is the type of notification that is being displayed to the user.
 
 		// Secondary.
-		$primary = wp_insert_term( esc_html__( 'Primary', 'courier' ), 'courier_type' );
+		$primary = wp_insert_term( esc_html__( 'Primary', 'courier-notices' ), 'courier_type' );
 		$this->insert_term_meta( $primary, 'primary', '#039ad6' );
 
 		// Success.
-		$success = wp_insert_term( esc_html__( 'Success', 'courier' ), 'courier_type' );
+		$success = wp_insert_term( esc_html__( 'Success', 'courier-notices' ), 'courier_type' );
 		$this->insert_term_meta( $success, 'success', '#04a84e' );
 
 		// Alert / Error.
-		$alert = wp_insert_term( esc_html__( 'Alert', 'courier' ), 'courier_type' );
+		$alert = wp_insert_term( esc_html__( 'Alert', 'courier-notices' ), 'courier_type' );
 		$this->insert_term_meta( $alert, 'alert', '#f97600' );
 
 		// Warnings.
-		$warning = wp_insert_term( esc_html__( 'Warning', 'courier' ), 'courier_type' );
+		$warning = wp_insert_term( esc_html__( 'Warning', 'courier-notices' ), 'courier_type' );
 		$this->insert_term_meta( $warning, 'warning', '#ea3118' );
 
 		// Feedback is similar to success for form feedback.
-		$feedback = wp_insert_term( esc_html__( 'Feedback', 'courier' ), 'courier_type' );
+		$feedback = wp_insert_term( esc_html__( 'Feedback', 'courier-notices' ), 'courier_type' );
 		$this->insert_term_meta( $feedback, 'feedback', '#8839d3' );
 
 		// Info.
-		$info = wp_insert_term( esc_html__( 'Info', 'courier' ), 'courier_type' );
+		$info = wp_insert_term( esc_html__( 'Info', 'courier-notices' ), 'courier_type' );
 		$this->insert_term_meta( $info, 'info', '#878787' );
 
 		// Is this notification for all viewers to see. This is checked by default.
-		wp_insert_term( esc_html__( 'Global', 'courier' ), 'courier_scope' );
+		wp_insert_term( esc_html__( 'Global', 'courier-notices' ), 'courier_scope' );
 
 		// Has the notification been viewed and/or dismissed?
-		wp_insert_term( esc_html__( 'Viewed', 'courier' ), 'courier_status' );
-		wp_insert_term( esc_html__( 'Dismissed', 'courier' ), 'courier_status' );
+		wp_insert_term( esc_html__( 'Viewed', 'courier-notices' ), 'courier_status' );
+		wp_insert_term( esc_html__( 'Dismissed', 'courier-notices' ), 'courier_status' );
 
 		// Select where the notification is placed.
-		wp_insert_term( esc_html__( 'Header', 'courier' ), 'courier_placement' );
-		wp_insert_term( esc_html__( 'Footer', 'courier' ), 'courier_placement' );
-		wp_insert_term( esc_html__( 'Popup/Modal', 'courier' ), 'courier_placement' );
+		wp_insert_term( esc_html__( 'Header', 'courier-notices' ), 'courier_placement' );
+		wp_insert_term( esc_html__( 'Footer', 'courier-notices' ), 'courier_placement' );
+		wp_insert_term( esc_html__( 'Popup/Modal', 'courier-notices' ), 'courier_placement' );
 
 		// Keep the plugin version up to date.
 		$plugin_options['plugin_version'] = $this->config->get( 'version' );
