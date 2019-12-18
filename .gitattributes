@@ -1,0 +1,12 @@
+# Ignore certain files from the release zips
+.git/ export-ignore
+.github/ export-ignore
+assets/ export-ignore
+.gitignore export-ignore
+.gitattributes export-ignore
+node_modules/ export-ignore
+.codeclimate.yml export-ignore
+.editorconfig export-ignore
+gulpfile.babel.js export-ignore
+yarn.lock export-ignore
+config.yml export-ignore
