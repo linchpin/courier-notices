@@ -81,6 +81,7 @@ gulp.task(
 		bump_define_pluginfile,
 		bump_packagejson,
 		bump_readme_stable_tag,
+		update_release_date,
 		readme,
 		copy
 	)
@@ -210,6 +211,26 @@ function bump_packagejson() {
 	return gulp.src('./package.json')
 		.pipe($.bump(bump_obj))
 		.pipe(gulp.dest('.'));
+}
+
+/**
+ * Update the what's new template with the date of the release instead of having to manually update it every release
+ *
+ * @since 1.0.2
+ *
+ * @return {*}
+ */
+function update_release_date() {
+	let today = new Date();
+	let dd    = String( today.getDate() ).padStart( 2, '0' );
+	let mm    = String( today.getMonth() + 1 ).padStart( 2, '0' );
+	let yyyy  = today.getFullYear();
+
+	today = dd + '/' + mm + '/' + yyyy;
+
+	return gulp.src( ['templates/admin/settings-whats-new.php'] )
+		.pipe( $.replace('/([0-2][0-9]|(3)[0-1])(\\/)(((0)[0-9])|((1)[0-2]))(\\/)\\d{4}$/g', today ) )
+		.pipe( gulp.dest('.') );
 }
 
 // Copy files out of the assets folder

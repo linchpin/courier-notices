@@ -152,7 +152,7 @@ class Courier_Types {
 		$notice_type_color      = sanitize_hex_color( $_POST['courier_notice_type_new_color'] );
 		$notice_type_text_color = sanitize_hex_color( $_POST['courier_notice_type_new_text_color'] );
 		$notice_type_icon_color = sanitize_hex_color( $_POST['courier_notice_type_new_icon_color'] );
-		$notice_type_bg_color = sanitize_hex_color( $_POST['courier_notice_type_new_bg_color'] );
+		$notice_type_bg_color   = sanitize_hex_color( $_POST['courier_notice_type_new_bg_color'] );
 
 		$type = wp_insert_term( $notice_type_title, 'courier_type' );
 

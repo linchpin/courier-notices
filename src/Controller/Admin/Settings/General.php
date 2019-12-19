@@ -14,7 +14,7 @@ if ( ! function_exists( 'add_action' ) ) {
 }
 
 use \Courier\Controller\Admin\Fields\Fields as Fields;
-use Courier\Core\View;
+use \Courier\Core\View;
 use \Courier\Helper\Type_List_Table as Type_List_Table;
 
 /**
@@ -363,6 +363,10 @@ class General {
 			),
 			'design'    => array(
 				'label'    => esc_html__( 'Notice Types / Design', 'courier' ),
+				'sub_tabs' => array(),
+			),
+			'gopro'     => array(
+				'label'    => esc_html__( 'Go Pro', 'courier' ),
 				'sub_tabs' => array(),
 			),
 			'about'     => array(

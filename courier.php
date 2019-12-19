@@ -3,7 +3,7 @@
  * Plugin Name: Courier
  * Plugin URI:  https://wordpress.org/plugins/courier
  * Description: A way to display, manage, and control front end notifications for your WordPress install.
- * Version:     1.0.1
+ * Version:     1.0.2
  * Author:      Linchpin
  * Author URI:  https://linchpin.com
  * Text Domain: courier
@@ -21,7 +21,7 @@ if ( ! defined( 'WPINC' ) ) {
  */
 
 if ( ! defined( 'COURIER_VERSION' ) ) {
-	define( 'COURIER_VERSION', '1.0.1' );
+	define( 'COURIER_VERSION', '1.0.2' );
 }
 
 // Define the main plugin file to make it easy to reference in subdirectories.
@@ -44,10 +44,9 @@ if ( ! defined( 'COURIER_PLUGIN_NAME' ) ) {
 /**
  * Autoload Classes
  */
-require COURIER_PATH . 'src/Core/Psr4Autoloader.php';
-$loader = new \Courier\Core\Psr4Autoloader();
-$loader->addNamespace( 'Courier', dirname( __FILE__ ) . '/src' );
-$loader->register();
+if ( file_exists( COURIER_PATH . '/vendor/autoload.php' ) ) {
+	require_once COURIER_PATH . 'vendor/autoload.php';
+}
 
 /*
 require_once "includes/scssphp/scss.inc.php";

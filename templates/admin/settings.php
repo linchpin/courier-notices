@@ -11,6 +11,7 @@
 
 // Make sure we don't expose any info if called directly.
 use Courier\Core\View;
+use Parsedown;
 
 if ( ! function_exists( 'add_action' ) ) {
 	exit;
@@ -108,15 +109,37 @@ if ( ! function_exists( 'add_action' ) ) {
 						$about_courier = new View();
 						$about_courier->render( 'admin/settings-about-courier' );
 						?>
+					<?php elseif ( 'gopro' === $active_tab ) : ?>
+						<?php
+						$gopro = new View();
+						$gopro->render( 'admin/settings-gopro' );
+						?>
 					<?php elseif ( 'addons' === $active_tab ) : ?>
 						<?php
 						$addons = new View();
 						$addons->render( 'admin/settings-addons' );
 						?>
+					<?php elseif ( 'changelog' === $active_tab ) : ?>
+						<?php
+						$changelog_view = new View();
+
+						$changelog_path = COURIER_PATH . '/CHANGELOG.md';
+
+						if ( file_exists( $changelog_path ) ) {
+							$parsedown = new Parsedown();
+							$parsedown->setSafeMode( true );
+							$changelog = file_get_contents( $changelog_path, true );
+						}
+
+						$changelog_view->assign( 'changelog', $parsedown->text( $changelog ) );
+						$changelog_view->render( 'admin/settings-changelog' );
+						?>
 					<?php elseif ( 'new' === $active_tab ) : ?>
 						<?php
-						$whats_news = new View();
-						$whats_news->render( 'admin/settings-whats-new' );
+						$whats_new = new View();
+						$whats_new->assign( 'courier_version', get_option( 'courier_version' ) );
+						$whats_new->assign( 'courier_release_date', );
+						$whats_new->render( 'admin/settings-whats-new' );
 						?>
 					<?php else : ?>
 						<?php do_action( 'courier_setting_' . sanitize_title( $active_tab ) ); ?>
