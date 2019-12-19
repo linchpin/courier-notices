@@ -41,6 +41,9 @@
     "webpack-stream": "5.2.1",
     "yargs": "12.0.5"
   },
+  "resolutions": {
+    "lodash.template": "^4.5.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/linchpin/courier.git"
