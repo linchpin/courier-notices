@@ -262,6 +262,36 @@ class Courier {
 		global $wp_local;
 
 		?>
+
+		<h4><?php esc_html_e( 'Notice Style', 'courier' ); ?></h4>
+		<?php
+
+		if ( has_term( '', 'courier_style' ) ) {
+			$selected_courier_style = get_the_terms( $post->ID, 'courier_style' );
+		}
+
+		if ( ! empty( $selected_courier_style ) ) {
+			$selected_courier_style = $selected_courier_style[0]->slug;
+		} else {
+			$selected_courier_style = 'informational';
+		}
+
+		// Create and display the dropdown menu.
+		wp_dropdown_categories(
+			array(
+				'orderby'           => 'name',
+				'taxonomy'          => 'courier_style',
+				'value_field'       => 'slug',
+				'name'              => 'courier_style',
+				'class'             => 'widefat',
+				'hide_empty'        => false,
+				'required'          => true,
+				'option_none_value' => apply_filters( 'courier_default_notice_style', 'informational' ),
+				'selected'          => $selected_courier_style,
+			)
+		);
+		?>
+
 		<h4><?php esc_html_e( 'Notice Type', 'courier' ); ?></h4>
 		<?php
 
@@ -291,7 +321,7 @@ class Courier {
 		);
 		?>
 
-		<h4><?php esc_html_e( 'Notice Placement / Type', 'courier' ); ?></h4>
+		<h4><?php esc_html_e( 'Notice Placement', 'courier' ); ?></h4>
 		<?php
 
 		if ( has_term( '', 'courier_placement' ) ) {

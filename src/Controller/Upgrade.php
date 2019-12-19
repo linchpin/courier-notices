@@ -39,6 +39,16 @@ class Upgrade {
 			$current_version = COURIER_VERSION;
 			update_option( 'courier_version', $current_version );
 		}
+
+		if ( version_compare( '1.1.0', $current_version, '>' ) ) {
+
+			// Create our default styles
+			wp_insert_term( esc_html__( 'Informational', 'courier' ), 'courier_style' );
+			wp_insert_term( esc_html__( 'Modal', 'courier' ), 'courier_style' );
+
+			$current_version = COURIER_VERSION;
+			update_option( 'courier_version', $current_version );
+		}
 	}
 
 	/**
