@@ -226,21 +226,35 @@ function update_release_date() {
 	let mm    = String( today.getMonth() + 1 ).padStart( 2, '0' );
 	let yyyy  = today.getFullYear();
 
-	today = dd + '/' + mm + '/' + yyyy;
+	today = mm + '/' + dd + '/' + yyyy;
+
+	console.log( today );
 
 	return gulp.src( ['templates/admin/settings-whats-new.php'] )
-		.pipe( $.replace('/([0-2][0-9]|(3)[0-1])(\\/)(((0)[0-9])|((1)[0-2]))(\\/)\\d{4}$/g', today ) )
-		.pipe( gulp.dest('.') );
+		.pipe( $.replace( /(((0)[0-9])|((1)[0-2]))(\/)([0-2][0-9]|(3)[0-1])(\/)\d{4}/ig, today ) )
+		.pipe( gulp.dest( './' ) );
 }
 
-// Copy files out of the assets folder
-// This task skips over the "img", "js", and "scss" folders, which are parsed separately
+/**
+ * Copy files out of the assets folder
+ * This task skips over the "img", "js", and "scss" folders, which are parsed separately
+ *
+ * @since 1.0
+ *
+ * @return {*}
+ */
 function copy() {
 	return gulp.src(PATHS.assets)
 		.pipe(gulp.dest('css/fonts'));
 }
 
-// In production, the CSS is compressed
+/**
+ * In production, the CSS is compressed
+ *
+ * @since 1.0
+ *
+ * @return {*}
+ */
 function sass() {
 	return gulp.src('assets/scss/*.scss')
 		.pipe($.sourcemaps.init())
@@ -251,7 +265,13 @@ function sass() {
 		.pipe(gulp.dest('css'));
 }
 
-// In production, the file is minified
+/**
+ * In production, the file is minified
+ *
+ * @since 1.0
+ *
+ * @return {*}
+ */
 function javascript() {
 	return gulp.src(PATHS.entries)
 		.pipe( named() )

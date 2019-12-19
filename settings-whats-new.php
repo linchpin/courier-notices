@@ -28,7 +28,7 @@ if ( ! function_exists( 'add_action' ) ) {
 						printf(
 							'Courier Version %s <span class="green-pipe">|</span> Released %s',
 							esc_html( $courier_version ),
-							esc_html__( '10/17/1980', 'courier' )
+							esc_html__( '12/19/2019', 'courier' )
 						);
 						?>
 					</h2>

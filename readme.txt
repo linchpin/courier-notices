@@ -7,26 +7,42 @@ Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-#Courier
+Add dismissible and non-dismissible notices throughout your website.
 
-Add dismissible and non-dismissible notices throughout your website. Courier notices can be site specific or assigned to specific users.
+== Description ==
 
-Courier works as a Gravity forms add-on for displaying form confirmations.
-Courier integrates with the popular Stream Plugin
+Add dismissible and non-dismissible notices throughout your website.
 
-== Shortcodes ==
+* Customize the colors and icons used by your Courier Notices
+* Add new "types" of notices as needed
+* Comes with a common library of useful notices
+* Place courier notices within the header, footer or any where using CSS selectors (similar to selectors in jQuery)
+* Display popover/page take over modal style alerts
+* Can be used in conjunction with other popular plugins
 
-`[courier_notice id="1"]`
+== Installation ==
 
-Displays a Courier notice based on the Courier post ID, displays a flag to call out the notice as well.
+This section describes how to install the plugin and get it working.
 
-Flag prepends a span containing the string in the flag parameter, to display no flag set "show_flag" to false.
+e.g.
+
+1. Upload `courier` to the `/wp-content/plugins/` directory
+1. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
 
 == Screenshots ==
 
 == Changelog ==
+
+= 1.0.2 =
+
+* Migrated to using composer as our autoloader instead of a proprietary one
+* Added Parsedown dependency for Markdown display within the plugin
+* Added a changelog.md display to the settings page as a tab
+* Added more automation for release to get releases out the door quicker
+* Minor code formatting changes
+* Bumped version to 1.0.2
 
 = 1.0.1 =
 
@@ -41,3 +57,11 @@ Initial Release
 * Implemented datetimepicker so time selection is easier.
 * Minor typo fix in admin area.
 * Minor data sanitization/security hardening.
+
+== Shortcodes ==
+
+`[courier_notice id="1"]`
+
+Displays a Courier notice based on the Courier post ID, displays a flag to call out the notice as well.
+
+Flag prepends a span containing the string in the flag parameter, to display no flag set "show_flag" to false.
