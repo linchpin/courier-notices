@@ -1,5 +1,9 @@
 # Changelog #
 
+## 1.0.4 ##
+
+* Cleaned up deployment process further.
+
 ## 1.0.2 ##
 
 * Migrated to using composer as our autoloader instead of a proprietary one
@@ -7,7 +11,6 @@
 * Added a changelog.md display to the settings page as a tab
 * Added more automation for release to get releases out the door quicker
 * Minor code formatting changes
-* Bumped version to 1.0.2
 
 ## 1.0.1 ##
 
