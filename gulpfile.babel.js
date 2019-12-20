@@ -9,10 +9,10 @@ let webpackStream = require( 'webpack-stream' );
 let webpack2      = require( 'webpack' );
 let named         = require( 'vinyl-named' );
 let autoprefixer  = require( 'autoprefixer' );
+let through2      = require( 'through2' );
 
 // Load all Gulp plugins into one variable
 const $ = plugins();
-
 
 let PRODUCTION   = !!( yargs.argv.production ); // Check for --production flag
 let VERSION_BUMP = yargs.argv.release;          // Check for --release (x.x.x semver version number)
@@ -77,11 +77,10 @@ gulp.task(
 		clean,
 		javascript,
 		sass,
-		bump_pluginfile,
-		bump_define_pluginfile,
-		bump_packagejson,
-		bump_readme_stable_tag,
-		update_release_date,
+		bumpPluginFile,
+		bumpPackageJson,
+		bumpReadmeStableTag,
+		bumpComposerJson,
 		readme,
 		copy
 	)
@@ -132,63 +131,119 @@ function readme( done ) {
 }
 
 /**
- * Bump the version number within our plugin file
+ * Bump the version number within the define method of our plugin file
  * PHP Constant: example `define( 'COURIER_PRO_VERSION', '1.0.0' );`
+ *
+ * Bump the version number within our meta data of the plugin file
+ *
+ * Update the release date with today's date
  *
  * @since 1.0
  *
  * @return {*}
  */
-function bump_define_pluginfile(done) {
+function bumpPluginFile( done ) {
 
 	let constant        = 'COURIER_VERSION';
 	let define_bump_obj = {
 		key: constant,
-		regex: new RegExp('([<|\'|"]?(' + constant + ')[>|\'|"]?[ ]*[:=,]?[ ]*[\'|"]?[a-z]?)(\\d+.\\d+.\\d+)(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z\\.-]+)?([\'|"|<]?)', 'ig')
+		regex: new RegExp('([<|\'|"]?(' + constant + ')[>|\'|"]?[ ]*[:=,]?[ ]*[\'|"]?[a-z]?)(\\d+.\\d+.\\d+)(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z\\.-]+)?([\'|"|<]?)', 'ig' )
 	};
-
-	if (VERSION_BUMP) {
-		define_bump_obj.version = VERSION_BUMP;
-	}
-
-	return gulp.src('./courier.php')
-		.pipe($.bump(define_bump_obj))
-		.pipe(gulp.dest('.'));
-}
-
-function bump_pluginfile() {
 
 	let bump_obj = {
 		key: 'Version',
 	};
 
-	if (VERSION_BUMP) {
-		bump_obj.version = VERSION_BUMP;
+	if ( VERSION_BUMP ) {
+		bump_obj.version        = VERSION_BUMP;
+		define_bump_obj.version = VERSION_BUMP;
 	}
 
-	return gulp.src('./courier.php')
-		.pipe($.bump(bump_obj))
-		.pipe(gulp.dest('.'));
+	let today = getReleaseDate();
+
+	return gulp.src( './courier.php' )
+		.pipe( $.bump( bump_obj ) )
+		.pipe( $.bump( define_bump_obj ) )
+		.pipe( $.replace( /(((0)[0-9])|((1)[0-2]))(\/)([0-2][0-9]|(3)[0-1])(\/)\d{4}/ig, today ) )
+		.pipe( through2.obj( function( file, enc, cb ) {
+			let date        = new Date();
+			file.stat.atime = date;
+			file.stat.mtime = date;
+			cb( null, file );
+		}) )
+		.pipe( gulp.dest( './' ) );
 }
 
 /**
- * bump readme
+ * Update the what's new template with the date of the release instead of having to manually update it every release
  *
- * @since 1.1
+ * @since 1.0.4
  *
  * @return {*}
  */
-function bump_readme_stable_tag() {
+function getReleaseDate() {
+	let today = new Date();
+	let dd    = String( today.getDate() ).padStart( 2, '0' );
+	let mm    = String( today.getMonth() + 1 ).padStart( 2, '0' );
+	let yyyy  = today.getFullYear();
 
-	let bump_obj = {key: "Stable tag"};
+	today = mm + '/' + dd + '/' + yyyy;
 
-	if (VERSION_BUMP) {
+	return today;
+}
+
+/**
+ * Bump the composer.json
+ *
+ * @since 1.0.4
+ *
+ * @return {*}
+ */
+function bumpComposerJson() {
+
+	let bump_obj = {
+		key:'version'
+	};
+
+	if ( VERSION_BUMP ) {
 		bump_obj.version = VERSION_BUMP;
 	}
 
-	return gulp.src('./readme.txt')
-		.pipe($.bump(bump_obj))
-		.pipe(gulp.dest('.'));
+	return gulp.src( './composer.json' )
+		.pipe( $.bump( bump_obj ) )
+		.pipe( through2.obj( function( file, enc, cb ) {
+			let date        = new Date();
+			file.stat.atime = date;
+			file.stat.mtime = date;
+			cb( null, file );
+		}) )
+		.pipe( gulp.dest( '.' ) );
+}
+
+/**
+ * bump readme file stable tag to our latest version
+ *
+ * @since 1.0.4
+ *
+ * @return {*}
+ */
+function bumpReadmeStableTag() {
+
+	let bump_obj = { key: "Stable tag" };
+
+	if ( VERSION_BUMP ) {
+		bump_obj.version = VERSION_BUMP;
+	}
+
+	return gulp.src( './readme.txt' )
+		.pipe( $.bump( bump_obj ) )
+		.pipe( through2.obj( function( file, enc, cb ) {
+			let date        = new Date();
+			file.stat.atime = date;
+			file.stat.mtime = date;
+			cb( null, file );
+		}) )
+		.pipe( gulp.dest( './' ) );
 }
 
 /**
@@ -198,7 +253,7 @@ function bump_readme_stable_tag() {
  *
  * @return {*}
  */
-function bump_packagejson() {
+function bumpPackageJson() {
 
 	let bump_obj = {
 		key: 'version'
@@ -208,31 +263,15 @@ function bump_packagejson() {
 		bump_obj.version = VERSION_BUMP;
 	}
 
-	return gulp.src('./package.json')
-		.pipe($.bump(bump_obj))
-		.pipe(gulp.dest('.'));
-}
-
-/**
- * Update the what's new template with the date of the release instead of having to manually update it every release
- *
- * @since 1.0.2
- *
- * @return {*}
- */
-function update_release_date() {
-	let today = new Date();
-	let dd    = String( today.getDate() ).padStart( 2, '0' );
-	let mm    = String( today.getMonth() + 1 ).padStart( 2, '0' );
-	let yyyy  = today.getFullYear();
-
-	today = mm + '/' + dd + '/' + yyyy;
-
-	console.log( today );
-
-	return gulp.src( ['templates/admin/settings-whats-new.php'] )
-		.pipe( $.replace( /(((0)[0-9])|((1)[0-2]))(\/)([0-2][0-9]|(3)[0-1])(\/)\d{4}/ig, today ) )
-		.pipe( gulp.dest( './' ) );
+	return gulp.src( './package.json' )
+		.pipe( $.bump( bump_obj ) )
+		.pipe( through2.obj( function( file, enc, cb ) {
+			let date        = new Date();
+			file.stat.atime = date;
+			file.stat.mtime = date;
+			cb( null, file );
+		}) )
+		.pipe( gulp.dest( '.' ) );
 }
 
 /**
@@ -244,8 +283,8 @@ function update_release_date() {
  * @return {*}
  */
 function copy() {
-	return gulp.src(PATHS.assets)
-		.pipe(gulp.dest('css/fonts'));
+	return gulp.src( PATHS.assets )
+		.pipe( gulp.dest('css/fonts' ) );
 }
 
 /**
@@ -258,11 +297,10 @@ function copy() {
 function sass() {
 	return gulp.src('assets/scss/*.scss')
 		.pipe($.sourcemaps.init())
-		.pipe($.sass({
-			includePaths: PATHS.sass
-		})
-			.on('error', $.sass.logError))
-		.pipe(gulp.dest('css'));
+		.pipe( $.sass( {
+				includePaths: PATHS.sass
+			} ).on( 'error', $.sass.logError ) )
+		.pipe( gulp.dest( 'css' ) );
 }
 
 /**

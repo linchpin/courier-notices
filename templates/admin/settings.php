@@ -153,6 +153,7 @@ if ( ! function_exists( 'add_action' ) ) {
 						<?php
 						$whats_new = new View();
 						$whats_new->assign( 'courier_version', get_option( 'courier_version' ) );
+						$whats_new->assign( 'courier_release_date', COURIER_RELEASE_DATE );
 						$whats_new->render( 'admin/settings-whats-new' );
 						?>
 					<?php else : ?>

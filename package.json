@@ -1,17 +1,18 @@
 {
   "name": "courier-notices",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A way to display, manage, and control front end notifications for users, globally or individually, in the header,footer, by shortcode or by page.",
   "main": "gulpfile.babel.js",
   "scripts": {
     "start": "gulp",
-    "build": "gulp build --production"
+    "build": "gulp build:release --production --release"
   },
   "author": "Linchpin <sayhi@linchpin.com>",
   "license": "GPL",
   "dependencies": {
-    "gulp-replace": "^1.0.0",
     "jquery": "3.4.1",
+    "save-dev": "^0.0.1-security",
+    "through2": "^3.0.1",
     "what-input": "5.2.6"
   },
   "devDependencies": {
@@ -32,6 +33,7 @@
     "gulp-load-plugins": "1.6.0",
     "gulp-postcss": "8.0.0",
     "gulp-readme-to-markdown": "0.2.1",
+    "gulp-replace": "^1.0.0",
     "gulp-sass": "4.0.2",
     "gulp-sourcemaps": "2.6.5",
     "gulp-uglify": "3.0.2",
