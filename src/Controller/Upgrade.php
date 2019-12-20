@@ -39,6 +39,11 @@ class Upgrade {
 			$current_version = COURIER_VERSION;
 			update_option( 'courier_version', $current_version );
 		}
+
+		if ( version_compare( '1.0.3', $current_version, '>' ) ) {
+			$current_version = COURIER_VERSION;
+			update_option( 'courier_version', $current_version );
+		}
 	}
 
 	/**

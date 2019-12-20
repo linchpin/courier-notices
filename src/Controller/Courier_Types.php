@@ -221,7 +221,7 @@ class Courier_Types {
 		$notice_type_color      = sanitize_hex_color( $_POST['courier_notice_type_edit_color'] );
 		$notice_type_text_color = sanitize_hex_color( $_POST['courier_notice_type_edit_text_color'] );
 		$notice_type_icon_color = sanitize_hex_color( $_POST['courier_notice_type_edit_icon_color'] );
-		$notice_type_bg_color = sanitize_hex_color( $_POST['courier_notice_type_edit_bg_color'] );
+		$notice_type_bg_color   = sanitize_hex_color( $_POST['courier_notice_type_edit_bg_color'] );
 
 		$type = wp_update_term( (int) $_POST['courier_notice_type_id'], 'courier_type', array( 'name' => $notice_type_title ) );
 
