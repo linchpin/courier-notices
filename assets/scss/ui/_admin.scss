@@ -743,23 +743,33 @@ pre.courier-notice-type-css-class {
     }
   }
 
-  .color-white {
-    color: $white-smoke;
-  }
+  .courier-sub-menu {
+	padding: 10px 25px;
+	margin-left: -22px;
+	background: white;
 
-  .color-darkgreen {
-    color: $darker-green;
+	a {
+	  margin-right: 10px;
+	}
   }
 
   // tabs
   .nav-tab-wrapper {
     a {
+	  background-color: #f5f5f5;
+	  border: 1px solid #dedede;
+	  border-radius: 0;
+	  border-top: 3px solid $secondary-color;
+	  border-bottom: none;
+	  line-height: 16px;
+	  padding: 8px;
+	  text-decoration: none;
       color: $secondary-color !important;
-      border-radius: .25rem .25rem 0 0;
+
       &.nav-tab-active {
-        border-bottom: none !important;
-        color: $primary-color !important;
-        background-color: $white-smoke;
+        border-bottom: 1px solid white !important;
+        border-top-color: $primary-color !important;
+        background-color: white;
       }
 
       &:first-child {
@@ -802,18 +812,18 @@ pre.courier-notice-type-css-class {
 
 	.button-primary {
 		background-color: $primary-color;
-		color: white !important;
+		color: $white !important;
 
 		&:hover, &:focus, &:active {
 			background-color: $secondary-color;
-			color: $white-smoke;
+			color: $white;
 		}
 
 		&.save-button {
-			background-color: $green;
+			background-color: $accent-color;
 
 			&:hover, &:focus, &:active {
-				backrgound-color: $darker-green;
+				backrgound-color: $primary-color;
 			}
 		}
 	}
@@ -895,7 +905,7 @@ pre.courier-notice-type-css-class {
   }
 
   .green-bg {
-    background-color: $primary;
+    background-color: $save-color;
     padding: 1px;
     border-radius: 0 0 $global-radius $global-radius;
 
@@ -1019,7 +1029,7 @@ pre.courier-notice-type-css-class {
     .new-tag {
       line-height: 45px;
       display: inline-block;
-      color: $primary;
+      color: $save-color;
       font-weight: 700;
       margin: 0 !important;
       vertical-align: middle;
@@ -1061,16 +1071,6 @@ pre.courier-notice-type-css-class {
   float: none;
 }
 
-.courier-tab {
-  background-color: #f5f5f5;
-  border: 1px solid #dedede;
-  border-bottom: none;
-  color: #666;
-  line-height: 16px;
-  padding: 8px;
-  text-decoration: none;
-}
-
 .courier-section-block {
   .mce-widget.mce-btn.mce-last {
     transition: border 2s;
@@ -1104,7 +1104,7 @@ pre.courier-notice-type-css-class {
 // UPDATE Notification
 .courier-update-notice {
   padding: 10px 38px;
-  border-left-color: $primary;
+  border-left-color: $primary-color;
   margin: 25px 20px 0 2px;
 
   img {
@@ -1124,12 +1124,12 @@ pre.courier-notice-type-css-class {
 
   a {
     text-decoration: none;
-    color: $primary;
+    color: $primary-color;
     font-weight: bolder;
     transition: background-color 0.25s ease-out,color 0.25s ease-out;
 
     &:hover, &:focus, &:active {
-      color: $darker-green;
+      color: $accent-color;
     }
   }
 }
@@ -1239,7 +1239,7 @@ pre.courier-notice-type-css-class {
   }
 
   input[type=checkbox]:checked:before {
-    color: $primary;
+    color: $save-color;
   }
 }
 
