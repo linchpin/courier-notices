@@ -44,12 +44,13 @@ class Ajax {
 	 * @since 1.0
 	 */
 	public function dismiss_notification() {
-		check_ajax_referer( 'courier_dismiss_notification_nonce', 'courier_dismiss_notification_nonce' );
+
+		check_ajax_referer( 'courier_notices_dismiss_nonce', '_ajax_nonce' );
 
 		$user_id = get_current_user_id();
 
 		if ( ! isset( $_POST['courier_notification_type'] ) || empty( $_POST['courier_notification_type'] ) ) { // Input var okay.
-			return -1;
+			wp_die(-1 );
 		}
 
 		$notification_type = sanitize_title( wp_unslash( $_POST['courier_notification_type'] ) ); // Input var okay.
@@ -61,10 +62,13 @@ class Ajax {
 
 		$notifications[ $notification_type ] = '1';
 
-		if ( current_user_can( 'edit_posts' ) ) {
-			update_user_option( $user_id, 'courier_notifications', $notifications );
-			wp_die( 1 );
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			wp_die( -1 );
 		}
+
+		update_user_option( $user_id, 'courier_notifications', $notifications );
+
+		wp_die(1 );
 	}
 
 	/**
