@@ -226,7 +226,8 @@ class Courier {
 		<?php
 
 		$copy_shortcode_info = new View();
-		$copy_shortcode_info->assign( 'type', 'info' );
+		$copy_shortcode_info->assign( 'type', 'shortcode-help' );
+		$copy_shortcode_info->assign( 'courier_notifications', get_user_option( 'courier_notifications' ) );
 		$copy_shortcode_info->assign( 'message', __( 'Copy this notice <strong>shortcode</strong> to display in your content or in a widget!', 'courier' ) );
 		$copy_shortcode_info->render( 'admin/notifications' );
 

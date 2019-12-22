@@ -17,7 +17,7 @@ import jQuery from 'jquery';
 let $ = jQuery;
 
 export default function notifications() {
-	var $body = $('body');
+	let $body = $('body');
 
 	init();
 
@@ -27,7 +27,7 @@ export default function notifications() {
 	function init() {
 
 		$body
-			.on( 'click', '.courier-update-notice .notice-dismiss', dismissNotification )
+			.on( 'click', '.courier-admin-notice .notice-dismiss', dismissNotification )
 			.on( 'click', '.courier-review-notice .review-dismiss, .courier-review-notice .notice-dismiss', dismissNotification );
 	}
 
@@ -40,12 +40,12 @@ export default function notifications() {
 
 		event.preventDefault();
 
-		var $notice = $(this).parents('.mesh-notice');
+		var $notice = $(this).parents('.courier-admin-notice');
 
 		$.post( ajaxurl, {
 			action                : 'courier_dismiss_notification',
-			mesh_notification_type : $notice.attr('data-type'),
-			_wpnonce              : courier_data.dismiss_nonce
+			courier_notification_type : $notice.attr('data-type'),
+			_ajax_nonce              : courier_admin_data.dismiss_nonce
 		}, function( response ) {
 			$notice.fadeTo(100, 0,function() {
 				$notice.slideUp( 100, function(){

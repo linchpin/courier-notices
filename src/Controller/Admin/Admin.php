@@ -261,6 +261,7 @@ class Admin {
 			'add_nonce'           => wp_create_nonce( 'courier_notices_add_type_nonce' ),
 			'update_nonce'        => wp_create_nonce( 'courier_notices_update_type_nonce' ),
 			'delete_nonce'        => wp_create_nonce( 'courier_notices_delete_type_nonce' ),
+			'dismiss_nonce'       => wp_create_nonce( 'courier_notices_dismiss_nonce' ),
 			'current_user'        => array(
 				'ID'           => $current_user->ID,
 				'display_name' => $current_user->display_name,
