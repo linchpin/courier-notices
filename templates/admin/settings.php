@@ -11,7 +11,6 @@
 
 // Make sure we don't expose any info if called directly.
 use Courier\Core\View;
-use Parsedown;
 
 if ( ! function_exists( 'add_action' ) ) {
 	exit;
@@ -62,7 +61,10 @@ if ( ! function_exists( 'add_action' ) ) {
 				$tab_url = $tab_item['url'];
 			}
 
+			$tab_url = remove_query_arg( 'subtab', $tab_url );
 			$tab_url = apply_filters( "courier_admin_tab_{$tab_slug}_url", $tab_url );
+
+
 			$active  = ( $active_tab === $tab_slug ) ? ' nav-tab-active' : '';
 
 			?>
