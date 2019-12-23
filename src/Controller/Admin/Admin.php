@@ -27,6 +27,7 @@ class Admin {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_icon_styles' ) );
 
 		add_action( 'restrict_manage_posts', array( $this, 'filter_courier_notices' ), 10, 2 );
 	}
@@ -302,6 +303,22 @@ class Admin {
 		wp_enqueue_style(
 			'courier-admin',
 			COURIER_PLUGIN_URL . 'css/admin-courier.css',
+			array(),
+			COURIER_VERSION
+		);
+	}
+
+	/**
+	 * Enqueue our admin icons.
+	 *
+	 * @since 1.0
+	 *
+	 * @param string $hook The hook.
+	 */
+	public function admin_enqueue_icon_styles( $hook ) {
+		wp_enqueue_style(
+			'courier-admin-icons',
+			COURIER_PLUGIN_URL . 'css/admin-courier-icons.css',
 			array(),
 			COURIER_VERSION
 		);

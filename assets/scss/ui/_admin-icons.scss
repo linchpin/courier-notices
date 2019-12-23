@@ -1,0 +1,41 @@
+$icomoon-admin-font-family: "courier-admin" !default;
+$icomoon-admin-font-path: "fonts" !default;
+
+$icon-courier-logo: "\e900";
+
+@font-face {
+	font-family: '#{$icomoon-admin-font-family}';
+	src:  url('#{$icomoon-admin-font-path}/#{$icomoon-admin-font-family}.eot?qlkzon');
+	src:  url('#{$icomoon-admin-font-path}/#{$icomoon-admin-font-family}.eot?qlkzon#iefix') format('embedded-opentype'),
+	url('#{$icomoon-admin-font-path}/#{$icomoon-admin-font-family}.ttf?qlkzon') format('truetype'),
+	url('#{$icomoon-admin-font-path}/#{$icomoon-admin-font-family}.woff?qlkzon') format('woff'),
+	url('#{$icomoon-admin-font-path}/#{$icomoon-admin-font-family}.svg?qlkzon##{$icomoon-admin-font-family}') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+.icon-courier-logo {
+	&:before {
+		content: $icon-courier-logo;
+		color: #fff;
+	}
+}
+
+.menu-icon-courier_notice {
+	.wp-menu-image:before {
+		content: $icon-courier-logo;
+
+		font-family: '#{$icomoon-admin-font-family}' !important;
+		speak: none;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		line-height: 1;
+
+		/* Better Font Rendering =========== */
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+}

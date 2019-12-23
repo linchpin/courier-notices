@@ -1842,15 +1842,20 @@ pre.courier-notice-type-css-class {
         color: #009fd4; }
   .courier_notice_page_courier #wpcontent .editing-buttons-container, #about-courier .editing-buttons-container, #whats-new .editing-buttons-container, #courier-settings .editing-buttons-container {
     text-align: center; }
-  .courier_notice_page_courier #wpcontent .about.hero, #about-courier .about.hero, #whats-new .about.hero, #courier-settings .about.hero {
-    background-color: #89d0ff; }
-  .courier_notice_page_courier #wpcontent .whatsnew.hero, #about-courier .whatsnew.hero, #whats-new .whatsnew.hero, #courier-settings .whatsnew.hero {
-    background-color: #89d0ff; }
+  .courier_notice_page_courier #wpcontent .about.hero,
+  .courier_notice_page_courier #wpcontent .whatsnew.hero, #about-courier .about.hero,
+  #about-courier .whatsnew.hero, #whats-new .about.hero,
+  #whats-new .whatsnew.hero, #courier-settings .about.hero,
+  #courier-settings .whatsnew.hero {
+    background-image: url("../img/courier-admin-header@2x.png");
+    background-position: 100% 50%;
+    background-size: cover;
+    padding-right: 33%; }
   .courier_notice_page_courier #wpcontent .hero .hero-text, #about-courier .hero .hero-text, #whats-new .hero .hero-text, #courier-settings .hero .hero-text {
     padding: 3rem 5%;
-    width: 70%; }
+    width: 95%; }
     .courier_notice_page_courier #wpcontent .hero .hero-text h1, .courier_notice_page_courier #wpcontent .hero .hero-text h2, .courier_notice_page_courier #wpcontent .hero .hero-text h3, #about-courier .hero .hero-text h1, #about-courier .hero .hero-text h2, #about-courier .hero .hero-text h3, #whats-new .hero .hero-text h1, #whats-new .hero .hero-text h2, #whats-new .hero .hero-text h3, #courier-settings .hero .hero-text h1, #courier-settings .hero .hero-text h2, #courier-settings .hero .hero-text h3 {
-      color: #f5f5f5; }
+      color: #01365e; }
     .courier_notice_page_courier #wpcontent .hero .hero-text h3, #about-courier .hero .hero-text h3, #whats-new .hero .hero-text h3, #courier-settings .hero .hero-text h3 {
       font-weight: 300 !important; }
   .courier_notice_page_courier #wpcontent .wrapper, #about-courier .wrapper, #whats-new .wrapper, #courier-settings .wrapper {

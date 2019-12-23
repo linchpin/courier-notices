@@ -100,7 +100,7 @@ class Courier_Notice {
 			'exclude_from_search' => true,
 			'publicly_queryable'  => false,
 			'capability_type'     => 'page',
-			'menu_icon'           => 'data:image/svg+xml;base64,' . base64_encode( file_get_contents( COURIER_PATH . 'css/fonts/courier-logo.svg') ),
+			'menu_icon'           => 'courier-logo',
 			'rewrite'             => false,
 		);
 
