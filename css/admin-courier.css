@@ -100,6 +100,106 @@ body.wp-admin table.courier_notice_page_courier [class*="icon-"] {
  *
  * Standard clearfix, for parents of floated elements.
  * * */
+/**
+ * 01. Courier Types
+ */
+.form-table td {
+  vertical-align: top; }
+  .form-table td .courier_notice_page_courier td {
+    padding: 8px 10px; }
+    .form-table td .courier_notice_page_courier td input {
+      max-width: 100%; }
+  .form-table td .courier_notice_page_courier thead th,
+  .form-table td .courier_notice_page_courier thead td,
+  .form-table td .courier_notice_page_courier tfoot th,
+  .form-table td .courier_notice_page_courier tfoot td {
+    padding: 12px 8px; }
+    .form-table td .courier_notice_page_courier thead th a,
+    .form-table td .courier_notice_page_courier thead td a,
+    .form-table td .courier_notice_page_courier tfoot th a,
+    .form-table td .courier_notice_page_courier tfoot td a {
+      padding: 0; }
+  .form-table td .courier_notice_page_courier thead .manage-column,
+  .form-table td .courier_notice_page_courier tfoot .manage-column {
+    padding-left: 3px; }
+  .form-table td .courier_notice_page_courier thead .column-notice_default,
+  .form-table td .courier_notice_page_courier tbody .column-notice_default,
+  .form-table td .courier_notice_page_courier tfoot .column-notice_default {
+    padding-left: 8px; }
+  .form-table td .courier_notice_page_courier .check-column {
+    visibility: hidden;
+    width: 0 !important; }
+  .form-table td .courier_notice_page_courier .courier-type-icon {
+    display: inline-block;
+    min-width: 14px; }
+  .form-table td .courier_notice_page_courier #title {
+    width: 150px; }
+  .form-table td .courier_notice_page_courier #notice_color,
+  .form-table td .courier_notice_page_courier #notice_text_color,
+  .form-table td .courier_notice_page_courier #notice_icon_color,
+  .form-table td .courier_notice_page_courier #notice_bg_color {
+    width: 130px; }
+  .form-table td .courier_notice_page_courier #notice_preview {
+    width: 100%; }
+  .form-table td .static-color-visual-swatch {
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+    vertical-align: middle; }
+  .form-table td .notice-options {
+    padding-top: 4px; }
+    .form-table td .notice-options .notice-option {
+      display: inline-block;
+      max-width: 100%;
+      vertical-align: top; }
+    .form-table td .notice-options .notice-option-title {
+      display: inline-block;
+      margin: 0; }
+  .form-table td .courier-notice {
+    background: #e8e8e8; }
+
+#courier-settings form.settings-form .form-table {
+  width: 100%;
+  margin: 2rem 0; }
+
+#courier-settings form.settings-form .submit {
+  width: 90%;
+  margin: 2rem 5%; }
+
+#courier-settings #cb {
+  width: 36px; }
+
+#courier-settings #notice_default {
+  width: 50px; }
+
+#courier-settings #title {
+  vertical-align: middle;
+  width: 200px; }
+
+#courier-settings tfoot .column-title {
+  vertical-align: middle; }
+
+#courier-settings #notice_preview {
+  width: 100%; }
+
+#courier-settings #notice_delete {
+  width: 100px; }
+
+#courier-settings input[type=checkbox]:checked:before {
+  color: #94C169; }
+
+.column-notice_delete {
+  text-align: center; }
+  .column-notice_delete .button-editing[aria-label="Save"], .column-notice_delete .button-editing[aria-label="Cancel"] {
+    display: none; }
+  .courier-notice-editing .column-notice_delete .button-editing[aria-label="Save"], .courier-notice-editing .column-notice_delete .button-editing[aria-label="Cancel"] {
+    display: inline-block; }
+  .courier-notice-editing .column-notice_delete .courier-notices-type-delete {
+    display: none; }
+
+.courier-notice-editing .courier-notice-type-edit {
+  display: none; }
+
 .courier-columns-1 {
   width: 8.33333%; }
 
@@ -1625,23 +1725,8 @@ table.courier_notice_page_courier .form-table th {
 .column-courier-global {
   text-align: center; }
 
-#notice_default {
-  width: 50px; }
-
 .column-notice_default {
   text-align: center; }
-
-#notice_delete {
-  width: 100px; }
-
-.column-notice_delete {
-  text-align: center; }
-  .column-notice_delete .button-editing[aria-label="Save"], .column-notice_delete .button-editing[aria-label="Cancel"] {
-    display: none; }
-  .courier-notice-editing .column-notice_delete .button-editing[aria-label="Save"], .courier-notice-editing .column-notice_delete .button-editing[aria-label="Cancel"] {
-    display: inline-block; }
-  .courier-notice-editing .column-notice_delete .courier-notices-type-delete {
-    display: none; }
 
 pre.courier-notice-type-css-class {
   display: inline-block;
@@ -1827,9 +1912,9 @@ pre.courier-notice-type-css-class {
       background-color: #01365e;
       color: #FFFFFF; }
     .courier_notice_page_courier #wpcontent .button-primary.save-button, #about-courier .button-primary.save-button, #whats-new .button-primary.save-button, #courier-settings .button-primary.save-button {
-      background-color: #efa500; }
+      background-color: #94C169; }
       .courier_notice_page_courier #wpcontent .button-primary.save-button:hover, .courier_notice_page_courier #wpcontent .button-primary.save-button:focus, .courier_notice_page_courier #wpcontent .button-primary.save-button:active, #about-courier .button-primary.save-button:hover, #about-courier .button-primary.save-button:focus, #about-courier .button-primary.save-button:active, #whats-new .button-primary.save-button:hover, #whats-new .button-primary.save-button:focus, #whats-new .button-primary.save-button:active, #courier-settings .button-primary.save-button:hover, #courier-settings .button-primary.save-button:focus, #courier-settings .button-primary.save-button:active {
-        backrgound-color: #89d0ff; }
+        backrgound-color: #8cbd5e; }
   .courier_notice_page_courier #wpcontent .button.wp-color-result, #about-courier .button.wp-color-result, #whats-new .button.wp-color-result, #courier-settings .button.wp-color-result {
     margin-bottom: 0; }
   .courier_notice_page_courier #wpcontent .button.button-editing, #about-courier .button.button-editing, #whats-new .button.button-editing, #courier-settings .button.button-editing {
@@ -2009,72 +2094,6 @@ pre.courier-notice-type-css-class {
     transition: background-color 0.25s ease-out,color 0.25s ease-out; }
     .courier-update-notice a:hover, .courier-update-notice a:focus, .courier-update-notice a:active {
       color: #efa500; }
-
-.form-table td {
-  vertical-align: top; }
-  .form-table td .courier_notice_page_courier td {
-    padding: 8px 10px; }
-    .form-table td .courier_notice_page_courier td input {
-      max-width: 100%; }
-  .form-table td .courier_notice_page_courier thead th,
-  .form-table td .courier_notice_page_courier thead td,
-  .form-table td .courier_notice_page_courier tfoot th,
-  .form-table td .courier_notice_page_courier tfoot td {
-    padding: 12px 8px; }
-    .form-table td .courier_notice_page_courier thead th a,
-    .form-table td .courier_notice_page_courier thead td a,
-    .form-table td .courier_notice_page_courier tfoot th a,
-    .form-table td .courier_notice_page_courier tfoot td a {
-      padding: 0; }
-  .form-table td .courier_notice_page_courier thead .manage-column,
-  .form-table td .courier_notice_page_courier tfoot .manage-column {
-    padding-left: 3px; }
-  .form-table td .courier_notice_page_courier thead .column-notice_default,
-  .form-table td .courier_notice_page_courier tbody .column-notice_default,
-  .form-table td .courier_notice_page_courier tfoot .column-notice_default {
-    padding-left: 8px; }
-  .form-table td .courier_notice_page_courier .check-column {
-    visibility: hidden;
-    width: 0 !important; }
-  .form-table td .courier_notice_page_courier .courier-type-icon {
-    display: inline-block;
-    min-width: 14px; }
-  .form-table td .courier_notice_page_courier #title {
-    width: 150px; }
-  .form-table td .courier_notice_page_courier #notice_color,
-  .form-table td .courier_notice_page_courier #notice_text_color,
-  .form-table td .courier_notice_page_courier #notice_icon_color,
-  .form-table td .courier_notice_page_courier #notice_bg_color {
-    width: 130px; }
-  .form-table td .courier_notice_page_courier #notice_preview {
-    width: 100%; }
-  .form-table td .static-color-visual-swatch {
-    display: inline-block;
-    height: 22px;
-    width: 22px;
-    vertical-align: middle; }
-  .form-table td .notice-options {
-    padding-top: 4px; }
-    .form-table td .notice-options .notice-option {
-      display: inline-block;
-      max-width: 100%;
-      vertical-align: top; }
-    .form-table td .notice-options .notice-option-title {
-      display: inline-block;
-      margin: 0; }
-  .form-table td .courier-notice {
-    background: #e8e8e8; }
-
-#courier-settings form.settings-form .form-table {
-  width: 100%;
-  margin: 2rem 0; }
-
-#courier-settings form.settings-form .submit {
-  width: 90%;
-  margin: 2rem 5%; }
-
-#courier-settings input[type=checkbox]:checked:before {
-  color: #94C169; }
 
 .courier-admin-notice {
   border: 2px solid #f3f3f3;
