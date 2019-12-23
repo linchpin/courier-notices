@@ -1,6 +1,7 @@
 $icomoon-admin-font-family: "courier-admin" !default;
 $icomoon-admin-font-path: "fonts" !default;
 
+$icon-pro: "\e901";
 $icon-courier-logo: "\e900";
 
 @font-face {
@@ -15,10 +16,34 @@ $icon-courier-logo: "\e900";
 	font-display: block;
 }
 
+@mixin courier-admin-icon {
+	font-family: '#{$icomoon-admin-font-family}' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-pro,
+.icon-courier-logo {
+	@include courier-admin-icon;
+}
+
+.icon-pro {
+	&:before {
+		content: $icon-pro;
+	}
+}
+
 .icon-courier-logo {
 	&:before {
 		content: $icon-courier-logo;
-		color: #fff;
 	}
 }
 
@@ -26,16 +51,6 @@ $icon-courier-logo: "\e900";
 	.wp-menu-image:before {
 		content: $icon-courier-logo;
 
-		font-family: '#{$icomoon-admin-font-family}' !important;
-		speak: none;
-		font-style: normal;
-		font-weight: normal;
-		font-variant: normal;
-		text-transform: none;
-		line-height: 1;
-
-		/* Better Font Rendering =========== */
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
+		@include courier-admin-icon;
 	}
 }

@@ -7,9 +7,24 @@
   font-style: normal;
   font-display: block; }
 
+.icon-pro,
+.icon-courier-logo {
+  font-family: "courier-admin" !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.icon-pro:before {
+  content: ""; }
+
 .icon-courier-logo:before {
-  content: "";
-  color: #fff; }
+  content: ""; }
 
 .menu-icon-courier_notice .wp-menu-image:before {
   content: "";
