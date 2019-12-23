@@ -146,9 +146,8 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 		$request_args = wp_parse_args( $request->get_params(), $defaults );
 
 		// Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
-		$number = min( $request_args['number'], 100 );
-		$number = apply_filters( 'courier_override_notices_number', $number );
-
+		$number       = min( $request_args['number'], 100 );
+		$number       = apply_filters( 'courier_override_notices_number', $number );
 		$results      = array();
 		// Account for global notices.
 		$global_posts = array();
@@ -234,7 +233,6 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 		 */
 		$query_args          = apply_filters( 'courier_notices_display_notices_query', $query_args, $request_args );
 		$query_args          = wp_parse_args( $request_args['query_args'], $query_args );
-
 		$final_notices_query = new \WP_Query( $query_args );
 
 		if ( $final_notices_query->have_posts() ) {

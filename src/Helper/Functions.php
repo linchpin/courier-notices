@@ -79,9 +79,8 @@ function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = f
  */
 function courier_get_user_notices( $args = array() ) {
 	$courier_css = get_transient( 'courier_notice_css' );
-
-	$number = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
-	$number = apply_filters( 'courier_override_notices_number', $number );
+	$number      = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
+	$number      = apply_filters( 'courier_override_notices_number', $number );
 
 	$query_args = array(
 		'post_type'      => 'courier_notice',
@@ -207,7 +206,7 @@ function courier_get_global_notices( $args = array() ) {
 	// Only include the notices for a specific placement.
 	if ( ! empty( $args['placement'] ) ) {
 		$query_args['tax_query']['relation'] = 'AND';
-		$query_args['tax_query'][] = array(
+		$query_args['tax_query'][]           = array(
 			'taxonomy' => 'courier_placement',
 			'field'    => 'slug',
 			'terms'    => is_array( $args['placement'] ) ? $args['placement'] : array( $args['placement'] ),
@@ -231,12 +230,14 @@ function courier_get_global_notices( $args = array() ) {
  *
  * @since 1.0
  *
- * @param bool $ids_only Whether to return only IDs.
+ * @param array $args     Query Args
+ * @param bool  $ids_only Whether to return only IDs.
  *
  * @return array|bool|mixed
  */
-function courier_get_dismissible_global_notices( $ids_only = false ) {
-	$cache = wp_cache_get( 'global-dismissible-notices', 'courier' );
+function courier_get_dismissible_global_notices( $args = array(), $ids_only = false ) {
+	$cache_key = 'global-dismissible-' . sanitize_title( $args['placement'] ) . '-notices';
+	$cache     = wp_cache_get( $cache_key, 'courier' );
 
 	if ( false !== $cache ) {
 		if ( $ids_only ) {
@@ -274,9 +275,20 @@ function courier_get_dismissible_global_notices( $ids_only = false ) {
 		'no_found_rows'  => true,
 	);
 
+	// Only include the notices for a specific placement.
+	if ( ! empty( $args['placement'] ) ) {
+		$query_args['tax_query']['relation'] = 'AND';
+		$query_args['tax_query'][]           = array(
+			'taxonomy' => 'courier_placement',
+			'field'    => 'slug',
+			'terms'    => is_array( $args['placement'] ) ? $args['placement'] : array( $args['placement'] ),
+			'operator' => 'IN',
+		);
+	}
+
 	$global_notices_query = new WP_Query( $args );
 
-	wp_cache_set( 'global-dismissible-notices', $global_notices_query->posts, 'courier', 300 );
+	wp_cache_set( $cache_key, $global_notices_query->posts, 'courier', 300 );
 
 	if ( $ids_only ) {
 		return wp_list_pluck( $global_notices_query->posts, 'ID' );
@@ -481,8 +493,7 @@ function courier_display_notices( $args = array() ) {
 
 	$courier_notices->assign( 'courier_placement', $courier_placement );
 
-	if ( isset( $courier_options['ajax_notices'] ) && true === (bool) $courier_options['ajax_notices'] ) {
-
+	if ( isset( $courier_options['ajax_notices'] ) && 1 === intval( $courier_options['ajax_notices'] ) ) {
 		$output = $courier_notices->get_text_view( 'notices-ajax' );
 	} else {
 
@@ -500,17 +511,19 @@ function courier_display_notices( $args = array() ) {
 	$output = apply_filters( 'courier_notices', $output );
 
 	$allowed_html = array(
-		'div' => array(
-			'class' => array(),
-			'data-courier' => array(),
+		'div'   => array(
+			'class'                  => array(),
+			'data-courier'           => array(),
 			'data-courier-notice-id' => array(),
-			'data-alert' => array(),
-			'data-closable' => array(),
+			'data-courier-ajax'      => array(),
+			'data-courier-placement' => array(),
+			'data-alert'             => array(),
+			'data-closable'          => array(),
 		),
-		'span' => array(
+		'span'  => array(
 			'class' => array(),
 		),
-		'p' => array(),
+		'p'     => array(),
 		'style' => array(
 			'id' => array(),
 		),

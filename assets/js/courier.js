@@ -23,18 +23,20 @@ courier.dismiss = (function ($) {
                 .on('click', '.trigger-close', self.close_click );
 
 			document.addEventListener("DOMContentLoaded", function() {
-				var $notice_container = $('.courier-notices[data-courier-ajax="true"]' );
-					$notice_container.data('loaded', false);
 
-					// If no notice containers expecting ajax, die early.
-					if ( $notice_container.length === 0 ) {
-						return;
-					}
+				var $notice_container = $( '.courier-notices[data-courier-ajax="true"]' );
+					$notice_container.data( 'loaded', false );
+
+				// If no notice containers expecting ajax, die early.
+				if ( $notice_container.length === 0 ) {
+
+					return;
+				}
 
 				var observer = new IntersectionObserver( function( entries, observer ) {
 
 					entries.forEach( function( entry ) {
-						if ( entry.intersectionRatio === 1  && false === $notice_container.data('loaded') ) {
+						if ( entry.intersectionRatio === 1  && false === $notice_container.data( 'loaded' ) ) {
 
 							var settings = {
 								contentType: "application/json",
@@ -55,6 +57,8 @@ courier.dismiss = (function ($) {
 
 								if ( response.notices ) {
 
+									console.log( response.notices );
+
 									$.each( response.notices, function( index ) {
 
 										var $notice = $( response.notices[ index ] ).hide();
@@ -67,7 +71,7 @@ courier.dismiss = (function ($) {
 								}
 							});
 
-							$notice_container.data('loaded', true );
+							$notice_container.data( 'loaded', true );
 						}
 					} );
 				}, { threshold: 1 } );
