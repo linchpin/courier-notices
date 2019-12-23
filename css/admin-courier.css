@@ -1847,7 +1847,7 @@ pre.courier-notice-type-css-class {
   #about-courier .whatsnew.hero, #whats-new .about.hero,
   #whats-new .whatsnew.hero, #courier-settings .about.hero,
   #courier-settings .whatsnew.hero {
-    background-image: url("../img/courier-admin-header@2x.png");
+    background-image: url("../img/courier-settings-banner@2x.png");
     background-position: 100% 50%;
     background-size: cover;
     padding-right: 33%; }
