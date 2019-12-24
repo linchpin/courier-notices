@@ -844,21 +844,23 @@ pre.courier-notice-type-css-class {
 	}
 
 // About courier
-  .about.hero {
-	  background-color: $primary-color
-  }
-
+  .about.hero,
   .whatsnew.hero {
-	  background-color: $primary-color
+	  background: {
+		  image: url('../img/courier-settings-banner@2x.png');
+		  position: 100% 50%;
+		  size: cover;
+	  };
+	  padding-right: 33%;
   }
 
   .hero {
     .hero-text {
       padding: 3rem 5%;
-      width: 70%;
+      width: 95%;
 
       h1, h2, h3 {
-        color: $white-smoke;
+	    color: $secondary-color;
       }
 
       h3 {
