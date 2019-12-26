@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1875,14 +1875,14 @@ module.exports = __webpack_amd_options__;
 
 /***/ }),
 
-/***/ 0:
+/***/ 1:
 /*!******************************************!*\
   !*** multi ./assets/js/courier-admin.js ***!
   \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/maxwellmorgan/vvv-local/vagrant-local/www/courier/public_html/wp-content/plugins/courier/assets/js/courier-admin.js */"./assets/js/courier-admin.js");
+module.exports = __webpack_require__(/*! /Users/aware/vvv/www/couriier/public_html/wp-content/plugins/courier/assets/js/courier-admin.js */"./assets/js/courier-admin.js");
 
 
 /***/ }),
