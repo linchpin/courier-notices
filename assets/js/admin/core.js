@@ -57,6 +57,7 @@ export default function core() {
 		} );
     }
 
+
     /**
      * When the page loads, push our custom post status into the post status select.
      * If that is the current status of the post, select it and push the text to the on screen label.
@@ -64,9 +65,9 @@ export default function core() {
 	 * @since 1.0
      */
     function populate_status() {
-        var $option = $('<option />').val('courier_expired').text(courier_admin_data.strings.label);
+        var $option = $('<option />').val('courier_expired').text( courier_admin_data.strings.label );
 
-        if (courier_admin_data.post_status === 'courier_expired') {
+        if ( courier_admin_data.post_status === 'courier_expired' ) {
             $('#post-status-display').text(courier_admin_data.strings.expired);
             $option.attr('selected', 'selected');
         }

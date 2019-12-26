@@ -70,7 +70,7 @@ class Courier_Notices {
 
 		$js_dependencies = array( 'jquery' );
 
-		wp_register_style( 'courier-css', $config->get( 'plugin_url' ) . 'assets/css/courier.css', array(), $config->get( 'version' ) );
+		wp_register_style( 'courier-css', $config->get( 'plugin_url' ) . 'css/courier-notices.css', array(), $config->get( 'version' ) );
 
 		global $post;
 
@@ -79,7 +79,7 @@ class Courier_Notices {
 			'notices_endpoint' => site_url( '/wp-json/courier/v1/notices/display/' ),
 			'notices_nonce'    => wp_create_nonce( 'courier_notice_get_notices' ),
 			'wp_rest_nonce'    => wp_create_nonce( 'wp_rest' ),
-			'dismiss_nonce'    => wp_create_nonce( 'courier_dismiss_notification_nonce' ),
+			'dismiss_nonce'    => wp_create_nonce( 'courier_dismiss_' . get_current_user_id() . '_notification_nonce' ),
 			'post_info'        => array(
 				'ID' => ( ! empty( $post ) ) ? $post->ID : -1,
 			),
@@ -87,9 +87,10 @@ class Courier_Notices {
 				'close'   => esc_html__( 'Close', 'courier' ),
 				'dismiss' => esc_html__( 'Dismiss', 'courier' ),
 			),
+			'user_id'          => get_current_user_id(),
 		);
 
-		wp_register_script( 'courier', $config->get( 'plugin_url' ) . 'assets/js/courier.js', $js_dependencies, $config->get( 'version' ), true );
+		wp_register_script( 'courier', $config->get( 'plugin_url' ) . 'js/courier.js', $js_dependencies, $config->get( 'version' ), true );
 		wp_enqueue_script( 'courier' );
 
 		$localized_data = apply_filters( 'courier_localized_data', $localized_data );

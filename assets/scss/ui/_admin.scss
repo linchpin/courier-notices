@@ -1,4 +1,5 @@
 @import
+	'admin-settings',
 	'grid',
 	'helpers',
 	'structure',
@@ -572,40 +573,8 @@ table.courier_notice_page_courier .form-table th {
   text-align:center;
 }
 
-#notice_default {
-  width:50px;
-}
-
 .column-notice_default {
   text-align:center;
-}
-
-#notice_delete {
-	width: 100px;
-}
-
-.column-notice_delete {
-  text-align:center;
-
-	.button-editing {
-		&[aria-label="Save"],
-		&[aria-label="Cancel"] {
-			display: none;
-		}
-	}
-
-	.courier-notice-editing & {
-		.button-editing {
-			&[aria-label="Save"],
-			&[aria-label="Cancel"] {
-				display: inline-block;
-			}
-		}
-
-		.courier-notices-type-delete {
-			display: none;
-		}
-	}
 }
 
 pre.courier-notice-type-css-class {
@@ -743,23 +712,33 @@ pre.courier-notice-type-css-class {
     }
   }
 
-  .color-white {
-    color: $white-smoke;
-  }
+  .courier-sub-menu {
+	padding: 10px 25px;
+	margin-left: -22px;
+	background: white;
 
-  .color-darkgreen {
-    color: $darker-green;
+	a {
+	  margin-right: 10px;
+	}
   }
 
   // tabs
   .nav-tab-wrapper {
     a {
+	  background-color: #f5f5f5;
+	  border: 1px solid #dedede;
+	  border-radius: 0;
+	  border-top: 3px solid $secondary-color;
+	  border-bottom: none;
+	  line-height: 16px;
+	  padding: 8px;
+	  text-decoration: none;
       color: $secondary-color !important;
-      border-radius: .25rem .25rem 0 0;
+
       &.nav-tab-active {
-        border-bottom: none !important;
-        color: $primary-color !important;
-        background-color: $white-smoke;
+        border-bottom: 1px solid white !important;
+        border-top-color: $primary-color !important;
+        background-color: white;
       }
 
       &:first-child {
@@ -802,18 +781,18 @@ pre.courier-notice-type-css-class {
 
 	.button-primary {
 		background-color: $primary-color;
-		color: white !important;
+		color: $white !important;
 
 		&:hover, &:focus, &:active {
 			background-color: $secondary-color;
-			color: $white-smoke;
+			color: $white;
 		}
 
 		&.save-button {
 			background-color: $green;
 
 			&:hover, &:focus, &:active {
-				backrgound-color: $darker-green;
+				backrgound-color: scale-color( $green, $lightness: -5% );
 			}
 		}
 	}
@@ -897,7 +876,7 @@ pre.courier-notice-type-css-class {
   }
 
   .green-bg {
-    background-color: $primary;
+    background-color: $save-color;
     padding: 1px;
     border-radius: 0 0 $global-radius $global-radius;
 
@@ -1021,7 +1000,7 @@ pre.courier-notice-type-css-class {
     .new-tag {
       line-height: 45px;
       display: inline-block;
-      color: $primary;
+      color: $save-color;
       font-weight: 700;
       margin: 0 !important;
       vertical-align: middle;
@@ -1063,16 +1042,6 @@ pre.courier-notice-type-css-class {
   float: none;
 }
 
-.courier-tab {
-  background-color: #f5f5f5;
-  border: 1px solid #dedede;
-  border-bottom: none;
-  color: #666;
-  line-height: 16px;
-  padding: 8px;
-  text-decoration: none;
-}
-
 .courier-section-block {
   .mce-widget.mce-btn.mce-last {
     transition: border 2s;
@@ -1106,7 +1075,7 @@ pre.courier-notice-type-css-class {
 // UPDATE Notification
 .courier-update-notice {
   padding: 10px 38px;
-  border-left-color: $primary;
+  border-left-color: $primary-color;
   margin: 25px 20px 0 2px;
 
   img {
@@ -1126,122 +1095,13 @@ pre.courier-notice-type-css-class {
 
   a {
     text-decoration: none;
-    color: $primary;
+    color: $primary-color;
     font-weight: bolder;
     transition: background-color 0.25s ease-out,color 0.25s ease-out;
 
     &:hover, &:focus, &:active {
-      color: $darker-green;
+      color: $accent-color;
     }
-  }
-}
-
-.form-table td {
-	vertical-align: top;
-
-	.courier_notice_page_courier {
-		td {
-			padding:8px 10px;
-
-			input {
-				max-width: 100%;
-			}
-		}
-
-		thead,
-		tfoot {
-			th,
-			td {
-				padding: 12px 8px;
-
-				a {
-					padding: 0;
-				}
-			}
-
-			.manage-column {
-				padding-left: 3px;
-			}
-		}
-
-		thead,
-		tbody,
-		tfoot {
-			.column-notice_default {
-				padding-left: 8px;
-			}
-		}
-
-		.check-column {
-			visibility: hidden;
-			width: 0 !important;
-		}
-
-		.courier-type-icon {
-			display: inline-block;
-			min-width: 14px;
-		}
-
-		#title {
-			width: 150px;
-		}
-
-		#notice_color,
-		#notice_text_color,
-		#notice_icon_color,
-		#notice_bg_color {
-			width: 130px;
-		}
-
-		#notice_preview {
-			width: 100%;
-		}
-	}
-
-	.static-color-visual-swatch {
-		display: inline-block;
-		height: 22px;
-		width: 22px;
-		vertical-align: middle;
-	}
-
-	.notice-options {
-		padding-top: 4px;
-
-		.notice-option {
-			display: inline-block;
-			max-width: 100%;
-			vertical-align: top;
-		}
-
-		.notice-option-title {
-			display: inline-block;
-			margin: 0;
-		}
-	}
-
-	.courier-notice {
-		@include notice;
-	}
-}
-
-// Settings
-#courier-settings {
-
-  form.settings-form {
-    .form-table {
-      width: 100%;
-      margin: 2rem 0;
-    }
-
-    .submit {
-      width: 90%;
-      margin: 2rem 5%;
-    }
-  }
-
-  input[type=checkbox]:checked:before {
-    color: $primary;
   }
 }
 

@@ -311,7 +311,7 @@ function sass() {
  * @return {*}
  */
 function javascript() {
-	return gulp.src(PATHS.entries)
+	return gulp.src( PATHS.entries )
 		.pipe( named() )
 		.pipe( $.sourcemaps.init() )
 		.pipe( webpackStream( webpackConfig, webpack2 ) )

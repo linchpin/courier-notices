@@ -1,0 +1,167 @@
+/**
+ * 01. Courier Types
+ */
+
+
+// 01. Courier Types
+
+.form-table td {
+	vertical-align: top;
+
+	.courier_notice_page_courier {
+		td {
+			padding:8px 10px;
+
+			input {
+				max-width: 100%;
+			}
+		}
+
+		thead,
+		tfoot {
+			th,
+			td {
+				padding: 12px 8px;
+
+				a {
+					padding: 0;
+				}
+			}
+
+			.manage-column {
+				padding-left: 3px;
+			}
+		}
+
+		thead,
+		tbody,
+		tfoot {
+			.column-notice_default {
+				padding-left: 8px;
+			}
+		}
+
+		.check-column {
+			visibility: hidden;
+			width: 0 !important;
+		}
+
+		.courier-type-icon {
+			display: inline-block;
+			min-width: 14px;
+		}
+
+		#title {
+			width: 150px;
+		}
+
+		#notice_color,
+		#notice_text_color,
+		#notice_icon_color,
+		#notice_bg_color {
+			width: 130px;
+		}
+
+		#notice_preview {
+			width: 100%;
+		}
+	}
+
+	.static-color-visual-swatch {
+		display: inline-block;
+		height: 22px;
+		width: 22px;
+		vertical-align: middle;
+	}
+
+	.notice-options {
+		padding-top: 4px;
+
+		.notice-option {
+			display: inline-block;
+			max-width: 100%;
+			vertical-align: top;
+		}
+
+		.notice-option-title {
+			display: inline-block;
+			margin: 0;
+		}
+	}
+
+	.courier-notice {
+		@include notice;
+	}
+}
+
+// Settings
+#courier-settings {
+	form.settings-form {
+		.form-table {
+			width: 100%;
+			margin: 2rem 0;
+		}
+
+		.submit {
+			width: 90%;
+			margin: 2rem 5%;
+		}
+	}
+
+	#cb {
+		width: 36px;
+	}
+
+	#notice_default {
+		width: 50px;
+	}
+
+	#title {
+		vertical-align: middle;
+		width: 200px;
+	}
+
+	tfoot .column-title {
+		vertical-align: middle;
+	}
+
+	#notice_preview {
+		width: 100%;
+	}
+
+	#notice_delete {
+		width: 100px;
+	}
+
+	input[type=checkbox]:checked:before {
+		color: $save-color;
+	}
+}
+
+.column-notice_delete {
+	text-align:center;
+
+	.button-editing {
+		&[aria-label="Save"],
+		&[aria-label="Cancel"] {
+			display: none;
+		}
+	}
+
+	.courier-notice-editing & {
+		.button-editing {
+			&[aria-label="Save"],
+			&[aria-label="Cancel"] {
+				display: inline-block;
+			}
+		}
+
+		.courier-notices-type-delete {
+			display: none;
+		}
+	}
+}
+
+.courier-notice-editing .courier-notice-type-edit {
+	display: none;
+}

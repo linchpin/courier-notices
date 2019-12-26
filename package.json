@@ -53,7 +53,7 @@
   },
   "bugs": {
     "url": "https://github.com/linchpin/courier/issues",
-    "email": "sayhii@linchpin.com"
+    "email": "sayhi@linchpin.com"
   },
   "engines": {
     "node": ">= 10.13.0"
