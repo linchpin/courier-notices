@@ -108,6 +108,13 @@ class Courier_Notices {
 		}
 
 		$config = new Config();
+
+		$courier_settings = get_option( 'courier_design', array() );
+
+		if ( isset( $courier_settings['disable_css'] ) && 1 === (int) $courier_settings['disable_css'] ) {
+			return;
+		}
+
 		wp_register_style( 'courier', $config->get( 'plugin_url' ) . 'css/courier-notices.css', '', $config->get( 'version' ) );
 		wp_enqueue_style( 'courier' );
 
