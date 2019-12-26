@@ -232,11 +232,13 @@ class Data {
 	 *
 	 * @since 1.0.5
 	 *
-	 * @param array $args Array of arguments.
+	 * @param array $args           Array of arguments.
+	 *
+	 * @param array $ajax_post_data Array of data to customize the response
 	 *
 	 * @return array
 	 */
-	public function get_notices( $args = array() ) {
+	public function get_notices( $args = array(), $ajax_post_data = array() ) {
 
 		$defaults = array(
 			'user_id'                      => '',
@@ -246,7 +248,6 @@ class Data {
 			'ids_only'                     => true,
 			'number'                       => 4,
 			'placement'                    => 'header',
-			'query_args'                   => array(),
 		);
 
 		$defaults = apply_filters( 'courier_get_notices_default_settings', $defaults );
@@ -254,6 +255,8 @@ class Data {
 		$number   = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
 		$number   = apply_filters( 'courier_override_notices_number', $number );
 		$results  = array();
+
+		$ajax_post_data = wp_parse_args( $defaults, $ajax_post_data );
 
 		$user_notices = courier_get_user_notices( $args );
 
@@ -346,7 +349,7 @@ class Data {
 		 *
 		 * @since 1.0
 		 */
-		$query_args          = apply_filters( 'courier_notices_display_notices_query', $query_args );
+		$query_args          = apply_filters( 'courier_notices_display_notices_query', $query_args, $ajax_post_data );
 		$query_args          = wp_parse_args( $args['query_args'], $query_args );
 		$final_notices_query = new \WP_Query( $query_args );
 

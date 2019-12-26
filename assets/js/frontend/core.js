@@ -40,9 +40,14 @@ export default function core() {
 						contentType: "application/json",
 						placement: $notice_container.data( 'courier-placement' ),
 						format: 'html',
+						post_info:{},
 					};
 
-					let data = $.extend( {}, courier_data.post_info, settings );
+					if ( typeof( courier_data.post_info ) !== 'undefined' ) {
+						settings.post_info = courier_data.post_info;
+					}
+
+					// let data = $.extend( {}, courier_data.post_info, settings );
 
 					let dismissed_notice_ids = getItem( 'dismissed_notices' );
 						dismissed_notice_ids = JSON.parse( dismissed_notice_ids );
@@ -54,19 +59,20 @@ export default function core() {
 							xhr.setRequestHeader( 'X-WP-Nonce', courier_data.wp_rest_nonce );
 						},
 						'url': courier_data.notices_endpoint,
-						'data': data,
+						'data': settings,
 					} ).success( function ( response ) {
 						if ( response.notices ) {
 
 							$.each( response.notices, function ( index ) {
-								let $notice = $( response.notices[ index ] ).hide();
 
 								// If the notice is dismissed don't show it.
 								if ( dismissed_notice_ids.indexOf( parseInt( index )  ) !== -1 ) {
 									return;
 								}
 
-								$( '.courier-notices[data-courier-placement="' + data.placement + '"]' )
+								let $notice = $( response.notices[ index ] ).hide();
+
+								$( '.courier-notices[data-courier-placement="' + settings.placement + '"]' )
 									.append( $notice );
 
 								$notice.slideDown( 'fast' );
