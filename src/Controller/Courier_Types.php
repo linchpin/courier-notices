@@ -350,7 +350,7 @@ class Courier_Types {
 		$courier_settings = get_option( 'courier_design', array() );
 
 		// If CSS is disabled there is no need to
-		if ( isset( $courier_settings['disable_css'] ) && 1 === $courier_settings['disable_css'] ) {
+		if ( isset( $courier_settings['disable_css'] ) && 1 === (int) $courier_settings['disable_css'] ) {
 			return;
 		}
 
