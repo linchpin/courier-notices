@@ -200,6 +200,14 @@ class Admin {
 	 * @param string $hook The hook.
 	 */
 	public function admin_enqueue_scripts( $hook ) {
+		$courier_dependencies = array(
+			'jquery',
+			'jquery-ui-core',
+			'jquery-ui-autocomplete',
+			'jquery-ui-datepicker',
+			'jquery-ui-tooltip',
+		);
+
 		if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'edit.php', 'courier_notice_page_courier' ), true ) ) {
 			return;
 		}
@@ -212,17 +220,14 @@ class Admin {
 			}
 		}
 
+		if ( 'courier_notice_page_courier' === $hook ) {
+			$courier_dependencies[] = 'wp-color-picker';
+		}
+
 		wp_enqueue_script(
 			'courier-admin',
 			COURIER_PLUGIN_URL . 'js/courier-admin.js',
-			array(
-				'jquery',
-				'jquery-ui-core',
-				'jquery-ui-autocomplete',
-				'jquery-ui-datepicker',
-				'jquery-ui-tooltip',
-				'wp-color-picker',
-			),
+			$courier_dependencies,
 			COURIER_VERSION,
 			true
 		);
@@ -288,7 +293,6 @@ class Admin {
 	 * @param string $hook The hook.
 	 */
 	public function admin_enqueue_styles( $hook ) {
-
 		if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'edit.php', 'courier_notice_page_courier' ), true ) ) {
 			return;
 		}
@@ -299,13 +303,18 @@ class Admin {
 			}
 		}
 
-		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_style(
 			'courier-admin',
 			COURIER_PLUGIN_URL . 'css/admin-courier.css',
 			array(),
 			COURIER_VERSION
 		);
+
+		if ( ! in_array( $hook, array( 'courier_notice_page_courier' ), true ) ) {
+			return;
+		}
+
+		wp_enqueue_style( 'wp-color-picker' );
 	}
 
 	/**
