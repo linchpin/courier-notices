@@ -407,7 +407,10 @@ function courier_get_notices( $args = array() ) {
 	}
 
 	$post_list = array_merge( $user_notices, $global_posts );
-	$post_list = wp_list_pluck( $post_list, 'ID' );
+
+	if ( true === $args['ids_only'] ) {
+		$post_list = wp_list_pluck($post_list, 'ID');
+	}
 
 	// Prioritize Persistent Global Notes to the top by getting them separately and putting them at the front of the line.
 	if ( true === $args['prioritize_persistent_global'] ) {
@@ -419,17 +422,12 @@ function courier_get_notices( $args = array() ) {
 		);
 
 		if ( ! empty( $persistent_global ) ) {
+			if ( true === $args['ids_only'] ) {
+				$persistent_global = wp_list_pluck( $persistent_global, 'ID' );
+			}
 
 			$results = array_merge( $results, $persistent_global );
-
-			if ( false === $args['ids_only'] ) {
-				$difference = array_diff( $post_list, $persistent_global );
-			} else {
-				$difference = array_diff(
-					wp_list_pluck( $post_list, 'ID' ),
-					wp_list_pluck( $persistent_global, 'ID' )
-				);
-			}
+			$difference = array_diff( $post_list, $persistent_global );
 
 			// If there is no difference, then the persistent global notices are the only ones left.
 			if ( empty( $difference ) ) {
@@ -514,6 +512,10 @@ function courier_display_notices( $args = array() ) {
 		'style' => array(
 			'id' => array(),
 		),
+		'a' => array(
+			'href'  => array(),
+			'class' => array(),
+		),
 	);
 
 	echo wp_kses( $output, $allowed_html ); // @todo this should probably be sanitized more extensively.
@@ -550,10 +552,9 @@ function courier_display_modals( $args = array() ) {
 		foreach ( $notices as $post ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 			setup_postdata( $post );
 			?>
-			<div class="courier-notices modal" data-courier-notice-id="<?php echo esc_attr( get_the_ID() ); ?>" <?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>data-closable<?php endif; ?>>
-				<?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>
-					<a href="#" class="courier-close close">&times;</a>
-				<?php endif; ?>
+			<div class="courier-notices modal" data-courier-notice-id="<?php echo esc_attr( get_the_ID() ); ?>" data-closable>
+				<a href="#" class="courier-close close">&times;</a>
+
 				<?php the_content(); ?>
 			</div>
 			<?php
