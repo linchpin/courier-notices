@@ -1,7 +1,7 @@
 <?php
 	$post_class  = ( is_array( $post_class ) ) ? implode( ' ', array_values( $post_class ) ) : $post_class;
 	$icon        = ( isset( $icon ) && '' !== $icon ) ? 'icon-' . $icon : '';
-	$dismissible = ( isset( $dismissible ) ) ? 'data-closable' : '';
+	$dismissible = ( ! empty( $dismissible ) ) ? 'data-closable' : '';
 ?>
 <?php if ( ! empty( $notice_id ) ) : ?>
 <div data-courier-notice-id="<?php echo esc_attr( $notice_id ); ?>" data-alert class="<?php echo esc_attr( $post_class ); ?>" <?php echo esc_attr( $dismissible ); ?>>
