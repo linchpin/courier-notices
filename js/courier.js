@@ -242,18 +242,21 @@ function core() {
 
   function init() {
     var $notice_container = $('.courier-notices[data-courier-ajax="true"]');
-    $notice_container.data('loaded', false); // If no notice containers expecting ajax, die early.
+    $notice_container.attr('data-loaded', false); // If no notice containers expecting ajax, die early.
 
     if ($notice_container.length === 0) {
       return;
     }
 
+    var courierContainers = document.querySelectorAll('.courier-notices[data-courier-ajax="true"]');
     var observer = new IntersectionObserver(function (entries, observer) {
       entries.forEach(function (entry) {
-        if (entry.intersectionRatio === 1 && false === $notice_container.data('loaded')) {
+        console.log(entry.target.getAttribute('data-loaded'));
+
+        if (entry.intersectionRatio === 1 && 'false' === entry.target.getAttribute('data-loaded')) {
           var settings = {
             contentType: "application/json",
-            placement: $notice_container.data('courier-placement'),
+            placement: entry.target.getAttribute('data-courier-placement'),
             format: 'html',
             post_info: {}
           };
@@ -287,13 +290,16 @@ function core() {
               });
             }
           });
-          $notice_container.data('loaded', true);
+          entry.target.setAttribute('data-loaded', true);
         }
       });
     }, {
       threshold: 1
     });
-    observer.observe(document.querySelector('.courier-notices[data-courier-ajax="true"]'));
+    Array.prototype.forEach.call(courierContainers, function (element) {
+      console.log(element);
+      observer.observe(element);
+    });
   }
 
   domReady(init);
@@ -506,7 +512,7 @@ function modal() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/maxwellmorgan/vvv-local/vagrant-local/www/courier/public_html/wp-content/plugins/courier/assets/js/courier.js */"./assets/js/courier.js");
+module.exports = __webpack_require__(/*! /Users/aware/vvv/www/couriier/public_html/wp-content/plugins/courier/assets/js/courier.js */"./assets/js/courier.js");
 
 
 /***/ }),

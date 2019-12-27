@@ -194,11 +194,14 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 		);
 
 		$defaults       = apply_filters( 'courier_get_notices_default_settings', $defaults );
-		$args           = wp_parse_args( array(
-			'contentType' => $request->get_param( 'contentType' ),
-			'placement'   => $request->get_param( 'placement' ),
-			'format'      => $request->get_param( 'format' ),
-		), $defaults );
+		$args           = wp_parse_args(
+			array(
+				'contentType' => $request->get_param( 'contentType' ),
+				'placement'   => $request->get_param( 'placement' ),
+				'format'      => $request->get_param( 'format' ),
+			),
+			$defaults
+		);
 		$ajax_post_data = wp_parse_args( $request->get_params(), $defaults );
 		$notice_data    = new Courier_Notice_Data();
 		$notice_posts   = $notice_data->get_notices( $args, $ajax_post_data );

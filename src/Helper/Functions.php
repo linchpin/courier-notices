@@ -80,79 +80,11 @@ function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = f
  * @return array
  */
 function courier_get_user_notices( $args = array() ) {
-	$courier_css = get_transient( 'courier_notice_css' );
-	$number      = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
-	$number      = apply_filters( 'courier_override_notices_number', $number );
 
-	$query_args = array(
-		'post_type'      => 'courier_notice',
-		'post_status'    => array(
-			'publish',
-		),
-		'posts_per_page' => $number,
-		'orderby'        => 'date',
-		'order'          => 'DESC',
-		'tax_query'      => array(
-			'relation' => 'AND',
-		),
-		'fields'         => 'ids',
-		'no_found_rows'  => true,
-	);
+		$data = new Courier_Notice_Data();
 
-	if ( is_user_logged_in() ) {
-		// User is logged in but no user_id is set, use current user ID.
-		if ( empty( $args['user_id'] ) ) {
-			$args['user_id'] = get_current_user_id();
-		}
+		return $data->get_user_notices( $args );
 
-		/**
-		 * Exclude global notices written by this user.
-		 * This prevents dismissed global notices from persisting for the admin that created it.
-		 */
-		if ( current_user_can( 'edit_posts' ) ) {
-			$query_args['tax_query'][] = array(
-				'taxonomy' => 'courier_scope',
-				'field'    => 'name',
-				'terms'    => array( 'Global' ),
-				'operator' => 'NOT IN',
-			);
-		}
-	}
-
-	if ( ! empty( $args['user_id'] ) ) {
-		$query_args['author'] = $args['user_id'];
-	} else {
-		return array();
-	}
-
-	// Do not include dismissed notices.
-	if ( ! $args['include_dismissed'] ) {
-		$query_args['tax_query'][] = array(
-			'taxonomy' => 'courier_status',
-			'field'    => 'name',
-			'terms'    => array( 'Dismissed' ),
-			'operator' => 'NOT IN',
-		);
-	}
-
-	// Only include the notices for a specific placement.
-	if ( ! empty( $args['placement'] ) ) {
-		$query_args['tax_query']['relation'] = 'AND';
-
-		$query_args['tax_query'][] = array(
-			'relation' => 'AND',
-			array(
-				'taxonomy' => 'courier_placement',
-				'field'    => 'slug',
-				'terms'    => is_array( $args['placement'] ) ? $args['placement'] : array( $args['placement'] ),
-				'operator' => 'IN',
-			),
-		);
-	}
-
-	$notices_query = new WP_Query( $query_args );
-
-	return $notices_query->posts;
 }
 
 /**
@@ -213,6 +145,7 @@ function courier_get_persistent_global_notices( $args = array() ) {
  * @return array
  */
 function courier_get_notices( $args = array() ) {
+
 	$data = new Courier_Notice_Data();
 
 	return $data->get_notices( $args );
@@ -237,7 +170,8 @@ function courier_display_notices( $args = array() ) {
 		$output = $courier_notices->get_text_view( 'notices-ajax' );
 	} else {
 
-		$notices = courier_get_notices( $args );
+		$data    = new Courier_Notice_Data();
+		$notices = $data->get_notices( $args );
 
 		if ( empty( $notices ) ) {
 			return;
@@ -267,7 +201,7 @@ function courier_display_notices( $args = array() ) {
 		'style' => array(
 			'id' => array(),
 		),
-		'a' => array(
+		'a'     => array(
 			'href'  => array(),
 			'class' => array(),
 		),

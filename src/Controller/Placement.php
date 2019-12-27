@@ -56,6 +56,6 @@ class Placement {
 	 * @since 1.0
 	 */
 	public static function place_modal_notices() {
-		courier_display_modals();
+		// courier_display_modals();
 	}
 }
