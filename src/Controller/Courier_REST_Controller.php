@@ -201,6 +201,9 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 		), $defaults );
 		$ajax_post_data = wp_parse_args( $request->get_params(), $defaults );
 		$notice_data    = new Courier_Notice_Data();
+
+		error_log( 'display notices: ' . $request->get_param( 'placement' ) );
+
 		$notice_posts   = $notice_data->get_notices( $args, $ajax_post_data );
 
 		if ( 'html' === $args['format'] ) {
