@@ -1,5 +1,5 @@
 <?php
-$courier_css = get_transient( 'courier_notice_css' );
+$courier_css = courier_get_css();
 $courier_settings = get_option( 'courier_design', array() );
 
 // If CSS is disabled there is no need to

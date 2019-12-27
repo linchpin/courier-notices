@@ -6,6 +6,7 @@
  */
 
 use Courier\Model\Courier_Notice\Data as Courier_Notice_Data;
+use Courier\Controller\Courier_Types as Courier_Types;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -416,3 +417,19 @@ function courier_dismiss_notices( $notice_ids, $user_id = 0, $force_dismiss = fa
 	}
 }
 
+/**
+ * Get Courier types CSS to be used for frontend display
+ *
+ * @since 1.0.5
+ *
+ * @return string|void
+ */
+function courier_get_css() {
+	$courier_css = get_transient( 'courier_notice_css' );
+
+	if ( false === $courier_css ) {
+		$courier_css = Courier_Types::save_css_transient();
+	}
+
+	return $courier_css;
+}
