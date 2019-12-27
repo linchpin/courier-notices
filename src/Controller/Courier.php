@@ -220,13 +220,14 @@ class Courier {
 		<div class="misc-pub-section courier-dismissable">
 			<span class="dashicons dashicons-no-alt wp-media-buttons-icon"></span>&nbsp;
 			<label for="courier_dismissible"><?php esc_html_e( 'Dismissible Notice:', 'courier' ); ?></label>&nbsp;
-			<input type="checkbox" name="courier_dismissible" id="courier_dismissible" value="1" <?php checked( get_post_meta( $post_id, '_courier_dismissible', true ) ); ?> />
+			<input type="checkbox" name="courier_dismissible" id="courier_dismissible" value="1" <?php checked( get_post_meta( $post->ID, '_courier_dismissible', true ) ); ?> />
 			<a href="#" class="courier-info-icon courier-help" title="<?php esc_html_e( 'Allow this notice to be dismissed by users', 'courier' ); ?>">?</a>
 		</div>
 		<?php
 
 		$copy_shortcode_info = new View();
-		$copy_shortcode_info->assign( 'type', 'info' );
+		$copy_shortcode_info->assign( 'type', 'shortcode-help' );
+		$copy_shortcode_info->assign( 'courier_notifications', get_user_option( 'courier_notifications' ) );
 		$copy_shortcode_info->assign( 'message', __( 'Copy this notice <strong>shortcode</strong> to display in your content or in a widget!', 'courier' ) );
 		$copy_shortcode_info->render( 'admin/notifications' );
 

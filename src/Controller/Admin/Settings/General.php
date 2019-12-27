@@ -66,38 +66,7 @@ class General {
 	 * @since 1.0
 	 */
 	public static function add_admin_menu() {
-	//	add_submenu_page( 'options-general.php', COURIER_PLUGIN_NAME . ' pro', COURIER_PLUGIN_NAME . ' pro', 'manage_options', 'courier', array( __CLASS__, 'add_settings_page' ) );
-
-		/**
-		 * Override our default settings menu item with our custom menu item.
-		 * Kind of a hacky work around. @todo investigate a cleaner solution.
-		 */
-	//	global $submenu;
-
-	//	$courier_menu = self::override_settings_link( $submenu['options-general.php'], 'courier' );
-	//	$submenu['options-general.php'][ $courier_menu ][2] = 'edit.php?post_type=courier_notice&page=' . esc_attr( self::$settings_page );
-
 		add_submenu_page( 'edit.php?post_type=courier_notice', COURIER_PLUGIN_NAME, esc_html__( 'Settings', 'courier' ), 'manage_options', self::$settings_page, array( __CLASS__, 'add_settings_page' ) );
-	}
-
-	/**
-	 * @param $options
-	 * @param $search_key
-	 *
-	 * @return bool|int|string
-	 */
-	private static function override_settings_link( $options = array(), $search_key ) {
-
-		if ( ! empty( $options ) ) {
-			foreach ( $options as $key => $option ) {
-				if ( array_search( $search_key, $option, true ) !== false ) {
-					// if value not found in array.....
-					return $key;
-				}
-			}
-		}
-
-		return false;
 	}
 
 	/**
@@ -119,13 +88,15 @@ class General {
 
 		if ( $plugin === $plugin_file ) {
 
+			$plugin_url = 'edit.php?post_type=courier_notice&page=courier';
+
 			$settings = array(
-				'settings' => '<a href="options-general.php?page=' . esc_attr( self::$settings_page ) . '">' . esc_html__( 'Settings', 'courier' ) . '</a>',
+				'settings' => '<a href="' . esc_url( $plugin_url ) . '">' . esc_html__( 'Settings', 'courier' ) . '</a>',
 			);
 
 			$site_link = array(
 				'faq'    => '<a href="https://linchpin.com/plugins/courier/" target="_blank">' . esc_html__( 'FAQ', 'courier' ) . '</a>',
-				'go_pro' => '<a href="https://linchpin.com/plugins/courier-pro/" target="_blank">' . esc_html__( 'Go Pro', 'courier' ) . '</a>',
+				'go_pro' => '<a href="https://shop.linchpin.com/plugins/courier-pro/" target="_blank">' . esc_html__( 'Go Pro', 'courier' ) . '</a>',
 			);
 
 			$actions = array_merge( $settings, $actions );

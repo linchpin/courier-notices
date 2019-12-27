@@ -27,6 +27,7 @@ class Admin {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_icon_styles' ) );
 
 		add_action( 'restrict_manage_posts', array( $this, 'filter_courier_notices' ), 10, 2 );
 	}
@@ -199,6 +200,14 @@ class Admin {
 	 * @param string $hook The hook.
 	 */
 	public function admin_enqueue_scripts( $hook ) {
+		$courier_dependencies = array(
+			'jquery',
+			'jquery-ui-core',
+			'jquery-ui-autocomplete',
+			'jquery-ui-datepicker',
+			'jquery-ui-tooltip',
+		);
+
 		if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'edit.php', 'courier_notice_page_courier' ), true ) ) {
 			return;
 		}
@@ -211,17 +220,14 @@ class Admin {
 			}
 		}
 
+		if ( 'courier_notice_page_courier' === $hook ) {
+			$courier_dependencies[] = 'wp-color-picker';
+		}
+
 		wp_enqueue_script(
 			'courier-admin',
 			COURIER_PLUGIN_URL . 'js/courier-admin.js',
-			array(
-				'jquery',
-				'jquery-ui-core',
-				'jquery-ui-autocomplete',
-				'jquery-ui-datepicker',
-				'jquery-ui-tooltip',
-				'wp-color-picker',
-			),
+			$courier_dependencies,
 			COURIER_VERSION,
 			true
 		);
@@ -261,6 +267,7 @@ class Admin {
 			'add_nonce'           => wp_create_nonce( 'courier_notices_add_type_nonce' ),
 			'update_nonce'        => wp_create_nonce( 'courier_notices_update_type_nonce' ),
 			'delete_nonce'        => wp_create_nonce( 'courier_notices_delete_type_nonce' ),
+			'dismiss_nonce'       => wp_create_nonce( 'courier_notices_dismiss_nonce' ),
 			'current_user'        => array(
 				'ID'           => $current_user->ID,
 				'display_name' => $current_user->display_name,
@@ -286,7 +293,6 @@ class Admin {
 	 * @param string $hook The hook.
 	 */
 	public function admin_enqueue_styles( $hook ) {
-
 		if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'edit.php', 'courier_notice_page_courier' ), true ) ) {
 			return;
 		}
@@ -297,10 +303,31 @@ class Admin {
 			}
 		}
 
-		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_style(
 			'courier-admin',
 			COURIER_PLUGIN_URL . 'css/admin-courier.css',
+			array(),
+			COURIER_VERSION
+		);
+
+		if ( ! in_array( $hook, array( 'courier_notice_page_courier' ), true ) ) {
+			return;
+		}
+
+		wp_enqueue_style( 'wp-color-picker' );
+	}
+
+	/**
+	 * Enqueue our admin icons.
+	 *
+	 * @since 1.0
+	 *
+	 * @param string $hook The hook.
+	 */
+	public function admin_enqueue_icon_styles( $hook ) {
+		wp_enqueue_style(
+			'courier-admin-icons',
+			COURIER_PLUGIN_URL . 'css/admin-courier-icons.css',
 			array(),
 			COURIER_VERSION
 		);
