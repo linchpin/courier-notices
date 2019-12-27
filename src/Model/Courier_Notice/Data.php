@@ -289,7 +289,10 @@ class Data {
 		}
 
 		$post_list = array_merge( $user_notices, $global_posts, $global_dismissible_posts );
-		$post_list = wp_list_pluck( $post_list, 'ID' );
+
+		if ( true === $args['ids_only'] ) {
+			$post_list = wp_list_pluck($post_list, 'ID');
+		}
 
 		// Prioritize Persistent Global Notes to the top by getting them separately and putting them at the front of the line.
 		if ( true === $args['prioritize_persistent_global'] ) {
@@ -301,17 +304,13 @@ class Data {
 			);
 
 			if ( ! empty( $persistent_global ) ) {
+				if ( true === $args['ids_only'] ) {
+					$persistent_global = wp_list_pluck( $persistent_global, 'ID' );
+				}
 
 				$results = array_merge( $results, $persistent_global );
 
-				if ( false === $args['ids_only'] ) {
-					$difference = array_diff( $post_list, wp_list_pluck( $persistent_global, 'ID' ) );
-				} else {
-					$difference = array_diff(
-						wp_list_pluck( $post_list, 'ID' ),
-						wp_list_pluck( $persistent_global, 'ID' )
-					);
-				}
+				$difference = array_diff( $post_list, $persistent_global );
 
 				// If there is no difference, then the persistent global notices are the only ones left.
 				if ( empty( $difference ) ) {

@@ -267,6 +267,10 @@ function courier_display_notices( $args = array() ) {
 		'style' => array(
 			'id' => array(),
 		),
+		'a' => array(
+			'href'  => array(),
+			'class' => array(),
+		),
 	);
 
 	echo wp_kses( $output, $allowed_html ); // @todo this should probably be sanitized more extensively.
@@ -305,10 +309,9 @@ function courier_display_modals( $args = array() ) {
 		foreach ( $notices as $post ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 			setup_postdata( $post );
 			?>
-			<div class="courier-notices modal" data-courier-notice-id="<?php echo esc_attr( get_the_ID() ); ?>" <?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>data-closable<?php endif; ?>>
-				<?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>
-					<a href="#" class="courier-close close">&times;</a>
-				<?php endif; ?>
+			<div class="courier-notices modal" data-courier-notice-id="<?php echo esc_attr( get_the_ID() ); ?>" data-closable>
+				<a href="#" class="courier-close close">&times;</a>
+
 				<?php the_content(); ?>
 			</div>
 			<?php
