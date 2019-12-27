@@ -40,16 +40,16 @@ class Data {
 		$cache_key = 'global-' . sanitize_title( $args['placement'] ) . '-notices';
 		$cache     = wp_cache_get( $cache_key, 'courier' );
 
-		error_log( 'get_global_notices function' );
-		error_log( $cache_key );
-
+//		error_log( 'get_global_notices function' );
+//		error_log( $cache_key );
+/*
 		if ( false !== $cache ) {
 			if ( $args['ids_only'] ) {
 				return wp_list_pluck( $cache, 'ID' );
 			}
 
 			return $cache;
-		}
+		} */
 
 		$query_args = array(
 			'post_type'      => 'courier_notice',
@@ -81,17 +81,15 @@ class Data {
 			);
 		}
 
-		error_log( print_r( $query_args, true ) );
-
 		$global_notices_query = new \WP_Query( $query_args );
 
 		wp_cache_set( $cache_key, $global_notices_query->posts, 'courier', 300 );
 
-		if ( isset( $args['ids_only'] ) && false !== $args['ids_only'] ) {
+//		if ( isset( $args['ids_only'] ) && false !== $args['ids_only'] ) {
 			return wp_list_pluck( $global_notices_query->posts, 'ID' );
-		} else {
-			return $global_notices_query->posts;
-		}
+//		} else {
+//			return $global_notices_query->posts;
+//		}
 	}
 
 	/**
@@ -105,7 +103,7 @@ class Data {
 	 */
 	public function get_dismissible_global_notices( $args = array(), $ajax_post_data = array(), $ids_only = false ) {
 
-		error_log( 'get_dismissible_global_notices' );
+//		error_log( 'get_dismissible_global_notices' );
 
 		$cache_key = 'global-dismissible-' . sanitize_title( $args['placement'] ) . '-notices';
 		$cache     = wp_cache_get( $cache_key, 'courier' );
@@ -177,10 +175,10 @@ class Data {
 	 *
 	 * @return array|bool|mixed
 	 */
-	public function get_persistent_global_notices( $args = array() ) {
+	public function get_persistent_global_notices( $args = array(), $global_notices = array() ) {
 
 		$defaults = array(
-			'ids_only'   => false,
+			'ids_only'   => true,
 			'number'     => 100,
 			'placement'  => 'header',
 			'query_args' => array(),
@@ -190,17 +188,17 @@ class Data {
 		$args      = wp_parse_args( $args, $defaults );
 		$cache_key = 'global-persistent-' . sanitize_title( $args['placement'] ) . '-notices';
 		$cache     = wp_cache_get( $cache_key, 'courier' );
-
+/*
 		if ( false !== $cache ) {
-			if ( true === $args['ids_only'] ) {
-				return wp_list_pluck( $cache, 'ID' );
-			}
+			return wp_list_pluck( $cache, 'ID' );
 
 			return $cache;
-		}
+		} */
 
-		$global_args    = wp_parse_args( array( 'ids_only' => true ), $args );
-		$global_notices = $this->get_global_notices( $global_args );
+		if ( empty( $global_notices ) ) {
+			$global_args    = wp_parse_args( array( 'ids_only' => true ), $args );
+			$global_notices = $this->get_global_notices( $global_args );
+		}
 
 		if ( empty( $global_notices ) ) {
 			return array();
@@ -228,11 +226,11 @@ class Data {
 
 		wp_cache_set( $cache_key, $global_persistent_notices_query->posts, 'courier', 300 );
 
-		if ( isset( $args['ids_only'] ) && true === $args['ids_only'] ) {
+		// if ( isset( $args['ids_only'] ) && true === $args['ids_only'] ) {
 			return wp_list_pluck( $global_persistent_notices_query->posts, 'ID' );
-		} else {
-			return $global_persistent_notices_query->posts;
-		}
+		// } else {
+		//	return $global_persistent_notices_query->posts;
+		// }
 	}
 
 	/**
@@ -272,13 +270,18 @@ class Data {
 
 		if ( true === $args['include_global'] ) {
 			$global_args             = $args;
-			$global_args['ids_only'] = false;
+			$global_args['ids_only'] = true;
 
+			error_log( 'Global Notices:' );
 			$global_posts             = $this->get_global_notices( $global_args );
+
+			error_log( print_r( $global_posts,true ) );
+
+			error_log( 'Dismissible Notices:' );
 			$global_dismissible_posts = $this->get_dismissible_global_notices( $args, $ajax_post_data, true );
 
 			// Exclude dismissed.
-			if ( ! $args['include_dismissed'] ) {
+			if ( false === $args['include_dismissed'] ) {
 				$global_dismissed = $this->get_global_dismissed_notices( $args['user_id'] );
 
 				foreach ( $global_posts as $key => $global_post ) {
@@ -291,41 +294,32 @@ class Data {
 
 		$post_list = array_merge( $global_posts, $global_dismissible_posts );
 
-		if ( true === $args['ids_only'] ) {
-			$post_list = wp_list_pluck( $post_list, 'ID' );
-		}
+		error_log( 'Merged Global POsts');
+		error_log( print_r( $post_list, true ) );
 
 		// Prioritize Persistent Global Notes to the top by getting them separately and putting them at the front of the line.
 		if ( true === $args['prioritize_persistent_global'] ) {
 			$persistent_global = $this->get_persistent_global_notices(
 				array(
-					'ids_only'  => false,
+					'ids_only'  => true,
 					'placement' => $args['placement'],
-				)
+				),
+				$global_posts
 			);
 
 			if ( ! empty( $persistent_global ) ) {
 
-				if ( true === $args['ids_only'] ) {
-					$persistent_global = wp_list_pluck( $persistent_global, 'ID' );
-				}
-
-				$results = array_merge( $results, $persistent_global );
-
-				if ( true === $args['ids_only'] ) {
-					$difference = array_diff( $post_list, $persistent_global );
-				}
-
-				// If there is no difference, then the persistent global notices are the only ones left.
-				if ( ! empty( $difference ) ) {
-					$post_list = $difference;
-				}
+				error_log( 'Persistent' );
+				error_log( print_r( $persistent_global, true ) );
+				$post_list = array_merge( $persistent_global, $post_list );
 			}
 		}
 
-		if ( ! empty( $post_list ) && true === $args['ids_only'] ) {
-			$post_list = array_filter( $post_list, 'strlen' );
-		}
+		$post_list = array_unique( $post_list );
+		// $post_list = array_filter( $post_list, 'strlen' );
+
+		error_log( 'post__in__list' );
+		error_log( print_r( $post_list, true ) );
 
 		$query_args = array(
 			'post_type'      => 'courier_notice',
@@ -350,8 +344,6 @@ class Data {
 		 *
 		 * @since 1.0
 		 */
-
-		error_log( 'should filter' );
 
 		$query_args          = apply_filters( 'courier_notices_display_notices_query', $query_args, $ajax_post_data );
 		$query_args          = wp_parse_args( $args, $query_args );
@@ -450,8 +442,8 @@ class Data {
 			);
 		}
 
-		error_log( 'user query');
-		error_log( print_r( $query_args, true ) );
+//		error_log( 'user query');
+//		error_log( print_r( $query_args, true ) );
 
 		$notices_query = new \WP_Query( $query_args );
 
