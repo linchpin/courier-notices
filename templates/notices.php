@@ -40,7 +40,7 @@ if ( isset( $courier_settings['disable_css'] ) && 1 === (int) $courier_settings[
 		$notice = new \Courier\Core\View();
 		$notice->assign( 'notice_id', get_the_ID() );
 		$notice->assign( 'post_class', get_post_class( $post_classes, get_the_ID() ) );
-		$notice->assign( 'dismissable', get_post_meta( get_the_ID(), '_courier_dismissible', true ) );
+		$notice->assign( 'dismissible', get_post_meta( get_the_ID(), '_courier_dismissible', true ) );
 		$notice->assign( 'post_content', apply_filters( 'the_content', get_the_content() ) );
 		$notice->assign( 'icon', get_term_meta( $notice_type[0]->term_id, '_courier_type_icon', true ) );
 		$notice->render( 'notice' );
