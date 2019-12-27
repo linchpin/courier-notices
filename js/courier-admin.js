@@ -1401,6 +1401,7 @@ function types() {
   var $body = $('body'),
       $types = $('.courier_notice_page_courier'),
       $new_container = $('#courier-notice-type-new'),
+      $courierTypeColor = $('.courier-type-color'),
       courierNoticeTypeTemplate = $('#courier-notice-type-template').text().split(/\{(.+?)\}/g),
       courierNoticeTypeEditTemplate = $('#courier-notice-type-edit-template').text().split(/\{(.+?)\}/g),
       inputTemplate = {
@@ -1639,7 +1640,11 @@ function types() {
 
 
   function setupTypeEditing() {
-    $('.courier-type-color').wpColorPicker({
+    if (!$courierTypeColor.length) {
+      return;
+    }
+
+    $courierTypeColor.wpColorPicker({
       change: function change(event, ui) {
         var $target = $(this).closest('.notice_preview'),
             notice_ui = $(this).closest('.notice-option').data('notice-option-color');
@@ -1882,7 +1887,7 @@ module.exports = __webpack_amd_options__;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/aware/vvv/www/couriier/public_html/wp-content/plugins/courier/assets/js/courier-admin.js */"./assets/js/courier-admin.js");
+module.exports = __webpack_require__(/*! /Users/maxwellmorgan/vvv-local/vagrant-local/www/courier/public_html/wp-content/plugins/courier/assets/js/courier-admin.js */"./assets/js/courier-admin.js");
 
 
 /***/ }),
