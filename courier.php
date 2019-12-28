@@ -103,9 +103,6 @@ function courier_activation() {
 	add_option( 'courier_activation', true );
 
 	// Create our cron events.
-	wp_schedule_event( current_time( 'timestamp' ), 'hourly', 'courier_purge' );
-	wp_schedule_event( current_time( 'timestamp' ), 'hourly', 'courier_expire' );
-
 	if ( ! get_option( 'courier_flush_rewrite_rules' ) ) {
 		add_option( 'courier_flush_rewrite_rules', true );
 	}
