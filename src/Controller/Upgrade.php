@@ -15,6 +15,20 @@ use \Courier\Model\Config;
 class Upgrade {
 
 	/**
+	 * Configuration
+	 *
+	 * @var Config
+	 */
+	private $config;
+
+	/**
+	 * Install constructor
+	 */
+	public function __construct() {
+		$this->config = new Config();
+	}
+
+	/**
 	 * Registers hooks and filters
 	 *
 	 * @since 1.0
@@ -30,8 +44,11 @@ class Upgrade {
 	 * @since 1.0
 	 */
 	public function upgrade() {
-		$stored_version = get_option( 'courier_version', '0.0.0' );
 
+		$plugin_options = get_option( 'courier_options', array() );
+		$stored_version = ( $plugin_options['plugin_version'] ) ? $plugin_options['plugin_version'] : '0.0.0';
+
+		// Keep the plugin version up to date.
 		if ( version_compare( '1.0.0', $stored_version, '>' ) ) {
 			flush_rewrite_rules();
 			wp_schedule_event( current_time( 'timestamp' ), 'hourly', 'courier_expire' );
@@ -39,16 +56,42 @@ class Upgrade {
 			update_option( 'courier_version', '1.0.0' );
 		}
 
-		if ( version_compare( '1.0.4', $stored_version, '>' ) ) {
-			update_option( 'courier_version', '1.0.4' );
+		if ( version_compare( '1.0.5', $stored_version, '>' ) ) {
+			$plugin_options['plugin_version'] = '1.0.5';
+			update_option( 'courier_options', $plugin_options );
 		}
 
-		if ( version_compare( '1.0.5', $stored_version, '>' ) ) {
+		if ( version_compare( '1.1.0', $stored_version, '>' ) ) {
+
+			// Create our default style of courier notices
+			if ( ! term_exists( 'Informational', 'courier_style' ) ) {
+				wp_insert_term( esc_html__( 'Informational', 'courier' ), 'courier_style' );
+			}
+
+			if ( ! term_exists( 'Modal', 'courier_style' ) ) {
+				wp_insert_term( esc_html__( 'Modal', 'courier' ), 'courier_style' );
+			}
+
+			// Delete modal from our placement type as it's now a "style" of notice.
+			if ( $term = term_exists( 'popup-modal', 'courier_placement' ) ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.Found
+				wp_delete_term( $term['term_id'], 'courier_placement' );
+			}
+
+			// Remove the version from it's own variable
+			delete_option( 'courier_version' );
+
+			$plugin_options['plugin_version'] = '1.1.0';
+			update_option( 'courier_options', $plugin_options );
+		}
+
+		// Do one last check to make sure our stored version is the latest.
+		if ( version_compare( COURIER_VERSION, $stored_version, '>' ) ) {
+
 			delete_transient( 'courier_notice_css' );
 			courier_get_css();
-
-			$current_version = COURIER_VERSION;
-			update_option( 'courier_version', $current_version );
+			
+			$plugin_options['plugin_version'] = COURIER_VERSION;
+			update_option( 'courier_options', $plugin_options );
 		}
 	}
 

@@ -13,6 +13,7 @@ use \Courier\Model\Taxonomy\Courier_Placement;
 use \Courier\Model\Taxonomy\Courier_Scope;
 use \Courier\Model\Taxonomy\Courier_Status;
 use \Courier\Model\Taxonomy\Courier_Type;
+use \Courier\Model\Taxonomy\Courier_Style;
 
 /**
  * Courier_Notices Class
@@ -155,10 +156,16 @@ class Courier_Notices {
 	 * @since   1.0
 	 */
 	public function register_taxonomies() {
+
+		$courier_style_taxonomy_model     = new Courier_Style();
 		$courier_type_taxonomy_model      = new Courier_Type();
 		$courier_scope_taxonomy_model     = new Courier_Scope();
 		$courier_status_taxonomy_model    = new Courier_Status();
 		$courier_placement_taxonomy_model = new Courier_Placement();
+
+		if ( ! taxonomy_exists( $courier_style_taxonomy_model->name ) ) {
+			register_taxonomy( $courier_style_taxonomy_model->name, array( 'courier_notice' ), $courier_style_taxonomy_model->get_args() );
+		}
 
 		if ( ! taxonomy_exists( $courier_type_taxonomy_model->name ) ) {
 			register_taxonomy( $courier_type_taxonomy_model->name, array( 'courier_notice' ), $courier_type_taxonomy_model->get_args() );
