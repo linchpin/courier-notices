@@ -1169,6 +1169,50 @@ function core() {
    */
 
   function init() {
+    $('.courier-help').tooltip();
+    $('[data-equalizer]').each(function () {
+      $(this).equalize();
+    });
+  }
+}
+
+$.fn.equalize = function () {
+  var equalize_items = $('[data-equalizer-watch]', this),
+      equalize_height = 0;
+  equalize_items.each(function () {
+    equalize_height = $(this).height() > equalize_height ? $(this).height() : equalize_height;
+  }).height(equalize_height);
+  return this;
+};
+
+/***/ }),
+
+/***/ "./assets/js/admin/edit.js":
+/*!*********************************!*\
+  !*** ./assets/js/admin/edit.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return edit; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+var $ = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
+function edit() {
+  var $doc = $(document),
+      $body = $('body');
+  init();
+  /**
+   * Initialize our dismiss
+   * Add our events
+   *
+   * @since 1.0
+   */
+
+  function init() {
     $('#courier_expire_date').datetimepicker({
       minDate: 0,
       controlType: 'select',
@@ -1186,19 +1230,79 @@ function core() {
       $doc.on('ready', populate_status);
     }
 
-    $body.on('click', '.editinline', quick_edit_populate_status).on('click', '.courier-reactivate-notice', reactivate_notice).on('click', '.copy-text', copy_text).on('focus', '#courier-shortcode', function () {
+    $body.on('click', '.courier-reactivate-notice', reactivate_notice).on('click', '.copy-text', copy_text).on('change', '#courier_style', show_hide_type).on('change', '#courier_style', modal_option_rules).on('focus', '#courier-shortcode', function () {
       $('#courier-shortcode').select();
     });
-    $('.courier-help').tooltip();
-    $('[data-equalizer]').each(function () {
-      $(this).equalize();
-    });
+  }
+  /**
+   * Show / Hide rules for Modals
+   *
+   * @since 1.1
+   */
+
+
+  function modal_option_rules(event) {
+    show_hide_placement(event);
+    force_dismissible(event);
+  }
+  /**
+   * When showing a modal notice, force the notice to be dismissible
+   *
+   * @since 1.1
+   */
+
+
+  function force_dismissible(event) {
+    var $this = $(event.target);
+
+    if ($this.find('option:selected').val() === 'modal') {
+      $('#courier_dismissible').prop('checked', 'checked').addClass('disabled').on('click', function (event) {
+        event.stopImmediatePropagation();
+        event.preventDefault();
+      });
+    } else {
+      $('#courier_dismissible').removeClass('disabled').off('click');
+    }
+  }
+  /**
+   * Show or hide the "type" dropdown depending on the style of notice
+   * Typically show the type if it's informational
+   *
+   * @since 1.1
+   */
+
+
+  function show_hide_type(event) {
+    var $this = $(this);
+
+    if ($this.find('option:selected').val() !== 'informational') {
+      $('#courier-notice_type_container').hide();
+    } else {
+      $('#courier-notice_type_container').show();
+    }
+  }
+  /**
+   * Show or hide the "placement" dropdown depending on the style of notice
+   * Typically we wouldn't show this for popover/modal notices
+   *
+   * @since 1.1
+   */
+
+
+  function show_hide_placement(event) {
+    var $this = $(event.target);
+
+    if ($this.find('option:selected').val() === 'modal') {
+      $('#courier-notice_placement_container').hide();
+    } else {
+      $('#courier-notice_placement_container').show();
+    }
   }
   /**
    * When the page loads, push our custom post status into the post status select.
    * If that is the current status of the post, select it and push the text to the on screen label.
-  *
-  * @since 1.0
+   *
+   * @since 1.0
    */
 
 
@@ -1211,29 +1315,6 @@ function core() {
     }
 
     $('#post_status').append($option);
-  }
-  /**
-   * Puts an Expired option in the quick edit dropdown menu.
-  *
-  * @since 1.0
-   */
-
-
-  function quick_edit_populate_status() {
-    var $this = $(this),
-        $row = $this.parents('tr.iedit'),
-        post_id = $row.attr('id').replace('post-', ''),
-        post_status = $('#inline_' + post_id + ' ._status').text(),
-        $edit_row = '',
-        $select = '',
-        $expired_option = $('<option />').text(courier_admin_data.strings.label).attr('value', 'courier_expired'); // Delay things to ensure the quick edit row has been added to the page.
-
-    setTimeout(function () {
-      $edit_row = $('#edit-' + post_id);
-      $select = $('#edit-' + post_id + ' select[name="_status"]');
-      $select.append($expired_option);
-      $select.val(post_status);
-    }, 300);
   }
   /**
    * Reactivate a notice.
@@ -1301,14 +1382,100 @@ function core() {
   }
 }
 
-$.fn.equalize = function () {
-  var equalize_items = $('[data-equalizer-watch]', this);
-  var equalize_height = 0;
-  equalize_items.each(function () {
-    equalize_height = $(this).height() > equalize_height ? $(this).height() : equalize_height;
-  }).height(equalize_height);
-  return this;
-};
+/***/ }),
+
+/***/ "./assets/js/admin/list.js":
+/*!*********************************!*\
+  !*** ./assets/js/admin/list.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return list; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+var $ = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
+function list() {
+  var $doc = $(document),
+      $body = $('body');
+  init();
+  /**
+   * Initialize our dismiss
+   * Add our events
+  *
+  * @since 1.0
+   */
+
+  function init() {
+    if ('courier_notice' === courier_admin_data.post_type) {
+      $doc.on('ready', populate_status);
+    }
+
+    $body.on('click', '.editinline', quick_edit_populate_status).on('click', '.courier-reactivate-notice', reactivate_notice);
+  }
+  /**
+   * When the page loads, push our custom post status into the post status select.
+   * If that is the current status of the post, select it and push the text to the on screen label.
+  *
+  * @since 1.0
+   */
+
+
+  function populate_status() {
+    var $option = $('<option />').val('courier_expired').text(courier_admin_data.strings.label);
+
+    if (courier_admin_data.post_status === 'courier_expired') {
+      $('#post-status-display').text(courier_admin_data.strings.expired);
+      $option.attr('selected', 'selected');
+    }
+
+    $('#post_status').append($option);
+  }
+  /**
+   * Puts an Expired option in the quick edit dropdown menu.
+  *
+  * @since 1.0
+   */
+
+
+  function quick_edit_populate_status() {
+    var $this = $(this),
+        $row = $this.parents('tr.iedit'),
+        post_id = $row.attr('id').replace('post-', ''),
+        post_status = $('#inline_' + post_id + ' ._status').text(),
+        $edit_row = '',
+        $select = '',
+        $expired_option = $('<option />').text(courier_admin_data.strings.label).attr('value', 'courier_expired'); // Delay things to ensure the quick edit row has been added to the page.
+
+    setTimeout(function () {
+      $edit_row = $('#edit-' + post_id);
+      $select = $('#edit-' + post_id + ' select[name="_status"]');
+      $select.append($expired_option);
+      $select.val(post_status);
+    }, 300);
+  }
+  /**
+   * Reactivate a notice.
+   * @param event
+   */
+
+
+  function reactivate_notice(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    var $this = $(this),
+        notice_id = $this.attr('data-courier-notice-id'),
+        $notice = $this.parents('.notice');
+    $.post(courier_admin_data.reactivate_endpoint + notice_id + '/', {
+      success: function success(data) {
+        $notice.fadeOut();
+      }
+    });
+  }
+}
 
 /***/ }),
 
@@ -1851,7 +2018,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin/core */ "./assets/js/admin/core.js");
 /* harmony import */ var _admin_welcome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./admin/welcome */ "./assets/js/admin/welcome.js");
 /* harmony import */ var _admin_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./admin/types */ "./assets/js/admin/types.js");
-/* harmony import */ var _admin_notifications__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./admin/notifications */ "./assets/js/admin/notifications.js");
+/* harmony import */ var _admin_edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./admin/edit */ "./assets/js/admin/edit.js");
+/* harmony import */ var _admin_list__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./admin/list */ "./assets/js/admin/list.js");
+/* harmony import */ var _admin_notifications__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./admin/notifications */ "./assets/js/admin/notifications.js");
+
+
 
 
 
@@ -1859,9 +2030,11 @@ __webpack_require__.r(__webpack_exports__);
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
   Object(_admin_core__WEBPACK_IMPORTED_MODULE_1__["default"])();
+  Object(_admin_edit__WEBPACK_IMPORTED_MODULE_4__["default"])();
+  Object(_admin_list__WEBPACK_IMPORTED_MODULE_5__["default"])();
   Object(_admin_welcome__WEBPACK_IMPORTED_MODULE_2__["default"])();
   Object(_admin_types__WEBPACK_IMPORTED_MODULE_3__["default"])();
-  Object(_admin_notifications__WEBPACK_IMPORTED_MODULE_4__["default"])();
+  Object(_admin_notifications__WEBPACK_IMPORTED_MODULE_6__["default"])();
 });
 
 /***/ }),
@@ -1887,7 +2060,7 @@ module.exports = __webpack_amd_options__;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/maxwellmorgan/vvv-local/vagrant-local/www/courier/public_html/wp-content/plugins/courier/assets/js/courier-admin.js */"./assets/js/courier-admin.js");
+module.exports = __webpack_require__(/*! /Users/aware/vvv/www/couriier/public_html/wp-content/plugins/courier/assets/js/courier-admin.js */"./assets/js/courier-admin.js");
 
 
 /***/ }),
