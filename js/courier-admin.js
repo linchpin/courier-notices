@@ -1230,9 +1230,39 @@ function edit() {
       $doc.on('ready', populate_status);
     }
 
-    $body.on('click', '.courier-reactivate-notice', reactivate_notice).on('click', '.copy-text', copy_text).on('change', '#courier_style', show_hide_type).on('change', '#courier_style', show_hide_placement).on('focus', '#courier-shortcode', function () {
+    $body.on('click', '.courier-reactivate-notice', reactivate_notice).on('click', '.copy-text', copy_text).on('change', '#courier_style', show_hide_type).on('change', '#courier_style', modal_option_rules).on('focus', '#courier-shortcode', function () {
       $('#courier-shortcode').select();
     });
+  }
+  /**
+   * Show / Hide rules for Modals
+   *
+   * @since 1.1
+   */
+
+
+  function modal_option_rules(event) {
+    show_hide_placement(event);
+    force_dismissible(event);
+  }
+  /**
+   * When showing a modal notice, force the notice to be dismissible
+   *
+   * @since 1.1
+   */
+
+
+  function force_dismissible(event) {
+    var $this = $(event.target);
+
+    if ($this.find('option:selected').val() === 'modal') {
+      $('#courier_dismissible').prop('checked', 'checked').addClass('disabled').on('click', function (event) {
+        event.stopImmediatePropagation();
+        event.preventDefault();
+      });
+    } else {
+      $('#courier_dismissible').removeClass('disabled').off('click');
+    }
   }
   /**
    * Show or hide the "type" dropdown depending on the style of notice
@@ -1260,9 +1290,9 @@ function edit() {
 
 
   function show_hide_placement(event) {
-    var $this = $(this);
+    var $this = $(event.target);
 
-    if ($this.find('option:selected').val() !== 'informational') {
+    if ($this.find('option:selected').val() === 'modal') {
       $('#courier-notice_placement_container').hide();
     } else {
       $('#courier-notice_placement_container').show();

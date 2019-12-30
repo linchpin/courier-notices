@@ -39,10 +39,40 @@ export default function edit() {
 			.on('click', '.courier-reactivate-notice', reactivate_notice )
 			.on('click', '.copy-text', copy_text )
 			.on('change', '#courier_style', show_hide_type )
-			.on('change', '#courier_style', show_hide_placement )
+			.on('change', '#courier_style', modal_option_rules )
 			.on('focus', '#courier-shortcode', function () {
 				$('#courier-shortcode').select();
 			});
+	}
+
+	/**
+	 * Show / Hide rules for Modals
+	 *
+	 * @since 1.1
+	 */
+	function modal_option_rules( event ) {
+		show_hide_placement( event );
+		force_dismissible( event );
+	}
+
+	/**
+	 * When showing a modal notice, force the notice to be dismissible
+	 *
+	 * @since 1.1
+	 */
+	function force_dismissible( event ) {
+
+		let $this = $( event.target );
+
+		if ( $this.find('option:selected').val() === 'modal' ) {
+
+			$('#courier_dismissible').prop( 'checked', 'checked' ).addClass('disabled').on( 'click', function( event ) {
+				event.stopImmediatePropagation();
+				event.preventDefault();
+			} );
+		} else {
+			$('#courier_dismissible').removeClass('disabled').off( 'click' );
+		}
 	}
 
 	/**
@@ -53,12 +83,12 @@ export default function edit() {
 	 */
 	function show_hide_type( event ) {
 
-		let $this = $(this);
+		let $this = $( this );
 
 		if ( $this.find('option:selected').val() !== 'informational' ) {
-			$('#courier-notice_type_container').hide();
+			$( '#courier-notice_type_container' ).hide();
 		} else {
-			$('#courier-notice_type_container').show();
+			$( '#courier-notice_type_container' ).show();
 		}
 	}
 
@@ -69,9 +99,9 @@ export default function edit() {
 	 * @since 1.1
 	 */
 	function show_hide_placement( event ) {
-		let $this = $(this);
+		let $this = $( event.target );
 
-		if ( $this.find('option:selected').val() !== 'informational' ) {
+		if ( $this.find('option:selected').val() === 'modal' ) {
 			$( '#courier-notice_placement_container' ).hide();
 		} else {
 			$( '#courier-notice_placement_container' ).show();
