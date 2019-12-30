@@ -118,13 +118,21 @@ class Admin {
 				$links = array();
 
 				if ( ! empty( $types ) ) :
+					$courier_css = courier_get_css();
 					?>
+
+				<?php if ( false !== $courier_css ) : ?>
+					<style id="courier_notice_css">
+						<?php echo $courier_css; ?>
+					</style>
+				<?php endif; ?>
+
 				<ul>
 					<?php
 
 					foreach ( $types as $term ) {
 						$link    = get_edit_term_link( $term->term_id, 'courier_type' );
-						$links[] = '<li><a href="' . esc_url( $link ) . '" rel="tag"><span class="courier-icon icon-' . esc_attr( $term->slug ) . '"></span>' . $term->name . '</a></li>';
+						$links[] = '<li class="courier-type courier_type-' . esc_attr( $term->slug ) . '"><a href="' . esc_url( $link ) . '" rel="tag" class="courier-content-wrapper"><span class="courier-icon icon-' . esc_attr( $term->slug ) . '"></span>' . $term->name . '</a></li>';
 					}
 					echo wp_kses_post( join( '', $links ) );
 					?>
