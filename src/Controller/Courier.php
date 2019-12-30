@@ -220,13 +220,14 @@ class Courier {
 		<div class="misc-pub-section courier-dismissable">
 			<span class="dashicons dashicons-no-alt wp-media-buttons-icon"></span>&nbsp;
 			<label for="courier_dismissible"><?php esc_html_e( 'Dismissible Notice:', 'courier' ); ?></label>&nbsp;
-			<input type="checkbox" name="courier_dismissible" id="courier_dismissible" value="1" <?php checked( get_post_meta( $post_id, '_courier_dismissible', true ) ); ?> />
+			<input type="checkbox" name="courier_dismissible" id="courier_dismissible" value="1" <?php checked( get_post_meta( $post->ID, '_courier_dismissible', true ) ); ?> />
 			<a href="#" class="courier-info-icon courier-help" title="<?php esc_html_e( 'Allow this notice to be dismissed by users', 'courier' ); ?>">?</a>
 		</div>
 		<?php
 
 		$copy_shortcode_info = new View();
-		$copy_shortcode_info->assign( 'type', 'info' );
+		$copy_shortcode_info->assign( 'type', 'shortcode-help' );
+		$copy_shortcode_info->assign( 'courier_notifications', get_user_option( 'courier_notifications' ) );
 		$copy_shortcode_info->assign( 'message', __( 'Copy this notice <strong>shortcode</strong> to display in your content or in a widget!', 'courier' ) );
 		$copy_shortcode_info->render( 'admin/notifications' );
 
@@ -262,93 +263,98 @@ class Courier {
 		global $wp_local;
 
 		?>
+		<div id="courier-notice_style_container">
+			<h4><?php esc_html_e( 'Style', 'courier' ); ?></h4>
+			<?php
 
-		<h4><?php esc_html_e( 'Notice Style', 'courier' ); ?></h4>
-		<?php
+			if ( has_term( '', 'courier_style' ) ) {
+				$selected_courier_style = get_the_terms( $post->ID, 'courier_style' );
+			}
 
-		if ( has_term( '', 'courier_style' ) ) {
-			$selected_courier_style = get_the_terms( $post->ID, 'courier_style' );
-		}
+			if ( ! empty( $selected_courier_style ) ) {
+				$selected_courier_style = $selected_courier_style[0]->slug;
+			} else {
+				$selected_courier_style = 'informational';
+			}
 
-		if ( ! empty( $selected_courier_style ) ) {
-			$selected_courier_style = $selected_courier_style[0]->slug;
-		} else {
-			$selected_courier_style = 'informational';
-		}
+			// Create and display the dropdown menu.
+			wp_dropdown_categories(
+				array(
+					'orderby'           => 'name',
+					'taxonomy'          => 'courier_style',
+					'value_field'       => 'slug',
+					'name'              => 'courier_style',
+					'class'             => 'widefat',
+					'hide_empty'        => false,
+					'required'          => true,
+					'option_none_value' => apply_filters( 'courier_default_notice_style', 'informational' ),
+					'selected'          => $selected_courier_style,
+				)
+			);
+			?>
+		</div>
 
-		// Create and display the dropdown menu.
-		wp_dropdown_categories(
-			array(
-				'orderby'           => 'name',
-				'taxonomy'          => 'courier_style',
-				'value_field'       => 'slug',
-				'name'              => 'courier_style',
-				'class'             => 'widefat',
-				'hide_empty'        => false,
-				'required'          => true,
-				'option_none_value' => apply_filters( 'courier_default_notice_style', 'informational' ),
-				'selected'          => $selected_courier_style,
-			)
-		);
-		?>
+		<div id="courier-notice_type_container">
+			<h4><?php esc_html_e( 'Type', 'courier' ); ?></h4>
+			<?php
 
-		<h4><?php esc_html_e( 'Notice Type', 'courier' ); ?></h4>
-		<?php
+			if ( has_term( '', 'courier_type' ) ) {
+				$selected_courier_type = get_the_terms( $post->ID, 'courier_type' );
+			}
 
-		if ( has_term( '', 'courier_type' ) ) {
-			$selected_courier_type = get_the_terms( $post->ID, 'courier_type' );
-		}
+			if ( ! empty( $selected_courier_type ) ) {
+				$selected_courier_type = $selected_courier_type[0]->slug;
+			} else {
+				$selected_courier_type = 'info';
+			}
 
-		if ( ! empty( $selected_courier_type ) ) {
-			$selected_courier_type = $selected_courier_type[0]->slug;
-		} else {
-			$selected_courier_type = 'info';
-		}
+			// Create and display the dropdown menu.
+			wp_dropdown_categories(
+				array(
+					'orderby'           => 'name',
+					'taxonomy'          => 'courier_type',
+					'value_field'       => 'slug',
+					'name'              => 'courier_type',
+					'class'             => 'widefat',
+					'hide_empty'        => false,
+					'required'          => true,
+					'option_none_value' => apply_filters( 'courier_default_notice_type', 'info' ),
+					'selected'          => $selected_courier_type,
+				)
+			);
+			?>
+		</div>
 
-		// Create and display the dropdown menu.
-		wp_dropdown_categories(
-			array(
-				'orderby'           => 'name',
-				'taxonomy'          => 'courier_type',
-				'value_field'       => 'slug',
-				'name'              => 'courier_type',
-				'class'             => 'widefat',
-				'hide_empty'        => false,
-				'required'          => true,
-				'option_none_value' => apply_filters( 'courier_default_notice_type', 'info' ),
-				'selected'          => $selected_courier_type,
-			)
-		);
-		?>
+		<div id="courier-notice_placement_container">
+			<h4><?php esc_html_e( 'Placement', 'courier' ); ?></h4>
+			<?php
 
-		<h4><?php esc_html_e( 'Notice Placement', 'courier' ); ?></h4>
-		<?php
+			if ( has_term( '', 'courier_placement' ) ) {
+				$selected_courier_placement = get_the_terms( $post->ID, 'courier_placement' );
+			}
 
-		if ( has_term( '', 'courier_placement' ) ) {
-			$selected_courier_placement = get_the_terms( $post->ID, 'courier_placement' );
-		}
+			if ( ! empty( $selected_courier_placement ) ) {
+				$selected_courier_placement = $selected_courier_placement[0]->slug;
+			} else {
+				$selected_courier_placement = 'header';
+			}
 
-		if ( ! empty( $selected_courier_placement ) ) {
-			$selected_courier_placement = $selected_courier_placement[0]->slug;
-		} else {
-			$selected_courier_placement = 'header';
-		}
-
-		// Create and display the dropdown menu.
-		wp_dropdown_categories(
-			array(
-				'orderby'           => 'name',
-				'taxonomy'          => 'courier_placement',
-				'value_field'       => 'slug',
-				'name'              => 'courier_placement',
-				'class'             => 'widefat',
-				'hide_empty'        => false,
-				'required'          => true,
-				'option_none_value' => apply_filters( 'courier_default_notice_placement', 'header' ),
-				'selected'          => $selected_courier_placement,
-			)
-		);
-		?>
+			// Create and display the dropdown menu.
+			wp_dropdown_categories(
+				array(
+					'orderby'           => 'name',
+					'taxonomy'          => 'courier_placement',
+					'value_field'       => 'slug',
+					'name'              => 'courier_placement',
+					'class'             => 'widefat',
+					'hide_empty'        => false,
+					'required'          => true,
+					'option_none_value' => apply_filters( 'courier_default_notice_placement', 'header' ),
+					'selected'          => $selected_courier_placement,
+				)
+			);
+			?>
+		</div>
 		<?php
 
 		// Date Display.
@@ -360,17 +366,19 @@ class Courier {
 			$current_date = '';
 		}
 		?>
-		<h4><?php esc_html_e( 'Notice Expiration', 'courier' ); ?></h4>
-		<p class="description"><?php esc_html_e( 'Enter a date and time this notice should expire.', 'courier' ); ?></p>
+		<div id="courier-notice_expiration_container">
+			<h4><?php esc_html_e( 'Notice Expiration', 'courier' ); ?></h4>
+			<p class="description"><?php esc_html_e( 'Enter a date and time this notice should expire.', 'courier' ); ?></p>
 
-		<fieldset id="courier-timestampdiv">
-			<legend class="screen-reader-text"><?php esc_html_e( 'Expiration date and time', 'courier' ); ?></legend>
-			<div class="timestamp-wrap">
-				<label for="courier_expire_date">
-					<input type="text" class="widefat" autocomplete="off" id="courier_expire_date" name="courier_expire_date" value="<?php echo esc_attr( $current_date ); ?>">
-				</label>
-			</div>
-		</fieldset>
+			<fieldset id="courier-timestampdiv">
+				<legend class="screen-reader-text"><?php esc_html_e( 'Expiration date and time', 'courier' ); ?></legend>
+				<div class="timestamp-wrap">
+					<label for="courier_expire_date">
+						<input type="text" class="widefat" autocomplete="off" id="courier_expire_date" name="courier_expire_date" value="<?php echo esc_attr( $current_date ); ?>">
+					</label>
+				</div>
+			</fieldset>
+		</div>
 		<?php
 	}
 

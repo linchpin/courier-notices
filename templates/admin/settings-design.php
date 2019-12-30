@@ -19,8 +19,12 @@ if ( ! function_exists( 'add_action' ) ) {
 			<h1><?php esc_html_e( 'Notice Types / Design Settings', 'courier' ); ?></h1>
 		</div>
 	</div>
+	<?php
+
+	$settings_section = new \Courier\Controller\Admin\Fields\Sections();
+	?>
 	<?php settings_fields( 'courier_design' ); ?>
-	<?php do_settings_sections( 'courier_design' ); ?>
+	<?php $settings_section->do_settings_sections( 'courier_design' ); ?>
 	<?php submit_button(); ?>
 </form>
 <br class="clear" />

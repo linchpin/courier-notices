@@ -1,8 +1,18 @@
-<?php $courier_css = get_transient( 'courier_notice_css' ); ?>
+<?php
+$courier_css = courier_get_css();
+$courier_settings = get_option( 'courier_design', array() );
 
-<style id="courier_notice_css">
-	<?php echo $courier_css; ?>
-</style>
+// If CSS is disabled there is no need to
+if ( isset( $courier_settings['disable_css'] ) && 1 === (int) $courier_settings['disable_css'] ) {
+	$courier_css = false;
+}
+?>
+
+<?php if ( false !== $courier_css ) : ?>
+	<style id="courier_notice_css">
+		<?php echo $courier_css; ?>
+	</style>
+<?php endif; ?>
 
 <div class="courier-notices alerts <?php echo esc_attr( 'courier-location-' . $courier_placement ); ?>" data-courier>
 	<?php
@@ -30,7 +40,7 @@
 		$notice = new \Courier\Core\View();
 		$notice->assign( 'notice_id', get_the_ID() );
 		$notice->assign( 'post_class', get_post_class( $post_classes, get_the_ID() ) );
-		$notice->assign( 'dismissable', get_post_meta( get_the_ID(), '_courier_dismissible', true ) );
+		$notice->assign( 'dismissible', get_post_meta( get_the_ID(), '_courier_dismissible', true ) );
 		$notice->assign( 'post_content', apply_filters( 'the_content', get_the_content() ) );
 		$notice->assign( 'icon', get_term_meta( $notice_type[0]->term_id, '_courier_type_icon', true ) );
 		$notice->render( 'notice' );

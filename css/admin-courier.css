@@ -100,6 +100,106 @@ body.wp-admin table.courier_notice_page_courier [class*="icon-"] {
  *
  * Standard clearfix, for parents of floated elements.
  * * */
+/**
+ * 01. Courier Types
+ */
+.form-table td {
+  vertical-align: top; }
+  .form-table td .courier_notice_page_courier td {
+    padding: 8px 10px; }
+    .form-table td .courier_notice_page_courier td input {
+      max-width: 100%; }
+  .form-table td .courier_notice_page_courier thead th,
+  .form-table td .courier_notice_page_courier thead td,
+  .form-table td .courier_notice_page_courier tfoot th,
+  .form-table td .courier_notice_page_courier tfoot td {
+    padding: 12px 8px; }
+    .form-table td .courier_notice_page_courier thead th a,
+    .form-table td .courier_notice_page_courier thead td a,
+    .form-table td .courier_notice_page_courier tfoot th a,
+    .form-table td .courier_notice_page_courier tfoot td a {
+      padding: 0; }
+  .form-table td .courier_notice_page_courier thead .manage-column,
+  .form-table td .courier_notice_page_courier tfoot .manage-column {
+    padding-left: 3px; }
+  .form-table td .courier_notice_page_courier thead .column-notice_default,
+  .form-table td .courier_notice_page_courier tbody .column-notice_default,
+  .form-table td .courier_notice_page_courier tfoot .column-notice_default {
+    padding-left: 8px; }
+  .form-table td .courier_notice_page_courier .check-column {
+    visibility: hidden;
+    width: 0 !important; }
+  .form-table td .courier_notice_page_courier .courier-type-icon {
+    display: inline-block;
+    min-width: 14px; }
+  .form-table td .courier_notice_page_courier #title {
+    width: 150px; }
+  .form-table td .courier_notice_page_courier #notice_color,
+  .form-table td .courier_notice_page_courier #notice_text_color,
+  .form-table td .courier_notice_page_courier #notice_icon_color,
+  .form-table td .courier_notice_page_courier #notice_bg_color {
+    width: 130px; }
+  .form-table td .courier_notice_page_courier #notice_preview {
+    width: 100%; }
+  .form-table td .static-color-visual-swatch {
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+    vertical-align: middle; }
+  .form-table td .notice-options {
+    padding-top: 4px; }
+    .form-table td .notice-options .notice-option {
+      display: inline-block;
+      max-width: 100%;
+      vertical-align: top; }
+    .form-table td .notice-options .notice-option-title {
+      display: inline-block;
+      margin: 0; }
+  .form-table td .courier-notice {
+    background: #e8e8e8; }
+
+#courier-settings form.settings-form .form-table {
+  width: 100%;
+  margin: 2rem 0; }
+
+#courier-settings form.settings-form .submit {
+  width: 90%;
+  margin: 2rem 5%; }
+
+#courier-settings #cb {
+  width: 36px; }
+
+#courier-settings #notice_default {
+  width: 50px; }
+
+#courier-settings #title {
+  vertical-align: middle;
+  width: 200px; }
+
+#courier-settings tfoot .column-title {
+  vertical-align: middle; }
+
+#courier-settings #notice_preview {
+  width: 100%; }
+
+#courier-settings #notice_delete {
+  width: 100px; }
+
+#courier-settings input[type=checkbox]:checked:before {
+  color: #94C169; }
+
+.column-notice_delete {
+  text-align: center; }
+  .column-notice_delete .button-editing[aria-label="Save"], .column-notice_delete .button-editing[aria-label="Cancel"] {
+    display: none; }
+  .courier-notice-editing .column-notice_delete .button-editing[aria-label="Save"], .courier-notice-editing .column-notice_delete .button-editing[aria-label="Cancel"] {
+    display: inline-block; }
+  .courier-notice-editing .column-notice_delete .courier-notices-type-delete {
+    display: none; }
+
+.courier-notice-editing .courier-notice-type-edit {
+  display: none; }
+
 .courier-columns-1 {
   width: 8.33333%; }
 
@@ -721,14 +821,6 @@ body.wp-admin table.courier_notice_page_courier [class*="icon-"] {
 #courier-settings li {
   margin-left: 10px; }
 
-#courier-settings .courier-sub-menu {
-  padding: 10px 25px;
-  margin-left: -22px;
-  background: #f5f5f5; }
-  #courier-settings .courier-sub-menu a {
-    text-decoration: none;
-    color: #4F8C7E; }
-
 .courier-section-block .courier-section-control-featured_image {
   float: right; }
 
@@ -850,7 +942,7 @@ body.courier_notice_page_courier .wp-list-table.courier_notice_page_courier tr:h
 #courier-container .button.primary {
   background-color: #94C169;
   border-color: #88ba58;
-  color: #f5f5f5; }
+  color: #FFFFFF; }
   #courier-container .button.primary:hover {
     background-color: #9dc675; }
   #courier-container .button.primary .spinner {
@@ -1633,23 +1725,8 @@ table.courier_notice_page_courier .form-table th {
 .column-courier-global {
   text-align: center; }
 
-#notice_default {
-  width: 50px; }
-
 .column-notice_default {
   text-align: center; }
-
-#notice_delete {
-  width: 100px; }
-
-.column-notice_delete {
-  text-align: center; }
-  .column-notice_delete .button-editing[aria-label="Save"], .column-notice_delete .button-editing[aria-label="Cancel"] {
-    display: none; }
-  .courier-notice-editing .column-notice_delete .button-editing[aria-label="Save"], .courier-notice-editing .column-notice_delete .button-editing[aria-label="Cancel"] {
-    display: inline-block; }
-  .courier-notice-editing .column-notice_delete .courier-notices-type-delete {
-    display: none; }
 
 pre.courier-notice-type-css-class {
   display: inline-block;
@@ -1734,17 +1811,26 @@ pre.courier-notice-type-css-class {
       float: none; }
     .courier_notice_page_courier #wpcontent .table.new, #about-courier .table.new, #whats-new .table.new, #courier-settings .table.new {
       width: auto; }
-  .courier_notice_page_courier #wpcontent .color-white, #about-courier .color-white, #whats-new .color-white, #courier-settings .color-white {
-    color: #f5f5f5; }
-  .courier_notice_page_courier #wpcontent .color-darkgreen, #about-courier .color-darkgreen, #whats-new .color-darkgreen, #courier-settings .color-darkgreen {
-    color: #4F8C7E; }
+  .courier_notice_page_courier #wpcontent .courier-sub-menu, #about-courier .courier-sub-menu, #whats-new .courier-sub-menu, #courier-settings .courier-sub-menu {
+    padding: 10px 25px;
+    margin-left: -22px;
+    background: white; }
+    .courier_notice_page_courier #wpcontent .courier-sub-menu a, #about-courier .courier-sub-menu a, #whats-new .courier-sub-menu a, #courier-settings .courier-sub-menu a {
+      margin-right: 10px; }
   .courier_notice_page_courier #wpcontent .nav-tab-wrapper a, #about-courier .nav-tab-wrapper a, #whats-new .nav-tab-wrapper a, #courier-settings .nav-tab-wrapper a {
-    color: #01365e !important;
-    border-radius: .25rem .25rem 0 0; }
+    background-color: #f5f5f5;
+    border: 1px solid #dedede;
+    border-radius: 0;
+    border-top: 3px solid #01365e;
+    border-bottom: none;
+    line-height: 16px;
+    padding: 8px;
+    text-decoration: none;
+    color: #01365e !important; }
     .courier_notice_page_courier #wpcontent .nav-tab-wrapper a.nav-tab-active, #about-courier .nav-tab-wrapper a.nav-tab-active, #whats-new .nav-tab-wrapper a.nav-tab-active, #courier-settings .nav-tab-wrapper a.nav-tab-active {
-      border-bottom: none !important;
-      color: #89d0ff !important;
-      background-color: #f5f5f5; }
+      border-bottom: 1px solid white !important;
+      border-top-color: #89d0ff !important;
+      background-color: white; }
     .courier_notice_page_courier #wpcontent .nav-tab-wrapper a:first-child, #about-courier .nav-tab-wrapper a:first-child, #whats-new .nav-tab-wrapper a:first-child, #courier-settings .nav-tab-wrapper a:first-child {
       margin-left: 22px; }
   @media screen and (max-width: 580px) {
@@ -1821,14 +1907,14 @@ pre.courier-notice-type-css-class {
       -webkit-box-shadow: none !important; }
   .courier_notice_page_courier #wpcontent .button-primary, #about-courier .button-primary, #whats-new .button-primary, #courier-settings .button-primary {
     background-color: #89d0ff;
-    color: white !important; }
+    color: #FFFFFF !important; }
     .courier_notice_page_courier #wpcontent .button-primary:hover, .courier_notice_page_courier #wpcontent .button-primary:focus, .courier_notice_page_courier #wpcontent .button-primary:active, #about-courier .button-primary:hover, #about-courier .button-primary:focus, #about-courier .button-primary:active, #whats-new .button-primary:hover, #whats-new .button-primary:focus, #whats-new .button-primary:active, #courier-settings .button-primary:hover, #courier-settings .button-primary:focus, #courier-settings .button-primary:active {
       background-color: #01365e;
-      color: #f5f5f5; }
+      color: #FFFFFF; }
     .courier_notice_page_courier #wpcontent .button-primary.save-button, #about-courier .button-primary.save-button, #whats-new .button-primary.save-button, #courier-settings .button-primary.save-button {
       background-color: #94C169; }
       .courier_notice_page_courier #wpcontent .button-primary.save-button:hover, .courier_notice_page_courier #wpcontent .button-primary.save-button:focus, .courier_notice_page_courier #wpcontent .button-primary.save-button:active, #about-courier .button-primary.save-button:hover, #about-courier .button-primary.save-button:focus, #about-courier .button-primary.save-button:active, #whats-new .button-primary.save-button:hover, #whats-new .button-primary.save-button:focus, #whats-new .button-primary.save-button:active, #courier-settings .button-primary.save-button:hover, #courier-settings .button-primary.save-button:focus, #courier-settings .button-primary.save-button:active {
-        backrgound-color: #4F8C7E; }
+        backrgound-color: #8cbd5e; }
   .courier_notice_page_courier #wpcontent .button.wp-color-result, #about-courier .button.wp-color-result, #whats-new .button.wp-color-result, #courier-settings .button.wp-color-result {
     margin-bottom: 0; }
   .courier_notice_page_courier #wpcontent .button.button-editing, #about-courier .button.button-editing, #whats-new .button.button-editing, #courier-settings .button.button-editing {
@@ -1842,15 +1928,20 @@ pre.courier-notice-type-css-class {
         color: #009fd4; }
   .courier_notice_page_courier #wpcontent .editing-buttons-container, #about-courier .editing-buttons-container, #whats-new .editing-buttons-container, #courier-settings .editing-buttons-container {
     text-align: center; }
-  .courier_notice_page_courier #wpcontent .about.hero, #about-courier .about.hero, #whats-new .about.hero, #courier-settings .about.hero {
-    background-color: #89d0ff; }
-  .courier_notice_page_courier #wpcontent .whatsnew.hero, #about-courier .whatsnew.hero, #whats-new .whatsnew.hero, #courier-settings .whatsnew.hero {
-    background-color: #89d0ff; }
+  .courier_notice_page_courier #wpcontent .about.hero,
+  .courier_notice_page_courier #wpcontent .whatsnew.hero, #about-courier .about.hero,
+  #about-courier .whatsnew.hero, #whats-new .about.hero,
+  #whats-new .whatsnew.hero, #courier-settings .about.hero,
+  #courier-settings .whatsnew.hero {
+    background-image: url("../img/courier-settings-banner@2x.png");
+    background-position: 100% 50%;
+    background-size: cover;
+    padding-right: 33%; }
   .courier_notice_page_courier #wpcontent .hero .hero-text, #about-courier .hero .hero-text, #whats-new .hero .hero-text, #courier-settings .hero .hero-text {
     padding: 3rem 5%;
-    width: 70%; }
+    width: 95%; }
     .courier_notice_page_courier #wpcontent .hero .hero-text h1, .courier_notice_page_courier #wpcontent .hero .hero-text h2, .courier_notice_page_courier #wpcontent .hero .hero-text h3, #about-courier .hero .hero-text h1, #about-courier .hero .hero-text h2, #about-courier .hero .hero-text h3, #whats-new .hero .hero-text h1, #whats-new .hero .hero-text h2, #whats-new .hero .hero-text h3, #courier-settings .hero .hero-text h1, #courier-settings .hero .hero-text h2, #courier-settings .hero .hero-text h3 {
-      color: #f5f5f5; }
+      color: #01365e; }
     .courier_notice_page_courier #wpcontent .hero .hero-text h3, #about-courier .hero .hero-text h3, #whats-new .hero .hero-text h3, #courier-settings .hero .hero-text h3 {
       font-weight: 300 !important; }
   .courier_notice_page_courier #wpcontent .wrapper, #about-courier .wrapper, #whats-new .wrapper, #courier-settings .wrapper {
@@ -1931,7 +2022,7 @@ pre.courier-notice-type-css-class {
     color: #1B0253; }
   .courier_notice_page_courier #wpcontent .versioninfo .green-pipe, #about-courier .versioninfo .green-pipe, #whats-new .versioninfo .green-pipe, #courier-settings .versioninfo .green-pipe {
     padding: 0 10px;
-    color: #4F8C7E;
+    color: #88ba58;
     vertical-align: top;
     line-height: 33px; }
   .courier_notice_page_courier #wpcontent .new-title img, #about-courier .new-title img, #whats-new .new-title img, #courier-settings .new-title img {
@@ -1968,15 +2059,6 @@ pre.courier-notice-type-css-class {
   margin: 0 auto;
   float: none; }
 
-.courier-tab {
-  background-color: #f5f5f5;
-  border: 1px solid #dedede;
-  border-bottom: none;
-  color: #666;
-  line-height: 16px;
-  padding: 8px;
-  text-decoration: none; }
-
 .courier-section-block .mce-widget.mce-btn.mce-last {
   transition: border 2s;
   border-color: transparent; }
@@ -1997,7 +2079,7 @@ pre.courier-notice-type-css-class {
 
 .courier-update-notice {
   padding: 10px 38px;
-  border-left-color: #94C169;
+  border-left-color: #89d0ff;
   margin: 25px 20px 0 2px; }
   .courier-update-notice img {
     width: 100px;
@@ -2012,77 +2094,11 @@ pre.courier-notice-type-css-class {
       vertical-align: middle; }
   .courier-update-notice a {
     text-decoration: none;
-    color: #94C169;
+    color: #89d0ff;
     font-weight: bolder;
     transition: background-color 0.25s ease-out,color 0.25s ease-out; }
     .courier-update-notice a:hover, .courier-update-notice a:focus, .courier-update-notice a:active {
-      color: #4F8C7E; }
-
-.form-table td {
-  vertical-align: top; }
-  .form-table td .courier_notice_page_courier td {
-    padding: 8px 10px; }
-    .form-table td .courier_notice_page_courier td input {
-      max-width: 100%; }
-  .form-table td .courier_notice_page_courier thead th,
-  .form-table td .courier_notice_page_courier thead td,
-  .form-table td .courier_notice_page_courier tfoot th,
-  .form-table td .courier_notice_page_courier tfoot td {
-    padding: 12px 8px; }
-    .form-table td .courier_notice_page_courier thead th a,
-    .form-table td .courier_notice_page_courier thead td a,
-    .form-table td .courier_notice_page_courier tfoot th a,
-    .form-table td .courier_notice_page_courier tfoot td a {
-      padding: 0; }
-  .form-table td .courier_notice_page_courier thead .manage-column,
-  .form-table td .courier_notice_page_courier tfoot .manage-column {
-    padding-left: 3px; }
-  .form-table td .courier_notice_page_courier thead .column-notice_default,
-  .form-table td .courier_notice_page_courier tbody .column-notice_default,
-  .form-table td .courier_notice_page_courier tfoot .column-notice_default {
-    padding-left: 8px; }
-  .form-table td .courier_notice_page_courier .check-column {
-    visibility: hidden;
-    width: 0 !important; }
-  .form-table td .courier_notice_page_courier .courier-type-icon {
-    display: inline-block;
-    min-width: 14px; }
-  .form-table td .courier_notice_page_courier #title {
-    width: 150px; }
-  .form-table td .courier_notice_page_courier #notice_color,
-  .form-table td .courier_notice_page_courier #notice_text_color,
-  .form-table td .courier_notice_page_courier #notice_icon_color,
-  .form-table td .courier_notice_page_courier #notice_bg_color {
-    width: 130px; }
-  .form-table td .courier_notice_page_courier #notice_preview {
-    width: 100%; }
-  .form-table td .static-color-visual-swatch {
-    display: inline-block;
-    height: 22px;
-    width: 22px;
-    vertical-align: middle; }
-  .form-table td .notice-options {
-    padding-top: 4px; }
-    .form-table td .notice-options .notice-option {
-      display: inline-block;
-      max-width: 100%;
-      vertical-align: top; }
-    .form-table td .notice-options .notice-option-title {
-      display: inline-block;
-      margin: 0; }
-  .form-table td .courier-notice {
-    background: #e8e8e8; }
-
-#courier-settings form.settings-form .form-table {
-  width: 100%;
-  margin: 2rem 0; }
-
-#courier-settings form.settings-form .submit {
-  width: 90%;
-  margin: 2rem 5%; }
-
-#courier-settings input[type=checkbox]:checked:before {
-  color: #94C169; }
+      color: #efa500; }
 
 .courier-admin-notice {
   border: 2px solid #f3f3f3;

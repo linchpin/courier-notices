@@ -179,12 +179,12 @@ body.courier_notice_page_courier {
 
 	.button {
 		&.primary {
-			background-color: $primary;
-			border-color: $primary-dark;
-			color: $light-gray;
+			background-color: $save-color;
+			border-color: $save-color-dark;
+			color: $white;
 
 			&:hover {
-				background-color: $primary-light;
+				background-color: $save-color-light;
 			}
 
 		  .spinner {

@@ -74,7 +74,7 @@ use \Courier\Helper\Utils as Utils;
 						<div class="courier-columns-12">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/feature-easy-familiar-2.svg' ); ?>" alt=""/>
+									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-settings.svg' ); ?>" alt=""/>
 								</div>
 								<div class="about-box-copy">
 									<h4 class="no-margin"><?php esc_html_e( 'Settings', 'courier' ); ?></h4>
@@ -87,7 +87,7 @@ use \Courier\Helper\Utils as Utils;
 						<div class="courier-columns-12">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/feature-easy-familiar-2.svg' ); ?>" alt=""/>
+									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-adding-editing.svg' ); ?>" alt=""/>
 								</div>
 								<div class="about-box-copy">
 									<h4 class="no-margin"><?php esc_html_e( 'Adding / Editing Notices', 'courier' ); ?></h4>
@@ -121,7 +121,7 @@ use \Courier\Helper\Utils as Utils;
 						<div class="courier-columns-6">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/feature-easy-familiar-2.svg' ); ?>" alt=""/>
+									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-familiar.svg' ); ?>" alt=""/>
 								</div>
 								<div class="about-box-copy">
 									<h4 class="no-margin"><?php esc_html_e( 'Familiar &amp; Easy to Use', 'courier' ); ?></h4>
@@ -133,7 +133,7 @@ use \Courier\Helper\Utils as Utils;
 						<div class="courier-columns-6">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/feature-visualize.svg' ); ?>" alt=""/>
+									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-users.svg' ); ?>" alt=""/>
 								</div>
 								<div class="about-box-copy">
 									<h4 class="no-margin"><?php esc_html_e( 'Notices For Users/Visitors', 'courier' ); ?></h4>
@@ -150,7 +150,7 @@ use \Courier\Helper\Utils as Utils;
 						<div class="courier-columns-6">
 							<div class="grey-box " data-equalizer-watch="">
 								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/feature-responsive.svg' ); ?>" alt=""/>
+									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-types.svg' ); ?>" alt=""/>
 								</div>
 								<div class="about-box-copy">
 									<h4 class="no-margin"><?php esc_html_e( 'Create Your Own Notice Types ', 'courier' ); ?></h4>
@@ -163,7 +163,7 @@ use \Courier\Helper\Utils as Utils;
 						<div class="courier-columns-6">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/feature-plays-well.svg' ); ?>" alt=""/>
+									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-plays-well.svg' ); ?>" alt=""/>
 								</div>
 								<div class="about-box-copy">
 									<h4 class="no-margin"><?php esc_html_e( 'Plays Well with Others', 'courier' ); ?></h4>
@@ -183,7 +183,7 @@ use \Courier\Helper\Utils as Utils;
 						<div class="courier-columns-6">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/feature-plays-well.svg' ); ?>" alt=""/>
+									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-add-on.svg' ); ?>" alt=""/>
 								</div>
 								<div class="about-box-copy">
 									<h4 class="no-margin"><?php esc_html_e( 'Addons', 'courier' ); ?></h4>

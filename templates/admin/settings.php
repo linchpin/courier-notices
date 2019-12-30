@@ -34,58 +34,76 @@ if ( ! function_exists( 'add_action' ) ) {
 			?>
 		</h2>
 		<h3 class="com-button table-cell">
-		<?php
+			<?php
 			printf(
-				// translators: %1$s: Linchpin Website URL %2$s: Visit CTA. WPCS: xss ok.
+				// translators: %1$s: Linchpin Website URL %2$s: Visit CTA. phpcs: xss ok.
 				wp_kses_post( __( '<a href="%1$s" class="button" target="_blank">%2$s</a>', 'courier' ) ),
 				esc_url( 'https://linchpin.com' ),
 				esc_html__( 'Visit linchpin.com', 'courier' )
 			); // phpcs:ignore Standard.Category.SniffName.ErrorCode
-		?>
+			?>
 		</h3>
 		<div class="clearfix"></div>
 	</div>
 	<?php settings_errors( $plugin_name . '-notices' ); ?>
 	<h2 class="nav-tab-wrapper negative-bg">
 		<?php
-		foreach ( $tabs as $tab_slug => $tab ) :
+		foreach ( $tabs as $tab_slug => $tab_item ) :
 
-			$tab_url = add_query_arg(
-				array(
-					'settings-updated' => false,
-					'tab'              => $tab_slug,
-				)
-			);
+			if ( empty( $tab_item['url'] ) ) {
+				$tab_url = add_query_arg(
+					array(
+						'settings-updated' => false,
+						'tab'              => $tab_slug,
+					)
+				);
+			} else {
+				$tab_url = $tab_item['url'];
+			}
 
-			$active = ( $active_tab === $tab_slug ) ? ' nav-tab-active' : '';
+			$tab_url = remove_query_arg( 'subtab', $tab_url );
+			$tab_url = apply_filters( "courier_admin_tab_{$tab_slug}_url", $tab_url );
+
+
+			$active  = ( $active_tab === $tab_slug ) ? ' nav-tab-active' : '';
 
 			?>
-			<a href="<?php echo esc_url( $tab_url ); ?>" title="<?php echo esc_attr( $tab['label'] ); ?>" class="nav-tab <?php echo esc_attr( $active ); ?>">
-				<?php echo esc_html( $tab['label'] ); ?>
+			<a href="<?php echo esc_url( $tab_url ); ?>" title="<?php echo esc_attr( $tab_item['label'] ); ?>" class="nav-tab <?php echo esc_attr( $active ); ?>">
+				<?php echo esc_html( $tab_item['label'] ); ?>
 			</a>
 		<?php endforeach; ?>
 	</h2>
 	<?php if ( ! empty( $sub_tabs ) ) : ?>
 	<div class="courier-sub-menu">
 		<?php
-			$active_sub_tab = $request_sub_tab;
+		$active_sub_tab = $request_sub_tab;
 
-			foreach ( $sub_tabs as $sub_tab_slug => $sub_tab ) :
+		foreach ( $sub_tabs as $sub_tab_slug => $sub_tab ) :
 
-				$sub_tab_url = add_query_arg( array(
+			$sub_tab_url = add_query_arg(
+				array(
 					'settings-updated' => false,
 					'tab'              => $active_tab,
 					'subtab'           => $sub_tab_slug,
-				) );
+				)
+			);
 
-				$active_sub_tab_class = ( $active_sub_tab === $sub_tab_slug ) ? ' nav-sub-tab-active' : '';
-
-				?>
-				<a href="<?php echo esc_url( $sub_tab_url ); ?>" title="<?php echo esc_attr( $sub_tab['label'] ); ?>" class="sub-tab <?php echo esc_attr( $active_sub_tab_class ); ?>">
-					<?php echo esc_html( $sub_tab['label'] ); ?>
-				</a>
+			$sub_tab_classes      = array(
+				'sub-tab',
+				'courier-sub-tab-' . sanitize_title( $sub_tab['label'] ),
+			);
+			$active_sub_tab_class = ( $active_sub_tab === $sub_tab_slug ) ? ' nav-sub-tab-active' : '';
+			$sub_tab_classes[]    = $active_sub_tab_class;
+			$sub_tab_css_classes  = explode( ' ', $sub_tab['css_class'] );
+			$sub_tab_css_classes  = array_map( 'sanitize_html_class', $sub_tab_css_classes );
+			$sub_tab_classes      = array_merge( $sub_tab_classes, $sub_tab_css_classes );
+			$sub_tab_css_class    = trim( implode( ' ', $sub_tab_classes ) );
+			?>
+			<a href="<?php echo esc_url( $sub_tab_url ); ?>" title="<?php echo esc_attr( $sub_tab['label'] ); ?>" class="<?php echo esc_attr( $sub_tab_css_class ); ?>">
+				<?php echo esc_html( $sub_tab['label'] ); ?>
+			</a>
 			<?php
-			endforeach;
+		endforeach;
 		?>
 	</div>
 	<?php endif; ?>
@@ -108,15 +126,37 @@ if ( ! function_exists( 'add_action' ) ) {
 						$about_courier = new View();
 						$about_courier->render( 'admin/settings-about-courier' );
 						?>
+					<?php elseif ( 'gopro' === $active_tab ) : ?>
+						<?php
+						$gopro = new View();
+						$gopro->render( 'admin/settings-gopro' );
+						?>
 					<?php elseif ( 'addons' === $active_tab ) : ?>
 						<?php
 						$addons = new View();
 						$addons->render( 'admin/settings-addons' );
 						?>
+					<?php elseif ( 'changelog' === $active_tab ) : ?>
+						<?php
+						$changelog_view = new View();
+
+						$changelog_path = COURIER_PATH . '/CHANGELOG.md';
+
+						if ( file_exists( $changelog_path ) ) {
+							$parsedown = new Parsedown();
+							$parsedown->setSafeMode( true );
+							$changelog = file_get_contents( $changelog_path, true );
+						}
+
+						$changelog_view->assign( 'changelog', $parsedown->text( $changelog ) );
+						$changelog_view->render( 'admin/settings-changelog' );
+						?>
 					<?php elseif ( 'new' === $active_tab ) : ?>
 						<?php
-						$whats_news = new View();
-						$whats_news->render( 'admin/settings-whats-new' );
+						$whats_new = new View();
+						$whats_new->assign( 'courier_version', get_option( 'courier_version' ) );
+						$whats_new->assign( 'courier_release_date', COURIER_RELEASE_DATE );
+						$whats_new->render( 'admin/settings-whats-new' );
 						?>
 					<?php else : ?>
 						<?php do_action( 'courier_setting_' . sanitize_title( $active_tab ) ); ?>
