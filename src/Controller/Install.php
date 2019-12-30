@@ -143,6 +143,8 @@ class Install {
 		$plugin_options['plugin_version'] = $this->config->get( 'version' );
 
 		update_option( 'courier_options', $plugin_options );
+
+		courier_get_css();
 	}
 }
 

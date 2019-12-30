@@ -30,17 +30,23 @@ class Upgrade {
 	 * @since 1.0
 	 */
 	public function upgrade() {
-		$current_version = get_option( 'courier_version', '0.0.0' );
+		$stored_version = get_option( 'courier_version', '0.0.0' );
 
-		if ( version_compare( '1.0.0', $current_version, '>' ) ) {
+		if ( version_compare( '1.0.0', $stored_version, '>' ) ) {
 			flush_rewrite_rules();
 			wp_schedule_event( current_time( 'timestamp' ), 'hourly', 'courier_expire' );
 
-			$current_version = COURIER_VERSION;
-			update_option( 'courier_version', $current_version );
+			update_option( 'courier_version', '1.0.0' );
 		}
 
-		if ( version_compare( '1.0.4', $current_version, '>' ) ) {
+		if ( version_compare( '1.0.4', $stored_version, '>' ) ) {
+			update_option( 'courier_version', '1.0.4' );
+		}
+
+		if ( version_compare( '1.0.5', $stored_version, '>' ) ) {
+			delete_transient( 'courier_notice_css' );
+			courier_get_css();
+
 			$current_version = COURIER_VERSION;
 			update_option( 'courier_version', $current_version );
 		}
