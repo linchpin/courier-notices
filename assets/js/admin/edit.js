@@ -35,6 +35,9 @@ export default function edit() {
 				.on('ready', populate_status);
 		}
 
+		show_hide_type();
+		modal_option_rules();
+
 		$body
 			.on('click', '.courier-reactivate-notice', reactivate_notice )
 			.on('click', '.copy-text', copy_text )
@@ -45,14 +48,15 @@ export default function edit() {
 			});
 	}
 
+
 	/**
 	 * Show / Hide rules for Modals
 	 *
 	 * @since 1.1
 	 */
 	function modal_option_rules( event ) {
-		show_hide_placement( event );
-		force_dismissible( event );
+		show_hide_placement();
+		force_dismissible();
 	}
 
 	/**
@@ -60,9 +64,9 @@ export default function edit() {
 	 *
 	 * @since 1.1
 	 */
-	function force_dismissible( event ) {
+	function force_dismissible() {
 
-		let $this = $( event.target );
+		let $this = $( '#courier_style' );
 
 		if ( $this.find('option:selected').val() === 'modal' ) {
 
@@ -83,7 +87,7 @@ export default function edit() {
 	 */
 	function show_hide_type( event ) {
 
-		let $this = $( this );
+		let $this = $( '#courier_style' );
 
 		if ( $this.find('option:selected').val() !== 'informational' ) {
 			$( '#courier-notice_type_container' ).hide();
@@ -99,7 +103,7 @@ export default function edit() {
 	 * @since 1.1
 	 */
 	function show_hide_placement( event ) {
-		let $this = $( event.target );
+		let $this = $( '#courier_style' );
 
 		if ( $this.find('option:selected').val() === 'modal' ) {
 			$( '#courier-notice_placement_container' ).hide();

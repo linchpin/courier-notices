@@ -487,6 +487,15 @@ class Courier {
 					wp_set_object_terms( $post_id, (string) $_POST['courier_type'], 'courier_type' );
 				}
 			}
+
+			if ( empty( $_POST['courier_style'] ) ) {
+				wp_set_object_terms( $post_id, null, 'courier_style' );
+			} else {
+				// Only set the courier type if the type actually exists.
+				if ( term_exists( $_POST['courier_style'], 'courier_style' ) ) {
+					wp_set_object_terms( $post_id, (string) $_POST['courier_style'], 'courier_style' );
+				}
+			}
 		}
 
 		if ( isset( $_POST['courier_expiration_noncename'] ) && wp_verify_nonce( $_POST['courier_expiration_noncename'], 'courier_expiration_nonce' ) ) {
@@ -499,9 +508,12 @@ class Courier {
 			}
 		}
 
-		wp_cache_delete( 'global-notices', 'courier' );
-		wp_cache_delete( 'global-dismissible-notices', 'courier' );
-		wp_cache_delete( 'global-persistent-notices', 'courier' );
+		wp_cache_delete( 'global-footer-notices', 'courier' );
+		wp_cache_delete( 'global-footer-dismissible-notices', 'courier' );
+		wp_cache_delete( 'global-footer-persistent-notices', 'courier' );
+		wp_cache_delete( 'global-header-notices', 'courier' );
+		wp_cache_delete( 'global-header-dismissible-notices', 'courier' );
+		wp_cache_delete( 'global-header-persistent-notices', 'courier' );
 	}
 
 	/**

@@ -1230,6 +1230,8 @@ function edit() {
       $doc.on('ready', populate_status);
     }
 
+    show_hide_type();
+    modal_option_rules();
     $body.on('click', '.courier-reactivate-notice', reactivate_notice).on('click', '.copy-text', copy_text).on('change', '#courier_style', show_hide_type).on('change', '#courier_style', modal_option_rules).on('focus', '#courier-shortcode', function () {
       $('#courier-shortcode').select();
     });
@@ -1242,8 +1244,8 @@ function edit() {
 
 
   function modal_option_rules(event) {
-    show_hide_placement(event);
-    force_dismissible(event);
+    show_hide_placement();
+    force_dismissible();
   }
   /**
    * When showing a modal notice, force the notice to be dismissible
@@ -1252,8 +1254,8 @@ function edit() {
    */
 
 
-  function force_dismissible(event) {
-    var $this = $(event.target);
+  function force_dismissible() {
+    var $this = $('#courier_style');
 
     if ($this.find('option:selected').val() === 'modal') {
       $('#courier_dismissible').prop('checked', 'checked').addClass('disabled').on('click', function (event) {
@@ -1273,7 +1275,7 @@ function edit() {
 
 
   function show_hide_type(event) {
-    var $this = $(this);
+    var $this = $('#courier_style');
 
     if ($this.find('option:selected').val() !== 'informational') {
       $('#courier-notice_type_container').hide();
@@ -1290,7 +1292,7 @@ function edit() {
 
 
   function show_hide_placement(event) {
-    var $this = $(event.target);
+    var $this = $('#courier_style');
 
     if ($this.find('option:selected').val() === 'modal') {
       $('#courier-notice_placement_container').hide();
