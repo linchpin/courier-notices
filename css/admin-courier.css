@@ -1852,8 +1852,8 @@ pre.courier-notice-type-css-class {
     text-decoration: none;
     color: #01365e !important; }
     .courier_notice_page_courier #wpcontent .nav-tab-wrapper a.nav-tab-active, #about-courier .nav-tab-wrapper a.nav-tab-active, #whats-new .nav-tab-wrapper a.nav-tab-active, #courier-settings .nav-tab-wrapper a.nav-tab-active {
-      border-bottom: 1px solid white !important;
-      border-top-color: #89d0ff !important;
+      border-bottom: none;
+      border-top-color: #89d0ff;
       background-color: white; }
     .courier_notice_page_courier #wpcontent .nav-tab-wrapper a:first-child, #about-courier .nav-tab-wrapper a:first-child, #whats-new .nav-tab-wrapper a:first-child, #courier-settings .nav-tab-wrapper a:first-child {
       margin-left: 22px; }

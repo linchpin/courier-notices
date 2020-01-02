@@ -736,8 +736,10 @@ pre.courier-notice-type-css-class {
       color: $secondary-color !important;
 
       &.nav-tab-active {
-        border-bottom: 1px solid white !important;
-        border-top-color: $primary-color !important;
+        border: {
+			bottom: none;
+        	top-color: $primary-color;
+		};
         background-color: white;
       }
 

@@ -126,6 +126,11 @@ if ( ! function_exists( 'add_action' ) ) {
 						$about_courier = new View();
 						$about_courier->render( 'admin/settings-about-courier' );
 						?>
+					<?php elseif ( 'linchpin' === $active_tab ) : ?>
+						<?php
+						$about_courier = new View();
+						$about_courier->render( 'admin/settings-about-linchpin' );
+						?>
 					<?php elseif ( 'gopro' === $active_tab ) : ?>
 						<?php
 						$gopro = new View();
