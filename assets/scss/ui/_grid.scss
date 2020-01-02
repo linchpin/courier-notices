@@ -59,6 +59,7 @@
 // 02. XY Grid
 
 .grid-x {
+	box-sizing: border-box;
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -66,11 +67,18 @@
 	-webkit-box-direction: normal;
 	flex-flow: row wrap;
 
+	&.grid-padding {
+		.cell {
+			padding: 0 1rem;
+		}
+	}
+
 	&.align-middle {
 		align-items: center;
 	}
 
 	.cell {
+		box-sizing: inherit;
 		-webkit-box-flex: 0;
 		flex: 0 0 auto;
 		min-height: 0px;
@@ -87,6 +95,25 @@
 			-webkit-box-flex: 0;
 			flex: 0 0 auto;
 			width: auto;
+		}
+
+		&.align-middle {
+			align-self: center;
+		}
+
+		&.align-bottom {
+			align-self: flex-end;
+		}
+
+		&.small-full {
+			@media screen and ( max-width: 767px ) {
+				-webkit-box-flex: 0;
+				flex: 0 0 auto;
+				min-height: 0;
+				min-width: 0;
+				padding: 0;
+				width: 100%;
+			}
 		}
 	}
 }

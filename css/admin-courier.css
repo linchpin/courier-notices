@@ -657,15 +657,19 @@ body.wp-admin table.courier_notice_page_courier [class*="icon-"] {
     display: none !important; } }
 
 .grid-x {
+  box-sizing: border-box;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
   flex-flow: row wrap; }
+  .grid-x.grid-padding .cell {
+    padding: 0 1rem; }
   .grid-x.align-middle {
     align-items: center; }
   .grid-x .cell {
+    box-sizing: inherit;
     -webkit-box-flex: 0;
     flex: 0 0 auto;
     min-height: 0px;
@@ -679,12 +683,24 @@ body.wp-admin table.courier_notice_page_courier [class*="icon-"] {
       -webkit-box-flex: 0;
       flex: 0 0 auto;
       width: auto; }
+    .grid-x .cell.align-middle {
+      align-self: center; }
+    .grid-x .cell.align-bottom {
+      align-self: flex-end; }
+    @media screen and (max-width: 767px) {
+      .grid-x .cell.small-full {
+        -webkit-box-flex: 0;
+        flex: 0 0 auto;
+        min-height: 0;
+        min-width: 0;
+        padding: 0;
+        width: 100%; } }
 
 /**
  *
  * 01. Global Helpers
  * 02. Admin Pointers
- *
+ * 03. Spacing
  **/
 .hide {
   display: none; }
@@ -699,6 +715,10 @@ body.wp-admin table.courier_notice_page_courier [class*="icon-"] {
 .wp-pointer.courier-pointer-top-right .wp-pointer-arrow,
 .wp-pointer.courier-pointer-top-right .wp-pointer-arrow-inner {
   border-left-color: #00a0d2; }
+
+body.wp-admin .padding-horizontal {
+  padding-left: 1rem;
+  padding-right: 1rem; }
 
 /**
  *
@@ -1051,18 +1071,17 @@ body.courier_notice_page_courier .wp-list-table.courier_notice_page_courier tr:h
   width: 120px; }
 
 .post-type-courier_notice .courier-logo {
-  max-width: 100px;
   float: left;
+  max-width: 100px;
   padding: 5px; }
 
-.post-type-courier_notice .linchpin-logo {
-  max-width: 100px;
-  position: absolute;
-  bottom: 0;
-  right: 0; }
-
 .post-type-courier_notice .welcome-panel {
-  margin: 30px 20px 16px 0; }
+  clear: both;
+  margin: 30px 20px 16px 0;
+  padding-bottom: 23px; }
+  @media screen and (max-width: 767px) {
+    .post-type-courier_notice .welcome-panel {
+      padding-top: 40px; } }
 
 .post-type-courier_notice .float-left {
   float: left; }
@@ -1071,19 +1090,19 @@ body.courier_notice_page_courier .wp-list-table.courier_notice_page_courier tr:h
   vertical-align: middle; }
 
 .post-type-courier_notice #courier-notices-welcome-panel h2 {
-  margin-bottom: 5px; }
+  margin-bottom: 1.25rem; }
 
 .post-type-courier_notice .courier-notices-welcome-panel-close {
   position: absolute;
   top: 10px;
-  right: 20px;
-  padding: 10px 15px 10px 21px;
+  right: 10px;
+  padding: 0 0 0 21px;
   font-size: 13px;
   line-height: 1.23076923;
   text-decoration: none; }
   .post-type-courier_notice .courier-notices-welcome-panel-close:before {
     position: absolute;
-    top: 8px;
+    top: 0;
     left: 0;
     -webkit-transition: all .1s ease-in-out;
     transition: all .1s ease-in-out;

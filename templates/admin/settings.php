@@ -28,9 +28,20 @@ if ( ! function_exists( 'add_action' ) ) {
 	<div class="table">
 		<h2>
 			<?php
-			$plugin_title = esc_html__( 'Courier', 'courier' );
+			$plugin_title = __( 'Courier', 'courier' );
+			$plugin_title = "<img src='" . COURIER_PLUGIN_URL . "img/courier-logo-fullcolor.svg' alt='$plugin_title' title='$plugin_title' width='200' />";
 			$plugin_title = apply_filters( 'courier_notices_plugin_title', $plugin_title );
-			echo esc_html( $plugin_title );
+
+			$plugin_title_kses = array(
+				'img' => array(
+					'src'   => array(),
+					'alt'   => array(),
+					'title' => array(),
+					'width' => array(),
+				),
+			);
+
+			echo wp_kses( $plugin_title, $plugin_title_kses );
 			?>
 		</h2>
 		<h3 class="com-button table-cell">
