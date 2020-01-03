@@ -103,8 +103,6 @@ class Cron {
 	 */
 	public function courier_expire() {
 
-		error_log( 'courier_expire' );
-
 		$args = array(
 			'post_type'      => 'courier_notice',
 			'offset'         => 0,
