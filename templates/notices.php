@@ -19,43 +19,34 @@ if ( isset( $courier_settings['disable_css'] ) && 1 === (int) $courier_settings[
 
 	$feedback_notices = array();
 
-	global $post;
+	if ( ! empty( $notices ) ) {
+		foreach ( $notices as $notice ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 
-	$prev_post = $post;
+			$post_meta    = get_post_meta( $notice->ID );
+			$notice_type  = get_the_terms( $notice->ID, 'courier_type' );
+			$post_classes = 'courier-notice courier_notice callout alert alert-box courier_type-' . $notice_type[0]->slug;
+			$dismissible  = get_post_meta( $notice->ID, '_courier_dismissible', true );
 
-	foreach ( $notices as $post ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-		setup_postdata( $post );
+			if ( $dismissible ) {
+				$post_classes .= ' courier-notice-dismissible';
+			}
 
-		$post_meta = get_post_meta( get_the_ID() );
-		$notice_type = get_the_terms( get_the_ID(), 'courier_type' );
+			$notice = new \Courier\Core\View();
+			$notice->assign( 'notice_id', $notice->ID );
+			$notice->assign( 'notice_class', get_post_class( $post_classes, $notice->ID ) );
+			$notice->assign( 'dismissible', get_post_meta( get_the_ID(), '_courier_dismissible', true ) );
+			$notice->assign( 'notice_content', apply_filters( 'the_content', $notice->post_content ) );
+			$notice->assign( 'icon', get_term_meta( $notice_type[0]->term_id, '_courier_type_icon', true ) );
+			$notice->render( 'notice' );
 
-		$post_classes = 'courier-notice courier_notice callout alert alert-box courier_type-' . $notice_type[0]->slug;
+			if ( has_term( 'feedback', 'courier_type' ) ) {
+				$feedback_notices[] = get_the_ID();
+			}
 
-		$dismissable = get_post_meta( get_the_ID(), '_courier_dismissible', true );
-
-		if ( $dismissable ) {
-			$post_classes .= ' courier-notice-dismissable';
-		}
-
-		$notice = new \Courier\Core\View();
-		$notice->assign( 'notice_id', get_the_ID() );
-		$notice->assign( 'post_class', get_post_class( $post_classes, get_the_ID() ) );
-		$notice->assign( 'dismissible', get_post_meta( get_the_ID(), '_courier_dismissible', true ) );
-		$notice->assign( 'post_content', apply_filters( 'the_content', get_the_content() ) );
-		$notice->assign( 'icon', get_term_meta( $notice_type[0]->term_id, '_courier_type_icon', true ) );
-		$notice->render( 'notice' );
-
-		if ( has_term( 'feedback', 'courier_type' ) ) {
-			$feedback_notices[] = get_the_ID();
-		}
-
-		if ( ! empty( $feedback_notices ) ) {
-			courier_dismiss_notices( $feedback_notices );
+			if ( ! empty( $feedback_notices ) ) {
+				courier_dismiss_notices( $feedback_notices );
+			}
 		}
 	}
-	wp_reset_postdata();
-
-	$post = $prev_post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-
 	?>
 </div>
