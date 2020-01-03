@@ -21,7 +21,7 @@ class Admin {
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
 		add_action( 'manage_courier_notice_posts_custom_column', array( $this, 'manage_posts_custom_column' ), 10, 2 );
-		add_filter( 'manage_courier_notice_posts_columns', array( $this, 'manage_posts_columns' ), 999 );
+		add_filter( 'manage_courier_notice_posts_columns', array( $this, 'manage_posts_columns' ), 998 );
 
 		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ), 10, 1 );
 
@@ -35,7 +35,6 @@ class Admin {
 			add_filter( 'months_dropdown_results', '__return_empty_array' );
 		}
 	}
-
 
 	/**
 	 * Override the publish message to not show a link to the notice
@@ -66,7 +65,6 @@ class Admin {
 			return $columns;
 		}
 
-
 		unset( $columns['date'] );
 
 		return array_merge(
@@ -76,7 +74,6 @@ class Admin {
 				'courier-type'      => esc_html__( 'Type', 'courier' ),
 				'courier-style'     => esc_html__( 'Style', 'courier' ),
 				'courier-placement' => esc_html__( 'Placement', 'courier' ),
-				'courier-global'    => esc_html__( 'Usage', 'courier' ),
 				'courier-date'      => wp_kses(
 					__( 'Expiration <a href="#" class="courier-info-icon courier-help" title="Non-expiry notices do not expire and will always be shown to users if the notice is not dismissable">?</a>', 'courier' ),
 					array(
@@ -104,11 +101,6 @@ class Admin {
 		global $post;
 
 		switch ( $column ) {
-			case 'courier-global':
-				if ( has_term( 'global', 'courier_scope', $post_id ) ) {
-					echo '<span class="dashicons dashicons-admin-site"></span>';
-				}
-				break;
 			case 'courier-placement':
 				echo esc_html( wp_strip_all_tags( get_the_term_list( $post_id, 'courier_placement', '', ', ' ) ) );
 				break;
