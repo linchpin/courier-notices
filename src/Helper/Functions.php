@@ -5,8 +5,9 @@
  * @package Courier/Helper
  */
 
-use Courier\Model\Courier_Notice\Data as Courier_Notice_Data;
-use Courier\Controller\Courier_Types as Courier_Types;
+use \Courier\Model\Courier_Notice\Data as Courier_Notice_Data;
+use \Courier\Controller\Courier_Types as Courier_Types;
+use \Courier\Helper\Utils;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -82,10 +83,9 @@ function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = f
  */
 function courier_get_user_notices( $args = array() ) {
 
-		$data = new Courier_Notice_Data();
+	$data = new Courier_Notice_Data();
 
-		return $data->get_user_notices( $args );
-
+	return $data->get_user_notices( $args );
 }
 
 /**
@@ -131,7 +131,8 @@ function courier_get_dismissible_global_notices( $args = array(), $ids_only = fa
  * @return array|bool|mixed
  */
 function courier_get_persistent_global_notices( $args = array() ) {
-	$data    = new Courier_Notice_Data();
+
+	$data = new Courier_Notice_Data();
 
 	return $data->get_persistent_global_notices( $args );
 }
@@ -162,10 +163,11 @@ function courier_get_notices( $args = array() ) {
 function courier_display_notices( $args = array() ) {
 
 	$courier_placement = ( ! empty( $args['placement'] ) ) ? $args['placement'] : '';
+	$courier_style     = ( ! empty( $args['style'] ) ) ? $args['style'] : '';
 	$courier_options   = get_option( 'courier_settings', array() );
 	$courier_notices   = new \Courier\Core\View();
-
 	$courier_notices->assign( 'courier_placement', $courier_placement );
+	$courier_notices->assign( 'courier_style', $courier_style );
 
 	if ( isset( $courier_options['ajax_notices'] ) && 1 === intval( $courier_options['ajax_notices'] ) ) {
 		$output = $courier_notices->get_text_view( 'notices-ajax' );
@@ -183,32 +185,10 @@ function courier_display_notices( $args = array() ) {
 		$output = $courier_notices->get_text_view( 'notices' );
 	}
 
-	$output = apply_filters( 'courier_notices', $output );
+	$output       = apply_filters( 'courier_notices', $output );
+	$allowed_html = Utils::get_safe_markup();
 
-	$allowed_html = array(
-		'div'   => array(
-			'class'                  => array(),
-			'data-courier'           => array(),
-			'data-courier-notice-id' => array(),
-			'data-courier-ajax'      => array(),
-			'data-courier-placement' => array(),
-			'data-alert'             => array(),
-			'data-closable'          => array(),
-		),
-		'span'  => array(
-			'class' => array(),
-		),
-		'p'     => array(),
-		'style' => array(
-			'id' => array(),
-		),
-		'a'     => array(
-			'href'  => array(),
-			'class' => array(),
-		),
-	);
-
-	echo wp_kses( $output, $allowed_html ); // @todo this should probably be sanitized more extensively.
+	echo wp_kses( $output, $allowed_html );
 }
 
 /**
@@ -221,6 +201,7 @@ function courier_display_notices( $args = array() ) {
  * @param array $args Array of arguments.
  */
 function courier_display_modals( $args = array() ) {
+
 	$args = wp_parse_args(
 		$args,
 		array(
@@ -228,48 +209,33 @@ function courier_display_modals( $args = array() ) {
 		)
 	);
 
-	$notices = courier_get_notices( $args );
+	$courier_placement = ( ! empty( $args['placement'] ) ) ? $args['placement'] : '';
+	$courier_style     = ( ! empty( $args['style'] ) ) ? $args['style'] : '';
+	$courier_options   = get_option( 'courier_settings', array() );
+	$courier_notices   = new \Courier\Core\View();
+	$courier_notices->assign( 'courier_placement', $courier_placement );
+	$courier_notices->assign( 'courier_style', $courier_style );
 
-	if ( empty( $notices ) ) {
-		return;
+	if ( isset( $courier_options['ajax_notices'] ) && 1 === intval( $courier_options['ajax_notices'] ) ) {
+		$output = $courier_notices->get_text_view( 'notices-ajax-modal' );
+	} else {
+
+		$data    = new Courier_Notice_Data();
+		$notices = $data->get_notices( $args );
+
+		if ( empty( $notices ) ) {
+			return;
+		}
+
+		$courier_notices->assign( 'notices', $notices );
+
+		$output = $courier_notices->get_text_view( 'notices-modal' );
 	}
 
-	ob_start();
-	?>
-	<div class="courier-modal-overlay" style="display:none;">
-		<?php
-		$feedback_notices = array();
+	$output       = apply_filters( 'courier_notices_modal', $output );
+	$allowed_html = Utils::get_safe_markup();
 
-		global $post;
-		foreach ( $notices as $post ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-			setup_postdata( $post );
-			?>
-			<div class="courier-notices modal" data-courier-notice-id="<?php echo esc_attr( get_the_ID() ); ?>" data-closable>
-				<a href="#" class="courier-close close">&times;</a>
-
-				<?php the_content(); ?>
-			</div>
-			<?php
-
-			if ( has_term( 'feedback', 'courier_type' ) ) {
-				$feedback_notices[] = get_the_ID();
-			}
-
-			if ( ! empty( $feedback_notices ) ) {
-				courier_dismiss_notices( $feedback_notices );
-			}
-		}
-		wp_reset_postdata();
-		?>
-	</div>
-	<?php
-
-	$output = ob_get_contents();
-
-	$output = apply_filters( 'courier_notices', $output );
-	ob_end_clean();
-
-	echo $output; // @todo this should probably be filtered more extensively.
+	echo wp_kses( $output, $allowed_html );
 }
 
 /**
