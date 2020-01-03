@@ -68,13 +68,13 @@ class Upgrade {
 				wp_insert_term( esc_html__( 'Informational', 'courier' ), 'courier_style' );
 			}
 
-			if ( ! term_exists( 'Modal', 'courier_style' ) ) {
-				wp_insert_term( esc_html__( 'Modal', 'courier' ), 'courier_style' );
+			if ( ! term_exists( 'popup-modal', 'courier_style' ) ) {
+				wp_insert_term( esc_html__( 'Pop Over / Modal', 'courier' ), 'courier_style', array( 'slug' => 'popup-modal' ) );
 			}
 
-			// Delete modal from our placement type as it's now a "style" of notice.
-			if ( $term = term_exists( 'popup-modal', 'courier_placement' ) ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.Found
-				wp_delete_term( $term['term_id'], 'courier_placement' );
+			// Just in case we don't have a modal in our placement taxonomy, create one
+			if ( ! term_exists( 'popup-modal', 'courier_placement' ) ) {
+				wp_insert_term( esc_html__( 'Pop Over / Modal', 'courier' ), 'courier_placement', array( 'slug' => 'popup-modal' ) );
 			}
 
 			// Remove the version from it's own variable

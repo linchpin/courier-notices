@@ -34,12 +34,26 @@ class Utils {
 	 * @return mixed|void
 	 */
 	public static function get_safe_markup() {
+
 		$safe_content = array(
-			'a'    => array(
-				'href'  => array(),
+			'div'   => array(
+				'class'                  => array(),
+				'data-courier'           => array(),
+				'data-courier-notice-id' => array(),
+				'data-courier-ajax'      => array(),
+				'data-courier-placement' => array(),
+				'data-alert'             => array(),
+				'data-closable'          => array(),
+			),
+			'span'  => array(
 				'class' => array(),
 			),
-			'span' => array(
+			'p'     => array(),
+			'style' => array(
+				'id' => array(),
+			),
+			'a'     => array(
+				'href'  => array(),
 				'class' => array(),
 			),
 		);

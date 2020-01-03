@@ -1,40 +1,72 @@
 import jQuery from 'jquery';
+import {getItem} from "./cookie";
 
 let $ = jQuery;
 
 export default function modal() {
 
-	let $doc  = $(document),
-		$body = $('body'),
+	let $doc    = $(document),
+		$body   = $('body'),
 		$window = $(window);
 
-	init();
-
-	function init() {
-		/*
-	$window
-		.on( 'load', self.display_modal );
-		*/
-	}
+	const init = () => {
+		window.onload = display_modal;
+	};
 
 	/**
 	 * Shows the modal (if there is one) after the page is fully loaded
 	 */
-	function display_modal() {
+	const display_modal = () => {
 
-		var $modal_overlay = $('.courier-modal-overlay'),
-			notice_ids = courier.cookie.getItem('dismissed_notices');
-		notice_ids = JSON.parse(notice_ids);
-		notice_ids = notice_ids || [];
+		let settings = {
+			contentType: "application/json",
+			placement: 'popup-modal',
+			format: 'html',
+			post_info:{},
+		};
 
-		$.each( notice_ids, function (i, val) {
-			$('div[data-courier-notice-id="' + val + '"]').remove();
-		});
-
-		if ($modal_overlay.length < 1 || $modal_overlay.find('div.courier-notices').length < 1) {
-			return;
+		if ( typeof( courier_data.post_info ) !== 'undefined' ) {
+			settings.post_info = courier_data.post_info;
 		}
 
-		// $modal_overlay.show();
-	}
+		let dismissed_notice_ids = getItem( 'dismissed_notices' );
+			dismissed_notice_ids = JSON.parse( dismissed_notice_ids );
+			dismissed_notice_ids = dismissed_notice_ids || [];
+
+		$.ajax( {
+			method: 'GET',
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader( 'X-WP-Nonce', courier_data.wp_rest_nonce );
+			},
+			'url': courier_data.notices_endpoint,
+			'data': settings,
+		} ).success( function ( response ) {
+
+			console.log( response );
+
+			if ( response.notices ) {
+
+				$.each( response.notices, function ( index ) {
+
+					// If the notice is dismissed don't show it.
+					if ( dismissed_notice_ids.indexOf( parseInt( index ) ) !== -1 ) {
+						return;
+					}
+
+					let $notice = $( response.notices[ index ] ).hide();
+
+					$( '.courier-notices[data-courier-placement="' + settings.placement + '"]' )
+						.append( $notice );
+
+					$notice.slideDown( 'fast' );
+				} );
+			}
+		} );
+
+		// .target.setAttribute( 'data-loaded', true );
+
+		$('.modal_overlay').show();
+	};
+
+	init();
 }

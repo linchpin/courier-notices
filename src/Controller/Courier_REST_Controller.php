@@ -205,17 +205,25 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 		$ajax_post_data = wp_parse_args( $request->get_params(), $defaults );
 		$notice_data    = new Courier_Notice_Data();
 		$notice_posts   = $notice_data->get_notices( $args, $ajax_post_data );
+		$style          = 'notice-informational';
 
 		if ( 'html' === $args['format'] ) {
 			$notices = array();
 
 			foreach ( $notice_posts as $courier_notice ) {
+				$courier_style = get_the_terms( $courier_notice->ID, 'courier_style' );
+
 				$notice = new View();
 				$notice->assign( 'notice_id', $courier_notice->ID );
-				$notice->assign( 'post_class', implode( ' ', get_post_class( 'courier-notice courier_notice callout alert alert-box', $courier_notice->ID ) ) );
+				$notice->assign( 'notice_class', implode( ' ', get_post_class( 'courier-notice courier_notice callout alert alert-box', $courier_notice->ID ) ) );
 				$notice->assign( 'dismissible', get_post_meta( $courier_notice->ID, '_courier_dismissible', true ) );
-				$notice->assign( 'post_content', $courier_notice->post_content );
-				$notices[ $courier_notice->ID ] = $notice->get_text_view( 'notice' );
+				$notice->assign( 'notice_content', $courier_notice->post_content );
+
+				if ( ! is_wp_error( $courier_style ) && is_array( $courier_style ) ) {
+					$style = 'notice-' . $courier_style[0]->slug;
+				}
+
+				$notices[ $courier_notice->ID ] = $notice->get_text_view( $style );
 			}
 
 			$notice_posts = $notices;
