@@ -30,7 +30,12 @@ class Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_icon_styles' ) );
 
 		add_action( 'restrict_manage_posts', array( $this, 'filter_courier_notices' ), 10, 2 );
+
+		if ( ! empty( $_GET['post_type'] ) && 'courier_notice' === $_GET['post_type'] ) { // @codingStandardsIgnoreLine
+			add_filter( 'months_dropdown_results', '__return_empty_array' );
+		}
 	}
+
 
 	/**
 	 * Override the publish message to not show a link to the notice
@@ -61,19 +66,18 @@ class Admin {
 			return $columns;
 		}
 
-		$placement = $columns['taxonomy-courier_placement'];
 
 		unset( $columns['date'] );
-		unset( $columns['taxonomy-courier_placement'] );
 
 		return array_merge(
 			$columns,
 			array(
-				'courier-summary'            => esc_html__( 'Summary', 'courier' ),
-				'courier-type'               => esc_html__( 'Type', 'courier' ),
-				'taxonomy-courier_placement' => $placement,
-				'courier-global'             => esc_html__( 'Usage', 'courier' ),
-				'courier-date'               => wp_kses(
+				'courier-summary'   => esc_html__( 'Summary', 'courier' ),
+				'courier-type'      => esc_html__( 'Type', 'courier' ),
+				'courier-style'     => esc_html__( 'Style', 'courier' ),
+				'courier-placement' => esc_html__( 'Placement', 'courier' ),
+				'courier-global'    => esc_html__( 'Usage', 'courier' ),
+				'courier-date'      => wp_kses(
 					__( 'Expiration <a href="#" class="courier-info-icon courier-help" title="Non-expiry notices do not expire and will always be shown to users if the notice is not dismissable">?</a>', 'courier' ),
 					array(
 						'a' => array(
@@ -105,6 +109,12 @@ class Admin {
 					echo '<span class="dashicons dashicons-admin-site"></span>';
 				}
 				break;
+			case 'courier-placement':
+				echo esc_html( wp_strip_all_tags( get_the_term_list( $post_id, 'courier_placement', '', ', ' ) ) );
+				break;
+			case 'courier-style':
+				echo esc_html( wp_strip_all_tags( get_the_term_list( $post_id, 'courier_style', '', ', ' ) ) );
+				break;
 			case 'courier-summary':
 				$summary = apply_filters( 'the_content', get_post_field( 'post_content', $post_id ) );
 
@@ -119,14 +129,12 @@ class Admin {
 
 				if ( ! empty( $types ) ) :
 					$courier_css = courier_get_css();
-					?>
-
+				?>
 				<?php if ( false !== $courier_css ) : ?>
 					<style id="courier_notice_css">
 						<?php echo $courier_css; ?>
 					</style>
 				<?php endif; ?>
-
 				<ul>
 					<?php
 
@@ -384,13 +392,12 @@ class Admin {
 		}
 
 		// A list of taxonomy slugs to filter by.
-		$taxonomies = array( 'courier_type', 'courier_placement', 'courier_status' );
+		$taxonomies = array( 'courier_type', 'courier_style', 'courier_placement', 'courier_status' );
 
 		foreach ( $taxonomies as $taxonomy_slug ) {
 
 			$taxonomy_obj  = get_taxonomy( $taxonomy_slug );
 			$taxonomy_name = $taxonomy_obj->labels->name;
-			// $terms         = get_terms( $taxonomy_slug );
 			$selected      = ( isset( $_GET[ $taxonomy_slug ] ) && '' !== $_GET[ $taxonomy_slug ] ) ? sanitize_text_field( $_GET[ $taxonomy_slug ] ) : ''; // @codingStandardsIgnoreLine
 
 			wp_dropdown_categories(
