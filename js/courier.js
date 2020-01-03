@@ -537,7 +537,7 @@ function modal() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/aware/vvv/www/couriier/public_html/wp-content/plugins/courier/assets/js/courier.js */"./assets/js/courier.js");
+module.exports = __webpack_require__(/*! /Users/maxwellmorgan/vvv-local/vagrant-local/www/courier/public_html/wp-content/plugins/courier/assets/js/courier.js */"./assets/js/courier.js");
 
 
 /***/ }),

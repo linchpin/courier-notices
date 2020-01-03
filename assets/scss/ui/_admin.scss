@@ -1,13 +1,3 @@
-@import
-	'admin-settings',
-	'grid',
-	'helpers',
-	'structure',
-	'type',
-	'welcome',
-	'post-editor'
-;
-
 .courier-notice {
 	@include courier-note-layout;
 }

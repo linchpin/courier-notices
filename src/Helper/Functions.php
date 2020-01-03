@@ -397,5 +397,5 @@ function courier_get_css() {
 		$courier_css = Courier_Types::save_css_transient();
 	}
 
-	return $courier_css;
+	return wp_strip_all_tags( $courier_css );
 }

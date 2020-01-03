@@ -27,7 +27,6 @@ class Admin {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_icon_styles' ) );
 
 		add_action( 'restrict_manage_posts', array( $this, 'filter_courier_notices' ), 10, 2 );
 
@@ -120,13 +119,7 @@ class Admin {
 				$links = array();
 
 				if ( ! empty( $types ) ) :
-					$courier_css = courier_get_css();
-				?>
-				<?php if ( false !== $courier_css ) : ?>
-					<style id="courier_notice_css">
-						<?php echo $courier_css; ?>
-					</style>
-				<?php endif; ?>
+					?>
 				<ul>
 					<?php
 
@@ -301,6 +294,13 @@ class Admin {
 	 * @param string $hook The hook.
 	 */
 	public function admin_enqueue_styles( $hook ) {
+		wp_enqueue_style(
+			'courier-admin-global',
+			COURIER_PLUGIN_URL . 'css/admin-courier-global.css',
+			array(),
+			COURIER_VERSION
+		);
+
 		if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'edit.php', 'courier_notice_page_courier' ), true ) ) {
 			return;
 		}
@@ -318,27 +318,13 @@ class Admin {
 			COURIER_VERSION
 		);
 
+		wp_add_inline_style( 'courier-admin', courier_get_css() );
+
 		if ( ! in_array( $hook, array( 'courier_notice_page_courier' ), true ) ) {
 			return;
 		}
 
 		wp_enqueue_style( 'wp-color-picker' );
-	}
-
-	/**
-	 * Enqueue our admin icons.
-	 *
-	 * @since 1.0
-	 *
-	 * @param string $hook The hook.
-	 */
-	public function admin_enqueue_icon_styles( $hook ) {
-		wp_enqueue_style(
-			'courier-admin-icons',
-			COURIER_PLUGIN_URL . 'css/admin-courier-icons.css',
-			array(),
-			COURIER_VERSION
-		);
 	}
 
 	/**

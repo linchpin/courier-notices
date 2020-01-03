@@ -71,8 +71,6 @@ class Courier_Notices {
 
 		$js_dependencies = array( 'jquery' );
 
-		wp_register_style( 'courier-css', $config->get( 'plugin_url' ) . 'css/courier-notices.css', array(), $config->get( 'version' ) );
-
 		global $post;
 
 		$localized_data = array(
@@ -120,6 +118,7 @@ class Courier_Notices {
 		wp_register_style( 'courier', $config->get( 'plugin_url' ) . 'css/courier-notices.css', '', $config->get( 'version' ) );
 		wp_enqueue_style( 'courier' );
 
+		wp_add_inline_style( 'courier', courier_get_css() );
 	}
 
 	/**

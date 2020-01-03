@@ -149,8 +149,6 @@ body.courier_notice_page_courier {
 	}
 }
 
-// We want all styles in the context of the MCS container, as to not overwrite any
-// WordPress Core styles or custom editor styles inserted by theme devs.
 #courier-container {
 	// 02. Alignment
 	.text-left {

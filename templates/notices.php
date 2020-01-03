@@ -1,19 +1,3 @@
-<?php
-$courier_css = courier_get_css();
-$courier_settings = get_option( 'courier_design', array() );
-
-// If CSS is disabled there is no need to
-if ( isset( $courier_settings['disable_css'] ) && 1 === (int) $courier_settings['disable_css'] ) {
-	$courier_css = false;
-}
-?>
-
-<?php if ( false !== $courier_css ) : ?>
-	<style id="courier_notice_css">
-		<?php echo $courier_css; ?>
-	</style>
-<?php endif; ?>
-
 <div class="courier-notices alerts <?php echo esc_attr( 'courier-location-' . $courier_placement ); ?>" data-courier>
 	<?php
 
