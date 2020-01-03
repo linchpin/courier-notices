@@ -1218,6 +1218,7 @@ function edit() {
       controlType: 'select',
       timeFormat: 'hh:mm tt',
       dateFormat: 'MM dd, yy',
+      stepMinute: 5,
       oneLine: true,
       // firstDay: 0,
       afterInject: function afterInject() {
@@ -1232,7 +1233,7 @@ function edit() {
 
     show_hide_type();
     modal_option_rules();
-    $body.on('click', '.courier-reactivate-notice', reactivate_notice).on('click', '.copy-text', copy_text).on('change', '#courier_style', show_hide_type).on('change', '#courier_style', modal_option_rules).on('focus', '#courier-shortcode', function () {
+    $body.on('click', '.courier-reactivate-notice', reactivate_notice).on('click', '.copy-text', copy_text).on('change', '#courier_style', show_hide_type).on('change', '#courier_placement_display', change_placement).on('change', '#courier_style', modal_option_rules).on('focus', '#courier-shortcode', function () {
       $('#courier-shortcode').select();
     });
   }
@@ -1257,7 +1258,7 @@ function edit() {
   function force_dismissible() {
     var $this = $('#courier_style');
 
-    if ($this.find('option:selected').val() === 'modal') {
+    if ($this.find('option:selected').val() === 'popup-modal') {
       $('#courier_dismissible').prop('checked', 'checked').addClass('disabled').on('click', function (event) {
         event.stopImmediatePropagation();
         event.preventDefault();
@@ -1294,11 +1295,24 @@ function edit() {
   function show_hide_placement(event) {
     var $this = $('#courier_style');
 
-    if ($this.find('option:selected').val() === 'modal') {
+    if ($this.find('option:selected').val() === 'popup-modal') {
+      $('#courier_placement').val('popup-modal');
       $('#courier-notice_placement_container').hide();
     } else {
       $('#courier-notice_placement_container').show();
     }
+  }
+  /**
+   * Show or hide the "placement" dropdown depending on the style of notice
+   * Typically we wouldn't show this for popover/modal notices
+   *
+   * @since 1.1
+   */
+
+
+  function change_placement(event) {
+    var $this = $('#courier_placement_display');
+    $('#courier_placement').val($this.val());
   }
   /**
    * When the page loads, push our custom post status into the post status select.
