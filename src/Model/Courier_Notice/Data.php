@@ -32,6 +32,7 @@ class Data {
 			'ids_only'   => true,
 			'number'     => 100,
 			'placement'  => 'header',
+			'style'      => 'informational',
 			'query_args' => array(),
 		);
 
@@ -40,9 +41,7 @@ class Data {
 		$cache_key = 'global-' . sanitize_title( $args['placement'] ) . '-notices';
 		$cache     = wp_cache_get( $cache_key, 'courier' );
 
-//		error_log( 'get_global_notices function' );
-//		error_log( $cache_key );
-/*
+		/*
 		if ( false !== $cache ) {
 			if ( $args['ids_only'] ) {
 				return wp_list_pluck( $cache, 'ID' );
@@ -71,12 +70,25 @@ class Data {
 		);
 
 		// Only include the notices for a specific placement.
-		if ( ! empty( $args['placement'] ) ) {
+		// Exclude "modal" as a placement as that has been moved to a style.
+		if ( ! empty( $args['placement'] ) && 'modal' !== $args['placement'] ) {
 			$query_args['tax_query']['relation'] = 'AND';
 			$query_args['tax_query'][]           = array(
 				'taxonomy' => 'courier_placement',
 				'field'    => 'slug',
 				'terms'    => is_array( $args['placement'] ) ? $args['placement'] : array( $args['placement'] ),
+				'operator' => 'IN',
+			);
+		}
+
+		// Include notices that have a style of modal
+
+		if ( ! empty( $args['style'] ) && 'modal' === $args['style'] ) {
+			$query_args['tax_query']['relation'] = 'AND';
+			$query_args['tax_query'][]           = array(
+				'taxonomy' => 'courier_style',
+				'field'    => 'slug',
+				'terms'    => is_array( $args['style'] ) ? $args['style'] : array( $args['style'] ),
 				'operator' => 'IN',
 			);
 		}
@@ -254,6 +266,7 @@ class Data {
 			'ids_only'                     => true,
 			'number'                       => 4,
 			'placement'                    => 'header',
+			'style'                        => 'informational',
 		);
 
 		$defaults = apply_filters( 'courier_get_notices_default_settings', $defaults );
@@ -272,12 +285,7 @@ class Data {
 			$global_args             = $args;
 			$global_args['ids_only'] = true;
 
-			error_log( 'Global Notices:' );
 			$global_posts             = $this->get_global_notices( $global_args );
-
-			error_log( print_r( $global_posts,true ) );
-
-			error_log( 'Dismissible Notices:' );
 			$global_dismissible_posts = $this->get_dismissible_global_notices( $args, $ajax_post_data, true );
 
 			// Exclude dismissed.
@@ -294,9 +302,6 @@ class Data {
 
 		$post_list = array_merge( $global_posts, $global_dismissible_posts );
 
-		error_log( 'Merged Global POsts');
-		error_log( print_r( $post_list, true ) );
-
 		// Prioritize Persistent Global Notes to the top by getting them separately and putting them at the front of the line.
 		if ( true === $args['prioritize_persistent_global'] ) {
 			$persistent_global = $this->get_persistent_global_notices(
@@ -308,18 +313,12 @@ class Data {
 			);
 
 			if ( ! empty( $persistent_global ) ) {
-
-				error_log( 'Persistent' );
-				error_log( print_r( $persistent_global, true ) );
 				$post_list = array_merge( $persistent_global, $post_list );
 			}
 		}
 
 		$post_list = array_unique( $post_list );
 		// $post_list = array_filter( $post_list, 'strlen' );
-
-		error_log( 'post__in__list' );
-		error_log( print_r( $post_list, true ) );
 
 		$query_args = array(
 			'post_type'      => 'courier_notice',
