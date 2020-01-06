@@ -591,8 +591,19 @@ pre.courier-notice-type-css-class {
     padding-left: 20px;
     padding-right: 20px;
 
-    a {
-      margin-bottom: 0 !important;
+    .visit-linchpin-cta {
+		font-size: 14px;
+		height: auto;
+		min-height: auto;
+		line-height: 18px;
+      	margin-bottom: 0;
+		padding: 6px 12px;
+
+		img {
+			float: right;
+			height: 18px;
+			margin-left: 6px;
+		}
     }
 
     @media screen and ('max-width: 580px') {

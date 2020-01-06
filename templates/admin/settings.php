@@ -47,10 +47,11 @@ if ( ! function_exists( 'add_action' ) ) {
 		<h3 class="com-button table-cell">
 			<?php
 			printf(
-				// translators: %1$s: Linchpin Website URL %2$s: Visit CTA. phpcs: xss ok.
-				wp_kses_post( __( '<a href="%1$s" class="button" target="_blank">%2$s</a>', 'courier' ) ),
+				// translators: %1$s: Linchpin Website URL %2$s: Visit CTA %3$s: . phpcs: xss ok.
+				wp_kses_post( __( '<a href="%1$s" class="button visit-linchpin-cta" target="_blank">%2$s <img src="%3$s" /></a>', 'courier' ) ),
 				esc_url( 'https://linchpin.com' ),
-				esc_html__( 'Visit linchpin.com', 'courier' )
+				esc_html( 'Visit' ),
+				COURIER_PLUGIN_URL . 'img/logo-linchpin.svg'
 			); // phpcs:ignore Standard.Category.SniffName.ErrorCode
 			?>
 		</h3>
