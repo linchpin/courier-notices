@@ -169,14 +169,12 @@ class Admin {
 
 		if ( has_term( array( 'global' ), 'courier_scope', $post->ID ) && 'publish' === $post->post_status ) {
 			?>
-
 			<div class="notice notice-warning">
 				<p>
 					<span class="dashicons dashicons-admin-site"></span>
 					<strong><?php esc_html_e( 'This is a global notice and may have been dismissed by some users. It is recommended that you create a new global notice to ensure every user sees your new information.', 'courier' ); ?></strong>
 				</p>
 			</div>
-
 			<?php
 		}
 
