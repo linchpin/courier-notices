@@ -86,6 +86,16 @@ gulp.task(
 	)
 );
 
+// Build the "dist" folder by running all of the below tasks
+// Sass must be run later so UnCSS can search for used classes in the others assets.
+gulp.task(
+	'readme',
+	gulp.series(
+		readme,
+		copy
+	)
+);
+
 // Build the site, run the server, and watch for file changes
 gulp.task(
 	'default',

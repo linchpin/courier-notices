@@ -35,6 +35,35 @@ e.g.
 
 == Changelog ==
 
+= 1.1.0 =
+
+* Fixed - Minor security updates
+* Fixed - Minor code cleanup
+* Fixed - Link to Types/Design was broken
+* Fixed - Link to Settings was broken
+* Fixed - Minor updates to strings to allow for translation
+* Fixed - Modal notice was not working properly (dismissible)
+* Fixed - Error log was being utilized and should not have been
+* Fixed - Cron was running hourly and not every 5 minutes
+* Fixed - Various typos (We talk pretty one day)
+* Fixed - utilizing iris wpColorPicker (For the time being)
+* Added - New UI/UX for creating and styling "Types" of notices
+* Added - Courier actually has some branding now
+* Added - Default data on plugin activation
+* Added - Utility method to sanitize kses content
+* Added - Cleaned up CSS across the entire plugin
+* Added - New cron schedule (Every 5 minutes)
+* Added - New taxonomy for "Style of Notice". This will allow for all different kinds of notices in the future
+* Added - Base for CRUD in the future. Mainly just R right now.
+* Improved - Added more flexibility to how tabs and subtabs can extend the plugin
+* Improved - CSS is only generated and output if CSS is not disabled
+* Improved - Placement logic is more flexible now
+* Improved - UI/UX to show different notice options depending on other selections
+* Improved - How css and javascript is enqueued based on context of admin
+* Improved - Code Organization
+* Improved - Templates
+* Improved - Updated the expiration of notices to increment every 5 minutes for better accuracy and less stress on servers
+
 = 1.0.4 =
 
 * Cleaned up deployment process further.
