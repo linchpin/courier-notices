@@ -170,8 +170,11 @@ class Admin {
 		if ( has_term( array( 'global' ), 'courier_scope', $post->ID ) && 'publish' === $post->post_status ) {
 			?>
 
-			<div class="notice notice-dismissible update-nag">
-				<strong><?php esc_html_e( 'This is a global notice and may have been dismissed by some users. It is recommended that you create a new global notice to ensure every user sees your new information.', 'courier' ); ?></strong>
+			<div class="notice notice-warning">
+				<p>
+					<span class="dashicons dashicons-admin-site"></span>
+					<strong><?php esc_html_e( 'This is a global notice and may have been dismissed by some users. It is recommended that you create a new global notice to ensure every user sees your new information.', 'courier' ); ?></strong>
+				</p>
 			</div>
 
 			<?php
@@ -183,7 +186,7 @@ class Admin {
 
 		?>
 
-		<div class="notice notice-dismissible update-nag">
+		<div class="notice notice-dismissible notice-warning">
 			<?php esc_html_e( 'This notice has already been dismissed. Any changes made will not be seen by the user.', 'courier' ); ?>
 			<a href="#" class="courier-reactivate-notice" data-courier-notice-id="<?php echo esc_attr( $post->ID ); ?>">
 				<?php esc_html_e( 'Reactivate this notice', 'courier' ); ?>
