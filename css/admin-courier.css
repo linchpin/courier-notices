@@ -773,8 +773,17 @@ pre.courier-notice-type-css-class {
     text-align: right;
     padding-left: 20px;
     padding-right: 20px; }
-    .courier_notice_page_courier #wpcontent .com-button a {
-      margin-bottom: 0 !important; }
+    .courier_notice_page_courier #wpcontent .com-button .visit-linchpin-cta {
+      font-size: 14px;
+      height: auto;
+      min-height: auto;
+      line-height: 18px;
+      margin-bottom: 0;
+      padding: 6px 12px; }
+      .courier_notice_page_courier #wpcontent .com-button .visit-linchpin-cta img {
+        float: right;
+        height: 18px;
+        margin-left: 6px; }
     @media screen and (max-width: 580px) {
       .courier_notice_page_courier #wpcontent .com-button {
         display: block;
