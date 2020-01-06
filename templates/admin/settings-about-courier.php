@@ -52,10 +52,13 @@ use \Courier\Helper\Utils as Utils;
 					</p>
 					<p>
 						<?php
-						printf(
-							// translators: %s WP Cron Documentation.
-							wp_kses( __( 'You can read more about <a href="%s" target="_blank" rel="noopener">WP Cron Here</a>.', 'courier' ), $safe_content ),
-							esc_url( 'https://developer.wordpress.org/plugins/cron/' )
+						echo wp_kses(
+							sprintf(
+								// translators: %1$s WP Cron Documentation.
+								__( 'You can read more about <a href="%1$s" target="_blank" rel="noopener">WP Cron Here</a>.', 'courier' ),
+								esc_url( 'https://developer.wordpress.org/plugins/cron/' )
+							),
+							Utils::get_safe_markup()
 						);
 						?>
 					</p>

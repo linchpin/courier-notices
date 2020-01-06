@@ -97,7 +97,7 @@ class General {
 			$plugin_url = 'edit.php?post_type=courier_notice&page=courier';
 
 			$settings = array(
-				'settings' => '<a href="' . esc_url( $plugin_url ) . '">' . esc_html__( 'Settings', 'courier' ) . '</a>',
+				'settings' => '<a href="' . esc_url( admin_url( $plugin_url ) ) . '">' . esc_html__( 'Settings', 'courier' ) . '</a>',
 			);
 
 			$site_link = array(

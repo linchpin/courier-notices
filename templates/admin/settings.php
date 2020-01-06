@@ -28,7 +28,7 @@ if ( ! function_exists( 'add_action' ) ) {
 	<div class="table">
 		<h2>
 			<?php
-			$plugin_title = __( 'Courier', 'courier' );
+			$plugin_title = esc_html__( 'Courier', 'courier' );
 			$plugin_title = "<img src='" . COURIER_PLUGIN_URL . "img/courier-logo-fullcolor.svg' alt='$plugin_title' title='$plugin_title' width='200' />";
 			$plugin_title = apply_filters( 'courier_notices_plugin_title', $plugin_title );
 
@@ -47,12 +47,11 @@ if ( ! function_exists( 'add_action' ) ) {
 		<h3 class="com-button table-cell">
 			<?php
 			printf(
-				// translators: %1$s: Linchpin Website URL %2$s: Visit CTA %3$s: . phpcs: xss ok.
-				wp_kses_post( __( '<a href="%1$s" class="button visit-linchpin-cta" target="_blank">%2$s <img src="%3$s" /></a>', 'courier' ) ),
-				esc_url( 'https://linchpin.com' ),
-				esc_html( 'Visit' ),
-				COURIER_PLUGIN_URL . 'img/logo-linchpin.svg'
-			); // phpcs:ignore Standard.Category.SniffName.ErrorCode
+				// translators: %1$s: Linchpin Website URL %2$s: Visit CTA Image/logo
+				wp_kses_post( __( '<a href="%1$s" class="button visit-linchpin-cta" target="_blank">Visit <img src="%2$s" /></a>', 'courier' ) ),
+				esc_url( 'https://linchpin.com?utm_source=courier-settings&utm_medium=link&utm_campaign=agency' ),
+				esc_url_raw( COURIER_PLUGIN_URL . 'img/logo-linchpin.svg' )
+			);
 			?>
 		</h3>
 		<div class="clearfix"></div>
@@ -100,13 +99,15 @@ if ( ! function_exists( 'add_action' ) ) {
 				)
 			);
 
+			$sub_tab_css_classes = ( ! empty( $sub_tab['css_class'] ) ) ? $sub_tab['css_class'] : '';
+
 			$sub_tab_classes      = array(
 				'sub-tab',
 				'courier-sub-tab-' . sanitize_title( $sub_tab['label'] ),
 			);
 			$active_sub_tab_class = ( $active_sub_tab === $sub_tab_slug ) ? ' nav-sub-tab-active' : '';
 			$sub_tab_classes[]    = $active_sub_tab_class;
-			$sub_tab_css_classes  = explode( ' ', $sub_tab['css_class'] );
+			$sub_tab_css_classes  = explode( ' ', $sub_tab_css_classes );
 			$sub_tab_css_classes  = array_map( 'sanitize_html_class', $sub_tab_css_classes );
 			$sub_tab_classes      = array_merge( $sub_tab_classes, $sub_tab_css_classes );
 			$sub_tab_css_class    = trim( implode( ' ', $sub_tab_classes ) );
