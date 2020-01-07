@@ -10,7 +10,7 @@ Add dismissible and non-dismissible notices throughout your website.
 * Add new "types" of notices as needed
 * Comes with a common library of useful notices
 * Place courier notices within the header, footer or any where using CSS selectors (similar to selectors in jQuery)
-* Display popover/page take over modal style alerts
+* Display popover/page take over modal style notices
 * Can be used in conjunction with other popular plugins
 
 ## Installation ##

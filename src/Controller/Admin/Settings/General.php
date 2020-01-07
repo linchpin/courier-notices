@@ -245,6 +245,7 @@ class General {
 				'field'       => 'notice_type_designs',
 				'section'     => $tab_section,
 				'options'     => 'courier_design',
+				'class'   => 'type_table',
 				'label'       => esc_html__( 'Courier Types', 'courier' ),
 				'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier' ),
 			)

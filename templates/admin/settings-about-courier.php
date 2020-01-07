@@ -116,7 +116,38 @@ use \Courier\Helper\Utils as Utils;
 					</div>
 				</div>
 			</div>
+			<div class="gray-bg negative-bg">
+				<div class="wrapper">
+					<h2 class="light-weight"><?php esc_html_e( 'More Quick Tips', 'courier' ); ?></h2>
+					<div class="grey-box-container courier-row" data-equalizer="">
+						<div class="courier-columns-6">
+							<div class="grey-box" data-equalizer-watch="">
+								<div class="about-box-icon">
+									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-familiar.svg' ); ?>" alt=""/>
+								</div>
+								<div class="about-box-copy">
+									<h4 class="no-margin"><?php esc_html_e( 'Familiar &amp; Easy to Use', 'courier' ); ?></h4>
+									<p><?php esc_html_e( 'Create site notices using an interface similar to default pages and posts in WordPress.', 'courier' ); ?></p>
+								</div>
+							</div>
+						</div>
 
+						<div class="courier-columns-6">
+							<div class="grey-box" data-equalizer-watch="">
+								<div class="about-box-icon">
+									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-users.svg' ); ?>" alt=""/>
+								</div>
+								<div class="about-box-copy">
+									<h4 class="no-margin"><?php esc_html_e( 'Notices For Users/Visitors', 'courier' ); ?></h4>
+									<ul class="courier-notice-types-list">
+										<li><?php esc_html_e( 'Global Notices (For all users)', 'courier' ); ?></li>
+										<li><?php esc_html_e( 'User Specific Notices', 'courier' ); ?></li>
+										<li><?php esc_html_e( 'User Group Notices (Coming Soon)', 'courier' ); ?></li>
+									</ul>
+									<p><?php esc_html_e( 'More features coming soon.', 'courier' ); ?></p>
+								</div>
+							</div>
+						</div>
 			<div class="gray-bg negative-bg">
 				<div class="wrapper">
 					<h2 class="light-weight"><?php esc_html_e( 'More Quick Tips', 'courier' ); ?></h2>

@@ -116,12 +116,12 @@ class Courier_Types {
 
 		if ( 'courier' === $page && 'design' === $tab ) {
 			// Create New Row to be rendered using JavaScript
-			$new_courier_ype = new View();
-			$new_courier_ype->assign( 'text_color', '#000000' );
-			$new_courier_ype->assign( 'notice_color', Utils::get_random_color() );
-			$new_courier_ype->assign( 'icon_color', '#ffffff' );
-			$new_courier_ype->assign( 'bg_color', '#dddddd' );
-			$new_courier_ype->render( 'admin/js/courier-notice-type-row' );
+			$new_courier_type = new View();
+			$new_courier_type->assign( 'text_color', '#000000' );
+			$new_courier_type->assign( 'notice_color', Utils::get_random_color() );
+			$new_courier_type->assign( 'icon_color', '#ffffff' );
+			$new_courier_type->assign( 'bg_color', '#dddddd' );
+			$new_courier_type->render( 'admin/js/courier-notice-type-row' );
 		}
 
 	}
@@ -250,7 +250,7 @@ class Courier_Types {
 			array(
 				'success'   => $type,
 				'fragments' => array(
-					'table.form-table tbody tr td:first' => wp_kses(
+					'div.type_table:first' => wp_kses(
 						$table,
 						$this->kses_template
 					),

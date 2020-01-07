@@ -12,6 +12,7 @@
 * Fixed - Cron was running hourly and not every 5 minutes
 * Fixed - Various typos (We talk pretty one day)
 * Fixed - utilizing iris wpColorPicker (For the time being)
+* Fixed - Fixed an issue with color changes in the design panel did not show until page refresh
 * Added - New UI/UX for creating and styling "Types" of notices
 * Added - Courier actually has some branding now
 * Added - Default data on plugin activation

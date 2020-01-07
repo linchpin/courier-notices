@@ -35,17 +35,20 @@ export default function types() {
 		courierNoticeTypeCurrent = '';
 
 	/**
-	 * Intialize the module
+	 * Initialize the module
+	 *
+	 * @since 1.0.5
 	 */
 	function init() {
 
 		// Setup type edit screen js within settings.
-		setupTypeEditing();
 		setupControls();
 	}
 
 	/**
 	 * Create all the event listeners for the module
+	 *
+	 * @since 1.0
 	 */
 	function setupControls() {
 		$body
@@ -84,37 +87,17 @@ export default function types() {
 	 *
 	 * @param event
 	 */
-	function editCourierNoticeType(event) {
+	function editCourierNoticeType( event ) {
 		event.preventDefault();
-
-		if ( $('#the-list .courier-notice-editing').length ) {
-			$('#the-list .courier-notice-editing .button-editing.close-button').trigger('click');
-		}
 
 		var $parentRow = $(this).closest('tr');
 
-		$('.notice-options', $parentRow).show();
-		$('.courier-notice-type-title', $parentRow).hide();
+		$( 'table.courier_notice_page_courier .button-editing.close-button:visible' ).trigger('click');
 
-		$parentRow.addClass('courier-notice-editing');
+		$parentRow.addClass('courier-notice-editing').find('.notice-options').show();
+		$parentRow.find('.courier-notice-type-title').hide();
 
-		/*
-		courierNoticeTypeCurrent = $parentRow.clone(true); // Store our row for usage later, if some on decides not to edit.
-
-		let options = {
-			'notice_type_title': $parentRow.find('.courier-notice-type-title').data('title'),
-			'notice_type_css_class': $parentRow.find('.courier-notice-type-css-class').data('css-class'),
-			'notice_type_color': $parentRow.find('.courier-notice-type-color').val(),
-			'notice_type_text_color': $parentRow.find('.courier-notice-type-text-color').val(),
-			'notice_type_icon_color': $parentRow.find('.courier-notice-type-icon-color').val(),
-			'notice_type_bg_color': $parentRow.find('.courier-notice-type-bg-color').val(),
-			'notice_type_id':$(this).data('term-id')
-		};
-
-		let options = {};
-
-		displayEditTemplate(inputTemplate, options);
-		 */
+		setupTypeEditing( $parentRow );
 	}
 
 	/**
@@ -157,7 +140,7 @@ export default function types() {
 	function displayEditTemplate(template, options) {
 
 		// If no template, die early
-		if (typeof (template) === 'undefined') {
+		if ( typeof ( template ) === 'undefined' ) {
 			return;
 		}
 
@@ -167,7 +150,7 @@ export default function types() {
 		let $noticeRow = $(courierNoticeTypeEditTemplate.map(render(input)).join(''));
 		$('.courier-notice-editing').replaceWith($($noticeRow));
 
-		setupTypeEditing();
+		setupTypeEditing( $noticeRow );
 	}
 
 	/**
@@ -295,37 +278,42 @@ export default function types() {
 	 *
 	 * @since 1.0
 	 */
-	function setupTypeEditing() {
+	function setupTypeEditing( $target ) {
+
+		// If we don't have a $target element target all color pickers.
+		if ( ! $target ) {
+			$courierTypeColor = $( '.courier-type-color' );
+		} else {
+			$courierTypeColor = $target.find( '.courier-type-color' );
+		}
+
 		if ( ! $courierTypeColor.length ) {
 			return;
 		}
 
 		$courierTypeColor.wpColorPicker({
 			change: function ( event, ui ) {
-				var $target =  $(this).closest('.notice_preview'),
+				let $target =  $(this).closest('.notice_preview'),
 					notice_ui = $(this).closest('.notice-option').data('notice-option-color');
 
-				setTimeout(function(){
+				setTimeout(function() {
 					var color_value = event.target.value;
 
 					switch ( notice_ui ) {
 						case 'accent':
-							$('.courier-icon', $target).css('background', color_value);
+							$target.find( '.courier-icon' ).css( 'background', color_value );
 							break;
-
 						case 'icon':
-							$('.courier-icon', $target).css('color', color_value);
+							$target.find( '.courier-icon' ).css( 'color', color_value );
 							break;
-
 						case 'text':
-							$('.courier-content-wrapper', $target).css('color', color_value);
+							$target.find( '.courier-content-wrapper' ).css( 'color', color_value );
 							break;
-
 						case 'bg':
-							$('.courier-content-wrapper', $target).css('background', color_value);
+							$target.find( '.courier-content-wrapper' ).css( 'background', color_value );
 							break;
 					}
-				},1);
+				},1 );
 			}
 		});
 	}
@@ -350,10 +338,8 @@ export default function types() {
 	 */
 	function displayNewCourierNoticeTypeTemplate(item) {
 
-		var $noticeRow = $(courierNoticeTypeTemplate.map(render(item)).join(''));
-		$('table.courier_notice_page_courier tbody').append($($noticeRow));
-
-		setupTypeEditing();
+		var $noticeRow = $( courierNoticeTypeTemplate.map( render(item)).join('') );
+		$('table.courier_notice_page_courier tbody').append( $( $noticeRow ) );
 	}
 
 	/**
@@ -389,8 +375,6 @@ export default function types() {
 					for (var fragment in response.fragments) {
 						$(fragment).html(response.fragments[fragment]);
 					}
-
-					setupTypeEditing();
 				});
 			}
 		});
@@ -401,38 +385,40 @@ export default function types() {
 	 *
 	 * @since 1.0
 	 */
-	function updateCourierNoticeType(event) {
+	function updateCourierNoticeType( event ) {
 
 		event.preventDefault();
-		var $this   = $(this),
-			$target = $(this).closest('tr');
 
-		$this.addClass('disabled').attr('disabled', 'disabled');
+		let $this   = $(this),
+			$target = $this.closest('tr');
+
+		$this.addClass( 'disabled' ).attr( 'disabled', 'disabled' );
 
 		$.post(ajaxurl, {
 			action: 'courier_notices_update_type',
 			'page': 'courier',
-			'courier_notices_update_type': courier_admin_data.update_nonce,
-			'courier_notice_type_edit_title': $('.courier-notice-type-edit-title', $target).val(),
-			'courier_notice_type_edit_css_class': $('.courier-notice-type-edit-css-class', $target).val(),
-			'courier_notice_type_edit_color': $('.courier-notice-type-edit-color', $target).val(),
-			'courier_notice_type_edit_text_color': $('.courier-notice-type-edit-text-color', $target).val(),
-			'courier_notice_type_edit_icon_color': $('.courier-notice-type-edit-icon-color', $target).val(),
-			'courier_notice_type_edit_bg_color': $('.courier-notice-type-edit-bg-color', $target).val(),
-			'courier_notice_type_id': parseInt( $('[data-courier-notice-id]', $target).data('courier-notice-id') ),
-			contentType: "application/json"
-		}).success(function (response) {
-			response = JSON.parse(response);
+			'courier_notices_update_type':         courier_admin_data.update_nonce,
+			'courier_notice_type_edit_title':      $target.find( '.courier-notice-type-edit-title' ).val(),
+			'courier_notice_type_edit_css_class':  $target.find( '.courier-notice-type-edit-css-class' ).val(),
+			'courier_notice_type_edit_color':      $target.find( '.courier-notice-type-edit-color' ).val(),
+			'courier_notice_type_edit_text_color': $target.find( '.courier-notice-type-edit-text-color' ).val(),
+			'courier_notice_type_edit_icon_color': $target.find( '.courier-notice-type-edit-icon-color' ).val(),
+			'courier_notice_type_edit_bg_color':   $target.find( '.courier-notice-type-edit-bg-color' ).val(),
+			'courier_notice_type_id':              parseInt( $target.find( '[data-courier-notice-id]' ).data( 'courier-notice-id' ) ),
+			'contentType': "application/json"
+		} ).success( function ( response ) {
+			response = JSON.parse( response );
 
-			if (response && response.fragments) {
-				$target.fadeOut('fast').promise().done(function () {
-					for (var fragment in response.fragments) {
-						$(fragment).html(response.fragments[fragment]);
+			if ( response && response.fragments ) {
+				$target.fadeOut( 'fast' ).promise().done(
+					function() {
+						for ( let fragment in response.fragments) {
+							$( fragment ).html( response.fragments[ fragment ] );
+						}
 					}
-					setupTypeEditing();
-				});
+				);
 			}
-		});
+		} );
 	}
 
 	init(); // kick everything off controlling types.

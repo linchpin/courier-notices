@@ -1,6 +1,6 @@
 === Courier ===
 Contributors: linchpin_agency, aware, ncallen, desrosj, fischfood
-Tags: linchpin, front end, notices, notifications, alerts, dismissible, responsive, foundation, gravity forms
+Tags: linchpin, front end, notices, notifications, alerts, dismissible
 Requires at least: 5.0
 Tested up to: 5.3.2
 Stable tag: 1.1.0
@@ -17,7 +17,7 @@ Add dismissible and non-dismissible notices throughout your website.
 * Add new "types" of notices as needed
 * Comes with a common library of useful notices
 * Place courier notices within the header, footer or any where using CSS selectors (similar to selectors in jQuery)
-* Display popover/page take over modal style alerts
+* Display popover/page take over modal style notices
 * Can be used in conjunction with other popular plugins
 
 == Installation ==
@@ -47,6 +47,7 @@ e.g.
 * Fixed - Cron was running hourly and not every 5 minutes
 * Fixed - Various typos (We talk pretty one day)
 * Fixed - utilizing iris wpColorPicker (For the time being)
+* Fixed - Fixed an issue with color changes in the design panel did not show until page refresh
 * Added - New UI/UX for creating and styling "Types" of notices
 * Added - Courier actually has some branding now
 * Added - Default data on plugin activation
