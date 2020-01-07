@@ -35,33 +35,13 @@ if ( ! function_exists( 'add_action' ) ) {
 				</div>
 			</div>
 			<div class="wrapper">
-				<h2 class="light-weight"><?php esc_html_e( 'More Quick Tips', 'courier' ); ?></h2>
+				<h2 class="light-weight"><?php esc_html_e( 'Making Courier easier to use and more extensible', 'courier' ); ?></h2>
 				<div class="courier-row" data-equalizer="">
-					<div class="courier-columns-6">
+					<div class="courier-columns-12">
 						<div class="grey-box" data-equalizer-watch="">
-							<div class="about-box-icon">
-								<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-familiar.svg' ); ?>" alt=""/>
-							</div>
-							<div class="about-box-copy">
-								<h4 class="no-margin"><?php esc_html_e( 'Familiar &amp; Easy to Use', 'courier' ); ?></h4>
-								<p><?php esc_html_e( 'Create site notices using an interface similar to default pages and posts in WordPress.', 'courier' ); ?></p>
-							</div>
-						</div>
-					</div>
-
-					<div class="courier-columns-6">
-						<div class="grey-box" data-equalizer-watch="">
-							<div class="about-box-icon">
-								<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-users.svg' ); ?>" alt=""/>
-							</div>
-							<div class="about-box-copy">
-								<h4 class="no-margin"><?php esc_html_e( 'Notices For Users/Visitors', 'courier' ); ?></h4>
-								<ul class="courier-notice-types-list">
-									<li><?php esc_html_e( 'Global Notices (For all users)', 'courier' ); ?></li>
-									<li><?php esc_html_e( 'User Specific Notices', 'courier' ); ?></li>
-									<li><?php esc_html_e( 'User Group Notices (Coming Soon)', 'courier' ); ?></li>
-								</ul>
-								<p><?php esc_html_e( 'More features coming soon.', 'courier' ); ?></p>
+							<div class="whats-new-box-copy">
+								<p><?php esc_html_e( 'This release is the culmination of 50+ commits for bug fixes and enhancements.', 'courier' ); ?></p>
+								<p><?php esc_html_e( 'For more specifics please see the change log.', 'courier' ); ?></p>
 							</div>
 						</div>
 					</div>
