@@ -174,6 +174,10 @@ function courier_display_notices( $args = array() ) {
 	} else {
 
 		$data    = new Courier_Notice_Data();
+
+		// Force notice Post Object
+		$args['ids_only'] = false;
+
 		$notices = $data->get_notices( $args );
 
 		if ( empty( $notices ) ) {

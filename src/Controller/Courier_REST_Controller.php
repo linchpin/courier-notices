@@ -212,11 +212,14 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 
 			foreach ( $notice_posts as $courier_notice ) {
 				$courier_style = get_the_terms( $courier_notice->ID, 'courier_style' );
+				$courier_type  = get_the_terms( $courier_notice->ID, 'courier_type' );
 
 				$notice = new View();
+				$post_classes = 'courier-notice courier_notice callout alert alert-box courier_type-' . $courier_type[0]->slug;
 				$notice->assign( 'notice_id', $courier_notice->ID );
-				$notice->assign( 'notice_class', implode( ' ', get_post_class( 'courier-notice courier_notice callout alert alert-box', $courier_notice->ID ) ) );
+				$notice->assign( 'notice_class', implode( ' ', get_post_class( $post_classes, $courier_notice->ID ) ) );
 				$notice->assign( 'dismissible', get_post_meta( $courier_notice->ID, '_courier_dismissible', true ) );
+				$notice->assign( 'icon', get_term_meta( $courier_type[0]->term_id, '_courier_type_icon', true ) );
 				$notice->assign( 'notice_content', $courier_notice->post_content );
 
 				if ( ! is_wp_error( $courier_style ) && is_array( $courier_style ) ) {
