@@ -87,9 +87,6 @@ export default function core() {
 		}, { threshold: 1 } );
 
 		Array.prototype.forEach.call( courierContainers, function ( element ) {
-
-			console.log( element );
-
 			observer.observe( element );
 		});
 	}

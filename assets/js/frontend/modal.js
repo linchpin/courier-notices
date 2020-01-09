@@ -25,6 +25,13 @@ export default function modal() {
 			post_info:{},
 		};
 
+		let modalContainer = document.querySelector('.courier-notices.courier-location-popup-modal[data-courier-ajax="true"]' );
+
+		// If no modal container die early.
+		if ( ! modalContainer ) {
+			return;
+		}
+
 		if ( typeof( courier_data.post_info ) !== 'undefined' ) {
 			settings.post_info = courier_data.post_info;
 		}
@@ -41,8 +48,6 @@ export default function modal() {
 			'url': courier_data.notices_endpoint,
 			'data': settings,
 		} ).success( function ( response ) {
-
-			console.log( response );
 
 			if ( response.notices ) {
 

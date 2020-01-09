@@ -4,6 +4,8 @@
  */
 namespace Courier\Model\Courier_Notice;
 
+use Courier\Helper\Utils;
+
 /**
  * Courier_Notice Class
  */
@@ -97,17 +99,18 @@ class Data {
 
 		wp_cache_set( $cache_key, $global_notices_query->posts, 'courier', 300 );
 
-//		if ( isset( $args['ids_only'] ) && false !== $args['ids_only'] ) {
+		if ( isset( $args['ids_only'] ) && false !== $args['ids_only'] ) {
 			return wp_list_pluck( $global_notices_query->posts, 'ID' );
-//		} else {
-//			return $global_notices_query->posts;
-//		}
+		} else {
+			return $global_notices_query->posts;
+		}
 	}
 
 	/**
 	 * Get our dismissible global notices
-	 * @param array $args     Query Args
-	 * @param bool  $ids_only Whether to return only IDs.
+	 * @param array $args           Query Args.
+	 * @param array $ajax_post_data Ajax data passed to manipulate the query.
+	 * @param bool  $ids_only       Whether to return only IDs.
 	 *
 	 * @since 1.0.5
 	 *
@@ -273,7 +276,6 @@ class Data {
 		$args     = wp_parse_args( $args, $defaults );
 		$number   = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
 		$number   = apply_filters( 'courier_override_notices_number', $number );
-		$results  = array();
 
 		$ajax_post_data = wp_parse_args( $ajax_post_data, $defaults );
 
@@ -282,9 +284,8 @@ class Data {
 		$global_dismissible_posts = array();
 
 		if ( true === $args['include_global'] ) {
-			$global_args             = $args;
-			$global_args['ids_only'] = true;
-
+			$global_args              = $args;
+			$global_args['ids_only']  = true;
 			$global_posts             = $this->get_global_notices( $global_args );
 			$global_dismissible_posts = $this->get_dismissible_global_notices( $args, $ajax_post_data, true );
 
@@ -302,6 +303,8 @@ class Data {
 
 		$post_list = array_merge( $global_posts, $global_dismissible_posts );
 
+		Utils::courier_debug_log( $post_list, 'Query', false );
+
 		// Prioritize Persistent Global Notes to the top by getting them separately and putting them at the front of the line.
 		if ( true === $args['prioritize_persistent_global'] ) {
 			$persistent_global = $this->get_persistent_global_notices(
@@ -318,7 +321,7 @@ class Data {
 		}
 
 		$post_list = array_unique( $post_list );
-		// $post_list = array_filter( $post_list, 'strlen' );
+		$post_list = array_filter( $post_list, 'strlen' );
 
 		$query_args = array(
 			'post_type'      => 'courier_notice',
@@ -328,8 +331,8 @@ class Data {
 			'posts_per_page' => $number,
 			'orderby'        => 'date',
 			'order'          => 'DESC',
-			'tax_query'      => array(),
-			'post__in'       => $post_list,
+			// workaround: https://core.trac.wordpress.org/ticket/28099
+			'post__in'       => empty( $post_list ) ? [ 0 ] : $post_list,
 		);
 
 		if ( true === $args['ids_only'] ) {
@@ -348,7 +351,9 @@ class Data {
 		$query_args          = wp_parse_args( $args, $query_args );
 		$final_notices_query = new \WP_Query( $query_args );
 
-		return array_merge( $results, $final_notices_query->posts );
+		// Utils::courier_debug_log( $final_notices_query, 'Query', false );
+
+		return ( $final_notices_query->have_posts() ) ? $final_notices_query->posts : array();
 	}
 
 	/**

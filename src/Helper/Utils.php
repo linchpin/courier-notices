@@ -72,4 +72,47 @@ class Utils {
 	public static function get_random_color() {
 		return sprintf( '#%06X', wp_rand( 0, 0xFFFFFF ) );
 	}
+
+	/**
+	 * Output our debug if needed.
+	 *
+	 * @since 1.1
+	 *
+	 * @param mixed|array|object|string $output
+	 * @param string $label
+	 * @param bool $separator
+	 */
+	public static function courier_debug_log( $output, $label = '', $separator = true ) {
+
+		if ( true !== COURIER_DEBUG ) {
+			return;
+		}
+
+		if ( true === $separator ) {
+			error_log( '----------------------------------' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			if ( ! empty( $label ) ) {
+				error_log( 'Start: ' . $label ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			}
+		} else {
+			if ( ! empty( $label ) ) {
+				error_log( $label ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			}
+		}
+
+		if ( is_object( $output ) || is_array( $output ) ) {
+			error_log( print_r( $output, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r, WordPress.PHP.DevelopmentFunctions.error_log_error_log
+		} else {
+			error_log( $output ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+		}
+
+		if ( true === $separator ) {
+
+			if ( ! empty( $label ) ) {
+				error_log( '----------------------------------' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+				error_log( 'End: ' . $label ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			}
+
+			error_log( '----------------------------------' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+		}
+	}
 }
