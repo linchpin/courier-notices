@@ -1,10 +1,10 @@
-# Changelog #
+## Changelog
 
-## 1.0.4 ##
+### v1.0.4
 
 * Cleaned up deployment process further.
 
-## 1.0.2 ##
+### v1.0.2
 
 * Migrated to using composer as our autoloader instead of a proprietary one
 * Added Parsedown dependency for Markdown display within the plugin
@@ -12,11 +12,11 @@
 * Added more automation for release to get releases out the door quicker
 * Minor code formatting changes
 
-## 1.0.1 ##
+### v1.0.1
 
 * Updated dependencies based on github security notification
 
-## 1.0.0 ##
+### v1.0.0
 
 Initial Release
 
