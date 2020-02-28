@@ -16,6 +16,7 @@ export default function types() {
 	let $body = $('body'),
 		$types = $('.courier_notice_page_courier'),
 		$new_container = $('#courier-notice-type-new'),
+		$courierTypeColor = $( '.courier-type-color' ),
 		courierNoticeTypeTemplate = $('#courier-notice-type-template').text().split(/\{(.+?)\}/g),
 		courierNoticeTypeEditTemplate = $('#courier-notice-type-edit-template').text().split(/\{(.+?)\}/g),
 		inputTemplate = {
@@ -295,7 +296,11 @@ export default function types() {
 	 * @since 1.0
 	 */
 	function setupTypeEditing() {
-		$( '.courier-type-color' ).wpColorPicker({
+		if ( ! $courierTypeColor.length ) {
+			return;
+		}
+
+		$courierTypeColor.wpColorPicker({
 			change: function ( event, ui ) {
 				var $target =  $(this).closest('.notice_preview'),
 					notice_ui = $(this).closest('.notice-option').data('notice-option-color');

@@ -5,7 +5,9 @@
  * @package Courier/Helper
  */
 
-use Courier\Model\Courier_Notice\Data as Courier_Notice_Data;
+use \Courier\Model\Courier_Notice\Data as Courier_Notice_Data;
+use \Courier\Controller\Courier_Types as Courier_Types;
+use \Courier\Helper\Utils;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -81,10 +83,9 @@ function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = f
  */
 function courier_get_user_notices( $args = array() ) {
 
-		$data = new Courier_Notice_Data();
+	$data = new Courier_Notice_Data();
 
-		return $data->get_user_notices( $args );
-
+	return $data->get_user_notices( $args );
 }
 
 /**
@@ -130,7 +131,8 @@ function courier_get_dismissible_global_notices( $args = array(), $ids_only = fa
  * @return array|bool|mixed
  */
 function courier_get_persistent_global_notices( $args = array() ) {
-	$data    = new Courier_Notice_Data();
+
+	$data = new Courier_Notice_Data();
 
 	return $data->get_persistent_global_notices( $args );
 }
@@ -145,8 +147,6 @@ function courier_get_persistent_global_notices( $args = array() ) {
  * @return array
  */
 function courier_get_notices( $args = array() ) {
-
-	error_log('courier_get_notices function:');
 
 	$data = new Courier_Notice_Data();
 
@@ -163,18 +163,18 @@ function courier_get_notices( $args = array() ) {
 function courier_display_notices( $args = array() ) {
 
 	$courier_placement = ( ! empty( $args['placement'] ) ) ? $args['placement'] : '';
+	$courier_style     = ( ! empty( $args['style'] ) ) ? $args['style'] : '';
 	$courier_options   = get_option( 'courier_settings', array() );
 	$courier_notices   = new \Courier\Core\View();
-
 	$courier_notices->assign( 'courier_placement', $courier_placement );
-
-	error_log( print_r( $courier_options, true ) );
+	$courier_notices->assign( 'courier_style', $courier_style );
 
 	if ( isset( $courier_options['ajax_notices'] ) && 1 === intval( $courier_options['ajax_notices'] ) ) {
 		$output = $courier_notices->get_text_view( 'notices-ajax' );
 	} else {
 
-		$notices = courier_get_notices( $args );
+		$data    = new Courier_Notice_Data();
+		$notices = $data->get_notices( $args );
 
 		if ( empty( $notices ) ) {
 			return;
@@ -185,30 +185,12 @@ function courier_display_notices( $args = array() ) {
 		$output = $courier_notices->get_text_view( 'notices' );
 	}
 
-	$output = apply_filters( 'courier_notices', $output );
-
-	$allowed_html = array(
-		'div'   => array(
-			'class'                  => array(),
-			'data-courier'           => array(),
-			'data-courier-notice-id' => array(),
-			'data-courier-ajax'      => array(),
-			'data-courier-placement' => array(),
-			'data-alert'             => array(),
-			'data-closable'          => array(),
-		),
-		'span'  => array(
-			'class' => array(),
-		),
-		'p'     => array(),
-		'style' => array(
-			'id' => array(),
-		),
-	);
-
+	$output       = apply_filters( 'courier_notices', $output );
+	$allowed_html = Utils::get_safe_markup();
+  
 	$allowed_html = apply_filters( 'courier_allowed_html', $allowed_html );
 
-	echo wp_kses( $output, $allowed_html ); // @todo this should probably be sanitized more extensively.
+	echo wp_kses( $output, $allowed_html );
 }
 
 /**
@@ -221,6 +203,7 @@ function courier_display_notices( $args = array() ) {
  * @param array $args Array of arguments.
  */
 function courier_display_modals( $args = array() ) {
+
 	$args = wp_parse_args(
 		$args,
 		array(
@@ -228,49 +211,33 @@ function courier_display_modals( $args = array() ) {
 		)
 	);
 
-	$notices = courier_get_notices( $args );
+	$courier_placement = ( ! empty( $args['placement'] ) ) ? $args['placement'] : '';
+	$courier_style     = ( ! empty( $args['style'] ) ) ? $args['style'] : '';
+	$courier_options   = get_option( 'courier_settings', array() );
+	$courier_notices   = new \Courier\Core\View();
+	$courier_notices->assign( 'courier_placement', $courier_placement );
+	$courier_notices->assign( 'courier_style', $courier_style );
 
-	if ( empty( $notices ) ) {
-		return;
+	if ( isset( $courier_options['ajax_notices'] ) && 1 === intval( $courier_options['ajax_notices'] ) ) {
+		$output = $courier_notices->get_text_view( 'notices-ajax-modal' );
+	} else {
+
+		$data    = new Courier_Notice_Data();
+		$notices = $data->get_notices( $args );
+
+		if ( empty( $notices ) ) {
+			return;
+		}
+
+		$courier_notices->assign( 'notices', $notices );
+
+		$output = $courier_notices->get_text_view( 'notices-modal' );
 	}
 
-	ob_start();
-	?>
-	<div class="courier-modal-overlay" style="display:none;">
-		<?php
-		$feedback_notices = array();
+	$output       = apply_filters( 'courier_notices_modal', $output );
+	$allowed_html = Utils::get_safe_markup();
 
-		global $post;
-		foreach ( $notices as $post ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-			setup_postdata( $post );
-			?>
-			<div class="courier-notices modal" data-courier-notice-id="<?php echo esc_attr( get_the_ID() ); ?>" <?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>data-closable<?php endif; ?>>
-				<?php if ( get_post_meta( get_the_ID(), '_courier_dismissible', true ) ) : ?>
-					<a href="#" class="courier-close close">&times;</a>
-				<?php endif; ?>
-				<?php the_content(); ?>
-			</div>
-			<?php
-
-			if ( has_term( 'feedback', 'courier_type' ) ) {
-				$feedback_notices[] = get_the_ID();
-			}
-
-			if ( ! empty( $feedback_notices ) ) {
-				courier_dismiss_notices( $feedback_notices );
-			}
-		}
-		wp_reset_postdata();
-		?>
-	</div>
-	<?php
-
-	$output = ob_get_contents();
-
-	$output = apply_filters( 'courier_notices', $output );
-	ob_end_clean();
-
-	echo $output; // @todo this should probably be filtered more extensively.
+	echo wp_kses( $output, $allowed_html );
 }
 
 /**
@@ -418,3 +385,19 @@ function courier_dismiss_notices( $notice_ids, $user_id = 0, $force_dismiss = fa
 	}
 }
 
+/**
+ * Get Courier types CSS to be used for frontend display
+ *
+ * @since 1.0.5
+ *
+ * @return string|void
+ */
+function courier_get_css() {
+	$courier_css = get_transient( 'courier_notice_css' );
+
+	if ( false === $courier_css ) {
+		$courier_css = Courier_Types::save_css_transient();
+	}
+
+	return wp_strip_all_tags( $courier_css );
+}

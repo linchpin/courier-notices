@@ -2,7 +2,7 @@
  *
  * 01. Global Helpers
  * 02. Admin Pointers
- *
+ * 03. Spacing
  **/
 
 // 01. Global Helpers
@@ -31,5 +31,17 @@
 		.wp-pointer-arrow-inner {
 			border-left-color: $pointer-title-bg;
 		}
+	}
+}
+
+
+// 03. Spacing
+
+body.wp-admin {
+	.padding-horizontal {
+		padding: {
+			left: 1rem;
+			right: 1rem;
+		};
 	}
 }

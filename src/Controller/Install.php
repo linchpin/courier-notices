@@ -66,12 +66,11 @@ class Install {
 	 * @since 1.0
 	 */
 	public function check_for_updates() {
-		$plugin_options  = get_option( 'courier_options', array() );
-		$current_version = isset( $plugin_options['plugin_version'] ) ? $plugin_options['plugin_version'] : '0';
+		$plugin_options = get_option( 'courier_options', array() );
 
 		// If your version is different than this version, run install.
-		if ( version_compare( $current_version, $this->config->get( 'version' ), '!=' ) ) {
-			$this->install( $current_version );
+		if ( empty( $plugin_options ) ) {
+			$this->install();
 		}
 	}
 
@@ -85,21 +84,18 @@ class Install {
 	 * @param string $hex_color  The hex color.
 	 */
 	private function insert_term_meta( $term, $class_name, $hex_color ) {
-		if ( !is_wp_error( $term ) ) {
+		if ( ! is_wp_error( $term ) ) {
 			add_term_meta( $term['term_id'], '_courier_type_color', $hex_color, true );
 			add_term_meta( $term['term_id'], '_courier_type_icon', $class_name, true );
 		}
 	}
 
 	/**
-	 * Install our default options and version number
+	 * Install our default options.
 	 *
 	 * @since 1.0
-	 *
-	 * @param int $current_version The current version.
 	 */
-	public function install( $current_version ) {
-		$plugin_options = get_option( 'courier_options', array() );
+	public function install() {
 
 		// This is the type of notification that is being displayed to the user.
 
@@ -137,12 +133,8 @@ class Install {
 		// Select where the notification is placed.
 		wp_insert_term( esc_html__( 'Header', 'courier' ), 'courier_placement' );
 		wp_insert_term( esc_html__( 'Footer', 'courier' ), 'courier_placement' );
-		wp_insert_term( esc_html__( 'Popup/Modal', 'courier' ), 'courier_placement' );
 
-		// Keep the plugin version up to date.
-		$plugin_options['plugin_version'] = $this->config->get( 'version' );
-
-		update_option( 'courier_options', $plugin_options );
+		courier_get_css();
 	}
 }
 

@@ -345,7 +345,7 @@ class Courier_Types {
 	 *
 	 * @since 1.0
 	 */
-	public function save_css_transient() {
+	public static function save_css_transient() {
 
 		$courier_settings = get_option( 'courier_design', array() );
 
@@ -369,25 +369,52 @@ class Courier_Types {
 				$accent_color = get_term_meta( $type->term_id, '_courier_type_color', true );
 
 				if ( empty( $accent_color ) ) {
-					$accent_color = '#';
+					switch ( $type->name ) {
+						case 'Primary':
+							$accent_color = '#039ad6';
+							break;
+
+						case 'Success':
+							$accent_color = '#04a84e';
+							break;
+
+						case 'Alert':
+							$accent_color = '#f97600';
+							break;
+
+						case 'Warning':
+							$accent_color = '#ea3118';
+							break;
+
+						case 'Feedback':
+							$accent_color = '#8839d3';
+							break;
+
+						case 'Info':
+							$accent_color = '#878787';
+							break;
+
+						default:
+							$accent_color = '#878787';
+					}
 				}
 
 				$icon_color = get_term_meta( $type->term_id, '_courier_type_icon_color', true );
 
 				if ( empty( $icon_color ) ) {
-					$icon_color = '#';
+					$icon_color = '#ffffff';
 				}
 
 				$text_color = get_term_meta( $type->term_id, '_courier_type_text_color', true );
 
 				if ( empty( $text_color ) ) {
-					$text_color = '#';
+					$text_color = '#000000';
 				}
 
 				$background_color = get_term_meta( $type->term_id, '_courier_type_bg_color', true );
 
 				if ( empty( $background_color ) ) {
-					$background_color = '#';
+					$background_color = '#dddddd';
 				}
 
 				$icon = get_term_meta( $type->term_id, '_courier_type_icon', true );
@@ -424,5 +451,7 @@ class Courier_Types {
 			// This will be cleared out any time a type is saved, updated or deleted.
 			set_transient( 'courier_notice_css', $css_output );
 		}
+
+		return $css_output;
 	}
 }

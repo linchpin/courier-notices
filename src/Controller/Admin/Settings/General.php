@@ -66,6 +66,12 @@ class General {
 	 * @since 1.0
 	 */
 	public static function add_admin_menu() {
+		global $submenu;
+
+		$design = admin_url( 'edit.php?post_type=courier_notice&page=courier&tab=design' );
+
+		$submenu['edit.php?post_type=courier_notice'][] = array( esc_html__( 'Types/Design', 'courier' ), 'manage_options', esc_url( $design ) ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+
 		add_submenu_page( 'edit.php?post_type=courier_notice', COURIER_PLUGIN_NAME, esc_html__( 'Settings', 'courier' ), 'manage_options', self::$settings_page, array( __CLASS__, 'add_settings_page' ) );
 	}
 
@@ -91,7 +97,7 @@ class General {
 			$plugin_url = 'edit.php?post_type=courier_notice&page=courier';
 
 			$settings = array(
-				'settings' => '<a href="' . esc_url( $plugin_url ) . '">' . esc_html__( 'Settings', 'courier' ) . '</a>',
+				'settings' => '<a href="' . esc_url( admin_url( $plugin_url ) ) . '">' . esc_html__( 'Settings', 'courier' ) . '</a>',
 			);
 
 			$site_link = array(

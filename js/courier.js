@@ -251,8 +251,6 @@ function core() {
     var courierContainers = document.querySelectorAll('.courier-notices[data-courier-ajax="true"]');
     var observer = new IntersectionObserver(function (entries, observer) {
       entries.forEach(function (entry) {
-        console.log(entry.target.getAttribute('data-loaded'));
-
         if (entry.intersectionRatio === 1 && 'false' === entry.target.getAttribute('data-loaded')) {
           var settings = {
             contentType: "application/json",
@@ -468,39 +466,66 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return modal; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _cookie__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./cookie */ "./assets/js/frontend/cookie.js");
+
 
 var $ = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 function modal() {
   var $doc = $(document),
       $body = $('body'),
       $window = $(window);
-  init();
 
-  function init() {}
-  /*
-  $window
-  .on( 'load', self.display_modal );
-  */
-
+  var init = function init() {
+    window.onload = display_modal;
+  };
   /**
    * Shows the modal (if there is one) after the page is fully loaded
    */
 
 
-  function display_modal() {
-    var $modal_overlay = $('.courier-modal-overlay'),
-        notice_ids = courier.cookie.getItem('dismissed_notices');
-    notice_ids = JSON.parse(notice_ids);
-    notice_ids = notice_ids || [];
-    $.each(notice_ids, function (i, val) {
-      $('div[data-courier-notice-id="' + val + '"]').remove();
-    });
+  var display_modal = function display_modal() {
+    var settings = {
+      contentType: "application/json",
+      placement: 'popup-modal',
+      format: 'html',
+      post_info: {}
+    };
 
-    if ($modal_overlay.length < 1 || $modal_overlay.find('div.courier-notices').length < 1) {
-      return;
-    } // $modal_overlay.show();
+    if (typeof courier_data.post_info !== 'undefined') {
+      settings.post_info = courier_data.post_info;
+    }
 
-  }
+    var dismissed_notice_ids = Object(_cookie__WEBPACK_IMPORTED_MODULE_1__["getItem"])('dismissed_notices');
+    dismissed_notice_ids = JSON.parse(dismissed_notice_ids);
+    dismissed_notice_ids = dismissed_notice_ids || [];
+    $.ajax({
+      method: 'GET',
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-WP-Nonce', courier_data.wp_rest_nonce);
+      },
+      'url': courier_data.notices_endpoint,
+      'data': settings
+    }).success(function (response) {
+      console.log(response);
+
+      if (response.notices) {
+        $.each(response.notices, function (index) {
+          // If the notice is dismissed don't show it.
+          if (dismissed_notice_ids.indexOf(parseInt(index)) !== -1) {
+            return;
+          }
+
+          var $notice = $(response.notices[index]).hide();
+          $('.courier-notices[data-courier-placement="' + settings.placement + '"]').append($notice);
+          $notice.slideDown('fast');
+        });
+      }
+    }); // .target.setAttribute( 'data-loaded', true );
+
+    $('.modal_overlay').show();
+  };
+
+  init();
 }
 
 /***/ }),
@@ -512,7 +537,7 @@ function modal() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/aware/vvv/www/couriier/public_html/wp-content/plugins/courier/assets/js/courier.js */"./assets/js/courier.js");
+module.exports = __webpack_require__(/*! /Users/maxwellmorgan/vvv-local/vagrant-local/www/courier/public_html/wp-content/plugins/courier/assets/js/courier.js */"./assets/js/courier.js");
 
 
 /***/ }),
