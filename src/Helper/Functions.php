@@ -187,6 +187,8 @@ function courier_display_notices( $args = array() ) {
 
 	$output       = apply_filters( 'courier_notices', $output );
 	$allowed_html = Utils::get_safe_markup();
+  
+	$allowed_html = apply_filters( 'courier_allowed_html', $allowed_html );
 
 	echo wp_kses( $output, $allowed_html );
 }
