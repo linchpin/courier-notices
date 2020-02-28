@@ -206,6 +206,8 @@ function courier_display_notices( $args = array() ) {
 		),
 	);
 
+	$allowed_html = apply_filters( 'courier_allowed_html', $allowed_html );
+
 	echo wp_kses( $output, $allowed_html ); // @todo this should probably be sanitized more extensively.
 }
 
