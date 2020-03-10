@@ -8,6 +8,7 @@
 use \Courier\Model\Courier_Notice\Data as Courier_Notice_Data;
 use \Courier\Controller\Courier_Types as Courier_Types;
 use \Courier\Helper\Utils;
+use \Courier\Core\View;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -162,18 +163,18 @@ function courier_get_notices( $args = array() ) {
  */
 function courier_display_notices( $args = array() ) {
 
-	$courier_placement = ( ! empty( $args['placement'] ) ) ? $args['placement'] : '';
-	$courier_style     = ( ! empty( $args['style'] ) ) ? $args['style'] : '';
-	$courier_options   = get_option( 'courier_settings', array() );
-	$courier_notices   = new \Courier\Core\View();
-	$courier_notices->assign( 'courier_placement', $courier_placement );
-	$courier_notices->assign( 'courier_style', $courier_style );
+	$courier_placement    = ( ! empty( $args['placement'] ) ) ? $args['placement'] : '';
+	$courier_style        = ( ! empty( $args['style'] ) ) ? $args['style'] : '';
+	$courier_options      = get_option( 'courier_settings', array() );
+	$courier_notices_view = new View();
+	$courier_notices_view->assign( 'courier_placement', $courier_placement );
+	$courier_notices_view->assign( 'courier_style', $courier_style );
 
 	if ( isset( $courier_options['ajax_notices'] ) && 1 === intval( $courier_options['ajax_notices'] ) ) {
-		$output = $courier_notices->get_text_view( 'notices-ajax' );
+		$output = $courier_notices_view->get_text_view( 'notices-ajax' );
 	} else {
 
-		$data    = new Courier_Notice_Data();
+		$data = new Courier_Notice_Data();
 
 		// Force notice Post Object
 		$args['ids_only'] = false;

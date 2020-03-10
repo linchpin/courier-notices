@@ -351,7 +351,7 @@ class Data {
 		$query_args          = wp_parse_args( $args, $query_args );
 		$final_notices_query = new \WP_Query( $query_args );
 
-		// Utils::courier_debug_log( $final_notices_query, 'Query', false );
+		Utils::courier_debug_log( $final_notices_query, 'Query', false );
 
 		return ( $final_notices_query->have_posts() ) ? $final_notices_query->posts : array();
 	}
@@ -445,9 +445,6 @@ class Data {
 				),
 			);
 		}
-
-//		error_log( 'user query');
-//		error_log( print_r( $query_args, true ) );
 
 		$notices_query = new \WP_Query( $query_args );
 

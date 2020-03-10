@@ -240,7 +240,7 @@ export default function types() {
 	 *
 	 * @since 1.0
 	 */
-	function deleteCourierNoticeType($target) {
+	function deleteCourierNoticeType( $target ) {
 		$.post(ajaxurl, {
 			action: 'courier_notices_delete_type',
 			courier_notices_delete_type: courier_admin_data.delete_nonce,
