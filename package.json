@@ -11,8 +11,8 @@
   "license": "GPL",
   "dependencies": {
     "jquery": "3.4.1",
-    "save-dev": "^0.0.1-security",
-    "through2": "^3.0.1",
+    "save-dev": "0.0.1-security",
+    "through2": "3.0.1",
     "what-input": "5.2.6"
   },
   "devDependencies": {
@@ -33,7 +33,7 @@
     "gulp-load-plugins": "1.6.0",
     "gulp-postcss": "8.0.0",
     "gulp-readme-to-markdown": "0.2.1",
-    "gulp-replace": "^1.0.0",
+    "gulp-replace": "1.0.0",
     "gulp-sass": "4.0.2",
     "gulp-sourcemaps": "2.6.5",
     "gulp-uglify": "3.0.2",
