@@ -190,13 +190,12 @@ class Fields {
 			'class'   => '',
 			'options' => array(),
 			'name'    => $args['section'] . '[' . $args['field'] . ']',
-			'id'      => $args['section'] . '_' . $args['field'],
 		);
 
 		// Parse incoming $args into an array and merge it with $defaults.
 		$args = wp_parse_args( $args, $defaults );
 
-		self::$type_list_table = new Type_List_Table();
+		self::$type_list_table = new Type_List_Table( array( 'screen' => 'courier_notice_page_courier' ) );
 		self::$type_list_table->prepare_items();
 
 		$page = ( isset( $_REQUEST['page'] ) && '' !== $_REQUEST['page'] ) ? $_REQUEST['page'] : ''; // phpcs:ignore WordPress.Security.NonceVerification

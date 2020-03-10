@@ -18,7 +18,7 @@ if ( ! function_exists( 'add_action' ) ) {
 		<div id="postbox-container" class="postbox-container">
 			<div class="whatsnew hero negative-bg">
 				<div class="hero-text">
-					<h1><?php echo esc_html__( 'Everything is new', 'courier' ); ?></h1>
+					<h1><?php echo esc_html__( 'Young Cardinals Take Flight', 'courier' ); ?></h1>
 				</div>
 			</div>
 			<div class="gray-bg negative-bg versioninfo">
@@ -35,7 +35,17 @@ if ( ! function_exists( 'add_action' ) ) {
 				</div>
 			</div>
 			<div class="wrapper">
-				<p><?php esc_html_e( "It's all new, we don't have much to add here. Check out the about page.", 'courier' ); ?></p>
+				<h2 class="light-weight"><?php esc_html_e( 'Making Courier easier to use and more extensible', 'courier' ); ?></h2>
+				<div class="courier-row" data-equalizer="">
+					<div class="courier-columns-12">
+						<div class="grey-box" data-equalizer-watch="">
+							<div class="whats-new-box-copy">
+								<p><?php esc_html_e( 'This release is the culmination of 50+ commits for bug fixes and enhancements.', 'courier' ); ?></p>
+								<p><?php esc_html_e( 'For more specifics please see the change log.', 'courier' ); ?></p>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

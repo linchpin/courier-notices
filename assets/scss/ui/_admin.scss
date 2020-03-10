@@ -1,13 +1,3 @@
-@import
-	'admin-settings',
-	'grid',
-	'helpers',
-	'structure',
-	'type',
-	'welcome',
-	'post-editor'
-;
-
 .courier-notice {
 	@include courier-note-layout;
 }
@@ -601,8 +591,19 @@ pre.courier-notice-type-css-class {
     padding-left: 20px;
     padding-right: 20px;
 
-    a {
-      margin-bottom: 0 !important;
+    .visit-linchpin-cta {
+		font-size: 14px;
+		height: auto;
+		min-height: auto;
+		line-height: 18px;
+      	margin-bottom: 0;
+		padding: 6px 12px;
+
+		img {
+			float: right;
+			height: 18px;
+			margin-left: 6px;
+		}
     }
 
     @media screen and ('max-width: 580px') {
@@ -736,8 +737,10 @@ pre.courier-notice-type-css-class {
       color: $secondary-color !important;
 
       &.nav-tab-active {
-        border-bottom: 1px solid white !important;
-        border-top-color: $primary-color !important;
+        border: {
+			bottom: none;
+        	top-color: $primary-color;
+		};
         background-color: white;
       }
 

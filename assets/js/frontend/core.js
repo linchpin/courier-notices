@@ -31,12 +31,9 @@ export default function core() {
 		}
 
 		let courierContainers = document.querySelectorAll('.courier-notices[data-courier-ajax="true"]' );
-
-		let observer = new IntersectionObserver(function( entries, observer ) {
+		let observer          = new IntersectionObserver(function( entries, observer ) {
 
 			entries.forEach( function( entry ) {
-
-				console.log( entry.target.getAttribute( 'data-loaded' ) );
 
 				if ( entry.intersectionRatio === 1 && 'false' === entry.target.getAttribute( 'data-loaded' ) ) {
 
@@ -90,9 +87,6 @@ export default function core() {
 		}, { threshold: 1 } );
 
 		Array.prototype.forEach.call( courierContainers, function ( element ) {
-
-			console.log( element );
-
 			observer.observe( element );
 		});
 	}

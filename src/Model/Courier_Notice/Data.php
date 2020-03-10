@@ -4,6 +4,8 @@
  */
 namespace Courier\Model\Courier_Notice;
 
+use Courier\Helper\Utils;
+
 /**
  * Courier_Notice Class
  */
@@ -32,6 +34,7 @@ class Data {
 			'ids_only'   => true,
 			'number'     => 100,
 			'placement'  => 'header',
+			'style'      => 'informational',
 			'query_args' => array(),
 		);
 
@@ -40,16 +43,14 @@ class Data {
 		$cache_key = 'global-' . sanitize_title( $args['placement'] ) . '-notices';
 		$cache     = wp_cache_get( $cache_key, 'courier' );
 
-		error_log( 'get_global_notices function' );
-		error_log( $cache_key );
-
+		/*
 		if ( false !== $cache ) {
 			if ( $args['ids_only'] ) {
 				return wp_list_pluck( $cache, 'ID' );
 			}
 
 			return $cache;
-		}
+		} */
 
 		$query_args = array(
 			'post_type'      => 'courier_notice',
@@ -71,7 +72,8 @@ class Data {
 		);
 
 		// Only include the notices for a specific placement.
-		if ( ! empty( $args['placement'] ) ) {
+		// Exclude "modal" as a placement as that has been moved to a style.
+		if ( ! empty( $args['placement'] ) && 'modal' !== $args['placement'] ) {
 			$query_args['tax_query']['relation'] = 'AND';
 			$query_args['tax_query'][]           = array(
 				'taxonomy' => 'courier_placement',
@@ -81,7 +83,17 @@ class Data {
 			);
 		}
 
-		error_log( print_r( $query_args, true ) );
+		// Include notices that have a style of modal
+
+		if ( ! empty( $args['style'] ) && 'modal' === $args['style'] ) {
+			$query_args['tax_query']['relation'] = 'AND';
+			$query_args['tax_query'][]           = array(
+				'taxonomy' => 'courier_style',
+				'field'    => 'slug',
+				'terms'    => is_array( $args['style'] ) ? $args['style'] : array( $args['style'] ),
+				'operator' => 'IN',
+			);
+		}
 
 		$global_notices_query = new \WP_Query( $query_args );
 
@@ -96,8 +108,9 @@ class Data {
 
 	/**
 	 * Get our dismissible global notices
-	 * @param array $args     Query Args
-	 * @param bool  $ids_only Whether to return only IDs.
+	 * @param array $args           Query Args.
+	 * @param array $ajax_post_data Ajax data passed to manipulate the query.
+	 * @param bool  $ids_only       Whether to return only IDs.
 	 *
 	 * @since 1.0.5
 	 *
@@ -105,7 +118,7 @@ class Data {
 	 */
 	public function get_dismissible_global_notices( $args = array(), $ajax_post_data = array(), $ids_only = false ) {
 
-		error_log( 'get_dismissible_global_notices' );
+//		error_log( 'get_dismissible_global_notices' );
 
 		$cache_key = 'global-dismissible-' . sanitize_title( $args['placement'] ) . '-notices';
 		$cache     = wp_cache_get( $cache_key, 'courier' );
@@ -177,10 +190,10 @@ class Data {
 	 *
 	 * @return array|bool|mixed
 	 */
-	public function get_persistent_global_notices( $args = array() ) {
+	public function get_persistent_global_notices( $args = array(), $global_notices = array() ) {
 
 		$defaults = array(
-			'ids_only'   => false,
+			'ids_only'   => true,
 			'number'     => 100,
 			'placement'  => 'header',
 			'query_args' => array(),
@@ -190,17 +203,17 @@ class Data {
 		$args      = wp_parse_args( $args, $defaults );
 		$cache_key = 'global-persistent-' . sanitize_title( $args['placement'] ) . '-notices';
 		$cache     = wp_cache_get( $cache_key, 'courier' );
-
+/*
 		if ( false !== $cache ) {
-			if ( true === $args['ids_only'] ) {
-				return wp_list_pluck( $cache, 'ID' );
-			}
+			return wp_list_pluck( $cache, 'ID' );
 
 			return $cache;
-		}
+		} */
 
-		$global_args    = wp_parse_args( array( 'ids_only' => true ), $args );
-		$global_notices = $this->get_global_notices( $global_args );
+		if ( empty( $global_notices ) ) {
+			$global_args    = wp_parse_args( array( 'ids_only' => true ), $args );
+			$global_notices = $this->get_global_notices( $global_args );
+		}
 
 		if ( empty( $global_notices ) ) {
 			return array();
@@ -228,11 +241,11 @@ class Data {
 
 		wp_cache_set( $cache_key, $global_persistent_notices_query->posts, 'courier', 300 );
 
-		if ( isset( $args['ids_only'] ) && true === $args['ids_only'] ) {
+		// if ( isset( $args['ids_only'] ) && true === $args['ids_only'] ) {
 			return wp_list_pluck( $global_persistent_notices_query->posts, 'ID' );
-		} else {
-			return $global_persistent_notices_query->posts;
-		}
+		// } else {
+		//	return $global_persistent_notices_query->posts;
+		// }
 	}
 
 	/**
@@ -248,8 +261,6 @@ class Data {
 	 */
 	public function get_notices( $args = array(), $ajax_post_data = array() ) {
 
-		error_log( 'get_notices function()' );
-
 		$defaults = array(
 			'user_id'                      => '',
 			'include_global'               => true,
@@ -258,13 +269,13 @@ class Data {
 			'ids_only'                     => true,
 			'number'                       => 4,
 			'placement'                    => 'header',
+			'style'                        => 'informational',
 		);
 
 		$defaults = apply_filters( 'courier_get_notices_default_settings', $defaults );
 		$args     = wp_parse_args( $args, $defaults );
 		$number   = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
 		$number   = apply_filters( 'courier_override_notices_number', $number );
-		$results  = array();
 
 		$ajax_post_data = wp_parse_args( $ajax_post_data, $defaults );
 
@@ -273,14 +284,13 @@ class Data {
 		$global_dismissible_posts = array();
 
 		if ( true === $args['include_global'] ) {
-			$global_args = $args;
-			$global_args['ids_only'] = false;
-
+			$global_args              = $args;
+			$global_args['ids_only']  = true;
 			$global_posts             = $this->get_global_notices( $global_args );
 			$global_dismissible_posts = $this->get_dismissible_global_notices( $args, $ajax_post_data, true );
 
 			// Exclude dismissed.
-			if ( ! $args['include_dismissed'] ) {
+			if ( false === $args['include_dismissed'] ) {
 				$global_dismissed = $this->get_global_dismissed_notices( $args['user_id'] );
 
 				foreach ( $global_posts as $key => $global_post ) {
@@ -292,43 +302,25 @@ class Data {
 		}
 
 		$post_list = array_merge( $global_posts, $global_dismissible_posts );
-		$post_list = wp_list_pluck( $post_list, 'ID' );
+
+		Utils::courier_debug_log( $post_list, 'Query', false );
 
 		// Prioritize Persistent Global Notes to the top by getting them separately and putting them at the front of the line.
 		if ( true === $args['prioritize_persistent_global'] ) {
 			$persistent_global = $this->get_persistent_global_notices(
 				array(
-					'ids_only'  => false,
+					'ids_only'  => true,
 					'placement' => $args['placement'],
-				)
+				),
+				$global_posts
 			);
 
 			if ( ! empty( $persistent_global ) ) {
-
-				$results = array_merge( $results, $persistent_global );
-
-				if ( false === $args['ids_only'] ) {
-					$difference = array_diff( $post_list, wp_list_pluck( $persistent_global, 'ID' ) );
-				} else {
-					$difference = array_diff(
-						wp_list_pluck( $post_list, 'ID' ),
-						wp_list_pluck( $persistent_global, 'ID' )
-					);
-				}
-
-				// If there is no difference, then the persistent global notices are the only ones left.
-				if ( empty( $difference ) ) {
-					return $results;
-				} else {
-					$post_list = $difference;
-				}
+				$post_list = array_merge( $persistent_global, $post_list );
 			}
 		}
 
-		if ( empty( $post_list ) ) {
-			return array();
-		}
-
+		$post_list = array_unique( $post_list );
 		$post_list = array_filter( $post_list, 'strlen' );
 
 		$query_args = array(
@@ -339,8 +331,8 @@ class Data {
 			'posts_per_page' => $number,
 			'orderby'        => 'date',
 			'order'          => 'DESC',
-			'tax_query'      => array(),
-			'post__in'       => $post_list,
+			// workaround: https://core.trac.wordpress.org/ticket/28099
+			'post__in'       => empty( $post_list ) ? [ 0 ] : $post_list,
 		);
 
 		if ( true === $args['ids_only'] ) {
@@ -354,11 +346,14 @@ class Data {
 		 *
 		 * @since 1.0
 		 */
+
 		$query_args          = apply_filters( 'courier_notices_display_notices_query', $query_args, $ajax_post_data );
 		$query_args          = wp_parse_args( $args, $query_args );
 		$final_notices_query = new \WP_Query( $query_args );
 
-		return array_merge( $results, $final_notices_query->posts );
+		Utils::courier_debug_log( $final_notices_query, 'Query', false );
+
+		return ( $final_notices_query->have_posts() ) ? $final_notices_query->posts : array();
 	}
 
 	/**
@@ -450,9 +445,6 @@ class Data {
 				),
 			);
 		}
-
-		error_log( 'user query');
-		error_log( print_r( $query_args, true ) );
 
 		$notices_query = new \WP_Query( $query_args );
 

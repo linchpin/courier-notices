@@ -86,6 +86,15 @@ gulp.task(
 	)
 );
 
+// Generate the changelog.md from the readme.txt
+gulp.task(
+	'readme',
+	gulp.series(
+		readme,
+		copy
+	)
+);
+
 // Build the site, run the server, and watch for file changes
 gulp.task(
 	'default',

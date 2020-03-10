@@ -1,65 +1,64 @@
 .post-type-courier_notice {
-  .column-layout {
-	width:120px;
-  }
-
-  .courier-logo {
-	max-width:100px;
-	float:left;
-	padding: 5px;
-  }
-
-  .linchpin-logo {
-	max-width:100px;
-	position: absolute;
-	bottom:0;
-	right:0;
-  }
-
-  .welcome-panel {
-	margin: 30px 20px 16px 0;
-  }
-
-  .float-left {
-	float:left;
-  }
-
-  #courier-notices-welcome-panel {
-	.welcome-icon:before {
-	  vertical-align: middle;
+	.column-layout {
+		width:120px;
 	}
 
-	h2 {
-	  margin-bottom:5px;
+	.courier-logo {
+		float:left;
+		max-width:100px;
+		padding: 5px;
 	}
-  }
 
-  .courier-notices-welcome-panel-close {
-	position: absolute;
-	top: 10px;
-	right: 20px;
-	padding: 10px 15px 10px 21px;
-	font-size: 13px;
-	line-height: 1.23076923;
-	text-decoration: none;
+	.welcome-panel {
+		clear: both;
+		margin: 30px 20px 16px 0;
+		padding-bottom: 23px;
 
-	&:before {
-	  position: absolute;
-	  top: 8px;
-	  left: 0;
-	  -webkit-transition: all .1s ease-in-out;
-	  transition: all .1s ease-in-out;
-	  background: none;
-	  color: #b4b9be;
-	  content: "\f153";
-	  display: block;
-	  font: normal 16px/20px dashicons;
-	  speak: none;
-	  height: 20px;
-	  text-align: center;
-	  width: 20px;
-	  -webkit-font-smoothing: antialiased;
-	  -moz-osx-font-smoothing: grayscale;
+		@media screen and ( max-width: 767px ) {
+			padding-top: 40px;
+		}
 	}
-  }
+
+	.float-left {
+		float:left;
+	}
+
+	#courier-notices-welcome-panel {
+		.welcome-icon:before {
+			vertical-align: middle;
+		}
+
+		h2 {
+			margin-bottom: 1.25rem;
+		}
+	}
+
+	.courier-notices-welcome-panel-close {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		padding: 0 0 0 21px;
+		font-size: 13px;
+		line-height: 1.23076923;
+		text-decoration: none;
+
+		&:before {
+			position: absolute;
+			top: 0;
+			left: 0;
+			-webkit-transition: all .1s ease-in-out;
+			transition: all .1s ease-in-out;
+			background: none;
+			color: #b4b9be;
+			content: "\f153";
+			display: block;
+			font: normal 16px/20px dashicons;
+			speak: none;
+			height: 20px;
+			text-align: center;
+			width: 20px;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+		}
+	}
 }

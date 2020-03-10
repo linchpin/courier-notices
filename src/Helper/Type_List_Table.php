@@ -286,7 +286,7 @@ class Type_List_Table extends WP_List_Table {
 				$notice_view->assign( 'icon', $icon_class );
 				$notice_view->assign( 'post_class', 'post_class' );
 				$notice_view->assign( 'post_class', implode( ' ', get_post_class( 'courier-notice courier_notice callout alert alert-box', $type->term_id ) ) );
-				$notice_view->assign( 'dismissable', true );
+				$notice_view->assign( 'dismissible', true );
 				$notice_view->assign( 'post_content', 'post_content' );
 				$notice_view->assign( 'type', $type );
 				$notice_preview = $notice_view->get_text_view( 'admin/notice-preview' );
@@ -373,19 +373,19 @@ class Type_List_Table extends WP_List_Table {
 
 		$option_fields = sprintf(
 			'<div class="notice-options hide"><div class="notice-option"><strong class="notice-option-title">%1$s</strong><br /><input type="text" class="courier-notice-type-edit-title" name="courier_notice_type_edit_title" value="%2$s"></div><div class="notice-option"><strong class="notice-option-title">%3$s</strong><br /><input type="text" class="courier-notice-type-edit-css-class" name="courier_notice_type_edit_css_class" value="%4$s"></div></div>',
-			esc_html( 'Title', 'courier' ),
+			esc_html__( 'Title', 'courier' ),
 			$item['title'],
-			esc_html( 'Icon Class', 'courier' ),
-			esc_attr($icon)
+			esc_html__( 'Icon Class', 'courier' ),
+			esc_attr( $icon )
 		);
 
 		$actions = [
 			'edit' => sprintf(
 				'<a href="%1$s" class="courier-notice-type-edit" data-term-id="%3$d">%2$s</a>',
-				get_edit_term_link( $item['ID'], 'courier_type' ),
+				'#',
 				esc_html__( 'Edit', 'courier' ),
 				esc_attr( $item['ID'] )
-			)
+			),
 		];
 
 		return $edit_link . $option_fields . $this->row_actions( $actions );
@@ -406,12 +406,12 @@ class Type_List_Table extends WP_List_Table {
 			),
 			sprintf(
 				'<button class="button button-editing button-primary save-button" title="%1$s" aria-label="%1$s"><span class="dashicons dashicons-yes"></span></button>',
-				esc_html( 'Save', 'courier' )
+				esc_html__( 'Save', 'courier' )
 			),
 			sprintf(
 				'<button class="button button-editing button-secondary close-button" title="%1$s" aria-label="%1$s"><span class="dashicons dashicons-no"></span></button>',
-				esc_html( 'Cancel', 'courier' )
-			)
+				esc_html__( 'Cancel', 'courier' )
+			),
 		);
 
 		return implode( ' ', $action_links );

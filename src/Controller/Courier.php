@@ -20,7 +20,6 @@ class Courier {
 	 * @since 1.0
 	 */
 	public function register_actions() {
-		add_action( 'add_meta_boxes_courier_notice', array( $this, 'add_meta_boxes_courier_notice' ), 99 );
 		add_action( 'save_post_courier_notice', array( $this, 'save_post_courier_notice' ), 10, 2 );
 		add_action( 'init', array( $this, 'add_expired_status' ) );
 		add_action( 'wp_insert_post', array( $this, 'wp_insert_post' ), 10, 3 );
@@ -208,144 +207,6 @@ class Courier {
 	}
 
 	/**
-	 * Show select for selecting notice type
-	 *
-	 * @since 1.0
-	 */
-	public function post_submitbox_misc_actions() {
-		global $post;
-
-		wp_nonce_field( '_courier_info_nonce', '_courier_info_noncename' );
-?>
-		<div class="misc-pub-section courier-dismissable">
-			<span class="dashicons dashicons-no-alt wp-media-buttons-icon"></span>&nbsp;
-			<label for="courier_dismissible"><?php esc_html_e( 'Dismissible Notice:', 'courier' ); ?></label>&nbsp;
-			<input type="checkbox" name="courier_dismissible" id="courier_dismissible" value="1" <?php checked( get_post_meta( $post->ID, '_courier_dismissible', true ) ); ?> />
-			<a href="#" class="courier-info-icon courier-help" title="<?php esc_html_e( 'Allow this notice to be dismissed by users', 'courier' ); ?>">?</a>
-		</div>
-		<?php
-
-		$copy_shortcode_info = new View();
-		$copy_shortcode_info->assign( 'type', 'shortcode-help' );
-		$copy_shortcode_info->assign( 'courier_notifications', get_user_option( 'courier_notifications' ) );
-		$copy_shortcode_info->assign( 'message', __( 'Copy this notice <strong>shortcode</strong> to display in your content or in a widget!', 'courier' ) );
-		$copy_shortcode_info->render( 'admin/notifications' );
-
-		$copy_shortcode = new View();
-		$copy_shortcode->assign( 'post_id', $post->ID );
-		$copy_shortcode->render( 'admin/copy-shortcode' );
-	}
-
-	/**
-	 * Add an option for selecting notice type
-	 *
-	 * @since 1.0
-	 */
-	public function add_meta_boxes_courier_notice() {
-		add_action( 'post_submitbox_misc_actions', array( $this, 'post_submitbox_misc_actions' ) );
-
-		add_meta_box( 'courier_meta_box', esc_html__( 'Notice Information', 'courier' ), array( $this, 'courier_meta_box' ), 'courier_notice', 'side', 'default' );
-	}
-
-	/**
-	 * Allow for notices to be customized
-	 *
-	 * Set expiration on a notice
-	 * Assign a notice to a specific user in within WordPress
-	 *
-	 * @since 1.0
-	 *
-	 * @param object $post The post object.
-	 */
-	public function courier_meta_box( $post ) {
-		wp_nonce_field( 'courier_expiration_nonce', 'courier_expiration_noncename' );
-
-		global $wp_local;
-
-		?>
-		<h4><?php esc_html_e( 'Notice Type', 'courier' ); ?></h4>
-		<?php
-
-		if ( has_term( '', 'courier_type' ) ) {
-			$selected_courier_type = get_the_terms( $post->ID, 'courier_type' );
-		}
-
-		if ( ! empty( $selected_courier_type ) ) {
-			$selected_courier_type = $selected_courier_type[0]->slug;
-		} else {
-			$selected_courier_type = 'info';
-		}
-
-		// Create and display the dropdown menu.
-		wp_dropdown_categories(
-			array(
-				'orderby'           => 'name',
-				'taxonomy'          => 'courier_type',
-				'value_field'       => 'slug',
-				'name'              => 'courier_type',
-				'class'             => 'widefat',
-				'hide_empty'        => false,
-				'required'          => true,
-				'option_none_value' => apply_filters( 'courier_default_notice_type', 'info' ),
-				'selected'          => $selected_courier_type,
-			)
-		);
-		?>
-
-		<h4><?php esc_html_e( 'Notice Placement / Type', 'courier' ); ?></h4>
-		<?php
-
-		if ( has_term( '', 'courier_placement' ) ) {
-			$selected_courier_placement = get_the_terms( $post->ID, 'courier_placement' );
-		}
-
-		if ( ! empty( $selected_courier_placement ) ) {
-			$selected_courier_placement = $selected_courier_placement[0]->slug;
-		} else {
-			$selected_courier_placement = 'header';
-		}
-
-		// Create and display the dropdown menu.
-		wp_dropdown_categories(
-			array(
-				'orderby'           => 'name',
-				'taxonomy'          => 'courier_placement',
-				'value_field'       => 'slug',
-				'name'              => 'courier_placement',
-				'class'             => 'widefat',
-				'hide_empty'        => false,
-				'required'          => true,
-				'option_none_value' => apply_filters( 'courier_default_notice_placement', 'header' ),
-				'selected'          => $selected_courier_placement,
-			)
-		);
-		?>
-		<?php
-
-		// Date Display.
-		$current_date = (int) get_post_meta( $post->ID, '_courier_expiration', true );
-
-		if ( ! empty( $current_date ) ) {
-			$current_date = date( get_option( 'date_format' ) . ' h:i A', $current_date );
-		} else {
-			$current_date = '';
-		}
-		?>
-		<h4><?php esc_html_e( 'Notice Expiration', 'courier' ); ?></h4>
-		<p class="description"><?php esc_html_e( 'Enter a date and time this notice should expire.', 'courier' ); ?></p>
-
-		<fieldset id="courier-timestampdiv">
-			<legend class="screen-reader-text"><?php esc_html_e( 'Expiration date and time', 'courier' ); ?></legend>
-			<div class="timestamp-wrap">
-				<label for="courier_expire_date">
-					<input type="text" class="widefat" autocomplete="off" id="courier_expire_date" name="courier_expire_date" value="<?php echo esc_attr( $current_date ); ?>">
-				</label>
-			</div>
-		</fieldset>
-		<?php
-	}
-
-	/**
 	 * Get a list of available post types to select from.
 	 *
 	 * @since 1.1
@@ -442,6 +303,15 @@ class Courier {
 				}
 			}
 
+			if ( empty( $_POST['courier_style'] ) ) {
+				wp_set_object_terms( $post_id, null, 'courier_style' );
+			} else {
+				// Only set the courier type if the type actually exists.
+				if ( term_exists( $_POST['courier_style'], 'courier_style' ) ) {
+					wp_set_object_terms( $post_id, (string) $_POST['courier_style'], 'courier_style' );
+				}
+			}
+
 			if ( empty( $_POST['courier_type'] ) ) {
 				wp_set_object_terms( $post_id, null, 'courier_type' );
 			} else {
@@ -450,6 +320,8 @@ class Courier {
 					wp_set_object_terms( $post_id, (string) $_POST['courier_type'], 'courier_type' );
 				}
 			}
+
+
 		}
 
 		if ( isset( $_POST['courier_expiration_noncename'] ) && wp_verify_nonce( $_POST['courier_expiration_noncename'], 'courier_expiration_nonce' ) ) {
@@ -462,9 +334,12 @@ class Courier {
 			}
 		}
 
-		wp_cache_delete( 'global-notices', 'courier' );
-		wp_cache_delete( 'global-dismissible-notices', 'courier' );
-		wp_cache_delete( 'global-persistent-notices', 'courier' );
+		wp_cache_delete( 'global-footer-notices', 'courier' );
+		wp_cache_delete( 'global-footer-dismissible-notices', 'courier' );
+		wp_cache_delete( 'global-footer-persistent-notices', 'courier' );
+		wp_cache_delete( 'global-header-notices', 'courier' );
+		wp_cache_delete( 'global-header-dismissible-notices', 'courier' );
+		wp_cache_delete( 'global-header-persistent-notices', 'courier' );
 	}
 
 	/**

@@ -21,15 +21,18 @@ class Admin {
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
 		add_action( 'manage_courier_notice_posts_custom_column', array( $this, 'manage_posts_custom_column' ), 10, 2 );
-		add_filter( 'manage_courier_notice_posts_columns', array( $this, 'manage_posts_columns' ), 999 );
+		add_filter( 'manage_courier_notice_posts_columns', array( $this, 'manage_posts_columns' ), 998 );
 
 		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ), 10, 1 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_icon_styles' ) );
 
 		add_action( 'restrict_manage_posts', array( $this, 'filter_courier_notices' ), 10, 2 );
+
+		if ( ! empty( $_GET['post_type'] ) && 'courier_notice' === $_GET['post_type'] ) { // @codingStandardsIgnoreLine
+			add_filter( 'months_dropdown_results', '__return_empty_array' );
+		}
 	}
 
 	/**
@@ -61,19 +64,16 @@ class Admin {
 			return $columns;
 		}
 
-		$placement = $columns['taxonomy-courier_placement'];
-
 		unset( $columns['date'] );
-		unset( $columns['taxonomy-courier_placement'] );
 
 		return array_merge(
 			$columns,
 			array(
-				'courier-summary'            => esc_html__( 'Summary', 'courier' ),
-				'courier-type'               => esc_html__( 'Type', 'courier' ),
-				'taxonomy-courier_placement' => $placement,
-				'courier-global'             => esc_html__( 'Usage', 'courier' ),
-				'courier-date'               => wp_kses(
+				'courier-summary'   => esc_html__( 'Summary', 'courier' ),
+				'courier-type'      => esc_html__( 'Type', 'courier' ),
+				'courier-style'     => esc_html__( 'Style', 'courier' ),
+				'courier-placement' => esc_html__( 'Placement', 'courier' ),
+				'courier-date'      => wp_kses(
 					__( 'Expiration <a href="#" class="courier-info-icon courier-help" title="Non-expiry notices do not expire and will always be shown to users if the notice is not dismissable">?</a>', 'courier' ),
 					array(
 						'a' => array(
@@ -100,10 +100,11 @@ class Admin {
 		global $post;
 
 		switch ( $column ) {
-			case 'courier-global':
-				if ( has_term( 'global', 'courier_scope', $post_id ) ) {
-					echo '<span class="dashicons dashicons-admin-site"></span>';
-				}
+			case 'courier-placement':
+				echo esc_html( wp_strip_all_tags( get_the_term_list( $post_id, 'courier_placement', '', ', ' ) ) );
+				break;
+			case 'courier-style':
+				echo esc_html( wp_strip_all_tags( get_the_term_list( $post_id, 'courier_style', '', ', ' ) ) );
 				break;
 			case 'courier-summary':
 				$summary = apply_filters( 'the_content', get_post_field( 'post_content', $post_id ) );
@@ -124,7 +125,7 @@ class Admin {
 
 					foreach ( $types as $term ) {
 						$link    = get_edit_term_link( $term->term_id, 'courier_type' );
-						$links[] = '<li><a href="' . esc_url( $link ) . '" rel="tag"><span class="courier-icon icon-' . esc_attr( $term->slug ) . '"></span>' . $term->name . '</a></li>';
+						$links[] = '<li class="courier-type courier_type-' . esc_attr( $term->slug ) . '"><a href="' . esc_url( $link ) . '" rel="tag" class="courier-content-wrapper"><span class="courier-icon icon-' . esc_attr( $term->slug ) . '"></span>' . $term->name . '</a></li>';
 					}
 					echo wp_kses_post( join( '', $links ) );
 					?>
@@ -168,11 +169,12 @@ class Admin {
 
 		if ( has_term( array( 'global' ), 'courier_scope', $post->ID ) && 'publish' === $post->post_status ) {
 			?>
-
-			<div class="notice notice-dismissible update-nag">
-				<strong><?php esc_html_e( 'This is a global notice and may have been dismissed by some users. It is recommended that you create a new global notice to ensure every user sees your new information.', 'courier' ); ?></strong>
+			<div class="notice notice-warning">
+				<p>
+					<span class="dashicons dashicons-admin-site"></span>
+					<strong><?php esc_html_e( 'This is a global notice and may have been dismissed by some users. It is recommended that you create a new global notice to ensure every user sees your new information.', 'courier' ); ?></strong>
+				</p>
 			</div>
-
 			<?php
 		}
 
@@ -182,7 +184,7 @@ class Admin {
 
 		?>
 
-		<div class="notice notice-dismissible update-nag">
+		<div class="notice notice-dismissible notice-warning">
 			<?php esc_html_e( 'This notice has already been dismissed. Any changes made will not be seen by the user.', 'courier' ); ?>
 			<a href="#" class="courier-reactivate-notice" data-courier-notice-id="<?php echo esc_attr( $post->ID ); ?>">
 				<?php esc_html_e( 'Reactivate this notice', 'courier' ); ?>
@@ -293,6 +295,13 @@ class Admin {
 	 * @param string $hook The hook.
 	 */
 	public function admin_enqueue_styles( $hook ) {
+		wp_enqueue_style(
+			'courier-admin-global',
+			COURIER_PLUGIN_URL . 'css/admin-courier-global.css',
+			array(),
+			COURIER_VERSION
+		);
+
 		if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'edit.php', 'courier_notice_page_courier' ), true ) ) {
 			return;
 		}
@@ -310,27 +319,13 @@ class Admin {
 			COURIER_VERSION
 		);
 
+		wp_add_inline_style( 'courier-admin', courier_get_css() );
+
 		if ( ! in_array( $hook, array( 'courier_notice_page_courier' ), true ) ) {
 			return;
 		}
 
 		wp_enqueue_style( 'wp-color-picker' );
-	}
-
-	/**
-	 * Enqueue our admin icons.
-	 *
-	 * @since 1.0
-	 *
-	 * @param string $hook The hook.
-	 */
-	public function admin_enqueue_icon_styles( $hook ) {
-		wp_enqueue_style(
-			'courier-admin-icons',
-			COURIER_PLUGIN_URL . 'css/admin-courier-icons.css',
-			array(),
-			COURIER_VERSION
-		);
 	}
 
 	/**
@@ -376,13 +371,12 @@ class Admin {
 		}
 
 		// A list of taxonomy slugs to filter by.
-		$taxonomies = array( 'courier_type', 'courier_placement', 'courier_status' );
+		$taxonomies = array( 'courier_type', 'courier_style', 'courier_placement', 'courier_status' );
 
 		foreach ( $taxonomies as $taxonomy_slug ) {
 
 			$taxonomy_obj  = get_taxonomy( $taxonomy_slug );
 			$taxonomy_name = $taxonomy_obj->labels->name;
-			// $terms         = get_terms( $taxonomy_slug );
 			$selected      = ( isset( $_GET[ $taxonomy_slug ] ) && '' !== $_GET[ $taxonomy_slug ] ) ? sanitize_text_field( $_GET[ $taxonomy_slug ] ) : ''; // @codingStandardsIgnoreLine
 
 			wp_dropdown_categories(

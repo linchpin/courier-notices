@@ -3,7 +3,7 @@
  * Plugin Name: Courier
  * Plugin URI:  https://wordpress.org/plugins/courier
  * Description: A way to display, manage, and control front end notifications for your WordPress install.
- * Version:     1.0.4
+ * Version:     1.1.0
  * Author:      Linchpin
  * Author URI:  https://linchpin.com
  * Text Domain: courier
@@ -22,11 +22,11 @@ if ( ! defined( 'WPINC' ) ) {
  */
 
 if ( ! defined( 'COURIER_VERSION' ) ) {
-	define( 'COURIER_VERSION', '1.0.4' );
+	define( 'COURIER_VERSION', '1.1.0' );
 }
 
 if ( ! defined( 'COURIER_RELEASE_DATE' ) ) {
-	define( 'COURIER_RELEASE_DATE', '12/20/2019' );
+	define( 'COURIER_RELEASE_DATE', '01/06/2020' );
 }
 
 // Define the main plugin file to make it easy to reference in subdirectories.
@@ -47,26 +47,20 @@ if ( ! defined( 'COURIER_PLUGIN_NAME' ) ) {
 }
 
 /**
+ * Allow for easier debugging. Should only be true to obviously debug
+ *
+ * @since 1.1.0
+ */
+if ( ! defined( 'COURIER_DEBUG' ) ) {
+	define( 'COURIER_DEBUG', false );
+}
+
+/**
  * Autoload Classes
  */
 if ( file_exists( COURIER_PATH . '/vendor/autoload.php' ) ) {
 	require_once COURIER_PATH . 'vendor/autoload.php';
 }
-
-/*
-require_once "includes/scssphp/scss.inc.php";
-
-use ScssPhp\ScssPhp\Compiler;
-
-$scss = new Compiler();
-
-$compiled_css = $scss->compile('
-  $color: #abc;
-  div { color: lighten($color, 20%); }
-');
-
-file_put_contents( 'css/courier-frontend.css', $compiled_css );
-*/
 
 /***
  * Kick everything off when plugins are loaded
@@ -97,15 +91,17 @@ function courier_init() {
 register_activation_hook( __FILE__, 'courier_activation' );
 
 /**
- * Setup Crons to purge notifications upon plugin activation.
+ * Activation hooks
+ *
+ * Other methods hook into this for cron creation
+ * Notice cleanup etc.
+ *
+ * @since 1.0
  */
 function courier_activation() {
 	add_option( 'courier_activation', true );
 
 	// Create our cron events.
-	wp_schedule_event( current_time( 'timestamp' ), 'hourly', 'courier_purge' );
-	wp_schedule_event( current_time( 'timestamp' ), 'hourly', 'courier_expire' );
-
 	if ( ! get_option( 'courier_flush_rewrite_rules' ) ) {
 		add_option( 'courier_flush_rewrite_rules', true );
 	}

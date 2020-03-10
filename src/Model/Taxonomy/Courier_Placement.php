@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Courier Placement Taxonomy Model
  *
@@ -81,7 +81,7 @@ class Courier_Placement {
 			'public'            => false,
 			'show_in_nav_menus' => false,
 			'show_ui'           => false,
-			'show_admin_column' => true,
+			'show_admin_column' => false,
 			'query_var'         => true,
 			'rewrite'           => false,
 			'capabilities'      => array(
