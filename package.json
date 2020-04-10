@@ -10,7 +10,7 @@
   "author": "Linchpin <sayhi@linchpin.com>",
   "license": "GPL",
   "dependencies": {
-    "jquery": "3.4.1",
+    "jquery": "3.5.0",
     "save-dev": "^0.0.1-security",
     "through2": "^3.0.1",
     "what-input": "5.2.6"
