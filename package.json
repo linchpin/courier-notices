@@ -34,7 +34,7 @@
     "gulp-postcss": "8.0.0",
     "gulp-readme-to-markdown": "0.2.1",
     "gulp-replace": "^1.0.0",
-    "gulp-sass": "4.0.2",
+    "gulp-sass": "4.1.0",
     "gulp-sourcemaps": "2.6.5",
     "gulp-uglify": "3.0.2",
     "js-yaml": "3.13.1",
