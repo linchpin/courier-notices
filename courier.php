@@ -22,11 +22,11 @@ if ( ! defined( 'WPINC' ) ) {
  */
 
 if ( ! defined( 'COURIER_VERSION' ) ) {
-	define( 'COURIER_VERSION', '1.1.0' );
+	define( 'COURIER_VERSION', '1.1.1' );
 }
 
 if ( ! defined( 'COURIER_RELEASE_DATE' ) ) {
-	define( 'COURIER_RELEASE_DATE', '01/06/2020' );
+	define( 'COURIER_RELEASE_DATE', '04/28/2020' );
 }
 
 // Define the main plugin file to make it easy to reference in subdirectories.
