@@ -34,7 +34,7 @@ class Install {
 	 * @since 1.0
 	 */
 	public function register_actions() {
-		add_action( 'admin_notices', array( $this, 'check_for_updates' ) );
+		add_action( 'admin_init', array( $this, 'check_for_updates' ) );
 		add_action( 'init', array( $this, 'add_capabilities' ), 11 );
 	}
 
