@@ -1,20 +1,20 @@
 'use strict';
-let gulp          = require( 'gulp' );
-let plugins       = require( 'gulp-load-plugins' );
-let yargs         = require( 'yargs' );
-let rimraf        = require( 'rimraf' );
-let yaml          = require( 'js-yaml' );
-let fs            = require( 'fs' );
-let webpackStream = require( 'webpack-stream' );
-let webpack2      = require( 'webpack' );
-let named         = require( 'vinyl-named' );
-let autoprefixer  = require( 'autoprefixer' );
-let through2      = require( 'through2' );
+let gulp = require('gulp');
+let plugins = require('gulp-load-plugins');
+let yargs = require('yargs');
+let rimraf = require('rimraf');
+let yaml = require('js-yaml');
+let fs = require('fs');
+let webpackStream = require('webpack-stream');
+let webpack2 = require('webpack');
+let named = require('vinyl-named');
+let autoprefixer = require('autoprefixer');
+let through2 = require('through2');
 
 // Load all Gulp plugins into one variable
 const $ = plugins();
 
-let PRODUCTION   = !!( yargs.argv.production ); // Check for --production flag
+let PRODUCTION = !!(yargs.argv.production); // Check for --production flag
 let VERSION_BUMP = yargs.argv.release;          // Check for --release (x.x.x semver version number)
 
 // Load settings from settings.yml
@@ -61,8 +61,8 @@ function loadConfig() {
  * @param done
  */
 function setProductionMode(done) {
-	PRODUCTION            = false;
-	webpackConfig.mode    = 'production';
+	PRODUCTION = false;
+	webpackConfig.mode = 'production';
 	webpackConfig.devtool = false;
 	sassConfig.production = true;
 	done();
@@ -103,7 +103,7 @@ gulp.task(
 		javascript,
 		sass,
 		copy,
-		gulp.parallel( watch )
+		gulp.parallel(watch)
 	)
 );
 
@@ -113,9 +113,9 @@ gulp.task(
  *
  * @param done
  */
-function clean( done ) {
-	rimraf( 'css', done );
-	rimraf( 'js', done );
+function clean(done) {
+	rimraf('css', done);
+	rimraf('js', done);
 
 	done();
 }
@@ -125,16 +125,16 @@ function clean( done ) {
  *
  * @since 1.0
  */
-function readme( done ) {
-	return gulp.src( ['readme.txt'] )
-		.pipe( $.readmeToMarkdown( {
+function readme(done) {
+	return gulp.src(['readme.txt'])
+		.pipe($.readmeToMarkdown({
 			details: false,
 			screenshot_ext: ['jpg', 'jpg', 'png'],
 			extract: {
 				'changelog': 'CHANGELOG',
 				'Frequently Asked Questions': 'FAQ'
 			}
-		} ) )
+		}))
 		.pipe(gulp.dest('./')
 		);
 }
@@ -151,36 +151,36 @@ function readme( done ) {
  *
  * @return {*}
  */
-function bumpPluginFile( done ) {
+function bumpPluginFile(done) {
 
-	let constant        = 'COURIER_VERSION';
+	let constant = 'COURIER_VERSION';
 	let define_bump_obj = {
 		key: constant,
-		regex: new RegExp('([<|\'|"]?(' + constant + ')[>|\'|"]?[ ]*[:=,]?[ ]*[\'|"]?[a-z]?)(\\d+.\\d+.\\d+)(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z\\.-]+)?([\'|"|<]?)', 'ig' )
+		regex: new RegExp('([<|\'|"]?(' + constant + ')[>|\'|"]?[ ]*[:=,]?[ ]*[\'|"]?[a-z]?)(\\d+.\\d+.\\d+)(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z\\.-]+)?([\'|"|<]?)', 'ig')
 	};
 
 	let bump_obj = {
 		key: 'Version',
 	};
 
-	if ( VERSION_BUMP ) {
-		bump_obj.version        = VERSION_BUMP;
+	if (VERSION_BUMP) {
+		bump_obj.version = VERSION_BUMP;
 		define_bump_obj.version = VERSION_BUMP;
 	}
 
 	let today = getReleaseDate();
 
-	return gulp.src( './courier.php' )
-		.pipe( $.bump( bump_obj ) )
-		.pipe( $.bump( define_bump_obj ) )
-		.pipe( $.replace( /(((0)[0-9])|((1)[0-2]))(\/)([0-2][0-9]|(3)[0-1])(\/)\d{4}/ig, today ) )
-		.pipe( through2.obj( function( file, enc, cb ) {
-			let date        = new Date();
+	return gulp.src('./courier.php')
+		.pipe($.bump(bump_obj))
+		.pipe($.bump(define_bump_obj))
+		.pipe($.replace(/(((0)[0-9])|((1)[0-2]))(\/)([0-2][0-9]|(3)[0-1])(\/)\d{4}/ig, today))
+		.pipe(through2.obj(function (file, enc, cb) {
+			let date = new Date();
 			file.stat.atime = date;
 			file.stat.mtime = date;
-			cb( null, file );
-		}) )
-		.pipe( gulp.dest( './' ) );
+			cb(null, file);
+		}))
+		.pipe(gulp.dest('./'));
 }
 
 /**
@@ -192,9 +192,9 @@ function bumpPluginFile( done ) {
  */
 function getReleaseDate() {
 	let today = new Date();
-	let dd    = String( today.getDate() ).padStart( 2, '0' );
-	let mm    = String( today.getMonth() + 1 ).padStart( 2, '0' );
-	let yyyy  = today.getFullYear();
+	let dd = String(today.getDate()).padStart(2, '0');
+	let mm = String(today.getMonth() + 1).padStart(2, '0');
+	let yyyy = today.getFullYear();
 
 	today = mm + '/' + dd + '/' + yyyy;
 
@@ -211,22 +211,22 @@ function getReleaseDate() {
 function bumpComposerJson() {
 
 	let bump_obj = {
-		key:'version'
+		key: 'version'
 	};
 
-	if ( VERSION_BUMP ) {
+	if (VERSION_BUMP) {
 		bump_obj.version = VERSION_BUMP;
 	}
 
-	return gulp.src( './composer.json' )
-		.pipe( $.bump( bump_obj ) )
-		.pipe( through2.obj( function( file, enc, cb ) {
-			let date        = new Date();
+	return gulp.src('./composer.json')
+		.pipe($.bump(bump_obj))
+		.pipe(through2.obj(function (file, enc, cb) {
+			let date = new Date();
 			file.stat.atime = date;
 			file.stat.mtime = date;
-			cb( null, file );
-		}) )
-		.pipe( gulp.dest( '.' ) );
+			cb(null, file);
+		}))
+		.pipe(gulp.dest('.'));
 }
 
 /**
@@ -238,21 +238,21 @@ function bumpComposerJson() {
  */
 function bumpReadmeStableTag() {
 
-	let bump_obj = { key: "Stable tag" };
+	let bump_obj = {key: "Stable tag"};
 
-	if ( VERSION_BUMP ) {
+	if (VERSION_BUMP) {
 		bump_obj.version = VERSION_BUMP;
 	}
 
-	return gulp.src( './readme.txt' )
-		.pipe( $.bump( bump_obj ) )
-		.pipe( through2.obj( function( file, enc, cb ) {
-			let date        = new Date();
+	return gulp.src('./readme.txt')
+		.pipe($.bump(bump_obj))
+		.pipe(through2.obj(function (file, enc, cb) {
+			let date = new Date();
 			file.stat.atime = date;
 			file.stat.mtime = date;
-			cb( null, file );
-		}) )
-		.pipe( gulp.dest( './' ) );
+			cb(null, file);
+		}))
+		.pipe(gulp.dest('./'));
 }
 
 /**
@@ -272,15 +272,15 @@ function bumpPackageJson() {
 		bump_obj.version = VERSION_BUMP;
 	}
 
-	return gulp.src( './package.json' )
-		.pipe( $.bump( bump_obj ) )
-		.pipe( through2.obj( function( file, enc, cb ) {
-			let date        = new Date();
+	return gulp.src('./package.json')
+		.pipe($.bump(bump_obj))
+		.pipe(through2.obj(function (file, enc, cb) {
+			let date = new Date();
 			file.stat.atime = date;
 			file.stat.mtime = date;
-			cb( null, file );
-		}) )
-		.pipe( gulp.dest( '.' ) );
+			cb(null, file);
+		}))
+		.pipe(gulp.dest('.'));
 }
 
 /**
@@ -292,8 +292,8 @@ function bumpPackageJson() {
  * @return {*}
  */
 function copy() {
-	return gulp.src( PATHS.assets )
-		.pipe( gulp.dest('css/fonts' ) );
+	return gulp.src(PATHS.assets)
+		.pipe(gulp.dest('css/fonts'));
 }
 
 /**
@@ -306,10 +306,10 @@ function copy() {
 function sass() {
 	return gulp.src('assets/scss/*.scss')
 		.pipe($.sourcemaps.init())
-		.pipe( $.sass( {
-				includePaths: PATHS.sass
-			} ).on( 'error', $.sass.logError ) )
-		.pipe( gulp.dest( 'css' ) );
+		.pipe($.sass({
+			includePaths: PATHS.sass
+		}).on('error', $.sass.logError))
+		.pipe(gulp.dest('css'));
 }
 
 /**
@@ -320,17 +320,17 @@ function sass() {
  * @return {*}
  */
 function javascript() {
-	return gulp.src( PATHS.entries )
-		.pipe( named() )
-		.pipe( $.sourcemaps.init() )
-		.pipe( webpackStream( webpackConfig, webpack2 ) )
-		.pipe( $.if( PRODUCTION, $.uglify()
-			.on( 'error', e => {
-				console.log( e );
-			} )
-		) )
-		.pipe( $.if( ! PRODUCTION, $.sourcemaps.write() ) )
-		.pipe( gulp.dest( 'js' ) );
+	return gulp.src(PATHS.entries)
+		.pipe(named())
+		.pipe($.sourcemaps.init())
+		.pipe(webpackStream(webpackConfig, webpack2))
+		.pipe($.if(PRODUCTION, $.uglify()
+			.on('error', e => {
+				console.log(e);
+			})
+		))
+		.pipe($.if(!PRODUCTION, $.sourcemaps.write()))
+		.pipe(gulp.dest('js'));
 }
 
 /**
@@ -342,8 +342,8 @@ function javascript() {
  * @since 1.1
  */
 function watch() {
-	gulp.watch( 'readme.txt', readme );
-	gulp.watch( 'assets/scss/**/*.scss' ).on( 'all', sass );
-	gulp.watch( 'assets/js/**/*.js' ).on( 'all', gulp.series( javascript ) );
-	gulp.watch( PATHS.assets, copy );
+	gulp.watch('readme.txt', readme);
+	gulp.watch('assets/scss/**/*.scss').on('all', sass);
+	gulp.watch('assets/js/**/*.js').on('all', gulp.series(javascript));
+	gulp.watch(PATHS.assets, copy);
 }
