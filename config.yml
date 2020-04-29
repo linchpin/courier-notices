@@ -29,4 +29,4 @@ PATHS:
     - "assets/js/courier.js"
     - "assets/js/courier-admin.js"
 
-LOCAL_PATH: "http://courier.test"
+LOCAL_PATH: "http://plugins.test"

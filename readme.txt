@@ -1,6 +1,6 @@
 === Courier ===
-Contributors: linchpin_agency, aware, ncallen, desrosj, fischfood
-Tags: linchpin, front end, notices, notifications, alerts, dismissible
+Contributors: linchpin_agency, aware, ncallen, maxinacube, desrosj, fischfood
+Tags: linchpin, front end, notices, notifications, alerts, dismissible, gdpr
 Requires at least: 5.0
 Tested up to: 5.3.2
 Stable tag: 1.1.1
@@ -34,6 +34,11 @@ e.g.
 == Screenshots ==
 
 == Changelog ==
+
+= 1.1.1 =
+
+* Fixed - Issue with default styles not being created on install
+* Fixed - Security updates provided by github audit
 
 = 1.1.0 =
 

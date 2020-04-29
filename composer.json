@@ -17,7 +17,7 @@
     "notices",
     "notifications",
     "alerts",
-    "editor",
+		"gdpr"
   ],
   "support": {
     "issues": "https://github.com/linchpin/courier/issues",
