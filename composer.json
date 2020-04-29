@@ -1,6 +1,6 @@
 {
   "name": "linchpin/courier",
-  "description": "Courier WordPress Notification .",
+  "description": "Courier Notification for WordPress",
   "homepage": "https://github.com/linchpin/courier",
   "version": "1.1.1",
   "authors": [
@@ -17,9 +17,6 @@
     "notices",
     "notifications",
     "alerts",
-    "editor",
-    "page layout",
-    "visual editor",
 		"gdpr"
   ],
   "support": {

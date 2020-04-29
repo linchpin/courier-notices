@@ -1,12 +1,13 @@
-## Changelog
+# Changelog #
 
-### v1.1.0
+## 1.1.0 ##
+
 * Fixed - Minor security updates
 * Fixed - Minor code cleanup
-* Fixed - Link to Types/Design was broken from plugin page
-* Fixed - Link to Settings was broken from plugin page
+* Fixed - Link to Types/Design was broken
+* Fixed - Link to Settings was broken
 * Fixed - Minor updates to strings to allow for translation
-* Fixed - Modal notice was not working properly (not dismissible)
+* Fixed - Modal notice was not working properly (dismissible)
 * Fixed - Error log was being utilized and should not have been
 * Fixed - Cron was running hourly and not every 5 minutes
 * Fixed - Various typos (We talk pretty one day)
@@ -29,10 +30,11 @@
 * Improved - Templates
 * Improved - Updated the expiration of notices to increment every 5 minutes for better accuracy and less stress on servers
 
-### v1.0.4
+## 1.0.4 ##
+
 * Cleaned up deployment process further.
 
-### v1.0.2
+## 1.0.2 ##
 
 * Migrated to using composer as our autoloader instead of a proprietary one
 * Added Parsedown dependency for Markdown display within the plugin
@@ -40,11 +42,11 @@
 * Added more automation for release to get releases out the door quicker
 * Minor code formatting changes
 
-### v1.0.1
+## 1.0.1 ##
 
 * Updated dependencies based on github security notification
 
-### v1.0.0
+## 1.0.0 ##
 
 Initial Release
 
