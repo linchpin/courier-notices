@@ -42,7 +42,8 @@
     "vinyl-named": "1.1.0",
     "webpack": "4.43.0",
     "webpack-stream": "5.2.1",
-    "yargs": "15.3.1"
+    "yargs": "15.3.1",
+		"kind-of": "6.0.3"
   },
   "resolutions": {
     "lodash.template": "^4.5.0"
