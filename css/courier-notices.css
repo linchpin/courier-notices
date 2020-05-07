@@ -261,13 +261,6 @@ body.wp-admin table.courier_notice_page_courier [class*="icon-"] {
     border-top: 2px solid rgba(0, 0, 0, 0.05);
     margin-top: -2px; }
 
-.courier-location-header, .courier-location-footer {
-  font-size: .875rem;
-  line-height: 1.2; }
-  .courier-location-header p, .courier-location-footer p {
-    font-size: .875rem;
-    line-height: 1.2; }
-
 .courier-location-footer {
   position: fixed;
   bottom: 0;
