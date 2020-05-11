@@ -17,7 +17,7 @@
   font-style: normal;
   font-display: block; }
 
-body:not(.wp-admin) [class*="icon-"] {
+body:not(.wp-admin) .courier-notices [class*="icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: "courier" !important;
   speak: none;
@@ -43,52 +43,52 @@ body.wp-admin table.courier_notice_page_courier [class*="icon-"] {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.icon-success:before {
+.courier-notices .icon-success:before {
   content: ""; }
 
-.icon-alert:before {
+.courier-notices .icon-alert:before {
   content: ""; }
 
-.icon-info:before {
+.courier-notices .icon-info:before {
   content: ""; }
 
-.icon-warning:before {
+.courier-notices .icon-warning:before {
   content: ""; }
 
-.icon-primary:before {
+.courier-notices .icon-primary:before {
   content: ""; }
 
-.icon-feedback:before {
+.courier-notices .icon-feedback:before {
   content: ""; }
 
-.icon-welcome:before {
+.courier-notices .icon-welcome:before {
   content: ""; }
 
-.icon-courier-logo:before {
+.courier-notices .icon-courier-logo:before {
   content: ""; }
 
-.icon-linchpin-logo-fill:before {
+.courier-notices .icon-linchpin-logo-fill:before {
   content: ""; }
 
-.icon-github-logo:before {
+.courier-notices .icon-github-logo:before {
   content: ""; }
 
-.icon-twitter:before {
+.courier-notices .icon-twitter:before {
   content: ""; }
 
-.icon-fb:before {
+.courier-notices .icon-fb:before {
   content: ""; }
 
-.icon-instagram:before {
+.courier-notices .icon-instagram:before {
   content: ""; }
 
-.icon-close:before {
+.courier-notices .icon-close:before {
   content: ""; }
 
-.icon-plus:before {
+.courier-notices .icon-plus:before {
   content: ""; }
 
-.icon-minus:before {
+.courier-notices .icon-minus:before {
   content: ""; }
 
 /**
