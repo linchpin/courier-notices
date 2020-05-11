@@ -1,5 +1,14 @@
 # Changelog #
 
+## 1.1.2 ##
+
+* Remove - Notice font styles, allow styling to inherit from theme
+
+## 1.1.1 ##
+
+* Fixed - Issue with default styles not being created on install
+* Fixed - Security updates provided by github audit
+
 ## 1.1.0 ##
 
 * Fixed - Minor security updates
