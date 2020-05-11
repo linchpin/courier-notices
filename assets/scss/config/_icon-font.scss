@@ -46,7 +46,7 @@ $icon-close: "\e90d";
 $icon-plus: "\e90e";
 $icon-minus: "\e90f";
 
-body:not(.wp-admin) [class*="icon-"] {
+body:not(.wp-admin) .courier-notices [class*="icon-"] {
 	/* use !important to prevent issues with browser extensions that change fonts */
 	font-family: '#{$icomoon-font-family}' !important;
 	speak: none;
@@ -76,66 +76,68 @@ body.wp-admin table.courier_notice_page_courier [class*="icon-"] {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.icon-success:before {
-	content: $icon-success;
-}
+.courier-notices {
+	.icon-success:before {
+		content: $icon-success;
+	}
 
-.icon-alert:before {
-	content: $icon-alert;
-}
+	.icon-alert:before {
+		content: $icon-alert;
+	}
 
-.icon-info:before {
-	content: $icon-info;
-}
+	.icon-info:before {
+		content: $icon-info;
+	}
 
-.icon-warning:before {
-	content: $icon-warning;
-}
+	.icon-warning:before {
+		content: $icon-warning;
+	}
 
-.icon-primary:before {
-	content: $icon-primary;
-}
+	.icon-primary:before {
+		content: $icon-primary;
+	}
 
-.icon-feedback:before {
-	content: $icon-feedback;
-}
+	.icon-feedback:before {
+		content: $icon-feedback;
+	}
 
-.icon-welcome:before {
-	content: $icon-welcome;
-}
+	.icon-welcome:before {
+		content: $icon-welcome;
+	}
 
-.icon-courier-logo:before {
-	content: $icon-courier-logo;
-}
+	.icon-courier-logo:before {
+		content: $icon-courier-logo;
+	}
 
-.icon-linchpin-logo-fill:before {
-	content: $icon-linchpin-logo-fill;
-}
+	.icon-linchpin-logo-fill:before {
+		content: $icon-linchpin-logo-fill;
+	}
 
-.icon-github-logo:before {
-	content: $icon-github-logo;
-}
+	.icon-github-logo:before {
+		content: $icon-github-logo;
+	}
 
-.icon-twitter:before {
-	content: $icon-twitter;
-}
+	.icon-twitter:before {
+		content: $icon-twitter;
+	}
 
-.icon-fb:before {
-	content: $icon-fb;
-}
+	.icon-fb:before {
+		content: $icon-fb;
+	}
 
-.icon-instagram:before {
-	content: $icon-instagram;
-}
+	.icon-instagram:before {
+		content: $icon-instagram;
+	}
 
-.icon-close:before {
-	content: $icon-close;
-}
+	.icon-close:before {
+		content: $icon-close;
+	}
 
-.icon-plus:before {
-	content: $icon-plus;
-}
+	.icon-plus:before {
+		content: $icon-plus;
+	}
 
-.icon-minus:before {
-	content: $icon-minus;
+	.icon-minus:before {
+		content: $icon-minus;
+	}
 }
