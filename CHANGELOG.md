@@ -1,5 +1,9 @@
 # Changelog #
 
+## 1.1.3 ##
+
+* Fixed - Icon font specificity 
+
 ## 1.1.2 ##
 
 * Remove - Notice font styles, allow styling to inherit from theme

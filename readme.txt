@@ -3,7 +3,7 @@ Contributors: linchpin_agency, aware, ncallen, maxinacube, desrosj, fischfood
 Tags: linchpin, front end, notices, notifications, alerts, dismissible, gdpr
 Requires at least: 5.0
 Tested up to: 5.3.2
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +34,10 @@ e.g.
 == Screenshots ==
 
 == Changelog ==
+
+= 1.1.3 =
+
+* Fixed - Icon font specificity
 
 = 1.1.2 =
 
