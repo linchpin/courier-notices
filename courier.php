@@ -3,7 +3,7 @@
  * Plugin Name: Courier
  * Plugin URI:  https://wordpress.org/plugins/courier
  * Description: A way to display, manage, and control front end notifications for your WordPress install.
- * Version:     1.1.3
+ * Version:     1.1.4
  * Author:      Linchpin
  * Author URI:  https://linchpin.com
  * Text Domain: courier
@@ -22,11 +22,11 @@ if ( ! defined( 'WPINC' ) ) {
  */
 
 if ( ! defined( 'COURIER_VERSION' ) ) {
-	define( 'COURIER_VERSION', '1.1.3' );
+	define( 'COURIER_VERSION', '1.1.4' );
 }
 
 if ( ! defined( 'COURIER_RELEASE_DATE' ) ) {
-	define( 'COURIER_RELEASE_DATE', '05/11/2020' );
+	define( 'COURIER_RELEASE_DATE', '05/15/2020' );
 }
 
 // Define the main plugin file to make it easy to reference in subdirectories.

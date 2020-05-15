@@ -4,6 +4,7 @@ Add dismissible and non-dismissible notices throughout your website.
 
 ## Description ##
 
+
 Add dismissible and non-dismissible notices throughout your website.
 
 * Customize the colors and icons used by your Courier Notices
