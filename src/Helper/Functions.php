@@ -185,9 +185,9 @@ function courier_display_notices( $args = array() ) {
 			return;
 		}
 
-		$courier_notices->assign( 'notices', $notices );
+		$courier_notices_view->assign( 'notices', $notices );
 
-		$output = $courier_notices->get_text_view( 'notices' );
+		$output = $courier_notices_view->get_text_view( 'notices' );
 	}
 
 	$output       = apply_filters( 'courier_notices', $output );

@@ -1,8 +1,12 @@
 # Changelog #
 
+## 1.1.4 ##
+
+* Fixed - Fatal error when assigning data to a template view
+
 ## 1.1.3 ##
 
-* Fixed - Icon font specificity 
+* Fixed - Icon font specificity
 
 ## 1.1.2 ##
 
