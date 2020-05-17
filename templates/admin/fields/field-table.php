@@ -25,11 +25,11 @@ if ( ! function_exists( 'add_action' ) ) {
 				<?php endif; ?>
 				<div class="courier-row">
 					<div class="courier-columns courier-columns-7">
-						<button class="button button-primary" id="add-courier-notice-type"><?php esc_html_e( 'Add a new Courier Type', 'courier' ); ?></button>
+						<button class="button button-primary" id="add-courier-notice-type"><?php esc_html_e( 'Add a new Courier Type', 'courier-notices' ); ?></button>
 					</div>
 					<div class="courier-columns courier-columns-5">
 						<?php // REmoving search for now.
-						      // $type_list_table->search_box( esc_html__( 'Find', 'courier' ), 'courier-find-type' ); ?>
+						      // $type_list_table->search_box( esc_html__( 'Find', 'courier-notices' ), 'courier-find-type' ); ?>
 					</div>
 				</div>
 				<?php $type_list_table->display(); ?>

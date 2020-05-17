@@ -19,7 +19,7 @@ if ( ! function_exists( 'add_action' ) ) {
 		<div id="postbox-container" class="postbox-container">
 			<div class="whatsnew hero negative-bg">
 				<div class="hero-text">
-					<h1><?php esc_html_e( 'Courier Changelog', 'courier' ); ?></h1>
+					<h1><?php esc_html_e( 'Courier Changelog', 'courier-notices' ); ?></h1>
 				</div>
 			</div>
 			<div class="wrapper">

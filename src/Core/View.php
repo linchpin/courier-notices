@@ -2,10 +2,10 @@
 /**
  * View functionality
  *
- * @package Courier\Core
+ * @package CourierNotices\Core
  */
 
-namespace Courier\Core;
+namespace CourierNotices\Core;
 
 /**
  * View Class
@@ -53,7 +53,7 @@ class View {
 			${$key} = $value;
 		}
 
-		$view_dir  = isset( $view_dir ) ? $view_dir : COURIER_PATH . 'templates/';
+		$view_dir  = isset( $view_dir ) ? $view_dir : COURIER_NOTICES_PATH . 'templates/';
 		$view_file = $view_dir . $file . '.php';
 
 		if ( ! file_exists( $view_file ) ) {
@@ -94,7 +94,7 @@ class View {
 			${$key} = $value;
 		}
 
-		$view_dir  = isset( $view_dir ) ? $view_dir : COURIER_PATH . 'templates/';
+		$view_dir  = isset( $view_dir ) ? $view_dir : COURIER_NOTICES_PATH . 'templates/';
 		$view_file = $view_dir . $file . '.php';
 
 		if ( ! file_exists( $view_file ) ) {

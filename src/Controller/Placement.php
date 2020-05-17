@@ -2,10 +2,10 @@
 /**
  * Placement Controller.
  *
- * @package Courier\Controller
+ * @package CourierNotices\Controller
  */
 
-namespace Courier\Controller;
+namespace CourierNotices\Controller;
 
 /**
  * Placement Class
@@ -19,7 +19,6 @@ class Placement {
 	 */
 	public function register_actions() {
 		add_action( 'wp_body_open', array( __CLASS__, 'place_header_notices' ), 100 );
-
 		add_filter( 'get_footer', array( __CLASS__, 'place_footer_notices' ), 100 );
 		add_filter( 'get_footer', array( __CLASS__, 'place_modal_notices' ), 100 );
 	}

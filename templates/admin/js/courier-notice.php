@@ -1,6 +1,6 @@
 <script id="courier-notice-template" type="text/template">
 	<?php
-	use Courier\Core\View;
+	use CourierNotices\Core\View;
 
 	$notice_view = new View();
 	$notice_view->assign( 'notice_id', $type->term_id );

@@ -2,18 +2,18 @@
 /**
  * Courier Notices Controller
  *
- * @package Courier\Controller
+ * @package CourierNotices\Controller
  */
 
-namespace Courier\Controller;
+namespace CourierNotices\Controller;
 
-use \Courier\Model\Config;
-use \Courier\Model\Post_Type\Courier_Notice as Courier_Notice_Post_Type;
-use \Courier\Model\Taxonomy\Courier_Placement;
-use \Courier\Model\Taxonomy\Courier_Scope;
-use \Courier\Model\Taxonomy\Courier_Status;
-use \Courier\Model\Taxonomy\Courier_Type;
-use \Courier\Model\Taxonomy\Courier_Style;
+use CourierNotices\Model\Config;
+use CourierNotices\Model\Post_Type\Courier_Notice as Courier_Notice_Post_Type;
+use CourierNotices\Model\Taxonomy\Placement;
+use CourierNotices\Model\Taxonomy\Scope;
+use CourierNotices\Model\Taxonomy\Status;
+use CourierNotices\Model\Taxonomy\Type;
+use CourierNotices\Model\Taxonomy\Style;
 
 /**
  * Courier_Notices Class
@@ -32,7 +32,7 @@ class Courier_Notices {
 	 *
 	 * @var string
 	 */
-	protected static $js_variable = 'courier_data';
+	protected static $js_variable = 'courier_notices_data';
 
 	/**
 	 * Dependencies
@@ -74,33 +74,38 @@ class Courier_Notices {
 		global $post;
 
 		$localized_data = array(
-			'notice_endpoint'  => site_url( '/wp-json/courier/v1/notice/' ),
-			'notices_endpoint' => site_url( '/wp-json/courier/v1/notices/display/' ),
-			'notices_nonce'    => wp_create_nonce( 'courier_notice_get_notices' ),
+			'notice_endpoint'  => site_url( '/wp-json/courier-notices/v1/notice/' ),
+			'notices_endpoint' => site_url( '/wp-json/courier-notices/v1/notices/display/' ),
+			'notices_nonce'    => wp_create_nonce( 'courier_notices_get_notices' ),
 			'wp_rest_nonce'    => wp_create_nonce( 'wp_rest' ),
-			'dismiss_nonce'    => wp_create_nonce( 'courier_dismiss_' . get_current_user_id() . '_notification_nonce' ),
+			'dismiss_nonce'    => wp_create_nonce( 'courier_notices_dismiss_' . get_current_user_id() . '_notification_nonce' ),
 			'post_info'        => array(
 				'ID' => ( ! empty( $post ) ) ? $post->ID : -1,
 			),
 			'strings'          => array(
-				'close'   => esc_html__( 'Close', 'courier' ),
-				'dismiss' => esc_html__( 'Dismiss', 'courier' ),
+				'close'   => esc_html__( 'Close', 'courier-notices' ),
+				'dismiss' => esc_html__( 'Dismiss', 'courier-notices' ),
 			),
 			'user_id'          => get_current_user_id(),
 		);
 
-		wp_register_script( 'courier', $config->get( 'plugin_url' ) . 'js/courier.js', $js_dependencies, $config->get( 'version' ), true );
-		wp_enqueue_script( 'courier' );
+		wp_register_script( 'courier-notices', $config->get( 'plugin_url' ) . 'js/courier-notices.js', $js_dependencies, $config->get( 'version' ), true );
+		wp_enqueue_script( 'courier-notices' );
 
-		$localized_data = apply_filters( 'courier_localized_data', $localized_data );
+		$localized_data = apply_filters( 'courier_notices_localized_data', $localized_data );
 
 		wp_localize_script(
-			'courier',
-			'courier_data',
+			'courier-notices',
+			'courier_notices_data',
 			$localized_data
 		);
 	}
 
+	/**
+	 * Enqueue all the styles needed for the design of our courier notices within the admin
+	 *
+	 * @since 1.0.0
+	 */
 	public function wp_enqueue_styles() {
 
 		if ( is_admin() ) {
@@ -115,10 +120,10 @@ class Courier_Notices {
 			return;
 		}
 
-		wp_register_style( 'courier', $config->get( 'plugin_url' ) . 'css/courier-notices.css', '', $config->get( 'version' ) );
-		wp_enqueue_style( 'courier' );
+		wp_register_style( 'courier-notices', $config->get( 'plugin_url' ) . 'css/courier-notices.css', '', $config->get( 'version' ) );
+		wp_enqueue_style( 'courier-notices' );
 
-		wp_add_inline_style( 'courier', courier_get_css() );
+		wp_add_inline_style( 'courier-notices', courier_get_css() );
 	}
 
 	/**
@@ -156,11 +161,11 @@ class Courier_Notices {
 	 */
 	public function register_taxonomies() {
 
-		$courier_style_taxonomy_model     = new Courier_Style();
-		$courier_type_taxonomy_model      = new Courier_Type();
-		$courier_scope_taxonomy_model     = new Courier_Scope();
-		$courier_status_taxonomy_model    = new Courier_Status();
-		$courier_placement_taxonomy_model = new Courier_Placement();
+		$courier_style_taxonomy_model     = new Style();
+		$courier_type_taxonomy_model      = new Type();
+		$courier_scope_taxonomy_model     = new Scope();
+		$courier_status_taxonomy_model    = new Status();
+		$courier_placement_taxonomy_model = new Placement();
 
 		if ( ! taxonomy_exists( $courier_style_taxonomy_model->name ) ) {
 			register_taxonomy( $courier_style_taxonomy_model->name, array( 'courier_notice' ), $courier_style_taxonomy_model->get_args() );

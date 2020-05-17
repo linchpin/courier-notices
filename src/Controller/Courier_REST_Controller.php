@@ -1,14 +1,14 @@
 <?php
 
-namespace Courier\Controller;
+namespace CourierNotices\Controller;
 
-use Courier\Core\View;
-use Courier\Model\Courier_Notice\Data as Courier_Notice_Data;
+use CourierNotices\Core\View;
+use CourierNotices\Model\Courier_Notice\Data as Courier_Notice_Data;
 
 /**
  * Class Courier_REST_Controller
  *
- * @package Courier\Controller
+ * @package CourierNotices\Controller
  */
 class Courier_REST_Controller extends \WP_REST_Controller {
 
@@ -21,7 +21,7 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 	 */
 	public function register_routes() {
 		$version   = '1';
-		$namespace = 'courier/v' . $version;
+		$namespace = 'courier-notices/v' . $version;
 		$base      = 'notice';
 
 		// Display a single notice
@@ -63,13 +63,13 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 					'permission_callback' => array( $this, 'get_notice_permissions_check' ),
 					'args'                => array(
 						'placement' => array(
-							'description'       => esc_html__( 'Set where the notices should display.', 'courier' ),
+							'description'       => esc_html__( 'Set where the notices should display.', 'courier-notices' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => 'rest_validate_request_arg',
 						),
 						'format'    => array(
-							'description'       => esc_html__( 'Set the response, either html or json.', 'courier' ),
+							'description'       => esc_html__( 'Set the response, either html or json.', 'courier-notices' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => 'rest_validate_request_arg',
@@ -137,7 +137,7 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 			'user_id' => '',
 		);
 
-		$defaults = apply_filters( 'courier_get_notices_default_settings', $defaults );
+		$defaults = apply_filters( 'courier_notices_get_notices_default_settings', $defaults );
 		$args     = wp_parse_args( $request->get_body_params(), $defaults );
 		$args     = wp_parse_args( $request->get_params(), $defaults );
 		$user_id  = get_current_user_id();
@@ -193,7 +193,7 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 			'query_args'                   => array(),
 		);
 
-		$defaults       = apply_filters( 'courier_get_notices_default_settings', $defaults );
+		$defaults       = apply_filters( 'courier_notices_get_notices_default_settings', $defaults );
 		$args           = wp_parse_args(
 			array(
 				'contentType' => $request->get_param( 'contentType' ),
@@ -214,7 +214,7 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 				$courier_style = get_the_terms( $courier_notice->ID, 'courier_style' );
 				$courier_type  = get_the_terms( $courier_notice->ID, 'courier_type' );
 
-				$notice = new View();
+				$notice       = new View();
 				$post_classes = 'courier-notice courier_notice callout alert alert-box courier_type-' . $courier_type[0]->slug;
 				$notice->assign( 'notice_id', $courier_notice->ID );
 				$notice->assign( 'notice_class', implode( ' ', get_post_class( $post_classes, $courier_notice->ID ) ) );

@@ -10,7 +10,7 @@
  */
 
 // Make sure we don't expose any info if called directly.
-use Courier\Core\View;
+use CourierNotices\Core\View;
 
 if ( ! function_exists( 'add_action' ) ) {
 	exit;
@@ -28,8 +28,8 @@ if ( ! function_exists( 'add_action' ) ) {
 	<div class="table">
 		<h2>
 			<?php
-			$plugin_title = esc_html__( 'Courier', 'courier' );
-			$plugin_title = "<img src='" . COURIER_PLUGIN_URL . "img/courier-logo-fullcolor.svg' alt='$plugin_title' title='$plugin_title' width='200' />";
+			$plugin_title = esc_html__( 'Courier', 'courier-notices' );
+			$plugin_title = "<img src='" . COURIER_NOTICES_PLUGIN_URL . "img/courier-logo-fullcolor.svg' alt='$plugin_title' title='$plugin_title' width='200' />";
 			$plugin_title = apply_filters( 'courier_notices_plugin_title', $plugin_title );
 
 			$plugin_title_kses = array(
@@ -48,9 +48,9 @@ if ( ! function_exists( 'add_action' ) ) {
 			<?php
 			printf(
 				// translators: %1$s: Linchpin Website URL %2$s: Visit CTA Image/logo
-				wp_kses_post( __( '<a href="%1$s" class="button visit-linchpin-cta" target="_blank">Visit <img src="%2$s" /></a>', 'courier' ) ),
+				wp_kses_post( __( '<a href="%1$s" class="button visit-linchpin-cta" target="_blank">Visit <img src="%2$s" /></a>', 'courier-notices' ) ),
 				esc_url( 'https://linchpin.com?utm_source=courier-settings&utm_medium=link&utm_campaign=agency' ),
-				esc_url_raw( COURIER_PLUGIN_URL . 'img/logo-linchpin.svg' )
+				esc_url_raw( COURIER_NOTICES_PLUGIN_URL . 'img/logo-linchpin.svg' )
 			);
 			?>
 		</h3>
@@ -158,7 +158,7 @@ if ( ! function_exists( 'add_action' ) ) {
 						<?php
 						$changelog_view = new View();
 
-						$changelog_path = COURIER_PATH . '/CHANGELOG.md';
+						$changelog_path = COURIER_NOTICES_PATH . '/CHANGELOG.md';
 
 						if ( file_exists( $changelog_path ) ) {
 							$parsedown = new Parsedown();
@@ -173,7 +173,7 @@ if ( ! function_exists( 'add_action' ) ) {
 						<?php
 						$whats_new = new View();
 						$whats_new->assign( 'courier_version', get_option( 'courier_version' ) );
-						$whats_new->assign( 'courier_release_date', COURIER_RELEASE_DATE );
+						$whats_new->assign( 'courier_release_date', COURIER_NOTICES_RELEASE_DATE );
 						$whats_new->render( 'admin/settings-whats-new' );
 						?>
 					<?php else : ?>

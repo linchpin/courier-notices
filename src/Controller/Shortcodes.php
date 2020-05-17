@@ -2,10 +2,10 @@
 /**
  * Shortcodes Controller
  *
- * @package Courier\Controller
+ * @package CourierNotices\Controller
  */
 
-namespace Courier\Controller;
+namespace CourierNotices\Controller;
 
 /**
  * Shortcodes Class
@@ -139,7 +139,7 @@ class Shortcodes {
 			?>
 			<div <?php post_class(); ?>>
 				<?php if ( 'true' === $atts['show_flag'] ) : ?>
-					<span class="courier-notice-flag"><?php echo esc_attr( $atts['flag'], 'courier' ); ?></span>
+					<span class="courier-notice-flag"><?php echo esc_attr( $atts['flag'], 'courier-notices' ); ?></span>
 				<?php endif; ?>
 				<?php the_title( '<h4>', '</h4>', true ); ?>
 				<small><?php echo wp_kses_post( get_the_content() ); ?></small>

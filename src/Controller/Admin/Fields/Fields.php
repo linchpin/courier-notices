@@ -2,14 +2,14 @@
 /**
  * Fields Class
  *
- * @package Courier\Controller\Admin\Fields
+ * @package CourierNotices\Controller\Admin\Fields
  */
 
-namespace Courier\Controller\Admin\Fields;
+namespace CourierNotices\Controller\Admin\Fields;
 
-use Courier\Core\View;
-use Courier\Helper\Utils;
-use Courier\Helper\Type_List_Table as Type_List_Table;
+use CourierNotices\Core\View;
+use CourierNotices\Helper\Utils;
+use CourierNotices\Helper\Type_List_Table as Type_List_Table;
 
 // Make sure we don't expose any info if called directly.
 if ( ! function_exists( 'add_action' ) ) {

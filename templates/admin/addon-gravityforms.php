@@ -19,7 +19,7 @@ if ( ! function_exists( 'add_action' ) ) {
 		<div id="postbox-container" class="postbox-container">
 			<div class="hero negative-bg">
 				<div class="hero-text">
-					<h1><?php echo esc_html__( 'Gravity Forms Addon', 'courier' ); ?></h1>
+					<h1><?php echo esc_html__( 'Gravity Forms Addon', 'courier-notices' ); ?></h1>
 				</div>
 			</div>
 			<div class="wrapper">
@@ -37,7 +37,7 @@ if ( ! function_exists( 'add_action' ) ) {
 				<form action="options.php" class="settings-form" method="POST">
 					<div class="about hero negative-bg">
 						<div class="hero-text">
-							<h1><?php esc_html_e( 'GravityForms Settings', 'courier' ); ?></h1>
+							<h1><?php esc_html_e( 'GravityForms Settings', 'courier-notices' ); ?></h1>
 						</div>
 					</div>
 					<?php settings_fields( 'courier_gravityforms' ); ?>

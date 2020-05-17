@@ -15,7 +15,7 @@
 				$post_classes .= ' courier-notice-dismissible';
 			}
 
-			$notice_view = new \Courier\Core\View();
+			$notice_view = new \CourierNotices\Core\View();
 			$notice_view->assign( 'notice_id', $notice->ID );
 			$notice_view->assign( 'notice_class', get_post_class( $post_classes, $notice->ID ) );
 			$notice_view->assign( 'dismissible', get_post_meta( get_the_ID(), '_courier_dismissible', true ) );

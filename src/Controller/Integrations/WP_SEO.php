@@ -3,11 +3,11 @@
  * WordPress SEO Integrations
  */
 
-namespace Courier\Controller\Integrations;
+namespace CourierNotices\Controller\Integrations;
 
 /**
  * Class WP_SEO
- * @package Courier\Controller
+ * @package CourierNotices\Controller
  */
 class WP_SEO {
 

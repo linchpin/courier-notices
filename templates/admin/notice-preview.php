@@ -42,7 +42,7 @@ if ( empty( $icon_color ) ) {
 	}
 </style>
 <?php
-	use Courier\Core\View;
+	use CourierNotices\Core\View;
 
 	$notice_view = new View();
 	$notice_view->assign( 'notice_id', $notice_id );
@@ -60,7 +60,7 @@ if ( empty( $icon_color ) ) {
 		esc_attr( $color ),
 		esc_attr( $type->slug ),
 		// translators: %1$s Title of the term.
-		sprintf( esc_html__( '%1$s Accent Color', 'courier' ), $type->name )
+		sprintf( esc_html__( '%1$s Accent Color', 'courier-notices' ), $type->name )
 	);
 
 	$icon_color_input = sprintf(
@@ -68,7 +68,7 @@ if ( empty( $icon_color ) ) {
 		esc_attr( $icon_color ),
 		esc_attr( $type->slug ),
 		// translators: %1$s Title of the term.
-		sprintf( esc_html__( '%1$s Icon Color', 'courier' ), $type->name )
+		sprintf( esc_html__( '%1$s Icon Color', 'courier-notices' ), $type->name )
 	);
 
 	$text_input = sprintf(
@@ -76,7 +76,7 @@ if ( empty( $icon_color ) ) {
 		esc_attr( $text_color ),
 		esc_attr( $type->slug ),
 		// translators: %1$s Title of the term.
-		sprintf( esc_html__( '%1$s Text Color', 'courier' ), $type->name )
+		sprintf( esc_html__( '%1$s Text Color', 'courier-notices' ), $type->name )
 	);
 
 	$bg_color_input = sprintf(
@@ -84,7 +84,7 @@ if ( empty( $icon_color ) ) {
 		esc_attr( $bg_color ),
 		esc_attr( $type->slug ),
 		// translators: %1$s Title of the term.
-		sprintf( esc_html__( '%1$s Background Color', 'courier' ), $type->name )
+		sprintf( esc_html__( '%1$s Background Color', 'courier-notices' ), $type->name )
 	);
 ?>
 

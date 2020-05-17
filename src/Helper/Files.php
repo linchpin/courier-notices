@@ -5,7 +5,7 @@
  * @package Courier\Helpers
  */
 
-namespace Courier\Helper;
+namespace CourierNotices\Helper;
 
 /**
  * Files Class

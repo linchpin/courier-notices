@@ -1,21 +1,21 @@
 'use strict';
-let gulp = require('gulp');
-let plugins = require('gulp-load-plugins');
-let yargs = require('yargs');
-let rimraf = require('rimraf');
-let yaml = require('js-yaml');
-let fs = require('fs');
+let gulp          = require('gulp');
+let plugins       = require('gulp-load-plugins');
+let yargs         = require('yargs');
+let rimraf        = require('rimraf');
+let yaml          = require('js-yaml');
+let fs            = require('fs');
 let webpackStream = require('webpack-stream');
-let webpack2 = require('webpack');
-let named = require('vinyl-named');
-let autoprefixer = require('autoprefixer');
-let through2 = require('through2');
+let webpack2      = require('webpack');
+let named         = require('vinyl-named');
+let autoprefixer  = require('autoprefixer');
+let through2      = require('through2');
 
 // Load all Gulp plugins into one variable
 const $ = plugins();
 
 let PRODUCTION = !!(yargs.argv.production); // Check for --production flag
-let VERSION_BUMP = yargs.argv.release;          // Check for --release (x.x.x semver version number)
+let VERSION_BUMP = yargs.argv.release;      // Check for --release (x.x.x semver version number)
 
 // Load settings from settings.yml
 const {COMPATIBILITY, PORT, UNCSS_OPTIONS, PATHS, LOCAL_PATH} = loadConfig();
@@ -61,8 +61,8 @@ function loadConfig() {
  * @param done
  */
 function setProductionMode(done) {
-	PRODUCTION = false;
-	webpackConfig.mode = 'production';
+	PRODUCTION            = false;
+	webpackConfig.mode    = 'production';
 	webpackConfig.devtool = false;
 	sassConfig.production = true;
 	done();
@@ -141,7 +141,7 @@ function readme(done) {
 
 /**
  * Bump the version number within the define method of our plugin file
- * PHP Constant: example `define( 'COURIER_PRO_VERSION', '1.0.0' );`
+ * PHP Constant: example `define( 'COURIER_NOTICES_PRO_VERSION', '1.0.0' );`
  *
  * Bump the version number within our meta data of the plugin file
  *
@@ -153,7 +153,7 @@ function readme(done) {
  */
 function bumpPluginFile(done) {
 
-	let constant = 'COURIER_VERSION';
+	let constant = 'COURIER_NOTICES_VERSION';
 	let define_bump_obj = {
 		key: constant,
 		regex: new RegExp('([<|\'|"]?(' + constant + ')[>|\'|"]?[ ]*[:=,]?[ ]*[\'|"]?[a-z]?)(\\d+.\\d+.\\d+)(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z\\.-]+)?([\'|"|<]?)', 'ig')
@@ -164,18 +164,18 @@ function bumpPluginFile(done) {
 	};
 
 	if (VERSION_BUMP) {
-		bump_obj.version = VERSION_BUMP;
+		bump_obj.version        = VERSION_BUMP;
 		define_bump_obj.version = VERSION_BUMP;
 	}
 
 	let today = getReleaseDate();
 
-	return gulp.src('./courier.php')
+	return gulp.src('./courier-notices.php')
 		.pipe($.bump(bump_obj))
 		.pipe($.bump(define_bump_obj))
 		.pipe($.replace(/(((0)[0-9])|((1)[0-2]))(\/)([0-2][0-9]|(3)[0-1])(\/)\d{4}/ig, today))
 		.pipe(through2.obj(function (file, enc, cb) {
-			let date = new Date();
+			let date        = new Date();
 			file.stat.atime = date;
 			file.stat.mtime = date;
 			cb(null, file);
@@ -192,13 +192,11 @@ function bumpPluginFile(done) {
  */
 function getReleaseDate() {
 	let today = new Date();
-	let dd = String(today.getDate()).padStart(2, '0');
-	let mm = String(today.getMonth() + 1).padStart(2, '0');
-	let yyyy = today.getFullYear();
+	let dd    = String(today.getDate()).padStart(2, '0');
+	let mm    = String(today.getMonth() + 1).padStart(2, '0');
+	let yyyy  = today.getFullYear();
 
-	today = mm + '/' + dd + '/' + yyyy;
-
-	return today;
+	return mm + '/' + dd + '/' + yyyy;
 }
 
 /**

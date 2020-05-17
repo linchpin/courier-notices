@@ -2,10 +2,10 @@
 /**
  * Stream Controller
  *
- * @package Courier\Controller
+ * @package CourierNotices\Controller
  */
 
-namespace Courier\Controller\Integrations;
+namespace CourierNotices\Controller\Integrations;
 
 /**
  * Stream Class

@@ -2,14 +2,14 @@
 /**
  * Courier_Styles Controller.
  *
- * @package Courier\Controller
+ * @package CourierNotices\Controller
  */
 
-namespace Courier\Controller;
+namespace CourierNotices\Controller;
 
 /**
  * Class Courier_Styles
- * @package Courier\Controller
+ * @package CourierNotices\Controller
  */
 class Styles {
 
