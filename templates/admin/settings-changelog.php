@@ -3,7 +3,7 @@
  * Addons and other fun things
  *
  * @since      1.0
- * @package    Courier
+ * @package    CourierNotices
  * @subpackage Admin
  */
 

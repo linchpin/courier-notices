@@ -20,7 +20,7 @@ if ( ! function_exists( 'add_action' ) ) {
  * Control all of our plugin Settings
  *
  * @since      1.0
- * @package    Courier
+ * @package    CourierNotices
  * @subpackage Fields
  */
 

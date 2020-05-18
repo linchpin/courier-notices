@@ -7,7 +7,7 @@
 /**
  * Controls Welcome area display
  *
- * @package    Courier
+ * @package    CourierNotices
  * @subpackage Welcome
  * @since      1.0
  */

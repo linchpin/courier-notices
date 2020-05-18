@@ -3,7 +3,7 @@
  * Addons and other fun things
  *
  * @since      1.0
- * @package    Courier
+ * @package    CourierNotices
  * @subpackage Admin
  */
 
@@ -19,14 +19,24 @@ if ( ! function_exists( 'add_action' ) ) {
 		<div id="postbox-container" class="postbox-container">
 			<div class="whatsnew hero negative-bg">
 				<div class="hero-text">
-					<h1><?php esc_html_e( 'Courier Change Log', 'courier-notices' ); ?></h1>
+					<h1><?php esc_html_e( 'Now Available Courier Notices Pro', 'courier-notices' ); ?></h1>
 				</div>
 			</div>
 			<div class="gray-bg negative-bg versioninfo">
 				<div class="wrapper">
 					<h2 class="light-weight">
-						<?php esc_html_e( 'See what\'s happened in our latest release', 'courier-notices' ); ?>
+						<?php esc_html_e( 'Features', 'courier-notices' ); ?>
 					</h2>
+					<ul>
+						<li><strong><?php esc_html_e( 'Tons of visibility options', 'courier-notices' ); ?></strong></li>
+						<li><?php esc_html_e( 'Show courier notices per user, role, logged / logged out', 'courier-notices' ); ?></li>
+						<li><?php esc_html_e( 'Show courier notices for pages, posts, custom post types', 'courier-notices' ); ?></li>
+						<li><?php esc_html_e( 'Show courier notices for custom urls and more', 'courier-notices' ); ?></li>
+						<li><?php esc_html_e( 'Integrations with Gravity Forms confirmation messages', 'courier-notices' ); ?></li>
+						<li><?php esc_html_e( '', 'courier-notices' ); ?></li>
+						<li><?php esc_html_e( '', 'courier-notices' ); ?></li>
+						<li><?php esc_html_e( '', 'courier-notices' ); ?></li>
+					</ul>
 				</div>
 			</div>
 			<div class="wrapper">

@@ -1,7 +1,7 @@
 /**
  * Controls Notice Types admin area within settings
  *
- * @package    Courier
+ * @package    CourierNotices
  * @subpackage Types
  * @since      1.0
  */

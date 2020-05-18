@@ -5,7 +5,7 @@
  * This file is used to markup the plugin settings and faq pages
  *
  * @since      1.0
- * @package    Courier
+ * @package    CourierNotices
  * @subpackage Admin
  */
 

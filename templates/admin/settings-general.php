@@ -4,7 +4,7 @@
  * Renders a single meta box.
  *
  * @since      1.0.0
- * @package    Courier
+ * @package    CourierNotices
  * @subpackage Admin
  */
 

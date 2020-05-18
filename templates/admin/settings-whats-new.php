@@ -3,7 +3,7 @@
  * Updates, Bug Fixes and News Template
  *
  * @since      1.0.0
- * @package    Courier
+ * @package    CourierNotices
  * @subpackage Admin
  */
 
