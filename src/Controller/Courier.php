@@ -279,7 +279,7 @@ class Courier {
 			return;
 		}
 
-		if ( isset( $_POST['_courier_info_noncename'] ) && wp_verify_nonce( $_POST['_courier_info_noncename'], '_courier_info_nonce' ) ) {
+		if ( isset( $_POST['courier_notice_info_noncename'] ) && wp_verify_nonce( $_POST['courier_notice_info_noncename'], 'courier_notice_info_nonce' ) ) {
 
 			// By default set an object to be global
 			wp_set_object_terms( $post_id, 'global', 'courier_scope', false );
@@ -317,8 +317,6 @@ class Courier {
 					wp_set_object_terms( $post_id, (string) $_POST['courier_type'], 'courier_type' );
 				}
 			}
-
-
 		}
 
 		if ( isset( $_POST['courier_expiration_noncename'] ) && wp_verify_nonce( $_POST['courier_expiration_noncename'], 'courier_expiration_nonce' ) ) {

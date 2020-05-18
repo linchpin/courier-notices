@@ -190,7 +190,7 @@ class Courier_Notice_Metabox {
 	public function post_submitbox_misc_actions() {
 		global $post;
 
-		wp_nonce_field( '_courier_notice_info_nonce', '_courier_notice_info_noncename' );
+		wp_nonce_field( 'courier_notice_info_nonce', 'courier_notice_info_noncename' );
 		?>
 		<div class="misc-pub-section courier-dismissable">
 			<span class="dashicons dashicons-no-alt wp-media-buttons-icon"></span>&nbsp;
