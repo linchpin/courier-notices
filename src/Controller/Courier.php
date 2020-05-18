@@ -33,10 +33,6 @@ class Courier {
 		add_filter( 'courier_excerpt', 'wptexturize' );
 		add_filter( 'courier_excerpt', 'convert_smilies' );
 		add_filter( 'courier_excerpt', 'convert_chars' );
-
-		if ( has_action( 'wp_body_open' ) ) {
-			add_action( 'wp_body_open', '' );
-		}
 	}
 
 	/**
