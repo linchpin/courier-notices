@@ -31,7 +31,7 @@ export default function edit() {
 			}
 		});
 
-		if ( 'courier_notice' === courier_admin_data.post_type ) {
+		if ( 'courier_notice' === courier_notices_admin_data.post_type ) {
 			$doc
 				.on( 'ready', populate_status );
 		}
@@ -133,10 +133,10 @@ export default function edit() {
 	 * @since 1.0
 	 */
 	function populate_status() {
-		var $option = $('<option />').val('courier_expired').text(courier_admin_data.strings.label);
+		var $option = $('<option />').val('courier_expired').text(courier_notices_admin_data.strings.label);
 
-		if (courier_admin_data.post_status === 'courier_expired') {
-			$('#post-status-display').text(courier_admin_data.strings.expired);
+		if (courier_notices_admin_data.post_status === 'courier_expired') {
+			$('#post-status-display').text(courier_notices_admin_data.strings.expired);
 			$option.attr('selected', 'selected');
 		}
 
@@ -155,7 +155,7 @@ export default function edit() {
 			notice_id = $this.attr('data-courier-notice-id'),
 			$notice   = $this.parents('.notice');
 
-		$.post(courier_admin_data.reactivate_endpoint + notice_id + '/', {
+		$.post(courier_notices_admin_data.reactivate_endpoint + notice_id + '/', {
 			success: function (data) {
 				$notice.fadeOut();
 			}
@@ -190,17 +190,17 @@ export default function edit() {
 				}
 
 				if ( ! success ) {
-					copyURL = prompt( courier_admin_data.strings.copy, $copy.text() );
+					copyURL = prompt( courier_notices_admin_data.strings.copy, $copy.text() );
 				}
 			} catch ( err ) {
-				copyURL = prompt( courier_admin_data.strings.copy, $copy.text() );
+				copyURL = prompt( courier_notices_admin_data.strings.copy, $copy.text() );
 			}
 		} else {
-			copyURL = prompt( courier_admin_data.strings.copy, $copy.text() );
+			copyURL = prompt( courier_notices_admin_data.strings.copy, $copy.text() );
 		}
 
 		if ( copyURL ) {
-			$indicator.text(courier_admin_data.strings.copied).fadeIn();
+			$indicator.text(courier_notices_admin_data.strings.copied).fadeIn();
 
 			setTimeout(function () {
 				$indicator.fadeOut( function () {

@@ -17,7 +17,7 @@ export default function list() {
      */
     function init() {
 
-        if ( 'courier_notice' === courier_admin_data.post_type ) {
+        if ( 'courier_notice' === courier_notices_admin_data.post_type ) {
             $doc
                 .on( 'ready', populate_status );
         }
@@ -35,10 +35,10 @@ export default function list() {
 	 * @since 1.0
      */
     function populate_status() {
-        var $option = $('<option />').val('courier_expired').text( courier_admin_data.strings.label );
+        var $option = $('<option />').val('courier_expired').text( courier_notices_admin_data.strings.label );
 
-        if ( courier_admin_data.post_status === 'courier_expired' ) {
-            $('#post-status-display').text(courier_admin_data.strings.expired);
+        if ( courier_notices_admin_data.post_status === 'courier_expired' ) {
+            $('#post-status-display').text(courier_notices_admin_data.strings.expired);
             $option.attr('selected', 'selected');
         }
 
@@ -57,7 +57,7 @@ export default function list() {
             post_status = $('#inline_' + post_id + ' ._status').text(),
             $edit_row = '',
             $select = '',
-            $expired_option = $('<option />').text(courier_admin_data.strings.label).attr('value', 'courier_expired');
+            $expired_option = $('<option />').text(courier_notices_admin_data.strings.label).attr('value', 'courier_expired');
 
         // Delay things to ensure the quick edit row has been added to the page.
         setTimeout(function () {
@@ -82,7 +82,7 @@ export default function list() {
             notice_id = $this.attr('data-courier-notice-id'),
             $notice = $this.parents('.notice');
 
-        $.post(courier_admin_data.reactivate_endpoint + notice_id + '/', {
+        $.post(courier_notices_admin_data.reactivate_endpoint + notice_id + '/', {
             success: function (data) {
                 $notice.fadeOut();
             }

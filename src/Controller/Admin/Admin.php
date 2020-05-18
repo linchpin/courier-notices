@@ -227,7 +227,7 @@ class Admin {
 		}
 
 		wp_enqueue_script(
-			'courier-noticse-admin',
+			'courier-notices-admin',
 			COURIER_NOTICES_PLUGIN_URL . 'js/courier-notices-admin.js',
 			$courier_dependencies,
 			COURIER_NOTICES_VERSION,

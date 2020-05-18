@@ -21,15 +21,15 @@ export default function types() {
 		courierNoticeTypeEditTemplate = $('#courier-notice-type-edit-template').text().split(/\{(.+?)\}/g),
 		inputTemplate = {
 			indicator: $('#courier-notice-loader').html(),
-			cancel: courier_admin_data.strings.cancel,
+			cancel: courier_notices_admin_data.strings.cancel,
 			cancelcssclass: 'btn btn-danger',
 			submitcssclass: 'btn btn-success',
 			maxlength: 50,
 			showfn: function (elem) {
 				elem.fadeIn('fast')
 			},
-			submit: courier_admin_data.strings.save,
-			tooltip: courier_admin_data.strings.editurl,
+			submit: courier_notices_admin_data.strings.save,
+			tooltip: courier_notices_admin_data.strings.editurl,
 			width: '100%'
 		},
 		courierNoticeTypeCurrent = '';
@@ -223,12 +223,12 @@ export default function types() {
 
 			$this
 				.addClass('button button-secondary button-editing')
-				.attr('aria-label', courier_admin_data.strings.confirm_delete)
+				.attr('aria-label', courier_notices_admin_data.strings.confirm_delete)
 				.data('confirm', true);
 
 			$this.after( $cancel ).after('<span class="spacer">&nbsp;</span>');
 		} else {
-			$this.addClass('disabled').text(courier_admin_data.strings.deleting);
+			$this.addClass('disabled').text(courier_notices_admin_data.strings.deleting);
 
 			deleteCourierNoticeType($this);
 		}
@@ -243,7 +243,7 @@ export default function types() {
 	function deleteCourierNoticeType( $target ) {
 		$.post(ajaxurl, {
 			action: 'courier_notices_delete_type',
-			courier_notices_delete_type: courier_admin_data.delete_nonce,
+			courier_notices_delete_type: courier_notices_admin_data.delete_nonce,
 			courier_notices_type: parseInt($target.data('term-id'))
 		}).success(function () {
 			$target.closest('tr').fadeOut('fast').promise().done(function () {
@@ -356,7 +356,7 @@ export default function types() {
 		$.post(ajaxurl, {
 			action: 'courier_notices_add_type',
 			'page': 'courier',
-			'courier_notices_add_type': courier_admin_data.add_nonce,
+			'courier_notices_add_type': courier_notices_admin_data.add_nonce,
 			'courier_notice_type_new_title': $('#courier-notice-type-new-title').val(),
 			'courier_notice_type_new_css_class': $('#courier-notice-type-new-css-class').val(),
 			'courier_notice_type_new_color': $('#courier-notice-type-new-color').val(),
@@ -397,7 +397,7 @@ export default function types() {
 		$.post(ajaxurl, {
 			action: 'courier_notices_update_type',
 			'page': 'courier',
-			'courier_notices_update_type':         courier_admin_data.update_nonce,
+			'courier_notices_update_type':         courier_notices_admin_data.update_nonce,
 			'courier_notice_type_edit_title':      $target.find( '.courier-notice-type-edit-title' ).val(),
 			'courier_notice_type_edit_css_class':  $target.find( '.courier-notice-type-edit-css-class' ).val(),
 			'courier_notice_type_edit_color':      $target.find( '.courier-notice-type-edit-color' ).val(),

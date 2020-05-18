@@ -100,7 +100,6 @@ class Courier_Notice {
 			'exclude_from_search' => true,
 			'publicly_queryable'  => false,
 			'capability_type'     => 'page',
-			'menu_icon'           => 'courier-logo',
 			'rewrite'             => false,
 		);
 
