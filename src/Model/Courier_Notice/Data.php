@@ -297,7 +297,7 @@ class Data {
 
 		$post_list = array_merge( $global_posts, $global_dismissible_posts );
 
-		Utils::courier_debug_log( $post_list, 'Query', false );
+		Utils::courier_notices_debug_log( $post_list, 'Query', false );
 
 		// Prioritize Persistent Global Notes to the top by getting them separately and putting them at the front of the line.
 		if ( true === $args['prioritize_persistent_global'] ) {
@@ -345,7 +345,7 @@ class Data {
 		$query_args          = wp_parse_args( $args, $query_args );
 		$final_notices_query = new \WP_Query( $query_args );
 
-		Utils::courier_debug_log( $final_notices_query, 'Query', false );
+		Utils::courier_notices_debug_log( $final_notices_query, 'Query', false );
 
 		return ( $final_notices_query->have_posts() ) ? $final_notices_query->posts : array();
 	}
