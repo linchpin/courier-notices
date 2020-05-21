@@ -44,11 +44,11 @@ export default function core() {
 						post_info:{},
 					};
 
-					if ( typeof( courier_data.post_info ) !== 'undefined' ) {
-						settings.post_info = courier_data.post_info;
+					if ( typeof( courier_notices_data.post_info ) !== 'undefined' ) {
+						settings.post_info = courier_notices_data.post_info;
 					}
 
-					// let data = $.extend( {}, courier_data.post_info, settings );
+					// let data = $.extend( {}, courier_notices_data.post_info, settings );
 
 					let dismissed_notice_ids = getItem( 'dismissed_notices' );
 						dismissed_notice_ids = JSON.parse( dismissed_notice_ids );
@@ -57,9 +57,9 @@ export default function core() {
 					$.ajax( {
 						method: 'GET',
 						beforeSend: function (xhr) {
-							xhr.setRequestHeader( 'X-WP-Nonce', courier_data.wp_rest_nonce );
+							xhr.setRequestHeader( 'X-WP-Nonce', courier_notices_data.wp_rest_nonce );
 						},
-						'url': courier_data.notices_endpoint,
+						'url': courier_notices_data.notices_endpoint,
 						'data': settings,
 					} ).success( function ( response ) {
 						if ( response.notices ) {

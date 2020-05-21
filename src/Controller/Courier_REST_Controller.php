@@ -142,8 +142,11 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 		$args     = wp_parse_args( $request->get_params(), $defaults );
 		$user_id  = get_current_user_id();
 
-		check_ajax_referer( 'courier_dismiss_' . $user_id . '_notification_nonce', 'dismiss_nonce' );
+		check_ajax_referer( 'courier_notices_dismiss_' . $user_id . '_notice_nonce', 'dismiss_nonce' );
 
+		/**
+		 * todo it looks like user options are called courier_notifications
+		 */
 		$notifications = maybe_unserialize( get_user_option( 'courier_notifications', $user_id ) );
 
 		if ( empty( $notifications ) ) {

@@ -78,7 +78,7 @@ class Courier_Notices {
 			'notices_endpoint' => site_url( '/wp-json/courier-notices/v1/notices/display/' ),
 			'notices_nonce'    => wp_create_nonce( 'courier_notices_get_notices' ),
 			'wp_rest_nonce'    => wp_create_nonce( 'wp_rest' ),
-			'dismiss_nonce'    => wp_create_nonce( 'courier_notices_dismiss_' . get_current_user_id() . '_notification_nonce' ),
+			'dismiss_nonce'    => wp_create_nonce( 'courier_notices_dismiss_' . get_current_user_id() . '_notice_nonce' ),
 			'post_info'        => array(
 				'ID' => ( ! empty( $post ) ) ? $post->ID : -1,
 			),

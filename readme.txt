@@ -39,6 +39,7 @@ e.g.
 = 1.2.0 =
 
 * Updated - Namespace changed from courier to courier-notices due to plugin conflict on wordpress.org
+* Fixed   - Duplicate modal/popup issue
 
 = 1.1.4 =
 

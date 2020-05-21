@@ -320,7 +320,7 @@ function courier_notices_get_all_dismissed_notices( $user_id = 0 ) {
 		}
 	}
 
-	return array_merge( courier_get_dismissed_notices( $user_id ), courier_get_global_dismissed_notices( $user_id ) );
+	return array_merge( courier_notices_get_dismissed_notices( $user_id ), courier_notices_get_global_dismissed_notices( $user_id ) );
 }
 
 /**
@@ -370,7 +370,7 @@ function courier_notices_dismiss_notices( $notice_ids, $user_id = 0, $force_dism
 		}
 
 		if ( has_term( 'global', 'courier_scope', $notice->ID ) ) {
-			$dismissed_notices = courier_get_global_dismissed_notices( $user_id );
+			$dismissed_notices = courier_notices_get_global_dismissed_notices( $user_id );
 
 			if ( ! in_array( $notice->ID, $dismissed_notices, true ) ) {
 				$dismissed_notices[] = $notice->ID;
