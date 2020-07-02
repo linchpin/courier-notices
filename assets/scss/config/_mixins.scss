@@ -136,7 +136,7 @@
 
 	.courier-icon {
 		text-align: center;
-		width: 2.5rem;
+		width: 2.5em;
 
 		position: absolute;
 		left: 0;
@@ -157,7 +157,7 @@
 
 	&[data-closable] {
 		.courier-content-wrapper {
-			padding-right: 3rem;
+			padding-right: 3em;
 		}
 
 		.courier-close {
@@ -208,7 +208,7 @@
 
 	@if ( $icon != false and $icon != '' ) {
 		.courier-content-wrapper {
-			padding-left: 3rem;
+			padding-left: 3em;
 		}
 	}
 }

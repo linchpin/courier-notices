@@ -47,7 +47,7 @@ if ( empty( $icon_color ) ) {
 	$notice_view = new View();
 	$notice_view->assign( 'notice_id', $notice_id );
 	$notice_view->assign( 'icon', $icon );
-	$notice_view->assign( 'notice_class', 'courier-notice courier_notice callout alert alert-box' );
+	$notice_view->assign( 'notice_class', 'courier-notice courier_notice alert alert-box' );
 	$notice_view->assign( 'dismissible', 1 );
 	$notice_view->assign( 'notice_content', 'Courier Notice Content' );
 	$notice_view->render( 'notice' );

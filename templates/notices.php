@@ -8,7 +8,7 @@
 
 			$post_meta    = get_post_meta( $notice->ID );
 			$notice_type  = get_the_terms( $notice->ID, 'courier_type' );
-			$post_classes = 'courier-notice courier_notice callout alert alert-box courier_type-' . $notice_type[0]->slug;
+			$post_classes = 'courier-notice courier_notice alert alert-box courier_type-' . $notice_type[0]->slug;
 			$dismissible  = get_post_meta( $notice->ID, '_courier_dismissible', true );
 
 			if ( $dismissible ) {

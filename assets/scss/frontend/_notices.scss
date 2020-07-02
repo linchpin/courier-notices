@@ -73,11 +73,11 @@
 
 	a.close {
 		position: absolute;
-		top: 1rem;
-		right: 1rem;
-		height: 2rem;
-		width: 2rem;
-		line-height: 2rem;
+		top: 1em;
+		right: 1em;
+		height: 2em;
+		width: 2em;
+		line-height: 2em;
 		text-align: center;
 		background: rgba( $medium-gray, .75);
 		border: 1px solid rgba( $white, .6 );
@@ -90,10 +90,14 @@
 		position: relative;
 		text-align: center;
 		background: $white;
-		min-height: 5rem;
+		min-height: 5em;
 		max-height: 80vh;
 		overflow-y: scroll;
 		width: 80vw;
-		max-width: 50rem;
+		max-width: 50em;
+	}
+
+	.courier-content {
+		padding: 1em;
 	}
 }

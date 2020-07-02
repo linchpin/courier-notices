@@ -33,9 +33,6 @@ if ( ! function_exists( 'add_action' ) ) {
 						<li><?php esc_html_e( 'Show courier notices for pages, posts, custom post types', 'courier-notices' ); ?></li>
 						<li><?php esc_html_e( 'Show courier notices for custom urls and more', 'courier-notices' ); ?></li>
 						<li><?php esc_html_e( 'Integrations with Gravity Forms confirmation messages', 'courier-notices' ); ?></li>
-						<li><?php esc_html_e( '', 'courier-notices' ); ?></li>
-						<li><?php esc_html_e( '', 'courier-notices' ); ?></li>
-						<li><?php esc_html_e( '', 'courier-notices' ); ?></li>
 					</ul>
 				</div>
 			</div>
