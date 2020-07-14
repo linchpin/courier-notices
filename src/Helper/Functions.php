@@ -2,13 +2,13 @@
 /**
  * Courier Functions
  *
- * @package Courier/Helper
+ * @package CourierNotices/Helper
  */
 
-use \Courier\Model\Courier_Notice\Data as Courier_Notice_Data;
-use \Courier\Controller\Courier_Types as Courier_Types;
-use \Courier\Helper\Utils;
-use \Courier\Core\View;
+use CourierNotices\Model\Courier_Notice\Data as Courier_Notice_Data;
+use CourierNotices\Controller\Courier_Types as Courier_Types;
+use CourierNotices\Helper\Utils;
+use CourierNotices\Core\View;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Utility method to add a new notice within the system.
  *
- * @since 1.0
+ * @since 1.2.0
  *
  * @param string       $notice      The notice text.
  * @param string|array $types       The type(s) of notice.
@@ -26,7 +26,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return bool
  */
-function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = false, $dismissible = true, $user_id = 0 ) {
+function courier_notices_add_notice( $notice = '', $types = array( 'Info' ), $global = false, $dismissible = true, $user_id = 0 ) {
 
 	$notice_args = array(
 		'post_type'    => 'courier_notice',
@@ -58,9 +58,9 @@ function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = f
 			wp_set_object_terms( $notice_id, array( 'Global' ), 'courier_scope', false );
 
 			// Clear the global notice cache.
-			wp_cache_delete( 'global-notices', 'courier' );
-			wp_cache_delete( 'global-dismissible-notices', 'courier' );
-			wp_cache_delete( 'global-persistent-notices', 'courier' );
+			wp_cache_delete( 'global-notices', 'courier-notices' );
+			wp_cache_delete( 'global-dismissible-notices', 'courier-notices' );
+			wp_cache_delete( 'global-persistent-notices', 'courier-notices' );
 		}
 
 		if ( $dismissible ) {
@@ -76,13 +76,13 @@ function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = f
 /**
  * Returns the user notices.
  *
- * @since 1.0
+ * @since 1.2.0
  *
  * @param array $args Array of arguments.
  *
  * @return array
  */
-function courier_get_user_notices( $args = array() ) {
+function courier_notices_get_user_notices( $args = array() ) {
 
 	$data = new Courier_Notice_Data();
 
@@ -92,13 +92,13 @@ function courier_get_user_notices( $args = array() ) {
 /**
  * Query global notices. Cache appropriately
  *
- * @since 1.0
+ * @since 1.2.0
  *
  * @param array $args Array of arguments.
  *
  * @return array|bool|mixed
  */
-function courier_get_global_notices( $args = array() ) {
+function courier_notices_get_global_notices( $args = array() ) {
 
 	$data = new Courier_Notice_Data();
 
@@ -108,14 +108,14 @@ function courier_get_global_notices( $args = array() ) {
 /**
  * Query dismissible global notices. Cache appropriately.
  *
- * @since 1.0
+ * @since 1.2.0
  *
  * @param array $args     Query Args
  * @param bool  $ids_only Whether to return only IDs.
  *
  * @return array|bool|mixed
  */
-function courier_get_dismissible_global_notices( $args = array(), $ids_only = false ) {
+function courier_notices_get_dismissible_global_notices( $args = array(), $ids_only = false ) {
 
 	$data = new Courier_Notice_Data();
 
@@ -125,13 +125,13 @@ function courier_get_dismissible_global_notices( $args = array(), $ids_only = fa
 /**
  * Query not dismissible global notices. Cache appropriately.
  *
- * @since 1.0
+ * @since 1.2.0
  *
  * @param array $args Array of arguments.
  *
  * @return array|bool|mixed
  */
-function courier_get_persistent_global_notices( $args = array() ) {
+function courier_notices_get_persistent_global_notices( $args = array() ) {
 
 	$data = new Courier_Notice_Data();
 
@@ -141,13 +141,13 @@ function courier_get_persistent_global_notices( $args = array() ) {
 /**
  * Get Courier all notices.
  *
- * @since 1.0
+ * @since 1.2.0
  *
  * @param array $args Array of arguments.
  *
  * @return array
  */
-function courier_get_notices( $args = array() ) {
+function courier_notices_get_notices( $args = array() ) {
 
 	$data = new Courier_Notice_Data();
 
@@ -157,11 +157,11 @@ function courier_get_notices( $args = array() ) {
 /**
  * Display Courier notices on the page on the front end
  *
- * @since 1.0
+ * @since 1.2.0
  *
  * @param array $args Array of arguments.
  */
-function courier_display_notices( $args = array() ) {
+function courier_notices_display_notices( $args = array() ) {
 
 	$courier_placement    = ( ! empty( $args['placement'] ) ) ? $args['placement'] : '';
 	$courier_style        = ( ! empty( $args['style'] ) ) ? $args['style'] : '';
@@ -199,13 +199,13 @@ function courier_display_notices( $args = array() ) {
 /**
  * Display Courier modal(s) on the front end
  *
- * @since 1.0
+ * @since 1.2.0
  *
  * @todo this should be a template
  *
  * @param array $args Array of arguments.
  */
-function courier_display_modals( $args = array() ) {
+function courier_notices_display_modals( $args = array() ) {
 
 	$args = wp_parse_args(
 		$args,
@@ -217,7 +217,7 @@ function courier_display_modals( $args = array() ) {
 	$courier_placement = ( ! empty( $args['placement'] ) ) ? $args['placement'] : '';
 	$courier_style     = ( ! empty( $args['style'] ) ) ? $args['style'] : '';
 	$courier_options   = get_option( 'courier_settings', array() );
-	$courier_notices   = new \Courier\Core\View();
+	$courier_notices   = new \CourierNotices\Core\View();
 	$courier_notices->assign( 'courier_placement', $courier_placement );
 	$courier_notices->assign( 'courier_style', $courier_style );
 
@@ -246,13 +246,13 @@ function courier_display_modals( $args = array() ) {
 /**
  * Get a user's owned dismissed notices
  *
- * @since 1.0
+ * @since 1.2.0
  *
  * @param int $user_id The ID of the user to get notices for.
  *
  * @return array|void
  */
-function courier_get_dismissed_notices( $user_id = 0 ) {
+function courier_notices_get_dismissed_notices( $user_id = 0 ) {
 	if ( empty( $user_id ) ) {
 		if ( ! $user_id = get_current_user_id() ) { // phpcs:ignore
 			return array();
@@ -291,13 +291,13 @@ function courier_get_dismissed_notices( $user_id = 0 ) {
 /**
  * Get a user's dismissed global notices
  *
- * @since 1.0
+ * @since 1.2.0
  *
  * @param int $user_id The ID of the user to get notices for.
  *
  * @return array|void
  */
-function courier_get_global_dismissed_notices( $user_id = 0 ) {
+function courier_notices_get_global_dismissed_notices( $user_id = 0 ) {
 
 	$data = new Courier_Notice_Data();
 
@@ -307,20 +307,20 @@ function courier_get_global_dismissed_notices( $user_id = 0 ) {
 /**
  * Get all dismissed notices for a user
  *
- * @since 1.0
+ * @since 1.2.0
  *
  * @param int $user_id The ID of the user to get notices for.
  *
  * @return array|bool|mixed
  */
-function courier_get_all_dismissed_notices( $user_id = 0 ) {
+function courier_notices_get_all_dismissed_notices( $user_id = 0 ) {
 	if ( empty( $user_id ) ) {
 		if ( ! $user_id = get_current_user_id() ) { // phpcs:ignore
 			return false;
 		}
 	}
 
-	return array_merge( courier_get_dismissed_notices( $user_id ), courier_get_global_dismissed_notices( $user_id ) );
+	return array_merge( courier_notices_get_dismissed_notices( $user_id ), courier_notices_get_global_dismissed_notices( $user_id ) );
 }
 
 /**
@@ -333,7 +333,7 @@ function courier_get_all_dismissed_notices( $user_id = 0 ) {
  *
  * @return bool|WP_Error
  */
-function courier_dismiss_notices( $notice_ids, $user_id = 0, $force_dismiss = false, $force_trash = false ) {
+function courier_notices_dismiss_notices( $notice_ids, $user_id = 0, $force_dismiss = false, $force_trash = false ) {
 	if ( empty( $user_id ) ) {
 		if ( ! $user_id = get_current_user_id() ) { // phpcs:ignore
 			return false;
@@ -347,7 +347,7 @@ function courier_dismiss_notices( $notice_ids, $user_id = 0, $force_dismiss = fa
 
 	foreach ( $notice_ids as $n_id ) {
 		if ( ! $notice = get_post( $n_id ) ) { // phpcs:ignore
-			$errors->add( 'courier_does_not_exist', esc_html__( 'The notice you tried to dismiss does not exist.', 'courier' ) );
+			$errors->add( 'courier_does_not_exist', esc_html__( 'The notice you tried to dismiss does not exist.', 'courier-notices' ) );
 			continue;
 		}
 
@@ -359,7 +359,7 @@ function courier_dismiss_notices( $notice_ids, $user_id = 0, $force_dismiss = fa
 
 		if ( false === $force_dismiss ) {
 			if ( ! get_post_meta( $notice->ID, '_courier_dismissible', true ) ) {
-				$errors->add( 'courier_not_dismissible', esc_html__( 'This notice is not dismissible.', 'courier' ) );
+				$errors->add( 'courier_not_dismissible', esc_html__( 'This notice is not dismissible.', 'courier-notices' ) );
 				continue;
 			}
 		}
@@ -370,7 +370,7 @@ function courier_dismiss_notices( $notice_ids, $user_id = 0, $force_dismiss = fa
 		}
 
 		if ( has_term( 'global', 'courier_scope', $notice->ID ) ) {
-			$dismissed_notices = courier_get_global_dismissed_notices( $user_id );
+			$dismissed_notices = courier_notices_get_global_dismissed_notices( $user_id );
 
 			if ( ! in_array( $notice->ID, $dismissed_notices, true ) ) {
 				$dismissed_notices[] = $notice->ID;
@@ -391,11 +391,11 @@ function courier_dismiss_notices( $notice_ids, $user_id = 0, $force_dismiss = fa
 /**
  * Get Courier types CSS to be used for frontend display
  *
- * @since 1.0.5
+ * @since 1.2.0
  *
  * @return string|void
  */
-function courier_get_css() {
+function courier_notices_get_css() {
 	$courier_css = get_transient( 'courier_notice_css' );
 
 	if ( false === $courier_css ) {

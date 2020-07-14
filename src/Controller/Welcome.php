@@ -1,12 +1,12 @@
 <?php
 
-namespace Courier\Controller;
+namespace CourierNotices\Controller;
 
-use Courier\Core\View;
+use CourierNotices\Core\View;
 
 /**
  * Class Welcome
- * @package Courier\Controller
+ * @package CourierNotices\Controller
  */
 class Welcome {
 

@@ -2,10 +2,10 @@
 /**
  * All things related to the admin.
  *
- * @package Courier\Controller\Admin
+ * @package CourierNotices\Controller\Admin
  */
 
-namespace Courier\Controller\Admin;
+namespace CourierNotices\Controller\Admin;
 
 /**
  * Admin Class
@@ -69,12 +69,12 @@ class Admin {
 		return array_merge(
 			$columns,
 			array(
-				'courier-summary'   => esc_html__( 'Summary', 'courier' ),
-				'courier-type'      => esc_html__( 'Type', 'courier' ),
-				'courier-style'     => esc_html__( 'Style', 'courier' ),
-				'courier-placement' => esc_html__( 'Placement', 'courier' ),
+				'courier-summary'   => esc_html__( 'Summary', 'courier-notices' ),
+				'courier-type'      => esc_html__( 'Type', 'courier-notices' ),
+				'courier-style'     => esc_html__( 'Style', 'courier-notices' ),
+				'courier-placement' => esc_html__( 'Placement', 'courier-notices' ),
 				'courier-date'      => wp_kses(
-					__( 'Expiration <a href="#" class="courier-info-icon courier-help" title="Non-expiry notices do not expire and will always be shown to users if the notice is not dismissable">?</a>', 'courier' ),
+					__( 'Expiration <a href="#" class="courier-info-icon courier-help" title="Non-expiry notices do not expire and will always be shown to users if the notice is not dismissable">?</a>', 'courier-notices' ),
 					array(
 						'a' => array(
 							'href'  => array(),
@@ -140,7 +140,7 @@ class Admin {
 					$expiration = date( get_option( 'date_format' ) . ' h:i A', $expiration );
 					echo esc_html( $expiration );
 				} else {
-					esc_html_e( 'Non-expiry', 'courier' );
+					esc_html_e( 'Non-expiry', 'courier-notices' );
 				}
 
 				break;
@@ -172,7 +172,7 @@ class Admin {
 			<div class="notice notice-warning">
 				<p>
 					<span class="dashicons dashicons-admin-site"></span>
-					<strong><?php esc_html_e( 'This is a global notice and may have been dismissed by some users. It is recommended that you create a new global notice to ensure every user sees your new information.', 'courier' ); ?></strong>
+					<strong><?php esc_html_e( 'This is a global notice and may have been dismissed by some users. It is recommended that you create a new global notice to ensure every user sees your new information.', 'courier-notices' ); ?></strong>
 				</p>
 			</div>
 			<?php
@@ -185,9 +185,9 @@ class Admin {
 		?>
 
 		<div class="notice notice-dismissible notice-warning">
-			<?php esc_html_e( 'This notice has already been dismissed. Any changes made will not be seen by the user.', 'courier' ); ?>
+			<?php esc_html_e( 'This notice has already been dismissed. Any changes made will not be seen by the user.', 'courier-notices' ); ?>
 			<a href="#" class="courier-reactivate-notice" data-courier-notice-id="<?php echo esc_attr( $post->ID ); ?>">
-				<?php esc_html_e( 'Reactivate this notice', 'courier' ); ?>
+				<?php esc_html_e( 'Reactivate this notice', 'courier-notices' ); ?>
 			</a>.
 		</div>
 
@@ -227,10 +227,10 @@ class Admin {
 		}
 
 		wp_enqueue_script(
-			'courier-admin',
-			COURIER_PLUGIN_URL . 'js/courier-admin.js',
+			'courier-notices-admin',
+			COURIER_NOTICES_PLUGIN_URL . 'js/courier-notices-admin.js',
 			$courier_dependencies,
-			COURIER_VERSION,
+			COURIER_NOTICES_VERSION,
 			true
 		);
 
@@ -263,8 +263,8 @@ class Admin {
 			'site_uri'            => site_url(),
 			'screen'              => $current_screen->base,
 			'post_status'         => $status,
-			'user_endpoint'       => trailingslashit( site_url( 'courier/user-search' ) ),
-			'reactivate_endpoint' => trailingslashit( site_url( 'courier/reactivate' ) ),
+			'user_endpoint'       => trailingslashit( site_url( 'courier-notices/user-search' ) ),
+			'reactivate_endpoint' => trailingslashit( site_url( 'courier-notices/reactivate' ) ),
 			'dateFormat'          => get_option( 'date_format' ),
 			'add_nonce'           => wp_create_nonce( 'courier_notices_add_type_nonce' ),
 			'update_nonce'        => wp_create_nonce( 'courier_notices_update_type_nonce' ),
@@ -274,15 +274,15 @@ class Admin {
 				'ID'           => $current_user->ID,
 				'display_name' => $current_user->display_name,
 			),
-			'version'             => COURIER_VERSION,
+			'version'             => COURIER_NOTICES_VERSION,
 			'strings'             => $strings,
 		);
 
 		$courier_notices_admin_data = apply_filters( 'courier_notices_admin_data', $courier_notices_admin_data ); // Allow filtering of the entire localized dataset.
 
 		wp_localize_script(
-			'courier-admin',
-			'courier_admin_data',
+			'courier-notices-admin',
+			'courier_notices_admin_data',
 			$courier_notices_admin_data
 		);
 	}
@@ -296,10 +296,10 @@ class Admin {
 	 */
 	public function admin_enqueue_styles( $hook ) {
 		wp_enqueue_style(
-			'courier-admin-global',
-			COURIER_PLUGIN_URL . 'css/admin-courier-global.css',
+			'courier-notices-admin-global',
+			COURIER_NOTICES_PLUGIN_URL . 'css/courier-notices-admin-global.css',
 			array(),
-			COURIER_VERSION
+			COURIER_NOTICES_VERSION
 		);
 
 		if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'edit.php', 'courier_notice_page_courier' ), true ) ) {
@@ -313,13 +313,13 @@ class Admin {
 		}
 
 		wp_enqueue_style(
-			'courier-admin',
-			COURIER_PLUGIN_URL . 'css/admin-courier.css',
+			'courier-notices-admin',
+			COURIER_NOTICES_PLUGIN_URL . 'css/courier-notices-admin.css',
 			array(),
-			COURIER_VERSION
+			COURIER_NOTICES_VERSION
 		);
 
-		wp_add_inline_style( 'courier-admin', courier_get_css() );
+		wp_add_inline_style( 'courier-notices-admin', courier_notices_get_css() );
 
 		if ( ! in_array( $hook, array( 'courier_notice_page_courier' ), true ) ) {
 			return;
@@ -333,6 +333,8 @@ class Admin {
 	 * The duration should be the number of months
 	 *
 	 * @since 1.0
+	 *
+	 * @todo this should be moved to the helpers
 	 *
 	 * @throws \Exception If anything goes wrong.
 	 *
@@ -382,7 +384,7 @@ class Admin {
 			wp_dropdown_categories(
 				array(
 					// translators: %1$s escaped taxonomy name.
-					'show_option_all' => sprintf( __( 'All %1$s', 'courier' ), esc_html( $taxonomy_name ) ),
+					'show_option_all' => sprintf( __( 'All %1$s', 'courier-notices' ), esc_html( $taxonomy_name ) ),
 					'orderby'         => 'name',
 					'taxonomy'        => $taxonomy_slug,
 					'value_field'     => 'slug',

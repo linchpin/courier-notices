@@ -1,14 +1,14 @@
 <?php
 
-namespace Courier\Controller;
+namespace CourierNotices\Controller;
 
-use Courier\Controller\Admin\Fields\Fields;
-use Courier\Core\View;
-use Courier\Helper\Utils;
+use CourierNotices\Controller\Admin\Fields\Fields;
+use CourierNotices\Core\View;
+use CourierNotices\Helper\Utils;
 
 /**
  * Class Courier_Types
- * @package Courier\Controller
+ * @package CourierNotices\Controller
  */
 class Courier_Types {
 
@@ -166,8 +166,8 @@ class Courier_Types {
 			'field'       => 'notice_type_designs',
 			'section'     => 'courier_design',
 			'options'     => 'courier_design',
-			'label'       => esc_html__( 'Courier Types', 'courier' ),
-			'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier' ),
+			'label'       => esc_html__( 'Courier Types', 'courier-notices' ),
+			'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier-notices' ),
 		);
 
 		do_action( 'courier_notices_save_css' );
@@ -235,8 +235,8 @@ class Courier_Types {
 			'field'       => 'notice_type_designs',
 			'section'     => 'courier_design',
 			'options'     => 'courier_design',
-			'label'       => esc_html__( 'Courier Types', 'courier' ),
-			'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier' ),
+			'label'       => esc_html__( 'Courier Types', 'courier-notices' ),
+			'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier-notices' ),
 		);
 
 		do_action( 'courier_notices_save_css' );
@@ -424,13 +424,13 @@ class Courier_Types {
 				}
 
 				$css[ '.courier_type-' . $type->slug . ' .courier-content-wrapper' ] = array(
-					'color'       => sanitize_hex_color( $text_color ),
+					'color'            => sanitize_hex_color( $text_color ),
 					'background-color' => sanitize_hex_color( $background_color ),
 				);
 
 				$css[ '.courier_type-' . $type->slug . ' .courier-icon' ] = array(
-					'background-color'     => sanitize_hex_color( $accent_color ),
-					'color'       => sanitize_hex_color( $icon_color ),
+					'background-color' => sanitize_hex_color( $accent_color ),
+					'color'            => sanitize_hex_color( $icon_color ),
 					'icon'             => esc_attr( $icon ),
 				);
 			}

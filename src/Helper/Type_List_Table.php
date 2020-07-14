@@ -2,18 +2,18 @@
 /**
  * Type List Table
  *
- * @package Courier\Helper
+ * @package CourierNotices\Helper
  */
 
-namespace Courier\Helper;
+namespace CourierNotices\Helper;
 
 // Make sure we don't expose any info if called directly.
 if ( ! function_exists( 'add_action' ) ) {
 	exit;
 }
 
-use Courier\Core\View;
-use \Courier\Helper\WP_List_Table as WP_List_Table;
+use CourierNotices\Core\View;
+use CourierNotices\Helper\WP_List_Table as WP_List_Table;
 
 /**
  * Type_List_Table Class
@@ -29,11 +29,11 @@ class Type_List_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$table_columns = array(
-			'cb'                => '<input type="checkbox" />', // to display the checkbox.
-			'notice_default'    => esc_html__( 'Default', 'courier' ),
-			'title'             => esc_html__( 'Type', 'courier' ),
-			'notice_preview'    => esc_html__( 'Notice Preview', 'courier' ),
-			'notice_delete'     => '',
+			'cb'             => '<input type="checkbox" />', // to display the checkbox.
+			'notice_default' => esc_html__( 'Default', 'courier-notices' ),
+			'title'          => esc_html__( 'Type', 'courier-notices' ),
+			'notice_preview' => esc_html__( 'Notice Preview', 'courier-notices' ),
+			'notice_delete'  => '',
 		);
 		return $table_columns;
 	}
@@ -43,7 +43,7 @@ class Type_List_Table extends WP_List_Table {
 	 *
 	 * @since 1.0
 	 *
-	 * @param array  $item         Data.
+	 * @param array  $item        Data.
 	 * @param string $column_name Current column name.
 	 *
 	 * @return Mixed
@@ -67,7 +67,7 @@ class Type_List_Table extends WP_List_Table {
 	 * @since 1.0
 	 */
 	public function no_items() {
-		esc_html_e( 'No types available.', 'courier' );
+		esc_html_e( 'No types available.', 'courier-notices' );
 	}
 
 	/**
@@ -185,7 +185,7 @@ class Type_List_Table extends WP_List_Table {
 			esc_attr( (int) $item['ID'] ),
 			esc_attr( $item['slug'] ),
 			// translators: %1$s Title of the term.
-			sprintf( esc_html__( 'Select %1$s', 'courier' ), $item['title'] )
+			sprintf( esc_html__( 'Select %1$s', 'courier-notices' ), $item['title'] )
 		);
 	}
 
@@ -220,7 +220,7 @@ class Type_List_Table extends WP_List_Table {
 					esc_attr( $color ),
 					esc_attr( $type->slug ),
 					// translators: %1$s Title of the term.
-					sprintf( esc_html__( '%1$s Color', 'courier' ), $type->name )
+					sprintf( esc_html__( '%1$s Color', 'courier-notices' ), $type->name )
 				);
 
 				// Notice Icon
@@ -248,7 +248,7 @@ class Type_List_Table extends WP_List_Table {
 					esc_attr( $text_color ),
 					esc_attr( $type->slug ),
 					// translators: %1$s Title of the term.
-					sprintf( esc_html__( '%1$s Text Color', 'courier' ), $type->name )
+					sprintf( esc_html__( '%1$s Text Color', 'courier-notices' ), $type->name )
 				);
 
 				// Notice Icon Color
@@ -263,7 +263,7 @@ class Type_List_Table extends WP_List_Table {
 					esc_attr( $icon_color ),
 					esc_attr( $type->slug ),
 					// translators: %1$s Title of the term.
-					sprintf( esc_html__( '%1$s Color', 'courier' ), $type->name )
+					sprintf( esc_html__( '%1$s Color', 'courier-notices' ), $type->name )
 				);
 
 				// Notice Background Color
@@ -278,14 +278,14 @@ class Type_List_Table extends WP_List_Table {
 					esc_attr( $bg_color ),
 					esc_attr( $type->slug ),
 					// translators: %1$s Title of the term.
-					sprintf( esc_html__( '%1$s Color', 'courier' ), $type->name )
+					sprintf( esc_html__( '%1$s Color', 'courier-notices' ), $type->name )
 				);
 
 				$notice_view = new View();
 				$notice_view->assign( 'notice_id', $type->term_id );
 				$notice_view->assign( 'icon', $icon_class );
 				$notice_view->assign( 'post_class', 'post_class' );
-				$notice_view->assign( 'post_class', implode( ' ', get_post_class( 'courier-notice courier_notice callout alert alert-box', $type->term_id ) ) );
+				$notice_view->assign( 'post_class', implode( ' ', get_post_class( 'courier-notice courier_notice alert alert-box', $type->term_id ) ) );
 				$notice_view->assign( 'dismissible', true );
 				$notice_view->assign( 'post_content', 'post_content' );
 				$notice_view->assign( 'type', $type );
@@ -373,9 +373,9 @@ class Type_List_Table extends WP_List_Table {
 
 		$option_fields = sprintf(
 			'<div class="notice-options hide"><div class="notice-option"><strong class="notice-option-title">%1$s</strong><br /><input type="text" class="courier-notice-type-edit-title" name="courier_notice_type_edit_title" value="%2$s"></div><div class="notice-option"><strong class="notice-option-title">%3$s</strong><br /><input type="text" class="courier-notice-type-edit-css-class" name="courier_notice_type_edit_css_class" value="%4$s"></div></div>',
-			esc_html__( 'Title', 'courier' ),
+			esc_html__( 'Title', 'courier-notices' ),
 			$item['title'],
-			esc_html__( 'Icon Class', 'courier' ),
+			esc_html__( 'Icon Class', 'courier-notices' ),
 			esc_attr( $icon )
 		);
 
@@ -383,7 +383,7 @@ class Type_List_Table extends WP_List_Table {
 			'edit' => sprintf(
 				'<a href="%1$s" class="courier-notice-type-edit" data-term-id="%3$d">%2$s</a>',
 				'#',
-				esc_html__( 'Edit', 'courier' ),
+				esc_html__( 'Edit', 'courier-notices' ),
 				esc_attr( $item['ID'] )
 			),
 		];
@@ -406,11 +406,11 @@ class Type_List_Table extends WP_List_Table {
 			),
 			sprintf(
 				'<button class="button button-editing button-primary save-button" title="%1$s" aria-label="%1$s"><span class="dashicons dashicons-yes"></span></button>',
-				esc_html__( 'Save', 'courier' )
+				esc_html__( 'Save', 'courier-notices' )
 			),
 			sprintf(
 				'<button class="button button-editing button-secondary close-button" title="%1$s" aria-label="%1$s"><span class="dashicons dashicons-no"></span></button>',
-				esc_html__( 'Cancel', 'courier' )
+				esc_html__( 'Cancel', 'courier-notices' )
 			),
 		);
 

@@ -2,13 +2,15 @@
 /**
  * Database functionality
  *
- * @package Courier\Core
+ * @package CourierNotices\Core
  */
 
-namespace Courier\Core;
+namespace CourierNotices\Core;
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Database base class
@@ -153,7 +155,7 @@ abstract class Database {
 		// Set default values.
 		$data = wp_parse_args( $data, $this->get_column_defaults() );
 
-		do_action( 'courier_db_before_insert_' . $type, $data );
+		do_action( 'courier_notices_db_before_insert_' . $type, $data );
 
 		// Initialise column format array.
 		$column_formats = $this->get_columns();
@@ -170,7 +172,7 @@ abstract class Database {
 
 		$wpdb->insert( $this->table_name, $data, $column_formats ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 
-		do_action( 'courier_db_after_insert_' . $type, $wpdb->insert_id, $data );
+		do_action( 'courier_notices_db_after_insert_' . $type, $wpdb->insert_id, $data );
 
 		return $wpdb->insert_id;
 	}

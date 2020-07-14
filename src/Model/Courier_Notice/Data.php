@@ -2,17 +2,17 @@
 /**
  * Courier Notice Data Model
  */
-namespace Courier\Model\Courier_Notice;
+namespace CourierNotices\Model\Courier_Notice;
 
-use Courier\Helper\Utils;
+use CourierNotices\Helper\Utils;
 
 /**
- * Courier_Notice Class
+ * Data Class
  */
 class Data {
 
 	/**
-	 * Courier_Notice constructor
+	 * Data constructor
 	 *
 	 * @since 1.0.5
 	 */
@@ -38,10 +38,10 @@ class Data {
 			'query_args' => array(),
 		);
 
-		$defaults  = apply_filters( 'courier_get_global_notices_default_settings', $defaults );
+		$defaults  = apply_filters( 'courier_notices_get_global_notices_default_settings', $defaults );
 		$args      = wp_parse_args( $args, $defaults );
 		$cache_key = 'global-' . sanitize_title( $args['placement'] ) . '-notices';
-		$cache     = wp_cache_get( $cache_key, 'courier' );
+		$cache     = wp_cache_get( $cache_key, 'courier-notices' );
 
 		/*
 		if ( false !== $cache ) {
@@ -97,7 +97,7 @@ class Data {
 
 		$global_notices_query = new \WP_Query( $query_args );
 
-		wp_cache_set( $cache_key, $global_notices_query->posts, 'courier', 300 );
+		wp_cache_set( $cache_key, $global_notices_query->posts, 'courier-notices', 300 );
 
 		if ( isset( $args['ids_only'] ) && false !== $args['ids_only'] ) {
 			return wp_list_pluck( $global_notices_query->posts, 'ID' );
@@ -118,10 +118,8 @@ class Data {
 	 */
 	public function get_dismissible_global_notices( $args = array(), $ajax_post_data = array(), $ids_only = false ) {
 
-//		error_log( 'get_dismissible_global_notices' );
-
 		$cache_key = 'global-dismissible-' . sanitize_title( $args['placement'] ) . '-notices';
-		$cache     = wp_cache_get( $cache_key, 'courier' );
+		$cache     = wp_cache_get( $cache_key, 'courier-notices' );
 
 		if ( false !== $cache ) {
 			if ( $ids_only ) {
@@ -172,7 +170,7 @@ class Data {
 
 		$global_notices_query = new \WP_Query( $query_args );
 
-		wp_cache_set( $cache_key, $global_notices_query->posts, 'courier', 300 );
+		wp_cache_set( $cache_key, $global_notices_query->posts, 'courier-notices', 300 );
 
 		if ( $ids_only ) {
 			return wp_list_pluck( $global_notices_query->posts, 'ID' );
@@ -199,10 +197,10 @@ class Data {
 			'query_args' => array(),
 		);
 
-		$defaults  = apply_filters( 'courier_get_global_persistent_notices_default_settings', $defaults );
+		$defaults  = apply_filters( 'courier_notices_get_global_persistent_notices_default_settings', $defaults );
 		$args      = wp_parse_args( $args, $defaults );
 		$cache_key = 'global-persistent-' . sanitize_title( $args['placement'] ) . '-notices';
-		$cache     = wp_cache_get( $cache_key, 'courier' );
+		$cache     = wp_cache_get( $cache_key, 'courier-notices' );
 /*
 		if ( false !== $cache ) {
 			return wp_list_pluck( $cache, 'ID' );
@@ -239,13 +237,9 @@ class Data {
 
 		$global_persistent_notices_query = new \WP_Query( $args );
 
-		wp_cache_set( $cache_key, $global_persistent_notices_query->posts, 'courier', 300 );
+		wp_cache_set( $cache_key, $global_persistent_notices_query->posts, 'courier-notices', 300 );
 
-		// if ( isset( $args['ids_only'] ) && true === $args['ids_only'] ) {
-			return wp_list_pluck( $global_persistent_notices_query->posts, 'ID' );
-		// } else {
-		//	return $global_persistent_notices_query->posts;
-		// }
+		return wp_list_pluck( $global_persistent_notices_query->posts, 'ID' );
 	}
 
 	/**
@@ -272,10 +266,10 @@ class Data {
 			'style'                        => 'informational',
 		);
 
-		$defaults = apply_filters( 'courier_get_notices_default_settings', $defaults );
+		$defaults = apply_filters( 'courier_notices_get_notices_default_settings', $defaults );
 		$args     = wp_parse_args( $args, $defaults );
 		$number   = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
-		$number   = apply_filters( 'courier_override_notices_number', $number );
+		$number   = apply_filters( 'courier_notices_override_notices_number', $number );
 
 		$ajax_post_data = wp_parse_args( $ajax_post_data, $defaults );
 
@@ -303,7 +297,7 @@ class Data {
 
 		$post_list = array_merge( $global_posts, $global_dismissible_posts );
 
-		Utils::courier_debug_log( $post_list, 'Query', false );
+		Utils::courier_notices_debug_log( $post_list, 'Query', false );
 
 		// Prioritize Persistent Global Notes to the top by getting them separately and putting them at the front of the line.
 		if ( true === $args['prioritize_persistent_global'] ) {
@@ -351,7 +345,7 @@ class Data {
 		$query_args          = wp_parse_args( $args, $query_args );
 		$final_notices_query = new \WP_Query( $query_args );
 
-		Utils::courier_debug_log( $final_notices_query, 'Query', false );
+		Utils::courier_notices_debug_log( $final_notices_query, 'Query', false );
 
 		return ( $final_notices_query->have_posts() ) ? $final_notices_query->posts : array();
 	}
@@ -376,6 +370,9 @@ class Data {
 			$user_id = get_current_user_id();
 		}
 
+		/**
+		 * @todo this should be refactored to the courier_notices name space
+		 */
 		if ( ! $dismissed_notices = get_user_option( 'courier_dismissals', $user_id ) ) { // phpcs:ignore
 			$dismissed_notices = array();
 		}
@@ -395,7 +392,7 @@ class Data {
 		}
 
 		$number = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
-		$number = apply_filters( 'courier_override_notices_number', $number );
+		$number = apply_filters( 'courier_notices_override_notices_number', $number );
 
 		$query_args = array(
 			'post_type'      => 'courier_notice',

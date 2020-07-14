@@ -2,10 +2,10 @@
 /**
  * Cron Controller.
  *
- * @package Courier\Controller
+ * @package CourierNotices\Controller
  */
 
-namespace Courier\Controller;
+namespace CourierNotices\Controller;
 
 /**
  * Cron Class
@@ -51,12 +51,12 @@ class Cron {
 
 		$schedules['courier_purge_cron_interval'] = array(
 			'interval' => 300,
-			'display'  => esc_html__( 'Every 5 Minutes', 'courier' ),
+			'display'  => esc_html__( 'Every 5 Minutes', 'courier-notices' ),
 		);
 
 		$schedules['courier_expire_cron_interval'] = array(
 			'interval' => 300,
-			'display'  => esc_html__( 'Every 5 Minutes', 'courier' ),
+			'display'  => esc_html__( 'Every 5 Minutes', 'courier-notices' ),
 		);
 
 		return $schedules;
@@ -92,8 +92,8 @@ class Cron {
 			$notices_query  = new \WP_Query( $args );
 		}
 
-		wp_cache_delete( 'courier-global-header-notices', 'courier' );
-		wp_cache_delete( 'courier-global-footer-notices', 'courier' );
+		wp_cache_delete( 'courier-global-header-notices', 'courier-notices' );
+		wp_cache_delete( 'courier-global-footer-notices', 'courier-notices' );
 	}
 
 	/**
@@ -134,7 +134,7 @@ class Cron {
 			$notices_query  = new \WP_Query( $args );
 		}
 
-		wp_cache_delete( 'courier-global-header-notices', 'courier' );
-		wp_cache_delete( 'courier-global-footer-notices', 'courier' );
+		wp_cache_delete( 'courier-global-header-notices', 'courier-notices' );
+		wp_cache_delete( 'courier-global-footer-notices', 'courier-notices' );
 	}
 }

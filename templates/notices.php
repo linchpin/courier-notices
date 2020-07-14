@@ -8,14 +8,14 @@
 
 			$post_meta    = get_post_meta( $notice->ID );
 			$notice_type  = get_the_terms( $notice->ID, 'courier_type' );
-			$post_classes = 'courier-notice courier_notice callout alert alert-box courier_type-' . $notice_type[0]->slug;
+			$post_classes = 'courier-notice courier_notice alert alert-box courier_type-' . $notice_type[0]->slug;
 			$dismissible  = get_post_meta( $notice->ID, '_courier_dismissible', true );
 
 			if ( $dismissible ) {
 				$post_classes .= ' courier-notice-dismissible';
 			}
 
-			$notice_view = new \Courier\Core\View();
+			$notice_view = new \CourierNotices\Core\View();
 			$notice_view->assign( 'notice_id', $notice->ID );
 			$notice_view->assign( 'notice_class', get_post_class( $post_classes, $notice->ID ) );
 			$notice_view->assign( 'dismissible', get_post_meta( get_the_ID(), '_courier_dismissible', true ) );

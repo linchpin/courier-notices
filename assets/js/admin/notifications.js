@@ -7,7 +7,7 @@
 /**
  * Controls Welcome area display
  *
- * @package    Courier
+ * @package    CourierNotices
  * @subpackage Welcome
  * @since      1.0
  */
@@ -45,7 +45,7 @@ export default function notifications() {
 		$.post( ajaxurl, {
 			action                : 'courier_dismiss_notification',
 			courier_notification_type : $notice.attr('data-type'),
-			_ajax_nonce              : courier_admin_data.dismiss_nonce
+			_ajax_nonce              : courier_notices_admin_data.dismiss_nonce
 		}, function( response ) {
 			$notice.fadeTo(100, 0,function() {
 				$notice.slideUp( 100, function(){

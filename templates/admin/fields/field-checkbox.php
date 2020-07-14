@@ -3,7 +3,7 @@
  * Display the table field
  *
  * @since      1.0
- * @package    Courier
+ * @package    CourierNotices
  * @subpackage Admin
  */
 

@@ -2,12 +2,9 @@
 /**
  * The Courier Controller
  *
- * @package Courier\Controller
+ * @package CourierNotices\Controller
  */
-namespace Courier\Controller;
-
-use Courier\Controller\Admin\Fields\Fields;
-use Courier\Core\View;
+namespace CourierNotices\Controller;
 
 /**
  * Courier Class
@@ -36,10 +33,6 @@ class Courier {
 		add_filter( 'courier_excerpt', 'wptexturize' );
 		add_filter( 'courier_excerpt', 'convert_smilies' );
 		add_filter( 'courier_excerpt', 'convert_chars' );
-
-		if ( has_action( 'wp_body_open' ) ) {
-			add_action( 'wp_body_open', '' );
-		}
 	}
 
 	/**
@@ -51,13 +44,13 @@ class Courier {
 		register_post_status(
 			'courier_expired',
 			array(
-				'label'                     => esc_html_x( 'Expired', 'courier_notice', 'courier' ),
+				'label'                     => esc_html_x( 'Expired', 'courier_notice', 'courier-notices' ),
 				'public'                    => false,
 				'exclude_from_search'       => true,
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 				// translators: %1$s count of hoow many terms have expired.
-				'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'courier' ),
+				'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'courier-notices' ),
 			)
 		);
 	}
@@ -78,26 +71,26 @@ class Courier {
 
 		$messages['courier_notice'] = array(
 			0  => '', // Unused. Messages start at index 1.
-			1  => esc_html__( 'Courier notice updated.', 'courier' ),
-			2  => esc_html__( 'Custom field updated.', 'courier' ),
-			3  => esc_html__( 'Custom field deleted.', 'courier' ),
-			4  => esc_html__( 'Notice updated.', 'courier' ),
+			1  => esc_html__( 'Courier notice updated.', 'courier-notices' ),
+			2  => esc_html__( 'Custom field updated.', 'courier-notices' ),
+			3  => esc_html__( 'Custom field deleted.', 'courier-notices' ),
+			4  => esc_html__( 'Notice updated.', 'courier-notices' ),
 			/* translators: %s: date and time of the revision */
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Notice restored to revision from %s', 'courier' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // phpcs:ignore WordPress.Security.NonceVerification
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Notice restored to revision from %s', 'courier-notices' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // phpcs:ignore WordPress.Security.NonceVerification
 			/* translators: %s: link to notice */
-			6  => sprintf( __( 'Notice published. <a href="%1$s">View notice</a>', 'courier' ), esc_url( $permalink ) ),
-			7  => esc_html__( 'Notice saved.', 'courier' ),
+			6  => sprintf( __( 'Notice published. <a href="%1$s">View notice</a>', 'courier-notices' ), esc_url( $permalink ) ),
+			7  => esc_html__( 'Notice saved.', 'courier-notices' ),
 			/* translators: %1$s: link to preview */
-			8  => sprintf( __( 'Notice submitted. <a target="_blank" href="%1$s">Preview notice</a>', 'courier' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+			8  => sprintf( __( 'Notice submitted. <a target="_blank" href="%1$s">Preview notice</a>', 'courier-notices' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
 			9  => sprintf(
 				/* translators: %1$s: date and time of the revision, %2$s: link to notice */
-				__( 'Notice scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview notice</a>', 'courier' ),
+				__( 'Notice scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview notice</a>', 'courier-notices' ),
 				// translators: Publish box date format, see http://php.net/date.
 				date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ),
 				esc_url( $permalink )
 			),
 			/* translators: %1$s: date and time of the revision, %2$s: link to notice */
-			10 => sprintf( __( 'Notice draft updated. <a target="_blank" href="%s">Preview notice</a>', 'courier' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+			10 => sprintf( __( 'Notice draft updated. <a target="_blank" href="%s">Preview notice</a>', 'courier-notices' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
 		);
 
 		return $messages;
@@ -155,7 +148,7 @@ class Courier {
 				'<a href="%1$s" %2$s>%3$s <span class="count">(%4$d)</span></a>',
 				$global_notice_url,
 				$notice_class,
-				esc_html__( 'Global', 'courier' ),
+				esc_html__( 'Global', 'courier-notices' ),
 				(int) $count
 			);
 
@@ -196,7 +189,7 @@ class Courier {
 				'<a href="%1$s" %2$s>%3$s <span class="count">(%4$d)</span></a>',
 				$expired_notice_url,
 				$expired_notice_class,
-				esc_html__( 'Expired', 'courier' ),
+				esc_html__( 'Expired', 'courier-notices' ),
 				(int) $count
 			);
 
@@ -221,11 +214,11 @@ class Courier {
 		$options = array(
 			array(
 				'value' => '1',
-				'label' => esc_html__( 'Global (All Users)', 'courier' ),
+				'label' => esc_html__( 'Global (All Users)', 'courier-notices' ),
 			),
 			array(
 				'value' => 'user',
-				'label' => esc_html__( 'User', 'courier' ),
+				'label' => esc_html__( 'User', 'courier-notices' ),
 			),
 		);
 
@@ -282,7 +275,7 @@ class Courier {
 			return;
 		}
 
-		if ( isset( $_POST['_courier_info_noncename'] ) && wp_verify_nonce( $_POST['_courier_info_noncename'], '_courier_info_nonce' ) ) {
+		if ( isset( $_POST['courier_notice_info_noncename'] ) && wp_verify_nonce( $_POST['courier_notice_info_noncename'], 'courier_notice_info_nonce' ) ) {
 
 			// By default set an object to be global
 			wp_set_object_terms( $post_id, 'global', 'courier_scope', false );
@@ -320,8 +313,6 @@ class Courier {
 					wp_set_object_terms( $post_id, (string) $_POST['courier_type'], 'courier_type' );
 				}
 			}
-
-
 		}
 
 		if ( isset( $_POST['courier_expiration_noncename'] ) && wp_verify_nonce( $_POST['courier_expiration_noncename'], 'courier_expiration_nonce' ) ) {
@@ -334,12 +325,12 @@ class Courier {
 			}
 		}
 
-		wp_cache_delete( 'global-footer-notices', 'courier' );
-		wp_cache_delete( 'global-footer-dismissible-notices', 'courier' );
-		wp_cache_delete( 'global-footer-persistent-notices', 'courier' );
-		wp_cache_delete( 'global-header-notices', 'courier' );
-		wp_cache_delete( 'global-header-dismissible-notices', 'courier' );
-		wp_cache_delete( 'global-header-persistent-notices', 'courier' );
+		wp_cache_delete( 'global-footer-notices', 'courier-notices' );
+		wp_cache_delete( 'global-footer-dismissible-notices', 'courier-notices' );
+		wp_cache_delete( 'global-footer-persistent-notices', 'courier-notices' );
+		wp_cache_delete( 'global-header-notices', 'courier-notices' );
+		wp_cache_delete( 'global-header-dismissible-notices', 'courier-notices' );
+		wp_cache_delete( 'global-header-persistent-notices', 'courier-notices' );
 	}
 
 	/**
@@ -491,7 +482,7 @@ class Courier {
 			return $title;
 		}
 
-		$title['title'] = esc_html__( 'Notifications', 'courier' );
+		$title['title'] = esc_html__( 'Notifications', 'courier-notices' );
 
 		return $title;
 	}

@@ -2,10 +2,10 @@
 /**
  * Configuration Model
  *
- * @package Courier\Model
+ * @package CourierNotices\Model
  */
 
-namespace Courier\Model;
+namespace CourierNotices\Model;
 
 /**
  * Config Class
@@ -36,16 +36,16 @@ class Config {
 	 * @return bool|mixed
 	 */
 	private function setup_plugin_config() {
-		$config = wp_cache_get( 'config', 'courier' );
-
+		$config = wp_cache_get( 'config', 'courier-notices' );
+/*
 		if ( false !== $config ) {
 			return $config;
-		}
+		} */
 
-		$this->set( 'plugin_base_name', plugin_basename( COURIER_FILE ) );
+		$this->set( 'plugin_base_name', plugin_basename( COURIER_NOTICES_FILE ) );
 
 		$plugin_headers = get_file_data(
-			COURIER_FILE,
+			COURIER_NOTICES_FILE,
 			array(
 				'plugin_name'      => 'Plugin Name',
 				'plugin_uri'       => 'Plugin URI',
@@ -61,12 +61,12 @@ class Config {
 		$this->import( $plugin_headers );
 
 		$this->set( 'prefix', '_courier_' );
-		$this->set( 'plugin_path', COURIER_PATH );
-		$this->set( 'plugin_file', COURIER_FILE );
-		$this->set( 'plugin_url', COURIER_PLUGIN_URL );
-		$this->set( 'namespace', 'Courier' );
+		$this->set( 'plugin_path', COURIER_NOTICES_PATH );
+		$this->set( 'plugin_file', COURIER_NOTICES_FILE );
+		$this->set( 'plugin_url', COURIER_NOTICES_PLUGIN_URL );
+		$this->set( 'namespace', 'CourierNotices' );
 
-		wp_cache_set( 'config', $config, 'courier' );
+		wp_cache_set( 'config', $config, 'courier-notices' );
 
 		$this->config = $config;
 

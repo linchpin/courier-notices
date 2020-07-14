@@ -7,7 +7,7 @@
  * @since 3.1.0
  */
 
-namespace Courier\Helper;
+namespace CourierNotices\Helper;
 
 /**
  * Base class for displaying a list of items in an ajaxified HTML table.

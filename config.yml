@@ -26,7 +26,7 @@ PATHS:
     - "!assets/{img,js,scss,css}/**/*"
   # Paths to JavaScript entry points for webpack to bundle modules
   entries:
-    - "assets/js/courier.js"
-    - "assets/js/courier-admin.js"
+    - "assets/js/courier-notices.js"
+    - "assets/js/courier-notices-admin.js"
 
 LOCAL_PATH: "http://plugins.test"

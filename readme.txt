@@ -3,7 +3,7 @@ Contributors: linchpin_agency, aware, ncallen, maxinacube, desrosj, fischfood
 Tags: linchpin, front end, notices, notifications, alerts, dismissible, gdpr
 Requires at least: 5.0
 Tested up to: 5.3.2
-Stable tag: 1.1.4
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,11 @@ e.g.
 == Screenshots ==
 
 == Changelog ==
+
+= 1.2.0 =
+
+* Updated - Namespace changed from courier to courier-notices due to plugin conflict on wordpress.org
+* Fixed   - Duplicate modal/popup issue
 
 = 1.1.4 =
 

@@ -2,10 +2,10 @@
 /**
  * Helper Utilities
  *
- * @package Courier\Helper
+ * @package CourierNotices\Helper
  */
 
-namespace Courier\Helper;
+namespace CourierNotices\Helper;
 
 /**
  * Utils Class
@@ -82,9 +82,9 @@ class Utils {
 	 * @param string $label
 	 * @param bool $separator
 	 */
-	public static function courier_debug_log( $output, $label = '', $separator = true ) {
+	public static function courier_notices_debug_log( $output, $label = '', $separator = true ) {
 
-		if ( true !== COURIER_DEBUG ) {
+		if ( true !== COURIER_NOTICES_DEBUG ) {
 			return;
 		}
 

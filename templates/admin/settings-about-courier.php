@@ -3,7 +3,7 @@
  * Welcome / About
  *
  * @since      1.0
- * @package    Courier
+ * @package    CourierNotices
  * @subpackage Admin
  */
 
@@ -12,7 +12,7 @@ if ( ! function_exists( 'add_action' ) ) {
 	exit;
 }
 
-use \Courier\Helper\Utils as Utils;
+use CourierNotices\Helper\Utils as Utils;
 
 ?>
 <div id="about-courier">
@@ -20,9 +20,10 @@ use \Courier\Helper\Utils as Utils;
 		<div id="postbox-container" class="postbox-container">
 			<div class="about hero negative-bg">
 				<div class="hero-text">
-					<h1><?php esc_html_e( 'Thank you for installing Courier', 'courier' ); ?></h1>
+					<h1><?php esc_html_e( 'Thank you for installing Courier Notices', 'courier-notices' ); ?></h1>
 				</div>
 			</div>
+
 			<div class="gray-bg negative-bg">
 				<div class="wrapper">
 					<h2 class="light-weight">
@@ -30,7 +31,7 @@ use \Courier\Helper\Utils as Utils;
 						printf(
 							wp_kses(
 								// translators: %1$s Getting Started, %2$s Using Courier.
-								__( '<span class="bold">%1$s</span> %2$s', 'courier' ),
+								__( '<span class="bold">%1$s</span> %2$s', 'courier-notices' ),
 								Utils::get_safe_markup()
 							),
 							esc_html( 'Getting Started:' ),
@@ -43,19 +44,19 @@ use \Courier\Helper\Utils as Utils;
 
 			<div class="wrapper courier-row table">
 				<div class="courier-columns-6 table-cell">
-					<h3><?php esc_html_e( 'A Quick 2 Minute Primer', 'courier' ); ?></h3>
-					<p><?php esc_html_e( 'Courier allows you to notify your site visitors/users of different information and events on your site.', 'courier' ); ?></p>
-					<p><?php esc_html_e( 'We built this plugin as a base notification system for a few other projects and decided to share it with the community.', 'courier' ); ?></p>
+					<h3><?php esc_html_e( 'A Quick 2 Minute Primer', 'courier-notices' ); ?></h3>
+					<p><?php esc_html_e( 'Courier allows you to notify your site visitors/users of different information and events on your site.', 'courier-notices' ); ?></p>
+					<p><?php esc_html_e( 'We built this plugin as a base notification system for a few other projects and decided to share it with the community.', 'courier-notices' ); ?></p>
 					<?php if ( ! Utils::is_wp_cron_disabled() ) : ?>
 					<p>
-						<strong><?php esc_html_e( 'Recommendation: If you are using the default WP Cron, we suggest utilizing an alternate cron so the timing of notice expiration is more accurate.', 'courier' ); ?></strong>
+						<strong><?php esc_html_e( 'Recommendation: If you are using the default WP Cron, we suggest utilizing an alternate cron so the timing of notice expiration is more accurate.', 'courier-notices' ); ?></strong>
 					</p>
 					<p>
 						<?php
 						echo wp_kses(
 							sprintf(
 								// translators: %1$s WP Cron Documentation.
-								__( 'You can read more about <a href="%1$s" target="_blank" rel="noopener">WP Cron Here</a>.', 'courier' ),
+								__( 'You can read more about <a href="%1$s" target="_blank" rel="noopener">WP Cron Here</a>.', 'courier-notices' ),
 								esc_url( 'https://developer.wordpress.org/plugins/cron/' )
 							),
 							Utils::get_safe_markup()
@@ -66,68 +67,22 @@ use \Courier\Helper\Utils as Utils;
 				</div>
 
 				<div class="courier-columns-6 right table-cell">
-					<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/images/help-admin-comp2.gif' ); ?>" alt="<?php esc_attr_e( 'Enable Courier', 'courier' ); ?>" width="90%"/>
+					<img src="<?php echo esc_url( COURIER_NOTICES_PLUGIN_URL . 'assets/images/help-admin-comp2.gif' ); ?>" alt="<?php esc_attr_e( 'Enable Courier', 'courier-notices' ); ?>" width="90%"/>
 				</div>
 			</div>
 
 			<div class="gray-bg negative-bg">
 				<div class="wrapper">
-					<h2 class="light-weight"><?php esc_html_e( 'Getting Started / Directions', 'courier' ); ?></h2>
-					<div class="grey-box-container courier-row" data-equalizer="">
-						<div class="courier-columns-12">
-							<div class="grey-box" data-equalizer-watch="">
-								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-settings.svg' ); ?>" alt=""/>
-								</div>
-								<div class="about-box-copy">
-									<h4 class="no-margin"><?php esc_html_e( 'Settings', 'courier' ); ?></h4>
-									<p><?php esc_html_e( 'Create site notices using an interface similar to default pages and posts in WordPress.', 'courier' ); ?></p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="grey-box-container courier-row" data-equalizer="">
-						<div class="courier-columns-12">
-							<div class="grey-box" data-equalizer-watch="">
-								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-adding-editing.svg' ); ?>" alt=""/>
-								</div>
-								<div class="about-box-copy">
-									<h4 class="no-margin"><?php esc_html_e( 'Adding / Editing Notices', 'courier' ); ?></h4>
-									<p><?php esc_html_e( 'Creating and Editing notices is similar to pages and posts. Where each notice has a title and content.', 'courier' ); ?></p>
-									<h5 class="no-margin"><?php esc_html_e( 'More Settings', 'courier' ); ?></h5>
-									<dl>
-										<dt><?php esc_html_e( 'Notice Types', 'courier' ); ?></dt>
-										<dd><?php esc_html_e( 'Notice Types are used to display, success, error, warning and informational notices to your users' ); ?></dd>
-										<dd><?php esc_html_e( 'You can also create more notice types as needed.' ); ?></dd>
-										<dt><?php esc_html_e( 'Notice Placement', 'courier' ); ?></dt>
-										<dd>
-											<ul>
-												<li><?php esc_html_e( 'Header', 'courier' ); ?></li>
-												<li><?php esc_html_e( 'Footer', 'courier' ); ?></li>
-												<li><?php esc_html_e( 'Modal / Popup', 'courier' ); ?></li>
-											</ul>
-										</dd>
-										<dt><?php esc_html_e( 'Notice Expriration', 'courier' ); ?></dt>
-									</dl>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="gray-bg negative-bg">
-				<div class="wrapper">
-					<h2 class="light-weight"><?php esc_html_e( 'More Quick Tips', 'courier' ); ?></h2>
+					<h2 class="light-weight"><?php esc_html_e( 'More Quick Tips', 'courier-notices' ); ?></h2>
 					<div class="grey-box-container courier-row" data-equalizer="">
 						<div class="courier-columns-6">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-familiar.svg' ); ?>" alt=""/>
+									<img src="<?php echo esc_url( COURIER_NOTICES_PLUGIN_URL . 'assets/img/icon-familiar.svg' ); ?>" alt=""/>
 								</div>
 								<div class="about-box-copy">
-									<h4 class="no-margin"><?php esc_html_e( 'Familiar &amp; Easy to Use', 'courier' ); ?></h4>
-									<p><?php esc_html_e( 'Create site notices using an interface similar to default pages and posts in WordPress.', 'courier' ); ?></p>
+									<h4 class="no-margin"><?php esc_html_e( 'Easy to Use', 'courier-notices' ); ?></h4>
+									<p><?php esc_html_e( 'Create site notices using an interface similar to default pages and posts in WordPress.', 'courier-notices' ); ?></p>
 								</div>
 							</div>
 						</div>
@@ -135,48 +90,16 @@ use \Courier\Helper\Utils as Utils;
 						<div class="courier-columns-6">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-users.svg' ); ?>" alt=""/>
+									<img src="<?php echo esc_url( COURIER_NOTICES_PLUGIN_URL . 'assets/img/icon-users.svg' ); ?>" alt=""/>
 								</div>
 								<div class="about-box-copy">
-									<h4 class="no-margin"><?php esc_html_e( 'Notices For Users/Visitors', 'courier' ); ?></h4>
+									<h4 class="no-margin"><?php esc_html_e( 'Quickly get started', 'courier-notices' ); ?></h4>
 									<ul class="courier-notice-types-list">
-										<li><?php esc_html_e( 'Global Notices (For all users)', 'courier' ); ?></li>
-										<li><?php esc_html_e( 'User Specific Notices', 'courier' ); ?></li>
-										<li><?php esc_html_e( 'User Group Notices (Coming Soon)', 'courier' ); ?></li>
+										<li><?php esc_html_e( 'Different notice types', 'courier-notices' ); ?></li>
+										<li><?php esc_html_e( 'Easy to design/style', 'courier-notices' ); ?></li>
+										<li><?php esc_html_e( 'Easy to extend', 'courier-notices' ); ?></li>
 									</ul>
-									<p><?php esc_html_e( 'More features coming soon.', 'courier' ); ?></p>
-								</div>
-							</div>
-						</div>
-			<div class="gray-bg negative-bg">
-				<div class="wrapper">
-					<h2 class="light-weight"><?php esc_html_e( 'More Quick Tips', 'courier' ); ?></h2>
-					<div class="grey-box-container courier-row" data-equalizer="">
-						<div class="courier-columns-6">
-							<div class="grey-box" data-equalizer-watch="">
-								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-familiar.svg' ); ?>" alt=""/>
-								</div>
-								<div class="about-box-copy">
-									<h4 class="no-margin"><?php esc_html_e( 'Familiar &amp; Easy to Use', 'courier' ); ?></h4>
-									<p><?php esc_html_e( 'Create site notices using an interface similar to default pages and posts in WordPress.', 'courier' ); ?></p>
-								</div>
-							</div>
-						</div>
-
-						<div class="courier-columns-6">
-							<div class="grey-box" data-equalizer-watch="">
-								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-users.svg' ); ?>" alt=""/>
-								</div>
-								<div class="about-box-copy">
-									<h4 class="no-margin"><?php esc_html_e( 'Notices For Users/Visitors', 'courier' ); ?></h4>
-									<ul class="courier-notice-types-list">
-										<li><?php esc_html_e( 'Global Notices (For all users)', 'courier' ); ?></li>
-										<li><?php esc_html_e( 'User Specific Notices', 'courier' ); ?></li>
-										<li><?php esc_html_e( 'User Group Notices (Coming Soon)', 'courier' ); ?></li>
-									</ul>
-									<p><?php esc_html_e( 'More features coming soon.', 'courier' ); ?></p>
+									<p><?php esc_html_e( 'More features coming soon.', 'courier-notices' ); ?></p>
 								</div>
 							</div>
 						</div>
@@ -184,12 +107,12 @@ use \Courier\Helper\Utils as Utils;
 						<div class="courier-columns-6">
 							<div class="grey-box " data-equalizer-watch="">
 								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-types.svg' ); ?>" alt=""/>
+									<img src="<?php echo esc_url( COURIER_NOTICES_PLUGIN_URL . 'assets/img/icon-types.svg' ); ?>" alt=""/>
 								</div>
 								<div class="about-box-copy">
-									<h4 class="no-margin"><?php esc_html_e( 'Create Your Own Notice Types ', 'courier' ); ?></h4>
-									<p><?php esc_html_e( 'You can use the default Courier notice types or feel free to add your own.', 'courier' ); ?></p>
-									<p><?php esc_html_e( 'Pick your own notice colors and icons, disable the styles completely to theme Courier yourself.', 'courier' ); ?></p>
+									<h4 class="no-margin"><?php esc_html_e( 'Create Your Own Notice Types ', 'courier-notices' ); ?></h4>
+									<p><?php esc_html_e( 'You can use the default Courier notice types or feel free to add your own.', 'courier-notices' ); ?></p>
+									<p><?php esc_html_e( 'Pick your own notice colors and icons, disable the styles completely to theme Courier yourself.', 'courier-notices' ); ?></p>
 								</div>
 							</div>
 						</div>
@@ -197,15 +120,15 @@ use \Courier\Helper\Utils as Utils;
 						<div class="courier-columns-6">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-plays-well.svg' ); ?>" alt=""/>
+									<img src="<?php echo esc_url( COURIER_NOTICES_PLUGIN_URL . 'assets/img/icon-plays-well.svg' ); ?>" alt=""/>
 								</div>
 								<div class="about-box-copy">
-									<h4 class="no-margin"><?php esc_html_e( 'Plays Well with Others', 'courier' ); ?></h4>
+									<h4 class="no-margin"><?php esc_html_e( 'Plays Well with Others', 'courier-notices' ); ?></h4>
 									<p>
 										<?php
 										printf(
 											// translators: %s Courier github URL.
-											wp_kses( __( 'Continually updated with hooks and filters to extend functionality. For a full list, check out <a href="%s" target="_blank" rel="noopener">Courier on github.com</a>.', 'courier' ), Utils::get_safe_markup() ),
+											wp_kses( __( 'Continually updated with hooks and filters to extend functionality. For a full list, check out <a href="%s" target="_blank" rel="noopener">Courier on github.com</a>.', 'courier-notices' ), Utils::get_safe_markup() ),
 											esc_url( 'https://github.com/linchpin/courier' )
 										);
 										?>
@@ -217,15 +140,15 @@ use \Courier\Helper\Utils as Utils;
 						<div class="courier-columns-6">
 							<div class="grey-box" data-equalizer-watch="">
 								<div class="about-box-icon">
-									<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/icon-add-on.svg' ); ?>" alt=""/>
+									<img src="<?php echo esc_url( COURIER_NOTICES_PLUGIN_URL . 'assets/img/icon-add-on.svg' ); ?>" alt=""/>
 								</div>
 								<div class="about-box-copy">
-									<h4 class="no-margin"><?php esc_html_e( 'Addons', 'courier' ); ?></h4>
+									<h4 class="no-margin"><?php esc_html_e( 'Addons', 'courier-notices' ); ?></h4>
 									<p>
 										<?php
 										printf(
 											// translators: %s Courier github URL.
-											wp_kses( __( 'If you\'re using gravity forms, you can even use courier as your gravity forms confirmation. Simply visit your forms confirmation area and you will see a new confirmation type of "Courier Notice"', 'courier' ), Utils::get_safe_markup() ),
+											wp_kses( __( 'If you\'re using gravity forms, you can even use courier as your gravity forms confirmation. Simply visit your forms confirmation area and you will see a new confirmation type of "Courier Notice"', 'courier-notices' ), Utils::get_safe_markup() ),
 											esc_url( 'https://github.com/linchpin/courier' )
 										);
 										?>

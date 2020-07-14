@@ -2,11 +2,11 @@
 /**
  * Courier Notice Model
  *
- * @package Courier\Model\Post_Type
+ * @package CourierNotices\Model\Post_Type
  */
-namespace Courier\Model\Post_Type;
+namespace CourierNotices\Model\Post_Type;
 
-use \Courier\Model\Config;
+use CourierNotices\Model\Config;
 
 /**
  * Courier_Notice Class
@@ -50,40 +50,40 @@ class Courier_Notice {
 		$this->config = new Config();
 
 		$default_labels = array(
-			'name'                  => esc_html__( 'Courier Notices', 'courier' ),
-			'singular_name'         => esc_html__( 'Notice', 'courier' ),
-			'all_items'             => esc_html__( 'All Notices', 'courier' ),
-			'new_item'              => esc_html__( 'New notice', 'courier' ),
-			'add_new'               => esc_html__( 'Add New', 'courier' ),
-			'add_new_item'          => esc_html__( 'Add New notice', 'courier' ),
-			'edit_item'             => esc_html__( 'Edit notice', 'courier' ),
-			'view_item'             => esc_html__( 'View notice', 'courier' ),
-			'search_items'          => esc_html__( 'Search notices', 'courier' ),
-			'not_found'             => esc_html__( 'No notices found', 'courier' ),
-			'not_found_in_trash'    => esc_html__( 'No notices found in trash', 'courier' ),
-			'parent_item_colon'     => esc_html__( 'Parent notice', 'courier' ),
-			'menu_name'             => esc_html__( 'Courier Notices', 'courier' ),
-			'name_admin_bar'        => esc_html__( 'Notice', 'courier' ),
-			'archives'              => esc_html__( 'Notice Archives', 'courier' ),
-			'attributes'            => esc_html__( 'Notice Attributes', 'courier' ),
-			'update_item'           => esc_html__( 'Update Notice', 'courier' ),
-			'view_items'            => esc_html__( 'View Notice', 'courier' ),
-			'featured_image'        => esc_html__( 'Featured Image', 'courier' ),
-			'set_featured_image'    => esc_html__( 'Set featured image', 'courier' ),
-			'remove_featured_image' => esc_html__( 'Remove featured image', 'courier' ),
-			'use_featured_image'    => esc_html__( 'Use as featured image', 'courier' ),
-			'insert_into_item'      => esc_html__( 'Insert into Notice', 'courier' ),
-			'uploaded_to_this_item' => esc_html__( 'Uploaded to this Notice', 'courier' ),
-			'items_list'            => esc_html__( 'Notice list', 'courier' ),
-			'items_list_navigation' => esc_html__( 'Notice list navigation', 'courier' ),
-			'filter_items_list'     => esc_html__( 'Filter Notice list', 'courier' ),
+			'name'                  => esc_html__( 'Courier Notices', 'courier-notices' ),
+			'singular_name'         => esc_html__( 'Notice', 'courier-notices' ),
+			'all_items'             => esc_html__( 'All Notices', 'courier-notices' ),
+			'new_item'              => esc_html__( 'New notice', 'courier-notices' ),
+			'add_new'               => esc_html__( 'Add New', 'courier-notices' ),
+			'add_new_item'          => esc_html__( 'Add New notice', 'courier-notices' ),
+			'edit_item'             => esc_html__( 'Edit notice', 'courier-notices' ),
+			'view_item'             => esc_html__( 'View notice', 'courier-notices' ),
+			'search_items'          => esc_html__( 'Search notices', 'courier-notices' ),
+			'not_found'             => esc_html__( 'No notices found', 'courier-notices' ),
+			'not_found_in_trash'    => esc_html__( 'No notices found in trash', 'courier-notices' ),
+			'parent_item_colon'     => esc_html__( 'Parent notice', 'courier-notices' ),
+			'menu_name'             => esc_html__( 'Courier Notices', 'courier-notices' ),
+			'name_admin_bar'        => esc_html__( 'Notice', 'courier-notices' ),
+			'archives'              => esc_html__( 'Notice Archives', 'courier-notices' ),
+			'attributes'            => esc_html__( 'Notice Attributes', 'courier-notices' ),
+			'update_item'           => esc_html__( 'Update Notice', 'courier-notices' ),
+			'view_items'            => esc_html__( 'View Notice', 'courier-notices' ),
+			'featured_image'        => esc_html__( 'Featured Image', 'courier-notices' ),
+			'set_featured_image'    => esc_html__( 'Set featured image', 'courier-notices' ),
+			'remove_featured_image' => esc_html__( 'Remove featured image', 'courier-notices' ),
+			'use_featured_image'    => esc_html__( 'Use as featured image', 'courier-notices' ),
+			'insert_into_item'      => esc_html__( 'Insert into Notice', 'courier-notices' ),
+			'uploaded_to_this_item' => esc_html__( 'Uploaded to this Notice', 'courier-notices' ),
+			'items_list'            => esc_html__( 'Notice list', 'courier-notices' ),
+			'items_list_navigation' => esc_html__( 'Notice list navigation', 'courier-notices' ),
+			'filter_items_list'     => esc_html__( 'Filter Notice list', 'courier-notices' ),
 		);
 
 		$this->labels = apply_filters( 'courier_notice_labels', $default_labels );
 
 		$default_args = array(
-			'label'               => esc_html__( 'Notice', 'courier' ),
-			'description'         => esc_html__( 'Notices', 'courier' ),
+			'label'               => esc_html__( 'Notice', 'courier-notices' ),
+			'description'         => esc_html__( 'Notices', 'courier-notices' ),
 			'labels'              => $this->labels,
 			'supports'            => array( 'title', 'editor' ),
 			'taxonomies'          => array( 'courier_type', 'courier_status', 'courier_scope' ),
@@ -100,11 +100,10 @@ class Courier_Notice {
 			'exclude_from_search' => true,
 			'publicly_queryable'  => false,
 			'capability_type'     => 'page',
-			'menu_icon'           => 'courier-logo',
 			'rewrite'             => false,
 		);
 
-		$this->args = apply_filters( 'courier_notice_args', $default_args );
+		$this->args = apply_filters( 'courier_notices_notice_args', $default_args );
 	}
 
 	/**

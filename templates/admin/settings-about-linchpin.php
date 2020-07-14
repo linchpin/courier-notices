@@ -3,7 +3,7 @@
  * About Linchpin
  *
  * @since      1.0
- * @package    Courier
+ * @package    CourierNotices
  * @subpackage Admin
  */
 
@@ -12,7 +12,7 @@ if ( ! function_exists( 'add_action' ) ) {
 	exit;
 }
 
-use \Courier\Helper\Utils as Utils;
+use CourierNotices\Helper\Utils as Utils;
 
 ?>
 <div id="about-courier">
@@ -20,7 +20,7 @@ use \Courier\Helper\Utils as Utils;
 		<div id="postbox-container" class="postbox-container">
 			<div class="about hero negative-bg">
 				<div class="hero-text">
-					<h1><?php esc_html_e( 'About the Team Behind Courier', 'courier' ); ?></h1>
+					<h1><?php esc_html_e( 'About the Team Behind Courier', 'courier-notices' ); ?></h1>
 				</div>
 			</div>
 
@@ -33,11 +33,11 @@ use \Courier\Helper\Utils as Utils;
 								wp_kses(
 								// translators: %1$s Linchpin URL, %2$s Linchpin Profile URL, %3$s WordPress RI meetup URL.
 									__(
-										'<a href="%1$s">Linchpin</a> is a Digital Agency that specializes in WordPress. 
-										Committed to contributing to the WordPress community, Linchpin has released several 
-										<a href="%2$s">plugins</a> on WordPress.org. Linchpin is also an active member in 
-										their local WordPress communities, not only leading the <a href="%3$s">WordPress 
-										Rhode Island Meetup</a> group for several years, but also organizing, volunteering, 
+										'<a href="%1$s">Linchpin</a> is a Digital Agency that specializes in WordPress.
+										Committed to contributing to the WordPress community, Linchpin has released several
+										<a href="%2$s">plugins</a> on WordPress.org. Linchpin is also an active member in
+										their local WordPress communities, not only leading the <a href="%3$s">WordPress
+										Rhode Island Meetup</a> group for several years, but also organizing, volunteering,
 										speaking at or sponsoring local WordCamp conferences in the greater New England area.',
 										'courier'
 									),
@@ -77,7 +77,7 @@ use \Courier\Helper\Utils as Utils;
 									Utils::get_safe_markup()
 								),
 								esc_url( 'https://linchpin.com' ),
-								esc_html__( 'Linchpin', 'courier' )
+								esc_html__( 'Linchpin', 'courier-notices' )
 							);
 							?>
 							<?php
@@ -91,9 +91,9 @@ use \Courier\Helper\Utils as Utils;
 									Utils::get_safe_markup()
 								),
 								esc_url( 'https://facebook.com/linchpinagency' ),
-								esc_html__( 'Facebook', 'courier' ),
+								esc_html__( 'Facebook', 'courier-notices' ),
 								esc_url( 'https://twitter.com/linchpin_agency' ),
-								esc_html__( 'Twitter', 'courier' )
+								esc_html__( 'Twitter', 'courier-notices' )
 							);
 							?>
 							<?php
@@ -107,11 +107,11 @@ use \Courier\Helper\Utils as Utils;
 									Utils::get_safe_markup()
 								),
 								esc_url( 'https://www.instagram.com/linchpinagency/' ),
-								esc_html__( 'Instagram', 'courier' )
+								esc_html__( 'Instagram', 'courier-notices' )
 							);
 							?>
 						</p>
-						<img src="<?php echo esc_url( COURIER_PLUGIN_URL . 'assets/img/logo-linchpin.svg' ); ?>" width="200px"/>
+						<img src="<?php echo esc_url( COURIER_NOTICES_PLUGIN_URL . 'assets/img/logo-linchpin.svg' ); ?>" width="200px"/>
 					</div>
 				</div>
 			</div>

@@ -47,15 +47,15 @@ export default function dismiss() {
 			}
 
 			// Only pass an ajax call if the user has an ID
-			if ( courier_data.user_id ) {
+			if ( courier_notices_data.user_id && courier_notices_data.user_id > 0 ) {
 				$.post( {
-						url: courier_data.notice_endpoint + (notice_id) + '/dismiss',
+						url: courier_notices_data.notice_endpoint + ( notice_id ) + '/dismiss',
 						data: {
-							'dismiss_nonce' : courier_data.dismiss_nonce,
-							'user_id' : courier_data.user_id,
+							'dismiss_nonce' : courier_notices_data.dismiss_nonce,
+							'user_id' : courier_notices_data.user_id,
 						},
 						beforeSend: function( request ) {
-							request.setRequestHeader( 'X-WP-Nonce', courier_data.wp_rest_nonce );
+							request.setRequestHeader( 'X-WP-Nonce', courier_notices_data.wp_rest_nonce );
 						},
 					} ).done( function () {
 						$notice.find('.courier-close').trigger('click');
@@ -118,7 +118,7 @@ export default function dismiss() {
 	 * @param notice_ids example 1 or 1,2,3
 	 */
 	function ajax( notice_ids ) {
-		$.get( courier_data.endpoint + notice_ids + '/').done( function () {
+		$.get( courier_notices_data.endpoint + notice_ids + '/').done( function () {
 			$notices.find('.courier-close').trigger('click');
 
 			notice_ids = String(notice_ids).split(',');

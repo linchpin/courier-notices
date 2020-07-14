@@ -1,5 +1,9 @@
 # Changelog #
 
+## 1.2.0 ##
+
+* Updated - Namespace changed from courier to courier-notices due to plugin conflict on wordpress.org
+
 ## 1.1.4 ##
 
 * Fixed - Fatal error when assigning data to a template view
