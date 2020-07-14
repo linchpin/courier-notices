@@ -285,7 +285,7 @@ class Type_List_Table extends WP_List_Table {
 				$notice_view->assign( 'notice_id', $type->term_id );
 				$notice_view->assign( 'icon', $icon_class );
 				$notice_view->assign( 'post_class', 'post_class' );
-				$notice_view->assign( 'post_class', implode( ' ', get_post_class( 'courier-notice courier_notice callout alert alert-box', $type->term_id ) ) );
+				$notice_view->assign( 'post_class', implode( ' ', get_post_class( 'courier-notice courier_notice alert alert-box', $type->term_id ) ) );
 				$notice_view->assign( 'dismissible', true );
 				$notice_view->assign( 'post_content', 'post_content' );
 				$notice_view->assign( 'type', $type );
