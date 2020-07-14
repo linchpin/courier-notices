@@ -48,7 +48,7 @@ class Upgrade {
 		$plugin_options = get_option( 'courier_options', array() );
 
 		if ( empty( $plugins_options ) ) {
-			$plugin_options = get_option( 'courier_notices_options', array() );
+			$plugin_options = get_option( 'courier_notices_options', array( 'plugin_version' => '0.0.0' ) );
 		}
 
 		$stored_version = ( $plugin_options['plugin_version'] ) ? $plugin_options['plugin_version'] : '0.0.0';
