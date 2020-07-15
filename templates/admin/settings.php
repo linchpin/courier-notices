@@ -73,8 +73,7 @@ if ( ! function_exists( 'add_action' ) ) {
 			}
 
 			$tab_url = remove_query_arg( 'subtab', $tab_url );
-			$tab_url = apply_filters( "courier_admin_tab_{$tab_slug}_url", $tab_url );
-
+			$tab_url = apply_filters( "courier_notices_admin_tab_{$tab_slug}_url", $tab_url );
 
 			$active  = ( $active_tab === $tab_slug ) ? ' nav-tab-active' : '';
 
@@ -177,10 +176,10 @@ if ( ! function_exists( 'add_action' ) ) {
 						$whats_new->render( 'admin/settings-whats-new' );
 						?>
 					<?php else : ?>
-						<?php do_action( 'courier_setting_' . sanitize_title( $active_tab ) ); ?>
+						<?php do_action( 'courier_notices_setting_' . sanitize_title( $active_tab ) ); ?>
 					<?php endif; ?>
 				<?php elseif ( $active_sub_tab ) : ?>
-					<?php do_action( 'courier_setting_' . sanitize_title( $active_sub_tab ) ); ?>
+					<?php do_action( 'courier_notices_setting_' . sanitize_title( $active_sub_tab ) ); ?>
 				<?php endif; ?>
 			</div>
 		</div>

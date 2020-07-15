@@ -245,7 +245,7 @@ class General {
 				'field'       => 'notice_type_designs',
 				'section'     => $tab_section,
 				'options'     => 'courier_design',
-				'class'   => 'type_table',
+				'class'       => 'type_table',
 				'label'       => esc_html__( 'Courier Types', 'courier-notices' ),
 				'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier-notices' ),
 			)
@@ -309,7 +309,7 @@ class General {
 
 			$options = isset( $default_settings[ $tab_slug ] ) ? $default_settings[ $tab_slug ] : array();
 
-			$extended_settings[ $tab_slug ] = apply_filters( 'courier_' . $tab_slug, $options );
+			$extended_settings[ $tab_slug ] = apply_filters( 'courier_notices_' . $tab_slug, $options );
 		}
 
 		return $extended_settings;
@@ -365,7 +365,7 @@ class General {
 			),
 		);
 
-		return apply_filters( 'courier_settings_tabs', $tabs );
+		return apply_filters( 'courier_notices_settings_tabs', $tabs );
 	}
 
 	/**
