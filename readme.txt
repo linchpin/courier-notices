@@ -1,5 +1,5 @@
-=== Courier ===
-Contributors: linchpin_agency, aware, ncallen, maxinacube, desrosj, fischfood
+=== Courier Notices ===
+Contributors: linchpin_agency, aware, ncallen, maxinacube, fischfood, desrosj
 Tags: linchpin, front end, notices, notifications, alerts, dismissible, gdpr
 Requires at least: 5.0
 Tested up to: 5.3.2
@@ -10,7 +10,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Add dismissible and non-dismissible notices throughout your website.
 
 == Description ==
-
 
 Add dismissible and non-dismissible notices throughout your website.
 
@@ -27,7 +26,7 @@ This section describes how to install the plugin and get it working.
 
 e.g.
 
-1. Upload `courier` to the `/wp-content/plugins/` directory
+1. Upload `courier-notices` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
@@ -40,6 +39,7 @@ e.g.
 
 * Updated - Namespace changed from courier to courier-notices due to plugin conflict on wordpress.org
 * Fixed   - Duplicate modal/popup issue
+* Submission to wordpress.org
 
 = 1.1.4 =
 
