@@ -1,9 +1,8 @@
-# Courier #
+# Courier Notices #
 
 Add dismissible and non-dismissible notices throughout your website.
 
 ## Description ##
-
 
 Add dismissible and non-dismissible notices throughout your website.
 
@@ -20,7 +19,7 @@ This section describes how to install the plugin and get it working.
 
 e.g.
 
-1. Upload `courier` to the `/wp-content/plugins/` directory
+1. Upload `courier-notices` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
 
