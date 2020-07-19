@@ -13,7 +13,7 @@
     "jquery": "3.5.0",
     "save-dev": "^0.0.1-security",
     "through2": "^3.0.1",
-    "what-input": "5.2.7"
+    "what-input": "5.2.10"
   },
   "devDependencies": {
     "@babel/core": "7.10.5",
