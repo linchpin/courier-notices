@@ -66,14 +66,15 @@ class Fields {
 		);
 
 		// Parse incoming $args into an array and merge it with $defaults.
-		$args    = wp_parse_args( $args, $defaults );
-		$options = get_option( $args['section'] );
+		$args        = wp_parse_args( $args, $defaults );
+		$options     = get_option( $args['section'] );
+		$field_value = ! empty( $options[ $args['field'] ] ) ? $options[ $args['field'] ] : '';
 		?>
 		<?php if ( ! empty( $args['description'] ) ) : ?>
 			<p class="description"><?php echo esc_html( $args['description'] ); ?></p>
 		<?php endif; ?>
 		<label for="<?php echo esc_attr( $args['id'] ); ?>" class="screen-reader-text"><?php echo esc_html( $args['label'] ); ?></label>
-		<input type="<?php echo esc_attr( $args['type'] ); ?>" class="<?php echo esc_attr( $args['class'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>" name="<?php echo esc_attr( $args['name'] ); ?>" value="<?php echo esc_attr( $options[ $args['field'] ] ); ?>">
+		<input type="<?php echo esc_attr( $args['type'] ); ?>" class="<?php echo esc_attr( $args['class'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>" name="<?php echo esc_attr( $args['name'] ); ?>" value="<?php echo esc_attr( $field_value ); ?>">
 		<?php
 	}
 
