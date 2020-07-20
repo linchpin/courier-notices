@@ -143,12 +143,11 @@ class Courier_Types {
 
 		// If not css class is passed, fall back to the title
 		if ( ! isset( $_POST['courier_notice_type_new_css_class'] ) || '' === $_POST['courier_notice_type_new_css_class'] ) {
-			$notice_type_class = $_POST['courier_notice_type_new_title'];
+			$notice_type_class = sanitize_title_with_dashes( $_POST['courier_notice_type_new_title'] );
 		} else {
-			$notice_type_class = $_POST['courier_notice_type_new_css_class'];
+			$notice_type_class = sanitize_title_with_dashes( $_POST['courier_notice_type_new_css_class'] );
 		}
 
-		$notice_type_class      = sanitize_title_with_dashes( $notice_type_class );
 		$notice_type_color      = sanitize_hex_color( $_POST['courier_notice_type_new_color'] );
 		$notice_type_text_color = sanitize_hex_color( $_POST['courier_notice_type_new_text_color'] );
 		$notice_type_icon_color = sanitize_hex_color( $_POST['courier_notice_type_new_icon_color'] );
@@ -212,12 +211,11 @@ class Courier_Types {
 
 		// If not css class is passed, fall back to the title
 		if ( ! isset( $_POST['courier_notice_type_edit_css_class'] ) || '' === $_POST['courier_notice_type_edit_css_class'] ) {
-			$notice_type_class = $_POST['courier_notice_type_edit_title'];
+			$notice_type_class = sanitize_title_with_dashes( $_POST['courier_notice_type_edit_title'] );
 		} else {
-			$notice_type_class = $_POST['courier_notice_type_edit_css_class'];
+			$notice_type_class = sanitize_title_with_dashes( $_POST['courier_notice_type_edit_css_class'] );
 		}
 
-		$notice_type_class      = sanitize_title_with_dashes( $notice_type_class );
 		$notice_type_color      = sanitize_hex_color( $_POST['courier_notice_type_edit_color'] );
 		$notice_type_text_color = sanitize_hex_color( $_POST['courier_notice_type_edit_text_color'] );
 		$notice_type_icon_color = sanitize_hex_color( $_POST['courier_notice_type_edit_icon_color'] );
