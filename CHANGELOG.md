@@ -1,8 +1,13 @@
 # Changelog #
 
+## 1.2.1 ##
+* Updated sanitization to match wordpress.org audit.
+
 ## 1.2.0 ##
 
 * Updated - Namespace changed from courier to courier-notices due to plugin conflict on wordpress.org
+* Fixed   - Duplicate modal/popup issue
+* Submission to wordpress.org
 
 ## 1.1.4 ##
 
