@@ -1,0 +1,15 @@
+/.wordpress-org
+/.git
+/.github
+/node_modules
+/assets
+
+gulpfile.babel.js
+yarn.lock
+config.yml
+renovate.json
+.codeclimate.yml
+.distignore
+.gitignore
+.editorconfig
+.gitattributes
