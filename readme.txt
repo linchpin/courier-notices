@@ -3,7 +3,7 @@ Contributors: linchpin_agency, aware, ncallen, maxinacube, fischfood, desrosj
 Tags: linchpin, front end, notices, notifications, alerts, dismissible, gdpr
 Requires at least: 5.0
 Tested up to: 5.3.2
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,7 +35,11 @@ e.g.
 
 == Changelog ==
 
+= 1.2.3 =
+* Fixed - issue with notice placement (whoops)
+
 = 1.2.1 =
+
 * Updated sanitization to match wordpress.org audit.
 
 = 1.2.0 =

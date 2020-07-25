@@ -1,6 +1,10 @@
 # Changelog #
 
+## 1.2.3 ##
+* Fixed - issue with notice placement (whoops)
+
 ## 1.2.1 ##
+
 * Updated sanitization to match wordpress.org audit.
 
 ## 1.2.0 ##
