@@ -57,7 +57,10 @@ export default function core() {
 					$.ajax( {
 						method: 'GET',
 						beforeSend: function (xhr) {
-							xhr.setRequestHeader( 'X-WP-Nonce', courier_notices_data.wp_rest_nonce );
+							// only send nonce if the user is logged in.
+							if ( courier_notices_data.user_id !== '0' ) {
+								xhr.setRequestHeader( 'X-WP-Nonce', courier_notices_data.wp_rest_nonce );
+							}
 						},
 						'url': courier_notices_data.notices_endpoint,
 						'data': settings,
