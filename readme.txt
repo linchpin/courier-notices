@@ -35,7 +35,12 @@ e.g.
 
 == Changelog ==
 
+= 1.2.4 =
+* Fixed - Issue with 403 error "rest_cookie_invalid_nonce" for logged out users.
+* Updated - Banner shown in the WordPress.org plugin directory.
+
 = 1.2.3 =
+
 * Fixed - issue with notice placement (whoops)
 
 = 1.2.1 =
