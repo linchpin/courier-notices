@@ -30,7 +30,7 @@ export default function core() {
 			return;
 		}
 
-		let courierContainers = document.querySelectorAll('.courier-notices[data-courier-ajax="true"]' );
+		let courierContainers = document.querySelectorAll('.courier-notices:not(.courier-location-popup-modal)[data-courier-ajax="true"]' );
 		let observer          = new IntersectionObserver(function( entries, observer ) {
 
 			entries.forEach( function( entry ) {
@@ -47,6 +47,8 @@ export default function core() {
 					if ( typeof( courier_notices_data.post_info ) !== 'undefined' ) {
 						settings.post_info = courier_notices_data.post_info;
 					}
+
+					console.log( courier_notices_data.post_info );
 
 					// let data = $.extend( {}, courier_notices_data.post_info, settings );
 
