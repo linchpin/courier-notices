@@ -48,10 +48,6 @@ export default function core() {
 						settings.post_info = courier_notices_data.post_info;
 					}
 
-					console.log( courier_notices_data.post_info );
-
-					// let data = $.extend( {}, courier_notices_data.post_info, settings );
-
 					let dismissed_notice_ids = getItem( 'dismissed_notices' );
 						dismissed_notice_ids = JSON.parse( dismissed_notice_ids );
 						dismissed_notice_ids = dismissed_notice_ids || [];
