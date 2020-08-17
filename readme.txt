@@ -2,8 +2,8 @@
 Contributors: linchpin_agency, aware, ncallen, maxinacube, fischfood, desrosj
 Tags: linchpin, front end, notices, notifications, alerts, dismissible, gdpr
 Requires at least: 5.0
-Tested up to: 5.3.2
-Stable tag: 1.2.5
+Tested up to: 5.4.2
+Stable tag: 1.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +34,9 @@ e.g.
 == Screenshots ==
 
 == Changelog ==
+
+= 1.2.6 =
+* Fixed - Fixed issue with modal dialogs displaying multiple times due to intersectObserver
 
 = 1.2.5 =
 * Updated - Options namespace
