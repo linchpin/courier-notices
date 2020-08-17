@@ -1,5 +1,8 @@
 # Changelog #
 
+## 1.2.5 ##
+* Updated - Options namespace
+
 ## 1.2.4 ##
 * Fixed - Issue with 403 error "rest_cookie_invalid_nonce" for logged out users.
 * Updated - Banner shown in the WordPress.org plugin directory.

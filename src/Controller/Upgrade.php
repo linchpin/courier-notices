@@ -109,7 +109,7 @@ class Upgrade {
 			courier_get_css();
 
 			$plugin_options['plugin_version'] = COURIER_NOTICES_VERSION;
-			update_option( 'courier_notice_options', $plugin_options );
+			update_option( 'courier_notices_options', $plugin_options );
 		}
 	}
 
