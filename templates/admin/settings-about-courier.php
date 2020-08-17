@@ -43,7 +43,7 @@ use CourierNotices\Helper\Utils as Utils;
 			</div>
 
 			<div class="wrapper courier-row table">
-				<div class="courier-columns-6 table-cell">
+				<div class="courier-columns-12 table-cell">
 					<h3><?php esc_html_e( 'A Quick 2 Minute Primer', 'courier-notices' ); ?></h3>
 					<p><?php esc_html_e( 'Courier allows you to notify your site visitors/users of different information and events on your site.', 'courier-notices' ); ?></p>
 					<p><?php esc_html_e( 'We built this plugin as a base notification system for a few other projects and decided to share it with the community.', 'courier-notices' ); ?></p>
@@ -64,10 +64,6 @@ use CourierNotices\Helper\Utils as Utils;
 						?>
 					</p>
 					<?php endif; ?>
-				</div>
-
-				<div class="courier-columns-6 right table-cell">
-					<img src="<?php echo esc_url( COURIER_NOTICES_PLUGIN_URL . 'assets/images/help-admin-comp2.gif' ); ?>" alt="<?php esc_attr_e( 'Enable Courier', 'courier-notices' ); ?>" width="90%"/>
 				</div>
 			</div>
 
