@@ -1,5 +1,8 @@
 # Changelog #
 
+## 1.2.6 ##
+* Fixed - Fixed issue with modal dialogs displaying multiple times due to intersectObserver
+
 ## 1.2.5 ##
 * Updated - Options namespace
 
