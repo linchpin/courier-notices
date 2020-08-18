@@ -5,12 +5,16 @@ let $ = jQuery;
 
 export default function modal() {
 
-	let $doc    = $(document),
-		$body   = $('body'),
-		$window = $(window);
+	let $doc        = $(document),
+		$body       = $('body'),
+		$window     = $(window),
+		initialized = false;
 
 	const init = () => {
-		window.onload = display_modal;
+		if ( ! initialized ) {
+			window.onload = display_modal;
+			initialized   = true;
+		}
 	};
 
 	/**
@@ -40,10 +44,20 @@ export default function modal() {
 			dismissed_notice_ids = JSON.parse( dismissed_notice_ids );
 			dismissed_notice_ids = dismissed_notice_ids || [];
 
+		// There should only ever be one modal placement display container, forcing :first selector
+		let $container = $( '.courier-notices.courier-location-popup-modal[data-courier-placement="' + settings.placement + '"]:first' );
+
+		// If for some reason there is a theme conflict double check if modal has already loaded. If so die early.
+		if ( 'true' === $container.prop( 'data-loaded' ) ) {
+			return;
+		}
+
 		$.ajax( {
 			method: 'GET',
 			beforeSend: function (xhr) {
-				xhr.setRequestHeader( 'X-WP-Nonce', courier_notices_data.wp_rest_nonce );
+				if ( courier_notices_data.user_id !== '0' ) {
+					xhr.setRequestHeader('X-WP-Nonce', courier_notices_data.wp_rest_nonce);
+				}
 			},
 			'url': courier_notices_data.notices_endpoint,
 			'data': settings,
@@ -60,15 +74,15 @@ export default function modal() {
 
 					let $notice = $( response.notices[ index ] ).hide();
 
-					$( '.courier-notices[data-courier-placement="' + settings.placement + '"]' )
-						.append( $notice );
+					// There should only ever be one modal placement display container, forcing :first selector
+					$container.append( $notice );
 
 					$notice.slideDown( 'fast' );
 				} );
+
+				$container.prop( 'data-loaded', 'true' );
 			}
 		} );
-
-		// .target.setAttribute( 'data-loaded', true );
 
 		$('.modal_overlay').show();
 	};
