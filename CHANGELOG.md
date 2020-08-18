@@ -1,5 +1,8 @@
 # Changelog #
 
+## 1.2.7 ##
+* Updated - Window load for modal placement
+
 ## 1.2.6 ##
 * Fixed - Fixed issue with modal dialogs displaying multiple times due to intersectObserver
 
