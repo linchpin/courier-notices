@@ -10,7 +10,7 @@ export default function modal() {
 		$window = $(window);
 
 	const init = () => {
-		window.onload = display_modal;
+		$window.on('load', display_modal);
 	};
 
 	/**
