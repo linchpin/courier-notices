@@ -16,6 +16,7 @@ if ( ! function_exists( 'add_action' ) ) {
 use CourierNotices\Controller\Admin\Fields\Fields as Fields;
 use CourierNotices\Core\View;
 use CourierNotices\Helper\Type_List_Table as Type_List_Table;
+use CourierNotices\Model\Taxonomy\Style;
 
 /**
  * Settings Class.
@@ -53,6 +54,25 @@ class General {
 		add_action( 'admin_init', array( __CLASS__, 'settings_init' ) );
 
 		add_filter( 'plugin_action_links', array( __CLASS__, 'add_settings_link' ), 10, 5 );
+
+		add_action( 'courier_notices_setting_global', array( __CLASS__, 'show_design_sub_settings' ) );
+		add_action( 'courier_notices_setting_types', array( __CLASS__, 'show_design_sub_settings' ) );
+	}
+
+	/**
+	 * Show our license area to activate or deactivate our license key
+	 *
+	 * @since 1.3.0
+	 */
+	public static function show_design_sub_settings( $options ) {
+		$view = new View();
+
+		$active_tab = isset( $options['subtab'] ) ? sanitize_text_field( wp_unslash( $options['subtab'] ) ) : 'global'; // phpcs:ignore WordPress.Security.NonceVerification
+
+		$view->assign( 'settings_key', 'courier_design' );
+		$view->assign( 'subtab', $active_tab );
+
+		$view->render( "admin/settings-$active_tab-design" );
 	}
 
 	/**
@@ -96,8 +116,8 @@ class General {
 			);
 
 			$site_link = array(
-				'faq'    => '<a href="https://linchpin.com/plugins/courier/" target="_blank">' . esc_html__( 'FAQ', 'courier-notices' ) . '</a>',
-				'go_pro' => '<a href="https://shop.linchpin.com/plugins/courier-pro/" target="_blank">' . esc_html__( 'Go Pro', 'courier-notices' ) . '</a>',
+				'faq'    => '<a href="https://wordpress.org/plugins/courier-notices/" target="_blank" rel="nofollow nopener">' . esc_html__( 'FAQ', 'courier-notices' ) . '</a>',
+				'go_pro' => '<a href="https://shop.linchpin.com/plugins/courier-pro/" target="_blank" rel="nofollow nopener">' . esc_html__( 'Go Pro', 'courier-notices' ) . '</a>',
 			);
 
 			$actions = array_merge( $settings, $actions );
@@ -150,8 +170,31 @@ class General {
 		// Setup General Settings.
 		self::setup_general_settings();
 
-		// Setup Design Settings.
-		self::setup_design_settings();
+		$active_subtab = isset( $_GET['subtab'] ) ? sanitize_text_field( wp_unslash( $_GET['subtab'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+
+		switch ( $active_subtab ) {
+			case 'global':
+				// Setup Global Design Settings.
+				self::setup_design_global_settings();
+				break;
+			case 'types':
+				// Setup Type Specific Design Settings.
+				self::setup_design_type_settings();
+				break;
+		}
+	}
+
+	/**
+	 * Get available styles of Courier Notices
+	 *
+	 * 1.3.0
+	 *
+	 * @return mixed|void
+	 */
+	public static function get_styles() {
+		$style_model = new Style();
+
+		return $style_model->get_styles_options();
 	}
 
 	/**
@@ -210,6 +253,35 @@ class General {
 				'label'   => esc_html__( 'Yes clear data', 'courier-notices' ),
 			)
 		);
+
+	}
+
+	/**
+	 * Add option title display based on each "style" of notice
+	 *
+	 * @since 1.2.8
+	 *
+	 * @param $tab_section
+	 */
+	private static function add_notice_title_display_options( $tab_section ) {
+
+		/**
+		 * Display Courier Notice title on the frontend
+		 */
+		add_settings_field(
+			'enable_title',
+			esc_html__( 'Display Courier Notice Titles on the frontend', 'courier-notices' ),
+			array( '\CourierNotices\Controller\Admin\Fields\Fields', 'add_checkbox' ),
+			$tab_section,
+			'courier_design_settings_section',
+			array(
+				'field'      => 'enable_title',
+				'section'    => $tab_section,
+				'class'      => 'courier-field',
+				'options_cb' => array( __CLASS__, 'get_styles' ),
+				'options'    => 'courier_design',
+			)
+		);
 	}
 
 	/**
@@ -217,7 +289,7 @@ class General {
 	 *
 	 * @since 1.0
 	 */
-	private static function setup_design_settings() {
+	private static function setup_design_global_settings() {
 		$tab_section = 'courier_design';
 
 		register_setting( $tab_section, $tab_section );
@@ -225,7 +297,48 @@ class General {
 		// Default Settings Section.
 		add_settings_section(
 			'courier_design_settings_section',
-			'',
+			'Global Design Settings',
+			array( __CLASS__, 'create_section' ),
+			$tab_section
+		);
+
+		/**
+		 * Disable output of frontend css
+		 */
+		add_settings_field(
+			'disable_css',
+			esc_html__( 'Disable CSS on front end', 'courier-notices' ),
+			array( '\CourierNotices\Controller\Admin\Fields\Fields', 'add_checkbox' ),
+			$tab_section,
+			'courier_design_settings_section',
+			array(
+				'field'       => 'disable_css',
+				'section'     => $tab_section,
+				'class'       => 'courier-field',
+				'options'     => 'courier_design',
+				'label'       => esc_html__( 'Yes disable CSS', 'courier-notices' ),
+				'description' => esc_html__( 'This is useful if you are using your own styles as part of your theme or overriding the css using the Appearance -> Customizer', 'courier-notices' ),
+			)
+		);
+
+		// Add display for notice title display
+		self::add_notice_title_display_options( $tab_section );
+	}
+
+	/**
+	 * Setup our different types of informational courier notices
+	 *
+	 * @since 1.3.0
+	 */
+	private static function setup_design_type_settings() {
+		$tab_section = 'courier_design';
+
+		register_setting( $tab_section, $tab_section );
+
+		// Default Settings Section.
+		add_settings_section(
+			'courier_design_settings_section',
+			'Type Design Settings',
 			array( __CLASS__, 'create_section' ),
 			$tab_section
 		);
@@ -243,24 +356,6 @@ class General {
 				'class'       => 'type_table',
 				'label'       => esc_html__( 'Courier Types', 'courier-notices' ),
 				'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier-notices' ),
-			)
-		);
-
-		/**
-		 * Disable output of frontend css
-		 */
-		add_settings_field(
-			'disable_css',
-			esc_html__( 'Disable CSS on front end', 'courier-notices' ),
-			array( '\CourierNotices\Controller\Admin\Fields\Fields', 'add_checkbox' ),
-			$tab_section,
-			'courier_design_settings_section',
-			array(
-				'field'       => 'disable_css',
-				'section'     => $tab_section,
-				'options'     => 'courier_design',
-				'label'       => esc_html__( 'Yes disable CSS', 'courier-notices' ),
-				'description' => esc_html__( 'This is useful if you are using your own styles as part of your theme or overriding the css using the Appearance -> Customizer', 'courier-notices' ),
 			)
 		);
 	}
@@ -336,7 +431,14 @@ class General {
 			),
 			'design'    => array(
 				'label'    => esc_html__( 'Notice Types / Design', 'courier-notices' ),
-				'sub_tabs' => array(),
+				'sub_tabs' => array(
+					'global'        => array(
+						'label' => esc_html__( 'Global Design Settings', 'courier-notices' ),
+					),
+					'types' => array(
+						'label' => esc_html__( 'Informational Settings', 'courier-notices' ),
+					),
+				),
 			),
 			'gopro'     => array(
 				'label'    => esc_html__( 'Go Pro', 'courier-notices' ),

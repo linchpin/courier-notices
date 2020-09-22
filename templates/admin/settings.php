@@ -179,7 +179,7 @@ if ( ! function_exists( 'add_action' ) ) {
 						<?php do_action( 'courier_notices_setting_' . sanitize_title( $active_tab ) ); ?>
 					<?php endif; ?>
 				<?php elseif ( $active_sub_tab ) : ?>
-					<?php do_action( 'courier_notices_setting_' . sanitize_title( $active_sub_tab ) ); ?>
+					<?php do_action( 'courier_notices_setting_' . sanitize_title( $active_sub_tab ), array( 'subtab', $active_sub_tab ) ); ?>
 				<?php endif; ?>
 			</div>
 		</div>
