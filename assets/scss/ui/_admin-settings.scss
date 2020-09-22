@@ -2,7 +2,6 @@
  * 01. Courier Types
  */
 
-
 // 01. Courier Types
 
 .form-table td {
@@ -102,9 +101,32 @@
 			margin: 2rem 0;
 		}
 
+		div.courier-field {
+
+			margin-bottom: 20px;
+
+			[scope="row"] {
+				font-weight: 700;
+				margin-bottom: 10px;
+			}
+
+			label {
+				min-width: 150px;
+				display:inline-block;
+			}
+		}
+
 		.submit {
 			width: 90%;
 			margin: 2rem 5%;
+		}
+
+		h2 {
+			display:none;
+		}
+
+		.wrapper h2 {
+			display:block;
 		}
 	}
 

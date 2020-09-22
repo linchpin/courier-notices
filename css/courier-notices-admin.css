@@ -1206,9 +1206,24 @@ pre.courier-notice-type-css-class {
   width: 100%;
   margin: 2rem 0; }
 
+#courier-settings form.settings-form div.courier-field {
+  margin-bottom: 20px; }
+  #courier-settings form.settings-form div.courier-field [scope="row"] {
+    font-weight: 700;
+    margin-bottom: 10px; }
+  #courier-settings form.settings-form div.courier-field label {
+    min-width: 150px;
+    display: inline-block; }
+
 #courier-settings form.settings-form .submit {
   width: 90%;
   margin: 2rem 5%; }
+
+#courier-settings form.settings-form h2 {
+  display: none; }
+
+#courier-settings form.settings-form .wrapper h2 {
+  display: block; }
 
 #courier-settings #cb {
   width: 36px; }
