@@ -8,6 +8,9 @@
 		<?php if ( $dismissible ) : ?>
 			<a href="#" class="courier-close close">&times;</a>
 		<?php endif; ?>
+		<?php if ( 'hide' !== $show_hide_title ) : ?>
+			<h6><?php echo wp_kses_post( $notice_title ); ?></h6>
+		<?php endif; ?>
 		<div class="courier-content"><?php echo wp_kses_post( $notice_content ); ?></div>
 	</div>
 </div>

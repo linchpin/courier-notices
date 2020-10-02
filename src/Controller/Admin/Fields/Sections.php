@@ -64,6 +64,7 @@ class Sections {
 			if ( ! isset( $wp_settings_fields ) || ! isset( $wp_settings_fields[ $page ] ) || ! isset( $wp_settings_fields[ $page ][ $section['id'] ] ) ) {
 				continue;
 			}
+
 			echo '<div class="form-table" role="presentation">';
 			$this->do_settings_fields( $page, $section['id'] );
 			echo '</ddiv>';

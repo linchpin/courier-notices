@@ -10,6 +10,7 @@
 namespace CourierNotices\Controller\Admin;
 
 use CourierNotices\Core\View;
+use CourierNotices\Model\Taxonomy\Style;
 
 /**
  * Class Courier_Notice_Metabox
@@ -51,6 +52,8 @@ class Courier_Notice_Metabox {
 		wp_nonce_field( 'courier_notices_expiration_nonce', 'courier_notices_expiration_noncename' );
 
 		global $wp_local;
+
+		do_action( 'courier_notices_before_metabox_content' );
 
 		?>
 		<div id="courier-notice_style_container">
@@ -161,7 +164,7 @@ class Courier_Notice_Metabox {
 		$current_date = (int) get_post_meta( $post->ID, '_courier_expiration', true );
 
 		if ( ! empty( $current_date ) ) {
-			$current_date = date( get_option( 'date_format' ) . ' h:i A', $current_date );
+			$current_date = gmdate( get_option( 'date_format' ) . ' h:i A', $current_date );
 		} else {
 			$current_date = '';
 		}
@@ -180,6 +183,8 @@ class Courier_Notice_Metabox {
 			</fieldset>
 		</div>
 		<?php
+
+		do_action( 'courier_notices_after_metabox_content' );
 	}
 
 	/**
@@ -188,7 +193,7 @@ class Courier_Notice_Metabox {
 	 * @since 1.0
 	 */
 	public function post_submitbox_misc_actions() {
-		global $post;
+		global $post, $pagenow;
 
 		wp_nonce_field( 'courier_notice_info_nonce', 'courier_notice_info_noncename' );
 		?>
@@ -197,6 +202,49 @@ class Courier_Notice_Metabox {
 			<label for="courier_dismissible"><?php esc_html_e( 'Dismissible Notice:', 'courier-notices' ); ?></label>&nbsp;
 			<input type="checkbox" name="courier_dismissible" id="courier_dismissible" value="1" <?php checked( get_post_meta( $post->ID, '_courier_dismissible', true ) ); ?> />
 			<a href="#" class="courier-info-icon courier-help" title="<?php esc_html_e( 'Allow this notice to be dismissed by users. If your notice is a Pop Over/Modal. We force the notice to be dismissible', 'courier-notices' ); ?>">?</a>
+		</div>
+
+		<?php
+
+			// If we're on a new page, we probably don't have a Courier Notice Style Yet
+
+			$show_hide = 'show';
+
+			if ( ! in_array( $pagenow, array( 'post-new.php' ) ) ) {
+
+				$courier_options = get_option( 'courier_design', array() );
+				$selected_styles = $courier_options['enable_title'];
+
+				if ( has_term( '', 'courier_style' ) ) {
+					$selected_courier_style = get_the_terms( $post->ID, 'courier_style' );
+				}
+
+				if ( ! empty( $selected_courier_style ) ) {
+
+					if ( ! empty( in_array( $selected_courier_style[0]->slug, $selected_styles ) ) ) {
+						$show_hide = 'hide';
+						?>
+						<div id="show-hide-info" class="courier-admin-notice notice inline">
+							<p>The <strong>Notice Style</strong> (<span id="selected-courier-notice-type" data-enable-title="<?php echo implode( ',', $selected_styles ); ?>"><?php echo esc_html( $selected_courier_style[0]->name ); ?></span>) is displaying this Notice's Title by default in the <a href="">global design settings</a>. Use the "Hide title" toggle below to override for this notice.</p>
+						</div>
+						<?php
+					}
+				}
+			}
+		?>
+
+		<div class="misc-pub-section courier-dismissable">
+			<span class="dashicons dashicons-text wp-media-buttons-icon"></span>&nbsp
+			<span id="show-title-toggle" class="show-hide-toggle <?php echo ( 'hide' === $show_hide ) ? 'hide' : '' ?>">
+				<label for="courier_show_title"><?php esc_html_e( 'Show Title?', 'courier-notices' ); ?></label>&nbsp;
+				<input type="checkbox" name="courier_show_title" id="courier_show_title" value="1" <?php checked( get_post_meta( $post->ID, '_courier_show_title', true ) ); ?> />
+				<a href="#" class="courier-info-icon courier-help" title="<?php esc_html_e( 'Show the title for this notice? You can also set this globally or override for this specific notice', 'courier-notices' ); ?>">?</a>
+			</span>
+			<span id="hide-title-toggle" class="show-hide-toggle <?php echo ( 'show' === $show_hide ) ? 'hide' : '' ?>">
+				<label for="courier_hide_title"><?php esc_html_e( 'Hide Title?', 'courier-notices' ); ?></label>&nbsp;
+				<input type="checkbox" name="courier_hide_title" id="courier_hide_title" value="1" <?php checked( get_post_meta( $post->ID, '_courier_hide_title', true ) ); ?> />
+				<a href="#" class="courier-info-icon courier-help" title="<?php esc_html_e( 'Hide the title for this notice overriding the global settings?', 'courier-notices' ); ?>">?</a>
+			</span>
 		</div>
 		<?php
 

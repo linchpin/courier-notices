@@ -1598,6 +1598,156 @@ function notifications() {
 
 /***/ }),
 
+/***/ "./assets/js/admin/settings.js":
+/*!*************************************!*\
+  !*** ./assets/js/admin/settings.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return settings; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+var $ = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
+function settings() {
+  // Extend Serialize Array to also include checkboxes that are not selected
+  (function ($) {
+    var _base_serializeArray = $.fn.serializeArray;
+    /**
+     * extract the field name based on key
+     *
+     * @param fieldName
+     * @return {*}
+     */
+
+    function cleanupFieldName(fieldName) {
+      var matches = fieldName.match(/\[([a-zA-Z_]*)\]/);
+
+      if (matches) {
+        return matches[1];
+      }
+
+      return fieldName;
+    }
+
+    $.fn.serializeArray = function () {
+      var originalArray = _base_serializeArray.apply(this);
+
+      var dataCleanup = {};
+      $.each(this.find("input"), function (i, element) {
+        if ("checkbox" === element.type || "radio" === element.type) {
+          element.checked ? originalArray[i].value = true : originalArray.splice(i, 0, {
+            name: element.name,
+            value: false
+          });
+        }
+
+        var fieldName = cleanupFieldName(element.name);
+
+        if (dataCleanup[fieldName] !== undefined) {
+          // The field exists, if it's not an array create one
+          if (!Array.isArray(dataCleanup[fieldName])) {
+            if (false !== dataCleanup[fieldName]) {
+              dataCleanup[fieldName] = [dataCleanup[fieldName]];
+            } else {
+              dataCleanup[fieldName] = [];
+            }
+          }
+
+          if (false !== element.value && element.checked) {
+            dataCleanup[fieldName].push(element.value);
+          }
+        } else {
+          if ("checkbox" === element.type || "radio" === element.type) {
+            if (element.checked) {
+              if (false !== element.value) {
+                dataCleanup[fieldName] = element.value;
+              } else {
+                dataCleanup[fieldName] = false;
+              }
+            } else {
+              dataCleanup[fieldName] = false;
+            }
+          } else {
+            dataCleanup[fieldName] = element.value;
+          }
+        }
+      });
+
+      for (var field in dataCleanup) {
+        if (_typeof(dataCleanup[field]) !== 'object') {
+          continue;
+        }
+
+        if (0 === dataCleanup[field].length) {
+          dataCleanup[field] = false;
+        }
+      }
+
+      return dataCleanup;
+    };
+  })(jquery__WEBPACK_IMPORTED_MODULE_0___default.a);
+
+  setup_forms();
+  /**
+   * Convert our form data to a json object
+   *
+   * @param form
+   * @return {{}}
+   */
+
+  function formDataToJSON(form) {
+    var formData = $(form).serializeArray();
+    return formData;
+  }
+  /**
+   * Initialize our dismiss
+   * Add our events
+  *
+  * @since 1.0
+   */
+
+
+  function setup_forms() {
+    var $settings_form = $('.courier-notices-settings-form');
+    $settings_form.find('#submit').on('click', function (event) {
+      event.preventDefault();
+      $(this).attr({
+        'disabled': 'disabled',
+        'value': 'Saving'
+      }).parents('form').submit();
+    });
+    $settings_form.on('submit', function (event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      var $form = $(this);
+      var formData = formDataToJSON(this);
+      formData['settings_key'] = formData['option_page'];
+      formData['method'] = 'POST';
+      formData._wpnonce = courier_notices_admin_data.settings_nonce;
+      $.ajax({
+        'url': courier_notices_admin_data.settings_endpoint,
+        'beforeSend': function beforeSend(xhr) {
+          xhr.setRequestHeader('X-WP-Nonce', formData._wpnonce);
+        },
+        'method': 'POST',
+        'data': formData
+      }).done(function (response) {
+        $settings_form.find('#submit').attr({
+          'value': 'Save Changes'
+        }).removeAttr('disabled');
+      });
+    });
+  }
+}
+
+/***/ }),
+
 /***/ "./assets/js/admin/types.js":
 /*!**********************************!*\
   !*** ./assets/js/admin/types.js ***!
@@ -1910,7 +2060,9 @@ function types() {
 
   function displayNewCourierNoticeTypeTemplate(item) {
     var $noticeRow = $(courierNoticeTypeTemplate.map(render(item)).join(''));
-    $('table.courier_notice_page_courier tbody').append($($noticeRow));
+    $noticeRow = $($noticeRow);
+    $('table.courier_notice_page_courier tbody').append($noticeRow);
+    setupTypeEditing($noticeRow);
   }
   /**
    * Add / Save our new courier notice type
@@ -2063,7 +2215,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./admin/types */ "./assets/js/admin/types.js");
 /* harmony import */ var _admin_edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./admin/edit */ "./assets/js/admin/edit.js");
 /* harmony import */ var _admin_list__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./admin/list */ "./assets/js/admin/list.js");
-/* harmony import */ var _admin_notifications__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./admin/notifications */ "./assets/js/admin/notifications.js");
+/* harmony import */ var _admin_settings__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./admin/settings */ "./assets/js/admin/settings.js");
+/* harmony import */ var _admin_notifications__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./admin/notifications */ "./assets/js/admin/notifications.js");
+
 
 
 
@@ -2073,11 +2227,12 @@ __webpack_require__.r(__webpack_exports__);
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
   Object(_admin_core__WEBPACK_IMPORTED_MODULE_1__["default"])();
+  Object(_admin_settings__WEBPACK_IMPORTED_MODULE_6__["default"])();
   Object(_admin_edit__WEBPACK_IMPORTED_MODULE_4__["default"])();
   Object(_admin_list__WEBPACK_IMPORTED_MODULE_5__["default"])();
   Object(_admin_welcome__WEBPACK_IMPORTED_MODULE_2__["default"])();
   Object(_admin_types__WEBPACK_IMPORTED_MODULE_3__["default"])();
-  Object(_admin_notifications__WEBPACK_IMPORTED_MODULE_6__["default"])();
+  Object(_admin_notifications__WEBPACK_IMPORTED_MODULE_7__["default"])();
 });
 
 /***/ }),

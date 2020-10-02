@@ -53,11 +53,11 @@ class View {
 			${$key} = $value;
 		}
 
-		$view_dir  = isset( $view_dir ) ? $view_dir : COURIER_NOTICES_PATH . 'templates/';
+		$view_dir  = isset( $view_dir ) ? trailingslashit( $view_dir ) : COURIER_NOTICES_PATH . 'templates/';
 		$view_file = $view_dir . $file . '.php';
 
 		if ( ! file_exists( $view_file ) ) {
-			return;
+			wp_die( $view_file );
 		}
 
 		require $view_file;

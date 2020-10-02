@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_action' ) ) {
 	exit;
 }
 ?>
-<form action="options.php" class="settings-form" method="post">
+<form action="" class="settings-form" method="post">
 	<div class="about hero negative-bg">
 		<div class="hero-text">
 			<h1><?php esc_html_e( 'Notice Types / Design Settings', 'courier-notices' ); ?></h1>

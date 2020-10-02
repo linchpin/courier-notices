@@ -170,7 +170,7 @@ class Fields {
 
 			$checked = false;
 
-			if ( ! empty( $options[ $args['field'] ] ) ) {
+			if ( ! empty( $options[ $args['field'] ] ) && 'false' !== $options[ $args['field'] ] ) {
 				$checked = true;
 			}
 
@@ -190,8 +190,12 @@ class Fields {
 					<?php
 					$checked = '';
 
+					if ( ! is_array( $options[ $args['field'] ] ) ) {
+						$options[ $args['field'] ] = explode( ',', $options[ $args['field'] ] );
+					}
+
 					if ( ! empty( $options[ $args['field'] ] ) ) {
-						$checked = checked( in_array( $option['value'], $options[ $args['field'] ], true ), true,false );
+						$checked = checked( in_array( $option['value'], $options[ $args['field'] ], true ), true, false );
 					}
 
 					if ( empty( $options[ $args['field'] ] ) && ( isset( $args['default'] ) && '' !== $args['default'] ) ) {

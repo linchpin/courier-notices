@@ -1,5 +1,16 @@
 # Changelog #
 
+## 1.3.0 ##
+* Added - REST endpoint for saving settings changes (preparation for new UI in future versions)
+* Added - Settings now utilize ajax/REST for updating settings
+* Added - New Feature. You can now choose to display the title of your Courier Notice for all Styles of notices.
+* Added - Added some FAQs to the readme.txt
+* Added - FAQ.md that is updated and generated from the readme.txt
+* Fixed - Minor display issue for "Sub Tabs" within the Settings area of the WordPress admin
+* Fixed - Cleaned up spacing of Headers and Sub Titles within Settings to make things easier to read.
+* Fixed - Numerous nitpicky CSS things that you may or may not notice
+* Fixed - When adding a new "type" of "Informational" Courier notices, the color pickers were not initializing properly
+
 ## 1.2.7 ##
 * Updated - Window load for modal placement
 
