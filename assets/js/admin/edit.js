@@ -44,12 +44,51 @@ export default function edit() {
 			.on( 'click', '.copy-text', copy_text )
 			.on( 'change', '#courier_style', show_hide_type )
 			.on( 'change', '#courier_placement_display', change_placement )
-			.on( 'change', '#courier_style', modal_option_rules )
+			.on( 'change', '#courier_style', toggle_notice_style_options )
 			.on( 'focus', '#courier-shortcode', function () {
 				$( '#courier-shortcode' ).select();
 			} );
 	}
 
+	/**
+	 * Show or hide different options based on notice style
+	 *
+	 * @since 1.3.0
+	 */
+	function toggle_notice_style_options( event ) {
+		modal_option_rules( event );
+		toggle_show_hide_title_options( event );
+	}
+
+	/**
+	 * Show/Hde title controls.
+	 * Display is dependant on global settings per notice and individual Courier Notice meta
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param event
+	 */
+	function toggle_show_hide_title_options( event ) {
+		let $this                = $( '#courier_style' ),
+			$selected_option     = $this.find('option:selected'),
+			val                  = $selected_option.val(),
+			label                = $selected_option.text(),
+			$show_hide_info      = $('#show-hide-info'),
+			$selected_style      = $('#selected-courier-notice-type'),
+			enabled_style_titles = $selected_style.attr('data-enable-title');
+
+		$selected_style.text( label );
+
+		$('.show-hide-toggle').removeClass('hide').hide();
+
+		if ( enabled_style_titles.indexOf( val ) === -1 ) {
+			$show_hide_info.hide();
+			$('#show-title-toggle').show();
+		} else {
+			$show_hide_info.show();
+			$('#hide-title-toggle').show();
+		}
+	}
 
 	/**
 	 * Show / Hide rules for Modals
@@ -70,7 +109,7 @@ export default function edit() {
 
 		let $this = $( '#courier_style' );
 
-		if ( $this.find('option:selected').val() === 'popup-modal' ) {
+		if ( 'popup-modal' === $this.find('option:selected').val() ) {
 
 			$('#courier_dismissible').prop( 'checked', 'checked' ).addClass('disabled').on( 'click', function( event ) {
 				event.stopImmediatePropagation();
@@ -155,7 +194,7 @@ export default function edit() {
 			notice_id = $this.attr('data-courier-notice-id'),
 			$notice   = $this.parents('.notice');
 
-		$.post(courier_notices_admin_data.reactivate_endpoint + notice_id + '/', {
+		$.post( courier_notices_admin_data.reactivate_endpoint + notice_id + '/', {
 			success: function (data) {
 				$notice.fadeOut();
 			}

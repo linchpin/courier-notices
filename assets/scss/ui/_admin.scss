@@ -543,6 +543,12 @@ table.courier_notice_page_courier .form-table th {
   position:absolute;
 }
 
+.courier_notice_page_courier #wpcontent .courier-admin-notice-banner {
+	.button-primary {
+		margin-bottom:0;
+	}
+}
+
 .courier-info-icon {
   background: #ccc;
   border-radius: 50%;
@@ -617,7 +623,10 @@ pre.courier-notice-type-css-class {
   margin:20px 10px 0 0;
 }
 
-.courier_notice_page_courier #wpcontent, #about-courier, #whats-new, #courier-settings {
+.courier_notice_page_courier #wpcontent,
+#about-courier,
+#whats-new,
+#courier-settings {
 
   background-color: white;
 
@@ -708,6 +717,10 @@ pre.courier-notice-type-css-class {
       float: none;
     }
 
+	h2 {
+		margin-bottom:5px;
+	}
+
     &.new {
       width: auto;
     }
@@ -720,6 +733,10 @@ pre.courier-notice-type-css-class {
 
 	a {
 	  margin-right: 10px;
+
+		&.nav-sub-tab-active {
+			font-weight:700;
+		}
 	}
   }
 
@@ -837,12 +854,16 @@ pre.courier-notice-type-css-class {
   }
 
   .hero {
+
+	background-color:#3DB7F4;
+
     .hero-text {
-      padding: 3rem 5%;
+      padding: .5rem 0;
       width: 95%;
 
       h1, h2, h3 {
-	    color: $secondary-color;
+	    color: $white;
+		text-shadow: 0 0 10px $primary-color;
       }
 
       h3 {
@@ -853,7 +874,7 @@ pre.courier-notice-type-css-class {
 
   .wrapper {
     width: 90%;
-    margin: 2rem 5%;
+    margin: .5rem 0;
   }
 
   .negative-bg {

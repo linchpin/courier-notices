@@ -736,6 +736,9 @@ table.courier_notice_page_courier .form-table th {
   z-index: 1000;
   position: absolute; }
 
+.courier_notice_page_courier #wpcontent .courier-admin-notice-banner .button-primary {
+  margin-bottom: 0; }
+
 .courier-info-icon {
   background: #ccc;
   border-radius: 50%;
@@ -792,69 +795,178 @@ pre.courier-notice-type-css-class {
 .settings_page_courier #setting-error-courier_post_types_notice {
   margin: 20px 10px 0 0; }
 
-.courier_notice_page_courier #wpcontent, #about-courier, #whats-new, #courier-settings {
+.courier_notice_page_courier #wpcontent,
+#about-courier,
+#whats-new,
+#courier-settings {
   background-color: white; }
-  .courier_notice_page_courier #wpcontent .clearfix, #about-courier .clearfix, #whats-new .clearfix, #courier-settings .clearfix {
+  .courier_notice_page_courier #wpcontent .clearfix,
+  #about-courier .clearfix,
+  #whats-new .clearfix,
+  #courier-settings .clearfix {
     clear: both; }
-  .courier_notice_page_courier #wpcontent h1, .courier_notice_page_courier #wpcontent .h1, #about-courier h1, #about-courier .h1, #whats-new h1, #whats-new .h1, #courier-settings h1, #courier-settings .h1 {
+  .courier_notice_page_courier #wpcontent h1, .courier_notice_page_courier #wpcontent .h1,
+  #about-courier h1,
+  #about-courier .h1,
+  #whats-new h1,
+  #whats-new .h1,
+  #courier-settings h1,
+  #courier-settings .h1 {
     font-size: 32px;
     font-weight: 600;
     line-height: 1.6; }
-  .courier_notice_page_courier #wpcontent h2, .courier_notice_page_courier #wpcontent .h2, .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog h2, #about-courier #poststuff #postbox-container .changelog .courier_notice_page_courier #wpcontent h2, #whats-new #poststuff #postbox-container .changelog .courier_notice_page_courier #wpcontent h2, #courier-settings #poststuff #postbox-container .changelog .courier_notice_page_courier #wpcontent h2, .courier_notice_page_courier #wpcontent #poststuff h2, #about-courier h2, #about-courier .h2, #about-courier .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog h2, .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog #about-courier h2, #about-courier #poststuff #postbox-container .changelog h2, #whats-new #poststuff #postbox-container .changelog #about-courier h2, #courier-settings #poststuff #postbox-container .changelog #about-courier h2, #about-courier #poststuff h2, #whats-new h2, #whats-new .h2, #whats-new .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog h2, .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog #whats-new h2, #about-courier #poststuff #postbox-container .changelog #whats-new h2, #whats-new #poststuff #postbox-container .changelog h2, #courier-settings #poststuff #postbox-container .changelog #whats-new h2, #whats-new #poststuff h2, #courier-settings h2, #courier-settings .h2, #courier-settings .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog h2, .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog #courier-settings h2, #about-courier #poststuff #postbox-container .changelog #courier-settings h2, #whats-new #poststuff #postbox-container .changelog #courier-settings h2, #courier-settings #poststuff #postbox-container .changelog h2, #courier-settings #poststuff h2 {
+  .courier_notice_page_courier #wpcontent h2, .courier_notice_page_courier #wpcontent .h2, .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog h2, #about-courier #poststuff #postbox-container .changelog .courier_notice_page_courier #wpcontent h2, #whats-new #poststuff #postbox-container .changelog .courier_notice_page_courier #wpcontent h2, #courier-settings #poststuff #postbox-container .changelog .courier_notice_page_courier #wpcontent h2, .courier_notice_page_courier #wpcontent #poststuff h2,
+  #about-courier h2,
+  #about-courier .h2,
+  #about-courier .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog h2,
+  .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog #about-courier h2,
+  #about-courier #poststuff #postbox-container .changelog h2,
+  #whats-new #poststuff #postbox-container .changelog #about-courier h2,
+  #courier-settings #poststuff #postbox-container .changelog #about-courier h2,
+  #about-courier #poststuff h2,
+  #whats-new h2,
+  #whats-new .h2,
+  #whats-new .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog h2,
+  .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog #whats-new h2,
+  #about-courier #poststuff #postbox-container .changelog #whats-new h2,
+  #whats-new #poststuff #postbox-container .changelog h2,
+  #courier-settings #poststuff #postbox-container .changelog #whats-new h2,
+  #whats-new #poststuff h2,
+  #courier-settings h2,
+  #courier-settings .h2,
+  #courier-settings .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog h2,
+  .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog #courier-settings h2,
+  #about-courier #poststuff #postbox-container .changelog #courier-settings h2,
+  #whats-new #poststuff #postbox-container .changelog #courier-settings h2,
+  #courier-settings #poststuff #postbox-container .changelog h2,
+  #courier-settings #poststuff h2 {
     font-size: 26px;
     font-weight: 600;
     padding-left: 0 !important;
     line-height: 1.5; }
-  .courier_notice_page_courier #wpcontent h3, .courier_notice_page_courier #wpcontent .h3, #about-courier h3, #about-courier .h3, #whats-new h3, #whats-new .h3, #courier-settings h3, #courier-settings .h3 {
+  .courier_notice_page_courier #wpcontent h3, .courier_notice_page_courier #wpcontent .h3,
+  #about-courier h3,
+  #about-courier .h3,
+  #whats-new h3,
+  #whats-new .h3,
+  #courier-settings h3,
+  #courier-settings .h3 {
     font-size: 22px;
     font-weight: 700;
     line-height: 1.4; }
-  .courier_notice_page_courier #wpcontent h4, .courier_notice_page_courier #wpcontent .h4, #about-courier h4, #about-courier .h4, #whats-new h4, #whats-new .h4, #courier-settings h4, #courier-settings .h4 {
+  .courier_notice_page_courier #wpcontent h4, .courier_notice_page_courier #wpcontent .h4,
+  #about-courier h4,
+  #about-courier .h4,
+  #whats-new h4,
+  #whats-new .h4,
+  #courier-settings h4,
+  #courier-settings .h4 {
     font-size: 18px;
     font-weight: 600;
     line-height: 1.3; }
-  .courier_notice_page_courier #wpcontent h5, .courier_notice_page_courier #wpcontent .h5, #about-courier h5, #about-courier .h5, #whats-new h5, #whats-new .h5, #courier-settings h5, #courier-settings .h5 {
+  .courier_notice_page_courier #wpcontent h5, .courier_notice_page_courier #wpcontent .h5,
+  #about-courier h5,
+  #about-courier .h5,
+  #whats-new h5,
+  #whats-new .h5,
+  #courier-settings h5,
+  #courier-settings .h5 {
     font-size: 16px;
     font-weight: 400;
     line-height: 1.2; }
-  .courier_notice_page_courier #wpcontent h6, .courier_notice_page_courier #wpcontent .h6, #about-courier h6, #about-courier .h6, #whats-new h6, #whats-new .h6, #courier-settings h6, #courier-settings .h6 {
+  .courier_notice_page_courier #wpcontent h6, .courier_notice_page_courier #wpcontent .h6,
+  #about-courier h6,
+  #about-courier .h6,
+  #whats-new h6,
+  #whats-new .h6,
+  #courier-settings h6,
+  #courier-settings .h6 {
     font-size: 15px;
     font-weight: 500;
     line-height: 1.2; }
-  .courier_notice_page_courier #wpcontent .light-weight, #about-courier .light-weight, #whats-new .light-weight, #courier-settings .light-weight {
+  .courier_notice_page_courier #wpcontent .light-weight,
+  #about-courier .light-weight,
+  #whats-new .light-weight,
+  #courier-settings .light-weight {
     font-weight: 200 !important; }
-  .courier_notice_page_courier #wpcontent .center, #about-courier .center, #whats-new .center, #courier-settings .center {
+  .courier_notice_page_courier #wpcontent .center,
+  #about-courier .center,
+  #whats-new .center,
+  #courier-settings .center {
     text-align: center; }
-  .courier_notice_page_courier #wpcontent .bold, #about-courier .bold, #whats-new .bold, #courier-settings .bold {
+  .courier_notice_page_courier #wpcontent .bold,
+  #about-courier .bold,
+  #whats-new .bold,
+  #courier-settings .bold {
     font-weight: 600; }
-  .courier_notice_page_courier #wpcontent .italic, #about-courier .italic, #whats-new .italic, #courier-settings .italic {
+  .courier_notice_page_courier #wpcontent .italic,
+  #about-courier .italic,
+  #whats-new .italic,
+  #courier-settings .italic {
     font-style: italic; }
-  .courier_notice_page_courier #wpcontent .caption, #about-courier .caption, #whats-new .caption, #courier-settings .caption {
+  .courier_notice_page_courier #wpcontent .caption,
+  #about-courier .caption,
+  #whats-new .caption,
+  #courier-settings .caption {
     padding-top: .25rem;
     padding-bottom: .5rem;
     font-style: italic;
     opacity: .7;
     font-size: 95%; }
-  .courier_notice_page_courier #wpcontent .inline, #about-courier .inline, #whats-new .inline, #courier-settings .inline {
+  .courier_notice_page_courier #wpcontent .inline,
+  #about-courier .inline,
+  #whats-new .inline,
+  #courier-settings .inline {
     display: inline; }
-  .courier_notice_page_courier #wpcontent .no-margin, #about-courier .no-margin, #whats-new .no-margin, #courier-settings .no-margin {
+  .courier_notice_page_courier #wpcontent .no-margin,
+  #about-courier .no-margin,
+  #whats-new .no-margin,
+  #courier-settings .no-margin {
     margin: 0 !important; }
-  .courier_notice_page_courier #wpcontent .table, #about-courier .table, #whats-new .table, #courier-settings .table {
+  .courier_notice_page_courier #wpcontent .table,
+  #about-courier .table,
+  #whats-new .table,
+  #courier-settings .table {
     display: table;
     width: 100%; }
-    .courier_notice_page_courier #wpcontent .table .table-cell, #about-courier .table .table-cell, #whats-new .table .table-cell, #courier-settings .table .table-cell {
+    .courier_notice_page_courier #wpcontent .table .table-cell,
+    #about-courier .table .table-cell,
+    #whats-new .table .table-cell,
+    #courier-settings .table .table-cell {
       display: table-cell;
       vertical-align: middle;
       float: none; }
-    .courier_notice_page_courier #wpcontent .table.new, #about-courier .table.new, #whats-new .table.new, #courier-settings .table.new {
+    .courier_notice_page_courier #wpcontent .table h2,
+    #about-courier .table h2,
+    #whats-new .table h2,
+    #courier-settings .table h2 {
+      margin-bottom: 5px; }
+    .courier_notice_page_courier #wpcontent .table.new,
+    #about-courier .table.new,
+    #whats-new .table.new,
+    #courier-settings .table.new {
       width: auto; }
-  .courier_notice_page_courier #wpcontent .courier-sub-menu, #about-courier .courier-sub-menu, #whats-new .courier-sub-menu, #courier-settings .courier-sub-menu {
+  .courier_notice_page_courier #wpcontent .courier-sub-menu,
+  #about-courier .courier-sub-menu,
+  #whats-new .courier-sub-menu,
+  #courier-settings .courier-sub-menu {
     padding: 10px 25px;
     margin-left: -22px;
     background: white; }
-    .courier_notice_page_courier #wpcontent .courier-sub-menu a, #about-courier .courier-sub-menu a, #whats-new .courier-sub-menu a, #courier-settings .courier-sub-menu a {
+    .courier_notice_page_courier #wpcontent .courier-sub-menu a,
+    #about-courier .courier-sub-menu a,
+    #whats-new .courier-sub-menu a,
+    #courier-settings .courier-sub-menu a {
       margin-right: 10px; }
-  .courier_notice_page_courier #wpcontent .nav-tab-wrapper a, #about-courier .nav-tab-wrapper a, #whats-new .nav-tab-wrapper a, #courier-settings .nav-tab-wrapper a {
+      .courier_notice_page_courier #wpcontent .courier-sub-menu a.nav-sub-tab-active,
+      #about-courier .courier-sub-menu a.nav-sub-tab-active,
+      #whats-new .courier-sub-menu a.nav-sub-tab-active,
+      #courier-settings .courier-sub-menu a.nav-sub-tab-active {
+        font-weight: 700; }
+  .courier_notice_page_courier #wpcontent .nav-tab-wrapper a,
+  #about-courier .nav-tab-wrapper a,
+  #whats-new .nav-tab-wrapper a,
+  #courier-settings .nav-tab-wrapper a {
     background-color: #f5f5f5;
     border: 1px solid #dedede;
     border-radius: 0;
@@ -864,25 +976,37 @@ pre.courier-notice-type-css-class {
     padding: 8px;
     text-decoration: none;
     color: #01365e !important; }
-    .courier_notice_page_courier #wpcontent .nav-tab-wrapper a.nav-tab-active, #about-courier .nav-tab-wrapper a.nav-tab-active, #whats-new .nav-tab-wrapper a.nav-tab-active, #courier-settings .nav-tab-wrapper a.nav-tab-active {
+    .courier_notice_page_courier #wpcontent .nav-tab-wrapper a.nav-tab-active,
+    #about-courier .nav-tab-wrapper a.nav-tab-active,
+    #whats-new .nav-tab-wrapper a.nav-tab-active,
+    #courier-settings .nav-tab-wrapper a.nav-tab-active {
       border-bottom: none;
       border-top-color: #89d0ff;
       background-color: white; }
-    .courier_notice_page_courier #wpcontent .nav-tab-wrapper a:first-child, #about-courier .nav-tab-wrapper a:first-child, #whats-new .nav-tab-wrapper a:first-child, #courier-settings .nav-tab-wrapper a:first-child {
+    .courier_notice_page_courier #wpcontent .nav-tab-wrapper a:first-child,
+    #about-courier .nav-tab-wrapper a:first-child,
+    #whats-new .nav-tab-wrapper a:first-child,
+    #courier-settings .nav-tab-wrapper a:first-child {
       margin-left: 22px; }
   @media screen and (max-width: 580px) {
-    .courier_notice_page_courier #wpcontent .nav-tab-wrapper, #about-courier .nav-tab-wrapper, #whats-new .nav-tab-wrapper, #courier-settings .nav-tab-wrapper {
+    .courier_notice_page_courier #wpcontent .nav-tab-wrapper,
+    #about-courier .nav-tab-wrapper,
+    #whats-new .nav-tab-wrapper,
+    #courier-settings .nav-tab-wrapper {
       width: 100%; } }
   .courier_notice_page_courier #wpcontent input[type="submit"],
   .courier_notice_page_courier #wpcontent .button-primary,
   .courier_notice_page_courier #wpcontent .button-secondary,
-  .courier_notice_page_courier #wpcontent .button-cancel, #about-courier input[type="submit"],
+  .courier_notice_page_courier #wpcontent .button-cancel,
+  #about-courier input[type="submit"],
   #about-courier .button-primary,
   #about-courier .button-secondary,
-  #about-courier .button-cancel, #whats-new input[type="submit"],
+  #about-courier .button-cancel,
+  #whats-new input[type="submit"],
   #whats-new .button-primary,
   #whats-new .button-secondary,
-  #whats-new .button-cancel, #courier-settings input[type="submit"],
+  #whats-new .button-cancel,
+  #courier-settings input[type="submit"],
   #courier-settings .button-primary,
   #courier-settings .button-secondary,
   #courier-settings .button-cancel {
@@ -911,7 +1035,10 @@ pre.courier-notice-type-css-class {
     .courier_notice_page_courier #wpcontent .button-secondary:active,
     .courier_notice_page_courier #wpcontent .button-cancel:hover,
     .courier_notice_page_courier #wpcontent .button-cancel:focus,
-    .courier_notice_page_courier #wpcontent .button-cancel:active, #about-courier input[type="submit"]:hover, #about-courier input[type="submit"]:focus, #about-courier input[type="submit"]:active,
+    .courier_notice_page_courier #wpcontent .button-cancel:active,
+    #about-courier input[type="submit"]:hover,
+    #about-courier input[type="submit"]:focus,
+    #about-courier input[type="submit"]:active,
     #about-courier .button-primary:hover,
     #about-courier .button-primary:focus,
     #about-courier .button-primary:active,
@@ -920,7 +1047,10 @@ pre.courier-notice-type-css-class {
     #about-courier .button-secondary:active,
     #about-courier .button-cancel:hover,
     #about-courier .button-cancel:focus,
-    #about-courier .button-cancel:active, #whats-new input[type="submit"]:hover, #whats-new input[type="submit"]:focus, #whats-new input[type="submit"]:active,
+    #about-courier .button-cancel:active,
+    #whats-new input[type="submit"]:hover,
+    #whats-new input[type="submit"]:focus,
+    #whats-new input[type="submit"]:active,
     #whats-new .button-primary:hover,
     #whats-new .button-primary:focus,
     #whats-new .button-primary:active,
@@ -929,7 +1059,10 @@ pre.courier-notice-type-css-class {
     #whats-new .button-secondary:active,
     #whats-new .button-cancel:hover,
     #whats-new .button-cancel:focus,
-    #whats-new .button-cancel:active, #courier-settings input[type="submit"]:hover, #courier-settings input[type="submit"]:focus, #courier-settings input[type="submit"]:active,
+    #whats-new .button-cancel:active,
+    #courier-settings input[type="submit"]:hover,
+    #courier-settings input[type="submit"]:focus,
+    #courier-settings input[type="submit"]:active,
     #courier-settings .button-primary:hover,
     #courier-settings .button-primary:focus,
     #courier-settings .button-primary:active,
@@ -942,148 +1075,373 @@ pre.courier-notice-type-css-class {
       border: 1px solid transparent;
       box-shadow: none !important;
       -webkit-box-shadow: none !important; }
-  .courier_notice_page_courier #wpcontent .button-primary, #about-courier .button-primary, #whats-new .button-primary, #courier-settings .button-primary {
+  .courier_notice_page_courier #wpcontent .button-primary,
+  #about-courier .button-primary,
+  #whats-new .button-primary,
+  #courier-settings .button-primary {
     background-color: #89d0ff;
     color: #FFFFFF !important; }
-    .courier_notice_page_courier #wpcontent .button-primary:hover, .courier_notice_page_courier #wpcontent .button-primary:focus, .courier_notice_page_courier #wpcontent .button-primary:active, #about-courier .button-primary:hover, #about-courier .button-primary:focus, #about-courier .button-primary:active, #whats-new .button-primary:hover, #whats-new .button-primary:focus, #whats-new .button-primary:active, #courier-settings .button-primary:hover, #courier-settings .button-primary:focus, #courier-settings .button-primary:active {
+    .courier_notice_page_courier #wpcontent .button-primary:hover, .courier_notice_page_courier #wpcontent .button-primary:focus, .courier_notice_page_courier #wpcontent .button-primary:active,
+    #about-courier .button-primary:hover,
+    #about-courier .button-primary:focus,
+    #about-courier .button-primary:active,
+    #whats-new .button-primary:hover,
+    #whats-new .button-primary:focus,
+    #whats-new .button-primary:active,
+    #courier-settings .button-primary:hover,
+    #courier-settings .button-primary:focus,
+    #courier-settings .button-primary:active {
       background-color: #01365e;
       color: #FFFFFF; }
-    .courier_notice_page_courier #wpcontent .button-primary.save-button, #about-courier .button-primary.save-button, #whats-new .button-primary.save-button, #courier-settings .button-primary.save-button {
+    .courier_notice_page_courier #wpcontent .button-primary.save-button,
+    #about-courier .button-primary.save-button,
+    #whats-new .button-primary.save-button,
+    #courier-settings .button-primary.save-button {
       background-color: #94C169; }
-      .courier_notice_page_courier #wpcontent .button-primary.save-button:hover, .courier_notice_page_courier #wpcontent .button-primary.save-button:focus, .courier_notice_page_courier #wpcontent .button-primary.save-button:active, #about-courier .button-primary.save-button:hover, #about-courier .button-primary.save-button:focus, #about-courier .button-primary.save-button:active, #whats-new .button-primary.save-button:hover, #whats-new .button-primary.save-button:focus, #whats-new .button-primary.save-button:active, #courier-settings .button-primary.save-button:hover, #courier-settings .button-primary.save-button:focus, #courier-settings .button-primary.save-button:active {
+      .courier_notice_page_courier #wpcontent .button-primary.save-button:hover, .courier_notice_page_courier #wpcontent .button-primary.save-button:focus, .courier_notice_page_courier #wpcontent .button-primary.save-button:active,
+      #about-courier .button-primary.save-button:hover,
+      #about-courier .button-primary.save-button:focus,
+      #about-courier .button-primary.save-button:active,
+      #whats-new .button-primary.save-button:hover,
+      #whats-new .button-primary.save-button:focus,
+      #whats-new .button-primary.save-button:active,
+      #courier-settings .button-primary.save-button:hover,
+      #courier-settings .button-primary.save-button:focus,
+      #courier-settings .button-primary.save-button:active {
         backrgound-color: #8cbd5e; }
-  .courier_notice_page_courier #wpcontent .button.wp-color-result, #about-courier .button.wp-color-result, #whats-new .button.wp-color-result, #courier-settings .button.wp-color-result {
+  .courier_notice_page_courier #wpcontent .button.wp-color-result,
+  #about-courier .button.wp-color-result,
+  #whats-new .button.wp-color-result,
+  #courier-settings .button.wp-color-result {
     margin-bottom: 0; }
-  .courier_notice_page_courier #wpcontent .button.button-editing, #about-courier .button.button-editing, #whats-new .button.button-editing, #courier-settings .button.button-editing {
+  .courier_notice_page_courier #wpcontent .button.button-editing,
+  #about-courier .button.button-editing,
+  #whats-new .button.button-editing,
+  #courier-settings .button.button-editing {
     margin: 0;
     padding: .375rem .5rem; }
-    .courier_notice_page_courier #wpcontent .button.button-editing.button-secondary, #about-courier .button.button-editing.button-secondary, #whats-new .button.button-editing.button-secondary, #courier-settings .button.button-editing.button-secondary {
+    .courier_notice_page_courier #wpcontent .button.button-editing.button-secondary,
+    #about-courier .button.button-editing.button-secondary,
+    #whats-new .button.button-editing.button-secondary,
+    #courier-settings .button.button-editing.button-secondary {
       background-color: #F97600;
       color: #FFFFFF; }
-      .courier_notice_page_courier #wpcontent .button.button-editing.button-secondary.button-cancel, #about-courier .button.button-editing.button-secondary.button-cancel, #whats-new .button.button-editing.button-secondary.button-cancel, #courier-settings .button.button-editing.button-secondary.button-cancel {
+      .courier_notice_page_courier #wpcontent .button.button-editing.button-secondary.button-cancel,
+      #about-courier .button.button-editing.button-secondary.button-cancel,
+      #whats-new .button.button-editing.button-secondary.button-cancel,
+      #courier-settings .button.button-editing.button-secondary.button-cancel {
         background-color: #e8e8e8;
         color: #009fd4; }
-  .courier_notice_page_courier #wpcontent .editing-buttons-container, #about-courier .editing-buttons-container, #whats-new .editing-buttons-container, #courier-settings .editing-buttons-container {
+  .courier_notice_page_courier #wpcontent .editing-buttons-container,
+  #about-courier .editing-buttons-container,
+  #whats-new .editing-buttons-container,
+  #courier-settings .editing-buttons-container {
     text-align: center; }
   .courier_notice_page_courier #wpcontent .about.hero,
-  .courier_notice_page_courier #wpcontent .whatsnew.hero, #about-courier .about.hero,
-  #about-courier .whatsnew.hero, #whats-new .about.hero,
-  #whats-new .whatsnew.hero, #courier-settings .about.hero,
+  .courier_notice_page_courier #wpcontent .whatsnew.hero,
+  #about-courier .about.hero,
+  #about-courier .whatsnew.hero,
+  #whats-new .about.hero,
+  #whats-new .whatsnew.hero,
+  #courier-settings .about.hero,
   #courier-settings .whatsnew.hero {
     background-image: url("../img/courier-settings-banner@2x.png");
     background-position: 100% 50%;
     background-size: cover;
     padding-right: 33%; }
-  .courier_notice_page_courier #wpcontent .hero .hero-text, #about-courier .hero .hero-text, #whats-new .hero .hero-text, #courier-settings .hero .hero-text {
-    padding: 3rem 5%;
-    width: 95%; }
-    .courier_notice_page_courier #wpcontent .hero .hero-text h1, .courier_notice_page_courier #wpcontent .hero .hero-text h2, .courier_notice_page_courier #wpcontent .hero .hero-text h3, #about-courier .hero .hero-text h1, #about-courier .hero .hero-text h2, #about-courier .hero .hero-text h3, #whats-new .hero .hero-text h1, #whats-new .hero .hero-text h2, #whats-new .hero .hero-text h3, #courier-settings .hero .hero-text h1, #courier-settings .hero .hero-text h2, #courier-settings .hero .hero-text h3 {
-      color: #01365e; }
-    .courier_notice_page_courier #wpcontent .hero .hero-text h3, #about-courier .hero .hero-text h3, #whats-new .hero .hero-text h3, #courier-settings .hero .hero-text h3 {
-      font-weight: 300 !important; }
-  .courier_notice_page_courier #wpcontent .wrapper, #about-courier .wrapper, #whats-new .wrapper, #courier-settings .wrapper {
+  .courier_notice_page_courier #wpcontent .hero,
+  #about-courier .hero,
+  #whats-new .hero,
+  #courier-settings .hero {
+    background-color: #3DB7F4; }
+    .courier_notice_page_courier #wpcontent .hero .hero-text,
+    #about-courier .hero .hero-text,
+    #whats-new .hero .hero-text,
+    #courier-settings .hero .hero-text {
+      padding: .5rem 0;
+      width: 95%; }
+      .courier_notice_page_courier #wpcontent .hero .hero-text h1, .courier_notice_page_courier #wpcontent .hero .hero-text h2, .courier_notice_page_courier #wpcontent .hero .hero-text h3,
+      #about-courier .hero .hero-text h1,
+      #about-courier .hero .hero-text h2,
+      #about-courier .hero .hero-text h3,
+      #whats-new .hero .hero-text h1,
+      #whats-new .hero .hero-text h2,
+      #whats-new .hero .hero-text h3,
+      #courier-settings .hero .hero-text h1,
+      #courier-settings .hero .hero-text h2,
+      #courier-settings .hero .hero-text h3 {
+        color: #FFFFFF;
+        text-shadow: 0 0 10px #89d0ff; }
+      .courier_notice_page_courier #wpcontent .hero .hero-text h3,
+      #about-courier .hero .hero-text h3,
+      #whats-new .hero .hero-text h3,
+      #courier-settings .hero .hero-text h3 {
+        font-weight: 300 !important; }
+  .courier_notice_page_courier #wpcontent .wrapper,
+  #about-courier .wrapper,
+  #whats-new .wrapper,
+  #courier-settings .wrapper {
     width: 90%;
-    margin: 2rem 5%; }
-  .courier_notice_page_courier #wpcontent .negative-bg, #about-courier .negative-bg, #whats-new .negative-bg, #courier-settings .negative-bg {
+    margin: .5rem 0; }
+  .courier_notice_page_courier #wpcontent .negative-bg,
+  #about-courier .negative-bg,
+  #whats-new .negative-bg,
+  #courier-settings .negative-bg {
     margin: 0 0 0 -22px !important;
     padding: 0 22px; }
     @media screen and (max-width: 782px) {
-      .courier_notice_page_courier #wpcontent .negative-bg, #about-courier .negative-bg, #whats-new .negative-bg, #courier-settings .negative-bg {
+      .courier_notice_page_courier #wpcontent .negative-bg,
+      #about-courier .negative-bg,
+      #whats-new .negative-bg,
+      #courier-settings .negative-bg {
         margin: 0 -10px !important;
         padding: 0 10px; } }
-  .courier_notice_page_courier #wpcontent .gray-bg, #about-courier .gray-bg, #whats-new .gray-bg, #courier-settings .gray-bg {
+  .courier_notice_page_courier #wpcontent .gray-bg,
+  #about-courier .gray-bg,
+  #whats-new .gray-bg,
+  #courier-settings .gray-bg {
     background-color: #e8e8e8;
     padding: 1px;
     border-radius: 0 0 0.25rem 0.25rem; }
-    .courier_notice_page_courier #wpcontent .gray-bg.negative-bg, #about-courier .gray-bg.negative-bg, #whats-new .gray-bg.negative-bg, #courier-settings .gray-bg.negative-bg {
+    .courier_notice_page_courier #wpcontent .gray-bg.negative-bg,
+    #about-courier .gray-bg.negative-bg,
+    #whats-new .gray-bg.negative-bg,
+    #courier-settings .gray-bg.negative-bg {
       padding: 1px 22px; }
-  .courier_notice_page_courier #wpcontent .green-bg, #about-courier .green-bg, #whats-new .green-bg, #courier-settings .green-bg {
+  .courier_notice_page_courier #wpcontent .green-bg,
+  #about-courier .green-bg,
+  #whats-new .green-bg,
+  #courier-settings .green-bg {
     background-color: #94C169;
     padding: 1px;
     border-radius: 0 0 0.25rem 0.25rem; }
-    .courier_notice_page_courier #wpcontent .green-bg a.underline, #about-courier .green-bg a.underline, #whats-new .green-bg a.underline, #courier-settings .green-bg a.underline {
+    .courier_notice_page_courier #wpcontent .green-bg a.underline,
+    #about-courier .green-bg a.underline,
+    #whats-new .green-bg a.underline,
+    #courier-settings .green-bg a.underline {
       color: #f5f5f5 !important;
       border-bottom: 2px solid #f5f5f5;
       transition: background-color 0.25s ease-out,color 0.25s ease-out;
       font-weight: 600; }
-      .courier_notice_page_courier #wpcontent .green-bg a.underline:hover, .courier_notice_page_courier #wpcontent .green-bg a.underline:focus, .courier_notice_page_courier #wpcontent .green-bg a.underline:active, #about-courier .green-bg a.underline:hover, #about-courier .green-bg a.underline:focus, #about-courier .green-bg a.underline:active, #whats-new .green-bg a.underline:hover, #whats-new .green-bg a.underline:focus, #whats-new .green-bg a.underline:active, #courier-settings .green-bg a.underline:hover, #courier-settings .green-bg a.underline:focus, #courier-settings .green-bg a.underline:active {
+      .courier_notice_page_courier #wpcontent .green-bg a.underline:hover, .courier_notice_page_courier #wpcontent .green-bg a.underline:focus, .courier_notice_page_courier #wpcontent .green-bg a.underline:active,
+      #about-courier .green-bg a.underline:hover,
+      #about-courier .green-bg a.underline:focus,
+      #about-courier .green-bg a.underline:active,
+      #whats-new .green-bg a.underline:hover,
+      #whats-new .green-bg a.underline:focus,
+      #whats-new .green-bg a.underline:active,
+      #courier-settings .green-bg a.underline:hover,
+      #courier-settings .green-bg a.underline:focus,
+      #courier-settings .green-bg a.underline:active {
         color: #4F8C7E !important;
         border-bottom: 2px solid #4F8C7E; }
-  .courier_notice_page_courier #wpcontent .right, #about-courier .right, #whats-new .right, #courier-settings .right {
+  .courier_notice_page_courier #wpcontent .right,
+  #about-courier .right,
+  #whats-new .right,
+  #courier-settings .right {
     float: right; }
     @media screen and (max-width: 1023px) {
-      .courier_notice_page_courier #wpcontent .right, #about-courier .right, #whats-new .right, #courier-settings .right {
+      .courier_notice_page_courier #wpcontent .right,
+      #about-courier .right,
+      #whats-new .right,
+      #courier-settings .right {
         float: none; } }
-    .courier_notice_page_courier #wpcontent .right img, #about-courier .right img, #whats-new .right img, #courier-settings .right img {
+    .courier_notice_page_courier #wpcontent .right img,
+    #about-courier .right img,
+    #whats-new .right img,
+    #courier-settings .right img {
       float: right; }
       @media screen and (max-width: 1023px) {
-        .courier_notice_page_courier #wpcontent .right img, #about-courier .right img, #whats-new .right img, #courier-settings .right img {
+        .courier_notice_page_courier #wpcontent .right img,
+        #about-courier .right img,
+        #whats-new .right img,
+        #courier-settings .right img {
           float: none; } }
-  .courier_notice_page_courier #wpcontent .grey-box-container, #about-courier .grey-box-container, #whats-new .grey-box-container, #courier-settings .grey-box-container {
+  .courier_notice_page_courier #wpcontent .grey-box-container,
+  #about-courier .grey-box-container,
+  #whats-new .grey-box-container,
+  #courier-settings .grey-box-container {
     margin: 0 -1rem; }
-  .courier_notice_page_courier #wpcontent .grey-box, #about-courier .grey-box, #whats-new .grey-box, #courier-settings .grey-box {
+  .courier_notice_page_courier #wpcontent .grey-box,
+  #about-courier .grey-box,
+  #whats-new .grey-box,
+  #courier-settings .grey-box {
     margin: 1rem;
     padding: 1.5rem;
     background-color: #f5f5f5;
     border-radius: 0.25rem; }
-    .courier_notice_page_courier #wpcontent .grey-box p, #about-courier .grey-box p, #whats-new .grey-box p, #courier-settings .grey-box p {
+    .courier_notice_page_courier #wpcontent .grey-box p,
+    #about-courier .grey-box p,
+    #whats-new .grey-box p,
+    #courier-settings .grey-box p {
       font-size: 16px; }
       @media screen and (max-width: 1023px) {
-        .courier_notice_page_courier #wpcontent .grey-box p, #about-courier .grey-box p, #whats-new .grey-box p, #courier-settings .grey-box p {
+        .courier_notice_page_courier #wpcontent .grey-box p,
+        #about-courier .grey-box p,
+        #whats-new .grey-box p,
+        #courier-settings .grey-box p {
           margin-bottom: 1rem; } }
-  .courier_notice_page_courier #wpcontent .about-box-icon, #about-courier .about-box-icon, #whats-new .about-box-icon, #courier-settings .about-box-icon {
+  .courier_notice_page_courier #wpcontent .about-box-icon,
+  #about-courier .about-box-icon,
+  #whats-new .about-box-icon,
+  #courier-settings .about-box-icon {
     width: 20%;
     float: left;
     padding-right: 10px;
     padding-bottom: 0; }
-    .courier_notice_page_courier #wpcontent .about-box-icon img, #about-courier .about-box-icon img, #whats-new .about-box-icon img, #courier-settings .about-box-icon img {
+    .courier_notice_page_courier #wpcontent .about-box-icon img,
+    #about-courier .about-box-icon img,
+    #whats-new .about-box-icon img,
+    #courier-settings .about-box-icon img {
       max-width: 100px; }
-  .courier_notice_page_courier #wpcontent .about-box-copy, #about-courier .about-box-copy, #whats-new .about-box-copy, #courier-settings .about-box-copy {
+  .courier_notice_page_courier #wpcontent .about-box-copy,
+  #about-courier .about-box-copy,
+  #whats-new .about-box-copy,
+  #courier-settings .about-box-copy {
     padding-left: 20%; }
-    .courier_notice_page_courier #wpcontent .about-box-copy h4, .courier_notice_page_courier #wpcontent .about-box-copy p, #about-courier .about-box-copy h4, #about-courier .about-box-copy p, #whats-new .about-box-copy h4, #whats-new .about-box-copy p, #courier-settings .about-box-copy h4, #courier-settings .about-box-copy p {
+    .courier_notice_page_courier #wpcontent .about-box-copy h4, .courier_notice_page_courier #wpcontent .about-box-copy p,
+    #about-courier .about-box-copy h4,
+    #about-courier .about-box-copy p,
+    #whats-new .about-box-copy h4,
+    #whats-new .about-box-copy p,
+    #courier-settings .about-box-copy h4,
+    #courier-settings .about-box-copy p {
       padding-left: 20px; }
-  .courier_notice_page_courier #wpcontent .about-devs-container p, #about-courier .about-devs-container p, #whats-new .about-devs-container p, #courier-settings .about-devs-container p {
+  .courier_notice_page_courier #wpcontent .about-devs-container p,
+  #about-courier .about-devs-container p,
+  #whats-new .about-devs-container p,
+  #courier-settings .about-devs-container p {
     font-size: 16px; }
-  .courier_notice_page_courier #wpcontent .about-devs-container img, #about-courier .about-devs-container img, #whats-new .about-devs-container img, #courier-settings .about-devs-container img {
+  .courier_notice_page_courier #wpcontent .about-devs-container img,
+  #about-courier .about-devs-container img,
+  #whats-new .about-devs-container img,
+  #courier-settings .about-devs-container img {
     padding-top: 15px; }
-  .courier_notice_page_courier #wpcontent #poststuff, #about-courier #poststuff, #whats-new #poststuff, #courier-settings #poststuff {
+  .courier_notice_page_courier #wpcontent #poststuff,
+  #about-courier #poststuff,
+  #whats-new #poststuff,
+  #courier-settings #poststuff {
     padding-top: 0; }
-  .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog h2, #about-courier #poststuff #postbox-container .changelog h2, #whats-new #poststuff #postbox-container .changelog h2, #courier-settings #poststuff #postbox-container .changelog h2 {
+  .courier_notice_page_courier #wpcontent #poststuff #postbox-container .changelog h2,
+  #about-courier #poststuff #postbox-container .changelog h2,
+  #whats-new #poststuff #postbox-container .changelog h2,
+  #courier-settings #poststuff #postbox-container .changelog h2 {
     padding: 16px 0 8px; }
-  .courier_notice_page_courier #wpcontent .changelog, #about-courier .changelog, #whats-new .changelog, #courier-settings .changelog {
+  .courier_notice_page_courier #wpcontent .changelog,
+  #about-courier .changelog,
+  #whats-new .changelog,
+  #courier-settings .changelog {
     width: 90%;
     margin: 0 5%; }
-    .courier_notice_page_courier #wpcontent .changelog ul, #about-courier .changelog ul, #whats-new .changelog ul, #courier-settings .changelog ul {
+    .courier_notice_page_courier #wpcontent .changelog ul,
+    #about-courier .changelog ul,
+    #whats-new .changelog ul,
+    #courier-settings .changelog ul {
       margin-left: 25px; }
-  .courier_notice_page_courier #wpcontent .versioninfo h2, #about-courier .versioninfo h2, #whats-new .versioninfo h2, #courier-settings .versioninfo h2 {
+  .courier_notice_page_courier #wpcontent .versioninfo h2,
+  #about-courier .versioninfo h2,
+  #whats-new .versioninfo h2,
+  #courier-settings .versioninfo h2 {
     color: #1B0253; }
-  .courier_notice_page_courier #wpcontent .versioninfo .green-pipe, #about-courier .versioninfo .green-pipe, #whats-new .versioninfo .green-pipe, #courier-settings .versioninfo .green-pipe {
+  .courier_notice_page_courier #wpcontent .versioninfo .green-pipe,
+  #about-courier .versioninfo .green-pipe,
+  #whats-new .versioninfo .green-pipe,
+  #courier-settings .versioninfo .green-pipe {
     padding: 0 10px;
     color: #88ba58;
     vertical-align: top;
     line-height: 33px; }
-  .courier_notice_page_courier #wpcontent .new-title img, #about-courier .new-title img, #whats-new .new-title img, #courier-settings .new-title img {
+  .courier_notice_page_courier #wpcontent .new-title img,
+  #about-courier .new-title img,
+  #whats-new .new-title img,
+  #courier-settings .new-title img {
     padding-right: 1rem;
     height: 45px;
     max-width: 45px;
     line-height: 45px;
     vertical-align: middle; }
-  .courier_notice_page_courier #wpcontent .new-title .new-tag, #about-courier .new-title .new-tag, #whats-new .new-title .new-tag, #courier-settings .new-title .new-tag {
+  .courier_notice_page_courier #wpcontent .new-title .new-tag,
+  #about-courier .new-title .new-tag,
+  #whats-new .new-title .new-tag,
+  #courier-settings .new-title .new-tag {
     line-height: 45px;
     display: inline-block;
     color: #94C169;
     font-weight: 700;
     margin: 0 !important;
     vertical-align: middle; }
-  .courier_notice_page_courier #wpcontent .new-feature-container, .courier_notice_page_courier #wpcontent .update-container, .courier_notice_page_courier #wpcontent .bug-fix-container, #about-courier .new-feature-container, #about-courier .update-container, #about-courier .bug-fix-container, #whats-new .new-feature-container, #whats-new .update-container, #whats-new .bug-fix-container, #courier-settings .new-feature-container, #courier-settings .update-container, #courier-settings .bug-fix-container {
+  .courier_notice_page_courier #wpcontent .new-feature-container, .courier_notice_page_courier #wpcontent .update-container, .courier_notice_page_courier #wpcontent .bug-fix-container,
+  #about-courier .new-feature-container,
+  #about-courier .update-container,
+  #about-courier .bug-fix-container,
+  #whats-new .new-feature-container,
+  #whats-new .update-container,
+  #whats-new .bug-fix-container,
+  #courier-settings .new-feature-container,
+  #courier-settings .update-container,
+  #courier-settings .bug-fix-container {
     margin: 1rem 0; }
-    .courier_notice_page_courier #wpcontent .new-feature-container .new-feature, .courier_notice_page_courier #wpcontent .new-feature-container .update, .courier_notice_page_courier #wpcontent .new-feature-container .bug-fix, .courier_notice_page_courier #wpcontent .update-container .new-feature, .courier_notice_page_courier #wpcontent .update-container .update, .courier_notice_page_courier #wpcontent .update-container .bug-fix, .courier_notice_page_courier #wpcontent .bug-fix-container .new-feature, .courier_notice_page_courier #wpcontent .bug-fix-container .update, .courier_notice_page_courier #wpcontent .bug-fix-container .bug-fix, #about-courier .new-feature-container .new-feature, #about-courier .new-feature-container .update, #about-courier .new-feature-container .bug-fix, #about-courier .update-container .new-feature, #about-courier .update-container .update, #about-courier .update-container .bug-fix, #about-courier .bug-fix-container .new-feature, #about-courier .bug-fix-container .update, #about-courier .bug-fix-container .bug-fix, #whats-new .new-feature-container .new-feature, #whats-new .new-feature-container .update, #whats-new .new-feature-container .bug-fix, #whats-new .update-container .new-feature, #whats-new .update-container .update, #whats-new .update-container .bug-fix, #whats-new .bug-fix-container .new-feature, #whats-new .bug-fix-container .update, #whats-new .bug-fix-container .bug-fix, #courier-settings .new-feature-container .new-feature, #courier-settings .new-feature-container .update, #courier-settings .new-feature-container .bug-fix, #courier-settings .update-container .new-feature, #courier-settings .update-container .update, #courier-settings .update-container .bug-fix, #courier-settings .bug-fix-container .new-feature, #courier-settings .bug-fix-container .update, #courier-settings .bug-fix-container .bug-fix {
+    .courier_notice_page_courier #wpcontent .new-feature-container .new-feature, .courier_notice_page_courier #wpcontent .new-feature-container .update, .courier_notice_page_courier #wpcontent .new-feature-container .bug-fix, .courier_notice_page_courier #wpcontent .update-container .new-feature, .courier_notice_page_courier #wpcontent .update-container .update, .courier_notice_page_courier #wpcontent .update-container .bug-fix, .courier_notice_page_courier #wpcontent .bug-fix-container .new-feature, .courier_notice_page_courier #wpcontent .bug-fix-container .update, .courier_notice_page_courier #wpcontent .bug-fix-container .bug-fix,
+    #about-courier .new-feature-container .new-feature,
+    #about-courier .new-feature-container .update,
+    #about-courier .new-feature-container .bug-fix,
+    #about-courier .update-container .new-feature,
+    #about-courier .update-container .update,
+    #about-courier .update-container .bug-fix,
+    #about-courier .bug-fix-container .new-feature,
+    #about-courier .bug-fix-container .update,
+    #about-courier .bug-fix-container .bug-fix,
+    #whats-new .new-feature-container .new-feature,
+    #whats-new .new-feature-container .update,
+    #whats-new .new-feature-container .bug-fix,
+    #whats-new .update-container .new-feature,
+    #whats-new .update-container .update,
+    #whats-new .update-container .bug-fix,
+    #whats-new .bug-fix-container .new-feature,
+    #whats-new .bug-fix-container .update,
+    #whats-new .bug-fix-container .bug-fix,
+    #courier-settings .new-feature-container .new-feature,
+    #courier-settings .new-feature-container .update,
+    #courier-settings .new-feature-container .bug-fix,
+    #courier-settings .update-container .new-feature,
+    #courier-settings .update-container .update,
+    #courier-settings .update-container .bug-fix,
+    #courier-settings .bug-fix-container .new-feature,
+    #courier-settings .bug-fix-container .update,
+    #courier-settings .bug-fix-container .bug-fix {
       margin: 1rem 0 2rem; }
-    .courier_notice_page_courier #wpcontent .new-feature-container .new, .courier_notice_page_courier #wpcontent .update-container .new, .courier_notice_page_courier #wpcontent .bug-fix-container .new, #about-courier .new-feature-container .new, #about-courier .update-container .new, #about-courier .bug-fix-container .new, #whats-new .new-feature-container .new, #whats-new .update-container .new, #whats-new .bug-fix-container .new, #courier-settings .new-feature-container .new, #courier-settings .update-container .new, #courier-settings .bug-fix-container .new {
+    .courier_notice_page_courier #wpcontent .new-feature-container .new, .courier_notice_page_courier #wpcontent .update-container .new, .courier_notice_page_courier #wpcontent .bug-fix-container .new,
+    #about-courier .new-feature-container .new,
+    #about-courier .update-container .new,
+    #about-courier .bug-fix-container .new,
+    #whats-new .new-feature-container .new,
+    #whats-new .update-container .new,
+    #whats-new .bug-fix-container .new,
+    #courier-settings .new-feature-container .new,
+    #courier-settings .update-container .new,
+    #courier-settings .bug-fix-container .new {
       padding-left: 45px; }
-      .courier_notice_page_courier #wpcontent .new-feature-container .new [class^="courier-columns-"], .courier_notice_page_courier #wpcontent .update-container .new [class^="courier-columns-"], .courier_notice_page_courier #wpcontent .bug-fix-container .new [class^="courier-columns-"], #about-courier .new-feature-container .new [class^="courier-columns-"], #about-courier .update-container .new [class^="courier-columns-"], #about-courier .bug-fix-container .new [class^="courier-columns-"], #whats-new .new-feature-container .new [class^="courier-columns-"], #whats-new .update-container .new [class^="courier-columns-"], #whats-new .bug-fix-container .new [class^="courier-columns-"], #courier-settings .new-feature-container .new [class^="courier-columns-"], #courier-settings .update-container .new [class^="courier-columns-"], #courier-settings .bug-fix-container .new [class^="courier-columns-"] {
+      .courier_notice_page_courier #wpcontent .new-feature-container .new [class^="courier-columns-"], .courier_notice_page_courier #wpcontent .update-container .new [class^="courier-columns-"], .courier_notice_page_courier #wpcontent .bug-fix-container .new [class^="courier-columns-"],
+      #about-courier .new-feature-container .new [class^="courier-columns-"],
+      #about-courier .update-container .new [class^="courier-columns-"],
+      #about-courier .bug-fix-container .new [class^="courier-columns-"],
+      #whats-new .new-feature-container .new [class^="courier-columns-"],
+      #whats-new .update-container .new [class^="courier-columns-"],
+      #whats-new .bug-fix-container .new [class^="courier-columns-"],
+      #courier-settings .new-feature-container .new [class^="courier-columns-"],
+      #courier-settings .update-container .new [class^="courier-columns-"],
+      #courier-settings .bug-fix-container .new [class^="courier-columns-"] {
         padding: 0 20px; }
-      .courier_notice_page_courier #wpcontent .new-feature-container .new ul, .courier_notice_page_courier #wpcontent .update-container .new ul, .courier_notice_page_courier #wpcontent .bug-fix-container .new ul, #about-courier .new-feature-container .new ul, #about-courier .update-container .new ul, #about-courier .bug-fix-container .new ul, #whats-new .new-feature-container .new ul, #whats-new .update-container .new ul, #whats-new .bug-fix-container .new ul, #courier-settings .new-feature-container .new ul, #courier-settings .update-container .new ul, #courier-settings .bug-fix-container .new ul {
+      .courier_notice_page_courier #wpcontent .new-feature-container .new ul, .courier_notice_page_courier #wpcontent .update-container .new ul, .courier_notice_page_courier #wpcontent .bug-fix-container .new ul,
+      #about-courier .new-feature-container .new ul,
+      #about-courier .update-container .new ul,
+      #about-courier .bug-fix-container .new ul,
+      #whats-new .new-feature-container .new ul,
+      #whats-new .update-container .new ul,
+      #whats-new .bug-fix-container .new ul,
+      #courier-settings .new-feature-container .new ul,
+      #courier-settings .update-container .new ul,
+      #courier-settings .bug-fix-container .new ul {
         margin-left: 25px; }
 
 .courier-columns-3 .insert-media {
@@ -1206,9 +1564,23 @@ pre.courier-notice-type-css-class {
   width: 100%;
   margin: 2rem 0; }
 
+#courier-settings form.settings-form div.courier-field {
+  margin-bottom: 20px; }
+  #courier-settings form.settings-form div.courier-field [scope="row"] {
+    font-weight: 700;
+    margin-bottom: 10px; }
+  #courier-settings form.settings-form div.courier-field label {
+    min-width: 150px;
+    display: inline-block; }
+
 #courier-settings form.settings-form .submit {
-  width: 90%;
-  margin: 2rem 5%; }
+  width: 90%; }
+
+#courier-settings form.settings-form h2 {
+  display: none; }
+
+#courier-settings form.settings-form .wrapper h2 {
+  display: block; }
 
 #courier-settings #cb {
   width: 36px; }

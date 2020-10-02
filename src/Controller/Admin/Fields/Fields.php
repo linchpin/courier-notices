@@ -152,27 +152,66 @@ class Fields {
 			'options'     => '',
 			'name'        => $args['section'] . '[' . $args['field'] . ']',
 			'id'          => $args['section'] . '_' . $args['field'],
+			'value'       => '1',
 		);
 
 		// Parse incoming $args into an array and merge it with $defaults.
 		$args = wp_parse_args( $args, $defaults );
 
-		if ( empty( $args['options'] ) ) { // If we don't have any option, die early.
-			return;
-		}
+		// @since 1.3.0
+		// @todo this needs to be cleaned up to meet wpcs
+		$select_options = ( ! empty( $args['options_cb'] ) && is_callable( $args['options_cb'] ) )
+			? call_user_func_array( $args['options_cb'], $args )
+			: $args['options'];
 
 		$options = get_option( $args['options'] );
-		$checked = false;
 
-		if ( ! empty( $options[ $args['field'] ] ) ) {
-			$checked = true;
+		if ( is_string( $select_options ) ) {
+
+			$checked = false;
+
+			if ( ! empty( $options[ $args['field'] ] ) && 'false' !== $options[ $args['field'] ] ) {
+				$checked = true;
+			}
+
+			$checkbox = new View();
+			$checkbox->assign( 'checked', $checked );
+			$checkbox->assign( 'args', $args );
+
+			$checkbox->render( 'admin/fields/field-checkbox' );
+		} else {
+			?>
+			<?php if ( ! empty( $args['description'] ) ) : ?>
+				<p class="description"><?php echo esc_html( $args['description'] ); ?></p>
+			<?php endif; ?>
+			<?php foreach ( $select_options as $option ) : ?>
+				<div class="courier-notices-settings-option">
+					<label for="<?php echo esc_attr( $args['id'] ); ?>"><?php echo esc_html( $option['label'] ); ?></label>
+					<?php
+					$checked = '';
+
+					if ( ! is_array( $options[ $args['field'] ] ) ) {
+						$options[ $args['field'] ] = explode( ',', $options[ $args['field'] ] );
+					}
+
+					if ( ! empty( $options[ $args['field'] ] ) ) {
+						$checked = checked( in_array( $option['value'], $options[ $args['field'] ], true ), true, false );
+					}
+
+					if ( empty( $options[ $args['field'] ] ) && ( isset( $args['default'] ) && '' !== $args['default'] ) ) {
+						$checked = checked( in_array( $args['default'], $option['value'], true ), true, false );
+					}
+					?>
+					<input type="checkbox"
+						   id="<?php echo esc_attr( $args['id'] ); ?>"
+						   name="<?php echo esc_attr( $args['name'] . '[]' ); ?>"
+						   value="<?php echo esc_attr( $option['value'] ); ?>"
+						<?php echo $checked; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					/>
+				</div>
+			<?php endforeach; ?>
+			<?php
 		}
-
-		$checkbox = new View();
-		$checkbox->assign( 'checked', $checked );
-		$checkbox->assign( 'args', $args );
-
-		$checkbox->render( 'admin/fields/field-checkbox' );
 	}
 
 	/**

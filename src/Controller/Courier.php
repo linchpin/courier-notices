@@ -287,6 +287,30 @@ class Courier {
 				update_post_meta( $post_id, '_courier_dismissible', 1 );
 			}
 
+			/**
+			 * Toggle force show/hide
+			 * If a post is forcing show or hide (clear out the opposite)
+			 *
+			 * @since 1.3.0
+			 */
+
+			// Force hide title (If show title is enabled for the Notice "Style"
+			if ( empty( $_POST['courier_hide_title'] ) ) {
+				delete_post_meta( $post_id, '_courier_hide_title' );
+			} else {
+				delete_post_meta( $post_id, '_courier_show_title' );
+				update_post_meta( $post_id, '_courier_hide_title', 1 );
+			}
+
+			// Force show title (by default notice titles are hidden)
+			if ( empty( $_POST['courier_show_title'] ) ) {
+				delete_post_meta( $post_id, '_courier_show_title' );
+			} else {
+				delete_post_meta( $post_id, '_courier_hide_title' );
+				update_post_meta( $post_id, '_courier_show_title', 1 );
+			}
+
+
 			if ( empty( $_POST['courier_placement'] ) ) {
 				wp_set_object_terms( $post_id, null, 'courier_placement' );
 			} else {

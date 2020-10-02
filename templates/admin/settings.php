@@ -68,11 +68,12 @@ if ( ! function_exists( 'add_action' ) ) {
 						'tab'              => $tab_slug,
 					)
 				);
+
+				$tab_url = remove_query_arg( 'subtab', $tab_url );
 			} else {
 				$tab_url = $tab_item['url'];
 			}
 
-			$tab_url = remove_query_arg( 'subtab', $tab_url );
 			$tab_url = apply_filters( "courier_notices_admin_tab_{$tab_slug}_url", $tab_url );
 
 			$active  = ( $active_tab === $tab_slug ) ? ' nav-tab-active' : '';
@@ -111,9 +112,7 @@ if ( ! function_exists( 'add_action' ) ) {
 			$sub_tab_classes      = array_merge( $sub_tab_classes, $sub_tab_css_classes );
 			$sub_tab_css_class    = trim( implode( ' ', $sub_tab_classes ) );
 			?>
-			<a href="<?php echo esc_url( $sub_tab_url ); ?>" title="<?php echo esc_attr( $sub_tab['label'] ); ?>" class="<?php echo esc_attr( $sub_tab_css_class ); ?>">
-				<?php echo esc_html( $sub_tab['label'] ); ?>
-			</a>
+			<a href="<?php echo esc_url( $sub_tab_url ); ?>" title="<?php echo esc_attr( $sub_tab['label'] ); ?>" class="<?php echo esc_attr( $sub_tab_css_class ); ?>"><?php echo esc_html( $sub_tab['label'] ); ?></a>
 			<?php
 		endforeach;
 		?>
@@ -179,7 +178,7 @@ if ( ! function_exists( 'add_action' ) ) {
 						<?php do_action( 'courier_notices_setting_' . sanitize_title( $active_tab ) ); ?>
 					<?php endif; ?>
 				<?php elseif ( $active_sub_tab ) : ?>
-					<?php do_action( 'courier_notices_setting_' . sanitize_title( $active_sub_tab ) ); ?>
+					<?php do_action( 'courier_notices_setting_' . sanitize_title( $active_sub_tab ), array( 'subtab' => $active_sub_tab ) ); ?>
 				<?php endif; ?>
 			</div>
 		</div>

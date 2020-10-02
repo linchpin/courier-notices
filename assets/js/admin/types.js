@@ -192,7 +192,7 @@ export default function types() {
 		var input = $.extend(true, options, inputTemplate);
 
 		displayNewCourierNoticeTypeTemplate(input);
-		// }
+				// }
 	}
 
 	/**
@@ -338,8 +338,12 @@ export default function types() {
 	 */
 	function displayNewCourierNoticeTypeTemplate(item) {
 
-		var $noticeRow = $( courierNoticeTypeTemplate.map( render(item)).join('') );
-		$('table.courier_notice_page_courier tbody').append( $( $noticeRow ) );
+		let $noticeRow = $( courierNoticeTypeTemplate.map( render(item)).join('') );
+			$noticeRow = $( $noticeRow );
+
+		$('table.courier_notice_page_courier tbody').append( $noticeRow );
+
+		setupTypeEditing( $noticeRow );
 	}
 
 	/**
@@ -412,7 +416,7 @@ export default function types() {
 			if ( response && response.fragments ) {
 				$target.fadeOut( 'fast' ).promise().done(
 					function() {
-						for ( let fragment in response.fragments) {
+						for ( let fragment in response.fragments ) {
 							$( fragment ).html( response.fragments[ fragment ] );
 						}
 					}

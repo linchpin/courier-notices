@@ -447,4 +447,55 @@ class Data {
 
 		return $notices_query->posts;
 	}
+
+	/**
+	 * Get all the relevant meta associated with a notice
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param int $courier_notice_id PostID of the Notice
+	 */
+	public function get_notice_meta( int $courier_notice_id ) {
+
+		$is_dismissible = get_post_meta( $courier_notice_id, '_courier_dismissible', true );
+		$show_title     = get_post_meta( $courier_notice_id, '_courier_show_title', true );
+		$hide_title     = get_post_meta( $courier_notice_id, '_courier_hide_title', true );
+		$courier_style  = get_the_terms( $courier_notice_id, 'courier_style' ); // Get the style associated with the notice
+		$courier_type   = get_the_terms( $courier_notice_id, 'courier_type' );  // Get the type associated with the notice (typically for informational notices)
+		$courier_icon   = get_term_meta( $courier_type[0]->term_id, '_courier_type_icon', true );
+
+		// Get all the options for showing the title by default
+		$courier_design_options         = get_option( 'courier_design', array() );
+		$global_show_title_rules        = $courier_design_options['enable_title'];
+		$notice_style_global_show_title = ! empty( in_array( $courier_style[0]->slug, $global_show_title_rules, true ) );
+
+		// If the notice style is set to show the title by default
+		if ( ! is_wp_error( $courier_style ) && $notice_style_global_show_title ) {
+			// Override the show global toggle and force this notice to hide.
+			if ( ! empty( $hide_title ) ) {
+				$show_hide_title = 'hide';
+			} else {
+				$show_hide_title = 'show';
+			}
+		} else {
+			if ( $show_title ) {
+				$show_hide_title = 'show';
+			}
+
+			// If we are not forcing show/hide of the title on the notice itself, check to see if we have a default option set.
+			if ( empty( $show_title ) && empty( $hide_title ) ) {
+				$show_hide_title = 'hide';
+			}
+		}
+
+		$notices_meta = array(
+			'is_dismissible'  => ( $is_dismissible ) ? $is_dismissible : false,
+			'show_hide_title' => ( $show_hide_title ) ? $show_hide_title : 'hide',
+			'style'           => $courier_style,
+			'type'            => $courier_type,
+			'icon'            => $courier_icon,
+		);
+
+		return apply_filters( 'courier_notices_notice_meta', $notices_meta );
+	}
 }

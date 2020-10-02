@@ -2,6 +2,10 @@
 
 namespace CourierNotices\Controller;
 
+use \WP_REST_Response;
+use \WP_REST_Controller;
+use \WP_Error;
+use \WP_REST_Request;
 use CourierNotices\Core\View;
 use CourierNotices\Model\Courier_Notice\Data as Courier_Notice_Data;
 
@@ -10,7 +14,7 @@ use CourierNotices\Model\Courier_Notice\Data as Courier_Notice_Data;
  *
  * @package CourierNotices\Controller
  */
-class Courier_REST_Controller extends \WP_REST_Controller {
+class Courier_REST_Controller extends WP_REST_Controller {
 
 	public function register_actions() {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
@@ -85,10 +89,11 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 	 *
 	 * @since 1.0
 	 *
-	 * @param \WP_REST_Request $request Full data about the request.
-	 * @return \WP_Error|\WP_REST_Response
+	 * @param WP_REST_Request $request Full data about the request.
+	 *
+	 * @return WP_Error|WP_REST_Response
 	 */
-	public function get_notice( $request ) {
+	public function get_notice( WP_REST_Request $request ) {
 
 		$data = array();
 
@@ -127,11 +132,11 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 	 *
 	 * @since 1.0.5
 	 *
-	 * @param $request \WP_REST_Request
+	 * @param $request WP_REST_Request
 	 *
-	 * @return \WP_REST_Response
+	 * @return WP_REST_Response
 	 */
-	public function dismiss_notice( $request ) {
+	public function dismiss_notice( WP_REST_Request $request ) {
 
 		$defaults = array(
 			'user_id' => '',
@@ -157,14 +162,14 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 
 		update_user_option( $user_id, 'courier_notifications', $notifications );
 
-		return new \WP_REST_Response( 1, 200 );
+		return new WP_REST_Response( 1, 200 );
 	}
 
 	/**
 	 * Check if a given request has access to get items
 	 *
-	 * @param \WP_REST_Request $request Full data about the request.
-	 * @return \WP_Error|bool
+	 * @param WP_REST_Request $request Full data about the request.
+	 * @return WP_Error|bool
 	 */
 	public function get_dismiss_notice_permissions_check( $request ) {
 		return is_user_logged_in();
@@ -173,6 +178,9 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 	/**
 	 * Display all notices on the frontend based on our logic
 	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 *
+	 * @return WP_Error|WP_REST_Response
 	 * @since 1.0
 	 *
 	 * Retrieves the following courier notices
@@ -180,10 +188,8 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 	 * 1. User Specific Notices
 	 * 2. Global Notices
 	 *
-	 * @param \WP_REST_Request $request Full data about the request.
-	 * @return \WP_Error|\WP_REST_Response
 	 */
-	public function display_notices( $request ) {
+	public function display_notices( WP_REST_Request $request ) {
 
 		$defaults = array(
 			'user_id'                      => '',
@@ -206,27 +212,30 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 			$defaults
 		);
 		$ajax_post_data = wp_parse_args( $request->get_params(), $defaults );
-		$notice_data    = new Courier_Notice_Data();
-		$notice_posts   = $notice_data->get_notices( $args, $ajax_post_data );
+		$notices_data   = new Courier_Notice_Data();
+		$notice_posts   = $notices_data->get_notices( $args, $ajax_post_data );
 		$style          = 'notice-informational';
 
 		if ( 'html' === $args['format'] ) {
 			$notices = array();
 
 			foreach ( $notice_posts as $courier_notice ) {
-				$courier_style = get_the_terms( $courier_notice->ID, 'courier_style' );
-				$courier_type  = get_the_terms( $courier_notice->ID, 'courier_type' );
-
+				$notice_data  = $notices_data->get_notice_meta( $courier_notice->ID );
 				$notice       = new View();
-				$post_classes = 'courier-notice courier_notice alert alert-box courier_type-' . $courier_type[0]->slug;
+				$post_classes = 'courier-notice courier_notice alert alert-box courier_type-' . $notice_data['type'][0]->slug;
 				$notice->assign( 'notice_id', $courier_notice->ID );
+				$notice->assign( 'show_hide_title', $notice_data['show_hide_title'] );
+
+				$notice_title = courier_notices_the_notice_title( $courier_notice->post_title, '<h6>', '</h6>', false );
+
+				$notice->assign( 'notice_title', $notice_title );
 				$notice->assign( 'notice_class', implode( ' ', get_post_class( $post_classes, $courier_notice->ID ) ) );
 				$notice->assign( 'dismissible', get_post_meta( $courier_notice->ID, '_courier_dismissible', true ) );
-				$notice->assign( 'icon', get_term_meta( $courier_type[0]->term_id, '_courier_type_icon', true ) );
+				$notice->assign( 'icon', $notice_data['icon'] );
 				$notice->assign( 'notice_content', $courier_notice->post_content );
 
-				if ( ! is_wp_error( $courier_style ) && is_array( $courier_style ) ) {
-					$style = 'notice-' . $courier_style[0]->slug;
+				if ( ! is_wp_error( $notice_data['style'] ) && is_array( $notice_data['style'] ) ) {
+					$style = 'notice-' . $notice_data['style'][0]->slug;
 				}
 
 				$notices[ $courier_notice->ID ] = $notice->get_text_view( $style );
@@ -244,24 +253,24 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 		 */
 		$dataset = apply_filters( 'courier_notices_display_notices', $dataset );
 
-		return new \WP_REST_Response( $dataset, 200 );
+		return new WP_REST_Response( $dataset, 200 );
 	}
 
 	/**
 	 * Check if a given request has access to get items
 	 *
-	 * @param \WP_REST_Request $request Full data about the request.
-	 * @return \WP_Error|bool
+	 * @return WP_Error|bool
 	 */
-	public function get_notice_permissions_check( $request ) {
+	public function get_notice_permissions_check() {
 		return true;
 	}
 
 	/**
 	 * Check if a given request has access to get a specific item
 	 *
-	 * @param \WP_REST_Request $request Full data about the request.
-	 * @return \WP_Error|bool
+	 * @param WP_REST_Request $request Full data about the request.
+	 *
+	 * @return WP_Error|bool
 	 */
 	public function get_item_permissions_check( $request ) {
 		return $this->get_items_permissions_check( $request );
@@ -270,8 +279,9 @@ class Courier_REST_Controller extends \WP_REST_Controller {
 	/**
 	 * Prepare the item for the REST response
 	 *
-	 * @param mixed $item WordPress representation of the item.
-	 * @param \WP_REST_Request $request Request object.
+	 * @param mixed           $item    WordPress representation of the item.
+	 * @param WP_REST_Request $request Request object.
+	 *
 	 * @return mixed
 	 */
 	public function prepare_item_for_response( $item, $request ) {

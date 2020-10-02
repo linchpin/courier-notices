@@ -404,3 +404,19 @@ function courier_notices_get_css() {
 
 	return wp_strip_all_tags( $courier_css );
 }
+
+function courier_notices_the_notice_title( $title, $before = '', $after = '', $echo = true ) {
+
+	if ( 0 === strlen( $title ) ) {
+		return '';
+	}
+
+	$title = $before . $title . $after;
+	$title = apply_filters( 'courier_notices_the_notice_title', $title );
+
+	if ( $echo ) {
+		echo wp_kses_post( $title );
+	} else {
+		return $title;
+	}
+}
