@@ -226,7 +226,7 @@ class Courier_REST_Controller extends WP_REST_Controller {
 				$notice->assign( 'notice_id', $courier_notice->ID );
 				$notice->assign( 'show_hide_title', $notice_data['show_hide_title'] );
 
-				$notice_title = courier_notices_the_notice_title( $courier_notice->post_title, '<h6>', '</h6>', false );
+				$notice_title = courier_notices_the_notice_title( $courier_notice->post_title, '<h6 class="courier-notice-title">', '</h6>', false );
 
 				$notice->assign( 'notice_title', $notice_title );
 				$notice->assign( 'notice_class', implode( ' ', get_post_class( $post_classes, $courier_notice->ID ) ) );

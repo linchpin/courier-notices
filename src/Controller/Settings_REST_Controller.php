@@ -28,10 +28,10 @@ class Settings_REST_Controller {
 			$namespace,
 			'/settings',
 			array(
-				'methods'              => 'POST',
-				'callback'             => array( $this, 'update_settings' ),
-				'args'                 => array(),
-				'permissions_callback' => array( $this, 'permissions' ),
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'update_settings' ),
+				'args'                => array(),
+				'permission_callback' => array( $this, 'permissions' ),
 			)
 		);
 
@@ -39,10 +39,10 @@ class Settings_REST_Controller {
 			$namespace,
 			'/settings',
 			array(
-				'methods'              => 'GET',
-				'callback'             => array( $this, 'get_settings' ),
-				'args'                 => array(),
-				'permissions_callback' => array( $this, 'permissions' ),
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'get_settings' ),
+				'args'                => array(),
+				'permission_callback' => array( $this, 'permissions' ),
 			)
 		);
 	}

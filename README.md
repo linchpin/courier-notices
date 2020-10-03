@@ -25,6 +25,11 @@ e.g.
 
 ## Screenshots ##
 
+1. List of "Types" of Informational Courier Notices within the WordPress admin
+2. Editing colors and icons of a Courier Notice
+3. Frontend display of a few Courier Notices, including dismissible notices.
+4. Frontend display of a modal Courier Notice.
+
 
 ## Shortcodes ##
 

@@ -183,6 +183,9 @@ body.wp-admin table.courier_notice_page_courier [class*="icon-"] {
     font-weight: normal;
     color: inherit; }
 
+.courier-notices .courier-notice-title {
+  margin: 0; }
+
 .courier-notices .courier_type-primary {
   background: #039AD6;
   color: #222; }

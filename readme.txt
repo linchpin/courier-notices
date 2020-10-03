@@ -42,6 +42,11 @@ The great thing is that Courier Notices is highly extendable and our team is add
 
 == Screenshots ==
 
+1. List of "Types" of Informational Courier Notices within the WordPress admin
+2. Editing colors and icons of a Courier Notice
+3. Frontend display of a few Courier Notices, including dismissible notices.
+4. Frontend display of a modal Courier Notice.
+
 == Changelog ==
 
 = 1.3.0 =
@@ -50,6 +55,7 @@ The great thing is that Courier Notices is highly extendable and our team is add
 * Added - New Feature. You can now choose to display the title of your Courier Notice for all Styles of notices.
 * Added - Added some FAQs to the readme.txt
 * Added - FAQ.md that is updated and generated from the readme.txt
+* Added - Some new screenshots were added so users can get a sense of what Courier Notices look like by default.
 * Fixed - Minor display issue for "Sub Tabs" within the Settings area of the WordPress admin
 * Fixed - Cleaned up spacing of Headers and Sub Titles within Settings to make things easier to read.
 * Fixed - Numerous nitpicky CSS things that you may or may not notice
