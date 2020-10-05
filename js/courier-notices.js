@@ -319,6 +319,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _cookie__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./cookie */ "./assets/js/frontend/cookie.js");
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modal */ "./assets/js/frontend/modal.js");
+
 
 
 var $ = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
@@ -395,8 +397,15 @@ function dismiss() {
 
 
   function hideNotice(notice_id) {
-    $(".courier_notice[data-courier-notice-id='" + notice_id + "']").fadeOut();
-    $('.courier-modal-overlay').hide();
+    $(".courier_notice[data-courier-notice-id='" + notice_id + "']").fadeOut(500, function () {
+      if (0 === window.courier_notices_modal_notices.length) {
+        $('.courier-modal-overlay').hide();
+      } else {
+        Object(_modal__WEBPACK_IMPORTED_MODULE_2__["displayModal"])(0);
+      }
+
+      setCookie(notice_id);
+    });
     setCookie(notice_id);
   }
   /**
@@ -459,78 +468,92 @@ function dismiss() {
 /*!*************************************!*\
   !*** ./assets/js/frontend/modal.js ***!
   \*************************************/
-/*! exports provided: default */
+/*! exports provided: displayModal, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return modal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "displayModal", function() { return displayModal; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _cookie__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./cookie */ "./assets/js/frontend/cookie.js");
 
 
 var $ = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
-function modal() {
-  var $doc = $(document),
-      $body = $('body'),
-      $window = $(window);
+var $window = $(window);
+var notices = []; // Notices data store.
 
-  var init = function init() {
-    $window.on('load', display_modal);
-  };
-  /**
-   * Shows the modal (if there is one) after the page is fully loaded
-   */
+var settings = {
+  contentType: "application/json",
+  placement: 'popup-modal',
+  format: 'html',
+  post_info: {}
+};
+
+var modal = function modal() {
+  $window.on('load', loadModals);
+};
+/**
+ * Shows the modal (if there is one) after the page is fully loaded
+ */
 
 
-  var display_modal = function display_modal() {
-    var settings = {
-      contentType: "application/json",
-      placement: 'popup-modal',
-      format: 'html',
-      post_info: {}
-    };
-    var modalContainer = document.querySelector('.courier-notices.courier-location-popup-modal[data-courier-ajax="true"]'); // If no modal container die early.
+var loadModals = function loadModals() {
+  var modalContainer = document.querySelector('.courier-notices.courier-location-popup-modal[data-courier-ajax="true"]'); // If no modal container die early.
 
-    if (!modalContainer) {
-      return;
-    }
+  if (!modalContainer) {
+    return;
+  }
 
-    if (typeof courier_notices_data.post_info !== 'undefined') {
-      settings.post_info = courier_notices_data.post_info;
-    }
+  if (typeof courier_notices_data.post_info !== 'undefined') {
+    settings.post_info = courier_notices_data.post_info;
+  }
 
-    var dismissed_notice_ids = Object(_cookie__WEBPACK_IMPORTED_MODULE_1__["getItem"])('dismissed_notices');
-    dismissed_notice_ids = JSON.parse(dismissed_notice_ids);
-    dismissed_notice_ids = dismissed_notice_ids || [];
-    $.ajax({
-      method: 'GET',
-      beforeSend: function beforeSend(xhr) {
-        xhr.setRequestHeader('X-WP-Nonce', courier_notices_data.wp_rest_nonce);
-      },
-      'url': courier_notices_data.notices_endpoint,
-      'data': settings
-    }).success(function (response) {
-      if (response.notices) {
-        $.each(response.notices, function (index) {
-          // If the notice is dismissed don't show it.
-          if (dismissed_notice_ids.indexOf(parseInt(index)) !== -1) {
-            return;
-          }
+  var dismissed_notice_ids = Object(_cookie__WEBPACK_IMPORTED_MODULE_1__["getItem"])('dismissed_notices');
+  dismissed_notice_ids = JSON.parse(dismissed_notice_ids);
+  dismissed_notice_ids = dismissed_notice_ids || [];
+  $.ajax({
+    method: 'GET',
+    beforeSend: function beforeSend(xhr) {
+      xhr.setRequestHeader('X-WP-Nonce', courier_notices_data.wp_rest_nonce);
+    },
+    'url': courier_notices_data.notices_endpoint,
+    'data': settings
+  }).success(function (response) {
+    if (response.notices) {
+      $.each(response.notices, function (index) {
+        if (dismissed_notice_ids.indexOf(parseInt(index)) !== -1) {
+          return;
+        }
 
-          var $notice = $(response.notices[index]).hide();
-          $('.courier-notices[data-courier-placement="' + settings.placement + '"]').append($notice);
-          $notice.slideDown('fast');
-        });
+        notices.push(response.notices[index]);
+      });
+
+      if (notices.length > 0) {
+        window.courier_notices_modal_notices = notices;
+        displayModal(0);
       }
-    }); // .target.setAttribute( 'data-loaded', true );
+    }
+  });
+};
+/**
+ * Display a modal notice by index based on the window.courier_notices_modal_notices array
+ * also remove the element from the dataset.
+ *
+ * @since 1.3.0
+ *
+ * @param index
+ */
 
-    $('.modal_overlay').show();
-  };
 
-  init();
+function displayModal(index) {
+  var $notice = $(window.courier_notices_modal_notices[index]).hide();
+  window.courier_notices_modal_notices.splice(index, 1);
+  $('.courier-notices[data-courier-placement="' + settings.placement + '"] .courier-modal-overlay').append($notice);
+  $('.modal_overlay').show();
+  $notice.slideDown('fast');
 }
+/* harmony default export */ __webpack_exports__["default"] = (modal);
 
 /***/ }),
 
