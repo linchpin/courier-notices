@@ -95,9 +95,9 @@ class General {
 	public function add_admin_menu() {
 		global $submenu;
 
-		$design = admin_url( 'edit.php?post_type=courier_notice&page=courier&tab=design' );
+		$design = admin_url( 'edit.php?post_type=courier_notice&page=courier&tab=design&subtab=global' );
 
-		$submenu['edit.php?post_type=courier_notice'][] = array( esc_html__( 'Types/Design', 'courier-notices' ), 'manage_options', esc_url( $design ) ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+		$submenu['edit.php?post_type=courier_notice'][] = array( esc_html__( 'Design Studio', 'courier-notices' ), 'manage_options', esc_url( $design ) ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 
 		add_submenu_page( 'edit.php?post_type=courier_notice', COURIER_NOTICES_PLUGIN_NAME, esc_html__( 'Settings', 'courier-notices' ), 'manage_options', self::$settings_page, array( __CLASS__, 'add_settings_page' ) );
 	}
