@@ -238,7 +238,7 @@ class General {
 
 		register_setting(
 			$tab_section,
-			$tab_section,
+			$tab_section
 		);
 
 		// Default Settings Section.

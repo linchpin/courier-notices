@@ -2258,7 +2258,7 @@ module.exports = __webpack_amd_options__;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/aware/Local Sites/plugins/app/public/wp-content/plugins/courier-notices/assets/js/courier-notices-admin.js */"./assets/js/courier-notices-admin.js");
+module.exports = __webpack_require__(/*! /Users/maxwellmorgan/vvv/www/courier/public_html/wp-content/plugins/courier-notices/assets/js/courier-notices-admin.js */"./assets/js/courier-notices-admin.js");
 
 
 /***/ }),
