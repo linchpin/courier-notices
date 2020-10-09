@@ -293,6 +293,8 @@ body.wp-admin table.courier_notice_page_courier [class*="icon-"] {
   -webkit-align-content: center;
   -ms-flex-line-pack: center;
   align-content: center; }
+  .courier-modal-overlay.hide {
+    display: none; }
   .courier-modal-overlay a.close {
     position: absolute;
     top: 1em;
