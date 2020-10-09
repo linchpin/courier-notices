@@ -17,7 +17,7 @@
   font-style: normal;
   font-display: block; }
 
-body:not(.wp-admin) .courier-notices [class*="icon-"] {
+body:not(.wp-admin) .courier-notices [class*="icon-"]:not(.courier-notice-type-edit-icon-color) {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: "courier" !important;
   speak: none;
@@ -30,7 +30,7 @@ body:not(.wp-admin) .courier-notices [class*="icon-"] {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-body.wp-admin table.courier_notice_page_courier [class*="icon-"] {
+body.wp-admin table.courier_notice_page_courier [class*="icon-"]:not(.courier-notice-type-edit-icon-color) {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: "courier" !important;
   speak: none;
