@@ -239,7 +239,6 @@ function courier_notices_display_modals( $args = array() ) {
 
 	$output       = apply_filters( 'courier_notices_modal', $output );
 	$allowed_html = Utils::get_safe_markup();
-
 	echo wp_kses( $output, $allowed_html );
 }
 
@@ -405,6 +404,18 @@ function courier_notices_get_css() {
 	return wp_strip_all_tags( $courier_css );
 }
 
+/**
+ * Display the title for a Courier Notice
+ *
+ * @since 1.3.0
+ *
+ * @param        $title
+ * @param string $before
+ * @param string $after
+ * @param bool   $echo
+ *
+ * @return mixed|string|void
+ */
 function courier_notices_the_notice_title( $title, $before = '', $after = '', $echo = true ) {
 
 	if ( 0 === strlen( $title ) ) {

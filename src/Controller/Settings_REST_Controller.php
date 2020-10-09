@@ -70,15 +70,13 @@ class Settings_REST_Controller {
 	 */
 	public function update_settings( \WP_REST_Request $request ) {
 
-		$option_key = $request->get_param( 'settings_key' ); // get the settings from
+		$option_key     = $request->get_param( 'settings_key' ); // get the settings from
 
 		$settings_model = new \CourierNotices\Model\Settings( $option_key );
 
 		$settings_model->save_settings_array( $request->get_params() );
 
-		$results = $settings_model->get_settings();
-
-		return new \WP_REST_Response( $results );
+		return new \WP_REST_Response( $settings_model->get_settings() );
 	}
 
 	/**

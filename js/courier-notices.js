@@ -547,10 +547,15 @@ var loadModals = function loadModals() {
 
 
 function displayModal(index) {
-  var $notice = $(window.courier_notices_modal_notices[index]).hide();
   window.courier_notices_modal_notices.splice(index, 1);
+  var $notice = $(window.courier_notices_modal_notices[index]).hide();
+
+  if (!$notice) {
+    return;
+  }
+
   $('.courier-notices[data-courier-placement="' + settings.placement + '"] .courier-modal-overlay').append($notice);
-  $('.modal_overlay').show();
+  $('.modal_overlay').removeClass('hide').show();
   $notice.slideDown('fast');
 }
 /* harmony default export */ __webpack_exports__["default"] = (modal);

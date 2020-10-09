@@ -48,8 +48,12 @@ class General {
 	 */
 	private $options;
 
-	public function __construct() {
-		$this->options = get_option( 'courier_design' );
+	/**
+	 * General constructor.
+	 * @param string $settings
+	 */
+	public function __construct( $settings = 'courier_design' ) {
+		$this->options = get_option( $settings );
 	}
 
 	/**
@@ -190,6 +194,8 @@ class General {
 				$this->setup_design_type_settings();
 				break;
 		}
+
+		do_action( 'courier_notices_after_settings_init' );
 	}
 
 	/**
@@ -233,7 +239,6 @@ class General {
 		register_setting(
 			$tab_section,
 			$tab_section,
-
 		);
 
 		// Default Settings Section.

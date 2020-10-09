@@ -26,7 +26,7 @@ class Settings {
 	 *
 	 * @var array
 	 */
-	protected $defaults = array(
+	private $defaults = array(
 		// Overarching Plugin Settings
 		'ajax_notices'            => true,
 		'clear_data_on_uninstall' => false,
@@ -44,6 +44,8 @@ class Settings {
 	 * @param string $option_key
 	 */
 	public function __construct( $option_key = 'courier_settings' ) {
+		$defaults         = $this->defaults;
+		$this->defaults   = apply_filters( 'courier_notices_allowed_settings', $defaults );
 		$this->option_key = $option_key;
 	}
 
@@ -55,6 +57,7 @@ class Settings {
 	 * @return array
 	 */
 	public function get_settings() {
+
 		$saved = get_option( $this->option_key, array() );
 
 		if ( ! is_array( $saved ) || empty( $saved ) ) {

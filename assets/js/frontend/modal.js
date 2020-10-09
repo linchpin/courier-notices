@@ -74,15 +74,19 @@ const loadModals = () => {
  * @param index
  */
 export function displayModal ( index ) {
-	let $notice = $( window.courier_notices_modal_notices[ index ] ).hide();
 
 	window.courier_notices_modal_notices.splice( index, 1 );
+
+	let $notice = $( window.courier_notices_modal_notices[ index ] ).hide();
+
+	if ( ! $notice ) {
+		return;
+	}
 
 	$( '.courier-notices[data-courier-placement="' + settings.placement + '"] .courier-modal-overlay' )
 		.append( $notice );
 
-	$('.modal_overlay').show();
-
+	$('.modal_overlay').removeClass('hide').show();
 	$notice.slideDown( 'fast' );
 }
 
