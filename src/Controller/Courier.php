@@ -19,6 +19,7 @@ class Courier {
 	public function register_actions() {
 		add_action( 'save_post_courier_notice', array( $this, 'save_post_courier_notice' ), 10, 2 );
 		add_action( 'init', array( $this, 'add_expired_status' ) );
+		add_action( 'current_screen', array( $this, 'remove_editor_styles' ) );
 		add_action( 'wp_insert_post', array( $this, 'wp_insert_post' ), 10, 3 );
 		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
 
@@ -33,6 +34,22 @@ class Courier {
 		add_filter( 'courier_excerpt', 'wptexturize' );
 		add_filter( 'courier_excerpt', 'convert_smilies' );
 		add_filter( 'courier_excerpt', 'convert_chars' );
+	}
+
+	/**
+	 * Remove editor styles when viewing a Courier Notice in the admin
+	 *
+	 * This is needed for BOTH the classic editor as well as when utilizing the Block editor.
+	 *
+	 * @since 1.3.0
+	 */
+	public function remove_editor_styles() {
+
+		$screen = get_current_screen();
+
+		if ( 'courier_notice' === $screen->id ) {
+			remove_editor_styles();
+		}
 	}
 
 	/**

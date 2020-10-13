@@ -487,7 +487,12 @@ $courier_list: (
 }
 
 #courier-global {
-  width:110px;
+  width:55px;
+}
+
+#courier-style,
+#courier-placement {
+	width: 110px;
 }
 
 .ui-tooltip, .arrow:after {

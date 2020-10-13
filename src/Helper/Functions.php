@@ -26,12 +26,14 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return bool
  */
-function courier_notices_add_notice( $notice = '', $types = array( 'Info' ), $global = false, $dismissible = true, $user_id = 0 ) {
+function courier_notices_add_notice( $notice = '', $types = array( 'Informational' ), $global = false, $dismissible = true, $user_id = 0, $style = 'Informational', $placement = array( 'header' ) ) {
+
+	$user_id = empty( $user_id ) ? get_current_user_id() : intval( $user_id );
 
 	$notice_args = array(
 		'post_type'    => 'courier_notice',
 		'post_status'  => 'publish',
-		'post_author'  => empty( $user_id ) ? get_current_user_id() : intval( $user_id ),
+		'post_author'  => $user_id,
 		'post_name'    => uniqid(),
 		'post_title'   => empty( $notice['post_title'] ) ? '' : sanitize_text_field( $notice['post_title'] ),
 		'post_excerpt' => empty( $notice['post_excerpt'] ) ? '' : wp_kses_post( $notice['post_excerpt'] ),
@@ -48,11 +50,18 @@ function courier_notices_add_notice( $notice = '', $types = array( 'Info' ), $gl
 	}
 
 	if ( $notice_id = wp_insert_post( $notice_args ) ) { // phpcs:ignore
+
 		if ( ! is_array( $types ) ) {
 			$types = explode( ',', $types );
 		}
 
-		wp_set_object_terms( $notice_id, $types, 'courier_type', false );
+		if ( ! is_array( $placement ) ) {
+			$placement = explode( ',', $placement );
+		}
+
+		wp_set_object_terms( $notice_id, $style, 'courier_style', true );
+		wp_set_object_terms( $notice_id, $types, 'courier_type', true );
+		wp_set_object_terms( $notice_id, $placement, 'courier_placement', true );
 
 		if ( $global ) {
 			wp_set_object_terms( $notice_id, array( 'Global' ), 'courier_scope', false );
@@ -61,6 +70,10 @@ function courier_notices_add_notice( $notice = '', $types = array( 'Info' ), $gl
 			wp_cache_delete( 'global-notices', 'courier-notices' );
 			wp_cache_delete( 'global-dismissible-notices', 'courier-notices' );
 			wp_cache_delete( 'global-persistent-notices', 'courier-notices' );
+		}
+
+		if ( ! empty( $user_id ) ) {
+			wp_set_object_terms( $notice_id, array( 'User' ), 'courier_scope', false );
 		}
 
 		if ( $dismissible ) {

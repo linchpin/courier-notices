@@ -685,6 +685,10 @@ body.wp-admin table.courier_notice_page_courier [class*="icon-"] {
   width: 140px; }
 
 #courier-global {
+  width: 55px; }
+
+#courier-style,
+#courier-placement {
   width: 110px; }
 
 .ui-tooltip, .arrow:after {
