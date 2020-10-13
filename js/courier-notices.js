@@ -569,7 +569,7 @@ function displayModal(index) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/maxwellmorgan/vvv/www/courier/public_html/wp-content/plugins/courier-notices/assets/js/courier-notices.js */"./assets/js/courier-notices.js");
+module.exports = __webpack_require__(/*! /Users/aware/Local Sites/plugins/app/public/wp-content/plugins/courier-notices/assets/js/courier-notices.js */"./assets/js/courier-notices.js");
 
 
 /***/ }),

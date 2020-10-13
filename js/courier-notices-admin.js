@@ -1857,10 +1857,10 @@ function types() {
     event.preventDefault();
     var $target = $('#courier-notice-type-edit').replaceWith(courierNoticeTypeCurrent);
     var $parentRow = $(this).closest('tr');
-    $('.courier-icon', $parentRow).removeAttr('style');
-    $('.courier-content-wrapper', $parentRow).removeAttr('style');
-    $('.notice-options', $parentRow).hide();
-    $('.courier-notice-type-title', $parentRow).show();
+    $parentRow.find('.courier-icon').removeAttr('style');
+    $parentRow.find('.courier-content-wrapper').removeAttr('style');
+    $parentRow.find('.notice-options').hide();
+    $parentRow.find('.courier-notice-type-title').show();
     $('.courier-notice-editing').removeClass('courier-notice-editing');
     $parentRow.find('.courier-type-color').each(function () {
       $(this).val($(this).data('default-color'));
@@ -2258,7 +2258,7 @@ module.exports = __webpack_amd_options__;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/maxwellmorgan/vvv/www/courier/public_html/wp-content/plugins/courier-notices/assets/js/courier-notices-admin.js */"./assets/js/courier-notices-admin.js");
+module.exports = __webpack_require__(/*! /Users/aware/Local Sites/plugins/app/public/wp-content/plugins/courier-notices/assets/js/courier-notices-admin.js */"./assets/js/courier-notices-admin.js");
 
 
 /***/ }),

@@ -13,11 +13,11 @@ let $ = jQuery;
 export default function types() {
 
 	// Private Variables
-	let $body = $('body'),
-		$types = $('.courier_notice_page_courier'),
-		$new_container = $('#courier-notice-type-new'),
-		$courierTypeColor = $( '.courier-type-color' ),
-		courierNoticeTypeTemplate = $('#courier-notice-type-template').text().split(/\{(.+?)\}/g),
+	let $body                         = $('body'),
+		$types                        = $('.courier_notice_page_courier'),
+		$new_container                = $('#courier-notice-type-new'),
+		$courierTypeColor             = $( '.courier-type-color' ),
+		courierNoticeTypeTemplate     = $('#courier-notice-type-template').text().split(/\{(.+?)\}/g),
 		courierNoticeTypeEditTemplate = $('#courier-notice-type-edit-template').text().split(/\{(.+?)\}/g),
 		inputTemplate = {
 			indicator: $('#courier-notice-loader').html(),
@@ -115,11 +115,11 @@ export default function types() {
 
 		var $parentRow = $(this).closest('tr');
 
-		$('.courier-icon', $parentRow).removeAttr('style');
-		$('.courier-content-wrapper', $parentRow).removeAttr('style');
+		$parentRow.find('.courier-icon').removeAttr('style');
+		$parentRow.find('.courier-content-wrapper').removeAttr('style');
+		$parentRow.find('.notice-options').hide();
+		$parentRow.find('.courier-notice-type-title').show();
 
-		$('.notice-options', $parentRow).hide();
-		$('.courier-notice-type-title', $parentRow).show();
 		$('.courier-notice-editing').removeClass('courier-notice-editing');
 
 		$parentRow.find('.courier-type-color').each(function () {
