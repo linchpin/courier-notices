@@ -3,7 +3,7 @@
 	$icon         = ( isset( $icon ) && '' !== $icon ) ? 'icon-' . $icon : '';
 	$dismissible  = ( ! empty( $dismissible ) ) ? 'data-closable' : '';
 ?>
-<div class="courier-notices modal <?php echo esc_attr( $notice_class ); ?>" data-courier-notice-id="<?php echo esc_attr( $notice_id ); ?>" <?php esc_attr( $dismissible ); ?>>
+<div class="courier-notices modal <?php echo esc_attr( $notice_class ); ?>" <?php esc_attr( $dismissible ); ?> data-courier-notice-id="<?php echo esc_attr( $notice_id ); ?>">
 	<?php if ( $dismissible ) : ?>
 		<a href="#" class="courier-close modal-close close">&times;</a>
 	<?php endif; ?>

@@ -466,18 +466,13 @@ class Data {
 		// Get all the options for showing the title by default
 		$courier_design_options         = get_option( 'courier_design', array() );
 		$global_show_title_rules        = $courier_design_options['enable_title'];
-		$notice_style_global_show_title = ! empty( in_array( $courier_style[0]->slug, $global_show_title_rules, true ) );
+		$notice_style_global_show_title = in_array( $courier_style[0]->slug, $global_show_title_rules, true );
 
 		// If the notice style is set to show the title by default
-		if ( ! is_wp_error( $courier_style ) ) {
-
+		if ( ! empty( $courier_style ) ) {
+			// Force the title to show if the type supports it.
 			if ( $notice_style_global_show_title ) {
-				// Override the show global toggle and force this notice to hide.
-				if ( ! empty( $hide_title ) ) {
-					$show_hide_title = 'hide';
-				} else {
-					$show_hide_title = 'show';
-				}
+				$show_hide_title = 'show';
 			}
 		} else {
 			if ( ! empty( $show_title ) ) {
@@ -490,7 +485,17 @@ class Data {
 			}
 		}
 
-		if ( ! isset( $show_hide_title ) ) {
+		// Override the show global toggle and force this notice to hide.
+		if ( ! empty( $hide_title ) ) {
+			$show_hide_title = 'hide';
+		}
+
+		if ( ! empty( $show_title ) ) {
+			$show_hide_title = 'show';
+		}
+
+		// Failsafe to hide the title
+		if ( empty( $show_hide_title ) ) {
 			$show_hide_title = 'hide';
 		}
 

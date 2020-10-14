@@ -3,7 +3,6 @@ import {getItem} from './cookie';
 
 let $ = jQuery;
 let $window = $(window);
-let notices = []; // Notices data store.
 let settings = {
 	contentType: "application/json",
 	placement: 'popup-modal',
@@ -21,6 +20,7 @@ const modal = () => {
 const loadModals = () => {
 
 	let modalContainer = document.querySelector('.courier-notices.courier-location-popup-modal[data-courier-ajax="true"]' );
+	let notices        = [];
 
 	// If no modal container die early.
 	if ( ! modalContainer ) {
@@ -32,8 +32,8 @@ const loadModals = () => {
 	}
 
 	let dismissed_notice_ids = getItem( 'dismissed_notices' );
-	dismissed_notice_ids = JSON.parse( dismissed_notice_ids );
-	dismissed_notice_ids = dismissed_notice_ids || [];
+		dismissed_notice_ids = JSON.parse( dismissed_notice_ids );
+		dismissed_notice_ids = dismissed_notice_ids || [];
 
 	$.ajax( {
 		method: 'GET',
@@ -42,18 +42,18 @@ const loadModals = () => {
 		},
 		'url': courier_notices_data.notices_endpoint,
 		'data': settings,
-	} ).success( function ( response ) {
+	} ).done( function ( response ) {
 
 		if ( response.notices ) {
 
-			$.each( response.notices, function ( index ) {
+			for ( let notice in response.notices ) {
 
-				if ( dismissed_notice_ids.indexOf(parseInt(index)) !== -1 ) {
-					return;
+				if ( dismissed_notice_ids.indexOf( parseInt( notice ) ) !== -1 ) {
+					continue;
 				}
 
-				notices.push( response.notices[index] );
-			} );
+				notices.push( response.notices[ notice ] );
+			}
 
 			if ( notices.length > 0 ) {
 
@@ -75,19 +75,20 @@ const loadModals = () => {
  */
 export function displayModal ( index ) {
 
-	window.courier_notices_modal_notices.splice( index, 1 );
+	let $notice = $( window.courier_notices_modal_notices[ index ] );
+		$notice.hide();
 
-	let $notice = $( window.courier_notices_modal_notices[ index ] ).hide();
-
-	if ( ! $notice ) {
+	if ( $notice.length < 1 ) {
 		return;
 	}
 
 	$( '.courier-notices[data-courier-placement="' + settings.placement + '"] .courier-modal-overlay' )
 		.append( $notice );
 
-	$('.modal_overlay').removeClass('hide').show();
+	$('.courier-modal-overlay').removeClass('hide').show();
 	$notice.slideDown( 'fast' );
+
+	window.courier_notices_modal_notices.splice( index, 1 );
 }
 
 export default modal;

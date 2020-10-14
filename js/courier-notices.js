@@ -399,12 +399,10 @@ function dismiss() {
   function hideNotice(notice_id) {
     $(".courier_notice[data-courier-notice-id='" + notice_id + "']").fadeOut(500, function () {
       if (0 === window.courier_notices_modal_notices.length) {
-        $('.courier-modal-overlay').hide();
+        $('.courier-modal-overlay').addClass('hide').hide();
       } else {
         Object(_modal__WEBPACK_IMPORTED_MODULE_2__["displayModal"])(0);
       }
-
-      setCookie(notice_id);
     });
     setCookie(notice_id);
   }
@@ -481,8 +479,6 @@ __webpack_require__.r(__webpack_exports__);
 
 var $ = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 var $window = $(window);
-var notices = []; // Notices data store.
-
 var settings = {
   contentType: "application/json",
   placement: 'popup-modal',
@@ -499,7 +495,8 @@ var modal = function modal() {
 
 
 var loadModals = function loadModals() {
-  var modalContainer = document.querySelector('.courier-notices.courier-location-popup-modal[data-courier-ajax="true"]'); // If no modal container die early.
+  var modalContainer = document.querySelector('.courier-notices.courier-location-popup-modal[data-courier-ajax="true"]');
+  var notices = []; // If no modal container die early.
 
   if (!modalContainer) {
     return;
@@ -519,15 +516,15 @@ var loadModals = function loadModals() {
     },
     'url': courier_notices_data.notices_endpoint,
     'data': settings
-  }).success(function (response) {
+  }).done(function (response) {
     if (response.notices) {
-      $.each(response.notices, function (index) {
-        if (dismissed_notice_ids.indexOf(parseInt(index)) !== -1) {
-          return;
+      for (var notice in response.notices) {
+        if (dismissed_notice_ids.indexOf(parseInt(notice)) !== -1) {
+          continue;
         }
 
-        notices.push(response.notices[index]);
-      });
+        notices.push(response.notices[notice]);
+      }
 
       if (notices.length > 0) {
         window.courier_notices_modal_notices = notices;
@@ -547,16 +544,17 @@ var loadModals = function loadModals() {
 
 
 function displayModal(index) {
-  window.courier_notices_modal_notices.splice(index, 1);
-  var $notice = $(window.courier_notices_modal_notices[index]).hide();
+  var $notice = $(window.courier_notices_modal_notices[index]);
+  $notice.hide();
 
-  if (!$notice) {
+  if ($notice.length < 1) {
     return;
   }
 
   $('.courier-notices[data-courier-placement="' + settings.placement + '"] .courier-modal-overlay').append($notice);
-  $('.modal_overlay').removeClass('hide').show();
+  $('.courier-modal-overlay').removeClass('hide').show();
   $notice.slideDown('fast');
+  window.courier_notices_modal_notices.splice(index, 1);
 }
 /* harmony default export */ __webpack_exports__["default"] = (modal);
 

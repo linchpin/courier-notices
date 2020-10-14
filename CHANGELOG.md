@@ -10,8 +10,9 @@
 * Updated - Popup/Modal notices now only show 1 at a time!
 * Fixed - Minor display issue for "Sub Tabs" within the Settings area of the WordPress admin
 * Fixed - Cleaned up spacing of Headers and Sub Titles within Settings to make things easier to read.
-* Fixed - Numerous nitpicky CSS things that you may or may not notice
+* Fixed - Numerous nitpicky CSS things that you may or may not notice (margins, column spacing and more)
 * Fixed - When adding a new "type" of "Informational" Courier notices, the color pickers were not initializing properly
+* Fixed - Quality of life fix: Removed theme based "editor styles" on courier notices
 
 ## 1.2.7 ##
 * Updated - Window load for modal placement

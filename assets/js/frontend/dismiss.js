@@ -82,12 +82,10 @@ export default function dismiss() {
 	function hideNotice( notice_id ) {
 		$( ".courier_notice[data-courier-notice-id='" + notice_id + "']" ).fadeOut( 500, function() {
 			if ( 0 === window.courier_notices_modal_notices.length ) {
-				$( '.courier-modal-overlay' ).hide();
+				$( '.courier-modal-overlay' ).addClass('hide').hide();
 			} else {
 				displayModal(0);
 			}
-
-			setCookie( notice_id );
 		});
 
 		setCookie( notice_id );
