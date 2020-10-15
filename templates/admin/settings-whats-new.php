@@ -18,7 +18,7 @@ if ( ! function_exists( 'add_action' ) ) {
 		<div id="postbox-container" class="postbox-container">
 			<div class="whatsnew hero negative-bg">
 				<div class="hero-text">
-					<h1><?php echo esc_html__( 'Young Cardinals Take Flight', 'courier-notices' ); ?></h1>
+					<h1><?php echo esc_html__( 'Quality of Life Update', 'courier-notices' ); ?></h1>
 				</div>
 			</div>
 			<div class="gray-bg negative-bg versioninfo">
@@ -26,8 +26,8 @@ if ( ! function_exists( 'add_action' ) ) {
 					<h2 class="light-weight">
 						<?php
 						printf(
-							'Courier Version %s <span class="green-pipe">|</span> Released %s',
-							esc_html( $courier_version ),
+							'Courier Notices Version %s <span class="green-pipe">|</span> Released %s',
+							esc_html( COURIER_NOTICES_VERSION ),
 							esc_html( $courier_release_date )
 						);
 						?>
@@ -35,7 +35,7 @@ if ( ! function_exists( 'add_action' ) ) {
 				</div>
 			</div>
 			<div class="wrapper">
-				<h2 class="light-weight"><?php esc_html_e( 'Making Courier easier to use and more extensible', 'courier-notices' ); ?></h2>
+				<h2 class="light-weight"><?php esc_html_e( 'Making Courier Notices easier to use and more extensible', 'courier-notices' ); ?></h2>
 				<div class="courier-row" data-equalizer="">
 					<div class="courier-columns-12">
 						<div class="grey-box" data-equalizer-watch="">

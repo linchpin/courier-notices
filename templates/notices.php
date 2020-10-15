@@ -28,7 +28,7 @@
 			}
 
 			if ( ! empty( $feedback_notices ) ) {
-				courier_dismiss_notices( $feedback_notices );
+				courier_notices_dismiss_notices( $feedback_notices );
 			}
 		}
 	}

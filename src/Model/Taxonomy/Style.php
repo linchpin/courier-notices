@@ -106,4 +106,42 @@ class Style {
 	public function get_args() {
 		return $this->args;
 	}
+
+	/**
+	 * Get all the styles associated with courier notices
+	 *
+	 * @since 1.2.8
+	 *
+	 * @param string|mixed $fields Allows for whatever WP_Term_Query allows
+	 *
+	 * @return array|mixed|void
+	 */
+	public function get_styles( $fields = 'all' ) {
+
+		$courier_notice_styles = get_terms(
+			array(
+				'taxonomy'   => 'courier_style',
+				'hide_empty' => false,
+				'fields'     => $fields,
+			)
+		);
+
+		return apply_filters( 'courier_notices_courier_styles', $courier_notice_styles );
+	}
+
+	public function get_styles_options() {
+		$courier_notice_styles = $this->get_styles( 'all' );
+		$styles                = array();
+
+		if ( ! empty( $courier_notice_styles ) ) {
+			foreach ( $courier_notice_styles as $courier_notice_style ) {
+				$styles[] = array(
+					'label' => $courier_notice_style->name,
+					'value' => $courier_notice_style->slug,
+				);
+			}
+		}
+
+		return apply_filters( 'courier_notices_courier_style_options', $styles );
+	}
 }

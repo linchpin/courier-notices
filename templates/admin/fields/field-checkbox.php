@@ -1,6 +1,6 @@
 <?php
 /**
- * Display the table field
+ * Display a checkbox for use within our settings panels
  *
  * @since      1.0
  * @package    CourierNotices
@@ -14,7 +14,7 @@ if ( ! function_exists( 'add_action' ) ) {
 
 ?>
 <label for="<?php echo esc_attr( $args['id'] ); ?>"><?php echo esc_html( $args['label'] ); ?></label>
-<input type="checkbox" class="<?php echo esc_attr( $args['class'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>" name="<?php echo esc_attr( $args['name'] ); ?>" value="1" <?php checked( $checked ); ?>>
+<input type="checkbox" class="<?php echo esc_attr( $args['class'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>" name="<?php echo esc_attr( $args['name'] ); ?>" value="<?php echo esc_attr( $args['value'] ); ?>" <?php checked( $checked ); ?>>
 <?php if ( ! empty( $args['description'] ) ) : ?>
 	<p class="description"><?php echo esc_html( $args['description'] ); ?></p>
 <?php endif; ?>

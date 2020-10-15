@@ -77,8 +77,14 @@ export default function core() {
 								$( '.courier-notices[data-courier-placement="' + settings.placement + '"]' )
 									.append( $notice );
 
-								$notice.slideDown( 'fast' );
+								$notice.slideDown( 'fast', 'swing', function() {
+									const event = new CustomEvent( 'courierNoticeDisplayed', { detail: index });
+
+									document.dispatchEvent(event);
+								});
 							} );
+
+
 						}
 					} );
 

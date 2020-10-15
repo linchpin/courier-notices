@@ -1,11 +1,12 @@
 === Courier Notices ===
 Contributors: linchpin_agency, aware, ncallen, maxinacube, fischfood, desrosj
-Tags: linchpin, front end, notices, notifications, alerts, dismissible, gdpr
+Tags: notifications, notices, alerts, linchpin, front end, dismissible, gdpr
 Requires at least: 5.0
 Tested up to: 5.4.2
-Stable tag: 1.2.7
+Stable tag: 1.3.0
+Requires PHP: 7.0
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Add dismissible and non-dismissible notices throughout your website.
 
@@ -13,9 +14,9 @@ Add dismissible and non-dismissible notices throughout your website.
 
 Add dismissible and non-dismissible notices throughout your website.
 
-* Customize the colors and icons used by your Courier Notices
+* Customize the colors and icons used by your Courier Notices **no coding needed**
 * Add new "types" of notices as needed
-* Comes with a common library of useful notices
+* Comes with a common library of useful notices (Modal, Header, Footer)
 * Place courier notices within the header, footer or any where using CSS selectors (similar to selectors in jQuery)
 * Display popover/page take over modal style notices
 * Can be used in conjunction with other popular plugins
@@ -31,9 +32,36 @@ e.g.
 
 == Frequently Asked Questions ==
 
+= Does this plugin work with Full Page Caching or WordPress Object Caching? =
+
+Yes, just be sure to enable the option to load Courier Notices using AJAX
+
+= I'm looking for a specific type of notice that courier doesn't have, what's next? =
+
+The great thing is that Courier Notices is highly extendable and our team is adding new features constantly since release. You can always create a pull request in GitHub or add an issue. You can also take a look at the Pro version which also has some great features.
+
 == Screenshots ==
 
+1. List of "Types" of Informational Courier Notices within the WordPress admin
+2. Editing colors and icons of a Courier Notice
+3. Frontend display of a few Courier Notices, including dismissible notices.
+4. Frontend display of a modal Courier Notice.
+
 == Changelog ==
+
+= 1.3.0 =
+* Added - REST endpoint for saving settings changes (preparation for new UI in future versions)
+* Added - Settings now utilize ajax/REST for updating settings
+* Added - New Feature. You can now choose to display the title of your Courier Notice for all Styles of notices.
+* Added - Added some FAQs to the readme.txt
+* Added - FAQ.md that is updated and generated from the readme.txt
+* Added - Some new screenshots were added so users can get a sense of what Courier Notices look like by default.
+* Updated - Popup/Modal notices now only show 1 at a time!
+* Fixed - Minor display issue for "Sub Tabs" within the Settings area of the WordPress admin
+* Fixed - Cleaned up spacing of Headers and Sub Titles within Settings to make things easier to read.
+* Fixed - Numerous nitpicky CSS things that you may or may not notice (margins, column spacing and more)
+* Fixed - When adding a new "type" of "Informational" Courier notices, the color pickers were not initializing properly
+* Fixed - Quality of life fix: Removed theme based "editor styles" on courier notices
 
 = 1.2.7 =
 * Updated - Window load for modal placement

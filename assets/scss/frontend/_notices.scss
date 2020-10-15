@@ -12,6 +12,10 @@
 		@include courier-note-layout;
 	}
 
+	.courier-notice-title {
+		margin:0;
+	}
+
 	$courier_list: (
 		('primary', $notice-default-primary, $black, $icon-primary, '', ''),
 		('success', $notice-default-success, $black, $icon-success, '', ''),
@@ -46,6 +50,11 @@
 // 03. Modal
 
 .courier-modal-overlay {
+
+	&.hide {
+		display:none;
+	}
+
 	position: fixed;
 	height: 100%;
 	width: 100%;

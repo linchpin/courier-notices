@@ -19,6 +19,7 @@ class Courier {
 	public function register_actions() {
 		add_action( 'save_post_courier_notice', array( $this, 'save_post_courier_notice' ), 10, 2 );
 		add_action( 'init', array( $this, 'add_expired_status' ) );
+		add_action( 'current_screen', array( $this, 'remove_editor_styles' ) );
 		add_action( 'wp_insert_post', array( $this, 'wp_insert_post' ), 10, 3 );
 		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
 
@@ -33,6 +34,22 @@ class Courier {
 		add_filter( 'courier_excerpt', 'wptexturize' );
 		add_filter( 'courier_excerpt', 'convert_smilies' );
 		add_filter( 'courier_excerpt', 'convert_chars' );
+	}
+
+	/**
+	 * Remove editor styles when viewing a Courier Notice in the admin
+	 *
+	 * This is needed for BOTH the classic editor as well as when utilizing the Block editor.
+	 *
+	 * @since 1.3.0
+	 */
+	public function remove_editor_styles() {
+
+		$screen = get_current_screen();
+
+		if ( 'courier_notice' === $screen->id ) {
+			remove_editor_styles();
+		}
 	}
 
 	/**
@@ -286,6 +303,30 @@ class Courier {
 			} else {
 				update_post_meta( $post_id, '_courier_dismissible', 1 );
 			}
+
+			/**
+			 * Toggle force show/hide
+			 * If a post is forcing show or hide (clear out the opposite)
+			 *
+			 * @since 1.3.0
+			 */
+
+			// Force hide title (If show title is enabled for the Notice "Style"
+			if ( empty( $_POST['courier_hide_title'] ) ) {
+				delete_post_meta( $post_id, '_courier_hide_title' );
+			} else {
+				delete_post_meta( $post_id, '_courier_show_title' );
+				update_post_meta( $post_id, '_courier_hide_title', 1 );
+			}
+
+			// Force show title (by default notice titles are hidden)
+			if ( empty( $_POST['courier_show_title'] ) ) {
+				delete_post_meta( $post_id, '_courier_show_title' );
+			} else {
+				delete_post_meta( $post_id, '_courier_hide_title' );
+				update_post_meta( $post_id, '_courier_show_title', 1 );
+			}
+
 
 			if ( empty( $_POST['courier_placement'] ) ) {
 				wp_set_object_terms( $post_id, null, 'courier_placement' );

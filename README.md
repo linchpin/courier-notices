@@ -6,9 +6,9 @@ Add dismissible and non-dismissible notices throughout your website.
 
 Add dismissible and non-dismissible notices throughout your website.
 
-* Customize the colors and icons used by your Courier Notices
+* Customize the colors and icons used by your Courier Notices **no coding needed**
 * Add new "types" of notices as needed
-* Comes with a common library of useful notices
+* Comes with a common library of useful notices (Modal, Header, Footer)
 * Place courier notices within the header, footer or any where using CSS selectors (similar to selectors in jQuery)
 * Display popover/page take over modal style notices
 * Can be used in conjunction with other popular plugins
@@ -24,6 +24,11 @@ e.g.
 
 
 ## Screenshots ##
+
+1. List of "Types" of Informational Courier Notices within the WordPress admin
+2. Editing colors and icons of a Courier Notice
+3. Frontend display of a few Courier Notices, including dismissible notices.
+4. Frontend display of a modal Courier Notice.
 
 
 ## Shortcodes ##

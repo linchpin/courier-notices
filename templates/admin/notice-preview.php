@@ -35,9 +35,6 @@ if ( empty( $icon_color ) ) {
 	}
 	[data-courier-notice-id="<?php echo esc_attr( $notice_id ); ?>"] .courier-icon {
 		background: <?php echo esc_attr( $color ); ?>;;
-	}
-
-	[data-courier-notice-id="<?php echo esc_attr( $notice_id ); ?>"] .courier-icon:before {
 		color: <?php echo esc_attr( $icon_color ); ?>;
 	}
 </style>

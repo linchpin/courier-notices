@@ -1,5 +1,6 @@
 import jQuery from 'jquery';
 import { getItem, setItem } from './cookie';
+import {displayModal} from './modal';
 
 let $ = jQuery;
 
@@ -15,7 +16,6 @@ export default function dismiss() {
 	 * Add our events
 	 */
 	function init () {
-
 		$body.on( 'click', '.courier-close, .trigger-close', closeClick );
 	}
 
@@ -80,8 +80,13 @@ export default function dismiss() {
 	 * @param notice_id
 	 */
 	function hideNotice( notice_id ) {
-		$( ".courier_notice[data-courier-notice-id='" + notice_id + "']" ).fadeOut();
-		$( '.courier-modal-overlay' ).hide();
+		$( ".courier_notice[data-courier-notice-id='" + notice_id + "']" ).fadeOut( 500, function() {
+			if ( 0 === window.courier_notices_modal_notices.length ) {
+				$( '.courier-modal-overlay' ).addClass('hide').hide();
+			} else {
+				displayModal(0);
+			}
+		});
 
 		setCookie( notice_id );
 	}

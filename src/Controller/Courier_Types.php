@@ -180,7 +180,7 @@ class Courier_Types {
 			array(
 				'success'   => $type,
 				'fragments' => array(
-					'table.form-table tbody tr td:first' => wp_kses(
+					'.form-table .type_table' => wp_kses(
 						$table,
 						$this->kses_template
 					),

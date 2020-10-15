@@ -12,19 +12,18 @@
 if ( ! function_exists( 'add_action' ) ) {
 	exit;
 }
+
 ?>
 <form action="" class="settings-form" method="post">
 	<div class="about hero negative-bg">
 		<div class="hero-text">
-			<h1><?php esc_html_e( 'Notice Types / Design Settings', 'courier-notices' ); ?></h1>
+			<h1><?php esc_html_e( 'Design Settings / Info/Types Settings', 'courier-notices' ); ?></h1>
 		</div>
 	</div>
 	<?php
-
+	settings_fields( 'courier_design' );
 	$settings_section = new \CourierNotices\Controller\Admin\Fields\Sections();
+	$settings_section->do_settings_sections( 'courier' );
 	?>
-	<?php settings_fields( 'courier_design' ); ?>
-	<?php $settings_section->do_settings_sections( 'courier_design' ); ?>
-	<?php submit_button(); ?>
 </form>
 <br class="clear" />

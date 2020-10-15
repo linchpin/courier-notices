@@ -60,9 +60,9 @@ const keys = () => {
 };
 
 const clear = ( sPath, sDomain ) => {
-	var aKeys = this.keys();
+	let aKeys = this.keys();
 
-	for (var nLen = aKeys.length, nIdx = 0; nIdx < nLen; nIdx++) {
+	for (let nLen = aKeys.length, nIdx = 0; nIdx < nLen; nIdx++) {
 		this.removeItem( aKeys[nIdx], sPath, sDomain );
 	}
 };
