@@ -286,7 +286,12 @@ function core() {
 
                 var $notice = $(response.notices[index]).hide();
                 $('.courier-notices[data-courier-placement="' + settings.placement + '"]').append($notice);
-                $notice.slideDown('fast');
+                $notice.slideDown('fast', 'swing', function () {
+                  var event = new CustomEvent('courierNoticeDisplayed', {
+                    detail: index
+                  });
+                  document.dispatchEvent(event);
+                });
               });
             }
           });

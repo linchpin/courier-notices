@@ -297,8 +297,6 @@ class Data {
 
 		$post_list = array_merge( $global_posts, $global_dismissible_posts );
 
-		Utils::courier_notices_debug_log( $post_list, 'Query', false );
-
 		// Prioritize Persistent Global Notes to the top by getting them separately and putting them at the front of the line.
 		if ( true === $args['prioritize_persistent_global'] ) {
 			$persistent_global = $this->get_persistent_global_notices(
@@ -344,8 +342,6 @@ class Data {
 		$query_args          = apply_filters( 'courier_notices_display_notices_query', $query_args, $ajax_post_data );
 		$query_args          = wp_parse_args( $args, $query_args );
 		$final_notices_query = new \WP_Query( $query_args );
-
-		Utils::courier_notices_debug_log( $final_notices_query, 'Query', false );
 
 		return ( $final_notices_query->have_posts() ) ? $final_notices_query->posts : array();
 	}
@@ -505,6 +501,7 @@ class Data {
 			'style'           => $courier_style,
 			'type'            => $courier_type,
 			'icon'            => $courier_icon,
+			'is_confirmation' => has_term( 'gform-confirmation', 'courier_visibility_rules', $courier_notice_id ),
 		);
 
 		return apply_filters( 'courier_notices_notice_meta', $notices_meta );

@@ -197,7 +197,7 @@ class Courier_REST_Controller extends WP_REST_Controller {
 			'include_dismissed'            => false,
 			'prioritize_persistent_global' => true,
 			'ids_only'                     => false,
-			'number'                       => 4,
+			'number'                       => 4, // @todo this should be a setting.
 			'placement'                    => 'header',
 			'query_args'                   => array(),
 		);
@@ -220,9 +220,12 @@ class Courier_REST_Controller extends WP_REST_Controller {
 			$notices = array();
 
 			foreach ( $notice_posts as $courier_notice ) {
-				$notice_data  = $notices_data->get_notice_meta( $courier_notice->ID );
-				$notice       = new View();
-				$post_classes = 'courier-notice courier_notice alert alert-box courier_type-' . $notice_data['type'][0]->slug;
+				$notice_data    = $notices_data->get_notice_meta( $courier_notice->ID );
+				$notice         = new View();
+				$post_classes   = array( 'courier-notice courier_notice alert alert-box' );
+				$post_classes[] = 'courier_type-' . $notice_data['type'][0]->slug;
+				$post_classes[] = $notice_data['is_confirmation'] ? 'gform-confirmation' : '';
+
 				$notice->assign( 'notice_id', $courier_notice->ID );
 				$notice->assign( 'show_hide_title', $notice_data['show_hide_title'] );
 

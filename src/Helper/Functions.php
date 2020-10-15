@@ -80,7 +80,7 @@ function courier_notices_add_notice( $notice = '', $types = array( 'Informationa
 			update_post_meta( $notice_id, '_courier_dismissible', 1 );
 		}
 
-		return true;
+		return $notice_id;
 	} else {
 		return false;
 	}
