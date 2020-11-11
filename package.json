@@ -36,7 +36,7 @@
     "gulp-readme-to-markdown": "0.2.1",
     "gulp-replace": "1.0.0",
     "gulp-sass": "4.1.0",
-    "gulp-sourcemaps": "2.6.5",
+    "gulp-sourcemaps": "3.0.0",
     "gulp-uglify": "3.0.2",
     "js-yaml": "3.14.0",
     "kind-of": "6.0.3",
