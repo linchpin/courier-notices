@@ -17,11 +17,11 @@
     "what-input": "5.2.10"
   },
   "devDependencies": {
-    "@babel/core": "7.11.6",
-    "@babel/preset-env": "7.11.5",
-    "@babel/register": "7.11.5",
+    "@babel/core": "7.12.10",
+    "@babel/preset-env": "7.12.10",
+    "@babel/register": "7.12.10",
     "autoprefixer": "10.0.1",
-    "babel-loader": "8.1.0",
+    "babel-loader": "8.2.2",
     "browser-sync": "2.26.12",
     "gulp": "4.0.2",
     "gulp-babel": "8.0.0",
