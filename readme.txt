@@ -3,7 +3,7 @@ Contributors: linchpin_agency, aware, ncallen, maxinacube, fischfood, desrosj
 Tags: notifications, notices, alerts, linchpin, front end, dismissible, gdpr
 Requires at least: 5.0
 Tested up to: 5.4.2
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -48,6 +48,11 @@ The great thing is that Courier Notices is highly extendable and our team is add
 4. Frontend display of a modal Courier Notice.
 
 == Changelog ==
+
+= 1.3.1 =
+* Fixed a javascript issue impacting other plugins
+* Updated - All javascript dependencies have been updated ot the latest versions
+* Updated - Minor security fixes
 
 = 1.3.0 =
 * Added - REST endpoint for saving settings changes (preparation for new UI in future versions)

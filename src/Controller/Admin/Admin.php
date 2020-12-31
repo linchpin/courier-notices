@@ -228,10 +228,10 @@ class Admin {
 		if ( ! empty( $post ) ) {
 			$status    = get_post_status( $post );
 			$post_type = get_post_type( $post );
-		}
 
-		if ( 'courier_notice' !== $post_type ) {
-			return;
+			if ( 'courier_notice' !== $post_type ) {
+				return;
+			}
 		}
 
 		if ( 'courier_notice_page_courier' === $hook ) {
