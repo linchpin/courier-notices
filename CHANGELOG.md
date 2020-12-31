@@ -1,5 +1,10 @@
 # Changelog #
 
+## 1.3.1 ##
+* Fixed a javascript issue impacting other plugins
+* Updated - All javascript dependencies have been updated ot the latest versions
+* Updated - Minor security fixes
+
 ## 1.3.0 ##
 * Added - REST endpoint for saving settings changes (preparation for new UI in future versions)
 * Added - Settings now utilize ajax/REST for updating settings

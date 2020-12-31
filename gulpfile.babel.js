@@ -44,7 +44,12 @@ let webpackConfig = {
 	externals: {
 		jquery: 'jQuery',
 	},
-	devtool: !PRODUCTION && 'source-map'
+	devtool: !PRODUCTION && 'source-map',
+	output: {
+		chunkLoading: false,
+		wasmLoading: false,
+	}
+
 };
 
 /**
