@@ -30,9 +30,7 @@ jobs:
           prerelease: false
 
       - name: WordPress Plugin Deploy
-        uses: 10up/action-wordpress-plugin-deploy@1.4.0
-        with:
-          generate-zip: true
+        uses: 10up/action-wordpress-plugin-deploy@1.5.0
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
