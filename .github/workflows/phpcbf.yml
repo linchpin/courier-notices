@@ -13,9 +13,6 @@ jobs:
               with:
                   ref: ${{ github.head_ref }}
 
-            - name: Authenticate packagist.linchpin.com
-              run: echo '${{ secrets.PACKAGIST_COMPOSER_AUTH_JSON }}' > ./auth.json
-
             - name: Install PHP
               uses: shivammathur/setup-php@v2
               with:
@@ -32,10 +29,6 @@ jobs:
             - name: Fix PHP code style
               continue-on-error: true
               run: ./vendor/squizlabs/php_codesniffer/bin/phpcbf -p -v --standard=${{ github.workspace }}/phpcs.xml --extensions=php ${{ github.workspace }}/
-
-            - name: Cleanup
-              run: |
-                rm ./auth.json
 
             - name: Create Pull Request
               id: cpr
