@@ -187,7 +187,6 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 *
 	 * 1. User Specific Notices
 	 * 2. Global Notices
-	 *
 	 */
 	public function display_notices( WP_REST_Request $request ) {
 
