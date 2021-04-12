@@ -13,7 +13,6 @@ if ( ! function_exists( 'add_action' ) ) {
 	exit;
 }
 
-use CourierNotices\Controller\Admin\Fields\Fields as Fields;
 use CourierNotices\Core\View;
 use CourierNotices\Helper\Type_List_Table as Type_List_Table;
 use CourierNotices\Model\Taxonomy\Style;
@@ -172,7 +171,7 @@ class General {
 	public function settings_init() {
 
 		// If we have save our settings flush the rewrite rules for our new structure.
-		if ( delete_transient( 'courier_notices_flush_rewrite_rules' ) ) {
+		if ( delete_option( 'courier_notices_flush_rewrite_rules' ) ) {
 			flush_rewrite_rules();
 		}
 
