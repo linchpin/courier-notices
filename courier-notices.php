@@ -26,7 +26,7 @@ if ( ! defined( 'COURIER_NOTICES_VERSION' ) ) {
 }
 
 if ( ! defined( 'COURIER_NOTICES_RELEASE_DATE' ) ) {
-	define( 'COURIER_NOTICES_RELEASE_DATE', '04/12/2021' );
+	define( 'COURIER_NOTICES_RELEASE_DATE', '04/13/2021' );
 }
 
 // Define the main plugin file to make it easy to reference in subdirectories.
