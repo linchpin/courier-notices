@@ -14,6 +14,7 @@ use CourierNotices\Model\Taxonomy\Style;
 
 /**
  * Class Courier_Notice_Metabox
+ *
  * @package CourierNotices\Controller\Admin
  */
 class Courier_Notice_Metabox {
@@ -210,27 +211,27 @@ class Courier_Notice_Metabox {
 
 			$show_hide = 'show';
 
-			if ( ! in_array( $pagenow, array( 'post-new.php' ) ) ) {
+		if ( ! in_array( $pagenow, array( 'post-new.php' ) ) ) {
 
-				$courier_options = get_option( 'courier_design', array() );
-				$selected_styles = ( is_array( $courier_options['enable_title'] ) ) ? $courier_options['enable_title'] : [];
+			$courier_options = get_option( 'courier_design', array() );
+			$selected_styles = ( is_array( $courier_options['enable_title'] ) ) ? $courier_options['enable_title'] : [];
 
-				if ( has_term( '', 'courier_style' ) ) {
-					$selected_courier_style = get_the_terms( $post->ID, 'courier_style' );
-				}
+			if ( has_term( '', 'courier_style' ) ) {
+				$selected_courier_style = get_the_terms( $post->ID, 'courier_style' );
+			}
 
-				if ( ! empty( $selected_courier_style ) ) {
+			if ( ! empty( $selected_courier_style ) ) {
 
-					if ( ! empty( in_array( $selected_courier_style[0]->slug, $selected_styles ) ) ) {
-						$show_hide = 'hide';
-						?>
+				if ( ! empty( in_array( $selected_courier_style[0]->slug, $selected_styles ) ) ) {
+					$show_hide = 'hide';
+					?>
 						<div id="show-hide-info" class="courier-admin-notice notice inline">
-							<p>The <strong>Notice Style</strong> (<span id="selected-courier-notice-type" data-enable-title="<?php echo implode( ',', $selected_styles ); ?>"><?php echo esc_html( $selected_courier_style[0]->name ); ?></span>) is displaying this Notice's Title by default in the <a href="<?php echo esc_url( site_url('/wp-admin/edit.php?post_type=courier_notice&page=courier&tab=design&subtab=global') ); ?>">global design settings</a>. Use the "Hide title" toggle below to override for this notice.</p>
+							<p>The <strong>Notice Style</strong> (<span id="selected-courier-notice-type" data-enable-title="<?php echo implode( ',', $selected_styles ); ?>"><?php echo esc_html( $selected_courier_style[0]->name ); ?></span>) is displaying this Notice's Title by default in the <a href="<?php echo esc_url( site_url( '/wp-admin/edit.php?post_type=courier_notice&page=courier&tab=design&subtab=global' ) ); ?>">global design settings</a>. Use the "Hide title" toggle below to override for this notice.</p>
 						</div>
 						<?php
-					}
 				}
 			}
+		}
 		?>
 
 		<div class="misc-pub-section courier-dismissable">
