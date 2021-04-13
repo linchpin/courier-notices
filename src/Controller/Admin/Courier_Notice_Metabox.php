@@ -235,12 +235,12 @@ class Courier_Notice_Metabox {
 
 		<div class="misc-pub-section courier-dismissable">
 			<span class="dashicons dashicons-text wp-media-buttons-icon"></span>&nbsp
-			<span id="show-title-toggle" class="show-hide-toggle <?php echo ( 'hide' === $show_hide ) ? 'hide' : '' ?>">
+			<span id="show-title-toggle" class="show-hide-toggle <?php echo ( 'hide' === $show_hide ) ? 'hide' : ''; ?>">
 				<label for="courier_show_title"><?php esc_html_e( 'Show Title?', 'courier-notices' ); ?></label>&nbsp;
 				<input type="checkbox" name="courier_show_title" id="courier_show_title" value="1" <?php checked( get_post_meta( $post->ID, '_courier_show_title', true ) ); ?> />
 				<a href="#" class="courier-info-icon courier-help" title="<?php esc_html_e( 'Show the title for this notice? You can also set this globally or override for this specific notice', 'courier-notices' ); ?>">?</a>
 			</span>
-			<span id="hide-title-toggle" class="show-hide-toggle <?php echo ( 'show' === $show_hide ) ? 'hide' : '' ?>">
+			<span id="hide-title-toggle" class="show-hide-toggle <?php echo ( 'show' === $show_hide ) ? 'hide' : ''; ?>">
 				<label for="courier_hide_title"><?php esc_html_e( 'Hide Title?', 'courier-notices' ); ?></label>&nbsp;
 				<input type="checkbox" name="courier_hide_title" id="courier_hide_title" value="1" <?php checked( get_post_meta( $post->ID, '_courier_hide_title', true ) ); ?> />
 				<a href="#" class="courier-info-icon courier-help" title="<?php esc_html_e( 'Hide the title for this notice overriding the global settings?', 'courier-notices' ); ?>">?</a>
