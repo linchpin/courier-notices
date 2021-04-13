@@ -14,8 +14,9 @@
 	<arg name="extensions" value="php"/>
 	<arg value="s"/>
 
-	<exclude-pattern>*/node_modules/*</exclude-pattern>
-	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>node_modules/*</exclude-pattern>
+	<exclude-pattern>vendor/*</exclude-pattern>
 	<exclude-pattern>.github/*</exclude-pattern>
 	<exclude-pattern>.deployment/*</exclude-pattern>
+	<exclude-pattern>/src/Helper/WP_List_Table.php</exclude-pattern>
 </ruleset>
