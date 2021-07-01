@@ -1,5 +1,9 @@
 # Changelog #
 
+## 1.4.1 ##
+* Updated all dependencies
+* Removed some unneeded resolutions
+
 ## 1.4.0 ##
 * Added - WordPress PHPCS Coding Standards Autofixer
 * Fixed - Adjusted an in_array check to not compare with a string

@@ -10,6 +10,7 @@ let webpack2      = require('webpack');
 let named         = require('vinyl-named');
 let autoprefixer  = require('autoprefixer');
 let through2      = require('through2');
+let sass          = require('gulp-sass')(require('node-sass'));
 
 // Load all Gulp plugins into one variable
 const $ = plugins();
@@ -80,7 +81,7 @@ gulp.task(
 		setProductionMode,
 		clean,
 		javascript,
-		sass,
+		buildSass,
 		bumpPluginFile,
 		bumpPackageJson,
 		bumpReadmeStableTag,
@@ -105,7 +106,7 @@ gulp.task(
 	gulp.series(
 		clean,
 		javascript,
-		sass,
+		buildSass,
 		copy,
 		gulp.parallel(watch)
 	)
@@ -305,12 +306,12 @@ function copy() {
  *
  * @return {*}
  */
-function sass() {
+function buildSass() {
 	return gulp.src('assets/scss/*.scss')
 		.pipe($.sourcemaps.init())
-		.pipe($.sass({
+		.pipe(sass({
 			includePaths: PATHS.sass
-		}).on('error', $.sass.logError))
+		}).on('error', sass.logError))
 		.pipe(gulp.dest('css'));
 }
 
@@ -345,7 +346,7 @@ function javascript() {
  */
 function watch() {
 	gulp.watch('readme.txt', readme);
-	gulp.watch('assets/scss/**/*.scss').on('all', sass);
+	gulp.watch('assets/scss/**/*.scss').on('all', buildSass);
 	gulp.watch('assets/js/**/*.js').on('all', gulp.series(javascript));
 	gulp.watch(PATHS.assets, copy);
 }
