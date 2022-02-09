@@ -28,7 +28,6 @@ jobs:
       - name: Composer Install
         uses: php-actions/composer@v6
         with:
-          working_dir: ./
           dev: no
           php_version: "7.4"
 

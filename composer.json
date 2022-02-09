@@ -23,7 +23,7 @@
     "issues": "https://github.com/linchpin/courier-notices/issues",
     "source": "https://github.com/linchpin/courier-notices"
   },
-  "license": "GPL-2.0+",
+	"license": "GPL-2.0-or-later",
   "type": "wordpress-plugin",
   "require": {
     "php": ">=7.3",
