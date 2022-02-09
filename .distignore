@@ -3,7 +3,11 @@
 /.github
 /node_modules
 /assets
-
+/vendor/wp-coding-standards
+/vendor/squizlabs
+/vendor/dealerdirect
+/vendor/phpcompatibility
+/vendor/php-parallel-lint
 gulpfile.babel.js
 yarn.lock
 config.yml
