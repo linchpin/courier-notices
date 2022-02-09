@@ -1,8 +1,13 @@
 # Changelog #
 
 ## 1.4.1 ##
-* Updated all dependencies
-* Removed some unneeded resolutions
+* Fixed - Swapped colors for feedback and info notices
+* Fixed - Allowing trigger-close class to fire for logged-out users
+* Updated - Adjusted welcome panel classes to not rely on WordPress's default welcome styles
+* Updated - Adjusted notice metabox to make sure data is an array before imploding
+* Updated - Increased maximum visible notices from 4 to 10
+* Updated - All dependencies
+* Removed - Unneeded resolutions
 
 ## 1.4.0 ##
 * Added - WordPress PHPCS Coding Standards Autofixer
