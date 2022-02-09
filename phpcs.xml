@@ -1,22 +1,89 @@
 <?xml version="1.0"?>
-<ruleset name="LinchpinPHPCS">
-	<description>Linchpin WordPress Project PHPCS Sniffs</description>
+<ruleset name="LinchpinPHPCS"
+         namespace="WordPressCS\WordPress"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
+    <description>Linchpin WordPress Project PHPCS Sniffs</description>
 
-	<rule ref="WordPress">
-		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
-		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
-		<exclude name="Generic.Arrays.DisallowShortArraySyntax.Found" />
-	</rule>
+    <!-- Only scan PHP files. -->
+    <arg name="extensions" value="php"/>
+    <!-- Trim our base path for easier reading -->
+    <arg name="basepath" value="."/>
+    <arg name="colors"/>
 
-	<rule ref="PHPCompatibility"/>
-	<config name="testVersion" value="7.3-"/>
+    <rule ref="Generic.Arrays.DisallowShortArraySyntax.Found">
+        <severity>0</severity>
+    </rule>
 
-	<arg name="extensions" value="php"/>
-	<arg value="s"/>
+    <config name="testVersion" value="7.4-"/>
 
-	<exclude-pattern>node_modules/*</exclude-pattern>
-	<exclude-pattern>vendor/*</exclude-pattern>
-	<exclude-pattern>.github/*</exclude-pattern>
-	<exclude-pattern>.deployment/*</exclude-pattern>
-	<exclude-pattern>/src/Helper/WP_List_Table.php</exclude-pattern>
+    <!-- Pass some flags to PHPCS:
+         p flag: Show progress of the run.
+         s flag: Show sniff codes in all reports.
+    -->
+    <arg value="ps"/>
+
+    <!-- Check up to 8 files simultaneously. -->
+    <arg name="parallel" value="8"/>
+
+    <!-- Check all files in this directory and the directories below it. -->
+    <file>.</file>
+
+    <!-- Exclude directories. -->
+    <exclude-pattern type="relative">\.github/*</exclude-pattern>
+    <exclude-pattern type="relative">\.deployment/*</exclude-pattern>
+	  <exclude-pattern type="relative">\.wordpress-org/*</exclude-pattern>
+    <exclude-pattern type="relative">assets/*</exclude-pattern>
+    <exclude-pattern type="relative">wiki/*</exclude-pattern>
+    <exclude-pattern type="relative">vendor/*</exclude-pattern>
+    <exclude-pattern type="relative">node_modules/*</exclude-pattern>
+    <exclude-pattern type="relative">tests/*</exclude-pattern>
+    <exclude-pattern type="relative">templates/*</exclude-pattern>
+    <exclude-pattern type="relative">gulpfile\.js</exclude-pattern>
+    <exclude-pattern type="relative">*.css*</exclude-pattern>
+    <exclude-pattern type="relative">*.js*</exclude-pattern>
+    <exclude-pattern type="relative">^build/*</exclude-pattern>
+
+    <config name="minimum_supported_wp_version" value="5.7" />
+    <config name="testVersion" value="7.0-" />
+
+    <rule ref="WordPress">
+        <exclude name="WordPress.WP.GlobalVariablesOverride.Prohibited" />
+        <exclude name="Generic.ControlStructures.InlineControlStructure.NotAllowed" />
+        <!-- PSR4 -->
+        <exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+        <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+
+        <!-- PSR2 -->
+        <exclude name="Squiz.WhiteSpace.ControlStructureSpacing" />
+        <exclude name="Squiz.WhiteSpace.OperatorSpacing" />
+
+        <exclude name="Generic.Arrays.DisallowLongArraySyntax.Found" />
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax.Found" />
+    </rule>
+
+    <rule ref="WordPress-Extra">
+        <exclude name="Generic.WhiteSpace.ScopeIndent.IncorrectExact" />
+        <exclude name="Generic.WhiteSpace.ScopeIndent.Incorrect" />
+        <exclude name="PEAR.Functions.FunctionCallSignature.Indent" />
+        <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+        <exclude name="WordPress.Arrays.ArrayDeclarationSpacing.AssociativeKeyFound" />
+    </rule>
+
+    <!-- Not interested in whitespace issues in JS and CSS files at the moment -->
+    <rule ref="Squiz.WhiteSpace">
+        <exclude-pattern>*\.css</exclude-pattern>
+        <exclude-pattern>*\.js</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.WhiteSpace">
+        <exclude-pattern>*\.css</exclude-pattern>
+        <exclude-pattern>*\.js</exclude-pattern>
+    </rule>
+
+    <rule ref="Generic.Files.EndFileNewline">
+        <exclude-pattern>*\.css</exclude-pattern>
+        <exclude-pattern>*\.js</exclude-pattern>
+    </rule>
+
+    <config name="testVersion" value="5.2-"/>
 </ruleset>

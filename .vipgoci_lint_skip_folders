@@ -1,0 +1,7 @@
+node_modules
+vendor
+.github
+.deployment
+assets
+sourcedata
+wsdl
