@@ -29,8 +29,11 @@ if ( ! function_exists( 'add_action' ) ) {
  */
 class Sections {
 
+
 	public function __construct() {
+
 	}
+
 
 	/**
 	 * Prints out all settings sections added to a particular settings page
@@ -69,7 +72,9 @@ class Sections {
 			$this->do_settings_fields( $page, $section['id'] );
 			echo '</ddiv>';
 		}
+
 	}
+
 
 	/**
 	 * Print out the settings fields for a particular settings section.
@@ -112,5 +117,8 @@ class Sections {
 			echo '</div>';
 			echo '</div>';
 		}
+
 	}
+
+
 }

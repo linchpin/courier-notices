@@ -8,6 +8,7 @@ namespace CourierNotices\Controller;
  */
 class Settings_REST_Controller {
 
+
 	/**
 	 * Register all actions for status cake integration
 	 *
@@ -15,7 +16,9 @@ class Settings_REST_Controller {
 	 */
 	public function register_actions() {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+
 	}
+
 
 	/**
 	 * Add routes
@@ -45,7 +48,9 @@ class Settings_REST_Controller {
 				'permission_callback' => array( $this, 'permissions' ),
 			)
 		);
+
 	}
+
 
 	/**
 	 * Check request permissions
@@ -53,13 +58,14 @@ class Settings_REST_Controller {
 	 * @return bool
 	 */
 	public function permissions() {
-
 		if ( wp_verify_nonce( 'wp_rest', $_REQUEST['_wpnonce'] ) ) {
 			return current_user_can( 'manage_options' );
 		}
 
 		return current_user_can( 'manage_options' );
+
 	}
+
 
 	/**
 	 * Update settings
@@ -69,7 +75,6 @@ class Settings_REST_Controller {
 	 * @return string
 	 */
 	public function update_settings( \WP_REST_Request $request ) {
-
 		$option_key = $request->get_param( 'settings_key' ); // get the settings from
 
 		$settings_model = new \CourierNotices\Model\Settings( $option_key );
@@ -77,7 +82,9 @@ class Settings_REST_Controller {
 		$settings_model->save_settings_array( $request->get_params() );
 
 		return new \WP_REST_Response( $settings_model->get_settings() );
+
 	}
+
 
 	/**
 	 * Get settings via API
@@ -92,5 +99,8 @@ class Settings_REST_Controller {
 		$results = $settings_model->get_settings();
 
 		return rest_ensure_response( $results );
+
 	}
+
+
 }

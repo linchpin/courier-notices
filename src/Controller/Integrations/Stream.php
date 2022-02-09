@@ -12,6 +12,7 @@ namespace CourierNotices\Controller\Integrations;
  */
 class Stream {
 
+
 	/**
 	 * Registers Stream related actions.
 	 *
@@ -19,7 +20,9 @@ class Stream {
 	 */
 	public function register_actions() {
 		add_filter( 'wp_stream_log_data', array( $this, 'wp_stream_log_data' ), 999 );
+
 	}
+
 
 	/**
 	 * Prevent actions to Courier notices from being logged in Stream.
@@ -36,5 +39,8 @@ class Stream {
 		}
 
 		return $data;
+
 	}
+
+
 }

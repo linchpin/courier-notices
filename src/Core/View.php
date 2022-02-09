@@ -11,12 +11,14 @@ namespace CourierNotices\Core;
  * View Class
  */
 class View {
+
 	/**
 	 * Variables for substitution in templates
 	 *
 	 * @var array
 	 */
 	protected $variables = array();
+
 
 	/**
 	 * View constructor
@@ -26,7 +28,9 @@ class View {
 	 * @param null $config The configuration.
 	 */
 	public function __construct( $config = null ) {
+
 	}
+
 
 	/**
 	 * Load all assets on boot-up
@@ -36,7 +40,9 @@ class View {
 	 * @return void
 	 */
 	public function load_assets() {
+
 	}
+
 
 	/**
 	 * Render HTML file
@@ -61,6 +67,7 @@ class View {
 		}
 
 		require $view_file;
+
 	}
 
 
@@ -76,6 +83,7 @@ class View {
 	 */
 	public function assign( $variable, $value ) {
 		$this->variables[ $variable ] = $value;
+
 	}
 
 
@@ -110,7 +118,9 @@ class View {
 		$this->init_assignments();
 
 		return $html;
+
 	}
+
 
 	/**
 	 * Reset the variables
@@ -119,5 +129,8 @@ class View {
 	 */
 	protected function init_assignments() {
 		$this->variables = array();
+
 	}
+
+
 }

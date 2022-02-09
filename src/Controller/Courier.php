@@ -11,6 +11,7 @@ namespace CourierNotices\Controller;
  */
 class Courier {
 
+
 	/**
 	 * Register the hooks and filters
 	 *
@@ -34,7 +35,9 @@ class Courier {
 		add_filter( 'courier_excerpt', 'wptexturize' );
 		add_filter( 'courier_excerpt', 'convert_smilies' );
 		add_filter( 'courier_excerpt', 'convert_chars' );
+
 	}
+
 
 	/**
 	 * Remove editor styles when viewing a Courier Notice in the admin
@@ -44,13 +47,14 @@ class Courier {
 	 * @since 1.3.0
 	 */
 	public function remove_editor_styles() {
-
 		$screen = get_current_screen();
 
 		if ( 'courier_notice' === $screen->id ) {
 			remove_editor_styles();
 		}
+
 	}
+
 
 	/**
 	 * Adds a custom post status for expired notices
@@ -70,7 +74,9 @@ class Courier {
 				'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'courier-notices' ),
 			)
 		);
+
 	}
+
 
 	/**
 	 * Post updated messages
@@ -111,7 +117,9 @@ class Courier {
 		);
 
 		return $messages;
+
 	}
+
 
 	/**
 	 * Add a links for global and expired notices in the admin table view.
@@ -214,7 +222,9 @@ class Courier {
 		}
 
 		return $views;
+
 	}
+
 
 	/**
 	 * Get a list of available post types to select from.
@@ -251,7 +261,9 @@ class Courier {
 		$options = apply_filters( 'courier_visibility_scope_options', $options );
 
 		return $options;
+
 	}
+
 
 	/**
 	 * Get the currently selected type of notice.
@@ -270,7 +282,9 @@ class Courier {
 		$notice_type = get_the_terms( $post_id, 'courier_type' );
 
 		return $notice_type;
+
 	}
+
 
 	/**
 	 * Save our notice data
@@ -281,7 +295,6 @@ class Courier {
 	 * @param object|array $post The post object.
 	 */
 	public function save_post_courier_notice( $post_id, $post ) {
-
 		// Skip revisions and autosaves.
 		if ( wp_is_post_revision( $post_id ) || ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			return;
@@ -371,7 +384,9 @@ class Courier {
 		wp_cache_delete( 'global-header-notices', 'courier-notices' );
 		wp_cache_delete( 'global-header-dismissible-notices', 'courier-notices' );
 		wp_cache_delete( 'global-header-persistent-notices', 'courier-notices' );
+
 	}
+
 
 	/**
 	 * When creating new notice for a specific user, log who created it.
@@ -396,7 +411,9 @@ class Courier {
 		}
 
 		update_post_meta( $post_id, '_courier_sender', get_current_user_id() );
+
 	}
+
 
 	/**
 	 * Add some custom query vars
@@ -416,7 +433,9 @@ class Courier {
 				'courier_include_expired',
 			)
 		);
+
 	}
+
 
 	/**
 	 * Force a login when trying to visit the notifications page
@@ -441,7 +460,9 @@ class Courier {
 		}
 
 		return $vars;
+
 	}
+
 
 	/**
 	 * Use custom query vars to include specific scopes of notices
@@ -479,7 +500,9 @@ class Courier {
 		} else {
 			$query->query_vars['post__in'] = $notices;
 		}
+
 	}
+
 
 	/**
 	 * If a custom template exists in the current theme for notifications, use that one instead.
@@ -504,7 +527,9 @@ class Courier {
 		}
 
 		return $template;
+
 	}
+
 
 	/**
 	 * When viewing the notification page, filter the title.
@@ -525,7 +550,9 @@ class Courier {
 		$title['title'] = esc_html__( 'Notifications', 'courier-notices' );
 
 		return $title;
+
 	}
+
 
 	/**
 	 * Add classes for dismissed and global notice for notices.
@@ -557,6 +584,9 @@ class Courier {
 		}
 
 		return $classes;
+
 	}
+
+
 }
 

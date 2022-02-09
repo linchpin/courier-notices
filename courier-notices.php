@@ -67,6 +67,7 @@ if ( file_exists( COURIER_NOTICES_PATH . '/vendor/autoload.php' ) ) {
  */
 add_action( 'plugins_loaded', 'courier_notices_init' );
 
+
 /**
  * Callback for starting the plugin.
  *
@@ -86,9 +87,12 @@ function courier_notices_init() {
 	}
 
 	do_action( 'after_courier_notices_init' );
+
 }
 
+
 register_activation_hook( __FILE__, 'courier_notices_activation' );
+
 
 /**
  * Activation hooks
@@ -107,9 +111,12 @@ function courier_notices_activation() {
 	}
 
 	do_action( 'courier_notices_activate' );
+
 }
 
+
 register_deactivation_hook( __FILE__, 'courier_notices_deactivation' );
+
 
 /**
  * Clear hooks to clean up existing notifications
@@ -122,9 +129,12 @@ function courier_notices_deactivation() {
 	wp_clear_scheduled_hook( 'courier_notices_expire' );
 
 	do_action( 'courier_notices_deactivate' );
+
 }
 
+
 add_action( 'init', 'courier_notices_flush_rewrite_rules', 20 );
+
 
 /**
  * Flush rewrite rules if the previously added flag exists,
@@ -135,4 +145,5 @@ function courier_notices_flush_rewrite_rules() {
 		flush_rewrite_rules();
 		delete_option( 'courier_notices_flush_rewrite_rules' );
 	}
+
 }

@@ -16,9 +16,12 @@ use CourierNotices\Model\Courier_Notice\Data as Courier_Notice_Data;
  */
 class Courier_REST_Controller extends WP_REST_Controller {
 
+
 	public function register_actions() {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+
 	}
+
 
 	/**
 	 * Register the routes for the objects of the controller.
@@ -82,7 +85,9 @@ class Courier_REST_Controller extends WP_REST_Controller {
 				),
 			)
 		);
+
 	}
+
 
 	/**
 	 * Get a single notice
@@ -94,7 +99,6 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 * @return WP_Error|WP_REST_Response
 	 */
 	public function get_notice( WP_REST_Request $request ) {
-
 		$data = array();
 
 		$args = array(
@@ -125,7 +129,9 @@ class Courier_REST_Controller extends WP_REST_Controller {
 		}
 
 		return new \WP_REST_Response( $data, 200 );
+
 	}
+
 
 	/**
 	 * Disable a notice in the front end.
@@ -137,7 +143,6 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function dismiss_notice( WP_REST_Request $request ) {
-
 		$defaults = array(
 			'user_id' => '',
 		);
@@ -163,7 +168,9 @@ class Courier_REST_Controller extends WP_REST_Controller {
 		update_user_option( $user_id, 'courier_notifications', $notifications );
 
 		return new WP_REST_Response( 1, 200 );
+
 	}
+
 
 	/**
 	 * Check if a given request has access to get items
@@ -173,7 +180,9 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 */
 	public function get_dismiss_notice_permissions_check( $request ) {
 		return is_user_logged_in();
+
 	}
+
 
 	/**
 	 * Display all notices on the frontend based on our logic
@@ -189,7 +198,6 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 * 2. Global Notices
 	 */
 	public function display_notices( WP_REST_Request $request ) {
-
 		$defaults = array(
 			'user_id'                      => '',
 			'include_global'               => true,
@@ -256,7 +264,9 @@ class Courier_REST_Controller extends WP_REST_Controller {
 		$dataset = apply_filters( 'courier_notices_display_notices', $dataset );
 
 		return new WP_REST_Response( $dataset, 200 );
+
 	}
+
 
 	/**
 	 * Check if a given request has access to get items
@@ -265,7 +275,9 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 */
 	public function get_notice_permissions_check() {
 		return true;
+
 	}
+
 
 	/**
 	 * Check if a given request has access to get a specific item
@@ -276,7 +288,9 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 */
 	public function get_item_permissions_check( $request ) {
 		return $this->get_items_permissions_check( $request );
+
 	}
+
 
 	/**
 	 * Prepare the item for the REST response
@@ -288,7 +302,9 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 */
 	public function prepare_item_for_response( $item, $request ) {
 		return array();
+
 	}
+
 
 	/**
 	 * Get the query params for collections
@@ -315,5 +331,8 @@ class Courier_REST_Controller extends WP_REST_Controller {
 				'sanitize_callback' => 'sanitize_text_field',
 			),
 		);
+
 	}
+
+
 }

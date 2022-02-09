@@ -21,12 +21,15 @@ class Install {
 	 */
 	private $config;
 
+
 	/**
 	 * Install constructor
 	 */
 	public function __construct() {
 		$this->config = new Config();
+
 	}
+
 
 	/**
 	 * Registers hooks and filters
@@ -36,7 +39,9 @@ class Install {
 	public function register_actions() {
 		add_action( 'admin_init', array( $this, 'check_for_updates' ) );
 		add_action( 'init', array( $this, 'add_capabilities' ), 11 );
+
 	}
+
 
 	/**
 	 * Add new capabilities to administrators.
@@ -44,7 +49,6 @@ class Install {
 	 * @since 1.0
 	 */
 	public function add_capabilities() {
-
 		// Get the administrator role.
 		$role = get_role( 'administrator' );
 
@@ -58,7 +62,9 @@ class Install {
 				$role->add_cap( 'edit_others_courier_notices', true );
 			}
 		}
+
 	}
+
 
 	/**
 	 * Checks to see if we have any updates.
@@ -72,7 +78,9 @@ class Install {
 		if ( empty( $plugin_options ) ) {
 			$this->install();
 		}
+
 	}
+
 
 	/**
 	 * Adds in our term meta for our courier types
@@ -88,7 +96,9 @@ class Install {
 			add_term_meta( $term['term_id'], '_courier_type_color', $hex_color, true );
 			add_term_meta( $term['term_id'], '_courier_type_icon', $class_name, true );
 		}
+
 	}
+
 
 	/**
 	 * Install our default options.
@@ -96,7 +106,6 @@ class Install {
 	 * @since 1.0
 	 */
 	public function install() {
-
 		// This is the type of notification that is being displayed to the user.
 
 		// Secondary.
@@ -135,6 +144,9 @@ class Install {
 		wp_insert_term( esc_html__( 'Footer', 'courier-notices' ), 'courier_placement' );
 
 		courier_get_css();
+
 	}
+
+
 }
 

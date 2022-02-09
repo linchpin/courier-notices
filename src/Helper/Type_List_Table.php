@@ -20,6 +20,7 @@ use CourierNotices\Helper\WP_List_Table as WP_List_Table;
  */
 class Type_List_Table extends WP_List_Table {
 
+
 	/**
 	 * Returns columns.
 	 *
@@ -36,7 +37,9 @@ class Type_List_Table extends WP_List_Table {
 			'notice_delete'  => '',
 		);
 		return $table_columns;
+
 	}
+
 
 	/**
 	 * Define what data to show on each column of the table
@@ -59,7 +62,9 @@ class Type_List_Table extends WP_List_Table {
 			default:
 				return print_r( $item, true ) ; // phpcs:ignore
 		}
+
 	}
+
 
 	/**
 	 * Text for when no items are available.
@@ -68,7 +73,9 @@ class Type_List_Table extends WP_List_Table {
 	 */
 	public function no_items() {
 		esc_html_e( 'No types available.', 'courier-notices' );
+
 	}
+
 
 	/**
 	 * Display the table
@@ -105,7 +112,9 @@ class Type_List_Table extends WP_List_Table {
 		</table>
 		<?php
 		$this->display_tablenav( 'bottom' );
+
 	}
+
 
 	/**
 	 * Prepare Items in the list.
@@ -147,6 +156,7 @@ class Type_List_Table extends WP_List_Table {
 		$data                  = array_slice( $data, ( ( $current_page - 1 ) * $items_per_page ), $items_per_page );
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$this->items           = $data;
+
 	}
 
 
@@ -159,7 +169,9 @@ class Type_List_Table extends WP_List_Table {
 	 */
 	public function get_hidden_columns() {
 		return array();
+
 	}
+
 
 	/**
 	 * Define the sortable columns
@@ -170,7 +182,9 @@ class Type_List_Table extends WP_List_Table {
 	 */
 	public function get_sortable_columns() {
 		return array( 'title' => array( 'title', false ) );
+
 	}
+
 
 	/**
 	 * Get value for checkbox column.
@@ -187,7 +201,9 @@ class Type_List_Table extends WP_List_Table {
 			// translators: %1$s Title of the term.
 			sprintf( esc_html__( 'Select %1$s', 'courier-notices' ), $item['title'] )
 		);
+
 	}
+
 
 	/**
 	 * Get the data for our table
@@ -311,7 +327,9 @@ class Type_List_Table extends WP_List_Table {
 
 		// Return result array to prepare_items.
 		return $data;
+
 	}
+
 
 	/**
 	 * Filter the terms based on searching the table
@@ -338,7 +356,9 @@ class Type_List_Table extends WP_List_Table {
 		);
 
 		return $filtered_table_data;
+
 	}
+
 
 	/**
 	 * Handles bulk actions.
@@ -349,7 +369,9 @@ class Type_List_Table extends WP_List_Table {
 		/**
 		 * Add any bulk actions. Maybe bulk delete?
 		 */
+
 	}
+
 
 	/**
 	 * Method for rendering the user_login column.
@@ -390,7 +412,9 @@ class Type_List_Table extends WP_List_Table {
 		];
 
 		return $edit_link . $option_fields . $this->row_actions( $actions );
+
 	}
+
 
 	/**
 	 * Display if this is a default term
@@ -416,7 +440,9 @@ class Type_List_Table extends WP_List_Table {
 		);
 
 		return implode( ' ', $action_links );
+
 	}
+
 
 	/**
 	 * Show is a column is a default title.
@@ -426,7 +452,6 @@ class Type_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function column_notice_default( $item ) {
-
 		$is_default_item = '';
 		$default_types   = array(
 			'primary',
@@ -442,6 +467,8 @@ class Type_List_Table extends WP_List_Table {
 		}
 
 		return $is_default_item;
+
 	}
+
 
 }

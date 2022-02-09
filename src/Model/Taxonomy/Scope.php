@@ -42,6 +42,7 @@ class Scope {
 	 */
 	private $args = array();
 
+
 	/**
 	 * _Scope constructor.
 	 *
@@ -95,7 +96,9 @@ class Scope {
 		);
 
 		$this->args = apply_filters( 'courier_notices_courier_scope_args', $default_args );
+
 	}
+
 
 	/**
 	 * Returns the arguments
@@ -106,5 +109,8 @@ class Scope {
 	 */
 	public function get_args() {
 		return $this->args;
+
 	}
+
+
 }
