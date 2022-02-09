@@ -41,6 +41,7 @@ class Courier_Notices {
 	 */
 	protected static $dependencies = array( 'jquery' => 'jquery' );
 
+
 	/**
 	 * Register our hooks
 	 *
@@ -54,7 +55,9 @@ class Courier_Notices {
 
 		// Exclude requests from the sitemap regardless of options.
 		add_filter( 'add_query_vars', array( $this, 'add_query_vars' ) );
+
 	}
+
 
 	/**
 	 * Enqueue all of our needed scripts
@@ -62,7 +65,6 @@ class Courier_Notices {
 	 * @since 1.0
 	 */
 	public function wp_enqueue_scripts() {
-
 		if ( is_admin() ) {
 			return;
 		}
@@ -99,7 +101,9 @@ class Courier_Notices {
 			'courier_notices_data',
 			$localized_data
 		);
+
 	}
+
 
 	/**
 	 * Enqueue all the styles needed for the design of our courier notices within the admin
@@ -107,7 +111,6 @@ class Courier_Notices {
 	 * @since 1.0.0
 	 */
 	public function wp_enqueue_styles() {
-
 		if ( is_admin() ) {
 			return;
 		}
@@ -124,7 +127,9 @@ class Courier_Notices {
 		wp_enqueue_style( 'courier-notices' );
 
 		wp_add_inline_style( 'courier-notices', courier_get_css() );
+
 	}
+
 
 	/**
 	 * Add admin Query Vars
@@ -141,7 +146,9 @@ class Courier_Notices {
 		$vars[] = 'subtab';
 
 		return $vars;
+
 	}
+
 
 	/**
 	 * Register the 'courier_notice' post type
@@ -152,7 +159,9 @@ class Courier_Notices {
 	public function register_custom_post_type() {
 		$courier_post_type_model = new Courier_Notice_Post_Type();
 		register_post_type( $courier_post_type_model->name, $courier_post_type_model->get_args() );
+
 	}
+
 
 	/**
 	 * Register the taxonomies for the courier_notice post type
@@ -160,7 +169,6 @@ class Courier_Notices {
 	 * @since   1.0
 	 */
 	public function register_taxonomies() {
-
 		$courier_style_taxonomy_model     = new Style();
 		$courier_type_taxonomy_model      = new Type();
 		$courier_scope_taxonomy_model     = new Scope();
@@ -186,5 +194,8 @@ class Courier_Notices {
 		if ( ! taxonomy_exists( $courier_placement_taxonomy_model->name ) ) {
 			register_taxonomy( $courier_placement_taxonomy_model->name, array( 'courier_notice' ), $courier_placement_taxonomy_model->get_args() );
 		}
+
 	}
+
+
 }

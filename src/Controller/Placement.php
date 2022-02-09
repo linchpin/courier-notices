@@ -12,6 +12,7 @@ namespace CourierNotices\Controller;
  */
 class Placement {
 
+
 	/**
 	 * Registers our actions for where notifications will be placed.
 	 *
@@ -21,7 +22,9 @@ class Placement {
 		add_action( 'wp_body_open', array( __CLASS__, 'place_header_notices' ), 100 );
 		add_action( 'get_footer', array( __CLASS__, 'place_footer_notices' ), 100 );
 		add_action( 'get_footer', array( __CLASS__, 'place_modal_notices' ), 100 );
+
 	}
+
 
 	/**
 	 * Places all of our header notifications
@@ -34,7 +37,9 @@ class Placement {
 				'placement' => 'header',
 			)
 		);
+
 	}
+
 
 	/**
 	 * Places all of our footer notifications
@@ -47,7 +52,9 @@ class Placement {
 				'placement' => 'footer',
 			)
 		);
+
 	}
+
 
 	/**
 	 * Places all of our modal notices
@@ -56,5 +63,8 @@ class Placement {
 	 */
 	public static function place_modal_notices() {
 		courier_notices_display_modals();
+
 	}
+
+
 }

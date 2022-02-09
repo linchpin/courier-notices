@@ -12,6 +12,7 @@ namespace CourierNotices\Controller;
  */
 class Shortcodes {
 
+
 	/**
 	 * Registers the shortcodes.
 	 *
@@ -20,7 +21,9 @@ class Shortcodes {
 	public function register_actions() {
 		add_shortcode( 'courier_notices', array( $this, 'courier_notices' ) );
 		add_shortcode( 'courier_notice', array( $this, 'courier_notice' ) );
+
 	}
+
 
 	/**
 	 * Output Courier Notifications
@@ -94,7 +97,9 @@ class Shortcodes {
 
 		<?php
 		return ob_get_clean();
+
 	}
+
 
 	/**
 	 * Get the courier notice based on the attributes
@@ -155,5 +160,8 @@ class Shortcodes {
 		} else {
 			return;
 		}
+
 	}
+
+
 }

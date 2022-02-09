@@ -28,6 +28,7 @@ class Bootstrap {
 	 */
 	private $controllers = array();
 
+
 	/**
 	 * Bootstrap constructor
 	 *
@@ -35,7 +36,9 @@ class Bootstrap {
 	 */
 	public function __construct() {
 		$this->config = new Config();
+
 	}
+
 
 	/**
 	 * Run the bootstrap
@@ -43,7 +46,6 @@ class Bootstrap {
 	 * @since 1.0
 	 */
 	public function run() {
-
 		// Load the controllers in the Controller directory.
 		$this->load_controllers();
 
@@ -58,7 +60,9 @@ class Bootstrap {
 
 		// The plugin is ready.
 		do_action( 'courier_notices_ready', $this );
+
 	}
+
 
 	/**
 	 * Loop over all php files in the Controllers directory and add them to
@@ -76,7 +80,9 @@ class Bootstrap {
 
 			$this->controllers[ $name ] = new $class();
 		}
+
 	}
+
 
 	/**
 	 * Initialize and Register any of our actions.
@@ -89,5 +95,8 @@ class Bootstrap {
 				$class->register_actions();
 			}
 		}
+
 	}
+
+
 }

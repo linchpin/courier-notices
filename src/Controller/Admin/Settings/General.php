@@ -48,6 +48,7 @@ class General {
 	 */
 	private $options;
 
+
 	/**
 	 * General constructor.
 	 *
@@ -55,7 +56,9 @@ class General {
 	 */
 	public function __construct( $settings = 'courier_design' ) {
 		$this->options = get_option( $settings );
+
 	}
+
 
 	/**
 	 * Initialize our plugin settings
@@ -70,7 +73,9 @@ class General {
 
 		add_action( 'courier_notices_setting_global', array( $this, 'show_design_sub_settings' ) );
 		add_action( 'courier_notices_setting_types', array( $this, 'show_design_sub_settings' ) );
+
 	}
+
 
 	/**
 	 * Show our license area to activate or deactivate our license key
@@ -86,7 +91,9 @@ class General {
 		$view->assign( 'subtab', $active_tab );
 
 		$view->render( "admin/settings-$active_tab-design" );
+
 	}
+
 
 	/**
 	 * Add the options page to our settings menu
@@ -101,7 +108,9 @@ class General {
 		$submenu['edit.php?post_type=courier_notice'][] = array( esc_html__( 'Design Studio', 'courier-notices' ), 'manage_options', esc_url( $design ) ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 
 		add_submenu_page( 'edit.php?post_type=courier_notice', COURIER_NOTICES_PLUGIN_NAME, esc_html__( 'Settings', 'courier-notices' ), 'manage_options', self::$settings_page, array( __CLASS__, 'add_settings_page' ) );
+
 	}
+
 
 	/**
 	 * Add settings link
@@ -145,7 +154,9 @@ class General {
 		$actions = apply_filters( 'courier_notices_settings_links', $actions );
 
 		return $actions;
+
 	}
+
 
 	/**
 	 * Create our settings section
@@ -166,7 +177,9 @@ class General {
 			</div>
 			<?php
 		}
+
 	}
+
 
 	/**
 	 * Add all of our settings from the API
@@ -174,7 +187,6 @@ class General {
 	 * @since 1.0
 	 */
 	public function settings_init() {
-
 		// If we have save our settings flush the rewrite rules for our new structure.
 		if ( delete_option( 'courier_notices_flush_rewrite_rules' ) ) {
 			flush_rewrite_rules();
@@ -197,7 +209,9 @@ class General {
 		}
 
 		do_action( 'courier_notices_after_settings_init' );
+
 	}
+
 
 	/**
 	 * Get available styles of Courier Notices
@@ -210,7 +224,9 @@ class General {
 		$style_model = new Style();
 
 		return $style_model->get_styles_options();
+
 	}
+
 
 	/**
 	 * Preserve options when using multiple pages
@@ -227,7 +243,9 @@ class General {
 		}
 
 		return array_merge( $existing, $data );
+
 	}
+
 
 	/**
 	 * Get our general settings registered
@@ -291,6 +309,7 @@ class General {
 
 	}
 
+
 	/**
 	 * Add option title display based on each "style" of notice
 	 *
@@ -316,7 +335,9 @@ class General {
 				'options'    => 'courier_design',
 			)
 		);
+
 	}
+
 
 	/**
 	 * Design Panel
@@ -363,7 +384,9 @@ class General {
 
 		// Add display for notice title display
 		self::add_notice_title_display_options( $tab_section );
+
 	}
+
 
 	/**
 	 * Setup our different types of informational courier notices
@@ -402,7 +425,9 @@ class General {
 				'description' => esc_html__( 'From this panel you can create and edit different types of Courier notices.', 'courier-notices' ),
 			)
 		);
+
 	}
+
 
 	/**
 	 * Add our options page wrapper Form
@@ -410,7 +435,6 @@ class General {
 	 * @since 1.0
 	 */
 	public static function add_settings_page() {
-
 		$tabs        = self::get_tabs();
 		$default_tab = self::get_default_tab_slug();
 		$active_tab  = isset( $_GET['tab'] ) && array_key_exists( sanitize_text_field( wp_unslash( $_GET['tab'] ) ), $tabs ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : $default_tab; // phpcs:ignore WordPress.Security.NonceVerification
@@ -423,7 +447,9 @@ class General {
 		$settings->assign( 'request_sub_tab', self::get_request_param( 'subtab', '' ) );
 		$settings->assign( 'plugin_name', self::$plugin_name );
 		$settings->render( 'admin/settings' );
+
 	}
+
 
 	/**
 	 * Allow filtering of the settings tabs
@@ -435,7 +461,6 @@ class General {
 	 * @return array
 	 */
 	private static function apply_tab_slug_filters( $default_settings ) {
-
 		$extended_settings[] = array();
 		$extended_tabs       = self::get_tabs();
 
@@ -447,7 +472,9 @@ class General {
 		}
 
 		return $extended_settings;
+
 	}
+
 
 	/**
 	 * Get the default tab slug
@@ -458,7 +485,9 @@ class General {
 	 */
 	public static function get_default_tab_slug() {
 		return key( self::get_tabs() );
+
 	}
+
 
 	/**
 	 * Retrieve settings tabs
@@ -508,7 +537,9 @@ class General {
 		);
 
 		return apply_filters( 'courier_notices_settings_tabs', $tabs );
+
 	}
+
 
 	/**
 	 * Build out our submenu if we have one.
@@ -521,11 +552,12 @@ class General {
 	 * @return mixed
 	 */
 	public static function get_sub_tabs( $parent_tab ) {
-
 		$sub_tabs = self::get_tabs();
 
 		return $sub_tabs[ $parent_tab ]['sub_tabs'];
+
 	}
+
 
 	/**
 	 * Utility Method to get a request parameter within the admin
@@ -546,5 +578,8 @@ class General {
 
 		// It's set, so process it.
 		return wp_strip_all_tags( (string) wp_unslash( $_REQUEST[ $key ] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+
 	}
+
+
 }

@@ -42,6 +42,7 @@ class Type {
 	 */
 	private $args = array();
 
+
 	/**
 	 * Courier_Type constructor.
 	 *
@@ -98,6 +99,7 @@ class Type {
 
 	}
 
+
 	/**
 	 * Returns the arguments
 	 *
@@ -107,5 +109,8 @@ class Type {
 	 */
 	public function get_args() {
 		return $this->args;
+
 	}
+
+
 }

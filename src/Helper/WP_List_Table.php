@@ -112,6 +112,7 @@ class WP_List_Table {
 		'single_row_columns',
 	);
 
+
 	/**
 	 * Constructor.
 	 *
@@ -171,7 +172,9 @@ class WP_List_Table {
 				'excerpt' => __( 'Excerpt View' ),
 			);
 		}
+
 	}
+
 
 	/**
 	 * Make private properties readable for backward compatibility.
@@ -185,7 +188,9 @@ class WP_List_Table {
 		if ( in_array( $name, $this->compat_fields ) ) {
 			return $this->$name;
 		}
+
 	}
+
 
 	/**
 	 * Make private properties settable for backward compatibility.
@@ -200,7 +205,9 @@ class WP_List_Table {
 		if ( in_array( $name, $this->compat_fields ) ) {
 			return $this->$name = $value;
 		}
+
 	}
+
 
 	/**
 	 * Make private properties checkable for backward compatibility.
@@ -214,7 +221,9 @@ class WP_List_Table {
 		if ( in_array( $name, $this->compat_fields ) ) {
 			return isset( $this->$name );
 		}
+
 	}
+
 
 	/**
 	 * Make private properties un-settable for backward compatibility.
@@ -227,7 +236,9 @@ class WP_List_Table {
 		if ( in_array( $name, $this->compat_fields ) ) {
 			unset( $this->$name );
 		}
+
 	}
+
 
 	/**
 	 * Make private/protected methods readable for backward compatibility.
@@ -243,7 +254,9 @@ class WP_List_Table {
 			return call_user_func_array( array( $this, $name ), $arguments );
 		}
 		return false;
+
 	}
+
 
 	/**
 	 * Checks the current user's permissions
@@ -253,7 +266,9 @@ class WP_List_Table {
 	 */
 	public function ajax_user_can() {
 		die( 'function WP_List_Table::ajax_user_can() must be over-ridden in a sub-class.' );
+
 	}
+
 
 	/**
 	 * Prepares the list of items for displaying.
@@ -265,7 +280,9 @@ class WP_List_Table {
 	 */
 	public function prepare_items() {
 		die( 'function WP_List_Table::prepare_items() must be over-ridden in a sub-class.' );
+
 	}
+
 
 	/**
 	 * An internal method that sets all the necessary pagination arguments
@@ -295,7 +312,9 @@ class WP_List_Table {
 		}
 
 		$this->_pagination_args = $args;
+
 	}
+
 
 	/**
 	 * Access the pagination args.
@@ -314,7 +333,9 @@ class WP_List_Table {
 		if ( isset( $this->_pagination_args[ $key ] ) ) {
 			return $this->_pagination_args[ $key ];
 		}
+
 	}
+
 
 	/**
 	 * Whether the table has items to display or not
@@ -325,7 +346,9 @@ class WP_List_Table {
 	 */
 	public function has_items() {
 		return ! empty( $this->items );
+
 	}
+
 
 	/**
 	 * Message to be displayed when there are no items
@@ -334,7 +357,9 @@ class WP_List_Table {
 	 */
 	public function no_items() {
 		_e( 'No items found.' );
+
 	}
+
 
 	/**
 	 * Displays the search box.
@@ -370,7 +395,9 @@ class WP_List_Table {
 		<?php submit_button( $text, '', '', false, array( 'id' => 'search-submit' ) ); ?>
 </p>
 		<?php
+
 	}
+
 
 	/**
 	 * Get an associative array ( id => link ) with the list
@@ -382,7 +409,9 @@ class WP_List_Table {
 	 */
 	protected function get_views() {
 		return array();
+
 	}
+
 
 	/**
 	 * Display the list of views available on this table.
@@ -415,7 +444,9 @@ class WP_List_Table {
 		}
 		echo implode( " |</li>\n", $views ) . "</li>\n";
 		echo '</ul>';
+
 	}
+
 
 	/**
 	 * Get an associative array ( option_name => option_title ) with the list
@@ -427,7 +458,9 @@ class WP_List_Table {
 	 */
 	protected function get_bulk_actions() {
 		return array();
+
 	}
+
 
 	/**
 	 * Display the bulk actions dropdown.
@@ -476,7 +509,9 @@ class WP_List_Table {
 
 		submit_button( __( 'Apply' ), 'action', '', false, array( 'id' => "doaction$two" ) );
 		echo "\n";
+
 	}
+
 
 	/**
 	 * Get the current action selected from the bulk actions dropdown.
@@ -499,7 +534,9 @@ class WP_List_Table {
 		}
 
 		return false;
+
 	}
+
 
 	/**
 	 * Generate row actions div
@@ -529,7 +566,9 @@ class WP_List_Table {
 		$out .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>';
 
 		return $out;
+
 	}
+
 
 	/**
 	 * Display a monthly dropdown for filtering items
@@ -617,7 +656,9 @@ class WP_List_Table {
 		?>
 		</select>
 		<?php
+
 	}
+
 
 	/**
 	 * Display a view switcher
@@ -646,7 +687,9 @@ class WP_List_Table {
 		?>
 		</div>
 		<?php
+
 	}
+
 
 	/**
 	 * Display a comment count bubble
@@ -718,7 +761,9 @@ class WP_List_Table {
 				$approved_comments ? __( 'No pending comments' ) : __( 'No comments' )
 			);
 		}
+
 	}
+
 
 	/**
 	 * Get the current page number
@@ -735,7 +780,9 @@ class WP_List_Table {
 		}
 
 		return max( 1, $pagenum );
+
 	}
+
 
 	/**
 	 * Get number of items to display on a single page
@@ -766,7 +813,9 @@ class WP_List_Table {
 		 * @param int $per_page Number of items to be displayed. Default 20.
 		 */
 		return (int) apply_filters( "{$option}", $per_page );
+
 	}
+
 
 	/**
 	 * Display the pagination.
@@ -894,7 +943,9 @@ class WP_List_Table {
 		$this->_pagination = "<div class='tablenav-pages{$page_class}'>$output</div>";
 
 		echo $this->_pagination;
+
 	}
+
 
 	/**
 	 * Get a list of columns. The format is:
@@ -907,7 +958,9 @@ class WP_List_Table {
 	 */
 	public function get_columns() {
 		die( 'function WP_List_Table::get_columns() must be over-ridden in a sub-class.' );
+
 	}
+
 
 	/**
 	 * Get a list of sortable columns. The format is:
@@ -923,7 +976,9 @@ class WP_List_Table {
 	 */
 	protected function get_sortable_columns() {
 		return array();
+
 	}
+
 
 	/**
 	 * Gets the name of the default primary column.
@@ -952,7 +1007,9 @@ class WP_List_Table {
 		}
 
 		return $column;
+
 	}
+
 
 	/**
 	 * Public wrapper for WP_List_Table::get_default_primary_column_name().
@@ -963,7 +1020,9 @@ class WP_List_Table {
 	 */
 	public function get_primary_column() {
 		return $this->get_primary_column_name();
+
 	}
+
 
 	/**
 	 * Gets the name of the primary column.
@@ -997,7 +1056,9 @@ class WP_List_Table {
 		}
 
 		return $column;
+
 	}
+
 
 	/**
 	 * Get a list of all, hidden and sortable columns, with filter applied
@@ -1053,7 +1114,9 @@ class WP_List_Table {
 		$this->_column_headers = array( $columns, $hidden, $sortable, $primary );
 
 		return $this->_column_headers;
+
 	}
+
 
 	/**
 	 * Return number of visible columns
@@ -1066,7 +1129,9 @@ class WP_List_Table {
 		list ( $columns, $hidden ) = $this->get_column_info();
 		$hidden                    = array_intersect( array_keys( $columns ), array_filter( $hidden ) );
 		return count( $columns ) - count( $hidden );
+
 	}
+
 
 	/**
 	 * Print column headers, accounting for hidden and sortable columns.
@@ -1145,7 +1210,9 @@ class WP_List_Table {
 
 			echo "<$tag $scope $id $class>$column_display_name</$tag>";
 		}
+
 	}
+
 
 	/**
 	 * Display the table
@@ -1184,7 +1251,9 @@ class WP_List_Table {
 </table>
 		<?php
 		$this->display_tablenav( 'bottom' );
+
 	}
+
 
 	/**
 	 * Get a list of CSS classes for the WP_List_Table table tag.
@@ -1195,7 +1264,9 @@ class WP_List_Table {
 	 */
 	protected function get_table_classes() {
 		return array( 'widefat', 'fixed', 'striped', 'courier_notice_page_courier', $this->_args['plural'] );
+
 	}
+
 
 	/**
 	 * Generate the table navigation above or below the table
@@ -1223,7 +1294,9 @@ class WP_List_Table {
 		<br class="clear" />
 	</div>
 		<?php
+
 	}
+
 
 	/**
 	 * Extra controls to be displayed between bulk actions and pagination
@@ -1232,7 +1305,10 @@ class WP_List_Table {
 	 *
 	 * @param string $which
 	 */
-	protected function extra_tablenav( $which ) {}
+	protected function extra_tablenav( $which ) {
+
+	}
+
 
 	/**
 	 * Generate the tbody element for the list table.
@@ -1247,7 +1323,9 @@ class WP_List_Table {
 			$this->no_items();
 			echo '</td></tr>';
 		}
+
 	}
+
 
 	/**
 	 * Generate the table rows
@@ -1258,7 +1336,9 @@ class WP_List_Table {
 		foreach ( $this->items as $item ) {
 			$this->single_row( $item );
 		}
+
 	}
+
 
 	/**
 	 * Generates content for a single row of the table
@@ -1271,18 +1351,26 @@ class WP_List_Table {
 		echo '<tr>';
 		$this->single_row_columns( $item );
 		echo '</tr>';
+
 	}
+
 
 	/**
 	 * @param object $item
 	 * @param string $column_name
 	 */
-	protected function column_default( $item, $column_name ) {}
+	protected function column_default( $item, $column_name ) {
+
+	}
+
 
 	/**
 	 * @param object $item
 	 */
-	protected function column_cb( $item ) {}
+	protected function column_cb( $item ) {
+
+	}
+
 
 	/**
 	 * Generates the columns for a single row of the table
@@ -1334,7 +1422,9 @@ class WP_List_Table {
 				echo '</td>';
 			}
 		}
+
 	}
+
 
 	/**
 	 * Generates and display row actions links for the list table.
@@ -1348,7 +1438,9 @@ class WP_List_Table {
 	 */
 	protected function handle_row_actions( $item, $column_name, $primary ) {
 		return $column_name === $primary ? '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>' : '';
+
 	}
+
 
 	/**
 	 * Handle an incoming ajax request (called from admin-ajax.php)
@@ -1381,7 +1473,9 @@ class WP_List_Table {
 		}
 
 		die( wp_json_encode( $response ) );
+
 	}
+
 
 	/**
 	 * Send required variables to JavaScript land
@@ -1396,5 +1490,8 @@ class WP_List_Table {
 		);
 
 		printf( "<script type='text/javascript'>list_args = %s;</script>\n", wp_json_encode( $args ) );
+
 	}
+
+
 }

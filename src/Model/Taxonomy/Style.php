@@ -42,6 +42,7 @@ class Style {
 	 */
 	private $args = array();
 
+
 	/**
 	 * _Placement constructor.
 	 *
@@ -94,7 +95,9 @@ class Style {
 		);
 
 		$this->args = apply_filters( 'courier_notices_courier_placement_args', $default_args );
+
 	}
+
 
 	/**
 	 * Returns the arguments
@@ -105,7 +108,9 @@ class Style {
 	 */
 	public function get_args() {
 		return $this->args;
+
 	}
+
 
 	/**
 	 * Get all the styles associated with courier notices
@@ -117,7 +122,6 @@ class Style {
 	 * @return array|mixed|void
 	 */
 	public function get_styles( $fields = 'all' ) {
-
 		$courier_notice_styles = get_terms(
 			array(
 				'taxonomy'   => 'courier_style',
@@ -127,7 +131,9 @@ class Style {
 		);
 
 		return apply_filters( 'courier_notices_courier_styles', $courier_notice_styles );
+
 	}
+
 
 	public function get_styles_options() {
 		$courier_notice_styles = $this->get_styles( 'all' );
@@ -143,5 +149,8 @@ class Style {
 		}
 
 		return apply_filters( 'courier_notices_courier_style_options', $styles );
+
 	}
+
+
 }

@@ -11,12 +11,12 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) || ! WP_UNINSTALL_PLUGIN || dirname( WP_
 	exit;
 }
 
+
 /**
  *
  * @param $post_type
  */
 function courier_uninstall_delete_posts( $post_type ) {
-
 	$post_types = array( 'courier_notice' );
 
 	if ( ! in_array( $post_type, $post_types, true ) ) {
@@ -47,7 +47,9 @@ function courier_uninstall_delete_posts( $post_type ) {
 
 		$courier_notices = new WP_Query( $args );
 	}
+
 }
+
 
 /**
  * Delete all terms in in the given taxonomy
@@ -55,7 +57,6 @@ function courier_uninstall_delete_posts( $post_type ) {
  * @param $taxonomy
  */
 function courier_uninstall_delete_terms( $taxonomy ) {
-
 	$taxonomies = array(
 		'courier_type',
 		'courier_scope',
@@ -82,7 +83,9 @@ function courier_uninstall_delete_terms( $taxonomy ) {
 	foreach ( $terms as $value ) {
 		wp_delete_term( $value, $taxonomy );
 	}
+
 }
+
 
 /**
  * If our mesh uninstall setting is enabled clear everything out on uninstall/delete of the plugin

@@ -12,6 +12,7 @@ namespace CourierNotices\Helper;
  */
 class Utils {
 
+
 	/**
 	 * Return whether or not the default WP Cron process is being used.
 	 * Typically with alternate/true crons the default WordPress cron will
@@ -23,7 +24,9 @@ class Utils {
 	 */
 	public static function is_wp_cron_disabled() {
 		return ( defined( 'DISABLE_CRON' ) && true === DISABLE_CRON );
+
 	}
+
 
 	/**
 	 * Get an array of safe markup and classes to be used
@@ -34,7 +37,6 @@ class Utils {
 	 * @return mixed|void
 	 */
 	public static function get_safe_markup() {
-
 		$safe_content = array(
 			'div'   => array(
 				'class'                  => array(),
@@ -59,7 +61,9 @@ class Utils {
 		);
 
 		return apply_filters( 'courier_notices_safe_markup', $safe_content );
+
 	}
+
 
 	/**
 	 * Get a random hex value
@@ -71,7 +75,9 @@ class Utils {
 	 */
 	public static function get_random_color() {
 		return sprintf( '#%06X', wp_rand( 0, 0xFFFFFF ) );
+
 	}
+
 
 	/**
 	 * Output our debug if needed.
@@ -83,7 +89,6 @@ class Utils {
 	 * @param bool                      $separator
 	 */
 	public static function courier_notices_debug_log( $output, $label = '', $separator = true ) {
-
 		if ( true !== COURIER_NOTICES_DEBUG ) {
 			return;
 		}
@@ -114,5 +119,8 @@ class Utils {
 
 			error_log( '----------------------------------' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		}
+
 	}
+
+
 }

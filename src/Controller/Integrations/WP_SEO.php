@@ -12,6 +12,7 @@ namespace CourierNotices\Controller\Integrations;
  */
 class WP_SEO {
 
+
 	/**
 	 * Register our hooks
 	 * Exclude notice related post types and taxonomies from the sitemap regardless of options.
@@ -21,7 +22,9 @@ class WP_SEO {
 	public function register_actions() {
 		add_filter( 'wpseo_sitemap_exclude_post_type', array( $this, 'exclude_courier_notice_from_search' ), 10, 2 );
 		add_filter( 'wpseo_sitemap_exclude_taxonomy', array( $this, 'exclude_courier_notice_taxonomies' ), 10, 2 );
+
 	}
+
 
 	/**
 	 * Exclude Taxonomy From Yoast SEO Sitemap
@@ -41,7 +44,9 @@ class WP_SEO {
 		}
 
 		return false;
+
 	}
+
 
 	/**
 	 * Exclude Courier Notices from WordPress SEO Sitemaps
@@ -59,5 +64,8 @@ class WP_SEO {
 		}
 
 		return false;
+
 	}
+
+
 }

@@ -11,13 +11,16 @@ use CourierNotices\Helper\Utils;
  */
 class Data {
 
+
 	/**
 	 * Data constructor
 	 *
 	 * @since 1.0.5
 	 */
 	public function __construct() {
+
 	}
+
 
 	/**
 	 * Query global notices. Cache appropriately
@@ -29,7 +32,6 @@ class Data {
 	 * @return array|bool|mixed
 	 */
 	public function get_global_notices( $args = array() ) {
-
 		$defaults = array(
 			'ids_only'   => true,
 			'number'     => 100,
@@ -104,7 +106,9 @@ class Data {
 		} else {
 			return $global_notices_query->posts;
 		}
+
 	}
+
 
 	/**
 	 * Get our dismissible global notices
@@ -118,7 +122,6 @@ class Data {
 	 * @return array|bool|mixed
 	 */
 	public function get_dismissible_global_notices( $args = array(), $ajax_post_data = array(), $ids_only = false ) {
-
 		$cache_key = 'global-dismissible-' . sanitize_title( $args['placement'] ) . '-notices';
 		$cache     = wp_cache_get( $cache_key, 'courier-notices' );
 
@@ -178,7 +181,9 @@ class Data {
 		} else {
 			return $global_notices_query->posts;
 		}
+
 	}
+
 
 	/**
 	 * Query not dismissible global notices. Cache appropriately.
@@ -190,7 +195,6 @@ class Data {
 	 * @return array|bool|mixed
 	 */
 	public function get_persistent_global_notices( $args = array(), $global_notices = array() ) {
-
 		$defaults = array(
 			'ids_only'   => true,
 			'number'     => 100,
@@ -241,7 +245,9 @@ class Data {
 		wp_cache_set( $cache_key, $global_persistent_notices_query->posts, 'courier-notices', 300 );
 
 		return wp_list_pluck( $global_persistent_notices_query->posts, 'ID' );
+
 	}
+
 
 	/**
 	 * Get Courier all notices.
@@ -255,7 +261,6 @@ class Data {
 	 * @return array
 	 */
 	public function get_notices( $args = array(), $ajax_post_data = array() ) {
-
 		$defaults = array(
 			'user_id'                      => '',
 			'include_global'               => true,
@@ -345,7 +350,9 @@ class Data {
 		$final_notices_query = new \WP_Query( $query_args );
 
 		return ( $final_notices_query->have_posts() ) ? $final_notices_query->posts : array();
+
 	}
+
 
 	/**
 	 * Get a user's dismissed global notices
@@ -357,7 +364,6 @@ class Data {
 	 * @return array|void
 	 */
 	public function get_global_dismissed_notices( $user_id = 0 ) {
-
 		// If user isn't logged in, use cookies.
 		if ( ! is_user_logged_in() && isset( $_COOKIE['dismissed_notices'] ) ) {
 			return array_map( 'intval', json_decode( stripslashes( $_COOKIE['dismissed_notices'] ) ) );
@@ -375,7 +381,9 @@ class Data {
 		}
 
 		return array_map( 'intval', $dismissed_notices );
+
 	}
+
 
 	/**
 	 * @param array $args
@@ -383,7 +391,6 @@ class Data {
 	 * @return array
 	 */
 	public function get_user_notices( $args = array() ) {
-
 		if ( ! is_user_logged_in() ) {
 			return array();
 		}
@@ -443,7 +450,9 @@ class Data {
 		$notices_query = new \WP_Query( $query_args );
 
 		return $notices_query->posts;
+
 	}
+
 
 	/**
 	 * Get all the relevant meta associated with a notice
@@ -453,7 +462,6 @@ class Data {
 	 * @param int $courier_notice_id PostID of the Notice
 	 */
 	public function get_notice_meta( int $courier_notice_id ) {
-
 		$is_dismissible = get_post_meta( $courier_notice_id, '_courier_dismissible', true );
 		$show_title     = get_post_meta( $courier_notice_id, '_courier_show_title', true );
 		$hide_title     = get_post_meta( $courier_notice_id, '_courier_hide_title', true );
@@ -506,5 +514,8 @@ class Data {
 		);
 
 		return apply_filters( 'courier_notices_notice_meta', $notices_meta );
+
 	}
+
+
 }

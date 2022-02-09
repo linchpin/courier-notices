@@ -8,6 +8,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+
 /**
  * Utility method to add a new notice within the system.
  *
@@ -24,7 +25,9 @@ defined( 'ABSPATH' ) || exit;
  */
 function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = false, $dismissible = true, $user_id = 0 ) {
 	return courier_notices_add_notice( $notice, $types, $global, $dismissible, $user_id );
+
 }
+
 
 /**
  * Returns the user notices.
@@ -38,7 +41,9 @@ function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = f
  */
 function courier_get_user_notices( $args = array() ) {
 	return courier_notices_get_user_notices( $args );
+
 }
+
 
 /**
  * Query global notices. Cache appropriately
@@ -52,7 +57,9 @@ function courier_get_user_notices( $args = array() ) {
  */
 function courier_get_global_notices( $args = array() ) {
 	return courier_notices_get_global_notices( $args );
+
 }
+
 
 /**
  * Query dismissible global notices. Cache appropriately.
@@ -67,7 +74,9 @@ function courier_get_global_notices( $args = array() ) {
  */
 function courier_get_dismissible_global_notices( $args = array(), $ids_only = false ) {
 	return courier_notices_get_dismissible_global_notices( $args, $ids_only );
+
 }
+
 
 /**
  * Query not dismissible global notices. Cache appropriately.
@@ -81,7 +90,9 @@ function courier_get_dismissible_global_notices( $args = array(), $ids_only = fa
  */
 function courier_get_persistent_global_notices( $args = array() ) {
 	return courier_notices_get_persistent_global_notices( $args );
+
 }
+
 
 /**
  * Get Courier all notices.
@@ -94,7 +105,9 @@ function courier_get_persistent_global_notices( $args = array() ) {
  */
 function courier_get_notices( $args = array() ) {
 	return courier_notices_get_notices( $args );
+
 }
+
 
 /**
  * Display Courier notices on the page on the front end
@@ -106,7 +119,9 @@ function courier_get_notices( $args = array() ) {
  */
 function courier_display_notices( $args = array() ) {
 	courier_notices_display_notices( $args );
+
 }
+
 
 /**
  * Display Courier modal(s) on the front end
@@ -118,7 +133,9 @@ function courier_display_notices( $args = array() ) {
  */
 function courier_display_modals( $args = array() ) {
 	courier_notices_display_modals( $args );
+
 }
+
 
 /**
  * Get a user's owned dismissed notices
@@ -132,7 +149,9 @@ function courier_display_modals( $args = array() ) {
  */
 function courier_get_dismissed_notices( $user_id = 0 ) {
 	return courier_notices_get_dismissed_notices( $user_id );
+
 }
+
 
 /**
  * Get a user's dismissed global notices
@@ -146,7 +165,9 @@ function courier_get_dismissed_notices( $user_id = 0 ) {
  */
 function courier_get_global_dismissed_notices( $user_id = 0 ) {
 	return courier_notices_get_global_dismissed_notices( $user_id );
+
 }
+
 
 /**
  * Get all dismissed notices for a user
@@ -160,7 +181,9 @@ function courier_get_global_dismissed_notices( $user_id = 0 ) {
  */
 function courier_get_all_dismissed_notices( $user_id = 0 ) {
 	return courier_notices_get_all_dismissed_notices( $user_id );
+
 }
+
 
 /**
  * Dismiss a notice for a user
@@ -177,7 +200,9 @@ function courier_get_all_dismissed_notices( $user_id = 0 ) {
  */
 function courier_dismiss_notices( $notice_ids, $user_id = 0, $force_dismiss = false, $force_trash = false ) {
 	return courier_notices_dismiss_notices( $notice_ids, $user_id, $force_dismiss, $force_trash );
+
 }
+
 
 /**
  * Get Courier types CSS to be used for frontend display
@@ -189,4 +214,5 @@ function courier_dismiss_notices( $notice_ids, $user_id = 0, $force_dismiss = fa
  */
 function courier_get_css() {
 	return courier_notices_get_css();
+
 }

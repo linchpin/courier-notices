@@ -21,12 +21,15 @@ class Upgrade {
 	 */
 	private $config;
 
+
 	/**
 	 * Install constructor
 	 */
 	public function __construct() {
 		$this->config = new Config();
+
 	}
+
 
 	/**
 	 * Registers hooks and filters
@@ -36,7 +39,9 @@ class Upgrade {
 	public function register_actions() {
 		add_action( 'admin_init', array( $this, 'upgrade' ), 999 );
 		add_action( 'admin_notices', array( $this, 'show_review_nag' ), 11 );
+
 	}
+
 
 	/**
 	 * Check and schedule plugin upgrading if necessary.
@@ -44,7 +49,6 @@ class Upgrade {
 	 * @since 1.0
 	 */
 	public function upgrade() {
-
 		$plugin_options = get_option( 'courier_options', array() );
 
 		if ( empty( $plugins_options ) ) {
@@ -111,7 +115,9 @@ class Upgrade {
 			$plugin_options['plugin_version'] = COURIER_NOTICES_VERSION;
 			update_option( 'courier_notices_options', $plugin_options );
 		}
+
 	}
+
 
 	/**
 	 * Show a nag to the user to review Courier Notices.
@@ -144,6 +150,9 @@ class Upgrade {
 		}
 
 		return '';
+
 	}
+
+
 }
 

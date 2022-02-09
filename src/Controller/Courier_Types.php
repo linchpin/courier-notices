@@ -92,6 +92,7 @@ class Courier_Types {
 		),
 	);
 
+
 	/**
 	 * Register our actions for courier type administration.
 	 */
@@ -103,7 +104,9 @@ class Courier_Types {
 		add_action( 'courier_notices_save_css', array( $this, 'save_css_transient' ) );
 
 		add_action( 'admin_footer', array( $this, 'add_templates' ) );
+
 	}
+
 
 	/**
 	 * Get the row template
@@ -111,7 +114,6 @@ class Courier_Types {
 	 * @since 1.0
 	 */
 	public function add_templates() {
-
 		$page = filter_input( INPUT_GET, 'page' );
 		$tab  = filter_input( INPUT_GET, 'tab' );
 
@@ -127,13 +129,13 @@ class Courier_Types {
 
 	}
 
+
 	/**
 	 * Add a new Courier Type by Ajax.
 	 *
 	 * @since 1.0
 	 */
 	public function add_type() {
-
 		check_ajax_referer( 'courier_notices_add_type_nonce', 'courier_notices_add_type' );
 
 		if ( ! current_user_can( 'edit_courier_notices' ) ) {
@@ -189,7 +191,9 @@ class Courier_Types {
 			)
 		);
 		exit;
+
 	}
+
 
 	/**
 	 * Update a courier notice type.
@@ -197,7 +201,6 @@ class Courier_Types {
 	 * @since 1.0
 	 */
 	public function update_type() {
-
 		check_ajax_referer( 'courier_notices_update_type_nonce', 'courier_notices_update_type' );
 
 		if ( empty( $_POST['courier_notice_type_id'] ) ) {
@@ -257,7 +260,9 @@ class Courier_Types {
 			)
 		);
 		exit;
+
 	}
+
 
 	/**
 	 * Delete a courier notice type.
@@ -265,7 +270,6 @@ class Courier_Types {
 	 * @since 1.0
 	 */
 	public function delete_type() {
-
 		check_ajax_referer( 'courier_notices_delete_type_nonce', 'courier_notices_delete_type' );
 
 		if ( empty( $_POST['courier_notices_type'] ) ) {
@@ -294,7 +298,9 @@ class Courier_Types {
 
 		echo wp_json_encode( 1 );
 		exit;
+
 	}
+
 
 	/**
 	 * Adds in our term meta for our courier types
@@ -307,7 +313,6 @@ class Courier_Types {
 	 * @param string $label_color The hex color label.
 	 */
 	private function insert_term_meta( $term, $class_name = '', $hex_color = '', $label_color = '', $icon_color = '', $bg_color = '' ) {
-
 		if ( empty( $term ) ) {
 			return;
 		}
@@ -335,7 +340,9 @@ class Courier_Types {
 		}
 
 		do_action( 'courier_notices_save_css' );
+
 	}
+
 
 	/**
 	 * When saving Courier Notice Types save the customizations as CSS in a transient.
@@ -345,7 +352,6 @@ class Courier_Types {
 	 * @since 1.0
 	 */
 	public static function save_css_transient() {
-
 		$courier_settings = get_option( 'courier_design', array() );
 
 		// If CSS is disabled there is no need to
@@ -452,5 +458,8 @@ class Courier_Types {
 		}
 
 		return $css_output;
+
 	}
+
+
 }
