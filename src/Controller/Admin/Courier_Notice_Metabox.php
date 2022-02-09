@@ -19,6 +19,7 @@ use CourierNotices\Model\Taxonomy\Style;
  */
 class Courier_Notice_Metabox {
 
+
 	/**
 	 * Register the hooks and filters
 	 *
@@ -26,7 +27,9 @@ class Courier_Notice_Metabox {
 	 */
 	public function register_actions() {
 		add_action( 'add_meta_boxes_courier_notice', array( $this, 'add_meta_boxes' ), 99 );
+
 	}
+
 
 	/**
 	 * Add an option for selecting notice type
@@ -37,7 +40,9 @@ class Courier_Notice_Metabox {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'post_submitbox_misc_actions' ) );
 
 		add_meta_box( 'courier_meta_box', esc_html__( 'Notice Information', 'courier-notices' ), array( $this, 'meta_box' ), 'courier_notice', 'side', 'default' );
+
 	}
+
 
 	/**
 	 * Allow for notices to be customized
@@ -186,7 +191,9 @@ class Courier_Notice_Metabox {
 		<?php
 
 		do_action( 'courier_notices_after_metabox_content' );
+
 	}
+
 
 	/**
 	 * Show select for selecting notice type
@@ -258,5 +265,8 @@ class Courier_Notice_Metabox {
 		$copy_shortcode = new View();
 		$copy_shortcode->assign( 'post_id', $post->ID );
 		$copy_shortcode->render( 'admin/copy-shortcode' );
+
 	}
+
+
 }

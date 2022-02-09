@@ -12,6 +12,7 @@ namespace CourierNotices\Helper;
  */
 class Files {
 
+
 	/**
 	 * Recursive version of the PHP glob function.
 	 *
@@ -30,5 +31,8 @@ class Files {
 		}
 
 		return $files;
+
 	}
+
+
 }

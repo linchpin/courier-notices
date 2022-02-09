@@ -41,6 +41,7 @@ class Courier_Notice {
 	 */
 	private $args = array();
 
+
 	/**
 	 * Courier_Notice constructor
 	 *
@@ -104,7 +105,9 @@ class Courier_Notice {
 		);
 
 		$this->args = apply_filters( 'courier_notices_notice_args', $default_args );
+
 	}
+
 
 	/**
 	 * Returns the arguments
@@ -115,5 +118,8 @@ class Courier_Notice {
 	 */
 	public function get_args() {
 		return $this->args;
+
 	}
+
+
 }

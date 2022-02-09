@@ -13,3 +13,12 @@ renovate.json
 .gitignore
 .editorconfig
 .gitattributes
+.phplint.yml
+.vipgoci_lint_skip_folders
+.vipgoci_phpcs_skip_folders
+composer.lock
+config.yml
+courier-notices.code-workspace
+gulpfile.babel.js
+phpcs.xml
+renovate.json

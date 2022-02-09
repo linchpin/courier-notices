@@ -40,12 +40,16 @@ abstract class Database {
 	 */
 	public $primary_key;
 
+
 	/**
 	 * Get things started
 	 *
 	 * @since 1.0
 	 */
-	public function __construct() {}
+	public function __construct() {
+
+	}
+
 
 	/**
 	 * Returns whitelist of columns
@@ -56,7 +60,9 @@ abstract class Database {
 	 */
 	public function get_columns() {
 		return array();
+
 	}
+
 
 	/**
 	 * Returns the default column values
@@ -67,7 +73,9 @@ abstract class Database {
 	 */
 	public function get_column_defaults() {
 		return array();
+
 	}
+
 
 	/**
 	 * Retrieves a row by the primary key
@@ -81,7 +89,9 @@ abstract class Database {
 	public function get( $row_id ) {
 		global $wpdb;
 		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $this->table_name WHERE $this->primary_key = %s LIMIT 1;", $row_id ) );
+
 	}
+
 
 	/**
 	 * Retrieve a row by a specific column / value
@@ -99,7 +109,9 @@ abstract class Database {
 		$column = esc_sql( $column );
 
 		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $this->table_name WHERE $column = %s LIMIT 1;", $row_id ) );
+
 	}
+
 
 	/**
 	 * Retrieves a specific column's value by the primary key
@@ -117,7 +129,9 @@ abstract class Database {
 		$column = esc_sql( $column );
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT $column FROM $this->table_name WHERE $this->primary_key = %s LIMIT 1;", $row_id ) );
+
 	}
+
 
 	/**
 	 * Retrieves a specific column's value by the the specified column / value
@@ -137,7 +151,9 @@ abstract class Database {
 		$column       = esc_sql( $column );
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT $column FROM $this->table_name WHERE $column_where = %s LIMIT 1;", $column_value ) );
+
 	}
+
 
 	/**
 	 * Inserts a new row.
@@ -175,7 +191,9 @@ abstract class Database {
 		do_action( 'courier_notices_db_after_insert_' . $type, $wpdb->insert_id, $data );
 
 		return $wpdb->insert_id;
+
 	}
+
 
 	/**
 	 * Updates a row in the database.
@@ -189,7 +207,6 @@ abstract class Database {
 	 * @return bool
 	 */
 	public function update( $row_id, $data = array(), $where = '' ) {
-
 		global $wpdb;
 
 		// Row ID must be positive integer,
@@ -221,7 +238,9 @@ abstract class Database {
 		}
 
 		return true;
+
 	}
+
 
 	/**
 	 * Deletes a row identified by the primary key
@@ -247,7 +266,9 @@ abstract class Database {
 		}
 
 		return true;
+
 	}
+
 
 	/**
 	 * Check if the given table exists
@@ -264,5 +285,8 @@ abstract class Database {
 		$table = ! empty( $table ) ? sanitize_text_field( $table ) : $this->table_name;
 
 		return $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE '%s'", $table ) ) === $table;
+
 	}
+
+
 }

@@ -36,6 +36,7 @@ class Settings {
 		'enable_title'            => '', // Display the title of the notice on the front end
 	);
 
+
 	/**
 	 * Initialize our class and setup our settings key
 	 *
@@ -47,7 +48,9 @@ class Settings {
 		$defaults         = $this->defaults;
 		$this->defaults   = apply_filters( 'courier_notices_allowed_settings', $defaults );
 		$this->option_key = $option_key;
+
 	}
+
 
 	/**
 	 * Get saved settings
@@ -57,7 +60,6 @@ class Settings {
 	 * @return array
 	 */
 	public function get_settings() {
-
 		$saved = get_option( $this->option_key, array() );
 
 		if ( ! is_array( $saved ) || empty( $saved ) ) {
@@ -65,7 +67,9 @@ class Settings {
 		}
 
 		return wp_parse_args( $saved, $this->defaults );
+
 	}
+
 
 	/**
 	 * Get an individual option from our options array
@@ -77,7 +81,6 @@ class Settings {
 	 * @return mixed|null
 	 */
 	public function get_setting( $key = '' ) {
-
 		if ( empty( $key ) ) {
 			return null;
 		}
@@ -87,6 +90,7 @@ class Settings {
 		return $settings[ $key ];
 
 	}
+
 
 	/**
 	 * Saves a single setting
@@ -113,13 +117,14 @@ class Settings {
 		}
 
 		return false;
+
 	}
+
 
 	/**
 	 * Similar to the save_setting method but allows for passing of array data as well
 	 */
 	public function save_settings_array( $settings = array() ) {
-
 		$current_settings = $this->get_settings();
 
 		// Remove any settings that don't belong.
@@ -136,7 +141,9 @@ class Settings {
 		}
 
 		return false;
+
 	}
+
 
 	/**
 	 * Saves an array of settings
@@ -146,7 +153,6 @@ class Settings {
 	 * @param array $settings Array of settings to save.
 	 */
 	public function save_settings( \WP_REST_Request $request ) {
-
 		$settings = $request->get_params();
 
 		// @todo this could be moved to a utility, this is used elsewhere
@@ -158,5 +164,8 @@ class Settings {
 		}
 
 		return $this->save_settings_array( $settings );
+
 	}
+
+
 }

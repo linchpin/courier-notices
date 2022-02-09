@@ -42,6 +42,7 @@ class Fields {
 	 * Below you will find all field controls.
 	 */
 
+
 	/**
 	 * Build out our settings fields as needed
 	 *
@@ -52,7 +53,6 @@ class Fields {
 	 * @param object $args An Object of our field customizations.
 	 */
 	public static function add_textfield( $args ) {
-
 		/**
 		 * Define our field defaults
 		 */
@@ -76,7 +76,9 @@ class Fields {
 		<label for="<?php echo esc_attr( $args['id'] ); ?>" class="screen-reader-text"><?php echo esc_html( $args['label'] ); ?></label>
 		<input type="<?php echo esc_attr( $args['type'] ); ?>" class="<?php echo esc_attr( $args['class'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>" name="<?php echo esc_attr( $args['name'] ); ?>" value="<?php echo esc_attr( $field_value ); ?>">
 		<?php
+
 	}
+
 
 	/**
 	 * Used any time we need to add in a select field
@@ -86,7 +88,6 @@ class Fields {
 	 * @param array $args Args for Customization.
 	 */
 	public static function add_select( $args ) {
-
 		/**
 		 * Define our field defaults
 		 */
@@ -131,7 +132,9 @@ class Fields {
 			<?php endforeach; ?>
 		</select>
 		<?php
+
 	}
+
 
 	/**
 	 * Create a checkbox field
@@ -141,7 +144,6 @@ class Fields {
 	 * @param array $args Customizations.
 	 */
 	public static function add_checkbox( $args ) {
-
 		/**
 		 * Define our field defaults
 		 */
@@ -212,7 +214,9 @@ class Fields {
 			<?php endforeach; ?>
 			<?php
 		}
+
 	}
+
 
 	/**
 	 * Add a custom table to display options
@@ -222,7 +226,6 @@ class Fields {
 	 * @param array $args Array of arguments.
 	 */
 	public static function add_table( $args ) {
-
 		/**
 		 * Define our field defaults
 		 */
@@ -246,5 +249,8 @@ class Fields {
 		$table->assign( 'type_list_table', self::$type_list_table );
 		$table->assign( 'page', $page );
 		$table->render( 'admin/fields/field-table' );
+
 	}
+
+
 }

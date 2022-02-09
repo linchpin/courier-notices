@@ -19,6 +19,7 @@ class Config {
 	 */
 	private $properties = array();
 
+
 	/**
 	 * Config constructor
 	 *
@@ -26,7 +27,9 @@ class Config {
 	 */
 	public function __construct() {
 		$this->setup_plugin_config();
+
 	}
+
 
 	/**
 	 * Define our configuration settings
@@ -71,7 +74,9 @@ class Config {
 		$this->config = $config;
 
 		return $config;
+
 	}
+
 
 	/**
 	 * Config Getter
@@ -88,7 +93,9 @@ class Config {
 		}
 
 		return false;
+
 	}
+
 
 	/**
 	 * Config Setter
@@ -104,7 +111,9 @@ class Config {
 		$this->properties[ $name ] = $value;
 
 		return $this;
+
 	}
+
 
 	/**
 	 * Config Importer
@@ -127,6 +136,8 @@ class Config {
 		}
 
 		return $this;
+
 	}
+
 
 }

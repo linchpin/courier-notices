@@ -13,6 +13,7 @@ use CourierNotices\Core\View;
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+
 /**
  * Utility method to add a new notice within the system.
  *
@@ -27,7 +28,6 @@ defined( 'ABSPATH' ) || exit;
  * @return bool
  */
 function courier_notices_add_notice( $notice = '', $types = array( 'Informational' ), $global = false, $dismissible = true, $user_id = 0, $style = 'Informational', $placement = array( 'header' ) ) {
-
 	$user_id = empty( $user_id ) ? get_current_user_id() : intval( $user_id );
 
 	$notice_args = array(
@@ -84,7 +84,9 @@ function courier_notices_add_notice( $notice = '', $types = array( 'Informationa
 	} else {
 		return false;
 	}
+
 }
+
 
 /**
  * Returns the user notices.
@@ -96,11 +98,12 @@ function courier_notices_add_notice( $notice = '', $types = array( 'Informationa
  * @return array
  */
 function courier_notices_get_user_notices( $args = array() ) {
-
 	$data = new Courier_Notice_Data();
 
 	return $data->get_user_notices( $args );
+
 }
+
 
 /**
  * Query global notices. Cache appropriately
@@ -112,11 +115,12 @@ function courier_notices_get_user_notices( $args = array() ) {
  * @return array|bool|mixed
  */
 function courier_notices_get_global_notices( $args = array() ) {
-
 	$data = new Courier_Notice_Data();
 
 	return $data->get_global_notices( $args );
+
 }
+
 
 /**
  * Query dismissible global notices. Cache appropriately.
@@ -129,11 +133,12 @@ function courier_notices_get_global_notices( $args = array() ) {
  * @return array|bool|mixed
  */
 function courier_notices_get_dismissible_global_notices( $args = array(), $ids_only = false ) {
-
 	$data = new Courier_Notice_Data();
 
 	return $data->get_dismissible_global_notices( $args, $ids_only );
+
 }
+
 
 /**
  * Query not dismissible global notices. Cache appropriately.
@@ -145,11 +150,12 @@ function courier_notices_get_dismissible_global_notices( $args = array(), $ids_o
  * @return array|bool|mixed
  */
 function courier_notices_get_persistent_global_notices( $args = array() ) {
-
 	$data = new Courier_Notice_Data();
 
 	return $data->get_persistent_global_notices( $args );
+
 }
+
 
 /**
  * Get Courier all notices.
@@ -161,11 +167,12 @@ function courier_notices_get_persistent_global_notices( $args = array() ) {
  * @return array
  */
 function courier_notices_get_notices( $args = array() ) {
-
 	$data = new Courier_Notice_Data();
 
 	return $data->get_notices( $args );
+
 }
+
 
 /**
  * Display Courier notices on the page on the front end
@@ -175,7 +182,6 @@ function courier_notices_get_notices( $args = array() ) {
  * @param array $args Array of arguments.
  */
 function courier_notices_display_notices( $args = array() ) {
-
 	$courier_placement    = ( ! empty( $args['placement'] ) ) ? $args['placement'] : '';
 	$courier_style        = ( ! empty( $args['style'] ) ) ? $args['style'] : '';
 	$courier_options      = get_option( 'courier_settings', array() );
@@ -207,7 +213,9 @@ function courier_notices_display_notices( $args = array() ) {
 	$allowed_html = Utils::get_safe_markup();
 
 	echo wp_kses( $output, $allowed_html );
+
 }
+
 
 /**
  * Display Courier modal(s) on the front end
@@ -219,7 +227,6 @@ function courier_notices_display_notices( $args = array() ) {
  * @param array $args Array of arguments.
  */
 function courier_notices_display_modals( $args = array() ) {
-
 	$args = wp_parse_args(
 		$args,
 		array(
@@ -253,7 +260,9 @@ function courier_notices_display_modals( $args = array() ) {
 	$output       = apply_filters( 'courier_notices_modal', $output );
 	$allowed_html = Utils::get_safe_markup();
 	echo wp_kses( $output, $allowed_html );
+
 }
+
 
 /**
  * Get a user's owned dismissed notices
@@ -298,7 +307,9 @@ function courier_notices_get_dismissed_notices( $user_id = 0 ) {
 	}
 
 	return $dismissed_notices;
+
 }
+
 
 /**
  * Get a user's dismissed global notices
@@ -310,11 +321,12 @@ function courier_notices_get_dismissed_notices( $user_id = 0 ) {
  * @return array|void
  */
 function courier_notices_get_global_dismissed_notices( $user_id = 0 ) {
-
 	$data = new Courier_Notice_Data();
 
 	return $data->get_global_dismissed_notices( $user_id );
+
 }
+
 
 /**
  * Get all dismissed notices for a user
@@ -333,7 +345,9 @@ function courier_notices_get_all_dismissed_notices( $user_id = 0 ) {
 	}
 
 	return array_merge( courier_notices_get_dismissed_notices( $user_id ), courier_notices_get_global_dismissed_notices( $user_id ) );
+
 }
+
 
 /**
  * Dismiss a notice for a user
@@ -398,7 +412,9 @@ function courier_notices_dismiss_notices( $notice_ids, $user_id = 0, $force_dism
 	} else {
 		return $errors;
 	}
+
 }
+
 
 /**
  * Get Courier types CSS to be used for frontend display
@@ -415,7 +431,9 @@ function courier_notices_get_css() {
 	}
 
 	return wp_strip_all_tags( $courier_css );
+
 }
+
 
 /**
  * Display the title for a Courier Notice
@@ -430,7 +448,6 @@ function courier_notices_get_css() {
  * @return mixed|string|void
  */
 function courier_notices_the_notice_title( $title, $before = '', $after = '', $echo = true ) {
-
 	if ( 0 === strlen( $title ) ) {
 		return '';
 	}
@@ -443,4 +460,5 @@ function courier_notices_the_notice_title( $title, $before = '', $after = '', $e
 	} else {
 		return $title;
 	}
+
 }

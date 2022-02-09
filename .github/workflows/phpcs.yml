@@ -1,0 +1,28 @@
+on:
+  pull_request:
+    branches-ignore:
+      # Do not run on auto submitted branches
+      - '**-phpcbf'
+      - 'dependabot/'
+      - 'renovate/'
+    paths:
+      - '**.php'
+
+name: WordPress Coding Standards Inspections
+
+jobs:
+  runPHPCSInspection:
+    name: Run PHPCS inspection
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Run PHPCS inspection
+        uses: rtCamp/action-phpcs-code-review@v2.1.0
+        env:
+          GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
+          SKIP_FOLDERS: ".deployment,.github,assets,css,js,lib,sourcedata,wsdl,vendor"
+          PHPCS_STANDARD_FILE_NAME: "phpcs.xml"
+        with:
+          args: "WordPress,WordPress-Core,WordPress-Extra"

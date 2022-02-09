@@ -12,6 +12,7 @@ namespace CourierNotices\Controller\Admin;
  */
 class Admin {
 
+
 	/**
 	 * Register Actions
 	 *
@@ -33,7 +34,9 @@ class Admin {
 		if ( ! empty( $_GET['post_type'] ) && 'courier_notice' === $_GET['post_type'] ) { // @codingStandardsIgnoreLine
 			add_filter( 'months_dropdown_results', '__return_empty_array' );
 		}
+
 	}
+
 
 	/**
 	 * Override the publish message to not show a link to the notice
@@ -44,11 +47,12 @@ class Admin {
 	 * @return array Array of messages
 	 */
 	public function post_updated_messages( $messages ) {
-
 		$messages['courier_notice'][6] = esc_html__( 'Courier Notice Published.', 'courier-notice' );
 
 		return $messages;
+
 	}
+
 
 	/**
 	 * Add custom columns.
@@ -85,7 +89,9 @@ class Admin {
 				),
 			)
 		);
+
 	}
+
 
 	/**
 	 * Populate custom columns.
@@ -96,7 +102,6 @@ class Admin {
 	 * @param int   $post_id The post ID.
 	 */
 	public function manage_posts_custom_column( $column, $post_id ) {
-
 		global $post;
 
 		switch ( $column ) {
@@ -145,7 +150,9 @@ class Admin {
 
 				break;
 		}
+
 	}
+
 
 	/**
 	 * When a non global notice is being viewed that has been dismissed,
@@ -192,7 +199,9 @@ class Admin {
 		</div>
 
 		<?php
+
 	}
+
 
 	/**
 	 * Enqueue our admin scripts.
@@ -288,7 +297,9 @@ class Admin {
 			'courier_notices_admin_data',
 			$courier_notices_admin_data
 		);
+
 	}
+
 
 	/**
 	 * Enqueue our admin styles.
@@ -329,7 +340,9 @@ class Admin {
 		}
 
 		wp_enqueue_style( 'wp-color-picker' );
+
 	}
+
 
 	/**
 	 * Get a timestamp based on a date and duration
@@ -359,7 +372,9 @@ class Admin {
 		}
 
 		return $date_time->getTimestamp();
+
 	}
+
 
 	/**
 	 * Allow for filtering of notices
@@ -370,7 +385,6 @@ class Admin {
 	 * @param string $which     Which notice.
 	 */
 	public function filter_courier_notices( $post_type, $which ) {
-
 		if ( 'courier_notice' !== $post_type ) {
 			return;
 		}
@@ -397,5 +411,8 @@ class Admin {
 				)
 			);
 		}
+
 	}
+
+
 }
