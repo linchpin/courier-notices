@@ -30,6 +30,17 @@ e.g.
 3. Frontend display of a few Courier Notices, including dismissible notices.
 4. Frontend display of a modal Courier Notice.
 
+## Changelog ##
+
+See changelog https://github.com/linchpin/courier-notices/blob/master/CHANGELOG.md
+
+Initial Release
+
+* Cleaned up UI for date and time selection.
+* You can no longer select an expiration date from the past.
+* Implemented datetimepicker so time selection is easier.
+* Minor typo fix in admin area.
+* Minor data sanitization/security hardening.
 
 ## Shortcodes ##
 

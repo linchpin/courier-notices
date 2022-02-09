@@ -136,7 +136,6 @@ function readme(done) {
 			details: false,
 			screenshot_ext: ['jpg', 'jpg', 'png'],
 			extract: {
-				'changelog': 'CHANGELOG',
 				'Frequently Asked Questions': 'FAQ'
 			}
 		}))
