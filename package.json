@@ -23,7 +23,7 @@
 		"autoprefixer": "10.4.2",
 		"babel-loader": "8.2.3",
 		"browser-sync": "2.27.7",
-		"node-sass": "^6.0.1",
+		"node-sass": "^7.0.1",
 		"postcss": "^8.3.5",
 		"gulp": "4.0.2",
 		"gulp-babel": "8.0.0",
@@ -45,7 +45,7 @@
 		"rimraf": "3.0.2",
 		"vinyl-named": "1.1.0",
 		"webpack": "5.68.0",
-		"webpack-stream": "6.1.2",
+		"webpack-stream": "7.0.0",
 		"yargs": "17.0.1"
 	},
 	"repository": {
