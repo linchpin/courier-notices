@@ -17,7 +17,7 @@ jobs:
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
 
       - name: Composer Install
-        uses: php-actions/composer@v5
+        uses: php-actions/composer@v6
 
       - name: Create Release
         id: create_release
