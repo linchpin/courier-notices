@@ -12,7 +12,7 @@ if ( ! function_exists( 'add_action' ) ) {
 }
 
 // @todo this logic should be done before the template.
-$classes = 'welcome-panel';
+$classes = 'courier-welcome-panel';
 
 $option = get_user_meta( get_current_user_id(), 'show_courier_welcome_panel', true );
 
@@ -27,7 +27,7 @@ if ( ! $show ) {
 <div id="courier-notices-welcome-panel" class="<?php echo esc_attr( $classes ); ?>">
 	<?php wp_nonce_field( 'courier_notices_welcome_panel_nonce', 'courier_notices_welcome_panel', false ); ?>
 	<a class="courier-notices-welcome-panel-close" href="<?php echo esc_url( admin_url( 'edit.php?post_type=courier_notice&courier_welcome=0' ) ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the Courier welcome panel', 'mesh' ); ?>"><?php esc_html_e( 'Dismiss', 'courier-notices' ); ?></a>
-	<div class="courier welcome-panel-content">
+	<div class="courier courier-welcome-panel-content">
 		<h2><?php esc_html_e( 'Get ready to keep your users in the loop with Courier', 'courier-notices' ); ?></h2>
 		<div class="courier-intro grid-x">
 			<div class="cell shrink">
@@ -49,7 +49,7 @@ if ( ! $show ) {
 			<div class="cell auto small-full padding-horizontal">
 				<h3><?php esc_html_e( 'More Actions', 'mesh' ); ?></h3>
 				<ul>
-					<li><?php printf( '<a href="%s" target="_blank"><span class="welcome-icon welcome-learn-more"></span>' . esc_html__( 'Learn more about Courier', 'courier-notices' ) . '</a>', esc_url( __( 'https://github.com/linchpin/courier', 'courier-notices' ) ) ); ?></li>
+					<li><?php printf( '<a href="%s" target="_blank"><span class="dashicons dashicons-welcome-learn-more"></span>' . esc_html__( 'Learn more about Courier', 'courier-notices' ) . '</a>', esc_url( __( 'https://github.com/linchpin/courier', 'courier-notices' ) ) ); ?></li>
 					<li><?php printf( '<a href="%s" target="_blank"><span class="courier-icon icon-linchpin-logo-fill"></span>' . esc_html__( 'About Linchpin', 'mesh' ) . '</a>', esc_url( __( 'https://linchpin.com', 'courier-notices' ) ) ); ?></li>
 					<li><?php printf( '<a href="%s" target="_blank"><span class="courier-icon icon-github-logo"></span>' . esc_html__( 'View Features Requests', 'mesh' ) . '</a>', esc_url( __( 'https://github.com/linchpin/courier/issues', 'courier-notices' ) ) ); ?></li>
 				</ul>
