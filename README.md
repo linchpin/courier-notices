@@ -34,14 +34,6 @@ e.g.
 
 See changelog https://github.com/linchpin/courier-notices/blob/master/CHANGELOG.md
 
-Initial Release
-
-* Cleaned up UI for date and time selection.
-* You can no longer select an expiration date from the past.
-* Implemented datetimepicker so time selection is easier.
-* Minor typo fix in admin area.
-* Minor data sanitization/security hardening.
-
 ## Shortcodes ##
 
 `[courier_notice id="1"]`

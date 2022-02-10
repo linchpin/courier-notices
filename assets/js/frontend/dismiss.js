@@ -58,7 +58,6 @@ export default function dismiss() {
 							request.setRequestHeader( 'X-WP-Nonce', courier_notices_data.wp_rest_nonce );
 						},
 					} ).done( function () {
-						$notice.find('.courier-close').trigger('click');
 						hideNotice( notice_id );
 					} );
 
@@ -69,7 +68,6 @@ export default function dismiss() {
 				}
 
 			} else {
-				$notice.find('.courier-close').trigger('click');
 				hideNotice( notice_id );
 
 				if ( href && href !== '#' ) {

@@ -6,10 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.4.2] - 02-09-2022
+## [1.4.3] - 2022-02-10
+- Updated - Removed an extra trigger click on courier-close that could fire a redirect if multiple were used
+
+## [1.4.2] - 2022-02-09
 - Fixed - Cleanup build process
 
-## [1.4.1] - 02-09-2022
+## [1.4.1] - 2022-02-09
 - Fixed - Swapped colors for feedback and info notices
 - Fixed - Allowing trigger-close class to fire for logged-out users
 - Updated - Adjusted welcome panel classes to not rely on WordPress's default welcome styles
