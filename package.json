@@ -5,7 +5,8 @@
 	"main": "gulpfile.babel.js",
 	"scripts": {
 		"start": "gulp",
-		"release": "gulp build:release"
+		"release": "gulp build:release",
+                "build": "gulp build"
 	},
 	"author": "Linchpin <sayhi@linchpin.com>",
 	"license": "GPL-2.0-or-later",
