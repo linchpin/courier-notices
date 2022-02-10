@@ -353,3 +353,14 @@ gulp.task(
 		copy
 	)
 );
+
+// Build the "dist" folder by running all of the below tasks
+gulp.task(
+	'build',
+	gulp.series(
+		setProductionMode,
+		clean,
+		javascript,
+		buildSass,
+	)
+);
