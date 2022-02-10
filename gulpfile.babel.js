@@ -18,6 +18,15 @@ const $ = plugins();
 let PRODUCTION = !!(yargs.argv.production); // Check for --production flag
 let VERSION_BUMP = yargs.argv.release;      // Check for --release (x.x.x semver version number)
 
+/**
+ * Load in additional config files
+ */
+const loadConfig = () => {
+	let ymlFile = fs.readFileSync('config.yml', 'utf8');
+	return yaml.load(ymlFile);
+
+}
+
 // Load settings from settings.yml
 const {COMPATIBILITY, PORT, UNCSS_OPTIONS, PATHS, LOCAL_PATH} = loadConfig();
 
@@ -52,65 +61,20 @@ let webpackConfig = {
 	}
 };
 
-/**
- * Load in additional config files
- */
-function loadConfig() {
-	let ymlFile = fs.readFileSync('config.yml', 'utf8');
-	return yaml.load(ymlFile);
-}
 
 /**
  * Set production mode during the build process
  *
  * @param done
  */
-function setProductionMode(done) {
+const setProductionMode = ( done ) => {
 	PRODUCTION            = false;
 	webpackConfig.mode    = 'production';
 	webpackConfig.devtool = false;
 	sassConfig.production = true;
 	done();
+
 }
-
-// Build the "dist" folder by running all of the below tasks
-// Sass must be run later so UnCSS can search for used classes in the others assets.
-gulp.task(
-	'build:release',
-	gulp.series(
-		setProductionMode,
-		clean,
-		javascript,
-		buildSass,
-		bumpPluginFile,
-		bumpPackageJson,
-		bumpReadmeStableTag,
-		bumpComposerJson,
-		readme,
-		copy
-	)
-);
-
-// Generate the changelog.md from the readme.txt
-gulp.task(
-	'readme',
-	gulp.series(
-		readme,
-		copy
-	)
-);
-
-// Build the site, run the server, and watch for file changes
-gulp.task(
-	'default',
-	gulp.series(
-		clean,
-		javascript,
-		buildSass,
-		copy,
-		gulp.parallel(watch)
-	)
-);
 
 /**
  * This happens every time a build starts
@@ -118,20 +82,21 @@ gulp.task(
  *
  * @param done
  */
-function clean(done) {
+const clean = ( done ) => {
 	rimraf('css', done);
 	rimraf('js', done);
 
 	done();
 }
 
+
 /**
  * Create a README.MD file for github from the WordPress.org readme
  *
  * @since 1.0
  */
-function readme(done) {
-	return gulp.src(['readme.txt'])
+const readme = ( done ) => {
+	return gulp.src([PATHS.readme])
 		.pipe($.readmeToMarkdown({
 			details: false,
 			screenshot_ext: ['jpg', 'jpg', 'png'],
@@ -155,7 +120,7 @@ function readme(done) {
  *
  * @return {*}
  */
-function bumpPluginFile(done) {
+const bumpPluginFile = ( done ) => {
 
 	let constant = 'COURIER_NOTICES_VERSION';
 	let define_bump_obj = {
@@ -167,7 +132,7 @@ function bumpPluginFile(done) {
 		key: 'Version',
 	};
 
-	if (VERSION_BUMP) {
+	if ( VERSION_BUMP ) {
 		bump_obj.version        = VERSION_BUMP;
 		define_bump_obj.version = VERSION_BUMP;
 	}
@@ -194,7 +159,7 @@ function bumpPluginFile(done) {
  *
  * @return {*}
  */
-function getReleaseDate() {
+const getReleaseDate = () => {
 	let today = new Date();
 	let dd    = String(today.getDate()).padStart(2, '0');
 	let mm    = String(today.getMonth() + 1).padStart(2, '0');
@@ -210,7 +175,7 @@ function getReleaseDate() {
  *
  * @return {*}
  */
-function bumpComposerJson() {
+const bumpComposerJson = () => {
 
 	let bump_obj = {
 		key: 'version'
@@ -220,7 +185,7 @@ function bumpComposerJson() {
 		bump_obj.version = VERSION_BUMP;
 	}
 
-	return gulp.src('./composer.json')
+	return gulp.src('./' + PATHS.composer)
 		.pipe($.bump(bump_obj))
 		.pipe(through2.obj(function (file, enc, cb) {
 			let date = new Date();
@@ -238,7 +203,7 @@ function bumpComposerJson() {
  *
  * @return {*}
  */
-function bumpReadmeStableTag() {
+const bumpReadmeStableTag = () => {
 
 	let bump_obj = {key: "Stable tag"};
 
@@ -246,7 +211,7 @@ function bumpReadmeStableTag() {
 		bump_obj.version = VERSION_BUMP;
 	}
 
-	return gulp.src('./readme.txt')
+	return gulp.src('./' + PATHS.readme )
 		.pipe($.bump(bump_obj))
 		.pipe(through2.obj(function (file, enc, cb) {
 			let date = new Date();
@@ -264,7 +229,7 @@ function bumpReadmeStableTag() {
  *
  * @return {*}
  */
-function bumpPackageJson() {
+const bumpPackageJson = () => {
 
 	let bump_obj = {
 		key: 'version'
@@ -274,7 +239,7 @@ function bumpPackageJson() {
 		bump_obj.version = VERSION_BUMP;
 	}
 
-	return gulp.src('./package.json')
+	return gulp.src( './' + PATHS.package)
 		.pipe($.bump(bump_obj))
 		.pipe(through2.obj(function (file, enc, cb) {
 			let date = new Date();
@@ -293,7 +258,7 @@ function bumpPackageJson() {
  *
  * @return {*}
  */
-function copy() {
+const copy = () => {
 	return gulp.src(PATHS.assets)
 		.pipe(gulp.dest('css/fonts'));
 }
@@ -305,8 +270,8 @@ function copy() {
  *
  * @return {*}
  */
-function buildSass() {
-	return gulp.src('assets/scss/*.scss')
+const buildSass = () => {
+	return gulp.src(PATHS.sass)
 		.pipe($.sourcemaps.init())
 		.pipe(sass({
 			includePaths: PATHS.sass
@@ -321,7 +286,7 @@ function buildSass() {
  *
  * @return {*}
  */
-function javascript() {
+const javascript = () => {
 	return gulp.src(PATHS.entries)
 		.pipe(named())
 		.pipe($.sourcemaps.init())
@@ -343,9 +308,48 @@ function javascript() {
  *
  * @since 1.1
  */
-function watch() {
-	gulp.watch('readme.txt', readme);
-	gulp.watch('assets/scss/**/*.scss').on('all', buildSass);
-	gulp.watch('assets/js/**/*.js').on('all', gulp.series(javascript));
-	gulp.watch(PATHS.assets, copy);
+const watch = () => {
+	gulp.watch( PATHS.readme , readme );
+	gulp.watch( PATHS.sass ).on('all', buildSass );
+	gulp.watch( PATHS.js ).on('all', gulp.series( javascript ) );
+	gulp.watch( PATHS.assets, copy );
 }
+
+// Generate the changelog.md from the readme.txt
+gulp.task(
+	'readme',
+	gulp.series(
+		readme,
+		copy
+	)
+);
+
+// Build the site, run the server, and watch for file changes
+gulp.task(
+	'default',
+	gulp.series(
+		clean,
+		javascript,
+		buildSass,
+		copy,
+		gulp.parallel(watch)
+	)
+);
+
+// Build the "dist" folder by running all of the below tasks
+// Sass must be run later so UnCSS can search for used classes in the others assets.
+gulp.task(
+	'build:release',
+	gulp.series(
+		setProductionMode,
+		clean,
+		javascript,
+		buildSass,
+		bumpPluginFile,
+		bumpPackageJson,
+		bumpReadmeStableTag,
+		bumpComposerJson,
+		readme,
+		copy
+	)
+);

@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.4] - 2022-02-10
+
+### Updated
+- improve the build process
+- updated all dev dependencies
+
+### Fixes
+- fixed an issue with releases not being created properly on GitHub
+
 ## [1.4.3] - 2022-02-10
 - Updated - Removed an extra trigger click on courier-close that could fire a redirect if multiple were used
 

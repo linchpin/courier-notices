@@ -17,6 +17,12 @@ jobs:
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
 
+      - name: Cache Composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+
       - name: Get Changelog Entry
         id: changelog_reader
         uses: mindsers/changelog-reader-action@v2
@@ -30,6 +36,22 @@ jobs:
         with:
           dev: no
           php_version: "7.4"
+
+      - name: Install Yarn Dependencies
+        run: |
+          yarn install
+          yarn build
+          rm -rf node_modules
+
+      - name: Clean Build Files/Folders
+        run : |
+          chmod +x ./.deployment/cleanup.sh
+          sh ./.deployment/cleanup.sh;
+
+      - name: Create Sync Zip
+        run: |
+          zip -r ${{ github.event.repository.name }}.zip ./${{ github.event.repository.name }}
+          zip -r ${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.zip ./${{ github.event.repository.name }}
 
       - name: Create Release
         id: create_release

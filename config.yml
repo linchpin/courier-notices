@@ -9,6 +9,11 @@ COMPATIBILITY:
 
 # Gulp will reference these paths when it copies files
 PATHS:
+  readme: "readme.txt"
+  sass: "assets/scss/*.scss"
+  js: "assets/js/**/*.js"
+  package: "package.json"
+  composer: "composer.json"
   # Path to dist folder
   dist: ""
   # Paths to static assets that aren't images, CSS, or JavaScript
