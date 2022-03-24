@@ -26,3 +26,7 @@ courier-notices.code-workspace
 gulpfile.babel.js
 phpcs.xml
 renovate.json
+courier-notices.zip
+DOCKER_ENV
+.deployment
+composer.json
