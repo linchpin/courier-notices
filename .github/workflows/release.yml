@@ -51,7 +51,6 @@ jobs:
       - name: Create Sync Zip
         run: |
           zip -r ${{ github.event.repository.name }}.zip ./${{ github.event.repository.name }}
-          zip -r ${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.zip ./${{ github.event.repository.name }}
 
       - name: Create Release
         id: create_release
@@ -66,28 +65,16 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: WordPress Plugin Deploy
-        uses: 10up/action-wordpress-plugin-deploy@2.0.0
-        env:
-          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-          SLUG: courier-notices
-
       - name: Upload release assets
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           asset_path: ${{github.workspace}}/${{ github.event.repository.name }}.zip
           asset_name: ${{ github.event.repository.name }}.zip
           asset_content_type: application/zip
 
-      - name: WordPress.org plugin asset/readme update
-        uses: 10up/action-wordpress-plugin-asset-update@stable
-        env:
-          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
 
 
 

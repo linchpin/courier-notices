@@ -3,7 +3,7 @@ Contributors: linchpin_agency, aware, ncallen, maxinacube, fischfood, desrosj
 Tags: notifications, notices, alerts, linchpin, front end, dismissible, gdpr
 Requires at least: 5.0
 Tested up to: 5.9
-Stable tag: 1.4.4
+Stable tag: 1.4.5
 Requires PHP: 7.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html

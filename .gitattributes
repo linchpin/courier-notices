@@ -1,11 +1,12 @@
 # Ignore directories and files from the release zips
 
 # Directories
-/.wordpress-org export-ignore
+/.wordpress-org/ export-ignore
 /.git/ export-ignore
 /.github/ export-ignore
 /assets/ export-ignore
 /node_modules/ export-ignore
+/.deployment/ export-ignore
 
 # Files
 /.gitignore export-ignore
@@ -17,3 +18,6 @@
 /yarn.lock export-ignore
 /config.yml export-ignore
 /renovate.json export-ignore
+/.vipgoci_lint_skip_folders export-ignore
+/.vipgoci_phpcs_skip_folders export-ignore
+/courier-notices.zip export-ignore
