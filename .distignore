@@ -1,4 +1,5 @@
 /.wordpress-org
+/.deployment
 /.git
 /.github
 /node_modules
@@ -30,3 +31,5 @@ courier-notices.zip
 DOCKER_ENV
 .deployment
 composer.json
+yarn-error.log
+courier-notices.zip

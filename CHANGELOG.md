@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.5] - 2022-03-24
+
+### Fixes
+- fixed a minor issue with deployments having a nested zip (of the deployment)
+
 ## [1.4.4] - 2022-02-10
 
 ### Updated
