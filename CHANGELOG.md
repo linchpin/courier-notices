@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.6] - 2022-05-24
+
+### Fixes
+
+- fix: Fixed an issue where user_id was not being passed in the request for notices
+
 ## [1.4.5] - 2022-03-24
 
 ### Fixes

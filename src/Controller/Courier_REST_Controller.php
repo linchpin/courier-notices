@@ -35,55 +35,66 @@ class Courier_REST_Controller extends WP_REST_Controller {
 		register_rest_route(
 			$namespace,
 			'/' . $base . '/(?P<notice_id>\d+)/',
-			array(
-				array(
+			[
+				[
 					'methods'             => \WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_notice' ),
-					'permission_callback' => array( $this, 'get_notice_permissions_check' ),
-					'args'                => array(),
-				),
-			)
+					'callback'            => [ $this, 'get_notice' ],
+					'permission_callback' => [ $this, 'get_notice_permissions_check' ],
+					'args'                => [],
+				],
+			]
 		);
 
 		// Dismiss a single notice
 		register_rest_route(
 			$namespace,
 			'/' . $base . '/(?P<notice_id>\d+)/dismiss',
-			array(
-				array(
+			[
+				[
 					'methods'             => \WP_REST_Server::EDITABLE,
-					'callback'            => array( $this, 'dismiss_notice' ),
-					'permission_callback' => array( $this, 'get_dismiss_notice_permissions_check' ),
-					'args'                => array(),
-				),
-			)
+					'callback'            => [ $this, 'dismiss_notice' ],
+					'permission_callback' => [ $this, 'get_dismiss_notice_permissions_check' ],
+					'args'                => [],
+				],
+			]
 		);
 
-		// Display all notices for the specific user
+		// Display all notices for the specific user.
 		register_rest_route(
 			$namespace,
 			'/notices/display/',
-			array(
-				array(
+			[
+				[
 					'methods'             => \WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'display_notices' ),
-					'permission_callback' => array( $this, 'get_notice_permissions_check' ),
-					'args'                => array(
-						'placement' => array(
+					'callback'            => [ $this, 'display_notices' ],
+					'permission_callback' => [ $this, 'get_notice_permissions_check' ],
+					'args'                => [
+						'placement' => [
 							'description'       => esc_html__( 'Set where the notices should display.', 'courier-notices' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => 'rest_validate_request_arg',
-						),
-						'format'    => array(
+						],
+						'format'    => [
 							'description'       => esc_html__( 'Set the response, either html or json.', 'courier-notices' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => 'rest_validate_request_arg',
-						),
-					),
-				),
-			)
+						],
+						'post_info' => [
+							'description'       => esc_html__( 'Our queried post info', 'courier-notices' ),
+							'type'              => 'object',
+							'validate_callback' => 'rest_validate_request_arg',
+						],
+						'user_id'   => [
+							'description'       => esc_html__( 'Our queried post info', 'courier-notices' ),
+							'type'              => 'int',
+							'sanitize_callback' => 'sanitize_text_field',
+							'validate_callback' => 'rest_validate_request_arg',
+						],
+					],
+				],
+			]
 		);
 
 	}
@@ -99,15 +110,15 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 * @return WP_Error|WP_REST_Response
 	 */
 	public function get_notice( WP_REST_Request $request ) {
-		$data = array();
+		$data = [];
 
-		$args = array(
+		$args = [
 			'post_type'      => 'courier_notice',
 			'post_status'    => 'publish',
 			'no_found_rows'  => true,
 			'posts_per_page' => 1,
 			'p'              => (int) $request['notice_id'],
-		);
+		];
 
 		$search = new \WP_Query( $args );
 
@@ -160,7 +171,7 @@ class Courier_REST_Controller extends WP_REST_Controller {
 		$notifications = maybe_unserialize( get_user_option( 'courier_notifications', $user_id ) );
 
 		if ( empty( $notifications ) ) {
-			$notifications = array();
+			$notifications = [];
 		}
 
 		$notifications[ $args['notice_id'] ] = '1';
@@ -198,7 +209,7 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 * 2. Global Notices
 	 */
 	public function display_notices( WP_REST_Request $request ) {
-		$defaults = array(
+		$defaults = [
 			'user_id'                      => '',
 			'include_global'               => true,
 			'include_dismissed'            => false,
@@ -206,16 +217,16 @@ class Courier_REST_Controller extends WP_REST_Controller {
 			'ids_only'                     => false,
 			'number'                       => 10, // @todo this should be a setting.
 			'placement'                    => 'header',
-			'query_args'                   => array(),
-		);
+			'query_args'                   => [],
+		];
 
 		$defaults       = apply_filters( 'courier_notices_get_notices_default_settings', $defaults );
 		$args           = wp_parse_args(
-			array(
+			[
 				'contentType' => $request->get_param( 'contentType' ),
 				'placement'   => $request->get_param( 'placement' ),
 				'format'      => $request->get_param( 'format' ),
-			),
+			],
 			$defaults
 		);
 		$ajax_post_data = wp_parse_args( $request->get_params(), $defaults );
@@ -224,7 +235,7 @@ class Courier_REST_Controller extends WP_REST_Controller {
 		$style          = 'notice-informational';
 
 		if ( 'html' === $args['format'] ) {
-			$notices = array();
+			$notices = [];
 
 			foreach ( $notice_posts as $courier_notice ) {
 				$notice_data    = $notices_data->get_notice_meta( $courier_notice->ID );
@@ -314,19 +325,19 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	public function get_collection_params() {
 		return array(
 			'page'     => array(
-				'description'       => 'Current page of the collection.',
+				'description'       => __( 'Current page of the collection.', 'courier-notices' ),
 				'type'              => 'integer',
 				'default'           => 1,
 				'sanitize_callback' => 'absint',
 			),
 			'per_page' => array(
-				'description'       => 'Maximum number of items to be returned in result set.',
+				'description'       => __( 'Maximum number of items to be returned in result set.', 'courier-notices' ),
 				'type'              => 'integer',
 				'default'           => 100,
 				'sanitize_callback' => 'absint',
 			),
 			'search'   => array(
-				'description'       => 'Limit results to those matching a string.',
+				'description'       => __( 'Limit results to those matching a string.', 'courier-notices' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 			),
