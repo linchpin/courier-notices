@@ -15,7 +15,7 @@
 		"lodash": "4.17.21",
 		"save-dev": "0.0.1-security",
 		"through2": "4.0.2",
-		"what-input": "5.2.10"
+		"what-input": "5.2.11"
 	},
 	"devDependencies": {
 		"@babel/core": "7.18.0",
@@ -58,7 +58,7 @@
 		"email": "sayhi@linchpin.com"
 	},
 	"engines": {
-		"node": ">= 14.10.0"
+		"node": ">= v14.19.3"
 	},
 	"browserslist": [
 		"last 1 version",
