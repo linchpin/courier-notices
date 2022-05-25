@@ -3,7 +3,7 @@
  * Plugin Name: Courier Notices
  * Plugin URI:  https://wordpress.org/plugins/courier-notices
  * Description: A way to display, manage, and control front end notifications for your WordPress install.
- * Version:     1.4.5
+ * Version:     1.4.6
  * Author:      Linchpin
  * Author URI:  https://linchpin.com
  * Text Domain: courier-notices
@@ -22,11 +22,11 @@ if ( ! defined( 'WPINC' ) ) {
  */
 
 if ( ! defined( 'COURIER_NOTICES_VERSION' ) ) {
-	define( 'COURIER_NOTICES_VERSION', '1.4.5' );
+	define( 'COURIER_NOTICES_VERSION', '1.4.6' );
 }
 
 if ( ! defined( 'COURIER_NOTICES_RELEASE_DATE' ) ) {
-	define( 'COURIER_NOTICES_RELEASE_DATE', '03/24/2022' );
+	define( 'COURIER_NOTICES_RELEASE_DATE', '05/24/2022' );
 }
 
 // Define the main plugin file to make it easy to reference in subdirectories.

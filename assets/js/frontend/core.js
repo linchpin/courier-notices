@@ -38,10 +38,11 @@ export default function core() {
 				if ( entry.intersectionRatio === 1 && 'false' === entry.target.getAttribute( 'data-loaded' ) ) {
 
 					let settings = {
-						contentType: "application/json",
-						placement: entry.target.getAttribute( 'data-courier-placement' ),
-						format: 'html',
-						post_info:{},
+						contentType : "application/json",
+						placement   : entry.target.getAttribute( 'data-courier-placement' ),
+						format      : 'html',
+						post_info   : {},
+						user_id     : ( courier_notices_data.user_id !== '0' ) ? courier_notices_data.user_id : '',
 					};
 
 					if ( typeof( courier_notices_data.post_info ) !== 'undefined' ) {
