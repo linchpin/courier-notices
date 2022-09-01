@@ -447,6 +447,8 @@ class Data {
 			);
 		}
 
+
+
 		$notices_query = new \WP_Query( $query_args );
 
 		return $notices_query->posts;
@@ -470,7 +472,13 @@ class Data {
 		$courier_icon   = get_term_meta( $courier_type[0]->term_id, '_courier_type_icon', true );
 		// Get all the options for showing the title by default
 		$courier_design_options         = get_option( 'courier_design', array() );
+
 		$global_show_title_rules        = $courier_design_options['enable_title'];
+
+		if ( empty( $global_show_title_rules ) ) {
+			$global_show_title_rules = [];
+		}
+
 		$notice_style_global_show_title = in_array( $courier_style[0]->slug, $global_show_title_rules, true );
 
 		// If the notice style is set to show the title by default
