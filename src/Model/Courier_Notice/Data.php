@@ -447,8 +447,6 @@ class Data {
 			);
 		}
 
-
-
 		$notices_query = new \WP_Query( $query_args );
 
 		return $notices_query->posts;
@@ -471,9 +469,9 @@ class Data {
 		$courier_type   = get_the_terms( $courier_notice_id, 'courier_type' );  // Get the type associated with the notice (typically for informational notices)
 		$courier_icon   = get_term_meta( $courier_type[0]->term_id, '_courier_type_icon', true );
 		// Get all the options for showing the title by default
-		$courier_design_options         = get_option( 'courier_design', array() );
+		$courier_design_options = get_option( 'courier_design', array() );
 
-		$global_show_title_rules        = $courier_design_options['enable_title'];
+		$global_show_title_rules = $courier_design_options['enable_title'];
 
 		if ( empty( $global_show_title_rules ) ) {
 			$global_show_title_rules = [];
