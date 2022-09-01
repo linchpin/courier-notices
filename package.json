@@ -11,7 +11,7 @@
 	"author": "Linchpin <sayhi@linchpin.com>",
 	"license": "GPL-2.0-or-later",
 	"dependencies": {
-		"jquery": "3.6.0",
+		"jquery": "3.6.1",
 		"lodash": "4.17.21",
 		"save-dev": "0.0.1-security",
 		"through2": "4.0.2",
@@ -58,7 +58,7 @@
 		"email": "sayhi@linchpin.com"
 	},
 	"engines": {
-		"node": ">= v16.16.0"
+		"node": ">= v16.17.0"
 	},
 	"browserslist": [
 		"last 1 version",
