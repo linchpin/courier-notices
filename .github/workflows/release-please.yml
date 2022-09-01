@@ -1,0 +1,24 @@
+on:
+  push:
+    branches:
+      - master
+
+name: release-please
+jobs:
+  release-please:
+    if: github.event_name != 'pull_request' && github.event.pull_request.merged != true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        with:
+          release-type: php
+          package-name: mantle
+          bump-minor-pre-major: true
+          token: ${{ secrets.GH_BOT_TOKEN }}
+          versioning-strategy: always-bump-patch
+          extra-files: |
+            README.md
+            package.json
+            courier-notices.php
+            readme.txt
+            composer.json

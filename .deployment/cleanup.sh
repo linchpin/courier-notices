@@ -2,7 +2,7 @@
 
 set -eo
 
-TMP_DIR="$GITHUB_WORKSPACE/courier-notices"
+TMP_DIR="$GITHUB_WORKSPACE/zip"
 mkdir "$TMP_DIR"
 
 # If there's no .gitattributes file, write a default one into place

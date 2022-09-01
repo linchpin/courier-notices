@@ -11,8 +11,8 @@
 /* Notice Colors */
 @font-face {
   font-family: "courier";
-  src: url("fonts/courier.eot?j1xoo0");
-  src: url("fonts/courier.eot?j1xoo0#iefix") format("embedded-opentype"), url("fonts/courier.woff2?j1xoo0") format("woff2"), url("fonts/courier.ttf?j1xoo0") format("truetype"), url("fonts/courier.woff?j1xoo0") format("woff"), url("fonts/courier.svg?j1xoo0#courier") format("svg");
+  src: url("../fonts/courier.eot?j1xoo0");
+  src: url("../fonts/courier.eot?j1xoo0#iefix") format("embedded-opentype"), url("../fonts/courier.woff2?j1xoo0") format("woff2"), url("../fonts/courier.ttf?j1xoo0") format("truetype"), url("../fonts/courier.woff?j1xoo0") format("woff"), url("../fonts/courier.svg?j1xoo0#courier") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block; }
@@ -1711,8 +1711,8 @@ pre.courier-notice-type-css-class {
  **/
 @font-face {
   font-family: "courier";
-  src: url("fonts/courier.eot?f4juv");
-  src: url("fonts/courier.eot?f4juv#iefix") format("embedded-opentype"), url("fonts/courier.woff2?f4juv") format("woff2"), url("fonts/courier.ttf?f4juv") format("truetype"), url("fonts/courier.woff?f4juv") format("woff"), url("fonts/courier.svg?f4juv#courier") format("svg");
+  src: url("../fonts/courier.eot?f4juv");
+  src: url("../fonts/courier.eot?f4juv#iefix") format("embedded-opentype"), url("../fonts/courier.woff2?f4juv") format("woff2"), url("../fonts/courier.ttf?f4juv") format("truetype"), url("../fonts/courier.woff?f4juv") format("woff"), url("../fonts/courier.svg?f4juv#courier") format("svg");
   font-weight: normal;
   font-style: normal; }
 
