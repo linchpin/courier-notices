@@ -5,4 +5,5 @@ extensions:
   - php
 exclude:
   - vendor
-warning: true
+  - github/workspace/vendor/
+warning: false

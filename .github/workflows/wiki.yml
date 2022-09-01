@@ -1,0 +1,37 @@
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*'
+    paths:
+      - .github/workflows/wiki.yml
+      - '**.php'
+
+name: Update Wiki
+
+jobs:
+  update_wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Create Wiki Markdown
+        uses: php-actions/composer@v6
+
+      - name: Generate API docs
+        run: |
+          wget https://phpdoc.org/phpDocumentor.phar
+          php phpDocumentor.phar --directory=./application --target=./wiki --template='vendor/saggre/phpdocumentor-markdown/themes/markdown'
+
+      - name: Push Wiki Changes
+        uses: Andrew-Chen-Wang/github-wiki-action@v3
+        env:
+          # Make sure you have that / at the end. We use rsync
+          # WIKI_DIR's default is wiki/
+          WIKI_DIR: wiki/
+          GH_TOKEN: ${{ secrets.GH_WIKI_UPDATE_TOKEN }}
+          GH_MAIL: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          GH_NAME: ${{ github.repository_owner }}
