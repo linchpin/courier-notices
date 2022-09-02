@@ -12,7 +12,7 @@ jobs:
       - uses: google-github-actions/release-please-action@v3
         with:
           release-type: php
-          package-name: mantle
+          package-name: courier-notices
           bump-minor-pre-major: true
           token: ${{ secrets.GH_BOT_TOKEN }}
           versioning-strategy: always-bump-patch
@@ -21,4 +21,3 @@ jobs:
             package.json
             courier-notices.php
             readme.txt
-            composer.json

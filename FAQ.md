@@ -2,7 +2,7 @@
 
 ## Does this plugin work with Full Page Caching or WordPress Object Caching? ##
 
-Yes, just be sure to enable the option to load Courier Notices using AJAX
+Yes
 
 ## I'm looking for a specific type of notice that courier doesn't have, what's next? ##
 

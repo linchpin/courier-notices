@@ -24,7 +24,7 @@ jobs:
       - name: Generate API docs
         run: |
           wget https://phpdoc.org/phpDocumentor.phar
-          php phpDocumentor.phar --directory=./application --target=./wiki --template='vendor/saggre/phpdocumentor-markdown/themes/markdown'
+          php phpDocumentor.phar --directory=./src --target=./wiki --template='vendor/saggre/phpdocumentor-markdown/themes/markdown'
 
       - name: Push Wiki Changes
         uses: Andrew-Chen-Wang/github-wiki-action@v3
