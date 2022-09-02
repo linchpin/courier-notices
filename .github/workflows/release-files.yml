@@ -42,12 +42,6 @@ jobs:
           yarn build
           rm -rf node_modules
 
-      - name: Build Plugin UI
-        run: |
-          cd ./frontend
-          yarn install
-          yarn build
-
       - name: Clean Build Files/Folders
         run : |
           chmod +x ./.deployment/cleanup.sh
