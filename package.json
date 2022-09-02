@@ -40,7 +40,7 @@
 		"gulp-uglify": "3.0.2",
 		"husky": "^8.0.1",
 		"node-sass": "^7.0.1",
-		"webpack": "5.73.0",
+		"webpack": "5.74.0",
 		"webpack-stream": "7.0.0",
 		"yargs": "17.5.1"
 	},
