@@ -5,8 +5,13 @@
 	"main": "gulpfile.babel.js",
 	"scripts": {
 		"start": "gulp",
-		"release": "gulp build:release",
-		"build": "gulp build"
+		"build": "gulp build",
+		"prepare": "husky install"
+	},
+	"husky": {
+		"hooks": {
+			"commit-msg": "commit-msg"
+		}
 	},
 	"author": "Linchpin <sayhi@linchpin.com>",
 	"license": "GPL-2.0-or-later",
@@ -14,37 +19,27 @@
 		"jquery": "3.6.0",
 		"lodash": "4.17.21",
 		"save-dev": "0.0.1-security",
-		"through2": "4.0.2",
 		"what-input": "5.2.12"
 	},
 	"devDependencies": {
-		"@babel/core": "7.18.6",
-		"@babel/preset-env": "7.18.6",
-		"@babel/register": "7.18.6",
-		"autoprefixer": "10.4.7",
+		"@babel/core": "7.18.13",
+		"@babel/preset-env": "7.18.10",
+		"@babel/register": "7.18.9",
+		"autoprefixer": "10.4.8",
 		"babel-loader": "8.2.5",
 		"browser-sync": "2.27.10",
+		"fs-extra": "^10.1.0",
 		"gulp": "4.0.2",
 		"gulp-babel": "8.0.0",
-		"gulp-bump": "3.2.0",
-		"gulp-clean-css": "4.3.0",
 		"gulp-cli": "2.3.0",
 		"gulp-concat": "2.6.1",
-		"gulp-extname": "0.2.2",
 		"gulp-if": "3.0.0",
-		"gulp-load-plugins": "2.0.7",
 		"gulp-postcss": "9.0.1",
-		"gulp-readme-to-markdown": "0.2.1",
-		"gulp-replace": "1.1.3",
 		"gulp-sass": "5.1.0",
 		"gulp-sourcemaps": "3.0.0",
 		"gulp-uglify": "3.0.2",
-		"js-yaml": "4.1.0",
-		"kind-of": "6.0.3",
+		"husky": "^8.0.1",
 		"node-sass": "^7.0.1",
-		"postcss": "^8.4.14",
-		"rimraf": "3.0.2",
-		"vinyl-named": "1.1.0",
 		"webpack": "5.73.0",
 		"webpack-stream": "7.0.0",
 		"yargs": "17.5.1"
@@ -61,12 +56,67 @@
 		"node": ">= v16.16.0"
 	},
 	"browserslist": [
-		"last 1 version",
-		"> 1%",
-		"not dead"
+		"defaults"
 	],
 	"output": {
 		"chunkLoading": false,
 		"wasmLoading": false
+	},
+	"resolutions": {
+		"glob-parent": "5.1.2",
+		"semver": "7.3.7",
+		"trim-newlines": "4.0.2",
+		"meow": "10.1.3",
+		"chokidar": "3.5.3"
+	},
+	"buildconfig": {
+		"webpack": {
+			"entry": {
+				"courier-notices": "./assets/js/courier-notices.js",
+				"courier-notices-admin": "./assets/js/courier-notices-admin.js"
+			},
+			"output": {
+				"filename": "[name].js"
+			},
+			"module": {
+				"rules": [
+					{
+						"test": "/\\.js$/",
+						"use": {
+							"loader": "babel-loader",
+							"options": {
+								"presets": [
+									"@babel/preset-env"
+								],
+								"compact": false
+							}
+						}
+					}
+				]
+			},
+			"externals": {
+				"jquery": "jQuery"
+			}
+		},
+		"gulp": {
+			"fonts": {
+				"assets": [
+					"./assets/fonts/**/*"
+				],
+				"dest": "./css/fonts"
+			},
+			"sass": {
+				"assets": [
+					"assets/scss/**/*.scss"
+				],
+				"compatibility": ">ie11",
+				"dest": "./css"
+			},
+			"javascript": {
+				"assets": "assets/js/**/*.js",
+				"libraries": [],
+				"dest": "./js"
+			}
+		}
 	}
 }

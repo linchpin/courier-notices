@@ -24,3 +24,6 @@ Session.vim
 Thumbs.db
 Desktop.ini
 vendor
+css/fonts/
+js/courier-notices.js
+js/courier-notices-admin.js

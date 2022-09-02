@@ -9,7 +9,7 @@
 /vendor/dealerdirect
 /vendor/phpcompatibility
 /vendor/php-parallel-lint
-
+/zip
 gulpfile.babel.js
 yarn.lock
 config.yml
