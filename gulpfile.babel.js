@@ -1,65 +1,62 @@
 'use strict';
-let gulp          = require('gulp');
-let plugins       = require('gulp-load-plugins');
-let yargs         = require('yargs');
-let rimraf        = require('rimraf');
-let yaml          = require('js-yaml');
-let fs            = require('fs');
-let webpackStream = require('webpack-stream');
-let webpack2      = require('webpack');
-let named         = require('vinyl-named');
-let autoprefixer  = require('autoprefixer');
-let through2      = require('through2');
-let sass          = require('gulp-sass')(require('node-sass'));
 
-// Load all Gulp plugins into one variable
-const $ = plugins();
+const yargs         = require('yargs');
+const { task, src, series, parallel, watch, dest } = require( 'gulp' );
+const fs            = require( 'fs-extra' )
+const webpack       = require( 'webpack-stream' );
+const uglify        = require( 'gulp-uglify' );
+const gif           = require( 'gulp-if' );
+const log           = require( 'fancy-log' );
+const autoprefixer  = require( 'autoprefixer' );
+const sourcemaps    = require( 'gulp-sourcemaps' );
+const sass          = require( 'gulp-sass' )( require('node-sass') );
 
-let PRODUCTION = !!(yargs.argv.production); // Check for --production flag
-let VERSION_BUMP = yargs.argv.release;      // Check for --release (x.x.x semver version number)
+let config       = {};
+let isProduction = !!( yargs.argv.production ); // Check for --production flag
 
 /**
- * Load in additional config files
+ * Load our configuration from package.json
+ *
+ * @since 1.5.0 Updated to load config from package.json instead of config.yml
+ *
+ * @since 1.0.0
+ *
+ * @param done
  */
-const loadConfig = () => {
-	let ymlFile = fs.readFileSync('config.yml', 'utf8');
-	return yaml.load(ymlFile);
+const loadConfig = ( done ) => {
 
+	fs.readJson( './package.json' )
+		.then( packageObj => {
+			config                 = packageObj.buildconfig;
+			config.webpack.mode    = ( isProduction ? 'production' : 'development' );
+			config.webpack.devtool = ! isProduction && 'source-map'
+			config.webpack.module.rules[0].use.options.compact = ( isProduction ) ? true : false;
+			done();
+		})
+		.catch( err => {
+			log(err);
+			done();
+		} );
 }
 
-// Load settings from settings.yml
-const {COMPATIBILITY, PORT, UNCSS_OPTIONS, PATHS, LOCAL_PATH} = loadConfig();
-
+/**
+ * Define our sass configuration
+ *
+ * @since 1.0
+ *
+ * @type {{mode: (boolean)}}
+ */
 let sassConfig = {
-	mode: (PRODUCTION ? true : false)
+	mode: (isProduction ? true : false)
 };
 
-// Define default webpack object
-let webpackConfig = {
-	mode: (PRODUCTION ? 'production' : 'development'),
-	module: {
-		rules: [
-			{
-				test: /\.js$/,
-				use: {
-					loader: 'babel-loader',
-					options: {
-						presets: ["@babel/preset-env"],
-						compact: false
-					}
-				}
-			}
-		]
-	},
-	externals: {
-		jquery: 'jQuery',
-	},
-	devtool: !PRODUCTION && 'source-map',
-	output: {
-		chunkLoading: false,
-		wasmLoading: false
-	}
-};
+/**
+ * This happens every time a build starts.
+ * Cleanup our javascript folder.
+ */
+const clean = ( done ) => {
+	fs.remove( 'js', done );
+}
 
 
 /**
@@ -68,187 +65,13 @@ let webpackConfig = {
  * @param done
  */
 const setProductionMode = ( done ) => {
-	PRODUCTION            = false;
-	webpackConfig.mode    = 'production';
-	webpackConfig.devtool = false;
-	sassConfig.production = true;
-	done();
-
-}
-
-/**
- * This happens every time a build starts
- * @since 1.0
- *
- * @param done
- */
-const clean = ( done ) => {
-	rimraf('css', done);
-	rimraf('js', done);
-
+	isProduction             = false;
+	config.webpack.mode    = 'production';
+	config.webpack.devtool = false;
+	sassConfig.production  = true;
 	done();
 }
 
-
-/**
- * Create a README.MD file for github from the WordPress.org readme
- *
- * @since 1.0
- */
-const readme = ( done ) => {
-	return gulp.src([PATHS.readme])
-		.pipe($.readmeToMarkdown({
-			details: false,
-			screenshot_ext: ['jpg', 'jpg', 'png'],
-			extract: {
-				'Frequently Asked Questions': 'FAQ'
-			}
-		}))
-		.pipe(gulp.dest('./')
-		);
-}
-
-/**
- * Bump the version number within the define method of our plugin file
- * PHP Constant: example `define( 'COURIER_NOTICES_PRO_VERSION', '1.0.0' );`
- *
- * Bump the version number within our meta data of the plugin file
- *
- * Update the release date with today's date
- *
- * @since 1.0
- *
- * @return {*}
- */
-const bumpPluginFile = ( done ) => {
-
-	let constant = 'COURIER_NOTICES_VERSION';
-	let define_bump_obj = {
-		key: constant,
-		regex: new RegExp('([<|\'|"]?(' + constant + ')[>|\'|"]?[ ]*[:=,]?[ ]*[\'|"]?[a-z]?)(\\d+.\\d+.\\d+)(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z\\.-]+)?([\'|"|<]?)', 'ig')
-	};
-
-	let bump_obj = {
-		key: 'Version',
-	};
-
-	if ( VERSION_BUMP ) {
-		bump_obj.version        = VERSION_BUMP;
-		define_bump_obj.version = VERSION_BUMP;
-	}
-
-	let today = getReleaseDate();
-
-	return gulp.src('./courier-notices.php')
-		.pipe($.bump(bump_obj))
-		.pipe($.bump(define_bump_obj))
-		.pipe($.replace(/(((0)[0-9])|((1)[0-2]))(\/)([0-2][0-9]|(3)[0-1])(\/)\d{4}/ig, today))
-		.pipe(through2.obj(function (file, enc, cb) {
-			let date        = new Date();
-			file.stat.atime = date;
-			file.stat.mtime = date;
-			cb(null, file);
-		}))
-		.pipe(gulp.dest('./'));
-}
-
-/**
- * Update the what's new template with the date of the release instead of having to manually update it every release
- *
- * @since 1.0.4
- *
- * @return {*}
- */
-const getReleaseDate = () => {
-	let today = new Date();
-	let dd    = String(today.getDate()).padStart(2, '0');
-	let mm    = String(today.getMonth() + 1).padStart(2, '0');
-	let yyyy  = today.getFullYear();
-
-	return mm + '/' + dd + '/' + yyyy;
-}
-
-/**
- * Bump the composer.json
- *
- * @since 1.0.4
- *
- * @return {*}
- */
-const bumpComposerJson = () => {
-
-	let bump_obj = {
-		key: 'version'
-	};
-
-	if (VERSION_BUMP) {
-		bump_obj.version = VERSION_BUMP;
-	}
-
-	return gulp.src('./' + PATHS.composer)
-		.pipe($.bump(bump_obj))
-		.pipe(through2.obj(function (file, enc, cb) {
-			let date = new Date();
-			file.stat.atime = date;
-			file.stat.mtime = date;
-			cb(null, file);
-		}))
-		.pipe(gulp.dest('.'));
-}
-
-/**
- * bump readme file stable tag to our latest version
- *
- * @since 1.0.4
- *
- * @return {*}
- */
-const bumpReadmeStableTag = () => {
-
-	let bump_obj = {key: "Stable tag"};
-
-	if (VERSION_BUMP) {
-		bump_obj.version = VERSION_BUMP;
-	}
-
-	return gulp.src('./' + PATHS.readme )
-		.pipe($.bump(bump_obj))
-		.pipe(through2.obj(function (file, enc, cb) {
-			let date = new Date();
-			file.stat.atime = date;
-			file.stat.mtime = date;
-			cb(null, file);
-		}))
-		.pipe(gulp.dest('./'));
-}
-
-/**
- * Bump the package.json
- *
- * @since 1.1
- *
- * @return {*}
- */
-const bumpPackageJson = () => {
-
-	let bump_obj = {
-		key: 'version'
-	};
-
-	if (VERSION_BUMP) {
-		bump_obj.version = VERSION_BUMP;
-	}
-
-	return gulp.src( './' + PATHS.package)
-		.pipe($.bump(bump_obj))
-		.pipe(through2.obj(function (file, enc, cb) {
-			let date = new Date();
-			file.stat.atime = date;
-			file.stat.mtime = date;
-			cb(null, file);
-		}))
-		.pipe(gulp.dest('.'));
-}
 
 /**
  * Copy files out of the assets folder
@@ -259,24 +82,24 @@ const bumpPackageJson = () => {
  * @return {*}
  */
 const copy = () => {
-	return gulp.src(PATHS.assets)
-		.pipe(gulp.dest('css/fonts'));
+	return src( config.gulp.fonts.assets ).pipe( dest( config.gulp.fonts.dest ) );
 }
 
 /**
- * In production, the CSS is compressed
+ * Build our Sass into css
+ * When in production mode, compress and do not use sourcemaps
  *
  * @since 1.0
  *
  * @return {*}
  */
 const buildSass = () => {
-	return gulp.src(PATHS.sass)
-		.pipe($.sourcemaps.init())
-		.pipe(sass({
-			includePaths: PATHS.sass
-		}).on('error', sass.logError))
-		.pipe(gulp.dest('css'));
+	return src( config.gulp.sass.assets )
+		.pipe( sourcemaps.init() )
+		.pipe( sass({
+			includePaths: config.gulp.sass.assets
+		}).on('error', sass.logError ) )
+		.pipe( dest( config.gulp.sass.dest ) );
 }
 
 /**
@@ -287,80 +110,67 @@ const buildSass = () => {
  * @return {*}
  */
 const javascript = () => {
-	return gulp.src(PATHS.entries)
-		.pipe(named())
-		.pipe($.sourcemaps.init())
-		.pipe(webpackStream(webpackConfig, webpack2))
-		.pipe($.if(PRODUCTION, $.uglify()
-			.on('error', e => {
-				console.log(e);
-			})
-		))
-		.pipe($.if(!PRODUCTION, $.sourcemaps.write()))
-		.pipe(gulp.dest('js'));
+	return src( config.gulp.javascript.assets, { sourcemaps: isProduction } )
+		.pipe( webpack( config.webpack ) )
+		.pipe(
+			gif(
+				isProduction,
+				uglify().on( 'error', console.log )
+			) )
+		.pipe( dest( config.gulp.javascript.dest ) );
+
 }
+
 
 /**
- * Watch for changes to static assets
+ * Watch for changes to assets
  * Sass
  * JavaScript
- * readme.txt
  *
- * @since 1.1
+ * @since 1.5.0
  */
-const watch = () => {
-	gulp.watch( PATHS.readme , readme );
-	gulp.watch( PATHS.sass ).on('all', buildSass );
-	gulp.watch( PATHS.js ).on('all', gulp.series( javascript ) );
-	gulp.watch( PATHS.assets, copy );
+
+const watchChanges = () => {
+	watch( config.gulp.javascript.assets ).on(
+		'all',
+		series( javascript )
+	);
+
+	watch( config.gulp.sass.assets ).on(
+		'all',
+		series( buildSass )
+	);
+
 }
 
-// Generate the changelog.md from the readme.txt
-gulp.task(
-	'readme',
-	gulp.series(
-		readme,
-		copy
-	)
-);
 
-// Build the site, run the server, and watch for file changes
-gulp.task(
+/**
+ * Build the plugin, and watch for file changes.
+ */
+task(
 	'default',
-	gulp.series(
+	series(
+		loadConfig,
 		clean,
 		javascript,
 		buildSass,
 		copy,
-		gulp.parallel(watch)
+		parallel( watchChanges )
 	)
 );
 
-// Build the "dist" folder by running all of the below tasks
-// Sass must be run later so UnCSS can search for used classes in the others assets.
-gulp.task(
-	'build:release',
-	gulp.series(
-		setProductionMode,
-		clean,
-		javascript,
-		buildSass,
-		bumpPluginFile,
-		bumpPackageJson,
-		bumpReadmeStableTag,
-		bumpComposerJson,
-		readme,
-		copy
-	)
-);
 
-// Build the "dist" folder by running all of the below tasks
-gulp.task(
+/**
+ * Build the distributed version of the plugin.
+ */
+task(
 	'build',
-	gulp.series(
+	series(
+		loadConfig,
 		setProductionMode,
 		clean,
 		javascript,
 		buildSass,
+		copy
 	)
 );
