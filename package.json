@@ -63,7 +63,7 @@
 		"wasmLoading": false
 	},
 	"resolutions": {
-		"glob-parent": "5.1.2",
+		"glob-parent": "6.0.2",
 		"semver": "7.3.7",
 		"trim-newlines": "4.0.2",
 		"meow": "10.1.3",
