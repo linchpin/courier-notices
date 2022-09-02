@@ -34,12 +34,11 @@
 		"gulp-cli": "2.3.0",
 		"gulp-concat": "2.6.1",
 		"gulp-if": "3.0.0",
-		"gulp-postcss": "9.0.1",
 		"gulp-sass": "5.1.0",
 		"gulp-sourcemaps": "3.0.0",
 		"gulp-uglify": "3.0.2",
 		"husky": "^8.0.1",
-		"node-sass": "^7.0.1",
+		"sass": "^1.54.8",
 		"webpack": "5.73.0",
 		"webpack-stream": "7.0.0",
 		"yargs": "17.5.1"

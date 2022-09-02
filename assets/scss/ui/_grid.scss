@@ -8,7 +8,7 @@
 
 @for $i from 1 through 12  {
 	.courier-columns-#{$i} {
-		width: ($i/12) * 100%;
+		width: calc($i/12) * 100%;
 	}
 }
 
@@ -16,10 +16,10 @@
 	.courier-columns-#{$i} {
 		@for $j from 1 through $i {
 			.courier-offset-#{$j} {
-				padding-left: 100% * $j/$i;
+				padding-left: 100% * calc($j/$i);
 
 				&.block-content:before {
-					right: 100% - (($j/$i) * 100%);
+					right: 100% - (calc($j/$i) * 100%);
 				}
 			}
 		}

@@ -9,7 +9,7 @@ const gif           = require( 'gulp-if' );
 const log           = require( 'fancy-log' );
 const autoprefixer  = require( 'autoprefixer' );
 const sourcemaps    = require( 'gulp-sourcemaps' );
-const sass          = require( 'gulp-sass' )( require('node-sass') );
+const sass          = require( 'gulp-sass' )( require('sass') );
 
 let config       = {};
 let isProduction = !!( yargs.argv.production ); // Check for --production flag
