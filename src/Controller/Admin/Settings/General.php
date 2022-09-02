@@ -268,7 +268,6 @@ class General {
 			$tab_section
 		);
 
-
 		/**
 		 * Add settings field
 		 *
