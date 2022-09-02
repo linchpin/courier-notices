@@ -4,7 +4,7 @@
  * Plugin URI:  https://wordpress.org/plugins/courier-notices
  * Description: A way to display, manage, and control front end notifications for your WordPress install.
  * x-release-please-start-version
- * Version:     1.4.6
+ * Version:     1.4.7
  * x-release-please-end
  * Author:      Linchpin
  * Author URI:  https://linchpin.com
@@ -25,7 +25,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 if ( ! defined( 'COURIER_NOTICES_VERSION' ) ) {
 	// x-release-please-start-version
-	define( 'COURIER_NOTICES_VERSION', '1.4.6' );
+	define( 'COURIER_NOTICES_VERSION', '1.4.7' );
 	// x-release-please-end
 }
 

@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.7](https://github.com/linchpin/courier-notices/compare/v1.4.6...v1.4.7) (2022-09-02)
+
+
+### Features
+
+* Add documentation ([41c0792](https://github.com/linchpin/courier-notices/commit/41c0792c48243a9c279c2424d99ca0dba13fda72))
+
+
+### Bug Fixes
+
+* **deps:** update npm ([819c875](https://github.com/linchpin/courier-notices/commit/819c87533d6c68f6cb7b91a4fbc0a0db401083f0))
+* **Model:** Fixing a fatal error when referencing settings ([cca0ad1](https://github.com/linchpin/courier-notices/commit/cca0ad19b7a794388480bf7b342438425be23292))
+
+
+### Miscellaneous Chores
+
+* build assets ([9b94151](https://github.com/linchpin/courier-notices/commit/9b94151d9222ffe369484e6558565bb7199370d7))
+* **deps:** update 10up/action-wordpress-plugin-deploy action to v2.1.1 ([1b3cb5a](https://github.com/linchpin/courier-notices/commit/1b3cb5a77c9a83797edb1ca9dd11b0646b62da8f))
+* **deps:** update dependency glob-parent to v6 ([b181bb6](https://github.com/linchpin/courier-notices/commit/b181bb60a70a0ed32a7419cf4e01283280b5a32c))
+* **deps:** update node.js to v16 ([4802101](https://github.com/linchpin/courier-notices/commit/48021017e36559e1fefff2de2ead74910c8426c2))
+* **deps:** update peter-evans/create-pull-request action to v4 ([a6deef5](https://github.com/linchpin/courier-notices/commit/a6deef5042e319a8e28e94ffb1707b9ac7e92c68))
+* generate build assets ([a739466](https://github.com/linchpin/courier-notices/commit/a739466f0e7d6f34f6a6bc1a9738714bada03794))
+* Make sure additional files can be updated ([38334e1](https://github.com/linchpin/courier-notices/commit/38334e12e6b32c6be810f5e9d379a5e314607952))
+* update lock file ([9b94151](https://github.com/linchpin/courier-notices/commit/9b94151d9222ffe369484e6558565bb7199370d7))
+* Updated timestamp of plugin update ([38334e1](https://github.com/linchpin/courier-notices/commit/38334e12e6b32c6be810f5e9d379a5e314607952))
+
 ## [Unreleased]
 
 ## [1.4.6] - 2022-05-24
