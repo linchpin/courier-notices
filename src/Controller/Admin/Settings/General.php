@@ -268,25 +268,6 @@ class General {
 			$tab_section
 		);
 
-		/**
-		 * Add settings field
-		 *
-		 * @todo this doesn't do anything yet.
-		 */
-		add_settings_field(
-			'ajax_notices',
-			esc_html__( 'Use Ajax to display courier notices?', 'courier-notices' ),
-			array( '\CourierNotices\Controller\Admin\Fields\Fields', 'add_checkbox' ),
-			$tab_section,
-			'courier_general_settings_section',
-			array(
-				'field'       => 'ajax_notices',
-				'section'     => $tab_section,
-				'options'     => 'courier_settings',
-				'label'       => esc_html__( 'Yes use Ajax', 'courier-notices' ),
-				'description' => esc_html__( 'Using ajax allows for Courier Notices to potentially load quicker. It also helps with issues that may come up with more advanced caching (Varnish, or other full page caching)', 'courier-notices' ),
-			)
-		);
 
 		/**
 		 * Add settings field
