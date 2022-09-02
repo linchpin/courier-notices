@@ -65,7 +65,8 @@
 			"@php ./vendor/phpunit/phpunit/phpunit"
 		],
 		"lint-fix": "phpcbf .",
-		"php-cs-fixer": "./vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix ./ --config=./.php-cs-fixer.dist.php"
+		"php-cs-fixer": "./vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix ./ --config=./.php-cs-fixer.dist.php",
+		"create-wiki": "phpDocumentor --directory=application --target=wiki --template='vendor/saggre/phpdocumentor-markdown/themes/markdown'"
 	},
   "config": {
     "allow-plugins": {
