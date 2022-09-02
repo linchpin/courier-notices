@@ -17,30 +17,36 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Utility method to add a new notice within the system.
  *
- * @since 1.2.0
- *
  * @param string       $notice      The notice text.
  * @param string|array $types       The type(s) of notice.
  * @param bool         $global      Whether this notice is global or not.
  * @param bool         $dismissible Whether this notice is dismissible or not.
  * @param int          $user_id     The ID of the user this notice is for.
  *
- * @return bool
+ * @since 1.2.0
+ *
+ * @return bool|int Return either false or the Post ID for the created courier_notice.
  */
 function courier_notices_add_notice( $notice = '', $types = array( 'Informational' ), $global = false, $dismissible = true, $user_id = 0, $style = 'Informational', $placement = array( 'header' ) ) {
 	$user_id = empty( $user_id ) ? get_current_user_id() : intval( $user_id );
 
-	$notice_args = array(
+	if ( 0 !== $user_id ) {
+		$slug = 'courier-' . sanitize_title( $notice ) . '-' . $user_id;
+	} else {
+		$slug = uniqid( 'courier-' );
+	}
+
+	$notice_args = [
 		'post_type'    => 'courier_notice',
 		'post_status'  => 'publish',
 		'post_author'  => $user_id,
-		'post_name'    => uniqid(),
+		'post_name'    => $slug,
 		'post_title'   => empty( $notice['post_title'] ) ? '' : sanitize_text_field( $notice['post_title'] ),
 		'post_excerpt' => empty( $notice['post_excerpt'] ) ? '' : wp_kses_post( $notice['post_excerpt'] ),
 		'post_content' => empty( $notice['post_content'] ) ? '' : wp_kses_post( $notice['post_content'] ),
-	);
+	];
 
-	// If the notice won't have any content in it, just bail.
+	// If the notice doesn't have any content in it, just bail.
 	if ( empty( $notice_args['post_content'] ) ) {
 		if ( empty( $notice_args['post_title'] ) ) {
 			return '';
