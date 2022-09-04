@@ -2,8 +2,11 @@ on:
   push:
     branches:
       - master
+      - !release-please-*
+      - !renovate/*
     tags:
       - 'v*'
+      - '!maintenance'
     paths:
       - .github/workflows/wiki.yml
       - '**.php'

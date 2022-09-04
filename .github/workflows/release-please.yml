@@ -16,8 +16,3 @@ jobs:
           bump-minor-pre-major: true
           token: ${{ secrets.GH_BOT_TOKEN }}
           versioning-strategy: always-bump-patch
-          extra-files: |
-            README.md
-            package.json
-            courier-notices.php
-            readme.txt

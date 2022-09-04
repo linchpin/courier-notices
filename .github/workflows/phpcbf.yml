@@ -1,10 +1,11 @@
 on:
   pull_request:
-    branches-ignore:
+    branches:
       # Do not run on auto submitted branches
-      - '**-phpcbf'
-      - 'dependabot/'
-      - 'renovate/'
+      - '!**-phpcbf'
+      - '!dependabot/'
+      - '!renovate/'
+      - '!release-please-**'
     paths:
       - '**.php'
 
