@@ -41,3 +41,5 @@ See changelog https://github.com/linchpin/courier-notices/blob/master/CHANGELOG.
 Displays a Courier notice based on the Courier post ID, displays a flag to call out the notice as well.
 
 Flag prepends a span containing the string in the flag parameter, to display no flag set "show_flag" to false.
+
+![Linchpin](https://github.com/linchpin/brand-assets/blob/master/github-banner@2x.jpg)
