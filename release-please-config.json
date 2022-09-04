@@ -1,0 +1,33 @@
+{
+	"release-type": "php",
+	"package-name": "courier-notices",
+	"extra-files": [
+		{
+			"type": "json",
+			"path": "package.json",
+			"jsonpath": "$.version"
+		},
+		"README.md",
+		"readme.txt",
+		"courier-notices.php"
+	],
+	"changelog-sections": [
+		{ "type": "feat", "section": "Features ✨" },
+		{ "type": "feature", "section": "Features ✨" },
+		{ "type": "fix", "section": "Bug Fixes 🐛" },
+		{ "type": "docs", "section": "Documentation 📚" },
+		{ "type": "style", "section": "Styles 💄" },
+		{ "type": "test", "section": "Tests 🧪" },
+		{ "type": "perf", "section": "Performance Improvements ⚡️" },
+		{ "type": "chore", "section": "Miscellaneous Chores 🧹" },
+		{ "type": "tweak", "section": "Changes to Existing Features \uD83D\uDC85" },
+		{ "type": "refactor", "section": "Changes to Existing Features \uD83D\uDC85" },
+		{ "type": "improve", "section": "Changes to Existing Features \uD83D\uDC85" },
+		{ "type": "revert", "section": "Reverts ⏪️" },
+		{ "type": "docs", "section": "Documentation", "hidden": true },
+		{ "type": "style", "section": "Styles", "hidden": true },
+		{ "type": "refactor", "section": "Code Refactoring", "hidden": true },
+		{ "type": "build", "section": "Build System ", "hidden": true },
+		{ "type": "ci", "section": "Continuous Integration", "hidden": true }
+	]
+}
