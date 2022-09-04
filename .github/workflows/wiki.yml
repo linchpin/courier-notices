@@ -2,8 +2,8 @@ on:
   push:
     branches:
       - master
-      - !release-please-*
-      - !renovate/*
+      - '!release-please-*'
+      - '!renovate/*'
     tags:
       - 'v*'
       - '!maintenance'
