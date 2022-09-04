@@ -1,16 +1,21 @@
 {
 	"release-type": "php",
 	"package-name": "courier-notices",
-	"extra-files": [
-		{
-			"type": "json",
-			"path": "package.json",
-			"jsonpath": "$.version"
-		},
-		"README.md",
-		"readme.txt",
-		"courier-notices.php"
-	],
+	"packages": {
+		".": {
+			"extra-files": [
+				{
+					"type": "json",
+					"path": "package.json",
+					"jsonpath": "$.version"
+				},
+				"README.md",
+				"readme.txt",
+				"courier-notices.php"
+			]
+		}
+	},
+
 	"changelog-sections": [
 		{ "type": "feat", "section": "Features ✨" },
 		{ "type": "feature", "section": "Features ✨" },
