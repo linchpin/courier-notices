@@ -4,11 +4,7 @@
 	"packages": {
 		".": {
 			"extra-files": [
-				{
-					"type": "json",
-					"path": "package.json",
-					"jsonpath": "$.version"
-				},
+				"package.json",
 				".release-please-manifest.json",
 				"README.md",
 				"readme.txt",
