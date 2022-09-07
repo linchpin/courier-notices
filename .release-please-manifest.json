@@ -1,3 +1,17 @@
 {
-	".": "1.4.7"
+	".": "1.4.7",
+	"packages": {
+		".": {
+			"extra-files": [
+				{
+					"type": "json",
+					"path": "package.json",
+					"jsonpath": "$.version"
+				},
+				"README.md",
+				"readme.txt",
+				"courier-notices.php"
+			]
+		}
+	}
 }
