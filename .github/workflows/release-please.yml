@@ -8,6 +8,8 @@ jobs:
   release-please:
     if: github.event_name != 'pull_request' && github.event.pull_request.merged != true
     runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
     steps:
       - uses: google-github-actions/release-please-action@v3
         with:
@@ -17,7 +19,6 @@ jobs:
           bump-minor-pre-major: true
           token: ${{ secrets.GH_BOT_TOKEN }}
           versioning-strategy: always-bump-patch
-
 
   build:
     needs: release-please

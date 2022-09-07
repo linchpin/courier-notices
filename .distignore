@@ -34,3 +34,12 @@ DOCKER_ENV
 composer.json
 yarn-error.log
 courier-notices.zip
+.husky
+.release-please-manifest.json
+.yarnrc.yml
+/wiki
+output.log
+phpdoc.dist.xml
+release-please-config.json
+docker_tag
+package.json
