@@ -7,8 +7,9 @@ const webpack       = require( 'webpack-stream' );
 const uglify        = require( 'gulp-uglify' );
 const gif           = require( 'gulp-if' );
 const log           = require( 'fancy-log' );
-const autoprefixer  = require( 'autoprefixer' );
 const sourcemaps    = require( 'gulp-sourcemaps' );
+const autoprefixer  = require( 'autoprefixer' );
+const postcss       = require( 'gulp-postcss' );
 const sass          = require( 'gulp-sass' )( require('sass') );
 
 let config       = {};
@@ -94,11 +95,18 @@ const copy = () => {
  * @return {*}
  */
 const buildSass = () => {
+
 	return src( config.gulp.sass.assets )
 		.pipe( sourcemaps.init() )
 		.pipe( sass({
 			includePaths: config.gulp.sass.assets
 		}).on('error', sass.logError ) )
+		.pipe( postcss([ autoprefixer() ] ) )
+		.pipe(
+			gif(
+				isProduction,
+				sourcemaps.write(config.gulp.sass.dest )
+			) )
 		.pipe( dest( config.gulp.sass.dest ) );
 }
 
@@ -129,7 +137,6 @@ const javascript = () => {
  *
  * @since 1.5.0
  */
-
 const watchChanges = () => {
 	watch( config.gulp.javascript.assets ).on(
 		'all',

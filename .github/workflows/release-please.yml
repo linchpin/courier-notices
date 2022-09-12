@@ -12,6 +12,7 @@ jobs:
       release_created: ${{ steps.release.outputs.release_created }}
     steps:
       - uses: google-github-actions/release-please-action@v3
+        id: release
         with:
           command: manifest
           release-type: php

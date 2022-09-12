@@ -3,7 +3,7 @@
 	"package-name": "courier-notices",
 	"packages": {
 		".": {
-			"release-type": "simple",
+			"release-type": "php",
 			"extra-files": [
 				{
 					"type": "json",
