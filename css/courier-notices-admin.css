@@ -372,13 +372,10 @@ body.wp-admin table.courier_notice_page_courier [class*=icon-] {
 .post-type-courier_notice .ui-datepicker {
   padding: 0;
   margin: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
   border-radius: 0;
   background-color: #fff;
   border: 1px solid #dfdfdf;
   border-top: none;
-  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.075);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.075);
   min-width: 17em;
   width: auto;
@@ -873,8 +870,6 @@ body.wp-admin table.courier_notice_page_courier [class*=icon-] {
   width: 25px;
   height: 25px;
   box-shadow: 6px 5px 9px -9px black;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
 
@@ -1979,7 +1974,6 @@ pre.courier-notice-type-css-class {
   position: absolute;
   top: 0;
   left: 0;
-  -webkit-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
   background: none;
   color: #b4b9be;
@@ -2336,7 +2330,6 @@ body.courier_notice_page_courier .wp-list-table.courier_notice_page_courier tr:h
   font-style: normal;
   vertical-align: top;
   text-align: center;
-  -webkit-transition: color 0.1s ease-in 0;
   transition: color 0.1s ease-in 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -2351,7 +2344,6 @@ body.courier_notice_page_courier .wp-list-table.courier_notice_page_courier tr:h
   font-style: normal;
   vertical-align: top;
   text-align: center;
-  -webkit-transition: color 0.1s ease-in 0;
   transition: color 0.1s ease-in 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -2366,7 +2358,6 @@ body.courier_notice_page_courier .wp-list-table.courier_notice_page_courier tr:h
   font-style: normal;
   vertical-align: top;
   text-align: center;
-  -webkit-transition: color 0.1s ease-in 0;
   transition: color 0.1s ease-in 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
