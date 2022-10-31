@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1](https://github.com/linchpin/courier-notices/compare/courier-notices-v1.5.0...courier-notices-v1.5.1) (2022-09-12)
+
+
+### Changes to Existing Features 💅
+
+* Updated the distigore to remove unneeded files ([576d020](https://github.com/linchpin/courier-notices/commit/576d020afb6d8e9bc08d134181bd861cf6234f0f))
+* Updated the release please workflow ([6844a9f](https://github.com/linchpin/courier-notices/commit/6844a9f7a0556ef99bc3fdb43b77c63c159394ea))
+
 ## [1.5.0](https://github.com/linchpin/courier-notices/compare/courier-notices-v1.4.7...courier-notices-v1.5.0) (2022-09-07)
 
 
