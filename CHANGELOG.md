@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.2](https://github.com/linchpin/courier-notices/compare/courier-notices-v1.5.1...courier-notices-v1.5.2) (2022-10-31)
+
+
+### Bug Fixes 🐛
+
+* **NO-JIRA:** missing dependencies ([ce8a93c](https://github.com/linchpin/courier-notices/commit/ce8a93c94dba842c6881c3c7a91bfd8d520eb02f))
+
 ## [1.5.1](https://github.com/linchpin/courier-notices/compare/courier-notices-v1.5.0...courier-notices-v1.5.1) (2022-09-12)
 
 
