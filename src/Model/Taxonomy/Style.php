@@ -84,6 +84,7 @@ class Style {
 			'show_ui'           => false,
 			'show_admin_column' => false,
 			'query_var'         => true,
+			'show_in_rest'      => true,
 			'rewrite'           => false,
 			'capabilities'      => array(
 				'manage_terms' => 'edit_posts',
