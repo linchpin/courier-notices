@@ -11,7 +11,13 @@ let settings = {
 };
 
 const modal = () => {
-	$window.on( 'load', loadModals );
+	document.readyState === 'complete' ? setupModals() : window.addEventListener( 'load', setupModals );
+}
+
+const setupModals = () => {
+	setTimeout(() => { 
+		loadModals();
+	}, '500' );
 }
 
 /**

@@ -471,7 +471,15 @@ class Data {
 		// Get all the options for showing the title by default
 		$courier_design_options = get_option( 'courier_design', array() );
 
-		$global_show_title_rules = $courier_design_options['enable_title'];
+		if ( array_key_exists( 'enable_title', $courier_design_options ) ) {
+			$global_show_title_rules = $courier_design_options['enable_title'];
+
+			if ( empty( $global_show_title_rules ) ) {
+				$global_show_title_rules = [];
+			}
+		} else {
+			$global_show_title_rules = [];
+		}
 
 		if ( empty( $global_show_title_rules ) ) {
 			$global_show_title_rules = [];
