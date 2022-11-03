@@ -194,26 +194,8 @@ function courier_notices_display_notices( $args = array() ) {
 	$courier_notices_view = new View();
 	$courier_notices_view->assign( 'courier_placement', $courier_placement );
 	$courier_notices_view->assign( 'courier_style', $courier_style );
-
-	if ( isset( $courier_options['ajax_notices'] ) && 1 === intval( $courier_options['ajax_notices'] ) ) {
-		$output = $courier_notices_view->get_text_view( 'notices-ajax' );
-	} else {
-
-		$data = new Courier_Notice_Data();
-
-		// Force notice Post Object
-		$args['ids_only'] = false;
-
-		$notices = $data->get_notices( $args );
-
-		if ( empty( $notices ) ) {
-			return;
-		}
-
-		$courier_notices_view->assign( 'notices', $notices );
-
-		$output = $courier_notices_view->get_text_view( 'notices' );
-	}
+	
+	$output = $courier_notices_view->get_text_view( 'notices-ajax' );
 
 	$output       = apply_filters( 'courier_notices', $output );
 	$allowed_html = Utils::get_safe_markup();
@@ -246,22 +228,8 @@ function courier_notices_display_modals( $args = array() ) {
 	$courier_notices   = new \CourierNotices\Core\View();
 	$courier_notices->assign( 'courier_placement', $courier_placement );
 	$courier_notices->assign( 'courier_style', $courier_style );
-
-	if ( isset( $courier_options['ajax_notices'] ) && 1 === intval( $courier_options['ajax_notices'] ) ) {
-		$output = $courier_notices->get_text_view( 'notices-ajax-modal' );
-	} else {
-
-		$data    = new Courier_Notice_Data();
-		$notices = $data->get_notices( $args );
-
-		if ( empty( $notices ) ) {
-			return;
-		}
-
-		$courier_notices->assign( 'notices', $notices );
-
-		$output = $courier_notices->get_text_view( 'notices-modal' );
-	}
+	
+	$output = $courier_notices->get_text_view( 'notices-ajax-modal' );
 
 	$output       = apply_filters( 'courier_notices_modal', $output );
 	$allowed_html = Utils::get_safe_markup();
