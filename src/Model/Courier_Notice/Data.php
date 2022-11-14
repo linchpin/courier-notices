@@ -485,7 +485,11 @@ class Data {
 			$global_show_title_rules = [];
 		}
 
-		$notice_style_global_show_title = in_array( $courier_style[0]->slug, $global_show_title_rules, true );
+		if ( is_array( $global_show_title_rules ) ) {
+			$notice_style_global_show_title = in_array( $courier_style[0]->slug, $global_show_title_rules, true );
+		} else {
+			$notice_style_global_show_title = false;
+		}
 
 		// If the notice style is set to show the title by default
 		if ( ! empty( $courier_style ) ) {
