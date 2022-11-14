@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.5](https://github.com/linchpin/courier-notices/compare/courier-notices-v1.5.4...courier-notices-v1.5.5) (2022-11-14)
+
+
+### Bug Fixes 🐛
+
+* **#297:** Send just array values to resolve fatal in PHP8 ([d24fb6b](https://github.com/linchpin/courier-notices/commit/d24fb6b2d40f027eeb0eef03a20690fef70c4875))
+* **#298:** Check if title rules array exists ([4c6822f](https://github.com/linchpin/courier-notices/commit/4c6822f6ab7d97f7abb493cfa6991621474528ab))
+
 ## [1.5.4](https://github.com/linchpin/courier-notices/compare/courier-notices-v1.5.3...courier-notices-v1.5.4) (2022-11-03)
 
 
