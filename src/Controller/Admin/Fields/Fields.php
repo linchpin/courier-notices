@@ -106,7 +106,7 @@ class Fields {
 		// @since 1.0
 		// @todo this needs to be cleaned up to meet wpcs
 		$select_options = ( ! empty( $args['options_cb'] ) && is_callable( $args['options_cb'] ) )
-			? call_user_func_array( $args['options_cb'], $args )
+			? call_user_func_array( $args['options_cb'], array_values( $args ) )
 			: $args['options'];
 
 		?>
@@ -163,7 +163,7 @@ class Fields {
 		// @since 1.3.0
 		// @todo this needs to be cleaned up to meet wpcs
 		$select_options = ( ! empty( $args['options_cb'] ) && is_callable( $args['options_cb'] ) )
-			? call_user_func_array( $args['options_cb'], $args )
+			? call_user_func_array( $args['options_cb'], array_values( $args ) )
 			: $args['options'];
 
 		$options = get_option( $args['options'] );
