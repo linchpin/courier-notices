@@ -189,11 +189,6 @@ function courier_notices_get_notices( $args = array() ) {
  */
 function courier_notices_display_notices( $args = array() ) {
 	$courier_placement    = ( ! empty( $args['placement'] ) ) ? $args['placement'] : '';
-
-	if ( empty( $courier_placement ) ) {
-		return false;
-	}
-
 	$courier_style        = ( ! empty( $args['style'] ) ) ? $args['style'] : '';
 	$courier_options      = get_option( 'courier_settings', array() );
 	$courier_notices_view = new View();
