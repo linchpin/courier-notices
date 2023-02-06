@@ -4,7 +4,7 @@ Tags: notifications, notices, alerts, linchpin, front end, dismissible, gdpr
 Requires at least: 5.0
 Tested up to: 6.0.2
 x-release-please-start-version
-Stable tag: 1.5.6
+Stable tag: 1.5.7
 x-release-please-end
 Requires PHP: 7.3
 License: GPLv2 or later

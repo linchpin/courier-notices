@@ -1,6 +1,6 @@
 {
 	"name": "courier-notices",
-	"version": "1.5.6",
+	"version": "1.5.7",
 	"description": "A way to display, manage, and control front end notifications for users, globally or individually, in the header,footer, by shortcode or by page.",
 	"main": "gulpfile.babel.js",
 	"scripts": {
