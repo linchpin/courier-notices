@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.6](https://github.com/linchpin/courier-notices/compare/courier-notices-v1.5.5...courier-notices-v1.5.6) (2023-02-06)
+
+
+### Bug Fixes 🐛
+
+* **#307:** update check for expiration nonce ([6d6ca3f](https://github.com/linchpin/courier-notices/commit/6d6ca3fa2a45f1f7a9a480c54cbd469b8bb68d47))
+
 ## [1.5.5](https://github.com/linchpin/courier-notices/compare/courier-notices-v1.5.4...courier-notices-v1.5.5) (2022-11-14)
 
 
