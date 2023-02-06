@@ -368,7 +368,7 @@ class Courier {
 			}
 		}
 
-		if ( isset( $_POST['courier_expiration_noncename'] ) && wp_verify_nonce( $_POST['courier_expiration_noncename'], 'courier_expiration_nonce' ) ) {
+		if ( isset( $_POST['courier_notices_expiration_noncename'] ) && wp_verify_nonce( $_POST['courier_notices_expiration_noncename'], 'courier_notices_expiration_nonce' ) ) {
 
 			if ( empty( $_POST['courier_expire_date'] ) ) {
 				delete_post_meta( $post_id, '_courier_expiration' );
