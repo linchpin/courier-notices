@@ -31,7 +31,7 @@
   "license": "GPL-2.0-or-later",
   "type": "wordpress-plugin",
   "require": {
-    "php": ">=7.3",
+    "php": ">=8.2.3",
     "erusev/parsedown": "1.7.4"
   },
   "autoload": {
