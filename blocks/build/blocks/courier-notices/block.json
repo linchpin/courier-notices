@@ -1,0 +1,25 @@
+{
+  "apiVersion": 2,
+  "name": "courier-notices/courier-notices",
+  "title": "Courier Notices Block",
+  "category": "widgets",
+  "icon": "courier-notices",
+  "description": "A block to show all of your courier notices where ever you want.",
+  "supports": {
+    "html": false
+  },
+  "attributes": {
+    "displayType": {
+      "type": "string",
+      "default": "carousel"
+    },
+    "perPage": {
+      "type": "number",
+      "default": 1
+    }
+  },
+  "textdomain": "courier-notices",
+  "editorScript": "file:./build/index.js",
+  "editorStyle": "file:./build/index.css",
+  "style": "file:./build/style-index.css"
+}

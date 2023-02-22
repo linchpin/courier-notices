@@ -50,6 +50,10 @@ if ( ! defined( 'COURIER_NOTICES_PLUGIN_NAME' ) ) {
 	define( 'COURIER_NOTICES_PLUGIN_NAME', esc_html__( 'Courier Notices', 'courier-notices' ) );
 }
 
+if ( ! defined( 'COURIER_NOTICES_BLOCK_PATH' ) ) {
+	define( 'COURIER_NOTICES_BLOCK_PATH', trailingslashit( __DIR__ ) . 'blocks/' );
+}
+
 /**
  * Allow for easier debugging. Should only be true to obviously debug
  *

@@ -19,17 +19,17 @@ class Admin {
 	 * @since 1.0
 	 */
 	public function register_actions() {
-		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
+		add_action( 'admin_notices', [ $this, 'admin_notices' ] );
 
-		add_action( 'manage_courier_notice_posts_custom_column', array( $this, 'manage_posts_custom_column' ), 10, 2 );
-		add_filter( 'manage_courier_notice_posts_columns', array( $this, 'manage_posts_columns' ), 998 );
+		add_action( 'manage_courier_notice_posts_custom_column', [ $this, 'manage_posts_custom_column' ], 10, 2 );
+		add_filter( 'manage_courier_notice_posts_columns', [ $this, 'manage_posts_columns' ], 998 );
 
-		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ), 10, 1 );
+		add_filter( 'post_updated_messages', [ $this, 'post_updated_messages' ], 10, 1 );
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ) );
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_styles' ] );
 
-		add_action( 'restrict_manage_posts', array( $this, 'filter_courier_notices' ), 10, 2 );
+		add_action( 'restrict_manage_posts', [ $this, 'filter_courier_notices' ], 10, 2 );
 
 		if ( ! empty( $_GET['post_type'] ) && 'courier_notice' === $_GET['post_type'] ) { // @codingStandardsIgnoreLine
 			add_filter( 'months_dropdown_results', '__return_empty_array' );
@@ -39,9 +39,10 @@ class Admin {
 
 
 	/**
-	 * Override the publish message to not show a link to the notice
+	 * Override the "publish" message to not show a link to the notice
 	 *
 	 * @since 1.0
+	 *
 	 * @param array $messages Array of post type messages
 	 *
 	 * @return array Array of messages
@@ -63,7 +64,7 @@ class Admin {
 	 *
 	 * @return array
 	 */
-	public function manage_posts_columns( $columns ) {
+	public function manage_posts_columns( array $columns ): array {
 		if ( empty( $_GET['post_type'] ) || 'courier_notice' !== $_GET['post_type'] ) { // @codingStandardsIgnoreLine
 			return $columns;
 		}
@@ -79,13 +80,13 @@ class Admin {
 				'courier-placement' => esc_html__( 'Placement', 'courier-notices' ),
 				'courier-date'      => wp_kses(
 					__( 'Expiration <a href="#" class="courier-info-icon courier-help" title="Non-expiry notices do not expire and will always be shown to users if the notice is not dismissable">?</a>', 'courier-notices' ),
-					array(
-						'a' => array(
-							'href'  => array(),
-							'title' => array(),
-							'class' => array(),
-						),
-					)
+					[
+						'a' => [
+							'href'  => [],
+							'title' => [],
+							'class' => [],
+						],
+					]
 				),
 			)
 		);
@@ -121,7 +122,7 @@ class Admin {
 			case 'courier-type':
 				$types = get_the_terms( $post->ID, 'courier_type' );
 
-				$links = array();
+				$links = [];
 
 				if ( ! empty( $types ) ) :
 					?>
@@ -155,7 +156,7 @@ class Admin {
 
 
 	/**
-	 * When a non global notice is being viewed that has been dismissed,
+	 * When a non-global notice is being viewed that has been dismissed,
 	 * alert the user that the person will not see this notice because it has been dismissed.
 	 *
 	 * @todo this could probably have a filter the output of the markup.
@@ -268,7 +269,7 @@ class Admin {
 
 		$strings = apply_filters( 'courier_notices_admin_strings', $strings ); // Allow filtering of localization strings.
 
-		$courier_notices_admin_data = array(
+		$courier_notices_admin_data = [
 			'post_id'             => ! is_null( $post ) ? $post->ID : 0,
 			'post_type'           => ! is_null( $post ) ? $post->post_type : $current_screen->post_type,
 			'site_uri'            => site_url(),
@@ -282,13 +283,13 @@ class Admin {
 			'update_nonce'        => wp_create_nonce( 'courier_notices_update_type_nonce' ),
 			'delete_nonce'        => wp_create_nonce( 'courier_notices_delete_type_nonce' ),
 			'dismiss_nonce'       => wp_create_nonce( 'courier_notices_dismiss_nonce' ),
-			'current_user'        => array(
+			'current_user'        => [
 				'ID'           => $current_user->ID,
 				'display_name' => $current_user->display_name,
-			),
+			],
 			'version'             => COURIER_NOTICES_VERSION,
 			'strings'             => $strings,
-		);
+		];
 
 		$courier_notices_admin_data = apply_filters( 'courier_notices_admin_data', $courier_notices_admin_data ); // Allow filtering of the entire localized dataset.
 
@@ -312,11 +313,11 @@ class Admin {
 		wp_enqueue_style(
 			'courier-notices-admin-global',
 			COURIER_NOTICES_PLUGIN_URL . 'css/courier-notices-admin-global.css',
-			array(),
+			[],
 			COURIER_NOTICES_VERSION
 		);
 
-		if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'edit.php', 'courier_notice_page_courier' ), true ) ) {
+		if ( ! in_array( $hook, [ 'post-new.php', 'post.php', 'edit.php', 'courier_notice_page_courier' ], true ) ) {
 			return;
 		}
 
@@ -329,13 +330,13 @@ class Admin {
 		wp_enqueue_style(
 			'courier-notices-admin',
 			COURIER_NOTICES_PLUGIN_URL . 'css/courier-notices-admin.css',
-			array(),
+			[],
 			COURIER_NOTICES_VERSION
 		);
 
 		wp_add_inline_style( 'courier-notices-admin', courier_notices_get_css() );
 
-		if ( ! in_array( $hook, array( 'courier_notice_page_courier' ), true ) ) {
+		if ( ! in_array( $hook, [ 'courier_notice_page_courier' ], true ) ) {
 			return;
 		}
 
@@ -390,7 +391,7 @@ class Admin {
 		}
 
 		// A list of taxonomy slugs to filter by.
-		$taxonomies = array( 'courier_type', 'courier_style', 'courier_placement', 'courier_status' );
+		$taxonomies = [ 'courier_type', 'courier_style', 'courier_placement', 'courier_status' ];
 
 		foreach ( $taxonomies as $taxonomy_slug ) {
 
@@ -399,7 +400,7 @@ class Admin {
 			$selected      = ( isset( $_GET[ $taxonomy_slug ] ) && '' !== $_GET[ $taxonomy_slug ] ) ? sanitize_text_field( $_GET[ $taxonomy_slug ] ) : ''; // @codingStandardsIgnoreLine
 
 			wp_dropdown_categories(
-				array(
+				[
 					// translators: %1$s escaped taxonomy name.
 					'show_option_all' => sprintf( __( 'All %1$s', 'courier-notices' ), esc_html( $taxonomy_name ) ),
 					'orderby'         => 'name',
@@ -408,7 +409,7 @@ class Admin {
 					'name'            => $taxonomy_slug,
 					'hide_empty'      => false,
 					'selected'        => $selected,
-				)
+				]
 			);
 		}
 

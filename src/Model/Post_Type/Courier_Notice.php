@@ -9,37 +9,31 @@ namespace CourierNotices\Model\Post_Type;
 use CourierNotices\Model\Config;
 
 /**
- * Courier_Notice Class
+ * Class Courier_Notice
  */
 class Courier_Notice {
 
-	/**
-	 * Configuration
-	 *
-	 * @var Config
-	 */
-	private $config;
 
 	/**
 	 * Notice Name
 	 *
 	 * @var string
 	 */
-	public $name = 'courier_notice';
+	public $post_type = 'courier_notice';
 
 	/**
 	 * Labels
 	 *
 	 * @var array
 	 */
-	private $labels = array();
+	private $labels = [];
 
 	/**
 	 * Arguments
 	 *
 	 * @var array
 	 */
-	private $args = array();
+	private $args = [];
 
 
 	/**
@@ -50,7 +44,7 @@ class Courier_Notice {
 	public function __construct() {
 		$this->config = new Config();
 
-		$default_labels = array(
+		$default_labels = [
 			'name'                  => esc_html__( 'Courier Notices', 'courier-notices' ),
 			'singular_name'         => esc_html__( 'Notice', 'courier-notices' ),
 			'all_items'             => esc_html__( 'All Notices', 'courier-notices' ),
@@ -78,16 +72,20 @@ class Courier_Notice {
 			'items_list'            => esc_html__( 'Notice list', 'courier-notices' ),
 			'items_list_navigation' => esc_html__( 'Notice list navigation', 'courier-notices' ),
 			'filter_items_list'     => esc_html__( 'Filter Notice list', 'courier-notices' ),
-		);
+		];
 
 		$this->labels = apply_filters( 'courier_notice_labels', $default_labels );
 
-		$default_args = array(
+		$default_args = [
 			'label'               => esc_html__( 'Notice', 'courier-notices' ),
 			'description'         => esc_html__( 'Notices', 'courier-notices' ),
 			'labels'              => $this->labels,
-			'supports'            => array( 'title', 'editor' ),
-			'taxonomies'          => array( 'courier_type', 'courier_status', 'courier_scope' ),
+			'supports'            => [
+				'title',
+				'editor',
+				'custom-fields',
+			],
+			'taxonomies'          => [ 'courier_type', 'courier_status', 'courier_scope' ],
 			'hierarchical'        => false,
 			'public'              => false,
 			'show_ui'             => true,
@@ -96,13 +94,13 @@ class Courier_Notice {
 			'show_in_admin_bar'   => true,
 			'show_in_nav_menus'   => false,
 			'can_export'          => true,
-			'show_in_rest'        => false,
+			'show_in_rest'        => true,
 			'has_archive'         => false,
 			'exclude_from_search' => true,
 			'publicly_queryable'  => false,
 			'capability_type'     => 'page',
 			'rewrite'             => false,
-		);
+		];
 
 		$this->args = apply_filters( 'courier_notices_notice_args', $default_args );
 
@@ -110,9 +108,21 @@ class Courier_Notice {
 
 
 	/**
+	 * Return the defined post type slug
+	 *
+	 * @since 1.6.0
+	 *
+	 * @return string
+	 */
+	public function get_post_type_slug(): string {
+		return $this->post_type;
+
+	}
+
+	/**
 	 * Returns the arguments
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 *
 	 * @return array
 	 */
