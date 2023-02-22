@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.8](https://github.com/linchpin/courier-notices/compare/courier-notices-v1.5.7...courier-notices-v1.5.8) (2023-02-22)
+
+
+### Bug Fixes 🐛
+
+* **#312:** Fix an issue with post meta being saving in all post types ([6d12991](https://github.com/linchpin/courier-notices/commit/6d12991afe33eb6577216b4c819a7278707d3065))
+* **deps:** update npm ([a0f013c](https://github.com/linchpin/courier-notices/commit/a0f013cde5cd33ab25cdb21ddaab3011c50b5537))
+
+
+### Miscellaneous Chores 🧹
+
+* **deps:** update composer ([fc6a119](https://github.com/linchpin/courier-notices/commit/fc6a119fc79fffa3a8cb977d232a7700c4dd571c))
+* **deps:** update composer ([44d2421](https://github.com/linchpin/courier-notices/commit/44d24212b724502dcaae551fc649b4510e4e0b97))
+* **deps:** update dependency meow to v11 ([e989d72](https://github.com/linchpin/courier-notices/commit/e989d7275cce553c19c806d4bf78c8ee4a8594da))
+* **deps:** update svenstaro/upload-release-action action to v2.5.0 ([e377024](https://github.com/linchpin/courier-notices/commit/e3770242f914f56563136ac8e24844c143e1f074))
+
 ## [1.5.7](https://github.com/linchpin/courier-notices/compare/courier-notices-v1.5.6...courier-notices-v1.5.7) (2023-02-06)
 
 
