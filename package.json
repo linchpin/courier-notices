@@ -67,7 +67,7 @@
 		"glob-parent": "6.0.2",
 		"semver": "7.3.8",
 		"trim-newlines": "4.0.2",
-		"meow": "10.1.5",
+		"meow": "11.0.0",
 		"chokidar": "3.5.3"
 	},
 	"buildconfig": {
