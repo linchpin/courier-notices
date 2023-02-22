@@ -266,10 +266,7 @@ const Edit = _ref => {
     },
     props
   } = _ref;
-  const {
-    courier_notice,
-    isResolving
-  } = (0,_wordpress_core_data__WEBPACK_IMPORTED_MODULE_5__.useEntityRecords)('postType', 'courier_notice', postId);
+  //	const { courier_notice, isResolving } = useEntityRecords( 'postType', postType, { ID:postId } );
   const [meta, setMeta] = (0,_wordpress_core_data__WEBPACK_IMPORTED_MODULE_5__.useEntityProp)('postType', postType, 'meta');
 
   const getTerms = (select, taxonomy) => {
@@ -279,6 +276,12 @@ const Edit = _ref => {
     });
     return terms !== null && terms !== void 0 ? terms : [];
   };
+  /**
+   * Get all the taxonomy terms associated with our courier_notice.
+   *
+   * @since 1.6.0
+   */
+
 
   const {
     styles,
@@ -291,11 +294,15 @@ const Edit = _ref => {
       placements: getTerms(select, 'courier_placement')
     };
   });
-  console.log(styles);
+  /**
+   * Get the selected terms currently associated with this specific notice
+   *
+   * @since 1.6.0
+   */
+
   const courier_style = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => {
     return select('core').getEntityRecords('taxonomy', 'courier_style');
-  });
-  console.log(courier_style); // Simplify access to attributes
+  }); // Simplify access to attributes
 
   const {
     content,
@@ -345,14 +352,17 @@ const Edit = _ref => {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)({
     ref
   });
-  const onTitleChange = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useCallback)(title => {
-    courier_notice.edit({
-      title
-    });
-  }, [courier_notice.edit]);
+  /*
+  const onTitleChange = useCallback(
+  	( title ) => {
+  		courier_notice.edit( { title } );
+  	},
+  	[ courier_notice.edit ]
+  ); */
+  //	console.log( courier_notice );
 
-  if (page.isResolving) {
-    return 'Loading...';
+  if (!courier_style || !styles || !types || !placements) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Spinner, null), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading Notice Details', 'courier-notices'));
   } // Change the post title after we edit our courier notice title
 
 
@@ -384,8 +394,7 @@ const Edit = _ref => {
     setMeta: setMeta,
     styles: styles,
     postType: postType,
-    postId: postId,
-    onTitleChange: onTitleChange
+    postId: postId
   })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_edit_post__WEBPACK_IMPORTED_MODULE_6__.PluginPostStatusInfo, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.CheckboxControl, {
     className: "courier-notices-is-dismissible",
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Is Dismissible?', 'courier-notices'),

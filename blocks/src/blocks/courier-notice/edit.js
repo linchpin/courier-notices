@@ -35,7 +35,7 @@ import {
 
 import { useCallback } from '@wordpress/element';
 import { useEntityProp } from '@wordpress/core-data';
-import { useEntityRecords } from '@wordpress/core-data';
+import { __experimentalUseEntityRecords as useEntityRecords } from '@wordpress/core-data';
 import { PluginPostStatusInfo } from '@wordpress/edit-post';
 
 /**
@@ -47,7 +47,7 @@ import { PluginPostStatusInfo } from '@wordpress/edit-post';
 import {
 	Toolbar,
 	ToolbarGroup,
-	CheckboxControl
+	CheckboxControl, Spinner
 } from '@wordpress/components';
 
 import InformationalNoticeURL, {
@@ -134,10 +134,7 @@ const Edit = ( {
 	  props
 	} ) => {
 
-
-	const { courier_notice, isResolving }    = useEntityRecords( 'postType', 'courier_notice', postId );
-
-
+//	const { courier_notice, isResolving } = useEntityRecords( 'postType', postType, { ID:postId } );
 
 	const [ meta, setMeta ] = useEntityProp( 'postType', postType, 'meta' );
 
@@ -154,22 +151,27 @@ const Edit = ( {
 		return terms ?? [];
 	}
 
+	/**
+	 * Get all the taxonomy terms associated with our courier_notice.
+	 *
+	 * @since 1.6.0
+	 */
 	const { styles, types, placements } = useSelect( ( select ) => {
 		return {
 			styles     : getTerms( select, 'courier_style' ),
 			types      : getTerms( select, 'courier_type' ),
 			placements : getTerms( select, 'courier_placement' ),
-
 		};
 	} );
 
-	console.log( styles )
-
+	/**
+	 * Get the selected terms currently associated with this specific notice
+	 *
+	 * @since 1.6.0
+	 */
 	const courier_style = useSelect((select) => {
 		return select('core').getEntityRecords( 'taxonomy', 'courier_style' );
 	});
-
-	console.log( courier_style )
 
 	// Simplify access to attributes
 	const { content, alignment, showHideTitle, noticeTitle, icon, style, type } = attributes;
@@ -207,18 +209,25 @@ const Edit = ( {
 
 	const { editPost } = useDispatch( 'core/editor' );
 
-	const ref                         = useRef();
-	const blockProps                  = useBlockProps( { ref } );
+	const ref        = useRef();
+	const blockProps = useBlockProps( { ref } );
 
+	/*
 	const onTitleChange = useCallback(
 		( title ) => {
 			courier_notice.edit( { title } );
 		},
 		[ courier_notice.edit ]
-	);
+	); */
 
-	if ( page.isResolving ) {
-		return 'Loading...';
+//	console.log( courier_notice );
+
+	if ( ! courier_style || ! styles || ! types || ! placements ) {
+		return (
+			<div>
+				<Spinner />{__( 'Loading Notice Details', 'courier-notices' )}
+			</div>
+		)
 	}
 
 	// Change the post title after we edit our courier notice title
@@ -248,7 +257,6 @@ const Edit = ( {
 								styles={styles}
 								postType={postType}
 								postId={postId}
-								onTitleChange={onTitleChange}
 							/>
 						</ToolbarGroup>
 					</Toolbar>
