@@ -396,11 +396,16 @@ class Courier {
 	 *
 	 * @since 1.0
 	 *
-	 * @param int          $post_id The post ID.
-	 * @param array|object $post The post object.
-	 * @param bool         $update Whether or not to update.
+	 * @param int            $post_id The post ID.
+	 * @param array|\WP_Post $post    The post object.
+	 * @param bool           $update  Insert or Update flag.
 	 */
-	public function wp_insert_post( $post_id, $post, $update ) {
+	public function wp_insert_post( int $post_id, $post, bool $update ) {
+
+		if ( 'courier_notice' !== $post->post_type ) {
+			return;
+		}
+
 		if ( ! is_admin() ) {
 			return;
 		}
