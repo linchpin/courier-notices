@@ -41,7 +41,7 @@
 		"gulp-uglify": "3.0.2",
 		"husky": "^8.0.1",
 		"sass": "^1.58.3",
-		"webpack": "5.75.0",
+		"webpack": "5.76.0",
 		"webpack-stream": "7.0.0",
 		"yargs": "17.7.1"
 	},
