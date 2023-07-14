@@ -65,7 +65,7 @@
 	},
 	"resolutions": {
 		"glob-parent": "6.0.2",
-		"semver": "7.3.8",
+		"semver": "7.5.2",
 		"trim-newlines": "4.0.2",
 		"meow": "11.0.0",
 		"chokidar": "3.5.3"
