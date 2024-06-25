@@ -16,7 +16,7 @@
 	"author": "Linchpin <sayhi@linchpin.com>",
 	"license": "GPL-2.0-or-later",
 	"dependencies": {
-		"jquery": "3.6.3",
+		"jquery": "3.7.1",
 		"lodash": "4.17.21",
 		"save-dev": "0.0.1-security",
 		"what-input": "5.2.12"
@@ -54,7 +54,7 @@
 		"email": "sayhi@linchpin.com"
 	},
 	"engines": {
-		"node": ">= v16.19.1"
+		"node": ">= 16.20.2"
 	},
 	"browserslist": [
 		"defaults"
@@ -65,10 +65,10 @@
 	},
 	"resolutions": {
 		"glob-parent": "6.0.2",
-		"semver": "7.5.2",
-		"trim-newlines": "4.0.2",
+		"semver": "7.6.2",
+		"trim-newlines": "4.1.1",
 		"meow": "11.0.0",
-		"chokidar": "3.5.3"
+		"chokidar": "3.6.0"
 	},
 	"buildconfig": {
 		"webpack": {
