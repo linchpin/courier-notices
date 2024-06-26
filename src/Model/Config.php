@@ -71,8 +71,6 @@ class Config {
 
 		wp_cache_set( 'config', $config, 'courier-notices' );
 
-		$this->config = $config;
-
 		return $config;
 
 	}
