@@ -4,6 +4,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.9](https://github.com/linchpin/courier-notices/compare/courier-notices-v1.5.8...courier-notices-v1.5.9) (2024-06-26)
+
+
+### Bug Fixes 🐛
+
+* **NO-TASK:** Cleanup deprecation notice ([8a645da](https://github.com/linchpin/courier-notices/commit/8a645daf350461f54565f2e5863814adbc2eaf8d))
+* **NO-TASK:** Update git attributes ([9fb54f3](https://github.com/linchpin/courier-notices/commit/9fb54f374c7b146b9e4fabc12a31c057be98b657))
+
+
+### Miscellaneous Chores 🧹
+
+* **deps-dev:** bump webpack from 5.75.0 to 5.76.0 ([dc930b9](https://github.com/linchpin/courier-notices/commit/dc930b9f8ecdc8dabf670ae915f4125301890301))
+* **deps:** bump @babel/traverse from 7.21.0 to 7.24.7 ([ed4f580](https://github.com/linchpin/courier-notices/commit/ed4f580d0ff4d719c73f0423a962722173a23ad9))
+* **deps:** bump engine.io from 6.4.1 to 6.4.2 ([41925f6](https://github.com/linchpin/courier-notices/commit/41925f663119b0e77b94dfa698edf7f740b53eb2))
+* **deps:** bump es5-ext from 0.10.62 to 0.10.64 ([56b454c](https://github.com/linchpin/courier-notices/commit/56b454ccfdf003bab71178b23570701272d6572e))
+* **deps:** bump follow-redirects from 1.15.2 to 1.15.6 ([ac7ef19](https://github.com/linchpin/courier-notices/commit/ac7ef1998d00ce31b84e66c7ba829e77d4880322))
+* **deps:** bump postcss from 7.0.39 to 8.4.38 ([722a11c](https://github.com/linchpin/courier-notices/commit/722a11c170df79f7eb05b2c856d5094cee15aa62))
+* **deps:** bump socket.io from 4.6.1 to 4.7.5 ([db9901f](https://github.com/linchpin/courier-notices/commit/db9901fb478427cb8eb7aac5e412b4c76f441733))
+* **deps:** bump socket.io-parser from 4.2.2 to 4.2.4 ([705d566](https://github.com/linchpin/courier-notices/commit/705d566d8dadc673cc75003735fa532e835a0562))
+* **deps:** update 10up/action-wordpress-plugin-deploy action to v2.2.2 ([566f3b2](https://github.com/linchpin/courier-notices/commit/566f3b2da0928786eddf188d26444ab068c6f4fe))
+* **deps:** update actions/cache action to v4 ([1ee9442](https://github.com/linchpin/courier-notices/commit/1ee9442ebffe4ba05dc673f04eb7bd8ba82ff9f4))
+* **deps:** update actions/checkout action to v4 ([0b79d9a](https://github.com/linchpin/courier-notices/commit/0b79d9a05631198eb76183e338eb749b88507182))
+* **deps:** update andrew-chen-wang/github-wiki-action action to v4 ([84a9eb1](https://github.com/linchpin/courier-notices/commit/84a9eb1ec10696188b80ef4703a6ff6103d6f094))
+* **deps:** update composer ([569a67a](https://github.com/linchpin/courier-notices/commit/569a67af6e52e0514b9eb57bf8f03340c20d0555))
+* **deps:** update composer ([735e814](https://github.com/linchpin/courier-notices/commit/735e8142cdfb43a51caf98156eefc71e5b937801))
+* **deps:** update dependency meow to v13 ([676eab5](https://github.com/linchpin/courier-notices/commit/676eab530585a2dd144c3d38b45731cb770ee0ca))
+* **deps:** update dependency php-parallel-lint/php-parallel-lint to ^v1.4.0 ([e6a4a60](https://github.com/linchpin/courier-notices/commit/e6a4a60dc5fad0263cdb082e5a6e9d4ec77e25be))
+* **deps:** update dependency postcss to v8.4.31 [security] ([86912ed](https://github.com/linchpin/courier-notices/commit/86912edcedf8fa096a0819523f57797e28110fcb))
+* **deps:** update dependency saggre/phpdocumentor-markdown to ^0.1.4 ([5e0b6fc](https://github.com/linchpin/courier-notices/commit/5e0b6fc5312381d00fb12ecd33d1a851024320a9))
+* **deps:** update dependency semver to v7.5.2 [security] ([f7ea0d0](https://github.com/linchpin/courier-notices/commit/f7ea0d0635c92d16c060ac9bfeac8a22adaf57df))
+* **deps:** update dependency squizlabs/php_codesniffer to ^3.10.1 ([a540b65](https://github.com/linchpin/courier-notices/commit/a540b65a3dea1c426d7282e4756745c72f3e2014))
+* **deps:** update dependency trim-newlines to v5 ([f6893f6](https://github.com/linchpin/courier-notices/commit/f6893f6a297a98497997bb2bdba95c747b062199))
+* **deps:** update dependency webpack to v5.76.0 [security] ([67d735a](https://github.com/linchpin/courier-notices/commit/67d735aa12eee454f3a373617fd78b3ffa44a2c2))
+* **deps:** update npm ([e361ec6](https://github.com/linchpin/courier-notices/commit/e361ec623b1b35065bcc2ab6153b5a7cc61cae31))
+* **deps:** update rtcamp/action-phpcs-code-review action to v3 ([02282ae](https://github.com/linchpin/courier-notices/commit/02282ae1941b21ed966ac7d949cec1d56631bbd6))
+* **deps:** update svenstaro/upload-release-action action to v2.9.0 ([5265775](https://github.com/linchpin/courier-notices/commit/5265775196cc7f460a4d5ac7fe2ff62f4739782f))
+
 ## [1.5.8](https://github.com/linchpin/courier-notices/compare/courier-notices-v1.5.7...courier-notices-v1.5.8) (2023-02-22)
 
 
