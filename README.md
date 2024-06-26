@@ -3,7 +3,7 @@
 Add dismissible and non-dismissible notices throughout your WordPress website.
 
 <!-- x-release-please-start-version -->
-## Latest Release: 1.5.8
+## Latest Release: 1.5.9
 <!-- x-release-please-end -->
 
 ## Description ##
