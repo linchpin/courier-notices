@@ -21,3 +21,4 @@
 /.vipgoci_lint_skip_folders export-ignore
 /.vipgoci_phpcs_skip_folders export-ignore
 /courier-notices.zip export-ignore
+/DOCKER_ENV export-ignore
