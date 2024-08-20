@@ -36,7 +36,7 @@
   },
   "autoload": {
     "psr-4": {
-      "CourierNotices\\": "src/"
+      "CourierNotices\\": "application/"
     }
   },
   "require-dev": {

@@ -33,6 +33,7 @@ if ( ! defined( 'COURIER_NOTICES_RELEASE_DATE' ) ) {
 	define( 'COURIER_NOTICES_RELEASE_DATE', gmdate( 'm/d/Y', filemtime( __FILE__ ) ) );
 }
 
+
 // Define the main plugin file to make it easy to reference in subdirectories.
 if ( ! defined( 'COURIER_NOTICES_FILE' ) ) {
 	define( 'COURIER_NOTICES_FILE', __FILE__ );
@@ -45,6 +46,11 @@ if ( ! defined( 'COURIER_NOTICES_PATH' ) ) {
 if ( ! defined( 'COURIER_NOTICES_PLUGIN_URL' ) ) {
 	define( 'COURIER_NOTICES_PLUGIN_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 }
+
+if ( ! defined( 'COURIER_NOTICES_BLOCK_PATH' ) ) {
+	define( 'COURIER_NOTICES_BLOCK_PATH', plugin_dir_path( __FILE__ ) . '/blocks/' );
+}
+
 
 if ( ! defined( 'COURIER_NOTICES_PLUGIN_NAME' ) ) {
 	define( 'COURIER_NOTICES_PLUGIN_NAME', esc_html__( 'Courier Notices', 'courier-notices' ) );
@@ -128,7 +134,7 @@ register_deactivation_hook( __FILE__, 'courier_notices_deactivation' );
  * @todo this should also clear out all data from the DB if the user requests to delete all information
  *       upon uninstall.
  */
-function courier_notices_deactivation() {
+function courier_notices_deactivation():void {
 	wp_clear_scheduled_hook( 'courier_notices_purge' );
 	wp_clear_scheduled_hook( 'courier_notices_expire' );
 
@@ -144,7 +150,7 @@ add_action( 'init', 'courier_notices_flush_rewrite_rules', 20 );
  * Flush rewrite rules if the previously added flag exists,
  * and then remove the flag.
  */
-function courier_notices_flush_rewrite_rules() {
+function courier_notices_flush_rewrite_rules():void {
 	if ( get_option( 'courier_notices_flush_rewrite_rules' ) ) {
 		flush_rewrite_rules();
 		delete_option( 'courier_notices_flush_rewrite_rules' );

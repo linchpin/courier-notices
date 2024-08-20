@@ -53,10 +53,10 @@ class Bootstrap {
 		$this->register_actions();
 
 		// Include helper functions.
-		include_once $this->config->get( 'plugin_path' ) . 'src/Helper/Functions.php';
-		include_once $this->config->get( 'plugin_path' ) . 'src/Helper/Deprecated.php';
-		include_once $this->config->get( 'plugin_path' ) . 'src/Helper/WP_List_Table.php';
-		include_once $this->config->get( 'plugin_path' ) . 'src/Helper/Type_List_Table.php';
+		include_once COURIER_NOTICES_PATH . '/application/Helper/Functions.php';
+		include_once COURIER_NOTICES_PATH . '/application/Helper/Deprecated.php';
+		include_once COURIER_NOTICES_PATH . '/application/Helper/WP_List_Table.php';
+		include_once COURIER_NOTICES_PATH . '/application/Helper/Type_List_Table.php';
 
 		// The plugin is ready.
 		do_action( 'courier_notices_ready', $this );
@@ -73,7 +73,7 @@ class Bootstrap {
 	private function load_controllers() {
 		$namespace = $this->config->get( 'namespace' );
 
-		foreach ( Files::glob_recursive( $this->config->get( 'plugin_path' ) . 'src/Controller/*.php' ) as $file ) {
+		foreach ( Files::glob_recursive( COURIER_NOTICES_PATH . '/application/Controller/*.php' ) as $file ) {
 			preg_match( '/\/Controller\/(.+)\.php/', $file, $matches, PREG_OFFSET_CAPTURE );
 			$name  = str_replace( '/', '\\', $matches[1][0] );
 			$class = '\\' . $namespace . '\\Controller\\' . $name;
