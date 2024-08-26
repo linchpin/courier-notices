@@ -96,16 +96,12 @@ class Blocks extends Controller {
 	/**
 	 * Register our plugin scripts
 	 *
-	 * @since 0.1.0
-	 *
 	 * @return void
+	 * @since 2.0.0
 	 */
 	public function block_scripts():void {
 		$blocks = [];
 		$blocks = apply_filters( 'courier_notices_blocks', $blocks );
-
-		// temp skip blocks
-		return;
 
 		if ( empty( $blocks ) ) {
 			return;
@@ -134,7 +130,8 @@ class Blocks extends Controller {
 				continue;
 			}
 
-			$index_js     = COURIER_NOTICES_PLUGIN_URL . "blocks/build/blocks/{$block_key}/index.js";
+			$index_js       = COURIER_NOTICES_PLUGIN_URL . "blocks/build/blocks/{$block_key}/index.js";
+
 			$script_asset = require $script_asset_path;
 
 			$dependencies = array_merge(
@@ -164,13 +161,10 @@ class Blocks extends Controller {
 	 * @see each block registered within the \Blocks namespace for examples
 	 * @see https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/writing-your-first-block-type/
 	 *
-	 * @since 0.2.1
+	 * @since 2.0.0
 	 */
 	public function block_init():void {
 		$blocks = [];
-
-		// temp
-		return;
 
 		$blocks = apply_filters( 'courier_notices_blocks', $blocks );
 
@@ -180,13 +174,13 @@ class Blocks extends Controller {
 
 		foreach ( $blocks as $block_key => $block_args ) {
 
-			$block_path = trailingslashit( COURIER_NOTICES_BLOCK_PATH ) . "build/blocks/{$block_key}/block.json";
+			$block_path =  COURIER_NOTICES_BLOCK_PATH  . "build/blocks/{$block_key}/block.json";
 
 			if ( file_exists( $block_path ) ) {
 				register_block_type( $block_path, $block_args );
 			} else {
 				if ( wp_get_environment_type() === 'local' ) {
-					wp_die( sprintf( esc_html__( 'Could not find file: %1$s did you do a build?','adspiration' ), esc_html( $block_path ) ) );
+					wp_die( sprintf( esc_html__( 'Could not find file: %1$s did you do a build?','courier-notices' ), esc_html( $block_path ) ) );
 				}
 			}
 		}

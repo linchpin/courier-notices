@@ -1,0 +1,50 @@
+
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+[data-type="adspiration/promo-content"] {
+
+  .components-card__body {
+	padding: 0!important;
+  }
+
+  h2.components-panel__body-title {
+	font-size: 20px!important;
+  }
+
+  .components-panel__row {
+	display:block;
+  }
+
+  .components-panel__body-title {
+	border-bottom: 1px solid #ccc;
+  }
+
+	.hidden {
+		display:none;
+	}
+}
+
+.hm-tabs .inner-block-slider__navigation {
+	display: flex;
+	justify-content: center;
+	gap: 8px;
+	align-items: center;
+	margin: 24px auto;
+}
+
+.hm-tabs .inner-block-slider__navigation .components-button.is-secondary {
+	border-radius: 2px;
+}
+
+.hm-tabs .inner-block-slider__navigation .components-button.is-not-small {
+	padding: 0 4px;
+	height: 24px;
+	line-height: 22px;
+	min-width: 24px;
+	justify-content: center;
+}

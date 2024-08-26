@@ -30,7 +30,7 @@ class CourierNotice extends Block {
 	 * @since 1.0.0
 	 */
 	public function register_actions(): void {
-		add_filter( 'courier_notice_blocks', [ $this, 'add_block' ] );
+		add_filter( 'courier_notices_blocks', [ $this, 'add_block' ] );
 
 	}
 

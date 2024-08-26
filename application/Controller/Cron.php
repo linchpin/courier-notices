@@ -18,7 +18,7 @@ class Cron {
 	 *
 	 * @since 1.0
 	 */
-	public function register_actions() {
+	public function register_actions():void {
 		add_filter( 'cron_schedules', array( $this, 'add_courier_cron_interval' ) );
 
 		add_action( 'courier_purge', array( $this, 'courier_purge' ) );
@@ -75,18 +75,18 @@ class Cron {
 	 * @since 1.0
 	 */
 	public function courier_purge() {
-		$args = array(
+		$args = [
 			'post_type'      => 'courier_notice',
 			'offset'         => 0,
 			'posts_per_page' => 100,
 			'fields'         => 'ids',
-			'date_query'     => array(
-				array(
+			'date_query'     => [
+				[
 					'column' => 'post_date',
 					'before' => '6 months ago',
-				),
-			),
-		);
+				],
+			],
+		];
 
 		$notices_query = new \WP_Query( $args );
 
@@ -111,34 +111,34 @@ class Cron {
 	 * @since 1.0
 	 */
 	public function courier_expire() {
-		$args = array(
-			'post_type'      => 'courier_notice',
-			'offset'         => 0,
+		$args = [
+			'post_type'          => 'courier_notice',
+			'offset'                 => 0,
 			'posts_per_page' => 100,
-			'fields'         => 'ids',
-			'meta_query'     => array(
-				array(
-					'key'     => '_courier_expiration',
-					'value'   => current_time( 'timestamp' ),
+			'fields'                  => 'ids',
+			'meta_query'       => [
+				[
+					'key'          => '_courier_expiration',
+					'value'       => current_time( 'timestamp' ),
 					'compare' => '<',
-					'type'    => 'NUMERIC',
-				),
-			),
-		);
+					'type'        => 'NUMERIC',
+				],
+			],
+		];
 
 		$notices_query = new \WP_Query( $args );
 
 		while ( $notices_query->have_posts() ) {
 			foreach ( $notices_query->posts as $post ) {
 				wp_update_post(
-					array(
+					[
 						'ID'          => $post,
 						'post_status' => 'courier_expired',
-					)
+					]
 				);
 			}
 
-			$args['offset'] = $args['offset'] + $args['posts_per_page'];
+			$args['offset'] = intval( $args['offset'] ) + intval( $args['posts_per_page'] );
 			$notices_query  = new \WP_Query( $args );
 		}
 

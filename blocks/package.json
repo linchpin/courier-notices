@@ -1,0 +1,30 @@
+{
+	"name": "@linchpin/courier-notices-blocks",
+	"version": "2.2.1",
+	"description": "Blocks for Courier Notices functionality",
+	"author": "Linchpin",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build --webpack-copy-php",
+		"format": "wp-scripts format ",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"start": "wp-scripts start  --webpack-copy-php",
+		"packages-update": "wp-scripts packages-update"
+	},
+	"dependencies": {
+		"@wordpress/block-editor": "^13.4.0",
+		"@wordpress/blocks": "^13.4.0",
+		"@wordpress/components": "^28.4.0",
+		"@wordpress/data": "^10.4.0",
+		"@wordpress/element": "^6.4.0",
+		"@wordpress/i18n": "^5.2.0",
+		"classnames": "^2.5.1",
+		"lodash": "^4.17.21",
+		"@humanmade/block-editor-components": "^0.6.4"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^28.4.0"
+	}
+}

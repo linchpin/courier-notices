@@ -62,7 +62,7 @@ if ( ! defined( 'COURIER_NOTICES_PLUGIN_NAME' ) ) {
  * @since 1.1.0
  */
 if ( ! defined( 'COURIER_NOTICES_DEBUG' ) ) {
-	define( 'COURIER_NOTICES_DEBUG', false );
+	define( 'COURIER_NOTICES_DEBUG', true );
 }
 
 /**

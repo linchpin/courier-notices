@@ -32,14 +32,14 @@ class Courier_Notice {
 	 *
 	 * @var array
 	 */
-	private $labels = array();
+	private $labels = [];
 
 	/**
 	 * Arguments
 	 *
 	 * @var array
 	 */
-	private $args = array();
+	private $args = [];
 
 
 	/**
@@ -50,7 +50,7 @@ class Courier_Notice {
 	public function __construct() {
 		$this->config = new Config();
 
-		$default_labels = array(
+		$default_labels = [
 			'name'                  => esc_html__( 'Courier Notices', 'courier-notices' ),
 			'singular_name'         => esc_html__( 'Notice', 'courier-notices' ),
 			'all_items'             => esc_html__( 'All Notices', 'courier-notices' ),
@@ -78,31 +78,39 @@ class Courier_Notice {
 			'items_list'            => esc_html__( 'Notice list', 'courier-notices' ),
 			'items_list_navigation' => esc_html__( 'Notice list navigation', 'courier-notices' ),
 			'filter_items_list'     => esc_html__( 'Filter Notice list', 'courier-notices' ),
-		);
+		];
 
 		$this->labels = apply_filters( 'courier_notice_labels', $default_labels );
 
-		$default_args = array(
+		$default_args = [
 			'label'               => esc_html__( 'Notice', 'courier-notices' ),
 			'description'         => esc_html__( 'Notices', 'courier-notices' ),
 			'labels'              => $this->labels,
-			'supports'            => array( 'title', 'editor' ),
-			'taxonomies'          => array( 'courier_type', 'courier_status', 'courier_scope' ),
-			'hierarchical'        => false,
-			'public'              => false,
-			'show_ui'             => true,
-			'show_in_menu'        => true,
-			'menu_position'       => 20,
-			'show_in_admin_bar'   => true,
+			'supports'            => [ 'title', 'editor' ],
+			'taxonomies'          => [ 'courier_type', 'courier_status', 'courier_scope' ],
+			'hierarchical'            => false,
+			'public'                      => false,
+			'show_ui'                     => true,
+			'show_in_menu'          => true,
+			'menu_position'           => 20,
+			'show_in_admin_bar'   => false,
 			'show_in_nav_menus'   => false,
-			'can_export'          => true,
-			'show_in_rest'        => false,
-			'has_archive'         => false,
+			'can_export'                  => true,
+			'show_in_rest'               => true,
+			'has_archive'                => false,
 			'exclude_from_search' => true,
-			'publicly_queryable'  => false,
-			'capability_type'     => 'page',
-			'rewrite'             => false,
-		);
+			'publicly_queryable'     => false,
+			'capability_type'          => 'page',
+			'rewrite'                        => false,
+			'template'                    => [
+				[
+					'courier/courier-notice',
+					[
+						'placeholder' => __( 'Custom Post Type ...', 'my-cpt' ),
+					],
+				],
+			],
+		];
 
 		$this->args = apply_filters( 'courier_notices_notice_args', $default_args );
 

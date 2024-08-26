@@ -199,7 +199,7 @@ function courier_notices_display_notices( $args = array() ) {
 	$courier_notices_view = new View();
 	$courier_notices_view->assign( 'courier_placement', $courier_placement );
 	$courier_notices_view->assign( 'courier_style', $courier_style );
-	
+
 	$output = $courier_notices_view->get_text_view( 'notices-ajax' );
 
 	$output       = apply_filters( 'courier_notices', $output );
@@ -233,7 +233,7 @@ function courier_notices_display_modals( $args = array() ) {
 	$courier_notices   = new \CourierNotices\Core\View();
 	$courier_notices->assign( 'courier_placement', $courier_placement );
 	$courier_notices->assign( 'courier_style', $courier_style );
-	
+
 	$output = $courier_notices->get_text_view( 'notices-ajax-modal' );
 
 	$output       = apply_filters( 'courier_notices_modal', $output );
@@ -440,4 +440,19 @@ function courier_notices_the_notice_title( $title, $before = '', $after = '', $e
 		return $title;
 	}
 
+}
+
+
+/**
+ * Utility method to check if the block editor is enabled
+ * We use this to show/hide different elements in the admin, meta boxes
+ * vs slotfills (in the block editor) for example
+ *
+ * @since 2.0.0
+ *
+ * @return bool
+ */
+function courier_notices_is_block_editor(): bool {
+	$current_screen = get_current_screen();
+	return ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() );
 }

@@ -1,0 +1,29 @@
+{
+	"$schema": "https://json.schemastore.org/block.json",
+	"apiVersion": 2,
+	"name": "courier/courier-notice",
+	"version": "2.0.0",
+	"title": "Courier Notice",
+	"category": "layout",
+	"icon": "megaphone",
+	"description": "A block used to display a notice to the user.",
+	"supports": {
+		"anchor": false,
+		"html": false,
+		"reusable": true,
+		"inserter": false,
+		"multiple": true,
+		"className": true,
+		"customClassName": true,
+		"align": [
+			"wide",
+			"full"
+		],
+		"interactivity": true
+	},
+	"attributes": {},
+	"textdomain": "courier-notices",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"viewScriptModule": "file:./view.js"
+}
