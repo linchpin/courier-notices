@@ -28,6 +28,26 @@ class Courier_Notice_Metabox {
 	public function register_actions() {
 		add_action( 'add_meta_boxes_courier_notice', array( $this, 'add_meta_boxes' ), 99 );
 
+		add_filter( 'use_block_editor_for_post_type', [ $this, 'disable_block_editor' ], 10, 2 );
+	}
+
+	/**
+	 * Disable the block editor for courier notices
+	 *
+	 * Until we create blocks
+	 *
+	 * @param $current_status
+	 * @param $post_type
+	 *
+	 * @return mixed
+	 */
+	public function disable_block_editor( $current_status, $post_type ) {
+
+		if ( $post_type === 'courier_notice' ) {
+			return false;
+		}
+
+		return $current_status; // Keep current editor status
 	}
 
 
