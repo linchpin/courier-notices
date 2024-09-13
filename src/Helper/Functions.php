@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return bool|int Return either false or the Post ID for the created courier_notice.
  */
-function courier_notices_add_notice( $notice = '', $types = array( 'Informational' ), $global = false, $dismissible = true, $user_id = 0, $style = 'Informational', $placement = array( 'header' ) ) {
+function courier_notices_add_notice( mixed $notice = '', $types = array( 'Informational' ), $global = false, $dismissible = true, $user_id = 0, $style = 'Informational', $placement = array( 'header' ) ) {
 	$user_id = empty( $user_id ) ? get_current_user_id() : intval( $user_id );
 
 	if ( 0 !== $user_id ) {
@@ -41,10 +41,18 @@ function courier_notices_add_notice( $notice = '', $types = array( 'Informationa
 		'post_status'  => 'publish',
 		'post_author'  => $user_id,
 		'post_name'    => $slug,
-		'post_title'   => empty( $notice['post_title'] ) ? '' : sanitize_text_field( $notice['post_title'] ),
-		'post_excerpt' => empty( $notice['post_excerpt'] ) ? '' : wp_kses_post( $notice['post_excerpt'] ),
-		'post_content' => empty( $notice['post_content'] ) ? '' : wp_kses_post( $notice['post_content'] ),
 	];
+
+	if ( is_string( $notice ) ) {
+		$notice_args['post_content'] = $notice;
+		$notice_args['post_title']       = $notice;
+		$notice_args['post_excerpt'] = $notice;
+	} elseif ( is_array( $notice ) ) {
+		$notice_args = wp_parse_args(
+			$notice,
+			$notice_args
+		);
+	}
 
 	// If the notice doesn't have any content in it, just bail.
 	if ( empty( $notice_args['post_content'] ) ) {
@@ -54,6 +62,8 @@ function courier_notices_add_notice( $notice = '', $types = array( 'Informationa
 			$notice_args['post_content'] = $notice_args['post_title'];
 		}
 	}
+
+	// wp_die( print_r( $notice_args, true ) );
 
 	if ( $notice_id = wp_insert_post( $notice_args ) ) { // phpcs:ignore
 
@@ -199,7 +209,7 @@ function courier_notices_display_notices( $args = array() ) {
 	$courier_notices_view = new View();
 	$courier_notices_view->assign( 'courier_placement', $courier_placement );
 	$courier_notices_view->assign( 'courier_style', $courier_style );
-	
+
 	$output = $courier_notices_view->get_text_view( 'notices-ajax' );
 
 	$output       = apply_filters( 'courier_notices', $output );
@@ -233,7 +243,7 @@ function courier_notices_display_modals( $args = array() ) {
 	$courier_notices   = new \CourierNotices\Core\View();
 	$courier_notices->assign( 'courier_placement', $courier_placement );
 	$courier_notices->assign( 'courier_style', $courier_style );
-	
+
 	$output = $courier_notices->get_text_view( 'notices-ajax-modal' );
 
 	$output       = apply_filters( 'courier_notices_modal', $output );
