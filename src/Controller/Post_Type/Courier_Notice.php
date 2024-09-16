@@ -5,10 +5,10 @@
  * @package CourierNotices\Controller
  */
 
-namespace CourierNotices\Controller;
+namespace CourierNotices\Controller\Post_Type;
 
 use CourierNotices\Model\Config;
-use CourierNotices\Model\Post_Type\Courier_Notice as Courier_Notice_Post_Type;
+use CourierNotices\Model\Post_Type\Courier_Notice as Courier_Notice_Model;
 use CourierNotices\Model\Taxonomy\Placement;
 use CourierNotices\Model\Taxonomy\Scope;
 use CourierNotices\Model\Taxonomy\Status;
@@ -16,9 +16,13 @@ use CourierNotices\Model\Taxonomy\Type;
 use CourierNotices\Model\Taxonomy\Style;
 
 /**
- * Courier_Notices Class
+ * Courier_Notice Class
  */
-class Courier_Notices {
+class Courier_Notice extends Post_Type implements Post_Type_Simple_Interface {
+
+
+
+	public $model;
 
 	/**
 	 * JS handle
@@ -39,7 +43,16 @@ class Courier_Notices {
 	 *
 	 * @var array
 	 */
-	protected static $dependencies = array( 'jquery' => 'jquery' );
+	protected static $dependencies = [ 'jquery' => 'jquery' ];
+
+
+	/**
+	 * Proposal constructor.
+	 */
+	public function __construct() {
+		$this->model = new Courier_Notice_Model();
+
+	}
 
 
 	/**
@@ -48,13 +61,80 @@ class Courier_Notices {
 	 * @since 1.0
 	 */
 	public function register_actions() {
-		add_action( 'init', array( $this, 'register_custom_post_type' ) );
-		add_action( 'init', array( $this, 'register_taxonomies' ), 0 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_styles' ) );
+
+		add_action( 'init', [ $this, 'register_custom_post_type' ] );
+		add_action( 'init', [ $this, 'register_post_meta' ] );
+		add_action( 'init', [ $this, 'register_template' ] );
+		add_action( 'init', [ $this, 'register_taxonomies' ] );
+
+		add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_styles' ] );
 
 		// Exclude requests from the sitemap regardless of options.
-		add_filter( 'add_query_vars', array( $this, 'add_query_vars' ) );
+		add_filter( 'add_query_vars', [ $this, 'add_query_vars' ] );
+
+	}
+
+
+	/**
+	 * Register our custom template for our courier_notice post type.
+	 *
+	 * @since 1.6.0
+	 */
+	public function register_template() {
+
+		$post_type_object                = get_post_type_object( $this->model->get_post_type_slug() );
+		$post_type_object->template      = [
+			[
+				'courier-notices/courier-notice',
+				[
+					'align' => 'full',
+				],
+			],
+		];
+
+	}
+
+
+	/**
+	 * Register the meta associated with our post type to be used within the block editor and in REST
+	 *
+	 * @return void
+	 */
+	public function register_post_meta(): void {
+
+		$settings = [
+			'courier_dismissible' => [
+				'type'    => 'boolean',
+				'default' => true,
+			],
+			'courier_expiration'  => [
+				'type' => 'string',
+			],
+			'courier_hide_title'  => [
+				'type'    => 'boolean',
+				'default' => true,
+			],
+			'courier_sender' => [
+				'type' => 'number',
+			]
+		];
+
+		if ( ! empty( $settings ) ) {
+			foreach ( $settings as $key => $setting ) {
+				register_post_meta(
+					$this->model->get_post_type_slug(),
+					'_' . $key,
+					[
+						'show_in_rest'  => true,
+						'single'        => true,
+						'type'          => $setting['type'],
+						'auth_callback' => '__return_true',
+					]
+				);
+			}
+		}
+
 
 	}
 
@@ -115,8 +195,7 @@ class Courier_Notices {
 			return;
 		}
 
-		$config = new Config();
-
+		$config           = new Config();
 		$courier_settings = get_option( 'courier_design', array() );
 
 		if ( isset( $courier_settings['disable_css'] ) && 1 === (int) $courier_settings['disable_css'] ) {
@@ -126,7 +205,7 @@ class Courier_Notices {
 		wp_register_style( 'courier-notices', $config->get( 'plugin_url' ) . 'css/courier-notices.css', '', $config->get( 'version' ) );
 		wp_enqueue_style( 'courier-notices' );
 
-		wp_add_inline_style( 'courier-notices', courier_get_css() );
+		wp_add_inline_style( 'courier-notices', courier_notices_get_css() );
 
 	}
 
@@ -149,18 +228,6 @@ class Courier_Notices {
 
 	}
 
-
-	/**
-	 * Register the 'courier_notice' post type
-	 *
-	 * @wp-hook init
-	 * @since   1.0.0
-	 */
-	public function register_custom_post_type() {
-		$courier_post_type_model = new Courier_Notice_Post_Type();
-		register_post_type( $courier_post_type_model->name, $courier_post_type_model->get_args() );
-
-	}
 
 
 	/**
