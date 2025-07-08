@@ -9,6 +9,9 @@
  * Author:      Linchpin
  * Author URI:  https://linchpin.com
  * Text Domain: courier-notices
+ * Requires at least: 5.7
+ * Requires PHP: 7.4
+ * Tested up to: 6.8.1
  *
  * @package      CourierNotices
  * @noinspection ProblematicWhitespace
@@ -80,7 +83,12 @@ add_action( 'plugins_loaded', 'courier_notices_init' );
  * @return void
  */
 function courier_notices_init() {
-	do_action( 'before_courier_notices_init' );
+
+	// Deprecated hook.
+	_doing_it_wrong( 'before_courier_notices_init', 'Use courier_notices_before_init instead.', '1.7.0' );
+	do_action( 'before_courier_notices_init' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+
+	do_action( 'courier_notices_before_init' );
 
 	$courier = new \CourierNotices\Core\Bootstrap();
 
@@ -90,8 +98,11 @@ function courier_notices_init() {
 		wp_die( esc_html( $e->getMessage() ) );
 	}
 
-	do_action( 'after_courier_notices_init' );
+	// Deprecated hook.
+	_doing_it_wrong( 'after_courier_notices_init', 'Use courier_notices_after_init instead.', '1.7.0' );
+	do_action( 'after_courier_notices_init' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
+	do_action( 'courier_notices_after_init' );
 }
 
 
@@ -115,7 +126,6 @@ function courier_notices_activation() {
 	}
 
 	do_action( 'courier_notices_activate' );
-
 }
 
 
@@ -133,7 +143,6 @@ function courier_notices_deactivation() {
 	wp_clear_scheduled_hook( 'courier_notices_expire' );
 
 	do_action( 'courier_notices_deactivate' );
-
 }
 
 
@@ -149,5 +158,4 @@ function courier_notices_flush_rewrite_rules() {
 		flush_rewrite_rules();
 		delete_option( 'courier_notices_flush_rewrite_rules' );
 	}
-
 }

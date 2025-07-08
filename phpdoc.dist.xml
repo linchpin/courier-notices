@@ -5,35 +5,33 @@
         xmlns="https://www.phpdoc.org"
         xsi:noNamespaceSchemaLocation="https://docs.phpdoc.org/latest/phpdoc.xsd"
 >
-    <title>Courier Notices</title>
+    <title>Linchpin Block Library</title>
     <paths>
-        <output>wiki/</output>
-        <cache>wiki/cache</cache>
+        <output>wiki</output>
     </paths>
     <version number="3.0.0">
         <api>
             <source dsn=".">
-                <path>src/*</path>
+                <path>application/*</path>
                 <path>assets/js/*</path>
-                <path>courier-notices.php</path>
+                <path>linchpin-blocks.php</path>
             </source>
             <ignore hidden="true" symlinks="true">
                 <path>tests/**/*</path>
                 <path>build/**/*</path>
-                <path>var/**/*</path>
                 <path>vendor/**/*</path>
+                <path>tests/**/*</path>
+                <path>vendor/</path>
                 <path>.deployment/</path>
                 <path>.github/</path>
-                <path>vendor/</path>
                 <path>node_modules/</path>
-                <path>lib/</path>
                 <path>output/</path>
                 <path>js/</path>
                 <path>assets/</path>
             </ignore>
         </api>
     </version>
-    <template name="./vendor/saggre/phpdocumentor-markdown/themes/markdown">
+    <template name="./themes/markdown">
         <parameter name="urlFileExtensions" value="yes"/>
     </template>
 </phpdocumentor>
