@@ -2,48 +2,37 @@
 	"name": "courier-notices",
 	"version": "1.7.1",
 	"description": "A way to display, manage, and control front end notifications for users, globally or individually, in the header,footer, by shortcode or by page.",
-	"main": "gulpfile.babel.js",
+	"author": "Linchpin <sayhi@linchpin.com>",
+	"license": "GPL-2.0-or-later",
+	"prettier": "@wordpress/prettier-config",
 	"scripts": {
-		"start": "gulp",
-		"build": "gulp build",
-		"prepare": "husky install"
+		"prepare": "husky",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"build": "wp-scripts build",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start",
+		"env": "wp-env",
+		"test": "echo \"Skipping: No test specified\""
 	},
 	"husky": {
 		"hooks": {
 			"commit-msg": "commit-msg"
 		}
 	},
-	"author": "Linchpin <sayhi@linchpin.com>",
-	"license": "GPL-2.0-or-later",
 	"dependencies": {
 		"jquery": "3.7.1",
 		"lodash": "4.17.21",
-		"save-dev": "0.0.1-security",
 		"what-input": "5.2.12"
 	},
 	"devDependencies": {
-		"@babel/core": "7.24.7",
-		"@babel/preset-env": "7.24.7",
-		"@babel/register": "7.24.6",
-		"autoprefixer": "10.4.19",
-		"babel-loader": "9.1.3",
-		"browser-sync": "3.0.2",
-		"fs-extra": "^11.2.0",
-		"gulp": "5.0.0",
-		"gulp-babel": "8.0.0",
-		"gulp-cli": "3.0.0",
-		"gulp-concat": "2.6.1",
-		"gulp-if": "3.0.0",
-		"gulp-sass": "5.1.0",
-		"gulp-postcss": "10.0.0",
-		"postcss": "^8.4.38",
-		"gulp-sourcemaps": "3.0.0",
-		"gulp-uglify": "3.0.2",
-		"husky": "^8.0.1",
-		"sass": "^1.77.6",
-		"webpack": "5.92.1",
-		"webpack-stream": "7.0.0",
-		"yargs": "17.7.2"
+		"@commitlint/cli": "^19.8.1",
+		"@commitlint/config-conventional": "^19.8.1",
+		"@wordpress/prettier-config": "^4.26.0",
+		"@wordpress/scripts": "^30.19.0",
+		"husky": "^9.0.11"
 	},
 	"repository": {
 		"type": "git",
@@ -54,70 +43,10 @@
 		"email": "sayhi@linchpin.com"
 	},
 	"engines": {
-		"node": ">= 16.20.2"
+		"node": ">=20.19.3"
 	},
 	"browserslist": [
 		"defaults"
 	],
-	"output": {
-		"chunkLoading": false,
-		"wasmLoading": false
-	},
-	"resolutions": {
-		"glob-parent": "6.0.2",
-		"semver": "7.6.2",
-		"trim-newlines": "5.0.0",
-		"meow": "13.2.0",
-		"chokidar": "3.6.0"
-	},
-	"buildconfig": {
-		"webpack": {
-			"entry": {
-				"courier-notices": "./assets/js/courier-notices.js",
-				"courier-notices-admin": "./assets/js/courier-notices-admin.js"
-			},
-			"output": {
-				"filename": "[name].js"
-			},
-			"module": {
-				"rules": [
-					{
-						"test": "/\\.js$/",
-						"use": {
-							"loader": "babel-loader",
-							"options": {
-								"presets": [
-									"@babel/preset-env"
-								],
-								"compact": false
-							}
-						}
-					}
-				]
-			},
-			"externals": {
-				"jquery": "jQuery"
-			}
-		},
-		"gulp": {
-			"fonts": {
-				"assets": [
-					"./assets/fonts/**/*"
-				],
-				"dest": "./css/fonts"
-			},
-			"sass": {
-				"assets": [
-					"assets/scss/**/*.scss"
-				],
-				"compatibility": ">ie11",
-				"dest": "./css"
-			},
-			"javascript": {
-				"assets": "assets/js/**/*.js",
-				"libraries": [],
-				"dest": "./js"
-			}
-		}
-	}
+	"private": true
 }
