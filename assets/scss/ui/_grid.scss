@@ -1,3 +1,7 @@
+@use '../config/config';
+@use '../config/variables';
+@use '../config/mixins';
+
 /**
  * 01. Courier Columns
  * 02. XY Grid
@@ -29,7 +33,7 @@
 .courier-row {
 	position: relative;
 
-	@include clearfix;
+	@include mixins.clearfix;
 }
 
 [class*="courier-columns"] {
@@ -37,20 +41,20 @@
 	box-sizing: border-box;
 	float: left;
 
-	@media #{$courier-small} {
+	@media #{variables.$courier-small} {
 		clear: both;
 		width: 100% !important;
 	}
 }
 
 .courier-hide-for-small {
-	@media #{$courier-small} {
+	@media #{variables.$courier-small} {
 		display: none !important;
 	}
 }
 
 .courier-show-for-small {
-	@media #{$courier-medium-up} {
+	@media #{variables.$courier-medium-up} {
 		display: none !important;
 	}
 }

@@ -1,3 +1,7 @@
+@use '../config/config';
+@use '../config/mixins';
+@use '../config/variables';
+
 /**
  * 01. Courier Types
  */
@@ -89,7 +93,7 @@
 	}
 
 	.courier-notice {
-		@include notice;
+		@include mixins.notice;
 	}
 }
 
@@ -155,7 +159,7 @@
 	}
 
 	input[type=checkbox]:checked:before {
-		color: $save-color;
+		color: variables.$save-color;
 	}
 }
 

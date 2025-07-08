@@ -1,6 +1,4 @@
-@import
-	'config/config',
-	'ui/admin-icons',
-	'ui/grid',
-	'ui/helpers'
-;
+@use 'config/config';
+@use 'ui/admin-icons';
+@use 'ui/grid';
+@use 'ui/helpers';

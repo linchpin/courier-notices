@@ -1,9 +1,7 @@
-@import
-	'config/config',
-	'ui/admin',
-	'ui/admin-settings',
-	'ui/welcome',
-	'ui/type',
-	'ui/post-editor',
-	'ui/structure'
-;
+@use 'config/config';
+@use 'ui/admin';
+@use 'ui/admin-settings';
+@use 'ui/welcome';
+@use 'ui/type';
+@use 'ui/post-editor';
+@use 'ui/structure';
