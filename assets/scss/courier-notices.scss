@@ -1,4 +1,2 @@
-@import
-	'config/config',
-	'frontend/notices'
-;
+@use 'config/config';
+@use 'frontend/notices';

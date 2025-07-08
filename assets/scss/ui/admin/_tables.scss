@@ -1,0 +1,67 @@
+#taxonomy-courier_type {
+  width:100px;
+}
+
+#taxonomy-courier_placement {
+  width:100px;
+}
+
+#courier-date {
+  width:140px;
+}
+
+#courier-global {
+  width:55px;
+}
+
+#courier-style,
+#courier-placement {
+	width: 110px;
+}
+
+table.courier_notice_page_courier .form-table th {
+  padding:10px;
+}
+
+.courier_notice_page_courier .wp-picker-container .wp-picker-holder {
+  z-index:1000;
+  position:absolute;
+}
+
+.courier_notice_page_courier #wpcontent .courier-admin-notice-banner {
+	.button-primary {
+		margin-bottom:0;
+	}
+}
+
+.courier-info-icon {
+  background: #ccc;
+  border-radius: 50%;
+  width: 18px;
+  display: inline-block;
+  text-align: center;
+  color: #fff;
+  font-size: 10px;
+  line-height: 18px;
+}
+
+.courier-info-icon:hover {
+  background: #00a0d2;
+  color:#fff;
+}
+
+.column-courier-global {
+  text-align:center;
+}
+
+.column-notice_default {
+  text-align:center;
+}
+
+pre.courier-notice-type-css-class {
+  display: inline-block;
+  border: 1px solid #cccccc;
+  padding: 4px;
+  margin-left: 10px;
+  background-color: #efefef;
+} 

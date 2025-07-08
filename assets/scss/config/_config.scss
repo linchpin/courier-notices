@@ -1,5 +1,3 @@
-@import
-	'variables',
-	'icon-font',
-	'mixins'
-;
+@use 'variables' as *;
+@use 'icons' as *;
+@use 'mixins' as *;

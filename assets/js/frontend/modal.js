@@ -1,4 +1,4 @@
-import jQuery from 'jquery';
+
 import {getItem} from './cookie';
 
 let $ = jQuery;

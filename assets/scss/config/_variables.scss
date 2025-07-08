@@ -6,6 +6,7 @@
  * 04. Breakpoints
  *
  **/
+@use 'sass:color';
 
 // 01. Dimensions
 $base:            16px;
@@ -36,8 +37,8 @@ $super-light-gray: #fafafa;
 $white: #FFFFFF;
 
 $save-color:    $green;
-$save-color-light: scale-color( $save-color, $lightness: 8% );
-$save-color-dark:  scale-color( $save-color, $lightness: -8% );
+$save-color-light: color.scale( $save-color, $lightness: 8% );
+$save-color-dark:  color.scale( $save-color, $lightness: -8% );
 
 $pointer-title-bg: #00a0d2;
 $pointer-border:   #3592b6;

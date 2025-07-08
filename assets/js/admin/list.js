@@ -1,6 +1,4 @@
-import jQuery from 'jquery';
-
-let $ = jQuery;
+const $ = jQuery;
 
 export default function list() {
 

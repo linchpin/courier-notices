@@ -1,0 +1,36 @@
+@use '../config/mixins';
+@use '../config/variables';
+@use '../config/icons';
+
+@use 'sass:list';
+
+// Shared notice styles for both frontend and admin
+.courier-notice {
+	@include mixins.courier-note-layout;
+}
+
+$courier_list: (
+	('primary', variables.$notice-default-primary, variables.$black, icons.$icon-primary, '', ''),
+	('success', variables.$notice-default-success, variables.$black, icons.$icon-success, '', ''),
+	('alert', variables.$notice-default-alert, variables.$black, icons.$icon-alert, '', ''),
+	('warning', variables.$notice-default-warning, variables.$black, icons.$icon-warning, '', ''),
+	('feedback', variables.$notice-default-feedback, variables.$black, icons.$icon-feedback, '', ''),
+	('info', variables.$notice-default-info, variables.$black, icons.$icon-info, '', '')
+);
+
+@each $courier in $courier_list {
+	.courier_type-#{list.nth($courier, 1)} {
+		@include mixins.notice( list.nth($courier, 2), list.nth( $courier, 3), list.nth( $courier, 4), list.nth( $courier, 5) );
+
+		+ .courier_type-#{ list.nth($courier,1) }:before {
+			content: '';
+		    position: absolute;
+		    height: 2px;
+		    top: -1px;
+		    left: 0;
+		    right: 0;
+		    background: rgba(0,0,0,.075);
+		    z-index: 5;
+		}
+	}
+} 

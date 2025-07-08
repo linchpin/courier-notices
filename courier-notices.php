@@ -82,6 +82,17 @@ add_action( 'plugins_loaded', 'courier_notices_init' );
 function courier_notices_init() {
 	do_action( 'before_courier_notices_init' );
 
+	if ( ! class_exists( '\CourierNotices\Core\Bootstrap' ) ) {
+		add_action( 'admin_notices', function() {
+			?>
+			<div class="notice notice-error">
+				<p><?php esc_html_e( 'Courier Notices is not properly installed. If you are seeing this message, are you in developement mode? Please run `composer install` in the plugin directory.', 'courier-notices' ); ?></p>
+			</div>
+			<?php
+		} );
+		return;
+	}
+
 	$courier = new \CourierNotices\Core\Bootstrap();
 
 	try {
