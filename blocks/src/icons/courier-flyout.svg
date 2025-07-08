@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+	<style type="text/css">
+		.st0{fill:none;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
+		.st1{fill:#FFFFFF;stroke:#000000;stroke-width:2;stroke-miterlimit:10;}
+	</style>
+	<g>
+		<path d="M42.362,2.677H5.638c-1.632,0-2.96,1.328-2.96,2.96v36.725c0,1.632,1.328,2.96,2.96,2.96H23h19.362
+			c1.632,0,2.96-1.328,2.96-2.96V15.339V5.638C45.323,4.005,43.995,2.677,42.362,2.677z M43.323,42.362c0,0.53-0.431,0.96-0.96,0.96
+			H25V18.299c0-0.53,0.431-0.96,0.96-0.96h17.362V42.362z M25.96,15.339c-1.632,0-2.96,1.328-2.96,2.96v25.023H5.638
+			c-0.53,0-0.96-0.431-0.96-0.96V11.561h38.646v3.778H25.96z"/>
+		<rect x="29.345" y="21.877" width="9.632" height="2.139"/>
+		<rect x="29.345" y="27.367" width="9.632" height="2.139"/>
+		<rect x="29.345" y="32.857" width="9.632" height="2.139"/>
+	</g>
+</svg>

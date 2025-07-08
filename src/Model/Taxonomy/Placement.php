@@ -85,6 +85,7 @@ class Placement {
 			'show_admin_column' => false,
 			'query_var'         => true,
 			'rewrite'           => false,
+			'show_in_rest'      => true,
 			'capabilities'      => array(
 				'manage_terms' => 'edit_posts',
 				'edit_terms'   => 'edit_posts',

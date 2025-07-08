@@ -1,0 +1,138 @@
+$icomoon-font-family: "courier" !default;
+$icomoon-font-path: "fonts" !default;
+
+@font-face {
+	font-family: '#{$icomoon-font-family}';
+	src: url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?j1xoo0##{$icomoon-font-family}') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+@mixin icon-font() {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: '#{$icomoon-font-family}' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+$icon-success: "\e900";
+$icon-alert: "\e901";
+$icon-info: "\e902";
+$icon-warning: "\e903";
+$icon-primary: "\e904";
+$icon-feedback: "\e905";
+$icon-welcome: "\e906";
+$icon-courier-logo: "\e907";
+$icon-linchpin-logo-fill: "\e908";
+$icon-github-logo: "\e909";
+$icon-twitter: "\e90a";
+$icon-fb: "\e90b";
+$icon-instagram: "\e90c";
+$icon-close: "\e90d";
+$icon-plus: "\e90e";
+$icon-minus: "\e90f";
+
+body:not(.wp-admin) .courier-notices [class*="icon-"] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: '#{$icomoon-font-family}' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body.wp-admin table.courier_notice_page_courier [class*="icon-"] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: '#{$icomoon-font-family}' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.courier-notices {
+	.icon-success:before {
+		content: $icon-success;
+	}
+
+	.icon-alert:before {
+		content: $icon-alert;
+	}
+
+	.icon-info:before {
+		content: $icon-info;
+	}
+
+	.icon-warning:before {
+		content: $icon-warning;
+	}
+
+	.icon-primary:before {
+		content: $icon-primary;
+	}
+
+	.icon-feedback:before {
+		content: $icon-feedback;
+	}
+
+	.icon-welcome:before {
+		content: $icon-welcome;
+	}
+
+	.icon-courier-logo:before {
+		content: $icon-courier-logo;
+	}
+
+	.icon-linchpin-logo-fill:before {
+		content: $icon-linchpin-logo-fill;
+	}
+
+	.icon-github-logo:before {
+		content: $icon-github-logo;
+	}
+
+	.icon-twitter:before {
+		content: $icon-twitter;
+	}
+
+	.icon-fb:before {
+		content: $icon-fb;
+	}
+
+	.icon-instagram:before {
+		content: $icon-instagram;
+	}
+
+	.icon-close:before {
+		content: $icon-close;
+	}
+
+	.icon-plus:before {
+		content: $icon-plus;
+	}
+
+	.icon-minus:before {
+		content: $icon-minus;
+	}
+}

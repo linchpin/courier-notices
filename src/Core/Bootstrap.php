@@ -19,14 +19,14 @@ class Bootstrap {
 	 *
 	 * @var array|Config
 	 */
-	private $config = array();
+	private $config = [];
 
 	/**
 	 * Controllers
 	 *
 	 * @var array
 	 */
-	private $controllers = array();
+	private $controllers = [];
 
 
 	/**
@@ -74,11 +74,18 @@ class Bootstrap {
 		$namespace = $this->config->get( 'namespace' );
 
 		foreach ( Files::glob_recursive( $this->config->get( 'plugin_path' ) . 'src/Controller/*.php' ) as $file ) {
-			preg_match( '/\/Controller\/(.+)\.php/', $file, $matches, PREG_OFFSET_CAPTURE );
-			$name  = str_replace( '/', '\\', $matches[1][0] );
-			$class = '\\' . $namespace . '\\Controller\\' . $name;
+			preg_match( '/\/Controller\/(.+(?<!_Interface))\.php/', $file, $matches );
 
-			$this->controllers[ $name ] = new $class();
+			if ( empty( $matches ) ) {
+				continue;
+			}
+
+			$name = str_replace( '/', '\\', $matches[1] );
+
+			if ( $name ) {
+				$class                      = "\\{$namespace}\\Controller\\{$name}";
+				$this->controllers[ $name ] = new $class();
+			}
 		}
 
 	}
