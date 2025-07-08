@@ -1,9 +1,7 @@
-import jQuery from 'jquery';
 import { getItem, setItem } from './cookie';
 import {displayModal} from './modal';
 
-let $ = jQuery;
-
+const $ = jQuery;
 export default function dismiss() {
 
 	let $body = $('body'),

@@ -192,7 +192,7 @@ class Fields {
 					<?php
 					$checked = '';
 
-					if ( ! is_array( $options[ $args['field'] ] ) ) {
+					if ( isset( $options[ $args['field'] ] ) && ! is_array( $options[ $args['field'] ] ) ) {
 						$options[ $args['field'] ] = explode( ',', $options[ $args['field'] ] );
 					}
 

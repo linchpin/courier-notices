@@ -9,11 +9,14 @@
  *
  **/
 
+@use '../config/variables';
+@use '../config/mixins';
+
 
 // 01. Global
 #courier-container {
 
-  margin-bottom: $base * 2;
+  margin-bottom: variables.$base * 2;
 
   .postbox.closed {
 	.handle-title:after {
@@ -48,8 +51,8 @@
 
 	&.notice {
 		p {
-			height: $input_height;
-			line-height: $input_height;
+			height: variables.$input_height;
+			line-height: variables.$input_height;
 			margin: 0;
 			padding: 0;
 		}
@@ -83,13 +86,13 @@
 		visibility: hidden;
 		width: auto;
 
-		transition: $global_timing opacity $global_easing;
+		transition: variables.$global_timing opacity variables.$global_easing;
 	}
 
 	input {
 		margin: {
-			bottom: $base * .25;
-			top: $base * .25;
+			bottom: variables.$base * .25;
+			top: variables.$base * .25;
 		};
 	}
 
@@ -99,19 +102,19 @@
 }
 
 .courier-columns-12 + .courier-columns-12 {
-	margin-top: $base;
+	margin-top: variables.$base;
 }
 
 .courier-section-expand {
-	@include dashicons( '\f164' );
+	@include mixins.dashicons( '\f164' );
 }
 
 .courier-section-collapse {
-	@include dashicons( '\f163' );
+	@include mixins.dashicons( '\f163' );
 }
 
 .courier-section-reorder {
-	@include dashicons( '\f156' );
+	@include mixins.dashicons( '\f156' );
 }
 
 .courier-section-expand,
@@ -134,8 +137,8 @@
 #courier-description {
 	margin-bottom: 10px;
 	padding: {
-		bottom: $base * 2;
-		top: $base * 2;
+		bottom: variables.$base * 2;
+		top: variables.$base * 2;
 	};
 
     &.collapse {

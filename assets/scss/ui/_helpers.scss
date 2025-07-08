@@ -5,6 +5,8 @@
  * 03. Spacing
  **/
 
+@use '../config/variables';
+
 // 01. Global Helpers
 .hide {
 	display: none;
@@ -18,18 +20,18 @@
 			top: 30px;
 		}
 	}
-
+	
 	&.courier-pointer-top-left {
 		.wp-pointer-arrow,
 		.wp-pointer-arrow-inner {
-			border-right-color: $pointer-title-bg;
+			border-right-color: variables.$pointer-title-bg;
 		}
 	}
 
 	&.courier-pointer-top-right {
 		.wp-pointer-arrow,
 		.wp-pointer-arrow-inner {
-			border-left-color: $pointer-title-bg;
+			border-left-color: variables.$pointer-title-bg;
 		}
 	}
 }

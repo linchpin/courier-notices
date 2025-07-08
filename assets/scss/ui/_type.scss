@@ -8,24 +8,28 @@
  *
  **/
 
+@use '../config/variables';
+@use '../config/mixins';
+@use '../config/icons';
+
 // 01. Font icons
 
 // Courier logo font icon. Can be used anywhere in the WordPress admin
 @font-face {
-  font-family: '#{$icomoon-font-family}';
-  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?f4juv');
-  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?f4juv#iefix') format('embedded-opentype'),
-  url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff2?f4juv') format('woff2'),
-  url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?f4juv') format('truetype'),
-  url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?f4juv') format('woff'),
-  url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?f4juv##{$icomoon-font-family}') format('svg');
+  font-family: '#{icons.$icomoon-font-family}';
+  src:  url('#{icons.$icomoon-font-path}/#{icons.$icomoon-font-family}.eot?f4juv');
+  src:  url('#{icons.$icomoon-font-path}/#{icons.$icomoon-font-family}.eot?f4juv#iefix') format('embedded-opentype'),
+  url('#{icons.$icomoon-font-path}/#{icons.$icomoon-font-family}.woff2?f4juv') format('woff2'),
+  url('#{icons.$icomoon-font-path}/#{icons.$icomoon-font-family}.ttf?f4juv') format('truetype'),
+  url('#{icons.$icomoon-font-path}/#{icons.$icomoon-font-family}.woff?f4juv') format('woff'),
+  url('#{icons.$icomoon-font-path}/#{icons.$icomoon-font-family}.svg?f4juv##{icons.$icomoon-font-family}') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: '#{$icomoon-font-family}' !important;
+  font-family: '#{icons.$icomoon-font-family}' !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -70,82 +74,82 @@ body.courier_notice_page_courier {
 
 .icon-success {
 	&:before {
-		content: $icon-success;
+		content: icons.$icon-success;
 	}
 }
 .icon-alert {
 	&:before {
-		content: $icon-alert;
+		content: icons.$icon-alert;
 	}
 }
 .icon-info {
 	&:before {
-		content: $icon-info;
+		content: icons.$icon-info;
 	}
 }
 .icon-warning {
 	&:before {
-		content: $icon-warning;
+		content: icons.$icon-warning;
 	}
 }
 .icon-primary {
 	&:before {
-		content: $icon-primary;
+		content: icons.$icon-primary;
 	}
 }
 .icon-feedback {
 	&:before {
-		content: $icon-feedback;
+		content: icons.$icon-feedback;
 	}
 }
 .icon-welcome {
 	&:before {
-		content: $icon-welcome;
+		content: icons.$icon-welcome;
 	}
 }
 .icon-courier-logo {
 	&:before {
-		content: $icon-courier-logo;
+		content: icons.$icon-courier-logo;
 	}
 }
 .icon-linchpin-logo-fill {
 	&:before {
-		content: $icon-linchpin-logo-fill;
+		content: icons.$icon-linchpin-logo-fill;
 	}
 }
 .icon-github-logo {
 	&:before {
-		content: $icon-github-logo;
+		content: icons.$icon-github-logo;
 	}
 }
 .icon-twitter {
 	&:before {
-		content: $icon-twitter;
+		content: icons.$icon-twitter;
 	}
 }
 .icon-fb {
 	&:before {
-		content: $icon-fb;
+		content: icons.$icon-fb;
 	}
 }
 .icon-instagram {
 	&:before {
-		content: $icon-instagram;
+		content: icons.$icon-instagram;
 	}
 }
 .icon-close {
 	&:before {
-		content: $icon-close;
+		content: icons.$icon-close;
 	}
 }
 .icon-plus {
 	&:before {
-		content: $icon-plus;
+		content: icons.$icon-plus;
 	}
 }
 .icon-minus {
 	&:before {
-		content: $icon-minus;
+		content: icons.$icon-minus;
 	}
 }
 
@@ -178,12 +182,12 @@ body.courier_notice_page_courier {
 
 	.button {
 		&.primary {
-			background-color: $save-color;
-			border-color: $save-color-dark;
-			color: $white;
+			background-color: variables.$save-color;
+			border-color: variables.$save-color-dark;
+			color: variables.$white;
 
 			&:hover {
-				background-color: $save-color-light;
+				background-color: variables.$save-color-light;
 			}
 
 		  .spinner {
@@ -218,7 +222,7 @@ body.courier_notice_page_courier {
 	}
 
 	.clearfix {
-		@include clearfix;
+		@include mixins.clearfix;
 	}
 
 	.inline-block-list {
@@ -227,13 +231,13 @@ body.courier_notice_page_courier {
 
 		&.space-left {
 			> li + li {
-				margin-left: $base * .5;
+				margin-left: variables.$base * .5;
 			}
 		}
 
 		&.space-right {
 			> li + li {
-				margin-left: $base * .5;
+				margin-left: variables.$base * .5;
 			}
 		}
 
@@ -247,12 +251,12 @@ body.courier_notice_page_courier {
 	.plain-link {
 		text-decoration: none;
 	    &.disabled {
-		    color:$darkest-gray;
+		    color:variables.$darkest-gray;
 		}
 	}
 
 	.grey-link {
-		color: $darkest-gray;
+		color: variables.$darkest-gray;
 	}
 
 	.nowrap {

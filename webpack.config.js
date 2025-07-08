@@ -2,17 +2,57 @@ const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 const path = require( 'path' );
+const fs = require( 'fs' );
 const isDevelopment = process.env.NODE_ENV === 'development';
+
+// Copy fonts function
+class CopyFontsPlugin {
+	apply(compiler) {
+		compiler.hooks.afterEmit.tap('CopyFontsPlugin', () => {
+			const sourceDir = path.resolve(__dirname, 'assets/fonts');
+			const destDir = path.resolve(__dirname, 'css/fonts');
+			
+			if (fs.existsSync(sourceDir)) {
+				this.copyRecursiveSync(sourceDir, destDir);
+			}
+		});
+	}
+
+	copyRecursiveSync(src, dest) {
+		const exists = fs.existsSync(src);
+		const stats = exists && fs.statSync(src);
+		const isDirectory = exists && stats.isDirectory();
+		
+		if (isDirectory) {
+			if (!fs.existsSync(dest)) {
+				fs.mkdirSync(dest, { recursive: true });
+			}
+			fs.readdirSync(src).forEach((childItemName) => {
+				this.copyRecursiveSync(path.join(src, childItemName), path.join(dest, childItemName));
+			});
+		} else {
+			fs.copyFileSync(src, dest);
+		}
+	}
+}
 
 module.exports = {
 	...defaultConfig,
-	mode: 'production',
+	mode: isDevelopment ? 'development' : 'production',
 	entry: {
-		frontend: path.resolve( __dirname, './src/module-polyfill.js' ),
-		index: path.resolve( __dirname, './src/index.js' ),
-		guides: path.resolve( __dirname, './src/block-guides.js' ),
+		'courier-notices': [
+			path.resolve( __dirname, './assets/js/courier-notices.js' ),
+			path.resolve( __dirname, './assets/scss/courier-notices.scss' )
+		],
+		'courier-notices-admin': [
+			path.resolve( __dirname, './assets/js/courier-notices-admin.js' ),
+			path.resolve( __dirname, './assets/scss/courier-notices-admin.scss' )
+		],
+		'courier-notices-admin-global': [
+			path.resolve( __dirname, './assets/scss/courier-notices-admin-global.scss' )
+		],
 	},
-	devtool: 'eval-source-map',
+	devtool: isDevelopment ? 'eval-source-map' : false,
 	module: {
 		...defaultConfig.module,
 		rules: [
@@ -23,6 +63,7 @@ module.exports = {
 					loader: 'babel-loader',
 					options: {
 						presets: [ '@babel/preset-env', '@babel/preset-react' ],
+						compact: !isDevelopment,
 					},
 				},
 			},
@@ -31,16 +72,22 @@ module.exports = {
 				use: [
 					MiniCssExtractPlugin.loader,
 					'css-loader',
-					'resolve-url-loader',
 					'postcss-loader',
 					{
 						loader: 'sass-loader',
 						options: {
 							implementation: require.resolve( 'sass' ),
-							sourceMap: true,
+							sourceMap: isDevelopment,
 						},
 					},
 				],
+			},
+			{
+				test: /\.(woff|woff2|eot|ttf|svg)$/,
+				type: 'asset/resource',
+				generator: {
+					filename: 'fonts/[name][ext]',
+				},
 			},
 		],
 	},
@@ -48,18 +95,21 @@ module.exports = {
 		extensions: [ '.js', '.jsx' ],
 	},
 	output: {
-		path: path.resolve( __dirname, './build' ),
-		filename: '[name].js',
+		path: path.resolve( __dirname, './' ),
+		filename: 'js/[name].js',
+		clean: {
+			keep: /^(?!js\/|css\/).*$/,
+		},
 	},
-	devServer: {
-		contentBase: path.resolve( __dirname, './build' ),
-		hot: true,
+	externals: {
+		jquery: 'jQuery',
+		lodash: '_',
 	},
 	plugins: [
 		new MiniCssExtractPlugin( {
-			filename: isDevelopment ? '[name].css' : '[name].css',
-			chunkFilename: isDevelopment ? '[id].css' : '[id].css',
+			filename: 'css/[name].css',
 		} ),
 		new DependencyExtractionWebpackPlugin(),
+		new CopyFontsPlugin(),
 	],
 };
