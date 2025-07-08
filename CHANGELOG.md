@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.2](https://github.com/linchpin/courier-notices/compare/v1.7.1...v1.7.2) (2025-07-08)
+
+
+### Bug Fixes 🐛
+
+* **NOTASK:** Remove string translation that was called before init triggering text domain loading notice. ([5269f5f](https://github.com/linchpin/courier-notices/commit/5269f5f2d1a1b22b42abd835a284d7ed70d37475))
+
+
+### Miscellaneous Chores 🧹
+
+* **deps:** update 10up/action-wordpress-plugin-deploy action to v2.3.0 ([2cc37ff](https://github.com/linchpin/courier-notices/commit/2cc37ffc57fee32cb39d4899d10cc7e29adcfd10))
+* **deps:** update dependency dealerdirect/phpcodesniffer-composer-installer to ^1.1.1 ([dd3e2b0](https://github.com/linchpin/courier-notices/commit/dd3e2b02ab736db0a95ea74451bbe88274dac14f))
+* **deps:** update dependency squizlabs/php_codesniffer to ^3.13.2 ([d3eefa1](https://github.com/linchpin/courier-notices/commit/d3eefa1e091d2f5a84e8d9cb0dc7950b50f3efdd))
+* **deps:** update dependency wp-coding-standards/wpcs to v3 ([5680627](https://github.com/linchpin/courier-notices/commit/568062715c25d5f9d98b0cf598b077fbbada795e))
+* **deps:** update peter-evans/create-pull-request action to v7 ([0f3fa8b](https://github.com/linchpin/courier-notices/commit/0f3fa8b2795ccbbaad44e71e397bf656899ac492))
+* **deps:** update rtcamp/action-phpcs-code-review action to v3.1.1 ([019700f](https://github.com/linchpin/courier-notices/commit/019700fcca023acfdc63c42ff18d55271c573b56))
+
+
+### Changes to Existing Features 💅
+
+* **COURIER-1004:** Remove yarn and gulp in favor of npm and webpack ([b828d3f](https://github.com/linchpin/courier-notices/commit/b828d3f6ea245c774f3889d417a9798c03bf8aab))
+
 ## [1.7.1](https://github.com/linchpin/courier-notices/compare/v1.7.0...v1.7.1) (2024-08-26)
 
 
