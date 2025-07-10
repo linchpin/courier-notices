@@ -46,7 +46,7 @@
     "phpcompatibility/php-compatibility": "^9.3.5",
     "php-parallel-lint/php-parallel-lint": "^v1.4.0",
     "php-parallel-lint/php-console-highlighter": "^1.0.0",
-    "saggre/phpdocumentor-markdown": "^0.1.4"
+    "saggre/phpdocumentor-markdown": "^1.0.0"
   },
   "scripts": {
     "lint": [
