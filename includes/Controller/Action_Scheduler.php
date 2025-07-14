@@ -159,10 +159,12 @@ class Action_Scheduler {
 		}
 
 		// Update post status to expired
-		wp_update_post( [
-			'ID'          => $post_id,
-			'post_status' => 'courier_expired',
-		] );
+		wp_update_post(
+			[
+				'ID'          => $post_id,
+				'post_status' => 'courier_expired',
+			]
+		);
 
 		// Clear related caches
 		$this->clear_notice_caches();
@@ -245,10 +247,12 @@ class Action_Scheduler {
 
 		if ( $notices_query->have_posts() ) {
 			foreach ( $notices_query->posts as $post_id ) {
-				wp_update_post( [
-					'ID'          => $post_id,
-					'post_status' => 'courier_expired',
-				] );
+				wp_update_post(
+					[
+						'ID'          => $post_id,
+						'post_status' => 'courier_expired',
+					]
+				);
 			}
 		}
 
@@ -285,11 +289,13 @@ class Action_Scheduler {
 	 * @return array Array of scheduled actions.
 	 */
 	public function get_scheduled_actions_for_notice( $post_id ) {
-		return as_get_scheduled_actions( [
-			'hook'  => self::EXPIRE_NOTICE_ACTION,
-			'args'  => [ $post_id ],
-			'group' => self::SCHEDULER_GROUP,
-		] );
+		return as_get_scheduled_actions(
+			[
+				'hook'  => self::EXPIRE_NOTICE_ACTION,
+				'args'  => [ $post_id ],
+				'group' => self::SCHEDULER_GROUP,
+			]
+		);
 	}
 
 	/**
@@ -300,9 +306,11 @@ class Action_Scheduler {
 	 * @return array Array of all scheduled actions.
 	 */
 	public function get_all_scheduled_actions() {
-		return as_get_scheduled_actions( [
-			'group' => self::SCHEDULER_GROUP,
-		] );
+		return as_get_scheduled_actions(
+			[
+				'group' => self::SCHEDULER_GROUP,
+			]
+		);
 	}
 
 	/**
