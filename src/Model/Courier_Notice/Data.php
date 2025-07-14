@@ -45,21 +45,31 @@ class Data {
 		$cache_key = 'global-' . sanitize_title( $args['placement'] ) . '-notices';
 		$cache     = wp_cache_get( $cache_key, 'courier-notices' );
 
-		/*
+		// Check object cache first.
 		if ( false !== $cache ) {
 			if ( $args['ids_only'] ) {
 				return wp_list_pluck( $cache, 'ID' );
 			}
-
 			return $cache;
-		} */
+		}
+
+		// Check transient cache.
+		$transient_key = 'courier_notices_' . md5( serialize( $args ) );
+		$transient_cache = get_transient( $transient_key );
+		if ( false !== $transient_cache ) {
+			wp_cache_set( $cache_key, $transient_cache, 'courier-notices', 300 );
+			if ( $args['ids_only'] ) {
+				return wp_list_pluck( $transient_cache, 'ID' );
+			}
+			return $transient_cache;
+		}
 
 		$query_args = array(
 			'post_type'      => 'courier_notice',
 			'post_status'    => array(
 				'publish',
 			),
-			'posts_per_page' => $args['number'],
+			'posts_per_page' => $args['number'] ?? 50,
 			'orderby'        => 'date',
 			'order'          => 'DESC',
 			'tax_query'      => array(
@@ -85,8 +95,7 @@ class Data {
 			);
 		}
 
-		// Include notices that have a style of modal
-
+		// Include notices that have a style of modal.
 		if ( ! empty( $args['style'] ) && 'modal' === $args['style'] ) {
 			$query_args['tax_query']['relation'] = 'AND';
 			$query_args['tax_query'][]           = array(
@@ -99,7 +108,9 @@ class Data {
 
 		$global_notices_query = new \WP_Query( $query_args );
 
+		// Cache in both object cache and transient.
 		wp_cache_set( $cache_key, $global_notices_query->posts, 'courier-notices', 300 );
+		set_transient( $transient_key, $global_notices_query->posts, 600 ); // 10 minutes
 
 		if ( isset( $args['ids_only'] ) && false !== $args['ids_only'] ) {
 			return wp_list_pluck( $global_notices_query->posts, 'ID' );
@@ -279,6 +290,23 @@ class Data {
 
 		$ajax_post_data = wp_parse_args( $ajax_post_data, $defaults );
 
+		// Create cache key based on arguments
+		$cache_key = 'courier_notices_' . md5( serialize( $args ) . serialize( $ajax_post_data ) );
+		$cache     = wp_cache_get( $cache_key, 'courier-notices' );
+
+		// Check object cache first
+		if ( false !== $cache ) {
+			return $cache;
+		}
+
+		// Check transient cache
+		$transient_key = 'courier_notices_transient_' . md5( serialize( $args ) . serialize( $ajax_post_data ) );
+		$transient_cache = get_transient( $transient_key );
+		if ( false !== $transient_cache ) {
+			wp_cache_set( $cache_key, $transient_cache, 'courier-notices', 300 );
+			return $transient_cache;
+		}
+
 		// Account for global notices.
 		$global_posts             = array();
 		$global_dismissible_posts = array();
@@ -349,8 +377,13 @@ class Data {
 		$query_args          = wp_parse_args( $args, $query_args );
 		$final_notices_query = new \WP_Query( $query_args );
 
-		return ( $final_notices_query->have_posts() ) ? $final_notices_query->posts : array();
+		$result = ( $final_notices_query->have_posts() ) ? $final_notices_query->posts : array();
 
+		// Cache the result
+		wp_cache_set( $cache_key, $result, 'courier-notices', 300 );
+		set_transient( $transient_key, $result, 600 ); // 10 minutes
+
+		return $result;
 	}
 
 

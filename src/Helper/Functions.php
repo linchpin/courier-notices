@@ -14,6 +14,7 @@ use CourierNotices\Core\View;
 defined( 'ABSPATH' ) || exit;
 
 
+
 /**
  * Utility method to add a new notice within the system.
  *
@@ -396,6 +397,33 @@ function courier_notices_dismiss_notices( $notice_ids, $user_id = 0, $force_dism
 
 
 /**
+ * Clear Courier notices cache
+ * This should be called when notices are created, updated, or deleted
+ *
+ * @since 1.7.2
+ */
+function courier_notices_clear_cache() {
+	// Clear object cache
+	wp_cache_flush_group( 'courier-notices' );
+	
+	// Clear transients that start with courier_notices_
+	global $wpdb;
+	$wpdb->query( 
+		$wpdb->prepare( 
+			"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", 
+			'_transient_courier_notices_%' 
+		) 
+	);
+	$wpdb->query( 
+		$wpdb->prepare( 
+			"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", 
+			'_transient_timeout_courier_notices_%' 
+		) 
+	);
+}
+
+
+/**
  * Get Courier types CSS to be used for frontend display
  *
  * @since 1.2.0
@@ -440,51 +468,4 @@ function courier_notices_the_notice_title( $title, $before = '', $after = '', $e
 		return $title;
 	}
 
-}
-
-/**
- * Check if notices exist for specific placements
- * This helps optimize frontend requests by avoiding unnecessary AJAX calls
- *
- * @since 1.7.2
- *
- * @param array $placements Array of placement strings to check.
- * @param array $args       Additional arguments for the query.
- *
- * @return array Array with placement as key and boolean as value indicating if notices exist.
- */
-function courier_notices_has_notices_for_placements( $placements = [], $args = [] ) {
-	if ( empty( $placements ) ) {
-		return [];
-	}
-
-	$results = [];
-	$defaults = [
-		'post_type'              => 'courier_notice',
-		'post_status'            => 'publish',
-		'posts_per_page'         => 1,
-		'no_found_rows'          => true,
-		'update_post_meta_cache' => false,
-		'update_post_term_cache' => false,
-		'fields'                 => 'ids',
-	];
-
-	$args = wp_parse_args( $args, $defaults );
-
-	foreach ( $placements as $placement ) {
-		$placement_args = $args;
-		$placement_args['tax_query'] = [
-			'relation' => 'AND',
-			[
-				'taxonomy' => 'courier_placement',
-				'field'    => 'slug',
-				'terms'    => $placement,
-			],
-		];
-
-		$query = new \WP_Query( $placement_args );
-		$results[ $placement ] = $query->have_posts();
-	}
-
-	return $results;
 }

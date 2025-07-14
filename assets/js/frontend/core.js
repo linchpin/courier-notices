@@ -16,13 +16,12 @@ export default function core() {
 
 	/**
 	 * Initialize the core display of notices
-	 * New optimized version that fetches all notices in one call
 	 *
 	 * @since 1.7.2
 	 */
 	function init() {
-		// Find all notice containers (excluding modal as it's handled separately)
-		let $notice_containers = $( '.courier-notices[data-courier-ajax="true"]:not(.courier-location-popup-modal)' );
+
+		let $notice_containers = $( '.courier-notices[data-courier-ajax="true"]' );
 		
 		// If no notice containers expecting ajax, die early.
 		if ( $notice_containers.length === 0 ) {
@@ -55,7 +54,7 @@ export default function core() {
 			});
 
 			if ( shouldLoad ) {
-				loadAllNotices( placements );
+				loadAllNotices();
 			}
 		}, { threshold: 1 });
 
@@ -132,31 +131,87 @@ export default function core() {
 				return;
 			}
 
-			// Process each notice for this placement
-			Object.keys( notices ).forEach( function( notice_id ) {
-				// Skip if notice is dismissed
-				if ( dismissed_notice_ids.indexOf( parseInt( notice_id ) ) !== -1 ) {
-					return;
-				}
+			// Handle modal placement differently
+			if ( placement === 'popup-modal' ) {
+				handleModalNotices( notices, dismissed_notice_ids );
+			} else {
+				// Handle standard placements (header, footer)
+				Object.keys( notices ).forEach( function( notice_id ) {
+					// Skip if notice is dismissed
+					if ( dismissed_notice_ids.indexOf( parseInt( notice_id ) ) !== -1 ) {
+						return;
+					}
 
-				let $notice = $( notices[ notice_id ] ).hide();
-				$container.append( $notice );
+					let $notice = $( notices[ notice_id ] ).hide();
+					$container.append( $notice );
 
-				// Animate the notice in
-				$notice.slideDown( 'fast', 'swing', function() {
-					const event = new CustomEvent( 'courierNoticeDisplayed', { 
-						detail: { 
-							notice_id: notice_id, 
-							placement: placement 
-						} 
+					// Animate the notice in
+					$notice.slideDown( 'fast', 'swing', function() {
+						const event = new CustomEvent( 'courierNoticeDisplayed', {
+							detail: {
+								notice_id: notice_id,
+								placement: placement
+							}
+						});
+						document.dispatchEvent( event );
 					});
-					document.dispatchEvent( event );
 				});
-			});
+			}
 
 			// Mark container as loaded
 			$container.attr( 'data-loaded', 'true' );
 		});
+	}
+
+	/**
+	 * Handle modal notices with special timing and display logic
+	 *
+	 * @since 1.7.2
+	 * @param {Object} notices Object of modal notices keyed by ID
+	 * @param {Array} dismissed_notice_ids Array of dismissed notice IDs
+	 */
+	function handleModalNotices( notices, dismissed_notice_ids ) {
+		let modalNotices = [];
+		
+		Object.keys( notices ).forEach( function( notice_id ) {
+			if ( dismissed_notice_ids.indexOf( parseInt( notice_id ) ) !== -1 ) {
+				return;
+			}
+			modalNotices.push( notices[ notice_id ] );
+		});
+
+		if ( modalNotices.length > 0 ) {
+			window.courier_notices_modal_notices = modalNotices;
+			// Show first modal after a delay
+			setTimeout( function() {
+				displayModal( 0 );
+			}, 500 );
+		}
+	}
+
+	/**
+	 * Display a modal notice by index based on the window.courier_notices_modal_notices array
+	 * also remove the element from the dataset.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param index
+	 */
+	function displayModal ( index ) {
+		let $notice = $( window.courier_notices_modal_notices[ index ] );
+		$notice.hide();
+
+		if ( $notice.length < 1 ) {
+			return;
+		}
+
+		$( '.courier-notices[data-courier-placement="popup-modal"] .courier-modal-overlay' )
+			.append( $notice );
+
+		$('.courier-modal-overlay').removeClass('hide').show();
+		$notice.slideDown( 'fast' );
+
+		window.courier_notices_modal_notices.splice( index, 1 );
 	}
 
 	domReady( init );

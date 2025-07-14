@@ -100,22 +100,13 @@ class Courier_REST_Controller extends WP_REST_Controller {
 		// Display all notices grouped by placement in a single call
 		register_rest_route(
 			$namespace,
-			'/notices/display-all/',
+			'/notices/display/all/',
 			[
 				[
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => [ $this, 'display_all_notices' ],
 					'permission_callback' => [ $this, 'get_notice_permissions_check' ],
 					'args'                => [
-						'placements' => [
-							'description'       => esc_html__( 'Array of placements to fetch notices for.', 'courier-notices' ),
-							'type'              => 'array',
-							'items'             => [
-								'type' => 'string',
-							],
-							'sanitize_callback' => [ $this, 'sanitize_placements' ],
-							'validate_callback' => 'rest_validate_request_arg',
-						],
 						'format'     => [
 							'description'       => esc_html__( 'Set the response, either html or json.', 'courier-notices' ),
 							'type'              => 'string',
@@ -352,6 +343,28 @@ class Courier_REST_Controller extends WP_REST_Controller {
 			$placements = [ 'header', 'footer', 'popup-modal' ];
 		}
 
+		// Always include popup-modal if not already specified
+		if ( ! in_array( 'popup-modal', $placements, true ) ) {
+			$placements[] = 'popup-modal';
+		}
+
+		// Create cache key for the entire response
+		$cache_key = 'courier_notices_display_all_' . md5( serialize( $placements ) . serialize( $ajax_post_data ) . $format );
+		$cache     = wp_cache_get( $cache_key, 'courier-notices' );
+
+		// Check object cache first
+		if ( false !== $cache ) {
+			return new WP_REST_Response( $cache, 200 );
+		}
+
+		// Check transient cache
+		$transient_key = 'courier_notices_display_all_transient_' . md5( serialize( $placements ) . serialize( $ajax_post_data ) . $format );
+		$transient_cache = get_transient( $transient_key );
+		if ( false !== $transient_cache ) {
+			wp_cache_set( $cache_key, $transient_cache, 'courier-notices', 300 );
+			return new WP_REST_Response( $transient_cache, 200 );
+		}
+
 		// Fetch notices for each placement
 		foreach ( $placements as $placement ) {
 			$args = wp_parse_args(
@@ -386,8 +399,14 @@ class Courier_REST_Controller extends WP_REST_Controller {
 					$notice->assign( 'icon', $notice_data['icon'] );
 					$notice->assign( 'notice_content', $courier_notice->post_content );
 
-					if ( ! is_wp_error( $notice_data['style'] ) && is_array( $notice_data['style'] ) ) {
-						$style = 'notice-' . $notice_data['style'][0]->slug;
+					// Determine the correct template based on placement
+					if ( $placement === 'popup-modal' ) {
+						$style = 'notice-popup-modal';
+					} else {
+						$style = 'notice-informational';
+						if ( ! is_wp_error( $notice_data['style'] ) && is_array( $notice_data['style'] ) ) {
+							$style = 'notice-' . $notice_data['style'][0]->slug;
+						}
 					}
 
 					$notices[ $courier_notice->ID ] = $notice->get_text_view( $style );
@@ -402,8 +421,11 @@ class Courier_REST_Controller extends WP_REST_Controller {
 		// Filter the dataset before returning
 		$dataset = apply_filters( 'courier_notices_display_all_notices', $dataset );
 
-		return new WP_REST_Response( $dataset, 200 );
+		// Cache the result
+		wp_cache_set( $cache_key, $dataset, 'courier-notices', 300 );
+		set_transient( $transient_key, $dataset, 600 ); // 10 minutes
 
+		return new WP_REST_Response( $dataset, 200 );
 	}
 
 
@@ -421,7 +443,12 @@ class Courier_REST_Controller extends WP_REST_Controller {
 			return [];
 		}
 
-		$valid_placements = [ 'header', 'footer', 'popup-modal' ];
+		// This comes from the placement taxonomy terms.
+		$valid_placements = get_terms( [
+			'taxonomy'   => 'courier_placement',
+			'hide_empty' => false,
+		] );
+
 		$sanitized        = [];
 
 		foreach ( $placements as $placement ) {

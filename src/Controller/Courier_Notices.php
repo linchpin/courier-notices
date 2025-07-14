@@ -56,8 +56,22 @@ class Courier_Notices {
 		// Exclude requests from the sitemap regardless of options.
 		add_filter( 'add_query_vars', array( $this, 'add_query_vars' ) );
 
+		// Hook into notice save/delete to clear cache.
+		add_action( 'save_post_courier_notice', [ $this, 'clear_cache' ] );
+		add_action( 'deleted_post', [ $this, 'clear_cache' ] );
 	}
 
+
+	/**
+	 * Clear the cache when a notice is saved or deleted.
+	 *
+	 * @param int $post_id The ID of the post that was saved or deleted.
+	 */
+	public function clear_cache( $post_id ) {
+		if ( 'courier_notice' === get_post_type( $post_id ) ) {
+			courier_notices_clear_cache();
+		}
+	}
 
 	/**
 	 * Enqueue all of our needed scripts
@@ -78,7 +92,7 @@ class Courier_Notices {
 		$localized_data = array(
 			'notice_endpoint'     => site_url( '/wp-json/courier-notices/v1/notice/' ),
 			'notices_endpoint'    => site_url( '/wp-json/courier-notices/v1/notices/display/' ),
-			'notices_all_endpoint' => site_url( '/wp-json/courier-notices/v1/notices/display-all/' ),
+			'notices_all_endpoint' => site_url( '/wp-json/courier-notices/v1/notices/display/all/' ),
 			'notices_nonce'       => wp_create_nonce( 'courier_notices_get_notices' ),
 			'wp_rest_nonce'       => wp_create_nonce( 'wp_rest' ),
 			'dismiss_nonce'       => wp_create_nonce( 'courier_notices_dismiss_' . get_current_user_id() . '_notice_nonce' ),
