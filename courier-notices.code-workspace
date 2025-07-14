@@ -4,5 +4,9 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"intelephense.codeLens.implementations.enable": false,
+		"phpSniffer.executablesFolder": "./vendor/bin",
+		"phpSniffer.standard": "./phpcs.xml.dist"
+	}
 }

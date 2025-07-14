@@ -1,5 +1,4 @@
 import { getItem, setItem } from './cookie';
-import {displayModal} from './modal';
 
 const $ = jQuery;
 export default function dismiss() {
@@ -85,7 +84,16 @@ export default function dismiss() {
 			if ( 0 === window.courier_notices_modal_notices.length ) {
 				$( '.courier-modal-overlay' ).addClass('hide').hide();
 			} else {
-				displayModal(0);
+				// Call displayModal from core.js
+				// Since displayModal is now in core.js, we need to trigger it differently
+				// For now, we'll just show the next modal if available
+				if ( window.courier_notices_modal_notices && window.courier_notices_modal_notices.length > 0 ) {
+					// Trigger a custom event that core.js can listen for
+					const event = new CustomEvent( 'courierModalNext', { 
+						detail: { notice_id: notice_id } 
+					});
+					document.dispatchEvent( event );
+				}
 			}
 		});
 

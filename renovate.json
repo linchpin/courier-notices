@@ -8,19 +8,27 @@
   "packageRules": [
     {
       "updateTypes": [ "minor", "patch", "pin", "digest" ],
-      "matchManagers": ["npm"],
-      "automerge": true,
-      "groupName": [ "npm" ]
+      "matchManagers": [ "npm" ],
+      "groupName": [ "npm frontend" ],
+      "automerge": true
     },
     {
       "updateTypes": [ "major", "minor", "patch", "pin", "digest" ],
       "depTypeList": [ "devDependencies" ],
-      "automerge": true,
-      "groupName": [ "develop" ]
+      "groupName": [ "npm dev dependencies" ],
+      "automerge": true
     },
     {
       "updateTypes": [ "major", "minor", "patch", "pin", "digest" ],
       "depTypeList": [ "devDependencies" ],
+      "matchManagers": [ "composer" ],
+      "automerge": true,
+      "groupName": [ "composer dev dependencies" ]
+    },
+    {
+      "updateTypes": [ "major", "minor", "patch", "pin", "digest" ],
+      "depTypeList": [ "dependencies" ],
+      "matchManagers": [ "composer" ],
       "automerge": true,
       "groupName": [ "composer" ]
     }
