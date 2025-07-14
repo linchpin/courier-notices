@@ -31,23 +31,24 @@ class Courier_Notice_Metabox {
 		add_filter( 'use_block_editor_for_post_type', [ $this, 'disable_block_editor' ], 10, 2 );
 	}
 
+
 	/**
 	 * Disable the block editor for courier notices
 	 *
 	 * Until we create blocks
 	 *
-	 * @param $current_status
-	 * @param $post_type
+	 * @param bool   $current_status The current status of the post type.
+	 * @param string $post_type The post type.
 	 *
-	 * @return mixed
+	 * @return bool
 	 */
 	public function disable_block_editor( $current_status, $post_type ) {
 
-		if ( $post_type === 'courier_notice' ) {
+		if ( 'courier_notice' === $post_type ) {
 			return false;
 		}
 
-		return $current_status; // Keep current editor status
+		return $current_status;
 	}
 
 
@@ -57,10 +58,16 @@ class Courier_Notice_Metabox {
 	 * @since 1.0
 	 */
 	public function add_meta_boxes() {
-		add_action( 'post_submitbox_misc_actions', array( $this, 'post_submitbox_misc_actions' ) );
+		add_action( 'post_submitbox_misc_actions', [ $this, 'post_submitbox_misc_actions' ] );
 
-		add_meta_box( 'courier_meta_box', esc_html__( 'Notice Information', 'courier-notices' ), array( $this, 'meta_box' ), 'courier_notice', 'side', 'default' );
-
+		add_meta_box(
+			'courier_meta_box',
+			esc_html__( 'Notice Information', 'courier-notices' ),
+			[ $this, 'meta_box' ],
+			'courier_notice',
+			'side',
+			'default'
+		);
 	}
 
 
@@ -160,8 +167,11 @@ class Courier_Notice_Metabox {
 
 			$exclude_popup_modal = '';
 
-			// Exclude modal from our placement type as it's now a "style" of notice. We still need it for ease of use
-			if ( $term = term_exists( 'popup-modal', 'courier_placement' ) ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.Found, Squiz.PHP.DisallowMultipleAssignments.Found
+			// Exclude modal from our placement type as it's now a "style" of notice. We still need it for ease of use.
+
+			$term = term_exists( 'popup-modal', 'courier_placement' );
+
+			if ( $term ) {
 				$exclude_popup_modal = array( $term['term_id'] );
 			}
 
@@ -182,7 +192,9 @@ class Courier_Notice_Metabox {
 			);
 			?>
 		</div>
-		<?php // Control the display through a hidden field and javascript ?>
+		<?php
+		// Control the display through a hidden field and javascript.
+		?>
 		<input type="hidden" name="courier_placement" id="courier_placement" value="<?php echo esc_attr( $selected_courier_placement ); ?>" />
 		<?php
 
@@ -198,7 +210,6 @@ class Courier_Notice_Metabox {
 		<div id="courier-notice_expiration_container">
 			<h4><?php esc_html_e( 'Notice Expiration', 'courier-notices' ); ?></h4>
 			<p class="description"><?php esc_html_e( 'The date and time this notice should expire.', 'courier-notices' ); ?></p>
-
 			<fieldset id="courier-timestampdiv">
 				<legend class="screen-reader-text"><?php esc_html_e( 'Expiration date and time', 'courier-notices' ); ?></legend>
 				<div class="timestamp-wrap">
@@ -211,7 +222,6 @@ class Courier_Notice_Metabox {
 		<?php
 
 		do_action( 'courier_notices_after_metabox_content' );
-
 	}
 
 
@@ -233,15 +243,13 @@ class Courier_Notice_Metabox {
 		</div>
 
 		<?php
+		// If we're on a new page, we probably don't have a Courier Notice Style Yet.
+		$show_hide = 'show';
 
-			// If we're on a new page, we probably don't have a Courier Notice Style Yet
+		if ( ! in_array( $pagenow, [ 'post-new.php' ], true ) ) {
 
-			$show_hide = 'show';
-
-		if ( ! in_array( $pagenow, array( 'post-new.php' ) ) ) {
-
-			$courier_options = get_option( 'courier_design', array() );
-			$selected_styles = ( is_array( $courier_options['enable_title'] ) ) ? $courier_options['enable_title'] : [];
+			$courier_options = get_option( 'courier_design', [] );
+			$selected_styles = ( isset( $courier_options['enable_title'] ) && is_array( $courier_options['enable_title'] ) ) ? $courier_options['enable_title'] : [];
 
 			if ( has_term( '', 'courier_style' ) ) {
 				$selected_courier_style = get_the_terms( $post->ID, 'courier_style' );
@@ -249,13 +257,13 @@ class Courier_Notice_Metabox {
 
 			if ( ! empty( $selected_courier_style ) ) {
 
-				if ( ! empty( in_array( $selected_courier_style[0]->slug, $selected_styles ) ) ) {
+				if ( ! empty( in_array( $selected_courier_style[0]->slug, $selected_styles, true ) ) ) {
 					$show_hide = 'hide';
 					?>
 						<div id="show-hide-info" class="courier-admin-notice notice inline">
-							<p>The <strong>Notice Style</strong> (<span id="selected-courier-notice-type" data-enable-title="<?php echo implode( ',', $selected_styles ); ?>"><?php echo esc_html( $selected_courier_style[0]->name ); ?></span>) is displaying this Notice's Title by default in the <a href="<?php echo esc_url( site_url( '/wp-admin/edit.php?post_type=courier_notice&page=courier&tab=design&subtab=global' ) ); ?>">global design settings</a>. Use the "Hide title" toggle below to override for this notice.</p>
+							<p>The <strong>Notice Style</strong> (<span id="selected-courier-notice-type" data-enable-title="<?php echo esc_attr( implode( ',', $selected_courier_style ) ); ?>"><?php echo esc_html( $selected_courier_style[0]->name ); ?></span>) is displaying this Notice's Title by default in the <a href="<?php echo esc_url( site_url( '/wp-admin/edit.php?post_type=courier_notice&page=courier&tab=design&subtab=global' ) ); ?>">global design settings</a>. Use the "Hide title" toggle below to override for this notice.</p>
 						</div>
-						<?php
+					<?php
 				}
 			}
 		}
@@ -285,8 +293,5 @@ class Courier_Notice_Metabox {
 		$copy_shortcode = new View();
 		$copy_shortcode->assign( 'post_id', $post->ID );
 		$copy_shortcode->render( 'admin/copy-shortcode' );
-
 	}
-
-
 }

@@ -65,7 +65,7 @@ if ( ! defined( 'COURIER_NOTICES_DEBUG' ) ) {
 /**
  * Autoload Classes
  */
-if ( file_exists( COURIER_NOTICES_PATH . '/vendor/autoload.php' ) ) {
+if ( file_exists( COURIER_NOTICES_PATH . 'vendor/autoload.php' ) ) {
 	require_once COURIER_NOTICES_PATH . 'vendor/autoload.php';
 }
 
@@ -91,13 +91,16 @@ function courier_notices_init() {
 	do_action( 'courier_notices_before_init' );
 
 	if ( ! class_exists( '\CourierNotices\Core\Bootstrap' ) ) {
-		add_action( 'admin_notices', function() {
-			?>
+		add_action(
+			'admin_notices',
+			function () {
+				?>
 			<div class="notice notice-error">
 				<p><?php esc_html_e( 'Courier Notices is not properly installed. If you are seeing this message, are you in developement mode? Please run `composer install` in the plugin directory.', 'courier-notices' ); ?></p>
 			</div>
-			<?php
-		} );
+				<?php
+			}
+		);
 		return;
 	}
 
