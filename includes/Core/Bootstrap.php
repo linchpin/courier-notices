@@ -65,6 +65,8 @@ class Bootstrap {
 		require_once COURIER_NOTICES_PATH . 'includes/Helper/WP_List_Table.php';
 		require_once COURIER_NOTICES_PATH . 'includes/Helper/Type_List_Table.php';
 
+		add_action( 'init', [ $this, 'load_textdomain' ] );
+
 		// The plugin is ready.
 		do_action( 'courier_notices_ready', $this );
 	}
