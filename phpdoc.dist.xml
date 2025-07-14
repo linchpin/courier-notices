@@ -5,7 +5,7 @@
         xmlns="https://www.phpdoc.org"
         xsi:noNamespaceSchemaLocation="https://docs.phpdoc.org/latest/phpdoc.xsd"
 >
-    <title>Linchpin Block Library</title>
+    <title>Courier Notices</title>
     <paths>
         <output>wiki</output>
     </paths>
@@ -14,7 +14,8 @@
             <source dsn=".">
                 <path>application/*</path>
                 <path>assets/js/*</path>
-                <path>linchpin-blocks.php</path>
+                <path>includes/*</path>
+                <path>src/*</path>
             </source>
             <ignore hidden="true" symlinks="true">
                 <path>tests/**/*</path>
