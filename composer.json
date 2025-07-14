@@ -14,6 +14,14 @@
       "name": "Aaron Ware",
       "role": "Developer",
       "email": "aaron@linchpin.com"
+    },
+    {
+      "name": "Brian Fischer",
+      "email": "brian@linchpin.com"
+    },
+    {
+      "name": "Adam Richards",
+      "email": "adam@linchpin.com"
     }
   ],
   "keywords": [
@@ -31,12 +39,12 @@
   "license": "GPL-2.0-or-later",
   "type": "wordpress-plugin",
   "require": {
-    "php": ">=7.3",
-    "erusev/parsedown": "1.7.4"
+    "php": ">=7.4",
+    "league/commonmark": "^2.7"
   },
   "autoload": {
     "psr-4": {
-      "CourierNotices\\": "src/"
+      "CourierNotices\\": "includes/"
     }
   },
   "require-dev": {
@@ -46,31 +54,26 @@
     "phpcompatibility/php-compatibility": "^9.3.5",
     "php-parallel-lint/php-parallel-lint": "^v1.4.0",
     "php-parallel-lint/php-console-highlighter": "^1.0.0",
-    "saggre/phpdocumentor-markdown": "^0.1.4"
+    "friendsofphp/php-cs-fixer": "^3.76.0",
+    "phpcompatibility/phpcompatibility-wp": "2.1.7"
   },
   "scripts": {
+    "fixer": "php-cs-fixer -v fix --allow-risky=yes",
+    "fixer:test": "php-cs-fixer fix -v --dry-run --stop-on-violation --using-cache=no --allow-risky=yes",
     "lint": [
-      "@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --exclude vendor --exclude .git"
+      "@phpcs",
+      "@fixer:test",
+      "@phpstan"
     ],
-    "checkcs": [
-      "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --standard=./phpcs.xml ./"
-    ],
-    "fixcs": [
-      "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf --standard=./phpcs.xml ./"
-    ],
-    "test": [
-      "@php ./vendor/phpunit/phpunit/phpunit --no-coverage"
-    ],
-    "coverage": [
-      "@php ./vendor/phpunit/phpunit/phpunit"
-    ],
-    "lint-fix": "phpcbf .",
-    "php-cs-fixer": "./vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix ./ --config=./.php-cs-fixer.dist.php",
-    "create-wiki": "phpDocumentor --directory=application --target=wiki --template='vendor/saggre/phpdocumentor-markdown/themes/markdown'"
+    "phpcbf": "phpcbf --standard=phpcs.xml.dist",
+    "phpcs": "phpcs --standard=phpcs.xml.dist",
+    "phpstan": "phpstan --memory-limit=768M",
+    "phpunit": "phpunit"
   },
   "config": {
     "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "composer/installers": true
     }
   }
 }

@@ -17,7 +17,7 @@ class View {
 	 *
 	 * @var array
 	 */
-	protected $variables = array();
+	protected $variables = [];
 
 
 	/**
@@ -28,7 +28,6 @@ class View {
 	 * @param null $config The configuration.
 	 */
 	public function __construct( $config = null ) {
-
 	}
 
 
@@ -40,7 +39,6 @@ class View {
 	 * @return void
 	 */
 	public function load_assets() {
-
 	}
 
 
@@ -63,11 +61,10 @@ class View {
 		$view_file = $view_dir . $file . '.php';
 
 		if ( ! file_exists( $view_file ) ) {
-			wp_die( $view_file );
+			wp_die( esc_html( $view_file ) );
 		}
 
 		require $view_file;
-
 	}
 
 
@@ -83,7 +80,6 @@ class View {
 	 */
 	public function assign( $variable, $value ) {
 		$this->variables[ $variable ] = $value;
-
 	}
 
 
@@ -118,7 +114,6 @@ class View {
 		$this->init_assignments();
 
 		return $html;
-
 	}
 
 
@@ -128,9 +123,6 @@ class View {
 	 * @since 1.0
 	 */
 	protected function init_assignments() {
-		$this->variables = array();
-
+		$this->variables = [];
 	}
-
-
 }

@@ -1,0 +1,68 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: When working in WordPress
+globs: 
+alwaysApply: true
+---
+   
+# You are an expert in WordPress, PHP, and related web development technologies.
+     
+## Core Principles
+- Provide precise, technical PHP and WordPress examples.
+- Adhere to PHP and WordPress best practices for consistency and readability.
+- Emphasize object-oriented programming (OOP) for better modularity.
+- Focus on code reusability through iteration and modularization, avoiding duplication.
+- Use descriptive and meaningful function, variable, and file names.
+- Directory naming conventions: lowercase with hyphens (e.g., wp-content/themes/my-theme).
+- Use WordPress hooks (actions and filters) for extending functionality.
+- Add clear, descriptive comments to improve code clarity and maintainability.
+    
+## PHP/WordPress Coding Practices
+- Utilize features of PHP 8.2+ (e.g., typed properties, arrow functions) where applicable.
+- Follow WordPress PHP coding standards throughout the codebase.
+- Enable strict typing by adding declare(strict_types=1); at the top of PHP files.
+- Leverage core WordPress functions and APIs wherever possible.
+- Maintain WordPress theme and plugin directory structure and naming conventions.
+- Implement robust error handling:
+    - Use WordPress's built-in debug logging (WP_DEBUG_LOG) as a fallback to our woo_erp_error_log() functions.
+    - Implement woo_erp_error_log and woo_erp_logger() custom error handlers if necessary. Determine if we want logging to be visible in teh admin or not depending on visibility and usefulness to administrators vs developers.
+    - Apply try-catch blocks for controlled exception handling.
+- Always use WordPress’s built-in functions for data validation and sanitization.
+- Ensure secure form handling by verifying nonces in submissions.
+- For database interactions:
+    - Use Models and ultimately WordPress’s $wpdb abstraction layer.
+    - Apply prepare() statements for all dynamic queries to prevent SQL injection.
+    - Use the dbDelta() function for managing database schema changes.
+
+## Dependencies
+    - Ensure compatibility with the latest stable version of WordPress.
+    - Use Composer for dependency management in advanced plugins or themes.
+
+## WordPress Best Practices
+
+ - Never modify core WordPress files—extend using hooks (actions and filters).
+ - Use WordPress user roles and capabilities for managing permissions.
+ - Apply the transients API for caching data and optimizing performance.
+ - Implement background processing tasks using the WooCommerce action scheduler for long-running operations which is already a dependency of this plugin.
+ - Write unit tests using WordPress built-in WP_UnitTestCase framework.
+ - Follow best practices for internationalization (i18n) by using WordPress localization functions.
+ - Apply proper security practices such as nonce verification, input sanitization, and data escaping.
+ - Manage scripts and styles by using wp_enqueue_script() and wp_enqueue_style() or enqueue scripts for the block editor
+ - Use custom post types and taxonomies when necessary to extend WordPress functionality.
+ - Store configuration data securely using WordPress's options API and/or custom meta when using custom post types where configuration is more specific
+
+## Key Conventions
+ 1. Follow WordPress plugin API to extend functionality in a modular and scalable manner.
+ 3. Apply WordPress built-in functions for data sanitization and validation to secure user inputs.
+ 4. Implement WordPress template tags and conditional tags in themes for dynamic content handling.
+ 5. For custom queries, use Model classes that extend our Database model which utilize $wpdb or WP_Query for database interactions.
+ 6. Use WordPress authentication and authorization mechanisms for secure access control including adding capabilites.
+ 7. For AJAX requests, use the WordPress REST API for handling backend requests including extending core endpoints or creating new ones. New endpoints should be defined within our Controllers/REST/ directory and should be determined per use case.
+ 8. Always apply WordPress hook system (actions and filters) for extensible within Controllers and then reference data via a corresponding Model
+ 9. Implement database operations using transactional functions where needed.
+ 10. Schedule tasks using WooCommerce ActionScheduler API for automated workflows. Action Scheduler is a dependency of this plugin already.
+    

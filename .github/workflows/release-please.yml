@@ -1,13 +1,14 @@
 on:
   push:
     branches:
-      - master
+      - main
 
 permissions:
   contents: write
   pull-requests: write
 
-name: release-please
+name: Release
+
 jobs:
   release-please:
     if: github.event_name != 'pull_request' && github.event.pull_request.merged != true
@@ -15,10 +16,17 @@ jobs:
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
     steps:
-      - uses: google-github-actions/release-please-action@v4
+      - uses: googleapis/release-please-action@v4
         id: release
         with:
-          token: ${{ secrets.GH_BOT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  # Update the readme but only when it's creating a new release, not during the build
+  update-readme:
+    needs: [ release-please ]
+    if: github.event_name != 'pull_request' && github.event.pull_request.merged != true && ! needs.release-please.outputs.release_created
+    uses: linchpin/actions/.github/workflows/update-readme.yml@v3
+    secrets: inherit
 
   build:
     needs: release-please
@@ -51,13 +59,28 @@ jobs:
         with:
           working_dir: ./
           dev: no
-          php_version: 7.4
+          php_version: 8.2
+          php_extensions: exif
 
-      - name: Install Yarn Dependencies
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build Base Plugin Assets
         run: |
-          yarn install
-          yarn build
+          npm install && npm run build
           rm -rf node_modules
+
+      - name: Build Blocks
+        run: |
+          cd ./blocks/
+          echo "${{ secrets.GSAP_NPMRC }}" > ./.npmrc
+          npm install
+          npm run build:blocks
+          npm run build:blocks:iapi
+          rm -rf node_modules
+          rm -f ./.npmrc
 
       - name: Clean Build Files/Folders
         run: |
@@ -71,11 +94,10 @@ jobs:
           cd ../
 
       - name: Upload files to a GitHub release
-        uses: svenstaro/upload-release-action@2.9.0
+        uses: svenstaro/upload-release-action@2.10.0
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: courier-notices.zip
           tag: ${{ steps.get_version.outputs.tag }}
-          name: courier-notices.zip
+          asset_name: courier-notices.zip
           overwrite: true
-
