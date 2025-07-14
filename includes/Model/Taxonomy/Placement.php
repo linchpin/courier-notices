@@ -95,7 +95,6 @@ class Placement {
 		);
 
 		$this->args = apply_filters( 'courier_notices_courier_placement_args', $default_args );
-
 	}
 
 
@@ -108,8 +107,5 @@ class Placement {
 	 */
 	public function get_args() {
 		return $this->args;
-
 	}
-
-
 }

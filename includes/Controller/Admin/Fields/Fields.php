@@ -9,7 +9,7 @@ namespace CourierNotices\Controller\Admin\Fields;
 
 use CourierNotices\Core\View;
 use CourierNotices\Helper\Utils;
-use CourierNotices\Helper\Type_List_Table as Type_List_Table;
+use CourierNotices\Helper\Type_List_Table;
 
 // Make sure we don't expose any info if called directly.
 if ( ! function_exists( 'add_action' ) ) {
@@ -76,7 +76,6 @@ class Fields {
 		<label for="<?php echo esc_attr( $args['id'] ); ?>" class="screen-reader-text"><?php echo esc_html( $args['label'] ); ?></label>
 		<input type="<?php echo esc_attr( $args['type'] ); ?>" class="<?php echo esc_attr( $args['class'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>" name="<?php echo esc_attr( $args['name'] ); ?>" value="<?php echo esc_attr( $field_value ); ?>">
 		<?php
-
 	}
 
 
@@ -132,7 +131,6 @@ class Fields {
 			<?php endforeach; ?>
 		</select>
 		<?php
-
 	}
 
 
@@ -205,16 +203,15 @@ class Fields {
 					}
 					?>
 					<input type="checkbox"
-						   id="<?php echo esc_attr( $args['id'] ); ?>"
-						   name="<?php echo esc_attr( $args['name'] . '[]' ); ?>"
-						   value="<?php echo esc_attr( $option['value'] ); ?>"
+							id="<?php echo esc_attr( $args['id'] ); ?>"
+							name="<?php echo esc_attr( $args['name'] . '[]' ); ?>"
+							value="<?php echo esc_attr( $option['value'] ); ?>"
 						<?php echo $checked; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					/>
 				</div>
 			<?php endforeach; ?>
 			<?php
 		}
-
 	}
 
 
@@ -249,8 +246,5 @@ class Fields {
 		$table->assign( 'type_list_table', self::$type_list_table );
 		$table->assign( 'page', $page );
 		$table->render( 'admin/fields/field-table' );
-
 	}
-
-
 }

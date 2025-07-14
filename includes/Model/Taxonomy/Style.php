@@ -95,7 +95,6 @@ class Style {
 		);
 
 		$this->args = apply_filters( 'courier_notices_courier_placement_args', $default_args );
-
 	}
 
 
@@ -108,7 +107,6 @@ class Style {
 	 */
 	public function get_args() {
 		return $this->args;
-
 	}
 
 
@@ -131,7 +129,6 @@ class Style {
 		);
 
 		return apply_filters( 'courier_notices_courier_styles', $courier_notice_styles );
-
 	}
 
 
@@ -149,8 +146,5 @@ class Style {
 		}
 
 		return apply_filters( 'courier_notices_courier_style_options', $styles );
-
 	}
-
-
 }

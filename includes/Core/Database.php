@@ -47,7 +47,6 @@ abstract class Database {
 	 * @since 1.0
 	 */
 	public function __construct() {
-
 	}
 
 
@@ -60,7 +59,6 @@ abstract class Database {
 	 */
 	public function get_columns() {
 		return array();
-
 	}
 
 
@@ -73,7 +71,6 @@ abstract class Database {
 	 */
 	public function get_column_defaults() {
 		return array();
-
 	}
 
 
@@ -89,12 +86,11 @@ abstract class Database {
 	public function get( $row_id ) {
 		global $wpdb;
 		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $this->table_name WHERE $this->primary_key = %s LIMIT 1;", $row_id ) );
-
 	}
 
 
 	/**
-	 * Retrieve a row by a specific column / value
+	 * Retrieve a row by a specific column / value.
 	 *
 	 * @since   1.0
 	 *
@@ -109,7 +105,6 @@ abstract class Database {
 		$column = esc_sql( $column );
 
 		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $this->table_name WHERE $column = %s LIMIT 1;", $row_id ) );
-
 	}
 
 
@@ -129,7 +124,6 @@ abstract class Database {
 		$column = esc_sql( $column );
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT $column FROM $this->table_name WHERE $this->primary_key = %s LIMIT 1;", $row_id ) );
-
 	}
 
 
@@ -151,7 +145,6 @@ abstract class Database {
 		$column       = esc_sql( $column );
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT $column FROM $this->table_name WHERE $column_where = %s LIMIT 1;", $column_value ) );
-
 	}
 
 
@@ -191,7 +184,6 @@ abstract class Database {
 		do_action( 'courier_notices_db_after_insert_' . $type, $wpdb->insert_id, $data );
 
 		return $wpdb->insert_id;
-
 	}
 
 
@@ -238,7 +230,6 @@ abstract class Database {
 		}
 
 		return true;
-
 	}
 
 
@@ -266,7 +257,6 @@ abstract class Database {
 		}
 
 		return true;
-
 	}
 
 
@@ -285,8 +275,5 @@ abstract class Database {
 		$table = ! empty( $table ) ? sanitize_text_field( $table ) : $this->table_name;
 
 		return $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE '%s'", $table ) ) === $table;
-
 	}
-
-
 }

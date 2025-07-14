@@ -2,10 +2,10 @@
 
 namespace CourierNotices\Controller;
 
-use \WP_REST_Response;
-use \WP_REST_Controller;
-use \WP_Error;
-use \WP_REST_Request;
+use WP_REST_Response;
+use WP_REST_Controller;
+use WP_Error;
+use WP_REST_Request;
 use CourierNotices\Core\View;
 use CourierNotices\Model\Courier_Notice\Data as Courier_Notice_Data;
 
@@ -19,7 +19,6 @@ class Courier_REST_Controller extends WP_REST_Controller {
 
 	public function register_actions() {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
-
 	}
 
 
@@ -107,18 +106,18 @@ class Courier_REST_Controller extends WP_REST_Controller {
 					'callback'            => [ $this, 'display_all_notices' ],
 					'permission_callback' => [ $this, 'get_notice_permissions_check' ],
 					'args'                => [
-						'format'     => [
+						'format'    => [
 							'description'       => esc_html__( 'Set the response, either html or json.', 'courier-notices' ),
 							'type'              => 'string',
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => 'rest_validate_request_arg',
 						],
-						'post_info'  => [
+						'post_info' => [
 							'description'       => esc_html__( 'Our queried post info', 'courier-notices' ),
 							'type'              => 'object',
 							'validate_callback' => 'rest_validate_request_arg',
 						],
-						'user_id'    => [
+						'user_id'   => [
 							'description'       => esc_html__( 'User ID', 'courier-notices' ),
 							'type'              => 'int',
 							'sanitize_callback' => 'absint',
@@ -128,7 +127,6 @@ class Courier_REST_Controller extends WP_REST_Controller {
 				],
 			]
 		);
-
 	}
 
 
@@ -172,7 +170,6 @@ class Courier_REST_Controller extends WP_REST_Controller {
 		}
 
 		return new \WP_REST_Response( $data, 200 );
-
 	}
 
 
@@ -211,7 +208,6 @@ class Courier_REST_Controller extends WP_REST_Controller {
 		update_user_option( $user_id, 'courier_notifications', $notifications );
 
 		return new WP_REST_Response( 1, 200 );
-
 	}
 
 
@@ -223,7 +219,6 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 */
 	public function get_dismiss_notice_permissions_check( $request ) {
 		return is_user_logged_in();
-
 	}
 
 
@@ -307,7 +302,6 @@ class Courier_REST_Controller extends WP_REST_Controller {
 		$dataset = apply_filters( 'courier_notices_display_notices', $dataset );
 
 		return new WP_REST_Response( $dataset, 200 );
-
 	}
 
 
@@ -358,7 +352,7 @@ class Courier_REST_Controller extends WP_REST_Controller {
 		}
 
 		// Check transient cache
-		$transient_key = 'courier_notices_display_all_transient_' . md5( serialize( $placements ) . serialize( $ajax_post_data ) . $format );
+		$transient_key   = 'courier_notices_display_all_transient_' . md5( serialize( $placements ) . serialize( $ajax_post_data ) . $format );
 		$transient_cache = get_transient( $transient_key );
 		if ( false !== $transient_cache ) {
 			wp_cache_set( $cache_key, $transient_cache, 'courier-notices', 300 );
@@ -444,12 +438,14 @@ class Courier_REST_Controller extends WP_REST_Controller {
 		}
 
 		// This comes from the placement taxonomy terms.
-		$valid_placements = get_terms( [
-			'taxonomy'   => 'courier_placement',
-			'hide_empty' => false,
-		] );
+		$valid_placements = get_terms(
+			[
+				'taxonomy'   => 'courier_placement',
+				'hide_empty' => false,
+			]
+		);
 
-		$sanitized        = [];
+		$sanitized = [];
 
 		foreach ( $placements as $placement ) {
 			$placement = sanitize_text_field( $placement );
@@ -469,7 +465,6 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 */
 	public function get_notice_permissions_check() {
 		return true;
-
 	}
 
 
@@ -482,7 +477,6 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 */
 	public function get_item_permissions_check( $request ) {
 		return $this->get_items_permissions_check( $request );
-
 	}
 
 
@@ -496,7 +490,6 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 */
 	public function prepare_item_for_response( $item, $request ) {
 		return array();
-
 	}
 
 
@@ -525,8 +518,5 @@ class Courier_REST_Controller extends WP_REST_Controller {
 				'sanitize_callback' => 'sanitize_text_field',
 			),
 		);
-
 	}
-
-
 }

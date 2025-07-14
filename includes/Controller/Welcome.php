@@ -19,7 +19,6 @@ class Welcome {
 		add_action( 'wp_ajax_courier_notices_update_welcome_panel', array( $this, 'update_welcome_panel' ) );
 		add_action( 'admin_init', array( $this, 'show_welcome' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
-
 	}
 
 
@@ -38,7 +37,6 @@ class Welcome {
 		update_user_meta( get_current_user_id(), 'show_courier_welcome_panel', empty( $_POST['visible'] ) ? 0 : 1 ); // input var okay, WPCS slow query ok.
 
 		wp_die( 1 );
-
 	}
 
 
@@ -54,7 +52,6 @@ class Welcome {
 		if ( 'edit-courier_notice' === $screen->id ) {
 			add_action( 'all_admin_notices', array( $this, 'welcome_message' ) );
 		}
-
 	}
 
 
@@ -66,7 +63,6 @@ class Welcome {
 	public function welcome_message() {
 		$welcome = new View();
 		$welcome->render( 'admin/welcome' );
-
 	}
 
 
@@ -89,8 +85,5 @@ class Welcome {
 				exit;
 			}
 		}
-
 	}
-
-
 }

@@ -21,7 +21,6 @@ class Shortcodes {
 	public function register_actions() {
 		add_shortcode( 'courier_notices', array( $this, 'courier_notices' ) );
 		add_shortcode( 'courier_notice', array( $this, 'courier_notice' ) );
-
 	}
 
 
@@ -97,7 +96,6 @@ class Shortcodes {
 
 		<?php
 		return ob_get_clean();
-
 	}
 
 
@@ -160,8 +158,5 @@ class Shortcodes {
 		} else {
 			return;
 		}
-
 	}
-
-
 }

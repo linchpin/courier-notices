@@ -96,7 +96,6 @@ class Status {
 		);
 
 		$this->args = apply_filters( 'courier_notices_courier_status_args', $default_args );
-
 	}
 
 
@@ -109,8 +108,5 @@ class Status {
 	 */
 	public function get_args() {
 		return $this->args;
-
 	}
-
-
 }

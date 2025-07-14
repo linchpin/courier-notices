@@ -48,7 +48,6 @@ class Settings {
 		$defaults         = $this->defaults;
 		$this->defaults   = apply_filters( 'courier_notices_allowed_settings', $defaults );
 		$this->option_key = $option_key;
-
 	}
 
 
@@ -67,7 +66,6 @@ class Settings {
 		}
 
 		return wp_parse_args( $saved, $this->defaults );
-
 	}
 
 
@@ -88,7 +86,6 @@ class Settings {
 		$settings = $this->get_settings();
 
 		return $settings[ $key ];
-
 	}
 
 
@@ -117,7 +114,6 @@ class Settings {
 		}
 
 		return false;
-
 	}
 
 
@@ -141,7 +137,6 @@ class Settings {
 		}
 
 		return false;
-
 	}
 
 
@@ -164,8 +159,5 @@ class Settings {
 		}
 
 		return $this->save_settings_array( $settings );
-
 	}
-
-
 }

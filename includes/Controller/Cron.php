@@ -25,7 +25,6 @@ class Cron {
 		add_action( 'courier_expire', array( $this, 'courier_expire' ) );
 
 		add_action( 'init', array( $this, 'init' ) );
-
 	}
 
 
@@ -42,7 +41,6 @@ class Cron {
 		if ( ! wp_next_scheduled( 'courier_expire' ) ) {
 			wp_schedule_event( current_time( 'timestamp' ), 'courier_expire_cron_interval', 'courier_expire' );
 		}
-
 	}
 
 
@@ -65,7 +63,6 @@ class Cron {
 		);
 
 		return $schedules;
-
 	}
 
 
@@ -101,7 +98,6 @@ class Cron {
 
 		wp_cache_delete( 'courier-global-header-notices', 'courier-notices' );
 		wp_cache_delete( 'courier-global-footer-notices', 'courier-notices' );
-
 	}
 
 
@@ -144,8 +140,5 @@ class Cron {
 
 		wp_cache_delete( 'courier-global-header-notices', 'courier-notices' );
 		wp_cache_delete( 'courier-global-footer-notices', 'courier-notices' );
-
 	}
-
-
 }

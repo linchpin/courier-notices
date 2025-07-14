@@ -27,7 +27,6 @@ class Install {
 	 */
 	public function __construct() {
 		$this->config = new Config();
-
 	}
 
 
@@ -39,7 +38,6 @@ class Install {
 	public function register_actions() {
 		add_action( 'admin_init', array( $this, 'check_for_updates' ) );
 		add_action( 'init', array( $this, 'add_capabilities' ), 11 );
-
 	}
 
 
@@ -62,7 +60,6 @@ class Install {
 				$role->add_cap( 'edit_others_courier_notices', true );
 			}
 		}
-
 	}
 
 
@@ -78,7 +75,6 @@ class Install {
 		if ( empty( $plugin_options ) ) {
 			$this->install();
 		}
-
 	}
 
 
@@ -96,7 +92,6 @@ class Install {
 			add_term_meta( $term['term_id'], '_courier_type_color', $hex_color, true );
 			add_term_meta( $term['term_id'], '_courier_type_icon', $class_name, true );
 		}
-
 	}
 
 
@@ -144,9 +139,5 @@ class Install {
 		wp_insert_term( esc_html__( 'Footer', 'courier-notices' ), 'courier_placement' );
 
 		courier_get_css();
-
 	}
-
-
 }
-

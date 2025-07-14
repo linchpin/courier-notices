@@ -31,8 +31,5 @@ class Files {
 		}
 
 		return $files;
-
 	}
-
-
 }

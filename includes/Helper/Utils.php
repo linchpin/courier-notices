@@ -24,7 +24,6 @@ class Utils {
 	 */
 	public static function is_wp_cron_disabled() {
 		return ( defined( 'DISABLE_CRON' ) && true === DISABLE_CRON );
-
 	}
 
 
@@ -61,7 +60,6 @@ class Utils {
 		);
 
 		return apply_filters( 'courier_notices_safe_markup', $safe_content );
-
 	}
 
 
@@ -75,7 +73,6 @@ class Utils {
 	 */
 	public static function get_random_color() {
 		return sprintf( '#%06X', wp_rand( 0, 0xFFFFFF ) );
-
 	}
 
 
@@ -98,10 +95,9 @@ class Utils {
 			if ( ! empty( $label ) ) {
 				error_log( 'Start: ' . $label ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			}
-		} else {
-			if ( ! empty( $label ) ) {
+		} elseif ( ! empty( $label ) ) {
 				error_log( $label ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
-			}
+
 		}
 
 		if ( is_object( $output ) || is_array( $output ) ) {
@@ -119,8 +115,5 @@ class Utils {
 
 			error_log( '----------------------------------' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		}
-
 	}
-
-
 }

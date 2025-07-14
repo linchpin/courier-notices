@@ -6,7 +6,7 @@
  */
 
 use CourierNotices\Model\Courier_Notice\Data as Courier_Notice_Data;
-use CourierNotices\Controller\Courier_Types as Courier_Types;
+use CourierNotices\Controller\Courier_Types;
 use CourierNotices\Helper\Utils;
 use CourierNotices\Core\View;
 
@@ -91,7 +91,6 @@ function courier_notices_add_notice( $notice = '', $types = array( 'Informationa
 	} else {
 		return false;
 	}
-
 }
 
 
@@ -108,7 +107,6 @@ function courier_notices_get_user_notices( $args = array() ) {
 	$data = new Courier_Notice_Data();
 
 	return $data->get_user_notices( $args );
-
 }
 
 
@@ -125,7 +123,6 @@ function courier_notices_get_global_notices( $args = array() ) {
 	$data = new Courier_Notice_Data();
 
 	return $data->get_global_notices( $args );
-
 }
 
 
@@ -143,7 +140,6 @@ function courier_notices_get_dismissible_global_notices( $args = array(), $ids_o
 	$data = new Courier_Notice_Data();
 
 	return $data->get_dismissible_global_notices( $args, $ids_only );
-
 }
 
 
@@ -160,7 +156,6 @@ function courier_notices_get_persistent_global_notices( $args = array() ) {
 	$data = new Courier_Notice_Data();
 
 	return $data->get_persistent_global_notices( $args );
-
 }
 
 
@@ -177,7 +172,6 @@ function courier_notices_get_notices( $args = array() ) {
 	$data = new Courier_Notice_Data();
 
 	return $data->get_notices( $args );
-
 }
 
 
@@ -189,7 +183,7 @@ function courier_notices_get_notices( $args = array() ) {
  * @param array $args Array of arguments.
  */
 function courier_notices_display_notices( $args = array() ) {
-	$courier_placement    = ( ! empty( $args['placement'] ) ) ? $args['placement'] : '';
+	$courier_placement = ( ! empty( $args['placement'] ) ) ? $args['placement'] : '';
 
 	if ( empty( $courier_placement ) ) {
 		return false;
@@ -200,14 +194,13 @@ function courier_notices_display_notices( $args = array() ) {
 	$courier_notices_view = new View();
 	$courier_notices_view->assign( 'courier_placement', $courier_placement );
 	$courier_notices_view->assign( 'courier_style', $courier_style );
-	
+
 	$output = $courier_notices_view->get_text_view( 'notices-ajax' );
 
 	$output       = apply_filters( 'courier_notices', $output );
 	$allowed_html = Utils::get_safe_markup();
 
 	echo wp_kses( $output, $allowed_html );
-
 }
 
 
@@ -234,13 +227,12 @@ function courier_notices_display_modals( $args = array() ) {
 	$courier_notices   = new \CourierNotices\Core\View();
 	$courier_notices->assign( 'courier_placement', $courier_placement );
 	$courier_notices->assign( 'courier_style', $courier_style );
-	
+
 	$output = $courier_notices->get_text_view( 'notices-ajax-modal' );
 
 	$output       = apply_filters( 'courier_notices_modal', $output );
 	$allowed_html = Utils::get_safe_markup();
 	echo wp_kses( $output, $allowed_html );
-
 }
 
 
@@ -287,7 +279,6 @@ function courier_notices_get_dismissed_notices( $user_id = 0 ) {
 	}
 
 	return $dismissed_notices;
-
 }
 
 
@@ -304,7 +295,6 @@ function courier_notices_get_global_dismissed_notices( $user_id = 0 ) {
 	$data = new Courier_Notice_Data();
 
 	return $data->get_global_dismissed_notices( $user_id );
-
 }
 
 
@@ -325,7 +315,6 @@ function courier_notices_get_all_dismissed_notices( $user_id = 0 ) {
 	}
 
 	return array_merge( courier_notices_get_dismissed_notices( $user_id ), courier_notices_get_global_dismissed_notices( $user_id ) );
-
 }
 
 
@@ -392,7 +381,6 @@ function courier_notices_dismiss_notices( $notice_ids, $user_id = 0, $force_dism
 	} else {
 		return $errors;
 	}
-
 }
 
 
@@ -405,20 +393,20 @@ function courier_notices_dismiss_notices( $notice_ids, $user_id = 0, $force_dism
 function courier_notices_clear_cache() {
 	// Clear object cache
 	wp_cache_flush_group( 'courier-notices' );
-	
+
 	// Clear transients that start with courier_notices_
 	global $wpdb;
-	$wpdb->query( 
-		$wpdb->prepare( 
-			"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", 
-			'_transient_courier_notices_%' 
-		) 
+	$wpdb->query(
+		$wpdb->prepare(
+			"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
+			'_transient_courier_notices_%'
+		)
 	);
-	$wpdb->query( 
-		$wpdb->prepare( 
-			"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", 
-			'_transient_timeout_courier_notices_%' 
-		) 
+	$wpdb->query(
+		$wpdb->prepare(
+			"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
+			'_transient_timeout_courier_notices_%'
+		)
 	);
 }
 
@@ -438,7 +426,6 @@ function courier_notices_get_css() {
 	}
 
 	return wp_strip_all_tags( $courier_css );
-
 }
 
 
@@ -467,5 +454,4 @@ function courier_notices_the_notice_title( $title, $before = '', $after = '', $e
 	} else {
 		return $title;
 	}
-
 }
