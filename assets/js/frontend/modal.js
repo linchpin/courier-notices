@@ -4,10 +4,9 @@ import {getItem} from './cookie';
 let $ = jQuery;
 let $window = $(window);
 let settings = {
-	contentType: "application/json",
-	placement: 'popup-modal',
+	placements: ['popup-modal'],
 	format: 'html',
-	post_info:{},
+	post_info: {},
 };
 
 const modal = () => {
@@ -22,6 +21,9 @@ const setupModals = () => {
 
 /**
  * Shows the modal (if there is one) after the page is fully loaded
+ * Updated to use the optimized endpoint
+ *
+ * @since 1.7.2
  */
 const loadModals = () => {
 
@@ -33,6 +35,11 @@ const loadModals = () => {
 		return;
 	}
 
+	// Check if we should include user ID
+	if ( courier_notices_data.user_id !== '0' ) {
+		settings.user_id = courier_notices_data.user_id;
+	}
+
 	if ( typeof( courier_notices_data.post_info ) !== 'undefined' ) {
 		settings.post_info = courier_notices_data.post_info;
 	}
@@ -41,33 +48,38 @@ const loadModals = () => {
 		dismissed_notice_ids = JSON.parse( dismissed_notice_ids );
 		dismissed_notice_ids = dismissed_notice_ids || [];
 
+	// Use the optimized endpoint
 	$.ajax( {
 		method: 'GET',
 		beforeSend: function (xhr) {
-			xhr.setRequestHeader( 'X-WP-Nonce', courier_notices_data.wp_rest_nonce );
+			// only send nonce if the user is logged in.
+			if ( courier_notices_data.user_id !== '0' ) {
+				xhr.setRequestHeader( 'X-WP-Nonce', courier_notices_data.wp_rest_nonce );
+			}
 		},
-		'url': courier_notices_data.notices_endpoint,
-		'data': settings,
+		url: courier_notices_data.notices_all_endpoint,
+		data: settings,
 	} ).done( function ( response ) {
 
-		if ( response.notices ) {
+		// Handle the new response format
+		if ( response && response['popup-modal'] ) {
+			let modalNotices = response['popup-modal'];
 
-			for ( let notice in response.notices ) {
-
-				if ( dismissed_notice_ids.indexOf( parseInt( notice ) ) !== -1 ) {
+			for ( let notice_id in modalNotices ) {
+				if ( dismissed_notice_ids.indexOf( parseInt( notice_id ) ) !== -1 ) {
 					continue;
 				}
 
-				notices.push( response.notices[ notice ] );
+				notices.push( modalNotices[ notice_id ] );
 			}
 
 			if ( notices.length > 0 ) {
-
 				window.courier_notices_modal_notices = notices;
-
 				displayModal( 0 );
 			}
 		}
+	} ).fail( function( jqXHR, textStatus, errorThrown ) {
+		console.error( 'Courier Notices: Failed to load modal notices', textStatus, errorThrown );
 	} );
 };
 
@@ -88,7 +100,7 @@ export function displayModal ( index ) {
 		return;
 	}
 
-	$( '.courier-notices[data-courier-placement="' + settings.placement + '"] .courier-modal-overlay' )
+	$( '.courier-notices[data-courier-placement="popup-modal"] .courier-modal-overlay' )
 		.append( $notice );
 
 	$('.courier-modal-overlay').removeClass('hide').show();

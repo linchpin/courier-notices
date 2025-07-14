@@ -76,19 +76,20 @@ class Courier_Notices {
 		global $post;
 
 		$localized_data = array(
-			'notice_endpoint'  => site_url( '/wp-json/courier-notices/v1/notice/' ),
-			'notices_endpoint' => site_url( '/wp-json/courier-notices/v1/notices/display/' ),
-			'notices_nonce'    => wp_create_nonce( 'courier_notices_get_notices' ),
-			'wp_rest_nonce'    => wp_create_nonce( 'wp_rest' ),
-			'dismiss_nonce'    => wp_create_nonce( 'courier_notices_dismiss_' . get_current_user_id() . '_notice_nonce' ),
-			'post_info'        => array(
+			'notice_endpoint'     => site_url( '/wp-json/courier-notices/v1/notice/' ),
+			'notices_endpoint'    => site_url( '/wp-json/courier-notices/v1/notices/display/' ),
+			'notices_all_endpoint' => site_url( '/wp-json/courier-notices/v1/notices/display-all/' ),
+			'notices_nonce'       => wp_create_nonce( 'courier_notices_get_notices' ),
+			'wp_rest_nonce'       => wp_create_nonce( 'wp_rest' ),
+			'dismiss_nonce'       => wp_create_nonce( 'courier_notices_dismiss_' . get_current_user_id() . '_notice_nonce' ),
+			'post_info'           => array(
 				'ID' => ( ! empty( $post ) ) ? $post->ID : -1,
 			),
-			'strings'          => array(
+			'strings'             => array(
 				'close'   => esc_html__( 'Close', 'courier-notices' ),
 				'dismiss' => esc_html__( 'Dismiss', 'courier-notices' ),
 			),
-			'user_id'          => get_current_user_id(),
+			'user_id'             => get_current_user_id(),
 		);
 
 		wp_register_script( 'courier-notices', $config->get( 'plugin_url' ) . 'js/courier-notices.js', $js_dependencies, $config->get( 'version' ), true );

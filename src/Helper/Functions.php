@@ -441,3 +441,50 @@ function courier_notices_the_notice_title( $title, $before = '', $after = '', $e
 	}
 
 }
+
+/**
+ * Check if notices exist for specific placements
+ * This helps optimize frontend requests by avoiding unnecessary AJAX calls
+ *
+ * @since 1.7.2
+ *
+ * @param array $placements Array of placement strings to check.
+ * @param array $args       Additional arguments for the query.
+ *
+ * @return array Array with placement as key and boolean as value indicating if notices exist.
+ */
+function courier_notices_has_notices_for_placements( $placements = [], $args = [] ) {
+	if ( empty( $placements ) ) {
+		return [];
+	}
+
+	$results = [];
+	$defaults = [
+		'post_type'              => 'courier_notice',
+		'post_status'            => 'publish',
+		'posts_per_page'         => 1,
+		'no_found_rows'          => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => false,
+		'fields'                 => 'ids',
+	];
+
+	$args = wp_parse_args( $args, $defaults );
+
+	foreach ( $placements as $placement ) {
+		$placement_args = $args;
+		$placement_args['tax_query'] = [
+			'relation' => 'AND',
+			[
+				'taxonomy' => 'courier_placement',
+				'field'    => 'slug',
+				'terms'    => $placement,
+			],
+		];
+
+		$query = new \WP_Query( $placement_args );
+		$results[ $placement ] = $query->have_posts();
+	}
+
+	return $results;
+}
