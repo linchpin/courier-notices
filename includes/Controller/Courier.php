@@ -4,6 +4,7 @@
  *
  * @package CourierNotices\Controller
  */
+
 namespace CourierNotices\Controller;
 
 /**
@@ -106,7 +107,7 @@ class Courier {
 				/* translators: %1$s: date and time of the revision, %2$s: link to notice */
 				__( 'Notice scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview notice</a>', 'courier-notices' ),
 				// translators: Publish box date format, see http://php.net/date.
-				date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ),
+				date_i18n( __( 'M j, Y @ G:i', 'courier-notices' ), strtotime( $post->post_date ) ),
 				esc_url( $permalink )
 			),
 			/* translators: %1$s: date and time of the revision, %2$s: link to notice */
@@ -244,7 +245,7 @@ class Courier {
 			),
 		);
 
-		// Build out our list of post types
+		// Build out our list of post types.
 		foreach ( $public_post_types as $key => $post_type ) {
 			$options[] = array(
 				'value' => $key,
@@ -252,8 +253,8 @@ class Courier {
 			);
 		}
 
-		// Allow for the list of options to be filtered
-		$options = apply_filters( 'courier_visibility_scope_options', $options );
+		// Allow for the list of options to be filtered.
+		$options = apply_filters( 'courier_notices_visibility_scope_options', $options );
 
 		return $options;
 	}
@@ -263,6 +264,8 @@ class Courier {
 	 * Get the currently selected type of notice.
 	 *
 	 * @since 1.0
+	 *
+	 * @param int $post_id The post ID.
 	 *
 	 * @return string
 	 */
@@ -300,7 +303,7 @@ class Courier {
 
 		if ( isset( $_POST['courier_notice_info_noncename'] ) && wp_verify_nonce( $_POST['courier_notice_info_noncename'], 'courier_notice_info_nonce' ) ) {
 
-			// By default set an object to be global
+			// By default set an object to be global.
 			wp_set_object_terms( $post_id, 'global', 'courier_scope', false );
 			wp_remove_object_terms( $post_id, array( 'dismissed' ), 'courier_status' );
 
@@ -317,7 +320,7 @@ class Courier {
 			 * @since 1.3.0
 			 */
 
-			// Force hide title (If show title is enabled for the Notice "Style"
+			// Force hide title (If show title is enabled for the Notice "Style").
 			if ( empty( $_POST['courier_hide_title'] ) ) {
 				delete_post_meta( $post_id, '_courier_hide_title' );
 			} else {
@@ -325,7 +328,7 @@ class Courier {
 				update_post_meta( $post_id, '_courier_hide_title', 1 );
 			}
 
-			// Force show title (by default notice titles are hidden)
+			// Force show title (by default notice titles are hidden).
 			if ( empty( $_POST['courier_show_title'] ) ) {
 				delete_post_meta( $post_id, '_courier_show_title' );
 			} else {
@@ -335,39 +338,29 @@ class Courier {
 
 			if ( empty( $_POST['courier_placement'] ) ) {
 				wp_set_object_terms( $post_id, null, 'courier_placement' );
-			} else {
-				// Only set the courier type if the type actually exists.
-				if ( term_exists( $_POST['courier_placement'], 'courier_placement' ) ) {
-					wp_set_object_terms( $post_id, (string) $_POST['courier_placement'], 'courier_placement' );
-				}
+			} elseif ( term_exists( $_POST['courier_placement'], 'courier_placement' ) ) {
+				wp_set_object_terms( $post_id, (string) $_POST['courier_placement'], 'courier_placement' );
 			}
 
 			if ( empty( $_POST['courier_style'] ) ) {
 				wp_set_object_terms( $post_id, null, 'courier_style' );
-			} else {
-				// Only set the courier type if the type actually exists.
-				if ( term_exists( $_POST['courier_style'], 'courier_style' ) ) {
-					wp_set_object_terms( $post_id, (string) $_POST['courier_style'], 'courier_style' );
-				}
+			} elseif ( term_exists( $_POST['courier_style'], 'courier_style' ) ) {
+				wp_set_object_terms( $post_id, (string) $_POST['courier_style'], 'courier_style' );
 			}
 
 			if ( empty( $_POST['courier_type'] ) ) {
 				wp_set_object_terms( $post_id, null, 'courier_type' );
-			} else {
-				// Only set the courier type if the type actually exists.
-				if ( term_exists( $_POST['courier_type'], 'courier_type' ) ) {
-					wp_set_object_terms( $post_id, (string) $_POST['courier_type'], 'courier_type' );
-				}
+			} elseif ( term_exists( $_POST['courier_type'], 'courier_type' ) ) {
+				wp_set_object_terms( $post_id, (string) $_POST['courier_type'], 'courier_type' );
 			}
 		}
 
-		// Check for expiration date on a notice
-
+		// Check for expiration date on a notice.
 		if ( isset( $_POST['courier_notices_expiration_noncename'] ) && wp_verify_nonce( $_POST['courier_notices_expiration_noncename'], 'courier_notices_expiration_nonce' ) ) {
 
 			if ( empty( $_POST['courier_expire_date'] ) ) {
 				delete_post_meta( $post_id, '_courier_expiration' );
-			} else {
+			} elseif ( ! empty( $_POST['courier_expire_date'] ) ) {
 				$expire_date = strtotime( $_POST['courier_expire_date'] );
 				update_post_meta( $post_id, '_courier_expiration', $expire_date );
 			}
@@ -407,9 +400,9 @@ class Courier {
 
 		if ( has_term( 'Global', 'courier_scope', $post_id ) ) {
 			return;
+		} elseif ( ! has_term( 'Global', 'courier_scope', $post_id ) ) {
+			update_post_meta( $post_id, '_courier_sender', get_current_user_id() );
 		}
-
-		update_post_meta( $post_id, '_courier_sender', get_current_user_id() );
 	}
 
 
@@ -468,6 +461,15 @@ class Courier {
 	 * @param object $query Query object.
 	 */
 	public function pre_get_posts( $query ) {
+		if ( is_admin() && $query->is_main_query() && $query->get( 'post_type' ) === 'courier_notice' ) {
+			$post_status = $query->get( 'post_status' );
+			if ( empty( $post_status ) || 'any' === $post_status ) {
+				$default_statuses = array( 'publish', 'pending', 'draft', 'future', 'private', 'courier_expired' );
+				$query->set( 'post_status', $default_statuses );
+			}
+			return;
+		}
+
 		if ( is_admin() ) {
 			return;
 		}
@@ -493,7 +495,7 @@ class Courier {
 		// If no notices are found, be super specific to ensure an empty result is in fact returned to the user.
 		if ( empty( $notices ) ) {
 			$query->query_vars['author'] = get_current_user_id();
-		} else {
+		} elseif ( ! empty( $notices ) ) {
 			$query->query_vars['post__in'] = $notices;
 		}
 	}
