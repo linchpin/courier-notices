@@ -4,6 +4,7 @@
  *
  * @package CourierNotices\Core
  */
+
 namespace CourierNotices\Core;
 
 use CourierNotices\Model\Config;
@@ -19,14 +20,21 @@ class Bootstrap {
 	 *
 	 * @var array|Config
 	 */
-	private $config = array();
+	private $config = [];
 
 	/**
 	 * Controllers
 	 *
 	 * @var array
 	 */
-	private $controllers = array();
+	private $controllers = [];
+
+	/**
+	 * Namespace
+	 *
+	 * @var string
+	 */
+	private $namespace = 'CourierNotices';
 
 
 	/**
@@ -36,7 +44,6 @@ class Bootstrap {
 	 */
 	public function __construct() {
 		$this->config = new Config();
-
 	}
 
 
@@ -53,34 +60,48 @@ class Bootstrap {
 		$this->register_actions();
 
 		// Include helper functions.
-		include_once $this->config->get( 'plugin_path' ) . 'src/Helper/Functions.php';
-		include_once $this->config->get( 'plugin_path' ) . 'src/Helper/Deprecated.php';
-		include_once $this->config->get( 'plugin_path' ) . 'src/Helper/WP_List_Table.php';
-		include_once $this->config->get( 'plugin_path' ) . 'src/Helper/Type_List_Table.php';
+		require_once COURIER_NOTICES_PATH . 'includes/Helper/Functions.php';
+		require_once COURIER_NOTICES_PATH . 'includes/Helper/Deprecated.php';
+		require_once COURIER_NOTICES_PATH . 'includes/Helper/WP_List_Table.php';
+		require_once COURIER_NOTICES_PATH . 'includes/Helper/Type_List_Table.php';
+
+		add_action( 'init', [ $this, 'load_textdomain' ] );
 
 		// The plugin is ready.
 		do_action( 'courier_notices_ready', $this );
-
 	}
 
 
 	/**
-	 * Loop over all php files in the Controllers directory and add them to
-	 * the $controllers array
+	 * Loads the plugin's textdomain for translation.
 	 *
-	 * @since 1.0
+	 * We need to load the text domain a little later based on WordPress 6.6 changes.
+	 *
+	 * @since 1.0.0
+	 */
+	public function load_textdomain() {
+		\load_plugin_textdomain( 'courier-notices', false, COURIER_NOTICES_PATH . 'languages/' );
+	}
+
+
+	/**
+	 * Instantiates all the plugin's Controller classes
+	 *
+	 * @since 1.0.0
 	 */
 	private function load_controllers() {
-		$namespace = $this->config->get( 'namespace' );
+		foreach ( Files::glob_recursive( COURIER_NOTICES_PATH . 'includes/Controller/*.php' ) as $file ) {
+			preg_match( '/\/Controller\/(.+(?<!_Interface|SOAP|Generic))\.php/', $file, $matches, PREG_OFFSET_CAPTURE );
 
-		foreach ( Files::glob_recursive( $this->config->get( 'plugin_path' ) . 'src/Controller/*.php' ) as $file ) {
-			preg_match( '/\/Controller\/(.+)\.php/', $file, $matches, PREG_OFFSET_CAPTURE );
+			if ( empty( $matches ) ) {
+				continue;
+			}
+
 			$name  = str_replace( '/', '\\', $matches[1][0] );
-			$class = '\\' . $namespace . '\\Controller\\' . $name;
+			$class = "\\{$this->namespace}\\Controller\\{$name}";
 
 			$this->controllers[ $name ] = new $class();
 		}
-
 	}
 
 
@@ -95,8 +116,5 @@ class Bootstrap {
 				$class->register_actions();
 			}
 		}
-
 	}
-
-
 }
