@@ -3,12 +3,15 @@
  * Cron Controller.
  *
  * @package CourierNotices\Controller
+ * @deprecated 1.8.0 Use Action_Scheduler instead
  */
 
 namespace CourierNotices\Controller;
 
 /**
  * Cron Class
+ * 
+ * @deprecated 1.8.0 This class is deprecated. Use Action_Scheduler instead.
  */
 class Cron {
 
@@ -17,8 +20,19 @@ class Cron {
 	 * Courier_Cron constructor.
 	 *
 	 * @since 1.0
+	 * @deprecated 1.8.0 Use Action_Scheduler instead
 	 */
 	public function register_actions() {
+		// Skip cron registration if Action Scheduler is being used
+		if ( $this->is_action_scheduler_active() ) {
+			return;
+		}
+
+		// Add deprecation notice for developers
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			_deprecated_function( __METHOD__, '1.8.0', 'CourierNotices\Controller\Action_Scheduler::register_actions' );
+		}
+
 		add_filter( 'cron_schedules', array( $this, 'add_courier_cron_interval' ) );
 
 		add_action( 'courier_purge', array( $this, 'courier_purge' ) );
@@ -33,8 +47,14 @@ class Cron {
 	 * Add our events for expiring notices
 	 *
 	 * @since 1.0.5
+	 * @deprecated 1.8.0 Use Action_Scheduler instead
 	 */
 	public function init() {
+		// Skip cron initialization if Action Scheduler is being used
+		if ( $this->is_action_scheduler_active() ) {
+			return;
+		}
+
 		if ( ! wp_next_scheduled( 'courier_purge' ) ) {
 			wp_schedule_event( current_time( 'timestamp' ), 'courier_purge_cron_interval', 'courier_purge' );
 		}
@@ -73,6 +93,7 @@ class Cron {
 	 * Delete Courier notices that are older than 6 months.
 	 *
 	 * @since 1.0
+	 * @deprecated 1.8.0 Use Action_Scheduler instead
 	 */
 	public function courier_purge() {
 		$args = array(
@@ -109,6 +130,7 @@ class Cron {
 	 * Expire notices if their expiration date has passed.
 	 *
 	 * @since 1.0
+	 * @deprecated 1.8.0 Use Action_Scheduler instead
 	 */
 	public function courier_expire() {
 		$args = array(
@@ -145,6 +167,17 @@ class Cron {
 		wp_cache_delete( 'courier-global-header-notices', 'courier-notices' );
 		wp_cache_delete( 'courier-global-footer-notices', 'courier-notices' );
 
+	}
+
+	/**
+	 * Check if Action Scheduler is active and should be used instead of cron
+	 *
+	 * @since 1.8.0
+	 * @return bool True if Action Scheduler should be used
+	 */
+	private function is_action_scheduler_active() {
+		$plugin_options = get_option( 'courier_notices_options', [] );
+		return ! empty( $plugin_options['use_action_scheduler'] );
 	}
 
 

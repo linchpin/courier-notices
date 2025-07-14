@@ -4,6 +4,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] (2024-XX-XX)
+
+### Added
+- Action Scheduler dependency for improved notice expiration management
+- Individual notice scheduling instead of bulk checking
+- Automatic migration from WP Cron to Action Scheduler
+- New Action Scheduler controller with better error handling
+- Admin notice for successful migration
+- Comprehensive migration documentation
+- New action hooks for developers (`courier_notices_notice_expired`, `courier_notices_notices_purged`, `courier_notices_bulk_expired`)
+- Fallback systems for bulk expiration and purging
+
+### Changed
+- **BREAKING**: Migrated from WP Cron to Action Scheduler for better reliability
+- Notice expiration now uses individual scheduling for each notice
+- Purge actions now run daily instead of every 5 minutes
+- Improved performance and scalability for sites with many notices
+
+### Deprecated
+- Legacy Cron controller (still functional but marked as deprecated)
+- WP Cron scheduling system for notice expiration
+
+### Fixed
+- More reliable notice expiration timing
+- Reduced server load during notice processing
+- Better handling of notice expiration in high-traffic environments
+
+### Security
+- Improved nonce verification for admin actions
+- Better permission checks for migration processes
+
 ## [1.7.1](https://github.com/linchpin/courier-notices/compare/v1.7.0...v1.7.1) (2024-08-26)
 
 

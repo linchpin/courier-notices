@@ -2,7 +2,7 @@
   "name": "linchpin/courier-notices",
   "description": "Courier Notices, a highly extendable advanced front end notification plugin for WordPress",
   "homepage": "https://github.com/linchpin/courier-notices",
-  "version": "1.7.1",
+  "version": "1.8.0",
   "authors": [
     {
       "name": "Linchpin",
@@ -32,7 +32,8 @@
   "type": "wordpress-plugin",
   "require": {
     "php": ">=7.3",
-    "erusev/parsedown": "1.7.4"
+    "erusev/parsedown": "1.7.4",
+    "woocommerce/action-scheduler": "^3.8"
   },
   "autoload": {
     "psr-4": {
