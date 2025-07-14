@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_action' ) ) {
 }
 
 use CourierNotices\Core\View;
-use CourierNotices\Helper\WP_List_Table as WP_List_Table;
+use CourierNotices\Helper\WP_List_Table;
 
 /**
  * Type_List_Table Class
@@ -37,7 +37,6 @@ class Type_List_Table extends WP_List_Table {
 			'notice_delete'  => '',
 		);
 		return $table_columns;
-
 	}
 
 
@@ -62,7 +61,6 @@ class Type_List_Table extends WP_List_Table {
 			default:
 				return print_r( $item, true ) ; // phpcs:ignore
 		}
-
 	}
 
 
@@ -73,7 +71,6 @@ class Type_List_Table extends WP_List_Table {
 	 */
 	public function no_items() {
 		esc_html_e( 'No types available.', 'courier-notices' );
-
 	}
 
 
@@ -112,7 +109,6 @@ class Type_List_Table extends WP_List_Table {
 		</table>
 		<?php
 		$this->display_tablenav( 'bottom' );
-
 	}
 
 
@@ -156,7 +152,6 @@ class Type_List_Table extends WP_List_Table {
 		$data                  = array_slice( $data, ( ( $current_page - 1 ) * $items_per_page ), $items_per_page );
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$this->items           = $data;
-
 	}
 
 
@@ -169,7 +164,6 @@ class Type_List_Table extends WP_List_Table {
 	 */
 	public function get_hidden_columns() {
 		return array();
-
 	}
 
 
@@ -182,7 +176,6 @@ class Type_List_Table extends WP_List_Table {
 	 */
 	public function get_sortable_columns() {
 		return array( 'title' => array( 'title', false ) );
-
 	}
 
 
@@ -201,7 +194,6 @@ class Type_List_Table extends WP_List_Table {
 			// translators: %1$s Title of the term.
 			sprintf( esc_html__( 'Select %1$s', 'courier-notices' ), $item['title'] )
 		);
-
 	}
 
 
@@ -327,7 +319,6 @@ class Type_List_Table extends WP_List_Table {
 
 		// Return result array to prepare_items.
 		return $data;
-
 	}
 
 
@@ -356,7 +347,6 @@ class Type_List_Table extends WP_List_Table {
 		);
 
 		return $filtered_table_data;
-
 	}
 
 
@@ -369,7 +359,6 @@ class Type_List_Table extends WP_List_Table {
 		/**
 		 * Add any bulk actions. Maybe bulk delete?
 		 */
-
 	}
 
 
@@ -412,7 +401,6 @@ class Type_List_Table extends WP_List_Table {
 		];
 
 		return $edit_link . $option_fields . $this->row_actions( $actions );
-
 	}
 
 
@@ -440,7 +428,6 @@ class Type_List_Table extends WP_List_Table {
 		);
 
 		return implode( ' ', $action_links );
-
 	}
 
 
@@ -467,8 +454,5 @@ class Type_List_Table extends WP_List_Table {
 		}
 
 		return $is_default_item;
-
 	}
-
-
 }

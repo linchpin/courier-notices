@@ -34,7 +34,6 @@ class Admin {
 		if ( ! empty( $_GET['post_type'] ) && 'courier_notice' === $_GET['post_type'] ) { // @codingStandardsIgnoreLine
 			add_filter( 'months_dropdown_results', '__return_empty_array' );
 		}
-
 	}
 
 
@@ -50,7 +49,6 @@ class Admin {
 		$messages['courier_notice'][6] = esc_html__( 'Courier Notice Published.', 'courier-notice' );
 
 		return $messages;
-
 	}
 
 
@@ -89,7 +87,6 @@ class Admin {
 				),
 			)
 		);
-
 	}
 
 
@@ -150,7 +147,6 @@ class Admin {
 
 				break;
 		}
-
 	}
 
 
@@ -199,7 +195,6 @@ class Admin {
 		</div>
 
 		<?php
-
 	}
 
 
@@ -297,7 +292,6 @@ class Admin {
 			'courier_notices_admin_data',
 			$courier_notices_admin_data
 		);
-
 	}
 
 
@@ -340,7 +334,6 @@ class Admin {
 		}
 
 		wp_enqueue_style( 'wp-color-picker' );
-
 	}
 
 
@@ -372,7 +365,6 @@ class Admin {
 		}
 
 		return $date_time->getTimestamp();
-
 	}
 
 
@@ -411,8 +403,5 @@ class Admin {
 				)
 			);
 		}
-
 	}
-
-
 }

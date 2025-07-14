@@ -22,7 +22,6 @@ class Placement {
 		add_action( 'wp_body_open', array( __CLASS__, 'place_header_notices' ), 100 );
 		add_action( 'get_footer', array( __CLASS__, 'place_footer_notices' ), 100 );
 		add_action( 'wp_body_open', array( __CLASS__, 'place_modal_notices' ), 100 );
-
 	}
 
 
@@ -37,7 +36,6 @@ class Placement {
 				'placement' => 'header',
 			)
 		);
-
 	}
 
 
@@ -52,7 +50,6 @@ class Placement {
 				'placement' => 'footer',
 			)
 		);
-
 	}
 
 
@@ -63,8 +60,5 @@ class Placement {
 	 */
 	public static function place_modal_notices() {
 		courier_notices_display_modals();
-
 	}
-
-
 }

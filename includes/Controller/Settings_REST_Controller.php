@@ -16,7 +16,6 @@ class Settings_REST_Controller {
 	 */
 	public function register_actions() {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
-
 	}
 
 
@@ -48,7 +47,6 @@ class Settings_REST_Controller {
 				'permission_callback' => array( $this, 'permissions' ),
 			)
 		);
-
 	}
 
 
@@ -63,7 +61,6 @@ class Settings_REST_Controller {
 		}
 
 		return current_user_can( 'manage_options' );
-
 	}
 
 
@@ -82,7 +79,6 @@ class Settings_REST_Controller {
 		$settings_model->save_settings_array( $request->get_params() );
 
 		return new \WP_REST_Response( $settings_model->get_settings() );
-
 	}
 
 
@@ -99,8 +95,5 @@ class Settings_REST_Controller {
 		$results = $settings_model->get_settings();
 
 		return rest_ensure_response( $results );
-
 	}
-
-
 }

@@ -27,7 +27,6 @@ class Config {
 	 */
 	public function __construct() {
 		$this->setup_plugin_config();
-
 	}
 
 
@@ -72,7 +71,6 @@ class Config {
 		wp_cache_set( 'config', $config, 'courier-notices' );
 
 		return $config;
-
 	}
 
 
@@ -91,7 +89,6 @@ class Config {
 		}
 
 		return false;
-
 	}
 
 
@@ -109,7 +106,6 @@ class Config {
 		$this->properties[ $name ] = $value;
 
 		return $this;
-
 	}
 
 
@@ -134,8 +130,5 @@ class Config {
 		}
 
 		return $this;
-
 	}
-
-
 }

@@ -22,7 +22,6 @@ class WP_SEO {
 	public function register_actions() {
 		add_filter( 'wpseo_sitemap_exclude_post_type', array( $this, 'exclude_courier_notice_from_search' ), 10, 2 );
 		add_filter( 'wpseo_sitemap_exclude_taxonomy', array( $this, 'exclude_courier_notice_taxonomies' ), 10, 2 );
-
 	}
 
 
@@ -44,7 +43,6 @@ class WP_SEO {
 		}
 
 		return false;
-
 	}
 
 
@@ -64,8 +62,5 @@ class WP_SEO {
 		}
 
 		return false;
-
 	}
-
-
 }

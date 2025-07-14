@@ -105,7 +105,6 @@ class Courier_Notice {
 		);
 
 		$this->args = apply_filters( 'courier_notices_notice_args', $default_args );
-
 	}
 
 
@@ -118,8 +117,5 @@ class Courier_Notice {
 	 */
 	public function get_args() {
 		return $this->args;
-
 	}
-
-
 }

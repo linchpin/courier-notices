@@ -20,7 +20,6 @@ class Stream {
 	 */
 	public function register_actions() {
 		add_filter( 'wp_stream_log_data', array( $this, 'wp_stream_log_data' ), 999 );
-
 	}
 
 
@@ -39,8 +38,5 @@ class Stream {
 		}
 
 		return $data;
-
 	}
-
-
 }

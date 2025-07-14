@@ -172,7 +172,6 @@ class WP_List_Table {
 				'excerpt' => __( 'Excerpt View' ),
 			);
 		}
-
 	}
 
 
@@ -188,7 +187,6 @@ class WP_List_Table {
 		if ( in_array( $name, $this->compat_fields ) ) {
 			return $this->$name;
 		}
-
 	}
 
 
@@ -205,7 +203,6 @@ class WP_List_Table {
 		if ( in_array( $name, $this->compat_fields ) ) {
 			return $this->$name = $value;
 		}
-
 	}
 
 
@@ -221,7 +218,6 @@ class WP_List_Table {
 		if ( in_array( $name, $this->compat_fields ) ) {
 			return isset( $this->$name );
 		}
-
 	}
 
 
@@ -236,7 +232,6 @@ class WP_List_Table {
 		if ( in_array( $name, $this->compat_fields ) ) {
 			unset( $this->$name );
 		}
-
 	}
 
 
@@ -254,7 +249,6 @@ class WP_List_Table {
 			return call_user_func_array( array( $this, $name ), $arguments );
 		}
 		return false;
-
 	}
 
 
@@ -266,7 +260,6 @@ class WP_List_Table {
 	 */
 	public function ajax_user_can() {
 		die( 'function WP_List_Table::ajax_user_can() must be over-ridden in a sub-class.' );
-
 	}
 
 
@@ -280,7 +273,6 @@ class WP_List_Table {
 	 */
 	public function prepare_items() {
 		die( 'function WP_List_Table::prepare_items() must be over-ridden in a sub-class.' );
-
 	}
 
 
@@ -312,7 +304,6 @@ class WP_List_Table {
 		}
 
 		$this->_pagination_args = $args;
-
 	}
 
 
@@ -333,7 +324,6 @@ class WP_List_Table {
 		if ( isset( $this->_pagination_args[ $key ] ) ) {
 			return $this->_pagination_args[ $key ];
 		}
-
 	}
 
 
@@ -346,7 +336,6 @@ class WP_List_Table {
 	 */
 	public function has_items() {
 		return ! empty( $this->items );
-
 	}
 
 
@@ -357,7 +346,6 @@ class WP_List_Table {
 	 */
 	public function no_items() {
 		_e( 'No items found.' );
-
 	}
 
 
@@ -395,7 +383,6 @@ class WP_List_Table {
 		<?php submit_button( $text, '', '', false, array( 'id' => 'search-submit' ) ); ?>
 </p>
 		<?php
-
 	}
 
 
@@ -409,7 +396,6 @@ class WP_List_Table {
 	 */
 	protected function get_views() {
 		return array();
-
 	}
 
 
@@ -444,7 +430,6 @@ class WP_List_Table {
 		}
 		echo implode( " |</li>\n", $views ) . "</li>\n";
 		echo '</ul>';
-
 	}
 
 
@@ -458,7 +443,6 @@ class WP_List_Table {
 	 */
 	protected function get_bulk_actions() {
 		return array();
-
 	}
 
 
@@ -509,7 +493,6 @@ class WP_List_Table {
 
 		submit_button( __( 'Apply' ), 'action', '', false, array( 'id' => "doaction$two" ) );
 		echo "\n";
-
 	}
 
 
@@ -534,7 +517,6 @@ class WP_List_Table {
 		}
 
 		return false;
-
 	}
 
 
@@ -566,7 +548,6 @@ class WP_List_Table {
 		$out .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>';
 
 		return $out;
-
 	}
 
 
@@ -656,7 +637,6 @@ class WP_List_Table {
 		?>
 		</select>
 		<?php
-
 	}
 
 
@@ -687,7 +667,6 @@ class WP_List_Table {
 		?>
 		</div>
 		<?php
-
 	}
 
 
@@ -761,7 +740,6 @@ class WP_List_Table {
 				$approved_comments ? __( 'No pending comments' ) : __( 'No comments' )
 			);
 		}
-
 	}
 
 
@@ -780,7 +758,6 @@ class WP_List_Table {
 		}
 
 		return max( 1, $pagenum );
-
 	}
 
 
@@ -813,7 +790,6 @@ class WP_List_Table {
 		 * @param int $per_page Number of items to be displayed. Default 20.
 		 */
 		return (int) apply_filters( "{$option}", $per_page );
-
 	}
 
 
@@ -943,7 +919,6 @@ class WP_List_Table {
 		$this->_pagination = "<div class='tablenav-pages{$page_class}'>$output</div>";
 
 		echo $this->_pagination;
-
 	}
 
 
@@ -958,7 +933,6 @@ class WP_List_Table {
 	 */
 	public function get_columns() {
 		die( 'function WP_List_Table::get_columns() must be over-ridden in a sub-class.' );
-
 	}
 
 
@@ -976,7 +950,6 @@ class WP_List_Table {
 	 */
 	protected function get_sortable_columns() {
 		return array();
-
 	}
 
 
@@ -1007,7 +980,6 @@ class WP_List_Table {
 		}
 
 		return $column;
-
 	}
 
 
@@ -1020,7 +992,6 @@ class WP_List_Table {
 	 */
 	public function get_primary_column() {
 		return $this->get_primary_column_name();
-
 	}
 
 
@@ -1056,7 +1027,6 @@ class WP_List_Table {
 		}
 
 		return $column;
-
 	}
 
 
@@ -1114,7 +1084,6 @@ class WP_List_Table {
 		$this->_column_headers = array( $columns, $hidden, $sortable, $primary );
 
 		return $this->_column_headers;
-
 	}
 
 
@@ -1129,7 +1098,6 @@ class WP_List_Table {
 		list ( $columns, $hidden ) = $this->get_column_info();
 		$hidden                    = array_intersect( array_keys( $columns ), array_filter( $hidden ) );
 		return count( $columns ) - count( $hidden );
-
 	}
 
 
@@ -1164,7 +1132,7 @@ class WP_List_Table {
 			static $cb_counter = 1;
 			$columns['cb']     = '<label class="screen-reader-text" for="cb-select-all-' . $cb_counter . '">' . __( 'Select All' ) . '</label>'
 				. '<input id="cb-select-all-' . $cb_counter . '" type="checkbox" />';
-			$cb_counter++;
+			++$cb_counter;
 		}
 
 		foreach ( $columns as $column_key => $column_display_name ) {
@@ -1210,7 +1178,6 @@ class WP_List_Table {
 
 			echo "<$tag $scope $id $class>$column_display_name</$tag>";
 		}
-
 	}
 
 
@@ -1251,7 +1218,6 @@ class WP_List_Table {
 </table>
 		<?php
 		$this->display_tablenav( 'bottom' );
-
 	}
 
 
@@ -1264,7 +1230,6 @@ class WP_List_Table {
 	 */
 	protected function get_table_classes() {
 		return array( 'widefat', 'fixed', 'striped', 'courier_notice_page_courier', $this->_args['plural'] );
-
 	}
 
 
@@ -1294,7 +1259,6 @@ class WP_List_Table {
 		<br class="clear" />
 	</div>
 		<?php
-
 	}
 
 
@@ -1306,7 +1270,6 @@ class WP_List_Table {
 	 * @param string $which
 	 */
 	protected function extra_tablenav( $which ) {
-
 	}
 
 
@@ -1323,7 +1286,6 @@ class WP_List_Table {
 			$this->no_items();
 			echo '</td></tr>';
 		}
-
 	}
 
 
@@ -1336,7 +1298,6 @@ class WP_List_Table {
 		foreach ( $this->items as $item ) {
 			$this->single_row( $item );
 		}
-
 	}
 
 
@@ -1351,7 +1312,6 @@ class WP_List_Table {
 		echo '<tr>';
 		$this->single_row_columns( $item );
 		echo '</tr>';
-
 	}
 
 
@@ -1360,7 +1320,6 @@ class WP_List_Table {
 	 * @param string $column_name
 	 */
 	protected function column_default( $item, $column_name ) {
-
 	}
 
 
@@ -1368,7 +1327,6 @@ class WP_List_Table {
 	 * @param object $item
 	 */
 	protected function column_cb( $item ) {
-
 	}
 
 
@@ -1422,7 +1380,6 @@ class WP_List_Table {
 				echo '</td>';
 			}
 		}
-
 	}
 
 
@@ -1438,7 +1395,6 @@ class WP_List_Table {
 	 */
 	protected function handle_row_actions( $item, $column_name, $primary ) {
 		return $column_name === $primary ? '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>' : '';
-
 	}
 
 
@@ -1473,7 +1429,6 @@ class WP_List_Table {
 		}
 
 		die( wp_json_encode( $response ) );
-
 	}
 
 
@@ -1490,8 +1445,5 @@ class WP_List_Table {
 		);
 
 		printf( "<script type='text/javascript'>list_args = %s;</script>\n", wp_json_encode( $args ) );
-
 	}
-
-
 }

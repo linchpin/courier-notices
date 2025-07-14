@@ -56,8 +56,22 @@ class Courier_Notices {
 		// Exclude requests from the sitemap regardless of options.
 		add_filter( 'add_query_vars', array( $this, 'add_query_vars' ) );
 
+		// Hook into notice save/delete to clear cache.
+		add_action( 'save_post_courier_notice', [ $this, 'clear_cache' ] );
+		add_action( 'deleted_post', [ $this, 'clear_cache' ] );
 	}
 
+
+	/**
+	 * Clear the cache when a notice is saved or deleted.
+	 *
+	 * @param int $post_id The ID of the post that was saved or deleted.
+	 */
+	public function clear_cache( $post_id ) {
+		if ( 'courier_notice' === get_post_type( $post_id ) ) {
+			courier_notices_clear_cache();
+		}
+	}
 
 	/**
 	 * Enqueue all of our needed scripts
@@ -76,19 +90,20 @@ class Courier_Notices {
 		global $post;
 
 		$localized_data = array(
-			'notice_endpoint'  => site_url( '/wp-json/courier-notices/v1/notice/' ),
-			'notices_endpoint' => site_url( '/wp-json/courier-notices/v1/notices/display/' ),
-			'notices_nonce'    => wp_create_nonce( 'courier_notices_get_notices' ),
-			'wp_rest_nonce'    => wp_create_nonce( 'wp_rest' ),
-			'dismiss_nonce'    => wp_create_nonce( 'courier_notices_dismiss_' . get_current_user_id() . '_notice_nonce' ),
-			'post_info'        => array(
+			'notice_endpoint'      => site_url( '/wp-json/courier-notices/v1/notice/' ),
+			'notices_endpoint'     => site_url( '/wp-json/courier-notices/v1/notices/display/' ),
+			'notices_all_endpoint' => site_url( '/wp-json/courier-notices/v1/notices/display/all/' ),
+			'notices_nonce'        => wp_create_nonce( 'courier_notices_get_notices' ),
+			'wp_rest_nonce'        => wp_create_nonce( 'wp_rest' ),
+			'dismiss_nonce'        => wp_create_nonce( 'courier_notices_dismiss_' . get_current_user_id() . '_notice_nonce' ),
+			'post_info'            => array(
 				'ID' => ( ! empty( $post ) ) ? $post->ID : -1,
 			),
-			'strings'          => array(
+			'strings'              => array(
 				'close'   => esc_html__( 'Close', 'courier-notices' ),
 				'dismiss' => esc_html__( 'Dismiss', 'courier-notices' ),
 			),
-			'user_id'          => get_current_user_id(),
+			'user_id'              => get_current_user_id(),
 		);
 
 		wp_register_script( 'courier-notices', $config->get( 'plugin_url' ) . 'js/courier-notices.js', $js_dependencies, $config->get( 'version' ), true );
@@ -101,7 +116,6 @@ class Courier_Notices {
 			'courier_notices_data',
 			$localized_data
 		);
-
 	}
 
 
@@ -127,7 +141,6 @@ class Courier_Notices {
 		wp_enqueue_style( 'courier-notices' );
 
 		wp_add_inline_style( 'courier-notices', courier_get_css() );
-
 	}
 
 
@@ -146,7 +159,6 @@ class Courier_Notices {
 		$vars[] = 'subtab';
 
 		return $vars;
-
 	}
 
 
@@ -159,7 +171,6 @@ class Courier_Notices {
 	public function register_custom_post_type() {
 		$courier_post_type_model = new Courier_Notice_Post_Type();
 		register_post_type( $courier_post_type_model->name, $courier_post_type_model->get_args() );
-
 	}
 
 
@@ -194,8 +205,5 @@ class Courier_Notices {
 		if ( ! taxonomy_exists( $courier_placement_taxonomy_model->name ) ) {
 			register_taxonomy( $courier_placement_taxonomy_model->name, array( 'courier_notice' ), $courier_placement_taxonomy_model->get_args() );
 		}
-
 	}
-
-
 }

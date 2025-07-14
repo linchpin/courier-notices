@@ -25,7 +25,6 @@ defined( 'ABSPATH' ) || exit;
  */
 function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = false, $dismissible = true, $user_id = 0 ) {
 	return courier_notices_add_notice( $notice, $types, $global, $dismissible, $user_id );
-
 }
 
 
@@ -41,7 +40,6 @@ function courier_add_notice( $notice = '', $types = array( 'Info' ), $global = f
  */
 function courier_get_user_notices( $args = array() ) {
 	return courier_notices_get_user_notices( $args );
-
 }
 
 
@@ -57,7 +55,6 @@ function courier_get_user_notices( $args = array() ) {
  */
 function courier_get_global_notices( $args = array() ) {
 	return courier_notices_get_global_notices( $args );
-
 }
 
 
@@ -74,7 +71,6 @@ function courier_get_global_notices( $args = array() ) {
  */
 function courier_get_dismissible_global_notices( $args = array(), $ids_only = false ) {
 	return courier_notices_get_dismissible_global_notices( $args, $ids_only );
-
 }
 
 
@@ -90,7 +86,6 @@ function courier_get_dismissible_global_notices( $args = array(), $ids_only = fa
  */
 function courier_get_persistent_global_notices( $args = array() ) {
 	return courier_notices_get_persistent_global_notices( $args );
-
 }
 
 
@@ -105,7 +100,6 @@ function courier_get_persistent_global_notices( $args = array() ) {
  */
 function courier_get_notices( $args = array() ) {
 	return courier_notices_get_notices( $args );
-
 }
 
 
@@ -119,7 +113,6 @@ function courier_get_notices( $args = array() ) {
  */
 function courier_display_notices( $args = array() ) {
 	courier_notices_display_notices( $args );
-
 }
 
 
@@ -133,7 +126,6 @@ function courier_display_notices( $args = array() ) {
  */
 function courier_display_modals( $args = array() ) {
 	courier_notices_display_modals( $args );
-
 }
 
 
@@ -149,7 +141,6 @@ function courier_display_modals( $args = array() ) {
  */
 function courier_get_dismissed_notices( $user_id = 0 ) {
 	return courier_notices_get_dismissed_notices( $user_id );
-
 }
 
 
@@ -165,7 +156,6 @@ function courier_get_dismissed_notices( $user_id = 0 ) {
  */
 function courier_get_global_dismissed_notices( $user_id = 0 ) {
 	return courier_notices_get_global_dismissed_notices( $user_id );
-
 }
 
 
@@ -181,7 +171,6 @@ function courier_get_global_dismissed_notices( $user_id = 0 ) {
  */
 function courier_get_all_dismissed_notices( $user_id = 0 ) {
 	return courier_notices_get_all_dismissed_notices( $user_id );
-
 }
 
 
@@ -200,7 +189,6 @@ function courier_get_all_dismissed_notices( $user_id = 0 ) {
  */
 function courier_dismiss_notices( $notice_ids, $user_id = 0, $force_dismiss = false, $force_trash = false ) {
 	return courier_notices_dismiss_notices( $notice_ids, $user_id, $force_dismiss, $force_trash );
-
 }
 
 
@@ -214,5 +202,4 @@ function courier_dismiss_notices( $notice_ids, $user_id = 0, $force_dismiss = fa
  */
 function courier_get_css() {
 	return courier_notices_get_css();
-
 }

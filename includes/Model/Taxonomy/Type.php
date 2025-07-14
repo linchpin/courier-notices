@@ -96,7 +96,6 @@ class Type {
 		);
 
 		$this->args = apply_filters( 'courier_notices_courier_type_args', $default_args );
-
 	}
 
 
@@ -109,8 +108,5 @@ class Type {
 	 */
 	public function get_args() {
 		return $this->args;
-
 	}
-
-
 }

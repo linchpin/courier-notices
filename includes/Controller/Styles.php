@@ -21,8 +21,5 @@ class Styles {
 	 * @since 1.0
 	 */
 	public function register_actions() {
-
 	}
-
-
 }

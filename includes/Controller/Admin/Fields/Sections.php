@@ -9,7 +9,7 @@ namespace CourierNotices\Controller\Admin\Fields;
 
 use CourierNotices\Core\View;
 use CourierNotices\Helper\Utils;
-use CourierNotices\Helper\Type_List_Table as Type_List_Table;
+use CourierNotices\Helper\Type_List_Table;
 
 // Make sure we don't expose any info if called directly.
 if ( ! function_exists( 'add_action' ) ) {
@@ -31,7 +31,6 @@ class Sections {
 
 
 	public function __construct() {
-
 	}
 
 
@@ -72,7 +71,6 @@ class Sections {
 			$this->do_settings_fields( $page, $section['id'] );
 			echo '</ddiv>';
 		}
-
 	}
 
 
@@ -117,8 +115,5 @@ class Sections {
 			echo '</div>';
 			echo '</div>';
 		}
-
 	}
-
-
 }

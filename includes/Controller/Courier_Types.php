@@ -104,7 +104,6 @@ class Courier_Types {
 		add_action( 'courier_notices_save_css', array( $this, 'save_css_transient' ) );
 
 		add_action( 'admin_footer', array( $this, 'add_templates' ) );
-
 	}
 
 
@@ -126,7 +125,6 @@ class Courier_Types {
 			$new_courier_type->assign( 'bg_color', '#dddddd' );
 			$new_courier_type->render( 'admin/js/courier-notice-type-row' );
 		}
-
 	}
 
 
@@ -191,7 +189,6 @@ class Courier_Types {
 			)
 		);
 		exit;
-
 	}
 
 
@@ -260,7 +257,6 @@ class Courier_Types {
 			)
 		);
 		exit;
-
 	}
 
 
@@ -298,7 +294,6 @@ class Courier_Types {
 
 		echo wp_json_encode( 1 );
 		exit;
-
 	}
 
 
@@ -340,7 +335,6 @@ class Courier_Types {
 		}
 
 		do_action( 'courier_notices_save_css' );
-
 	}
 
 
@@ -458,8 +452,5 @@ class Courier_Types {
 		}
 
 		return $css_output;
-
 	}
-
-
 }

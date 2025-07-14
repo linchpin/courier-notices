@@ -35,7 +35,6 @@ class Courier {
 		add_filter( 'courier_excerpt', 'wptexturize' );
 		add_filter( 'courier_excerpt', 'convert_smilies' );
 		add_filter( 'courier_excerpt', 'convert_chars' );
-
 	}
 
 
@@ -52,7 +51,6 @@ class Courier {
 		if ( 'courier_notice' === $screen->id ) {
 			remove_editor_styles();
 		}
-
 	}
 
 
@@ -74,7 +72,6 @@ class Courier {
 				'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'courier-notices' ),
 			)
 		);
-
 	}
 
 
@@ -117,7 +114,6 @@ class Courier {
 		);
 
 		return $messages;
-
 	}
 
 
@@ -222,7 +218,6 @@ class Courier {
 		}
 
 		return $views;
-
 	}
 
 
@@ -261,7 +256,6 @@ class Courier {
 		$options = apply_filters( 'courier_visibility_scope_options', $options );
 
 		return $options;
-
 	}
 
 
@@ -282,7 +276,6 @@ class Courier {
 		$notice_type = get_the_terms( $post_id, 'courier_type' );
 
 		return $notice_type;
-
 	}
 
 
@@ -368,7 +361,6 @@ class Courier {
 			}
 		}
 
-
 		// Check for expiration date on a notice
 
 		if ( isset( $_POST['courier_notices_expiration_noncename'] ) && wp_verify_nonce( $_POST['courier_notices_expiration_noncename'], 'courier_notices_expiration_nonce' ) ) {
@@ -387,7 +379,6 @@ class Courier {
 		wp_cache_delete( 'global-header-notices', 'courier-notices' );
 		wp_cache_delete( 'global-header-dismissible-notices', 'courier-notices' );
 		wp_cache_delete( 'global-header-persistent-notices', 'courier-notices' );
-
 	}
 
 
@@ -419,7 +410,6 @@ class Courier {
 		}
 
 		update_post_meta( $post_id, '_courier_sender', get_current_user_id() );
-
 	}
 
 
@@ -441,7 +431,6 @@ class Courier {
 				'courier_include_expired',
 			)
 		);
-
 	}
 
 
@@ -468,7 +457,6 @@ class Courier {
 		}
 
 		return $vars;
-
 	}
 
 
@@ -508,7 +496,6 @@ class Courier {
 		} else {
 			$query->query_vars['post__in'] = $notices;
 		}
-
 	}
 
 
@@ -535,7 +522,6 @@ class Courier {
 		}
 
 		return $template;
-
 	}
 
 
@@ -558,7 +544,6 @@ class Courier {
 		$title['title'] = esc_html__( 'Notifications', 'courier-notices' );
 
 		return $title;
-
 	}
 
 
@@ -592,9 +577,5 @@ class Courier {
 		}
 
 		return $classes;
-
 	}
-
-
 }
-
