@@ -64,4 +64,80 @@ pre.courier-notice-type-css-class {
   padding: 4px;
   margin-left: 10px;
   background-color: #efefef;
+}
+
+// Expired notice styling
+.courier-expired-badge {
+  display: inline-block;
+  background: #dc3232;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  
+  .dashicons {
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+}
+
+// Row highlighting for expired notices
+.wp-list-table .courier-expired-badge {
+  ~ span {
+    display: block;
+    margin-top: 2px;
+  }
+}
+
+// Expired notice row styling
+.wp-list-table tr.courier-notice-expired {
+  background-color: #fff5f5;
+  border-left: 4px solid #dc3232;
+  
+  &:hover {
+    background-color: #fef7f7;
+  }
+  
+  // Make the expired badge more prominent in the row context
+  .courier-expired-badge {
+    background: #dc3232;
+    color: #fff!important;
+    box-shadow: 0 1px 3px rgba(220, 50, 50, 0.3);
+  }
+}
+
+// Reactivate link styling
+.courier-reactivate-notice-link {
+  color: #0073aa;
+  text-decoration: none;
+  
+  &:hover {
+    color: #005a87;
+    text-decoration: underline;
+  }
+  
+  &.updating-message {
+    color: #666;
+    text-decoration: none;
+    cursor: wait;
+  }
+  
+  &.error {
+    color: #dc3232;
+    font-weight: 600;
+  }
+}
+
+// Success state for reactivated notices
+.wp-list-table tr.updated {
+  background-color: #f0f8f0;
+  border-left: 4px solid #46b450;
+  transition: all 0.3s ease;
 } 

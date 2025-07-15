@@ -199,27 +199,26 @@ class Data {
 	 * @since 1.0.5
 	 *
 	 * @param array $args Array of arguments.
+	 * @param array $global_notices Array of global notices.
 	 *
 	 * @return array|bool|mixed
 	 */
-	public function get_persistent_global_notices( $args = array(), $global_notices = array() ) {
-		$defaults = array(
+	public function get_persistent_global_notices( array $args = [], array $global_notices = [] ) {
+		$defaults = [
 			'ids_only'   => true,
 			'number'     => 100,
 			'placement'  => 'header',
-			'query_args' => array(),
-		);
+			'query_args' => [],
+		];
 
 		$defaults  = apply_filters( 'courier_notices_get_global_persistent_notices_default_settings', $defaults );
 		$args      = wp_parse_args( $args, $defaults );
 		$cache_key = 'global-persistent-' . sanitize_title( $args['placement'] ) . '-notices';
 		$cache     = wp_cache_get( $cache_key, 'courier-notices' );
-		/*
+
 		if ( false !== $cache ) {
 			return wp_list_pluck( $cache, 'ID' );
-
-			return $cache;
-		} */
+		}
 
 		if ( empty( $global_notices ) ) {
 			$global_args    = wp_parse_args( array( 'ids_only' => true ), $args );
@@ -227,7 +226,7 @@ class Data {
 		}
 
 		if ( empty( $global_notices ) ) {
-			return array();
+			return [];
 		}
 
 		$args = array(

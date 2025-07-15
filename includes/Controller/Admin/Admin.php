@@ -23,6 +23,8 @@ class Admin {
 
 		add_action( 'manage_courier_notice_posts_custom_column', array( $this, 'manage_posts_custom_column' ), 10, 2 );
 		add_filter( 'manage_courier_notice_posts_columns', array( $this, 'manage_posts_columns' ), 998 );
+		add_filter( 'post_class', array( $this, 'add_expired_row_class' ), 10, 3 );
+		add_filter( 'post_row_actions', array( $this, 'add_expired_row_actions' ), 10, 2 );
 
 		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ), 10, 1 );
 
@@ -46,7 +48,7 @@ class Admin {
 	 * @return array Array of messages
 	 */
 	public function post_updated_messages( $messages ) {
-		$messages['courier_notice'][6] = esc_html__( 'Courier Notice Published.', 'courier-notice' );
+		$messages['courier_notice'][6] = esc_html__( 'Courier Notice Published.', 'courier-notices' );
 
 		return $messages;
 	}
@@ -109,7 +111,7 @@ class Admin {
 				echo esc_html( wp_strip_all_tags( get_the_term_list( $post_id, 'courier_style', '', ', ' ) ) );
 				break;
 			case 'courier-summary':
-				$summary = apply_filters( 'the_content', get_post_field( 'post_content', $post_id ) );
+				$summary = apply_filters( 'courier_notices_the_content', get_post_field( 'post_content', $post_id ) );
 
 				if ( ! empty( $summary ) ) {
 					echo wp_kses_post( wp_trim_words( $summary, 20 ) );
@@ -139,8 +141,20 @@ class Admin {
 				$expiration = (int) get_post_meta( $post_id, '_courier_expiration', true );
 
 				if ( ! empty( $expiration ) ) {
-					$expiration = date( get_option( 'date_format' ) . ' h:i A', $expiration );
-					echo esc_html( $expiration );
+					$expiration_formatted = gmdate( get_option( 'date_format' ) . ' h:i A', $expiration );
+					$is_expired           = $expiration < time();
+
+					if ( $is_expired ) {
+						// Show expired notice with red badge.
+						echo '<span class="courier-expired-badge">';
+						echo '<span class="dashicons dashicons-warning" style="margin-right: 5px;"></span>';
+						echo '<span>' . esc_html__( 'EXPIRED', 'courier-notices' ) . '</span>';
+						echo '</span><br>';
+						echo '<span style="color: #666; font-size: 12px;">' . esc_html( $expiration_formatted ) . '</span>';
+					} else {
+						// Show active notice with normal formatting.
+						echo '<span style="color: #0073aa;">' . esc_html( $expiration_formatted ) . '</span>';
+					}
 				} else {
 					esc_html_e( 'Non-expiry', 'courier-notices' );
 				}
@@ -403,5 +417,71 @@ class Admin {
 				)
 			);
 		}
+	}
+
+
+	/**
+	 * Add a CSS class to expired notice rows in the admin list table.
+	 *
+	 * @since 1.0
+	 *
+	 * @param array  $classes An array of post classes.
+	 * @param string $class   A comma-separated list of additional classes added to the post.
+	 * @param int    $post_id The post ID.
+	 *
+	 * @return array Modified array of post classes.
+	 */
+	public function add_expired_row_class( $classes, $class, $post_id ) {
+		if ( 'courier_notice' !== get_post_type( $post_id ) ) {
+			return $classes;
+		}
+
+		$expiration = (int) get_post_meta( $post_id, '_courier_expiration', true );
+
+		if ( ! empty( $expiration ) && $expiration < time() ) {
+			$classes[] = 'courier-notice-expired';
+		}
+
+		return $classes;
+	}
+
+
+	/**
+	 * Add a "Reactivate" action to expired notices in the row actions menu.
+	 *
+	 * @since 1.0
+	 *
+	 * @param array   $actions An array of row action links.
+	 * @param WP_Post $post The post object.
+	 *
+	 * @return array Modified array of row action links.
+	 */
+	public function add_expired_row_actions( $actions, $post ) {
+		if ( 'courier_notice' !== $post->post_type ) {
+			return $actions;
+		}
+
+		$expiration = (int) get_post_meta( $post->ID, '_courier_expiration', true );
+
+		// Only show reactivate action for expired notices.
+		if ( ! empty( $expiration ) && $expiration < time() ) {
+			$reactivate_url = add_query_arg(
+				array(
+					'action' => 'courier_reactivate_notice',
+					'nonce'  => wp_create_nonce( 'courier_reactivate_notice_' . $post->ID ),
+					'notice' => $post->ID,
+				),
+				admin_url( 'admin.php' )
+			);
+
+			$actions['reactivate'] = sprintf(
+				'<a href="%s" class="courier-reactivate-notice-link" data-courier-notice-id="%d">%s</a>',
+				esc_url( $reactivate_url ),
+				esc_attr( $post->ID ),
+				esc_html__( 'Reactivate', 'courier-notices' )
+			);
+		}
+
+		return $actions;
 	}
 }

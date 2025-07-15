@@ -274,10 +274,7 @@ class Action_Scheduler {
 	 * @since 1.8.0
 	 */
 	private function clear_notice_caches() {
-		wp_cache_delete( 'courier-global-header-notices', 'courier-notices' );
-		wp_cache_delete( 'courier-global-footer-notices', 'courier-notices' );
-		wp_cache_delete( 'global-footer-notices', 'courier-notices' );
-		wp_cache_delete( 'global-footer-dismissible-notices', 'courier-notices' );
+		courier_notices_clear_cache();
 	}
 
 	/**

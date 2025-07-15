@@ -49,7 +49,7 @@ class WP_CLI {
 	 * : Minutes from now when the notice should expire (default: no expiration)
 	 *
 	 * [--type=<type>]
-	 * : Notice type (default: Informational)
+	 * : Notice type (default: Info)
 	 *
 	 * [--style=<style>]
 	 * : Notice style (default: Informational)
@@ -90,10 +90,10 @@ class WP_CLI {
 		$title           = $args[0];
 		$content         = $args[1];
 		$expires_minutes = isset( $assoc_args['expires'] ) ? intval( $assoc_args['expires'] ) : 0;
-		$type            = isset( $assoc_args['type'] ) ? sanitize_text_field( $assoc_args['type'] ) : 'Informational';
-		$style           = isset( $assoc_args['style'] ) ? sanitize_text_field( $assoc_args['style'] ) : 'Informational';
+		$type            = isset( $assoc_args['type'] ) ? sanitize_text_field( $assoc_args['type'] ) : 'info';
+		$style           = isset( $assoc_args['style'] ) ? sanitize_text_field( $assoc_args['style'] ) : 'informational';
 		$placement       = isset( $assoc_args['placement'] ) ? sanitize_text_field( $assoc_args['placement'] ) : 'header';
-		$global          = isset( $assoc_args['global'] );
+		$global          = isset( $assoc_args['global'] ) ? true : true; // Default to global notices
 		$dismissible     = ! isset( $assoc_args['dismissible'] ) || $assoc_args['dismissible'];
 		$user_id         = isset( $assoc_args['user-id'] ) ? intval( $assoc_args['user-id'] ) : 0;
 
@@ -128,6 +128,18 @@ class WP_CLI {
 			\WP_CLI::error( 'Failed to create notice.' );
 		}
 
+		// Verify the notice was created with correct taxonomies.
+		$style_terms     = get_the_terms( $notice_id, 'courier_style' );
+		$type_terms      = get_the_terms( $notice_id, 'courier_type' );
+		$placement_terms = get_the_terms( $notice_id, 'courier_placement' );
+		$scope_terms     = get_the_terms( $notice_id, 'courier_scope' );
+
+		\WP_CLI::log( sprintf( 'Notice created with ID: %d', $notice_id ) );
+		\WP_CLI::log( sprintf( 'Style terms: %s', $style_terms ? implode( ', ', wp_list_pluck( $style_terms, 'slug' ) ) : 'none' ) );
+		\WP_CLI::log( sprintf( 'Type terms: %s', $type_terms ? implode( ', ', wp_list_pluck( $type_terms, 'slug' ) ) : 'none' ) );
+		\WP_CLI::log( sprintf( 'Placement terms: %s', $placement_terms ? implode( ', ', wp_list_pluck( $placement_terms, 'slug' ) ) : 'none' ) );
+		\WP_CLI::log( sprintf( 'Scope terms: %s', $scope_terms ? implode( ', ', wp_list_pluck( $scope_terms, 'slug' ) ) : 'none' ) );
+
 		// Set expiration if specified.
 		if ( $expires_minutes > 0 ) {
 			$expiration_time = time() + ( $expires_minutes * 60 );
@@ -138,6 +150,11 @@ class WP_CLI {
 				$action_scheduler = new \CourierNotices\Controller\Action_Scheduler();
 				$action_scheduler->schedule_notice_expiration( $notice_id, $expiration_time );
 			}
+		}
+
+		// Clear cache to ensure the notice appears on frontend immediately.
+		if ( function_exists( 'courier_notices_clear_cache' ) ) {
+			courier_notices_clear_cache();
 		}
 
 		// Display success message.
@@ -234,9 +251,8 @@ class WP_CLI {
 			$action_scheduler->unschedule_notice_expiration( $notice_id );
 		}
 
-		// Clear cache.
-		wp_cache_delete( 'courier-global-header-notices', 'courier-notices' );
-		wp_cache_delete( 'courier-global-footer-notices', 'courier-notices' );
+		// Clear cache to ensure the notice is immediately reflected on frontend.
+		courier_notices_clear_cache();
 
 		\WP_CLI::success( sprintf( 'Successfully expired notice ID %d: "%s"', $notice_id, $notice->post_title ) );
 	}

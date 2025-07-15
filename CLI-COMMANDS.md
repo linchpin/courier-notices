@@ -26,7 +26,7 @@ wp courier-notices create <title> <content> [options]
 #### Options
 
 - `--expires=<minutes>` - Minutes from now when the notice should expire (default: no expiration)
-- `--type=<type>` - Notice type (default: Informational)
+- `--type=<type>` - Notice type (default: Info)
 - `--style=<style>` - Notice style (default: Informational)
 - `--placement=<placement>` - Notice placement (default: header)
 - `--global` - Make this a global notice (default: false)

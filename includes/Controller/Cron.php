@@ -117,8 +117,8 @@ class Cron {
 			$notices_query  = new \WP_Query( $args );
 		}
 
-		wp_cache_delete( 'courier-global-header-notices', 'courier-notices' );
-		wp_cache_delete( 'courier-global-footer-notices', 'courier-notices' );
+		// Clear cache to ensure changes are immediately reflected.
+		courier_notices_clear_cache();
 	}
 
 
@@ -160,8 +160,8 @@ class Cron {
 			$notices_query  = new \WP_Query( $args );
 		}
 
-		wp_cache_delete( 'courier-global-header-notices', 'courier-notices' );
-		wp_cache_delete( 'courier-global-footer-notices', 'courier-notices' );
+		// Clear cache to ensure changes are immediately reflected.
+		courier_notices_clear_cache();
 	}
 
 
