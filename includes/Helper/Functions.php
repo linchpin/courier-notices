@@ -87,6 +87,9 @@ function courier_notices_add_notice( $notice = '', $types = array( 'Informationa
 			update_post_meta( $notice_id, '_courier_dismissible', 1 );
 		}
 
+		// Clear all notice caches to ensure immediate frontend visibility.
+		courier_notices_clear_cache();
+
 		return $notice_id;
 	} else {
 		return false;
@@ -391,10 +394,10 @@ function courier_notices_dismiss_notices( $notice_ids, $user_id = 0, $force_dism
  * @since 1.7.2
  */
 function courier_notices_clear_cache() {
-	// Clear object cache
+	// Clear object cache for courier-notices group.
 	wp_cache_flush_group( 'courier-notices' );
 
-	// Clear transients that start with courier_notices_
+	// Clear transients that start with courier_notices_.
 	global $wpdb;
 	$wpdb->query(
 		$wpdb->prepare(
@@ -408,6 +411,28 @@ function courier_notices_clear_cache() {
 			'_transient_timeout_courier_notices_%'
 		)
 	);
+
+	// Clear WordPress post cache for courier notices.
+	$courier_notices = get_posts(
+		array(
+			'post_type'      => 'courier_notice',
+			'post_status'    => 'any',
+			'posts_per_page' => 100,
+			'fields'         => 'ids',
+		)
+	);
+
+	foreach ( $courier_notices as $notice_id ) {
+		wp_cache_delete( $notice_id, 'post_meta' );
+	}
+
+	/**
+	 * Fires after Courier Notices cache has been cleared
+	 * Allows other plugins to clear their caches when notices are updated
+	 *
+	 * @since 1.8.0
+	 */
+	do_action( 'courier_notices_cache_cleared' );
 }
 
 

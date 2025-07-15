@@ -22,7 +22,8 @@ export default function list() {
 
         $body
             .on('click', '.editinline', quick_edit_populate_status )
-            .on('click', '.courier-reactivate-notice', reactivate_notice );
+            .on('click', '.courier-reactivate-notice', reactivate_notice )
+            .on('click', '.courier-reactivate-notice-link', reactivate_notice_link );
     }
 
 
@@ -84,6 +85,62 @@ export default function list() {
             success: function (data) {
                 $notice.fadeOut();
             }
+        });
+    }
+
+    /**
+     * Reactivate a notice from row actions.
+     * @param event
+     */
+    function reactivate_notice_link(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        var $this = $(this),
+            notice_id = $this.attr('data-courier-notice-id'),
+            $row = $this.closest('tr'),
+            $link = $this;
+
+        // Show loading state.
+        $link.text('Reactivating...').addClass('updating-message');
+
+        $.post(courier_notices_admin_data.reactivate_endpoint + notice_id + '/', {
+            _wpnonce: courier_notices_admin_data.settings_nonce
+        })
+        .done(function(response) {
+            if (response.success) {
+                // Remove expired styling and update the row.
+                $row.removeClass('courier-notice-expired');
+                
+                // Update the expiration date column to show active status.
+                var $dateColumn = $row.find('.column-courier-date');
+                var expirationDate = new Date();
+                expirationDate.setDate(expirationDate.getDate() + 30); // Set to 30 days from now
+                
+                $dateColumn.html('<span style="color: #0073aa;">' + expirationDate.toLocaleDateString() + '</span>');
+                
+                // Remove the reactivate link.
+                $link.remove();
+                
+                // Show success message.
+                $row.addClass('updated');
+                setTimeout(function() {
+                    $row.removeClass('updated');
+                }, 2000);
+            } else {
+                // Show error message.
+                $link.text('Error').addClass('error');
+                setTimeout(function() {
+                    $link.text('Reactivate').removeClass('error updating-message');
+                }, 2000);
+            }
+        })
+        .fail(function() {
+            // Show error message.
+            $link.text('Error').addClass('error');
+            setTimeout(function() {
+                $link.text('Reactivate').removeClass('error updating-message');
+            }, 2000);
         });
     }
 }

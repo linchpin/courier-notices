@@ -191,6 +191,9 @@ class General {
 		// Setup General Settings.
 		$this->setup_general_settings();
 
+		// Add Action Scheduler information section.
+		$this->setup_action_scheduler_settings();
+
 		$active_subtab = isset( $_GET['subtab'] ) ? sanitize_text_field( wp_unslash( $_GET['subtab'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
 
 		switch ( $active_subtab ) {
@@ -359,6 +362,110 @@ class General {
 
 
 	/**
+	 * Setup Action Scheduler information section
+	 *
+	 * @since 1.8.0
+	 */
+	private function setup_action_scheduler_settings() {
+		$tab_section = 'courier_settings';
+
+		// Action Scheduler Information Section.
+		add_settings_section(
+			'courier_action_scheduler_settings',
+			esc_html__( 'Action Scheduler', 'courier-notices' ),
+			array( $this, 'create_action_scheduler_section' ),
+			'courier'
+		);
+
+		add_settings_field(
+			'action_scheduler_info',
+			esc_html__( 'Status', 'courier-notices' ),
+			array( $this, 'render_action_scheduler_info' ),
+			'courier',
+			'courier_action_scheduler_settings',
+			array(
+				'field'       => 'action_scheduler_info',
+				'section'     => $tab_section,
+				'class'       => 'action-scheduler-info',
+				'label'       => esc_html__( 'Action Scheduler Status', 'courier-notices' ),
+				'description' => esc_html__( 'Information about the Action Scheduler integration.', 'courier-notices' ),
+			)
+		);
+	}
+
+	/**
+	 * Create Action Scheduler section
+	 *
+	 * @since 1.8.0
+	 *
+	 * @param array $args Array of arguments.
+	 */
+	public function create_action_scheduler_section( $args ) {
+		if ( ! empty( $args['title'] ) ) {
+			?>
+			<div class="gray-bg negative-bg">
+				<div class="wrapper">
+					<h2 class="light-weight">
+						<?php echo esc_html( $args['title'] ); ?>
+					</h2>
+				</div>
+			</div>
+			<?php
+		}
+	}
+
+	/**
+	 * Render Action Scheduler information
+	 *
+	 * @since 1.8.0
+	 *
+	 * @param array $args Array of arguments.
+	 */
+	public function render_action_scheduler_info( $args ) {
+		$plugin_options             = get_option( 'courier_notices_options', [] );
+		$use_action_scheduler       = ! empty( $plugin_options['use_action_scheduler'] );
+		$action_scheduler_available = class_exists( 'ActionScheduler' );
+
+		?>
+		<div class="action-scheduler-info">
+			<?php if ( $action_scheduler_available ) : ?>
+				<div class="notice notice-success inline">
+					<p>
+						<strong><?php esc_html_e( 'Action Scheduler is available.', 'courier-notices' ); ?></strong>
+						<?php if ( $use_action_scheduler ) : ?>
+							<?php esc_html_e( 'Courier Notices is using Action Scheduler for scheduled tasks.', 'courier-notices' ); ?>
+						<?php else : ?>
+							<?php esc_html_e( 'Courier Notices is using WordPress Cron for scheduled tasks.', 'courier-notices' ); ?>
+						<?php endif; ?>
+					</p>
+				</div>
+				<p>
+					<?php if ( $use_action_scheduler ) : ?>
+						<a href="<?php echo esc_url( admin_url( 'tools.php?page=action-scheduler' ) ); ?>" class="button button-secondary">
+							<?php esc_html_e( 'View Scheduled Actions', 'courier-notices' ); ?>
+						</a>
+					<?php else : ?>
+						<a href="<?php echo esc_url( admin_url( 'tools.php?page=action-scheduler' ) ); ?>" class="button button-secondary">
+							<?php esc_html_e( 'View Action Scheduler', 'courier-notices' ); ?>
+						</a>
+					<?php endif; ?>
+				</p>
+			<?php else : ?>
+				<div class="notice notice-warning inline">
+					<p>
+						<strong><?php esc_html_e( 'Action Scheduler is not available.', 'courier-notices' ); ?></strong>
+						<?php esc_html_e( 'Courier Notices is using WordPress Cron for scheduled tasks.', 'courier-notices' ); ?>
+					</p>
+				</div>
+				<p>
+					<?php esc_html_e( 'To use Action Scheduler for better reliability and scalability, install WooCommerce or another plugin that provides Action Scheduler.', 'courier-notices' ); ?>
+				</p>
+			<?php endif; ?>
+		</div>
+		<?php
+	}
+
+	/**
 	 * Setup our different types of informational courier notices
 	 *
 	 * @since 1.3.0
@@ -501,6 +608,15 @@ class General {
 				'sub_tabs' => array(),
 			),
 		);
+
+		// Add Action Scheduler tab if Action Scheduler is available.
+		if ( class_exists( 'ActionScheduler' ) ) {
+			$tabs['action_scheduler'] = array(
+				'url'      => admin_url( 'tools.php?page=action-scheduler' ),
+				'label'    => esc_html__( 'Action Scheduler', 'courier-notices' ),
+				'sub_tabs' => array(),
+			);
+		}
 
 		return apply_filters( 'courier_notices_settings_tabs', $tabs );
 	}

@@ -4,7 +4,7 @@
  * Plugin URI:  https://wordpress.org/plugins/courier-notices
  * Description: A way to display, manage, and control front end user notifications for your WordPress install.
  * x-release-please-start-version
- * Version:     1.7.1
+ * Version:     1.8.0
  * x-release-please-end
  * Author:      Linchpin
  * Author URI:  https://linchpin.com
@@ -28,7 +28,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 if ( ! defined( 'COURIER_NOTICES_VERSION' ) ) {
 	// x-release-please-start-version
-	define( 'COURIER_NOTICES_VERSION', '1.7.1' );
+	define( 'COURIER_NOTICES_VERSION', '1.8.0' );
 	// x-release-please-end
 }
 
@@ -153,8 +153,16 @@ register_deactivation_hook( __FILE__, 'courier_notices_deactivation' );
  *       upon uninstall.
  */
 function courier_notices_deactivation() {
+	// Clear legacy WP Cron hooks
 	wp_clear_scheduled_hook( 'courier_notices_purge' );
 	wp_clear_scheduled_hook( 'courier_notices_expire' );
+	wp_clear_scheduled_hook( 'courier_purge' );
+	wp_clear_scheduled_hook( 'courier_expire' );
+
+	// Clear Action Scheduler actions if available
+	if ( function_exists( 'as_unschedule_all_actions' ) ) {
+		as_unschedule_all_actions( null, [], 'courier_notices' );
+	}
 
 	do_action( 'courier_notices_deactivate' );
 }
