@@ -1,6 +1,8 @@
 <?php
 /**
  * WordPress SEO Integrations
+ *
+ * @package CourierNotices
  */
 
 namespace CourierNotices\Controller\Integrations;
@@ -30,8 +32,8 @@ class WP_SEO {
 	 *
 	 * @since 1.0
 	 *
-	 * @param $value
-	 * @param $taxonomy
+	 * @param bool   $value     Default false.
+	 * @param string $taxonomy  Taxonomy name.
 	 *
 	 * @return bool
 	 */

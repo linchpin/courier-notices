@@ -141,7 +141,7 @@ class Courier_Notices {
 		wp_register_style( 'courier-notices', $config->get( 'plugin_url' ) . 'css/courier-notices.css', '', $config->get( 'version' ) );
 		wp_enqueue_style( 'courier-notices' );
 
-		wp_add_inline_style( 'courier-notices', courier_get_css() );
+		wp_add_inline_style( 'courier-notices', courier_notices_get_css() );
 	}
 
 

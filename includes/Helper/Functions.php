@@ -313,11 +313,11 @@ function courier_notices_has_any_notices( $user_id = 0 ) {
 	// Check cache first
 	$cache_key = 'courier_has_notices_' . $user_id;
 	$cached    = wp_cache_get( $cache_key, 'courier-notices' );
-	
+
 	if ( false !== $cached ) {
 		return (bool) $cached;
 	}
-	
+
 	// Quick check for any published notices
 	$args = array(
 		'post_type'      => 'courier_notice',
@@ -326,7 +326,7 @@ function courier_notices_has_any_notices( $user_id = 0 ) {
 		'fields'         => 'ids',
 		'no_found_rows'  => true,
 	);
-	
+
 	// If user ID provided, check for user-specific notices
 	if ( $user_id ) {
 		$args['tax_query'] = array(
@@ -343,13 +343,13 @@ function courier_notices_has_any_notices( $user_id = 0 ) {
 			),
 		);
 	}
-	
-	$query      = new WP_Query( $args );
+
+	$query       = new WP_Query( $args );
 	$has_notices = $query->have_posts();
-	
+
 	// Cache for 5 minutes
 	wp_cache_set( $cache_key, $has_notices, 'courier-notices', 300 );
-	
+
 	return $has_notices;
 }
 

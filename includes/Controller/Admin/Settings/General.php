@@ -78,11 +78,11 @@ class General {
 
 
 	/**
-	 * Show our license area to activate or deactivate our license key
+	 * Show our design sub settings.
 	 *
-	 * @since 1.3.0
+	 * @param array $options The options.
 	 */
-	public function show_design_sub_settings( $options ) {
+	public function show_design_sub_settings( array $options = [] ): void {
 		$view = new View();
 
 		$active_tab = isset( $options['subtab'] ) ? sanitize_text_field( wp_unslash( $options['subtab'] ) ) : 'global'; // phpcs:ignore WordPress.Security.NonceVerification
@@ -286,10 +286,8 @@ class General {
 	 * Add option title display based on each "style" of notice
 	 *
 	 * @since 1.2.8
-	 *
-	 * @param string $tab_section The tab section.
 	 */
-	private function add_notice_title_display_options( $tab_section ) {
+	private function add_notice_title_display_options() {
 		/**
 		 * Display Courier Notice title on the frontend
 		 */
@@ -538,15 +536,15 @@ class General {
 	 *
 	 * @since 1.0
 	 *
-	 * @param string $key     The parameter key.
-	 * @param string $default The default value.
+	 * @param string $key           The parameter key.
+	 * @param string $default_value The default value.
 	 *
 	 * @return string
 	 */
-	public static function get_request_param( $key, $default = '' ) {
+	public static function get_request_param( $key, $default_value = '' ) {
 		// If request not set.
 		if ( ! isset( $_REQUEST[ $key ] ) || empty( $_REQUEST[ $key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			return $default;
+			return $default_value;
 		}
 
 		// It's set, so process it.

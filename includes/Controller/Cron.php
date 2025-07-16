@@ -55,11 +55,11 @@ class Cron {
 		}
 
 		if ( ! wp_next_scheduled( 'courier_purge' ) ) {
-			wp_schedule_event( current_time( 'timestamp' ), 'courier_purge_cron_interval', 'courier_purge' );
+			wp_schedule_event( time(), 'courier_purge_cron_interval', 'courier_purge' );
 		}
 
 		if ( ! wp_next_scheduled( 'courier_expire' ) ) {
-			wp_schedule_event( current_time( 'timestamp' ), 'courier_expire_cron_interval', 'courier_expire' );
+			wp_schedule_event( time(), 'courier_expire_cron_interval', 'courier_expire' );
 		}
 	}
 
