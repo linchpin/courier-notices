@@ -104,6 +104,7 @@ class Courier_Notices {
 				'dismiss' => esc_html__( 'Dismiss', 'courier-notices' ),
 			),
 			'user_id'              => get_current_user_id(),
+			'has_notices'          => courier_notices_has_any_notices( get_current_user_id() ),
 		);
 
 		wp_register_script( 'courier-notices', $config->get( 'plugin_url' ) . 'js/courier-notices.js', $js_dependencies, $config->get( 'version' ), true );
