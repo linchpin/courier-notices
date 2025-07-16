@@ -40,7 +40,7 @@
   "type": "wordpress-plugin",
   "require": {
     "php": ">=7.4",
-    "woocommerce/action-scheduler": "^3.9.2",
+    "woocommerce/action-scheduler": "^3.9.3",
     "league/commonmark": "^2.7"
   },
   "autoload": {
