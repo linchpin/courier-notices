@@ -51,6 +51,9 @@ module.exports = {
 		'courier-notices-admin-global': [
 			path.resolve( __dirname, './assets/scss/courier-notices-admin-global.scss' )
 		],
+		'courier-notices-blocks': [
+			path.resolve( __dirname, './assets/js/blocks/blocks.js' ),
+		],
 	},
 	devtool: isDevelopment ? 'eval-source-map' : false,
 	module: {

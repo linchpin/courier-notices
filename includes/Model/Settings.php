@@ -30,6 +30,7 @@ class Settings {
 		// Overarching Plugin Settings
 		'ajax_notices'            => true,
 		'clear_data_on_uninstall' => false,
+		'enable_block_editor'     => false,
 
 		// Design Related Settings
 		'disable_css'             => false,

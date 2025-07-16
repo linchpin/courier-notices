@@ -1,0 +1,63 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "courier-notices/courier-notices-container",
+	"title": "Courier Notices Container",
+	"category": "courier-notices",
+	"description": "A container to hold and display multiple courier notices.",
+	"keywords": [
+		"courier",
+		"notices",
+		"notifications",
+		"alerts",
+		"container"
+	],
+	"version": "1.0.0",
+	"textdomain": "courier-notices",
+	"attributes": {
+		"placement": {
+			"type": "string",
+			"default": "inline"
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"color": {
+			"background": true,
+			"text": true,
+			"gradients": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		}
+	},
+	"example": {
+		"attributes": {
+			"placement": "inline"
+		},
+		"innerBlocks": [
+			{
+				"name": "courier-notices/courier-notice",
+				"attributes": {
+					"content": "This is an example courier notice inside a container.",
+					"noticeType": "informational"
+				}
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css"
+}

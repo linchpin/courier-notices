@@ -1,0 +1,20 @@
+/* Frontend styles for individual Courier Notice - inherits from main CSS */
+.wp-block-courier-notices-courier-notice {
+	/* The block will use existing courier notice styles from the main CSS */
+	/* This file ensures proper block editor compatibility */
+}
+
+/* Ensure proper spacing in block context */
+.wp-block-courier-notices-courier-notice + .wp-block-courier-notices-courier-notice {
+	margin-top: 12px;
+}
+
+/* Animation styles for interactivity */
+.wp-block-courier-notices-courier-notice {
+	transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.wp-block-courier-notices-courier-notice.is-dismissed {
+	opacity: 0;
+	transform: translateY(-10px);
+}

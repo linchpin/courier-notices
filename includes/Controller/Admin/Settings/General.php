@@ -279,6 +279,24 @@ class General {
 				'label'   => esc_html__( 'Yes clear data', 'courier-notices' ),
 			)
 		);
+
+		/**
+		 * Enable Block Editor for Courier Notices
+		 */
+		add_settings_field(
+			'enable_block_editor',
+			esc_html__( 'Enable Block Editor for Courier Notices', 'courier-notices' ),
+			array( '\CourierNotices\Controller\Admin\Fields\Fields', 'add_checkbox' ),
+			$tab_section,
+			'courier_general_settings_section',
+			array(
+				'field'       => 'enable_block_editor',
+				'section'     => $tab_section,
+				'options'     => 'courier_settings',
+				'label'       => esc_html__( 'Enable Block Editor (experimental)', 'courier-notices' ),
+				'description' => esc_html__( 'Use the WordPress Block Editor for creating Courier Notices. This allows you to use blocks to create rich notice content and place notice blocks directly in pages/posts.', 'courier-notices' ),
+			)
+		);
 	}
 
 

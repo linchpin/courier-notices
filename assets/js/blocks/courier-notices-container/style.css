@@ -1,0 +1,27 @@
+/* Frontend styles for Courier Notices Container */
+.wp-block-courier-notices-courier-notices-container {
+	margin: 16px 0;
+}
+
+.wp-block-courier-notices-courier-notices-container.courier-location-header {
+	position: relative;
+	z-index: 1000;
+}
+
+.wp-block-courier-notices-courier-notices-container.courier-location-footer {
+	position: relative;
+	z-index: 999;
+}
+
+.wp-block-courier-notices-courier-notices-container.courier-location-popup-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 10000;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

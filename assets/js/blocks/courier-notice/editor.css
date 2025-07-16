@@ -1,0 +1,70 @@
+/* Editor styles for individual Courier Notice */
+.wp-block-courier-notices-courier-notice {
+	position: relative;
+	margin: 12px 0;
+}
+
+.wp-block-courier-notices-courier-notice .courier-content-wrapper {
+	position: relative;
+	padding: 16px;
+	border-radius: 4px;
+	min-height: 40px;
+}
+
+.wp-block-courier-notices-courier-notice .courier-title {
+	margin: 0 0 8px 0;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.wp-block-courier-notices-courier-notice .courier-content {
+	margin: 0;
+	line-height: 1.5;
+}
+
+.wp-block-courier-notices-courier-notice .courier-icon {
+	position: absolute;
+	top: 16px;
+	left: 16px;
+	width: 20px;
+	height: 20px;
+	font-size: 20px;
+}
+
+.wp-block-courier-notices-courier-notice .courier-close {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	background: none;
+	border: none;
+	font-size: 20px;
+	cursor: pointer;
+	line-height: 1;
+	padding: 4px;
+	border-radius: 2px;
+}
+
+.wp-block-courier-notices-courier-notice .courier-close:hover {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Type-specific styling in editor */
+.wp-block-courier-notices-courier-notice.courier_type-informational {
+	background-color: #e3f2fd;
+	border-left: 4px solid #2196f3;
+}
+
+.wp-block-courier-notices-courier-notice.courier_type-success {
+	background-color: #e8f5e8;
+	border-left: 4px solid #4caf50;
+}
+
+.wp-block-courier-notices-courier-notice.courier_type-warning {
+	background-color: #fff3e0;
+	border-left: 4px solid #ff9800;
+}
+
+.wp-block-courier-notices-courier-notice.courier_type-error {
+	background-color: #ffebee;
+	border-left: 4px solid #f44336;
+}

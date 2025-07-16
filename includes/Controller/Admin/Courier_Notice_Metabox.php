@@ -33,9 +33,9 @@ class Courier_Notice_Metabox {
 
 
 	/**
-	 * Disable the block editor for courier notices
-	 *
-	 * Until we create blocks
+	 * Conditionally enable/disable the block editor for courier notices
+	 * 
+	 * Based on user setting
 	 *
 	 * @param bool   $current_status The current status of the post type.
 	 * @param string $post_type The post type.
@@ -45,7 +45,8 @@ class Courier_Notice_Metabox {
 	public function disable_block_editor( $current_status, $post_type ) {
 
 		if ( 'courier_notice' === $post_type ) {
-			return false;
+			$settings = get_option( 'courier_settings', [] );
+			return ! empty( $settings['enable_block_editor'] );
 		}
 
 		return $current_status;

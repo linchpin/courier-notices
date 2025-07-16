@@ -1,0 +1,94 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "courier-notices/courier-notice",
+	"title": "Courier Notice",
+	"category": "courier-notices",
+	"description": "An individual courier notice with customizable type, style, and content.",
+	"keywords": [
+		"courier",
+		"notice",
+		"notification",
+		"alert",
+		"message"
+	],
+	"version": "1.0.0",
+	"textdomain": "courier-notices",
+	"parent": [
+		"courier-notices/courier-notices-container"
+	],
+	"attributes": {
+		"content": {
+			"type": "string",
+			"source": "html",
+			"selector": ".courier-content",
+			"default": ""
+		},
+		"noticeType": {
+			"type": "string",
+			"default": "informational"
+		},
+		"noticeStyle": {
+			"type": "string",
+			"default": "informational"
+		},
+		"scope": {
+			"type": "string",
+			"default": "global"
+		},
+		"dismissible": {
+			"type": "boolean",
+			"default": true
+		},
+		"showTitle": {
+			"type": "boolean",
+			"default": false
+		},
+		"title": {
+			"type": "string",
+			"source": "html",
+			"selector": ".courier-title",
+			"default": ""
+		},
+		"icon": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"color": {
+			"background": true,
+			"text": true,
+			"gradients": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		}
+	},
+	"example": {
+		"attributes": {
+			"content": "This is an example courier notice. You can customize its type, style, and make it dismissible.",
+			"noticeType": "informational",
+			"dismissible": true,
+			"showTitle": true,
+			"title": "Important Information"
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css",
+	"viewScript": "file:./view.js"
+}

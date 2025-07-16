@@ -23,11 +23,21 @@
 		}
 	},
 	"dependencies": {
+		"@wordpress/core-data": "^7.26.0",
+		"@wordpress/hooks": "^4.26.0",
 		"what-input": "5.2.12"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
+		"@wordpress/block-editor": "^14.21.0",
+		"@wordpress/blocks": "^14.15.0",
+		"@wordpress/components": "^29.12.0",
+		"@wordpress/compose": "^7.26.0",
+		"@wordpress/data": "^10.26.0",
+		"@wordpress/element": "^6.26.0",
+		"@wordpress/i18n": "^5.26.0",
+		"@wordpress/interactivity": "^6.26.0",
 		"@wordpress/prettier-config": "^4.26.0",
 		"@wordpress/scripts": "^30.19.0",
 		"husky": "^9.0.11"
