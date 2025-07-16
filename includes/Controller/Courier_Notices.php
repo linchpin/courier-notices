@@ -85,7 +85,7 @@ class Courier_Notices {
 
 		$config = new Config();
 
-		$js_dependencies = array( 'jquery' );
+		$js_dependencies = array();
 
 		global $post;
 
