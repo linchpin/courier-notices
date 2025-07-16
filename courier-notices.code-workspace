@@ -7,6 +7,35 @@
 	"settings": {
 		"intelephense.codeLens.implementations.enable": false,
 		"phpSniffer.executablesFolder": "./vendor/bin",
-		"phpSniffer.standard": "./phpcs.xml.dist"
+		"phpSniffer.standard": "./phpcs.xml.dist",
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.fixAll": "explicit",
+			"source.organizeImports": "explicit"
+		},
+		"[php]": {
+			"editor.defaultFormatter": "junstyle.php-cs-fixer",
+			"editor.formatOnSave": true
+		},
+		"[javascript]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode",
+			"editor.formatOnSave": true
+		},
+		"[typescript]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode",
+			"editor.formatOnSave": true
+		},
+		"php-cs-fixer.executablePath": "./vendor/bin/php-cs-fixer",
+		"php-cs-fixer.config": ".php-cs-fixer.dist.php",
+		"php-cs-fixer.onsave": true,
+		"php-cs-fixer.autoExecutable": true
+	},
+	"extensions": {
+		"recommendations": [
+			"junstyle.php-cs-fixer",
+			"esbenp.prettier-vscode",
+			"ms-vscode.vscode-typescript-next",
+			"bmewburn.vscode-intelephense-client"
+		]
 	}
 }
