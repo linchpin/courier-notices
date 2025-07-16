@@ -90,7 +90,7 @@ abstract class Database {
 
 
 	/**
-	 * Retrieve a row by a specific column / value.
+	 * Retrieve a row by a specific column / value
 	 *
 	 * @since   1.0
 	 *
