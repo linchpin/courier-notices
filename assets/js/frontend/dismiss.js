@@ -1,10 +1,8 @@
 import { getItem, setItem } from './cookie';
 
-const $ = jQuery;
 export default function dismiss() {
 
-	let $body = $('body'),
-		$notices;
+	let notices;
 
 	init();
 
@@ -13,7 +11,17 @@ export default function dismiss() {
 	 * Add our events
 	 */
 	function init () {
-		$body.on( 'click', '.courier-close, .trigger-close', closeClick );
+		// Use event delegation on document body for dynamic content
+		document.body.addEventListener( 'click', function( event ) {
+			// Check if clicked element or its parent has the dismiss trigger classes
+			let target = event.target;
+			if ( target.classList.contains( 'courier-close' ) || 
+			     target.classList.contains( 'trigger-close' ) ||
+			     target.closest( '.courier-close' ) ||
+			     target.closest( '.trigger-close' ) ) {
+				closeClick( event );
+			}
+		});
 	}
 
 	/**
@@ -25,44 +33,56 @@ export default function dismiss() {
 	 */
 	function closeClick( event ) {
 
-		let $this = $( this ),
-			href  = $this.attr( 'href' );
+		let target = event.target.classList.contains( 'courier-close' ) || event.target.classList.contains( 'trigger-close' ) 
+			? event.target 
+			: event.target.closest( '.courier-close' ) || event.target.closest( '.trigger-close' );
+			
+		if ( !target ) {
+			return;
+		}
 
-		if ( true !== $this.data( 'dismiss' ) ) {
+		let href = target.getAttribute( 'href' );
+
+		if ( target.dataset.dismiss !== 'true' ) {
 			event.preventDefault();
 			event.stopPropagation();
 
 			// Store that our notice should be dismissed
 			// This will stop an infinite loop.
-			$this.data( 'dismiss', true );
+			target.dataset.dismiss = 'true';
 
-			let $notice   = $this.parents( '.courier-notice' );
-			let notice_id = parseInt( $notice.data( 'courier-notice-id' ), 10 );
+			let notice = target.closest( '.courier-notice' );
+			let notice_id = notice ? parseInt( notice.dataset.courierNoticeId, 10 ) : NaN;
 
-			if ( 0 === $notice.length || isNaN( notice_id ) ) {
+			if ( !notice || isNaN( notice_id ) ) {
 				return;
 			}
 
 			// Only pass an ajax call if the user has an ID
 			if ( courier_notices_data.user_id && courier_notices_data.user_id > 0 ) {
-				$.post( {
-						url: courier_notices_data.notice_endpoint + ( notice_id ) + '/dismiss',
-						data: {
-							'dismiss_nonce' : courier_notices_data.dismiss_nonce,
-							'user_id' : courier_notices_data.user_id,
-						},
-						beforeSend: function( request ) {
-							request.setRequestHeader( 'X-WP-Nonce', courier_notices_data.wp_rest_nonce );
-						},
-					} ).done( function () {
+				fetch( courier_notices_data.notice_endpoint + notice_id + '/dismiss', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'X-WP-Nonce': courier_notices_data.wp_rest_nonce
+					},
+					body: new URLSearchParams({
+						'dismiss_nonce': courier_notices_data.dismiss_nonce,
+						'user_id': courier_notices_data.user_id
+					})
+				})
+				.then( function( response ) {
+					if ( response.ok ) {
 						hideNotice( notice_id );
-					} );
-
-				if ( href && href !== '#' ) {
-					$(document).ajaxComplete( function ( event, request, settings ) {
-						window.location = href;
-					} );
-				}
+						
+						if ( href && href !== '#' ) {
+							window.location = href;
+						}
+					}
+				})
+				.catch( function( error ) {
+					console.error( 'Error dismissing notice:', error );
+				});
 
 			} else {
 				hideNotice( notice_id );
@@ -80,22 +100,32 @@ export default function dismiss() {
 	 * @param notice_id
 	 */
 	function hideNotice( notice_id ) {
-		$( ".courier_notice[data-courier-notice-id='" + notice_id + "']" ).fadeOut( 500, function() {
-			if ( 0 === window.courier_notices_modal_notices.length ) {
-				$( '.courier-modal-overlay' ).addClass('hide').hide();
-			} else {
-				// Call displayModal from core.js
-				// Since displayModal is now in core.js, we need to trigger it differently
-				// For now, we'll just show the next modal if available
-				if ( window.courier_notices_modal_notices && window.courier_notices_modal_notices.length > 0 ) {
-					// Trigger a custom event that core.js can listen for
+		let notice = document.querySelector( ".courier-notice[data-courier-notice-id='" + notice_id + "']" );
+		
+		if ( notice ) {
+			// Fade out animation
+			notice.style.transition = 'opacity 0.5s ease';
+			notice.style.opacity = '0';
+			
+			setTimeout( function() {
+				notice.style.display = 'none';
+				
+				// Check if we need to hide modal overlay
+				if ( !window.courier_notices_modal_notices || window.courier_notices_modal_notices.length === 0 ) {
+					let modalOverlay = document.querySelector( '.courier-modal-overlay' );
+					if ( modalOverlay ) {
+						modalOverlay.classList.add( 'hide' );
+						modalOverlay.style.display = 'none';
+					}
+				} else {
+					// Trigger next modal if available
 					const event = new CustomEvent( 'courierModalNext', { 
 						detail: { notice_id: notice_id } 
 					});
 					document.dispatchEvent( event );
 				}
-			}
-		});
+			}, 500 );
+		}
 
 		setCookie( notice_id );
 	}
@@ -107,21 +137,29 @@ export default function dismiss() {
 	 */
 	function close_all_click( event ) {
 
-		var $this = $(this);
+		let target = event.target;
 
-		if (true !== $this.data('dismiss')) {
+		if ( target.dataset.dismiss !== 'true' ) {
 			event.preventDefault();
 			event.stopPropagation();
 
 			// Store that our notice should be dismissed
 			// This will stop an infinite loop.
-			$this.data('dismiss', true);
+			target.dataset.dismiss = 'true';
 
-			$notices = $('.courier-notices').find('.courier-notice');
+			notices = document.querySelectorAll( '.courier-notices .courier-notice' );
 
-			var notice_ids = $notices.data('courier-notice-id');
+			let notice_ids = [];
+			notices.forEach( function( notice ) {
+				let id = notice.dataset.courierNoticeId;
+				if ( id ) {
+					notice_ids.push( id );
+				}
+			});
 
-			ajax( notice_ids.join(',') );
+			if ( notice_ids.length > 0 ) {
+				ajax( notice_ids.join(',') );
+			}
 		}
 	}
 
@@ -132,17 +170,38 @@ export default function dismiss() {
 	 * @param notice_ids example 1 or 1,2,3
 	 */
 	function ajax( notice_ids ) {
-		$.get( courier_notices_data.endpoint + notice_ids + '/').done( function () {
-			$notices.find('.courier-close').trigger('click');
+		fetch( courier_notices_data.endpoint + notice_ids + '/' )
+			.then( function( response ) {
+				if ( response.ok ) {
+					// Trigger click on all close buttons
+					let closeButtons = document.querySelectorAll( '.courier-notices .courier-close' );
+					closeButtons.forEach( function( button ) {
+						button.click();
+					});
 
-			notice_ids = String(notice_ids).split(',');
-
-			$.each( notice_ids, function ( index, value ) {
-				$(".courier_notice[data-courier-notice-id='" + value + "']").fadeOut();
-				$('.courier-modal-overlay').hide();
-				setCookie( value );
+					let ids = String( notice_ids ).split( ',' );
+					ids.forEach( function( value ) {
+						let notice = document.querySelector( ".courier-notice[data-courier-notice-id='" + value + "']" );
+						if ( notice ) {
+							notice.style.transition = 'opacity 0.5s ease';
+							notice.style.opacity = '0';
+							setTimeout( function() {
+								notice.style.display = 'none';
+							}, 500 );
+						}
+						
+						let modalOverlay = document.querySelector( '.courier-modal-overlay' );
+						if ( modalOverlay ) {
+							modalOverlay.style.display = 'none';
+						}
+						
+						setCookie( parseInt( value ) );
+					});
+				}
+			})
+			.catch( function( error ) {
+				console.error( 'Error dismissing notices:', error );
 			});
-		} );
 	}
 
 	function setCookie( notice_id ) {

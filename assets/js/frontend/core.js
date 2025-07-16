@@ -1,7 +1,5 @@
 import { getItem } from './cookie';
 
-let $ = jQuery;
-
 export default function core() {
 
 	/**
@@ -21,10 +19,10 @@ export default function core() {
 	 */
 	function init() {
 
-		let $notice_containers = $( '.courier-notices[data-courier-ajax="true"]' );
+		let noticeContainers = document.querySelectorAll( '.courier-notices[data-courier-ajax="true"]' );
 		
 		// If no notice containers expecting ajax, die early.
-		if ( $notice_containers.length === 0 ) {
+		if ( noticeContainers.length === 0 ) {
 			return;
 		}
 
@@ -35,12 +33,14 @@ export default function core() {
 		}
 
 		// Mark all containers as not loaded
-		$notice_containers.attr( 'data-loaded', false );
+		noticeContainers.forEach( function( container ) {
+			container.setAttribute( 'data-loaded', 'false' );
+		});
 
 		// Collect all placements that have containers
 		let placements = [];
-		$notice_containers.each( function() {
-			let placement = $( this ).data( 'courier-placement' );
+		noticeContainers.forEach( function( container ) {
+			let placement = container.getAttribute( 'data-courier-placement' );
 			if ( placement && placements.indexOf( placement ) === -1 ) {
 				placements.push( placement );
 			}
@@ -65,8 +65,8 @@ export default function core() {
 		}, { threshold: 1 });
 
 		// Observe all notice containers
-		$notice_containers.each( function() {
-			observer.observe( this );
+		noticeContainers.forEach( function( container ) {
+			observer.observe( container );
 		});
 	}
 
@@ -78,8 +78,8 @@ export default function core() {
 	 */
 	function loadAllNotices( placements ) {
 		// Check if we've already loaded notices
-		let $loadedContainers = $( '.courier-notices[data-loaded="true"]' );
-		if ( $loadedContainers.length > 0 ) {
+		let loadedContainers = document.querySelectorAll( '.courier-notices[data-loaded="true"]' );
+		if ( loadedContainers.length > 0 ) {
 			return;
 		}
 
@@ -98,24 +98,47 @@ export default function core() {
 		dismissed_notice_ids = JSON.parse( dismissed_notice_ids );
 		dismissed_notice_ids = dismissed_notice_ids || [];
 
-		// Make single AJAX call to fetch all notices
-		$.ajax({
-			method: 'GET',
-			beforeSend: function (xhr) {
-				// only send nonce if the user is logged in.
-				if ( courier_notices_data.user_id !== '0' ) {
-					xhr.setRequestHeader( 'X-WP-Nonce', courier_notices_data.wp_rest_nonce );
+		// Build query string from settings
+		let queryParams = new URLSearchParams();
+		for ( let key in settings ) {
+			if ( key === 'post_info' ) {
+				for ( let subKey in settings[key] ) {
+					queryParams.append( `post_info[${subKey}]`, settings[key][subKey] );
 				}
-			},
-			url: courier_notices_data.notices_all_endpoint,
-			data: settings,
-		}).done( function( response ) {
+			} else if ( key === 'placements' ) {
+				settings[key].forEach( function( placement ) {
+					queryParams.append( 'placements[]', placement );
+				});
+			} else {
+				queryParams.append( key, settings[key] );
+			}
+		}
+
+		// Make fetch call to get all notices
+		let headers = {};
+		// only send nonce if the user is logged in.
+		if ( courier_notices_data.user_id !== '0' ) {
+			headers['X-WP-Nonce'] = courier_notices_data.wp_rest_nonce;
+		}
+
+		fetch( courier_notices_data.notices_all_endpoint + '?' + queryParams.toString(), {
+			method: 'GET',
+			headers: headers
+		})
+		.then( function( response ) {
+			if ( !response.ok ) {
+				throw new Error( 'Network response was not ok' );
+			}
+			return response.json();
+		})
+		.then( function( response ) {
 			// Distribute notices to their appropriate containers
 			if ( response && typeof response === 'object' ) {
 				distributeNotices( response, dismissed_notice_ids );
 			}
-		}).fail( function( jqXHR, textStatus, errorThrown ) {
-			console.error( 'Courier Notices: Failed to load notices', textStatus, errorThrown );
+		})
+		.catch( function( error ) {
+			console.error( 'Courier Notices: Failed to load notices', error );
 		});
 	}
 
@@ -130,10 +153,10 @@ export default function core() {
 		// Process each placement
 		Object.keys( response ).forEach( function( placement ) {
 			let notices = response[ placement ];
-			let $container = $( '.courier-notices[data-courier-placement="' + placement + '"]' );
+			let container = document.querySelector( '.courier-notices[data-courier-placement="' + placement + '"]' );
 			
 			// Skip if no container for this placement
-			if ( $container.length === 0 ) {
+			if ( !container ) {
 				return;
 			}
 
@@ -148,11 +171,17 @@ export default function core() {
 						return;
 					}
 
-					let $notice = $( notices[ notice_id ] ).hide();
-					$container.append( $notice );
+					// Create temporary div to parse HTML
+					let tempDiv = document.createElement( 'div' );
+					tempDiv.innerHTML = notices[ notice_id ];
+					let noticeElement = tempDiv.firstElementChild;
+					
+					// Hide initially
+					noticeElement.style.display = 'none';
+					container.appendChild( noticeElement );
 
-					// Animate the notice in
-					$notice.slideDown( 'fast', 'swing', function() {
+					// Animate the notice in using CSS transition
+					slideDown( noticeElement, function() {
 						const event = new CustomEvent( 'courierNoticeDisplayed', {
 							detail: {
 								notice_id: notice_id,
@@ -165,7 +194,7 @@ export default function core() {
 			}
 
 			// Mark container as loaded
-			$container.attr( 'data-loaded', 'true' );
+			container.setAttribute( 'data-loaded', 'true' );
 		});
 	}
 
@@ -204,21 +233,67 @@ export default function core() {
 	 * @param index
 	 */
 	function displayModal ( index ) {
-		let $notice = $( window.courier_notices_modal_notices[ index ] );
-		$notice.hide();
-
-		if ( $notice.length < 1 ) {
+		if ( !window.courier_notices_modal_notices || !window.courier_notices_modal_notices[ index ] ) {
 			return;
 		}
 
-		$( '.courier-notices[data-courier-placement="popup-modal"] .courier-modal-overlay' )
-			.append( $notice );
+		// Create temporary div to parse HTML
+		let tempDiv = document.createElement( 'div' );
+		tempDiv.innerHTML = window.courier_notices_modal_notices[ index ];
+		let noticeElement = tempDiv.firstElementChild;
+		
+		if ( !noticeElement ) {
+			return;
+		}
 
-		$('.courier-modal-overlay').removeClass('hide').show();
-		$notice.slideDown( 'fast' );
+		noticeElement.style.display = 'none';
+
+		let modalOverlay = document.querySelector( '.courier-notices[data-courier-placement="popup-modal"] .courier-modal-overlay' );
+		if ( modalOverlay ) {
+			modalOverlay.appendChild( noticeElement );
+			modalOverlay.classList.remove( 'hide' );
+			modalOverlay.style.display = 'block';
+			slideDown( noticeElement );
+		}
 
 		window.courier_notices_modal_notices.splice( index, 1 );
 	}
+
+	/**
+	 * Vanilla JavaScript slideDown animation
+	 *
+	 * @param {HTMLElement} element Element to slide down
+	 * @param {Function} callback Optional callback when animation completes
+	 */
+	function slideDown( element, callback ) {
+		element.style.display = 'block';
+		element.style.overflow = 'hidden';
+		
+		let height = element.scrollHeight;
+		element.style.height = '0px';
+		element.style.transition = 'height 0.3s ease';
+		
+		// Force browser reflow
+		element.offsetHeight;
+		
+		element.style.height = height + 'px';
+		
+		setTimeout( function() {
+			element.style.height = '';
+			element.style.overflow = '';
+			element.style.transition = '';
+			if ( callback ) {
+				callback();
+			}
+		}, 300 );
+	}
+
+	// Listen for next modal event
+	document.addEventListener( 'courierModalNext', function() {
+		if ( window.courier_notices_modal_notices && window.courier_notices_modal_notices.length > 0 ) {
+			displayModal( 0 );
+		}
+	});
 
 	domReady( init );
 }
