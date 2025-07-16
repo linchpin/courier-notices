@@ -49,7 +49,10 @@
     },
     "files": [
 			"vendor/woocommerce/action-scheduler/action-scheduler.php"
-		]
+		],
+    "classmap": [
+      "vendor-prefixed/"
+    ]
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^1.1.1",
@@ -67,9 +70,32 @@
 			"vendor/woocommerce/action-scheduler/": [
 				"woocommerce/action-scheduler"
 			]
+		},
+		"strauss": {
+			"target_directory": "vendor-prefixed",
+			"namespace_prefix": "CourierNotices\\Vendor\\",
+			"classmap_prefix": "CourierNotices_Vendor_",
+			"constant_prefix": "COURIER_NOTICES_VENDOR_",
+			"packages": [
+				"league/commonmark"
+			],
+			"update_call_sites": true,
+			"exclude_from_prefix": {
+				"packages": [
+					"woocommerce/action-scheduler"
+				]
+			},
+			"exclude_from_copy": {
+				"packages": [
+					"woocommerce/action-scheduler"
+				]
+			}
 		}
 	},
   "scripts": {
+    "strauss": "strauss",
+    "post-install-cmd": "composer strauss",
+    "post-update-cmd": "composer strauss",
     "fixer": "php-cs-fixer -v fix --allow-risky=yes",
     "fixer:test": "php-cs-fixer fix -v --dry-run --stop-on-violation --using-cache=no --allow-risky=yes",
     "lint": [

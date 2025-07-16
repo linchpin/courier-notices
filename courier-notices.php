@@ -69,6 +69,11 @@ if ( file_exists( COURIER_NOTICES_PATH . 'vendor/autoload.php' ) ) {
 	require_once COURIER_NOTICES_PATH . 'vendor/autoload.php';
 }
 
+// Load Strauss prefixed dependencies
+if ( file_exists( COURIER_NOTICES_PATH . 'vendor-prefixed/autoload.php' ) ) {
+	require_once COURIER_NOTICES_PATH . 'vendor-prefixed/autoload.php';
+}
+
 /***
  * Kick everything off when plugins are loaded
  */

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "54a1d9f214b6a7bcd2d4187763b02302",
+    "content-hash": "938888a01a90cde8fa62e9a2f010c701",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -617,23 +617,23 @@
         },
         {
             "name": "woocommerce/action-scheduler",
-            "version": "3.9.2",
+            "version": "3.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/woocommerce/action-scheduler.git",
-                "reference": "efbb7953f72a433086335b249292f280dd43ddfe"
+                "reference": "c58cdbab17651303d406cd3b22cf9d75c71c986c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/efbb7953f72a433086335b249292f280dd43ddfe",
-                "reference": "efbb7953f72a433086335b249292f280dd43ddfe",
+                "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/c58cdbab17651303d406cd3b22cf9d75c71c986c",
+                "reference": "c58cdbab17651303d406cd3b22cf9d75c71c986c",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "php": ">=7.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.5",
+                "phpunit/phpunit": "^8.5",
                 "woocommerce/woocommerce-sniffs": "0.1.0",
                 "wp-cli/wp-cli": "~2.5.0",
                 "yoast/phpunit-polyfills": "^2.0"
@@ -654,9 +654,9 @@
             "homepage": "https://actionscheduler.org/",
             "support": {
                 "issues": "https://github.com/woocommerce/action-scheduler/issues",
-                "source": "https://github.com/woocommerce/action-scheduler/tree/3.9.2"
+                "source": "https://github.com/woocommerce/action-scheduler/tree/3.9.3"
             },
-            "time": "2025-02-03T09:09:30+00:00"
+            "time": "2025-07-15T09:32:30+00:00"
         }
     ],
     "packages-dev": [
