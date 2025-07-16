@@ -26,6 +26,12 @@ export default function core() {
 			return;
 		}
 
+		// Check if any notices exist at all
+		if ( ! courier_notices_data.has_notices ) {
+			// No notices exist, so don't set up observers or make AJAX calls
+			return;
+		}
+
 		// Mark all containers as not loaded
 		noticeContainers.forEach( function( container ) {
 			container.setAttribute( 'data-loaded', 'false' );

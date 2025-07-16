@@ -300,6 +300,59 @@ function courier_notices_get_global_dismissed_notices( $user_id = 0 ) {
 	return $data->get_global_dismissed_notices( $user_id );
 }
 
+/**
+ * Check if any published notices exist that could potentially be shown
+ *
+ * @since 1.8.0
+ *
+ * @param int $user_id Optional. User ID to check for user-specific notices.
+ *
+ * @return bool True if any notices exist, false otherwise.
+ */
+function courier_notices_has_any_notices( $user_id = 0 ) {
+	// Check cache first
+	$cache_key = 'courier_has_notices_' . $user_id;
+	$cached    = wp_cache_get( $cache_key, 'courier-notices' );
+	
+	if ( false !== $cached ) {
+		return (bool) $cached;
+	}
+	
+	// Quick check for any published notices
+	$args = array(
+		'post_type'      => 'courier_notice',
+		'post_status'    => 'publish',
+		'posts_per_page' => 1,
+		'fields'         => 'ids',
+		'no_found_rows'  => true,
+	);
+	
+	// If user ID provided, check for user-specific notices
+	if ( $user_id ) {
+		$args['tax_query'] = array(
+			'relation' => 'OR',
+			array(
+				'taxonomy' => 'courier_scope',
+				'field'    => 'slug',
+				'terms'    => array( 'global' ),
+			),
+			array(
+				'taxonomy' => 'courier_visibility_rules',
+				'field'    => 'slug',
+				'terms'    => array( "rule-is_user_{$user_id}" ),
+			),
+		);
+	}
+	
+	$query      = new WP_Query( $args );
+	$has_notices = $query->have_posts();
+	
+	// Cache for 5 minutes
+	wp_cache_set( $cache_key, $has_notices, 'courier-notices', 300 );
+	
+	return $has_notices;
+}
+
 
 /**
  * Get all dismissed notices for a user
@@ -388,7 +441,8 @@ function courier_notices_dismiss_notices( $notice_ids, $user_id = 0, $force_dism
 
 
 /**
- * Clear Courier notices cache
+ * Clear all courier notices caches
+ *
  * This should be called when notices are created, updated, or deleted
  *
  * @since 1.7.2
@@ -397,8 +451,13 @@ function courier_notices_clear_cache() {
 	// Clear object cache for courier-notices group.
 	wp_cache_flush_group( 'courier-notices' );
 
-	// Clear transients that start with courier_notices_.
+	// Clear has_notices cache for all users
 	global $wpdb;
+	$wpdb->query(
+		"DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_courier_has_notices_%' OR option_name LIKE '_transient_timeout_courier_has_notices_%'"
+	);
+
+	// Clear transients that start with courier_notices_.
 	$wpdb->query(
 		$wpdb->prepare(
 			"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
