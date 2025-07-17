@@ -27,9 +27,9 @@ if ( ! defined( 'WPINC' ) ) {
  */
 
 if ( ! defined( 'COURIER_NOTICES_VERSION' ) ) {
-	// x-release-please-start-version
+	// x-release-please-start-version.
 	define( 'COURIER_NOTICES_VERSION', '1.8.0' );
-	// x-release-please-end
+	// x-release-please-end.
 }
 
 if ( ! defined( 'COURIER_NOTICES_RELEASE_DATE' ) ) {
@@ -158,13 +158,13 @@ register_deactivation_hook( __FILE__, 'courier_notices_deactivation' );
  *       upon uninstall.
  */
 function courier_notices_deactivation() {
-	// Clear legacy WP Cron hooks
+	// Clear legacy WP Cron hooks.
 	wp_clear_scheduled_hook( 'courier_notices_purge' );
 	wp_clear_scheduled_hook( 'courier_notices_expire' );
 	wp_clear_scheduled_hook( 'courier_purge' );
 	wp_clear_scheduled_hook( 'courier_expire' );
 
-	// Clear Action Scheduler actions if available
+	// Clear Action Scheduler actions if available.
 	if ( function_exists( 'as_unschedule_all_actions' ) ) {
 		as_unschedule_all_actions( null, [], 'courier_notices' );
 	}

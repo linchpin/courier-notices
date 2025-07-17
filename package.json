@@ -4,7 +4,6 @@
 	"description": "A way to display, manage, and control front end notifications for users, globally or individually, in the header,footer, by shortcode or by page.",
 	"author": "Linchpin <sayhi@linchpin.com>",
 	"license": "GPL-2.0-or-later",
-	"prettier": "@wordpress/prettier-config",
 	"scripts": {
 		"prepare": "husky",
 		"format": "wp-scripts format",
