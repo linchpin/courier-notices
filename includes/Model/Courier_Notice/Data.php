@@ -53,7 +53,8 @@ class Data {
 		}
 
 		// Check transient cache.
-		$transient_key   = 'courier_notices_' . md5( serialize( $args ) );
+
+		$transient_key   = 'courier_notices_' . wp_hash( wp_json_encode( $args ) );
 		$transient_cache = get_transient( $transient_key );
 		if ( false !== $transient_cache ) {
 			wp_cache_set( $cache_key, $transient_cache, 'courier-notices', 300 );
@@ -285,17 +286,17 @@ class Data {
 
 		$ajax_post_data = wp_parse_args( $ajax_post_data, $defaults );
 
-		// Create cache key based on arguments
-		$cache_key = 'courier_notices_' . md5( serialize( $args ) . serialize( $ajax_post_data ) );
+		// Create cache key based on arguments.
+		$cache_key = 'courier_notices_' . wp_hash( wp_json_encode( $args ) . wp_json_encode( $ajax_post_data ) );
 		$cache     = wp_cache_get( $cache_key, 'courier-notices' );
 
-		// Check object cache first
+		// Check object cache first.
 		if ( false !== $cache ) {
 			return $cache;
 		}
 
-		// Check transient cache
-		$transient_key   = 'courier_notices_transient_' . md5( serialize( $args ) . serialize( $ajax_post_data ) );
+		// Check transient cache.
+		$transient_key   = 'courier_notices_transient_' . wp_hash( wp_json_encode( $args ) . wp_json_encode( $ajax_post_data ) );
 		$transient_cache = get_transient( $transient_key );
 		if ( false !== $transient_cache ) {
 			wp_cache_set( $cache_key, $transient_cache, 'courier-notices', 300 );

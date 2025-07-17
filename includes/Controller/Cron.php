@@ -29,16 +29,14 @@ class Cron {
 		}
 
 		// Add deprecation notice for developers.
-		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+		if ( \defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			_deprecated_function( __METHOD__, '1.8.0', 'CourierNotices\Controller\Action_Scheduler::register_actions' );
 		}
 
-		add_filter( 'cron_schedules', array( $this, 'add_courier_cron_interval' ) );
+		add_action( 'courier_purge', [ $this, 'courier_purge' ] );
+		add_action( 'courier_expire', [ $this, 'courier_expire' ] );
 
-		add_action( 'courier_purge', array( $this, 'courier_purge' ) );
-		add_action( 'courier_expire', array( $this, 'courier_expire' ) );
-
-		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'init', [ $this, 'init' ] );
 	}
 
 
@@ -65,46 +63,24 @@ class Cron {
 
 
 	/**
-	 * Add new schedules for the cron to run every 5 minutes
-	 *
-	 * @since 1.0.5
-	 *
-	 * @param array $schedules Cron Schedules.
-	 */
-	public function add_courier_cron_interval( $schedules ) {
-		$schedules['courier_purge_cron_interval'] = array(
-			'interval' => 300,
-			'display'  => esc_html__( 'Every 5 Minutes', 'courier-notices' ),
-		);
-
-		$schedules['courier_expire_cron_interval'] = array(
-			'interval' => 300,
-			'display'  => esc_html__( 'Every 5 Minutes', 'courier-notices' ),
-		);
-
-		return $schedules;
-	}
-
-
-	/**
 	 * Delete Courier notices that are older than 6 months.
 	 *
 	 * @since 1.0
 	 * @deprecated 1.8.0 Use Action_Scheduler instead.
 	 */
 	public function courier_purge() {
-		$args = array(
+		$args = [
 			'post_type'      => 'courier_notice',
 			'offset'         => 0,
 			'posts_per_page' => 100,
 			'fields'         => 'ids',
-			'date_query'     => array(
-				array(
+			'date_query'     => [
+				[
 					'column' => 'post_date',
 					'before' => '6 months ago',
-				),
-			),
-		);
+				],
+			],
+		];
 
 		$notices_query = new \WP_Query( $args );
 
@@ -129,30 +105,30 @@ class Cron {
 	 * @deprecated 1.8.0 Use Action_Scheduler instead
 	 */
 	public function courier_expire() {
-		$args = array(
+		$args = [
 			'post_type'      => 'courier_notice',
 			'offset'         => 0,
 			'posts_per_page' => 100,
 			'fields'         => 'ids',
-			'meta_query'     => array(
-				array(
+			'meta_query'     => [
+				[
 					'key'     => '_courier_expiration',
 					'value'   => time(),
 					'compare' => '<',
 					'type'    => 'NUMERIC',
-				),
-			),
-		);
+				],
+			],
+		];
 
 		$notices_query = new \WP_Query( $args );
 
 		while ( $notices_query->have_posts() ) {
 			foreach ( $notices_query->posts as $post ) {
 				wp_update_post(
-					array(
+					[
 						'ID'          => $post,
 						'post_status' => 'courier_expired',
-					)
+					]
 				);
 			}
 
@@ -169,6 +145,7 @@ class Cron {
 	 * Check if Action Scheduler is active and should be used instead of cron
 	 *
 	 * @since 1.8.0
+	 *
 	 * @return bool True if Action Scheduler should be used
 	 */
 	private function is_action_scheduler_active() {

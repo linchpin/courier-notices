@@ -85,7 +85,11 @@
 	<rule ref="WordPress.WP.Capabilities.Unknown">
 		<properties>
 			<property name="custom_capabilities" type="array">
-				<element value="edit_integration"/>
+				<element value="edit_courier_notices"/>
+				<element value="delete_courier_notices"/>
+				<element value="delete_others_courier_notices"/>
+				<element value="edit_published_courier_notices"/>
+				<element value="edit_others_courier_notices"/>
 			</property>
 		</properties>
 	</rule>
