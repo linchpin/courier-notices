@@ -55,13 +55,18 @@ module.exports = {
 		],
 	},
 	output: {
+		...defaultConfig.output,
 		path: path.resolve(__dirname, './'),
 		filename: 'js/[name].js',
 		clean: {
-			keep: /^(?!js\/|css\/).*$/,
+			keep: (asset) => {
+				// Keep everything except js/ and css/ directories
+				return !asset.includes('js/') && !asset.includes('css/');
+			},
 		},
 	},
 	externals: {
+		...defaultConfig.externals,
 		jquery: 'jQuery',
 		lodash: '_',
 	},
