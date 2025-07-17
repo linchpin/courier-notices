@@ -1,71 +1,71 @@
 {
-  "name": "linchpin/courier-notices",
-  "description": "Courier Notices, a highly extendable advanced front end notification plugin for WordPress",
-  "homepage": "https://github.com/linchpin/courier-notices",
-  "version": "1.8.0",
-  "authors": [
-    {
-      "name": "Linchpin",
-      "email": "sayhi@linchpin.com",
-      "homepage": "https://linchpin.com",
-      "role": "Developer"
-    },
-    {
-      "name": "Aaron Ware",
-      "role": "Developer",
-      "email": "aaron@linchpin.com"
-    },
-    {
-      "name": "Brian Fischer",
-      "email": "brian@linchpin.com"
-    },
-    {
-      "name": "Adam Richards",
-      "email": "adam@linchpin.com"
-    }
-  ],
-  "keywords": [
-    "WordPress",
-    "linchpin",
-    "notices",
-    "notifications",
-    "alerts",
-    "gdpr"
-  ],
-  "support": {
-    "issues": "https://github.com/linchpin/courier-notices/issues",
-    "source": "https://github.com/linchpin/courier-notices"
-  },
-  "license": "GPL-2.0-or-later",
-  "type": "wordpress-plugin",
-  "require": {
-    "php": ">=7.4",
-    "woocommerce/action-scheduler": "^3.9.3",
-    "league/commonmark": "^2.7"
-  },
-  "autoload": {
-    "psr-4": {
-      "CourierNotices\\": "includes/"
-    },
-    "files": [
+	"name": "linchpin/courier-notices",
+	"description": "Courier Notices, a highly extendable advanced front end notification plugin for WordPress",
+	"homepage": "https://github.com/linchpin/courier-notices",
+	"version": "1.8.0",
+	"authors": [
+		{
+			"name": "Linchpin",
+			"email": "sayhi@linchpin.com",
+			"homepage": "https://linchpin.com",
+			"role": "Developer"
+		},
+		{
+			"name": "Aaron Ware",
+			"role": "Developer",
+			"email": "aaron@linchpin.com"
+		},
+		{
+			"name": "Brian Fischer",
+			"email": "brian@linchpin.com"
+		},
+		{
+			"name": "Adam Richards",
+			"email": "adam@linchpin.com"
+		}
+	],
+	"keywords": [
+		"WordPress",
+		"linchpin",
+		"notices",
+		"notifications",
+		"alerts",
+		"gdpr"
+	],
+	"support": {
+		"issues": "https://github.com/linchpin/courier-notices/issues",
+		"source": "https://github.com/linchpin/courier-notices"
+	},
+	"license": "GPL-2.0-or-later",
+	"type": "wordpress-plugin",
+	"require": {
+		"php": ">=7.4",
+		"woocommerce/action-scheduler": "^3.9.3",
+		"league/commonmark": "^2.7"
+	},
+	"autoload": {
+		"psr-4": {
+			"CourierNotices\\": "includes/"
+		},
+		"files": [
 			"vendor/woocommerce/action-scheduler/action-scheduler.php"
 		],
-    "classmap": [
-      "vendor-prefixed/"
-    ]
-  },
-  "require-dev": {
-    "dealerdirect/phpcodesniffer-composer-installer": "^1.1.1",
-    "wp-coding-standards/wpcs": "^3.1.0",
-    "squizlabs/php_codesniffer": "^3.13.2",
-    "phpcompatibility/php-compatibility": "^9.3.5",
-    "php-parallel-lint/php-parallel-lint": "^v1.4.0",
-    "php-parallel-lint/php-console-highlighter": "^1.0.0",
-    "friendsofphp/php-cs-fixer": "^3.84.0",
-    "phpcompatibility/phpcompatibility-wp": "2.1.7",
-    "brianhenryie/strauss": "^0.24.0"
-  },
-  "extra": {
+		"classmap": [
+			"vendor-prefixed/"
+		]
+	},
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.1.1",
+		"wp-coding-standards/wpcs": "^3.1.0",
+		"squizlabs/php_codesniffer": "^3.13.2",
+		"phpcompatibility/php-compatibility": "^9.3.5",
+		"php-parallel-lint/php-parallel-lint": "^v1.4.0",
+		"php-parallel-lint/php-console-highlighter": "^1.0.0",
+		"friendsofphp/php-cs-fixer": "^3.84.0",
+		"phpcompatibility/phpcompatibility-wp": "2.1.7",
+		"brianhenryie/strauss": "^0.24.0"
+	},
+	"extra": {
 		"installer-paths": {
 			"vendor/woocommerce/action-scheduler/": [
 				"woocommerce/action-scheduler"
@@ -92,26 +92,26 @@
 			}
 		}
 	},
-  "scripts": {
-    "strauss": "strauss",
-    "post-install-cmd": "composer strauss",
-    "post-update-cmd": "composer strauss",
-    "fixer": "php-cs-fixer -v fix --allow-risky=yes",
-    "fixer:test": "php-cs-fixer fix -v --dry-run --stop-on-violation --using-cache=no --allow-risky=yes",
-    "lint": [
-      "@phpcs",
-      "@fixer:test",
-      "@phpstan"
-    ],
-    "phpcbf": "phpcbf --standard=phpcs.xml.dist",
-    "phpcs": "phpcs --standard=phpcs.xml.dist",
-    "phpstan": "phpstan --memory-limit=768M",
-    "phpunit": "phpunit"
-  },
-  "config": {
-    "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true,
-      "composer/installers": true
-    }
-  }
+	"scripts": {
+		"pre-autoload-dump": "mkdir -p vendor-prefixed",
+		"strauss": "strauss",
+		"post-autoload-dump": "composer strauss",
+		"fixer": "php-cs-fixer -v fix --allow-risky=yes",
+		"fixer:test": "php-cs-fixer fix -v --dry-run --stop-on-violation --using-cache=no --allow-risky=yes",
+		"lint": [
+			"@phpcs",
+			"@fixer:test",
+			"@phpstan"
+		],
+		"phpcbf": "phpcbf --standard=phpcs.xml.dist",
+		"phpcs": "phpcs --standard=phpcs.xml.dist",
+		"phpstan": "phpstan --memory-limit=768M",
+		"phpunit": "phpunit"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"composer/installers": true
+		}
+	}
 }
