@@ -2,7 +2,7 @@
   "name": "linchpin/courier-notices",
   "description": "Courier Notices, a highly extendable advanced front end notification plugin for WordPress",
   "homepage": "https://github.com/linchpin/courier-notices",
-  "version": "1.8.0",
+  "version": "2.0.0",
   "authors": [
     {
       "name": "Linchpin",
@@ -48,8 +48,8 @@
       "CourierNotices\\": "includes/"
     },
     "files": [
-			"vendor/woocommerce/action-scheduler/action-scheduler.php"
-		]
+      "vendor/woocommerce/action-scheduler/action-scheduler.php"
+    ]
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^1.1.1",
@@ -62,12 +62,12 @@
     "phpcompatibility/phpcompatibility-wp": "2.1.7"
   },
   "extra": {
-		"installer-paths": {
-			"vendor/woocommerce/action-scheduler/": [
-				"woocommerce/action-scheduler"
-			]
-		}
-	},
+    "installer-paths": {
+      "vendor/woocommerce/action-scheduler/": [
+        "woocommerce/action-scheduler"
+      ]
+    }
+  },
   "scripts": {
     "fixer": "php-cs-fixer -v fix --allow-risky=yes",
     "fixer:test": "php-cs-fixer fix -v --dry-run --stop-on-violation --using-cache=no --allow-risky=yes",

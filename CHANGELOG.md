@@ -4,6 +4,64 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0](https://github.com/linchpin/courier-notices/compare/v1.7.1...v2.0.0) (2025-07-17)
+
+
+### Features ✨
+
+* **COURIER-1001:** Add CLI command to test expiration ([4f0e98d](https://github.com/linchpin/courier-notices/commit/4f0e98dc4a68038c214ae97fa437fbd1656e1257))
+
+
+### Bug Fixes 🐛
+
+* **COURIER-1002:** Improve coding standards ([64348af](https://github.com/linchpin/courier-notices/commit/64348af93e08687b488694bd95f9984629fd1bdd))
+* **deps:** update dependency woocommerce/action-scheduler to ^3.9.3 ([2db10ee](https://github.com/linchpin/courier-notices/commit/2db10ee03fc812bf4f001003517c1a0ac4ba6be7))
+* **deps:** update dependency woocommerce/action-scheduler to ^3.9.3 ([3a9fcc0](https://github.com/linchpin/courier-notices/commit/3a9fcc03e748e733e31ae3322453a5dc2eeb4cf9))
+* **NO-TASK:** Adjust labels ([f4fcafb](https://github.com/linchpin/courier-notices/commit/f4fcafb3b18605560ca7a46b289bc0e53bd36e29))
+* **NOTASK:** Fix text domain notice ([6d8f926](https://github.com/linchpin/courier-notices/commit/6d8f926c036a3789fc06f8357a89eb9b23dba6be))
+* **NOTASK:** Remove string translation that was called before init triggering text domain loading notice. ([5269f5f](https://github.com/linchpin/courier-notices/commit/5269f5f2d1a1b22b42abd835a284d7ed70d37475))
+
+
+### Miscellaneous Chores 🧹
+
+* **deps:** update 10up/action-wordpress-plugin-deploy action to v2.3.0 ([227d09f](https://github.com/linchpin/courier-notices/commit/227d09fb7c4521bbac275462f2a8fc78b68b6000))
+* **deps:** update 10up/action-wordpress-plugin-deploy action to v2.3.0 ([2cc37ff](https://github.com/linchpin/courier-notices/commit/2cc37ffc57fee32cb39d4899d10cc7e29adcfd10))
+* **deps:** update andrew-chen-wang/github-wiki-action action to v5 ([3d1c91c](https://github.com/linchpin/courier-notices/commit/3d1c91c7a60b0a35eebdae95ca1ec0848f9b3121))
+* **deps:** update andrew-chen-wang/github-wiki-action action to v5 ([564d16e](https://github.com/linchpin/courier-notices/commit/564d16e83209d5702b808ffaf4d98e1774a7ff9d))
+* **deps:** update dependency dealerdirect/phpcodesniffer-composer-installer to ^1.1.1 ([5f60037](https://github.com/linchpin/courier-notices/commit/5f600378000da2a15942f77a3e89dca22afd563f))
+* **deps:** update dependency dealerdirect/phpcodesniffer-composer-installer to ^1.1.1 ([dd3e2b0](https://github.com/linchpin/courier-notices/commit/dd3e2b02ab736db0a95ea74451bbe88274dac14f))
+* **deps:** update dependency friendsofphp/php-cs-fixer to ^3.83.0 ([1d6d28c](https://github.com/linchpin/courier-notices/commit/1d6d28c3b69b994516f32af7e26cb7d73e31ac75))
+* **deps:** update dependency friendsofphp/php-cs-fixer to ^3.83.0 ([7445996](https://github.com/linchpin/courier-notices/commit/7445996d0cc7579fffa9f4e779593312fe084f91))
+* **deps:** update dependency friendsofphp/php-cs-fixer to ^3.84.0 ([35028ff](https://github.com/linchpin/courier-notices/commit/35028ff7666602cd89e77fd1b1c338173a2338e7))
+* **deps:** update dependency friendsofphp/php-cs-fixer to ^3.84.0 ([65a1ec0](https://github.com/linchpin/courier-notices/commit/65a1ec0c5d3af3a9795fed80124e1d7f8005532d))
+* **deps:** update dependency squizlabs/php_codesniffer to ^3.13.2 ([e4feb38](https://github.com/linchpin/courier-notices/commit/e4feb3847759b7c5a3dcc136f5fb6eebf66bea76))
+* **deps:** update dependency squizlabs/php_codesniffer to ^3.13.2 ([d3eefa1](https://github.com/linchpin/courier-notices/commit/d3eefa1e091d2f5a84e8d9cb0dc7950b50f3efdd))
+* **deps:** update dependency wp-coding-standards/wpcs to v3 ([0267e07](https://github.com/linchpin/courier-notices/commit/0267e0738eed1196f9a6bab03a166344e44bea93))
+* **deps:** update dependency wp-coding-standards/wpcs to v3 ([5680627](https://github.com/linchpin/courier-notices/commit/568062715c25d5f9d98b0cf598b077fbbada795e))
+* **deps:** update node.js to &gt;=20.19.4 ([a96cd87](https://github.com/linchpin/courier-notices/commit/a96cd87eca2ca3e3b4943bd6a8beb9185d15d6de))
+* **deps:** update node.js to &gt;=20.19.4 ([a28cd3b](https://github.com/linchpin/courier-notices/commit/a28cd3b33bfafd4903b971526dfb090cfd5eec43))
+* **deps:** update peter-evans/create-pull-request action to v7 ([4f0a42b](https://github.com/linchpin/courier-notices/commit/4f0a42b9c4c67dfa0ee036a302939db4501fc2c3))
+* **deps:** update peter-evans/create-pull-request action to v7 ([0f3fa8b](https://github.com/linchpin/courier-notices/commit/0f3fa8b2795ccbbaad44e71e397bf656899ac492))
+* **deps:** update rtcamp/action-phpcs-code-review action to v3.1.1 ([d456b4e](https://github.com/linchpin/courier-notices/commit/d456b4ee8d033e139b16772a79fa1d4b0165ca90))
+* **deps:** update rtcamp/action-phpcs-code-review action to v3.1.1 ([019700f](https://github.com/linchpin/courier-notices/commit/019700fcca023acfdc63c42ff18d55271c573b56))
+* **deps:** update svenstaro/upload-release-action action to v2.11.2 ([c828b2c](https://github.com/linchpin/courier-notices/commit/c828b2c8b97e0fa97e4d0f45696b1737cc450875))
+* **deps:** update svenstaro/upload-release-action action to v2.11.2 ([a5df853](https://github.com/linchpin/courier-notices/commit/a5df8530bc421b3fe67b9bd6c3fc8d89306a0d0e))
+* **NO_TASK:** Background update audit ([c4409b4](https://github.com/linchpin/courier-notices/commit/c4409b43ed6aea2d09e83bf05f85d50196eac83f))
+* **NO-TASK:** Code formatting ([b346ad5](https://github.com/linchpin/courier-notices/commit/b346ad5882b2de6b94f35060a97ac333ec2c9666))
+* **NO-TASK:** Minor WPCS adjustments ([94b29dc](https://github.com/linchpin/courier-notices/commit/94b29dc0e9863c0bc018f057db463adee06d127e))
+* **NO-TASK:** Remove empty file ([8a78ec4](https://github.com/linchpin/courier-notices/commit/8a78ec4d02f9641c8b8f26dd5a83beb848cf4245))
+* **NO-TASK:** Remove unneeded documentation ([fc0aa57](https://github.com/linchpin/courier-notices/commit/fc0aa571bb22eabfbe567bf0c67f4356418b6812))
+* **NO-TASK:** Update documentation ([a5ccada](https://github.com/linchpin/courier-notices/commit/a5ccadac7ab38f857fc504a73e245f42f3b594b2))
+
+
+### Changes to Existing Features 💅
+
+* **COURIER-1001:** Remove WP Cron in favor of Action Scheduler ([0013df2](https://github.com/linchpin/courier-notices/commit/0013df271cd52d206b236f3d94b79f9061a79615))
+* **COURIER-1002:** Begin plugin restructure process ([32460e5](https://github.com/linchpin/courier-notices/commit/32460e5c1c9061ccbdee78d4813cbd59cdeea5d8))
+* **COURIER-1004:** Remove yarn and gulp in favor of npm and webpack ([b828d3f](https://github.com/linchpin/courier-notices/commit/b828d3f6ea245c774f3889d417a9798c03bf8aab))
+* **NO-TASK:** Add expired notice UI and reactivation in admin list ([888cd33](https://github.com/linchpin/courier-notices/commit/888cd330ea63bb3ff4d79ca61c31d4de1483f437))
+* **NO-TASK:** Expired notices were not showing in "All" view ([7ca5b1b](https://github.com/linchpin/courier-notices/commit/7ca5b1b0d469b7356137c1a181f2ab88ee08351e))
+
 ## [1.8.0] (2024-XX-XX)
 
 ### Added
