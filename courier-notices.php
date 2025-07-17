@@ -69,7 +69,7 @@ if ( file_exists( COURIER_NOTICES_PATH . 'vendor/autoload.php' ) ) {
 	require_once COURIER_NOTICES_PATH . 'vendor/autoload.php';
 }
 
-// Load Strauss prefixed dependencies
+// Load Strauss prefixed dependencies.
 if ( file_exists( COURIER_NOTICES_PATH . 'vendor-prefixed/autoload.php' ) ) {
 	require_once COURIER_NOTICES_PATH . 'vendor-prefixed/autoload.php';
 }
@@ -90,8 +90,10 @@ add_action( 'plugins_loaded', 'courier_notices_init' );
 function courier_notices_init() {
 
 	// Deprecated hook.
-	_doing_it_wrong( 'before_courier_notices_init', 'Use courier_notices_before_init instead.', '1.7.0' );
-	do_action( 'before_courier_notices_init' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+	if ( has_action( 'before_courier_notices_init' ) ) {
+		_doing_it_wrong( 'before_courier_notices_init', 'Use courier_notices_before_init instead.', '1.7.0' );
+		do_action( 'before_courier_notices_init' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+	}
 
 	do_action( 'courier_notices_before_init' );
 
@@ -118,8 +120,10 @@ function courier_notices_init() {
 	}
 
 	// Deprecated hook.
-	_doing_it_wrong( 'after_courier_notices_init', 'Use courier_notices_after_init instead.', '1.7.0' );
-	do_action( 'after_courier_notices_init' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+	if ( has_action( 'after_courier_notices_init' ) ) {
+		_doing_it_wrong( 'after_courier_notices_init', 'Use courier_notices_after_init instead.', '1.7.0' );
+		do_action( 'after_courier_notices_init' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+	}
 
 	do_action( 'courier_notices_after_init' );
 }

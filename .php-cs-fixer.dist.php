@@ -26,8 +26,8 @@ $config->setRules(
 		'native_function_casing'         => true,
 		'native_function_invocation'     => true,
 		'native_type_declaration_casing' => true,
-		'array_syntax'                   => ['syntax' => 'short'],
-		'list_syntax'                    => ['syntax' => 'short'],
+		'array_syntax'                   => [ 'syntax' => 'short' ],
+		'list_syntax'                    => [ 'syntax' => 'short' ],
 	]
 );
 $config->setFinder( $finder );
