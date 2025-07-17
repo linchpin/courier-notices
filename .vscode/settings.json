@@ -25,4 +25,4 @@
 	"php-cs-fixer.onsave": true,
 	"php-cs-fixer.autoExecutable": true,
 	"prettier.configPath": "package.json"
-} 
+}

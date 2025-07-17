@@ -23,7 +23,7 @@ export default function core() {
 		let noticeContainers = document.querySelectorAll(
 			'.courier-notices[data-courier-ajax="true"]'
 		);
-		
+
 		// If no notice containers expecting ajax, die early.
 		if (noticeContainers.length === 0) {
 			return;
@@ -57,17 +57,17 @@ export default function core() {
 		// Use IntersectionObserver to detect when any notice container becomes visible
 		let observer = new IntersectionObserver(
 			function (entries) {
-			// Check if any container is fully visible and not loaded
+				// Check if any container is fully visible and not loaded
 				let shouldLoad = entries.some(function (entry) {
 					return (
 						entry.intersectionRatio === 1 &&
 						'false' === entry.target.getAttribute('data-loaded')
 					);
-			});
+				});
 
 				if (shouldLoad) {
 					loadAllNotices(placements);
-			}
+				}
 			},
 			{ threshold: 1 }
 		);
@@ -142,25 +142,25 @@ export default function core() {
 				'?' +
 				queryParams.toString(),
 			{
-			method: 'GET',
+				method: 'GET',
 				headers: headers,
 			}
 		)
 			.then(function (response) {
 				if (!response.ok) {
 					throw new Error('Network response was not ok');
-			}
-			return response.json();
-		})
+				}
+				return response.json();
+			})
 			.then(function (response) {
-			// Distribute notices to their appropriate containers
+				// Distribute notices to their appropriate containers
 				if (response && typeof response === 'object') {
 					distributeNotices(response, dismissed_notice_ids);
-			}
-		})
+				}
+			})
 			.catch(function (error) {
 				console.error('Courier Notices: Failed to load notices', error);
-		});
+			});
 	}
 
 	/**
@@ -177,7 +177,7 @@ export default function core() {
 			let container = document.querySelector(
 				'.courier-notices[data-courier-placement="' + placement + '"]'
 			);
-			
+
 			// Skip if no container for this placement
 			if (!container) {
 				return;
@@ -200,7 +200,7 @@ export default function core() {
 					let tempDiv = document.createElement('div');
 					tempDiv.innerHTML = notices[notice_id];
 					let noticeElement = tempDiv.firstElementChild;
-					
+
 					// Hide initially
 					noticeElement.style.display = 'none';
 					container.appendChild(noticeElement);
@@ -210,8 +210,8 @@ export default function core() {
 						const event = new CustomEvent(
 							'courierNoticeDisplayed',
 							{
-							detail: {
-								notice_id: notice_id,
+								detail: {
+									notice_id: notice_id,
 									placement: placement,
 								},
 							}
@@ -235,7 +235,7 @@ export default function core() {
 	 */
 	function handleModalNotices(notices, dismissed_notice_ids) {
 		let modalNotices = [];
-		
+
 		Object.keys(notices).forEach(function (notice_id) {
 			if (dismissed_notice_ids.indexOf(parseInt(notice_id)) !== -1) {
 				return;
@@ -272,7 +272,7 @@ export default function core() {
 		let tempDiv = document.createElement('div');
 		tempDiv.innerHTML = window.courier_notices_modal_notices[index];
 		let noticeElement = tempDiv.firstElementChild;
-		
+
 		if (!noticeElement) {
 			return;
 		}
@@ -301,16 +301,16 @@ export default function core() {
 	function slideDown(element, callback) {
 		element.style.display = 'block';
 		element.style.overflow = 'hidden';
-		
+
 		let height = element.scrollHeight;
 		element.style.height = '0px';
 		element.style.transition = 'height 0.3s ease';
-		
+
 		// Force browser reflow
 		element.offsetHeight;
-		
+
 		element.style.height = height + 'px';
-		
+
 		setTimeout(function () {
 			element.style.height = '';
 			element.style.overflow = '';

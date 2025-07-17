@@ -1,7 +1,6 @@
 const $ = jQuery;
 
 export default function settings() {
-
 	// Extend Serialize Array to also include checkboxes that are not selected
 	(function ($) {
 		let _base_serializeArray = $.fn.serializeArray;
@@ -12,11 +11,10 @@ export default function settings() {
 		 * @param fieldName
 		 * @return {*}
 		 */
-		function cleanupFieldName( fieldName ) {
-
+		function cleanupFieldName(fieldName) {
 			let matches = fieldName.match(/\[([a-zA-Z_]*)\]/);
 
-			if ( matches ) {
+			if (matches) {
 				return matches[1];
 			}
 
@@ -24,56 +22,60 @@ export default function settings() {
 		}
 
 		$.fn.serializeArray = function () {
-
 			let originalArray = _base_serializeArray.apply(this);
-			let dataCleanup   = {};
+			let dataCleanup = {};
 
-			$.each( this.find("input"), function (i, element) {
-
-				if ( "checkbox" === element.type || "radio" === element.type ) {
+			$.each(this.find('input'), function (i, element) {
+				if ('checkbox' === element.type || 'radio' === element.type) {
 					element.checked
-						? originalArray[i].value = true
-						: originalArray.splice( i, 0, { name: element.name, value: false })
+						? (originalArray[i].value = true)
+						: originalArray.splice(i, 0, {
+								name: element.name,
+								value: false,
+							});
 				}
 
-				let fieldName = cleanupFieldName( element.name );
+				let fieldName = cleanupFieldName(element.name);
 
-				if ( dataCleanup[ fieldName ] !== undefined ) { // The field exists, if it's not an array create one
-					if ( ! Array.isArray( dataCleanup[ fieldName ] ) ) {
-						if ( false !== dataCleanup[ fieldName ] ) {
-							dataCleanup[ fieldName ] = [ dataCleanup[ fieldName ] ];
+				if (dataCleanup[fieldName] !== undefined) {
+					// The field exists, if it's not an array create one
+					if (!Array.isArray(dataCleanup[fieldName])) {
+						if (false !== dataCleanup[fieldName]) {
+							dataCleanup[fieldName] = [dataCleanup[fieldName]];
 						} else {
-							dataCleanup[ fieldName ] = [];
+							dataCleanup[fieldName] = [];
 						}
 					}
 
-					if ( false !== element.value && element.checked ) {
-						dataCleanup[ fieldName ].push( element.value );
+					if (false !== element.value && element.checked) {
+						dataCleanup[fieldName].push(element.value);
 					}
 				} else {
-
-					if ( "checkbox" === element.type || "radio" === element.type ) {
-						if ( element.checked ) {
-							if ( false !== element.value ) {
-								dataCleanup[ fieldName ] = element.value;
+					if (
+						'checkbox' === element.type ||
+						'radio' === element.type
+					) {
+						if (element.checked) {
+							if (false !== element.value) {
+								dataCleanup[fieldName] = element.value;
 							} else {
-								dataCleanup[ fieldName ] = false;
+								dataCleanup[fieldName] = false;
 							}
 						} else {
-							dataCleanup[ fieldName ] = false;
+							dataCleanup[fieldName] = false;
 						}
 					} else {
-						dataCleanup[ fieldName ] = element.value;
+						dataCleanup[fieldName] = element.value;
 					}
 				}
 			});
 
-			for( const field in dataCleanup ) {
-				if ( typeof dataCleanup[field] !== 'object' ) {
+			for (const field in dataCleanup) {
+				if (typeof dataCleanup[field] !== 'object') {
 					continue;
 				}
 
-				if ( 0 === dataCleanup[field].length ) {
+				if (0 === dataCleanup[field].length) {
 					dataCleanup[field] = false;
 				}
 			}
@@ -82,7 +84,7 @@ export default function settings() {
 		};
 	})(jQuery);
 
-    setup_forms();
+	setup_forms();
 
 	/**
 	 * Convert our form data to a json object
@@ -90,53 +92,57 @@ export default function settings() {
 	 * @param form
 	 * @return {{}}
 	 */
-	function formDataToJSON( form ) {
+	function formDataToJSON(form) {
 		let formData = $(form).serializeArray();
 
 		return formData;
 	}
 
-    /**
-     * Initialize our dismiss
-     * Add our events
+	/**
+	 * Initialize our dismiss
+	 * Add our events
 	 *
 	 * @since 1.0
-     */
-    function setup_forms() {
+	 */
+	function setup_forms() {
+		let $settings_form = $('.courier-notices-settings-form');
 
-    	let $settings_form = $( '.courier-notices-settings-form' );
-
-		$settings_form.find( '#submit' ).on('click', function(event ) {
+		$settings_form.find('#submit').on('click', function (event) {
 			event.preventDefault();
 
-			$(this).attr({
-				'disabled':'disabled',
-				'value' : 'Saving',
-			})
-			.parents('form').submit();
+			$(this)
+				.attr({
+					disabled: 'disabled',
+					value: 'Saving',
+				})
+				.parents('form')
+				.submit();
 		});
 
-		$settings_form.on( 'submit', function(event) {
+		$settings_form.on('submit', function (event) {
 			event.preventDefault();
 			event.stopImmediatePropagation();
 
 			let $form = $(this);
 			let formData = formDataToJSON(this);
-				formData['settings_key'] = formData['option_page'];
-				formData['method'] = 'POST';
-				formData._wpnonce = courier_notices_admin_data.settings_nonce;
-			$.ajax( {
-				'url' :	courier_notices_admin_data.settings_endpoint,
-				'beforeSend' : function ( xhr ) {
-					xhr.setRequestHeader( 'X-WP-Nonce', formData._wpnonce );
+			formData['settings_key'] = formData['option_page'];
+			formData['method'] = 'POST';
+			formData._wpnonce = courier_notices_admin_data.settings_nonce;
+			$.ajax({
+				url: courier_notices_admin_data.settings_endpoint,
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('X-WP-Nonce', formData._wpnonce);
 				},
-				'method' : 'POST',
-				'data' : formData,
-			} ).done(function ( response ) {
-				$settings_form.find( '#submit' ).attr({
-					'value' : 'Save Changes',
-				}).removeAttr('disabled');
+				method: 'POST',
+				data: formData,
+			}).done(function (response) {
+				$settings_form
+					.find('#submit')
+					.attr({
+						value: 'Save Changes',
+					})
+					.removeAttr('disabled');
 			});
-		} );
-    }
+		});
+	}
 }

@@ -1,55 +1,55 @@
 on:
-    push:
-        paths:
-            - "**.php"
-    pull_request:
-        paths:
-            - "**.php"
+  push:
+    paths:
+      - '**.php'
+  pull_request:
+    paths:
+      - '**.php'
 
 name: PHP Lint
 
 jobs:
-    php-lint:
-        runs-on: ubuntu-latest
-        # Skip PRs if head_ref or Branches if head_name
-        # starts with the following auto-generated names.
-        # head_ref vs head_name: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs#github-context
-        if: |
-            ! startsWith( github.head_ref, 'release-please--' ) &&
-            ! startsWith( github.head_ref, 'phpcbf-' ) &&
-            ! startsWith( github.head_ref, 'renovate-' ) &&
-            ! startsWith( github.head_ref, 'dependabot-' ) &&
-            ! startsWith( github.ref_name, 'release-please--' ) &&
-            ! startsWith( github.ref_name, 'phpcbf-' ) &&
-            ! startsWith( github.ref_name, 'renovate-' ) &&
-            ! startsWith( github.ref_name, 'dependabot-' )
-        steps:
-            - uses: actions/checkout@v4
-              with:
-                  ref: ${{ github.head_ref }}
+  php-lint:
+    runs-on: ubuntu-latest
+    # Skip PRs if head_ref or Branches if head_name
+    # starts with the following auto-generated names.
+    # head_ref vs head_name: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs#github-context
+    if: |
+      ! startsWith( github.head_ref, 'release-please--' ) &&
+      ! startsWith( github.head_ref, 'phpcbf-' ) &&
+      ! startsWith( github.head_ref, 'renovate-' ) &&
+      ! startsWith( github.head_ref, 'dependabot-' ) &&
+      ! startsWith( github.ref_name, 'release-please--' ) &&
+      ! startsWith( github.ref_name, 'phpcbf-' ) &&
+      ! startsWith( github.ref_name, 'renovate-' ) &&
+      ! startsWith( github.ref_name, 'dependabot-' )
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
-            - name: Install PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: "8.2"
-                  coverage: none
-                  tools: cs2pr
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+          tools: cs2pr
 
-            - name: Cache Composer dependencies
-              uses: actions/cache@v4
-              with:
-                  path: /tmp/composer-cache
-                  key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
 
-            - name: Composer Install
-              uses: php-actions/composer@v6
-              with:
-                  working_dir: ./
-                  dev: no
-                  php_version: 8.2
-                  php_extensions: exif
+      - name: Composer Install
+        uses: php-actions/composer@v6
+        with:
+          working_dir: ./
+          dev: no
+          php_version: 8.2
+          php_extensions: exif
 
-            - name: PHP Lint
-              uses: overtrue/phplint@9.5
-              with:
-                  path: .
+      - name: PHP Lint
+        uses: overtrue/phplint@9.5
+        with:
+          path: .

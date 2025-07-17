@@ -11,33 +11,33 @@
  * or if you have no issue number you can utilize NO-TASK
  */
 module.exports = {
-	extends: ["@commitlint/config-conventional"],
+	extends: ['@commitlint/config-conventional'],
 	rules: {
-		"type-enum": [
+		'type-enum': [
 			2,
-			"always",
+			'always',
 			[
-				"improve",
-				"build",
-				"chore",
-				"ci",
-				"docs",
-				"feat",
-				"fix",
-				"perf",
-				"refactor",
-				"revert",
-				"style",
-				"test",
+				'improve',
+				'build',
+				'chore',
+				'ci',
+				'docs',
+				'feat',
+				'fix',
+				'perf',
+				'refactor',
+				'revert',
+				'style',
+				'test',
 			],
 		],
-		"subject-case": [1, "always", ["sentence-case"]],
+		'subject-case': [1, 'always', ['sentence-case']],
 	},
 	parserPreset: {
 		parserOpts: {
 			headerPattern:
 				/^(improve|build|ci|feat|fix|docs|style|revert|perf|refactor|test|chore)\(((?:COURIER-\d+)|(?:NO-JIRA|NO-TASK)|(?:\#\d+))\):\s?([\w\d\s,\-]*)/,
-			headerCorrespondence: ["type", "scope", "subject"],
+			headerCorrespondence: ['type', 'scope', 'subject'],
 		},
 	},
 };

@@ -1,9 +1,6 @@
-
-
 const $ = jQuery;
 
 export default function edit() {
-
 	let $doc = $(document),
 		$body = $('body');
 
@@ -16,7 +13,6 @@ export default function edit() {
 	 * @since 1.0
 	 */
 	function init() {
-
 		$('#courier_expire_date').datetimepicker({
 			minDate: 0,
 			controlType: 'select',
@@ -26,28 +22,31 @@ export default function edit() {
 			oneLine: true,
 			// firstDay: 0,
 			afterInject: function () {
-				$('button.ui-datepicker-current').addClass('button button-secondary');
-				$('button.ui-datepicker-close').addClass('right button button-primary');
-			}
+				$('button.ui-datepicker-current').addClass(
+					'button button-secondary'
+				);
+				$('button.ui-datepicker-close').addClass(
+					'right button button-primary'
+				);
+			},
 		});
 
-		if ( 'courier_notice' === courier_notices_admin_data.post_type ) {
-			$doc
-				.on( 'ready', populate_status );
+		if ('courier_notice' === courier_notices_admin_data.post_type) {
+			$doc.on('ready', populate_status);
 		}
 
 		show_hide_type();
 		modal_option_rules();
 
 		$body
-			.on( 'click', '.courier-reactivate-notice', reactivate_notice )
-			.on( 'click', '.copy-text', copy_text )
-			.on( 'change', '#courier_style', show_hide_type )
-			.on( 'change', '#courier_placement_display', change_placement )
-			.on( 'change', '#courier_style', toggle_notice_style_options )
-			.on( 'focus', '#courier-shortcode', function () {
-				$( '#courier-shortcode' ).select();
-			} );
+			.on('click', '.courier-reactivate-notice', reactivate_notice)
+			.on('click', '.copy-text', copy_text)
+			.on('change', '#courier_style', show_hide_type)
+			.on('change', '#courier_placement_display', change_placement)
+			.on('change', '#courier_style', toggle_notice_style_options)
+			.on('focus', '#courier-shortcode', function () {
+				$('#courier-shortcode').select();
+			});
 	}
 
 	/**
@@ -55,9 +54,9 @@ export default function edit() {
 	 *
 	 * @since 1.3.0
 	 */
-	function toggle_notice_style_options( event ) {
-		modal_option_rules( event );
-		toggle_show_hide_title_options( event );
+	function toggle_notice_style_options(event) {
+		modal_option_rules(event);
+		toggle_show_hide_title_options(event);
 	}
 
 	/**
@@ -68,20 +67,20 @@ export default function edit() {
 	 *
 	 * @param event
 	 */
-	function toggle_show_hide_title_options( event ) {
-		let $this                = $( '#courier_style' ),
-			$selected_option     = $this.find('option:selected'),
-			val                  = $selected_option.val(),
-			label                = $selected_option.text(),
-			$show_hide_info      = $('#show-hide-info'),
-			$selected_style      = $('#selected-courier-notice-type'),
+	function toggle_show_hide_title_options(event) {
+		let $this = $('#courier_style'),
+			$selected_option = $this.find('option:selected'),
+			val = $selected_option.val(),
+			label = $selected_option.text(),
+			$show_hide_info = $('#show-hide-info'),
+			$selected_style = $('#selected-courier-notice-type'),
 			enabled_style_titles = $selected_style.attr('data-enable-title');
 
-		$selected_style.text( label );
+		$selected_style.text(label);
 
 		$('.show-hide-toggle').removeClass('hide').hide();
 
-		if ( enabled_style_titles.indexOf( val ) === -1 ) {
+		if (enabled_style_titles.indexOf(val) === -1) {
 			$show_hide_info.hide();
 			$('#show-title-toggle').show();
 		} else {
@@ -95,7 +94,7 @@ export default function edit() {
 	 *
 	 * @since 1.1
 	 */
-	function modal_option_rules( event ) {
+	function modal_option_rules(event) {
 		show_hide_placement();
 		force_dismissible();
 	}
@@ -106,17 +105,18 @@ export default function edit() {
 	 * @since 1.1
 	 */
 	function force_dismissible() {
+		let $this = $('#courier_style');
 
-		let $this = $( '#courier_style' );
-
-		if ( 'popup-modal' === $this.find('option:selected').val() ) {
-
-			$('#courier_dismissible').prop( 'checked', 'checked' ).addClass('disabled').on( 'click', function( event ) {
-				event.stopImmediatePropagation();
-				event.preventDefault();
-			} );
+		if ('popup-modal' === $this.find('option:selected').val()) {
+			$('#courier_dismissible')
+				.prop('checked', 'checked')
+				.addClass('disabled')
+				.on('click', function (event) {
+					event.stopImmediatePropagation();
+					event.preventDefault();
+				});
 		} else {
-			$('#courier_dismissible').removeClass('disabled').off( 'click' );
+			$('#courier_dismissible').removeClass('disabled').off('click');
 		}
 	}
 
@@ -126,14 +126,13 @@ export default function edit() {
 	 *
 	 * @since 1.1
 	 */
-	function show_hide_type( event ) {
+	function show_hide_type(event) {
+		let $this = $('#courier_style');
 
-		let $this = $( '#courier_style' );
-
-		if ( $this.find( 'option:selected' ).val() !== 'informational' ) {
-			$( '#courier-notice_type_container' ).hide();
+		if ($this.find('option:selected').val() !== 'informational') {
+			$('#courier-notice_type_container').hide();
 		} else {
-			$( '#courier-notice_type_container' ).show();
+			$('#courier-notice_type_container').show();
 		}
 	}
 
@@ -143,14 +142,14 @@ export default function edit() {
 	 *
 	 * @since 1.1
 	 */
-	function show_hide_placement( event ) {
-		let $this = $( '#courier_style' );
+	function show_hide_placement(event) {
+		let $this = $('#courier_style');
 
-		if ( $this.find( 'option:selected' ).val() === 'popup-modal' ) {
-			$( '#courier_placement' ).val( 'popup-modal' );
-			$( '#courier-notice_placement_container' ).hide();
+		if ($this.find('option:selected').val() === 'popup-modal') {
+			$('#courier_placement').val('popup-modal');
+			$('#courier-notice_placement_container').hide();
 		} else {
-			$( '#courier-notice_placement_container' ).show();
+			$('#courier-notice_placement_container').show();
 		}
 	}
 
@@ -160,9 +159,9 @@ export default function edit() {
 	 *
 	 * @since 1.1
 	 */
-	function change_placement( event ) {
-		let $this = $( '#courier_placement_display' );
-		$( '#courier_placement' ).val( $this.val() );
+	function change_placement(event) {
+		let $this = $('#courier_placement_display');
+		$('#courier_placement').val($this.val());
 	}
 
 	/**
@@ -172,10 +171,14 @@ export default function edit() {
 	 * @since 1.0
 	 */
 	function populate_status() {
-		var $option = $('<option />').val('courier_expired').text(courier_notices_admin_data.strings.label);
+		var $option = $('<option />')
+			.val('courier_expired')
+			.text(courier_notices_admin_data.strings.label);
 
 		if (courier_notices_admin_data.post_status === 'courier_expired') {
-			$('#post-status-display').text(courier_notices_admin_data.strings.expired);
+			$('#post-status-display').text(
+				courier_notices_admin_data.strings.expired
+			);
 			$option.attr('selected', 'selected');
 		}
 
@@ -186,19 +189,22 @@ export default function edit() {
 	 * Reactivate a notice.
 	 * @param event
 	 */
-	function reactivate_notice( event ) {
+	function reactivate_notice(event) {
 		event.preventDefault();
 		event.stopPropagation();
 
-		let $this     = $(this),
+		let $this = $(this),
 			notice_id = $this.attr('data-courier-notice-id'),
-			$notice   = $this.parents('.notice');
+			$notice = $this.parents('.notice');
 
-		$.post( courier_notices_admin_data.reactivate_endpoint + notice_id + '/', {
-			success: function (data) {
-				$notice.fadeOut();
+		$.post(
+			courier_notices_admin_data.reactivate_endpoint + notice_id + '/',
+			{
+				success: function (data) {
+					$notice.fadeOut();
+				},
 			}
-		});
+		);
 	}
 
 	/**
@@ -214,11 +220,13 @@ export default function edit() {
 			$copy = $('#' + $copyID),
 			$indicator = $('.copy-link-indicator'),
 			UA = navigator.userAgent,
-			isIE = (!(window.ActiveXObject) && "ActiveXObject" in window) || (UA.indexOf('MSIE') != -1);
+			isIE =
+				(!window.ActiveXObject && 'ActiveXObject' in window) ||
+				UA.indexOf('MSIE') != -1;
 
 		let copyURL = '';
 
-		if ( ! isIE ) {
+		if (!isIE) {
 			$copy.select();
 
 			try {
@@ -228,24 +236,33 @@ export default function edit() {
 					copyURL = true;
 				}
 
-				if ( ! success ) {
-					copyURL = prompt( courier_notices_admin_data.strings.copy, $copy.text() );
+				if (!success) {
+					copyURL = prompt(
+						courier_notices_admin_data.strings.copy,
+						$copy.text()
+					);
 				}
-			} catch ( err ) {
-				copyURL = prompt( courier_notices_admin_data.strings.copy, $copy.text() );
+			} catch (err) {
+				copyURL = prompt(
+					courier_notices_admin_data.strings.copy,
+					$copy.text()
+				);
 			}
 		} else {
-			copyURL = prompt( courier_notices_admin_data.strings.copy, $copy.text() );
+			copyURL = prompt(
+				courier_notices_admin_data.strings.copy,
+				$copy.text()
+			);
 		}
 
-		if ( copyURL ) {
+		if (copyURL) {
 			$indicator.text(courier_notices_admin_data.strings.copied).fadeIn();
 
 			setTimeout(function () {
-				$indicator.fadeOut( function () {
+				$indicator.fadeOut(function () {
 					$indicator.text('');
-				} );
-			}, 3000 );
+				});
+			}, 3000);
 		}
 	}
 }

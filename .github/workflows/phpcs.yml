@@ -32,7 +32,7 @@ jobs:
         uses: rtCamp/action-phpcs-code-review@v3.1.1
         env:
           GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
-          SKIP_FOLDERS: ".deployment,.github,assets,css,js,lib,sourcedata,wsdl,vendor"
-          PHPCS_STANDARD_FILE_NAME: "phpcs.xml"
+          SKIP_FOLDERS: '.deployment,.github,assets,css,js,lib,sourcedata,wsdl,vendor'
+          PHPCS_STANDARD_FILE_NAME: 'phpcs.xml'
         with:
-          args: "WordPress,WordPress-Core,WordPress-Extra"
+          args: 'WordPress,WordPress-Core,WordPress-Extra'

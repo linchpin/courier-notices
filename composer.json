@@ -2,7 +2,6 @@
 	"name": "linchpin/courier-notices",
 	"description": "Courier Notices, a highly extendable advanced front end notification plugin for WordPress",
 	"homepage": "https://github.com/linchpin/courier-notices",
-	"version": "1.8.0",
 	"authors": [
 		{
 			"name": "Linchpin",
@@ -39,10 +38,21 @@
 	"license": "GPL-2.0-or-later",
 	"type": "wordpress-plugin",
 	"require": {
-		"php": ">=7.4",
+		"php": "^7.4 || ^8.0",
+		"ext-json": "*",
 		"woocommerce/action-scheduler": "^3.9.3",
 		"league/commonmark": "^2.7"
 	},
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "https://wpackagist.org",
+			"only": [
+				"wpackagist-plugin/*",
+				"wpackagist-theme/*"
+			]
+		}
+	],
 	"autoload": {
 		"psr-4": {
 			"CourierNotices\\": "includes/"
@@ -63,12 +73,26 @@
 		"php-parallel-lint/php-console-highlighter": "^1.0.0",
 		"friendsofphp/php-cs-fixer": "^3.84.0",
 		"phpcompatibility/phpcompatibility-wp": "2.1.7",
-		"brianhenryie/strauss": "^0.24.0"
+		"brianhenryie/strauss": "^0.24.0",
+		"phpstan/extension-installer": "^1.3",
+		"phpstan/phpstan": "^1.11",
+		"phpstan/phpstan-deprecation-rules": "^1.1",
+		"phpstan/phpstan-phpunit": "^1.3",
+		"slevomat/coding-standard": "^8.0",
+		"szepeviktor/phpstan-wordpress": "^1.3",
+		"wp-phpunit/wp-phpunit": "^6.5",
+		"yoast/phpunit-polyfills": "^4.0",
+		"phpstan/php-8-stubs": "^0.4.0",
+		"phpstan/phpstan-strict-rules": "^1.6",
+		"wpackagist-plugin/plugin-check": "^1.5"
 	},
 	"extra": {
 		"installer-paths": {
 			"vendor/woocommerce/action-scheduler/": [
 				"woocommerce/action-scheduler"
+			],
+			"vendor/{$vendor}/{$name}/": [
+				"wpackagist-plugin/plugin-check"
 			]
 		},
 		"strauss": {
@@ -93,25 +117,27 @@
 		}
 	},
 	"scripts": {
+		"format": "phpcbf --report-summary --report-source",
 		"pre-autoload-dump": "mkdir -p vendor-prefixed",
 		"strauss": "strauss",
 		"post-autoload-dump": "composer strauss",
 		"fixer": "php-cs-fixer -v fix --allow-risky=yes",
 		"fixer:test": "php-cs-fixer fix -v --dry-run --stop-on-violation --using-cache=no --allow-risky=yes",
-		"lint": [
-			"@phpcs",
-			"@fixer:test",
-			"@phpstan"
-		],
+		"lint": "phpcs",
 		"phpcbf": "phpcbf --standard=phpcs.xml.dist",
 		"phpcs": "phpcs --standard=phpcs.xml.dist",
-		"phpstan": "phpstan --memory-limit=768M",
-		"phpunit": "phpunit"
+		"phpstan": "phpstan analyse --memory-limit=2048M",
+		"phpunit": "phpunit",
+		"test": "phpunit --strict-coverage"
 	},
 	"config": {
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true,
-			"composer/installers": true
+			"composer/installers": true,
+			"phpstan/extension-installer": true
+		},
+		"platform": {
+			"php": "7.4"
 		}
 	}
 }

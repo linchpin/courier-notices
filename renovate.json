@@ -1,38 +1,36 @@
 {
-  "extends": [
-    "config:base"
-  ],
-  "lockFileMaintenance": { "enabled": true },
-  "ignoreDeps": [ "husky" ],
-  "labels": [ "type: dependencies", "maintenance" ],
-  "packageRules": [
-    {
-      "updateTypes": [ "minor", "patch", "pin", "digest" ],
-      "matchManagers": [ "npm" ],
-      "groupName": [ "npm frontend" ],
-      "automerge": true
-    },
-    {
-      "updateTypes": [ "major", "minor", "patch", "pin", "digest" ],
-      "depTypeList": [ "devDependencies" ],
-      "groupName": [ "npm dev dependencies" ],
-      "automerge": true
-    },
-    {
-      "updateTypes": [ "major", "minor", "patch", "pin", "digest" ],
-      "depTypeList": [ "devDependencies" ],
-      "matchManagers": [ "composer" ],
-      "automerge": true,
-      "groupName": [ "composer dev dependencies" ]
-    },
-    {
-      "updateTypes": [ "major", "minor", "patch", "pin", "digest" ],
-      "depTypeList": [ "dependencies" ],
-      "matchManagers": [ "composer" ],
-      "automerge": true,
-      "groupName": [ "composer" ]
-    }
-  ],
-  "rebaseWhen": "conflicted",
-  "rangeStrategy": "bump"
+	"extends": ["config:base"],
+	"lockFileMaintenance": { "enabled": true },
+	"ignoreDeps": ["husky"],
+	"labels": ["type: dependencies", "maintenance"],
+	"packageRules": [
+		{
+			"updateTypes": ["minor", "patch", "pin", "digest"],
+			"matchManagers": ["npm"],
+			"groupName": ["npm frontend"],
+			"automerge": true
+		},
+		{
+			"updateTypes": ["major", "minor", "patch", "pin", "digest"],
+			"depTypeList": ["devDependencies"],
+			"groupName": ["npm dev dependencies"],
+			"automerge": true
+		},
+		{
+			"updateTypes": ["major", "minor", "patch", "pin", "digest"],
+			"depTypeList": ["devDependencies"],
+			"matchManagers": ["composer"],
+			"automerge": true,
+			"groupName": ["composer dev dependencies"]
+		},
+		{
+			"updateTypes": ["major", "minor", "patch", "pin", "digest"],
+			"depTypeList": ["dependencies"],
+			"matchManagers": ["composer"],
+			"automerge": true,
+			"groupName": ["composer"]
+		}
+	],
+	"rebaseWhen": "conflicted",
+	"rangeStrategy": "bump"
 }

@@ -74,7 +74,7 @@ jobs:
           signoff: false
           branch: phpcbf-${{ github.run_id }}-${{ github.run_attempt }}
           delete-branch: true
-          title: "Auto Fix Formatting - ${{ github.run_id }}"
+          title: 'Auto Fix Formatting - ${{ github.run_id }}'
           body: |
             ${{ steps.read_report.outputs.report }}
           labels: |

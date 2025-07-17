@@ -5,7 +5,6 @@
 	"author": "Linchpin <sayhi@linchpin.com>",
 	"license": "GPL-2.0-or-later",
 	"scripts": {
-		"prepare": "husky",
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
@@ -14,12 +13,12 @@
 		"plugin-zip": "wp-scripts plugin-zip",
 		"start": "wp-scripts start",
 		"env": "wp-env",
-		"test": "echo \"Skipping: No test specified\""
-	},
-	"husky": {
-		"hooks": {
-			"commit-msg": "commit-msg"
-		}
+		"format-js": "wp-scripts format",
+		"lint-js": "wp-scripts lint-js",
+		"tsc": "tsc",
+		"format-php": "composer format:all",
+		"phpstan": "composer phpstan",
+		"lint-php": "composer lint:all"
 	},
 	"dependencies": {
 		"what-input": "5.2.12"
@@ -29,7 +28,8 @@
 		"@commitlint/config-conventional": "^19.8.1",
 		"@wordpress/prettier-config": "^4.26.0",
 		"@wordpress/scripts": "^30.19.0",
-		"husky": "^9.0.11"
+		"husky": "^9.0.11",
+		"lint-staged": "^16.1.2"
 	},
 	"repository": {
 		"type": "git",
@@ -46,5 +46,19 @@
 		"defaults"
 	],
 	"private": true,
-	"prepare": "husky || true"
+	"lint-staged": {
+		"*.js": [
+			"eslint --fix",
+			"prettier --write"
+		],
+		"*.css": [
+			"prettier --write"
+		],
+		"*.scss": [
+			"prettier --write"
+		],
+		"*.php": [
+			"composer format"
+		]
+	}
 }

@@ -25,7 +25,7 @@ jobs:
         uses: php-actions/composer@v6
         with:
           dev: no
-          php_version: "7.4"
+          php_version: '7.4'
 
       - name: Install Yarn Dependencies
         run: |
@@ -34,7 +34,7 @@ jobs:
           rm -rf node_modules
 
       - name: Clean Build Files/Folders
-        run : |
+        run: |
           chmod +x ./.deployment/cleanup.sh
           sh ./.deployment/cleanup.sh;
 
@@ -50,6 +50,3 @@ jobs:
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-
-
-
