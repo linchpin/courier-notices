@@ -85,7 +85,7 @@
 		"phpstan/php-8-stubs": "^0.4.0",
 		"phpstan/phpstan-strict-rules": "^1.6.2",
 		"wpackagist-plugin/plugin-check": "^1.5",
-		"php-stubs/wordpress-stubs": "^6.8"
+		"php-stubs/wordpress-stubs": "^6.8.2"
 	},
 	"extra": {
 		"installer-paths": {
