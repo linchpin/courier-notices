@@ -2,8 +2,9 @@ path: ./
 jobs: 10
 cache: build/phplint.cache
 extensions:
-  - php
+    - php
 exclude:
-  - vendor
-  - blocks/build
+    - vendor
+    - blocks/build
+    - tools
 warning: true
