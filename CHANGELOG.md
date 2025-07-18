@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.7](https://github.com/linchpin/courier-notices/compare/v1.9.6...v1.9.7) (2025-07-18)
+
+
+### Miscellaneous Chores 🧹
+
+* **NO-TASK:** Improve workflow for WordPress.org deploy ([85ba90a](https://github.com/linchpin/courier-notices/commit/85ba90ab5c8694af9fd84884e26c89c07e7abbdd))
+
+
+### Changes to Existing Features 💅
+
+* **NO-TASK:** Remove files from distribution ([6d163a4](https://github.com/linchpin/courier-notices/commit/6d163a4b05973fe7760336ea6899d6c87654d97d))
+
 ## [1.9.6](https://github.com/linchpin/courier-notices/compare/v1.9.5...v1.9.6) (2025-07-18)
 
 
