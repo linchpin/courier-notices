@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.6](https://github.com/linchpin/courier-notices/compare/v1.9.5...v1.9.6) (2025-07-18)
+
+
+### Miscellaneous Chores 🧹
+
+* **NO-TASK:** Merge ([ea6a971](https://github.com/linchpin/courier-notices/commit/ea6a971d394d943c16c7bfa350be7381acb2451d))
+* **NO-TASK:** permissions adjustments ([af6c15c](https://github.com/linchpin/courier-notices/commit/af6c15ceb6b464e1600ea706c23b90e1105ce5a1))
+
 ## [1.9.5](https://github.com/linchpin/courier-notices/compare/v1.9.4...v1.9.5) (2025-07-18)
 
 
