@@ -2,6 +2,8 @@
 /.deployment
 /.git
 /.github
+/.vscode
+/.cursor
 /node_modules
 /assets
 /vendor/wp-coding-standards
@@ -10,6 +12,10 @@
 /vendor/phpcompatibility
 /vendor/php-parallel-lint
 /zip
+/tests
+/wiki
+/bin
+/tools
 gulpfile.babel.js
 yarn.lock
 config.yml
@@ -22,6 +28,7 @@ renovate.json
 .phplint.yml
 .vipgoci_lint_skip_folders
 .vipgoci_phpcs_skip_folders
+.php-cs-fixer.dist.php
 composer.lock
 config.yml
 courier-notices.code-workspace
@@ -37,9 +44,7 @@ courier-notices.zip
 .husky
 .release-please-manifest.json
 .yarnrc.yml
-/wiki
 output.log
-phpdoc.dist.xml
 release-please-config.json
 docker_tag
 package.json
@@ -51,3 +56,12 @@ package.json
 .phpstan.neon.dist.yml
 .phpstan.neon.dist
 .phpstan-baseline.neon
+phpstan.neon.dist
+phpdoc.dist.xml
+phpcs.xml.dist
+lint-staged.config.js
+webpack.config.js
+.eslintignore
+package-lock.json
+webpack.config.js
+commitlint.config.js
