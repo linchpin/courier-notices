@@ -43,3 +43,11 @@ phpdoc.dist.xml
 release-please-config.json
 docker_tag
 package.json
+.eslintrc.js
+.prettierrc.js
+.phpstan.neon.dist.yml
+.phpstan.neon.dist
+.phpstan-baseline.neon
+.phpstan.neon.dist.yml
+.phpstan.neon.dist
+.phpstan-baseline.neon

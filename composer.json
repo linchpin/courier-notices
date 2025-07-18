@@ -2,7 +2,6 @@
 	"name": "linchpin/courier-notices",
 	"description": "Courier Notices, a highly extendable advanced front end notification plugin for WordPress",
 	"homepage": "https://github.com/linchpin/courier-notices",
-	"version": "1.7.1",
 	"authors": [
 		{
 			"name": "Linchpin",
@@ -85,7 +84,8 @@
 		"yoast/phpunit-polyfills": "^4.0",
 		"phpstan/php-8-stubs": "^0.4.0",
 		"phpstan/phpstan-strict-rules": "^1.6",
-		"wpackagist-plugin/plugin-check": "^1.5"
+		"wpackagist-plugin/plugin-check": "^1.5",
+		"php-stubs/wordpress-stubs": "^6.8"
 	},
 	"extra": {
 		"installer-paths": {

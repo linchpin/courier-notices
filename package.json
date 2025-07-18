@@ -16,7 +16,7 @@
 		"format-js": "wp-scripts format",
 		"lint-js": "wp-scripts lint-js",
 		"tsc": "tsc",
-		"format-php": "composer format:all",
+		"format-php": "composer format",
 		"phpstan": "composer phpstan",
 		"lint-php": "composer lint:all",
 		"prepare": "husky"
@@ -46,20 +46,5 @@
 	"browserslist": [
 		"defaults"
 	],
-	"private": true,
-	"lint-staged": {
-		"*.js": [
-			"eslint --fix",
-			"prettier --write"
-		],
-		"*.css": [
-			"prettier --write"
-		],
-		"*.scss": [
-			"prettier --write"
-		],
-		"*.php": [
-			"composer format"
-		]
-	}
+	"private": true
 }
