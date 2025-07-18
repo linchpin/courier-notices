@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.3](https://github.com/linchpin/courier-notices/compare/v1.9.2...v1.9.3) (2025-07-18)
+
+
+### Miscellaneous Chores 🧹
+
+* **deps:** update dependency slevomat/coding-standard to ^8.19.1 ([fdbbb1d](https://github.com/linchpin/courier-notices/commit/fdbbb1d59cc87e6764953bb4e627399bf6f7ab2b))
+* **deps:** update dependency slevomat/coding-standard to ^8.19.1 ([ab55fad](https://github.com/linchpin/courier-notices/commit/ab55fad10cd17e0af91c6736229e743641b55ca2))
+* **NO-TASK:** Updating build process ([9a5e779](https://github.com/linchpin/courier-notices/commit/9a5e7796b22b7e8e0b8cda15c688576e83cb499f))
+
 ## [1.9.2](https://github.com/linchpin/courier-notices/compare/v1.9.1...v1.9.2) (2025-07-18)
 
 
