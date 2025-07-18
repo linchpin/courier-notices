@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.8](https://github.com/linchpin/courier-notices/compare/v1.9.7...v1.9.8) (2025-07-18)
+
+
+### Changes to Existing Features 💅
+
+* **NO-TASK:** Readme adjustments ([14d17e0](https://github.com/linchpin/courier-notices/commit/14d17e053cbc26aa4eeee0b1f998596e4a9b3dd5))
+
 ## [1.9.7](https://github.com/linchpin/courier-notices/compare/v1.9.6...v1.9.7) (2025-07-18)
 
 
