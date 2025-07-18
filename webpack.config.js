@@ -1,13 +1,15 @@
-const defaultConfig = require('@wordpress/scripts/config/webpack.config');
-const path = require('path');
-const fs = require('fs');
+const defaultConfig = require("@wordpress/scripts/config/webpack.config");
+const DependencyExtractionWebpackPlugin = require("@wordpress/dependency-extraction-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const path = require("path");
+const fs = require("fs");
 
-// Copy fonts function.
+// Copy fonts function
 class CopyFontsPlugin {
 	apply(compiler) {
-		compiler.hooks.afterEmit.tap('CopyFontsPlugin', () => {
-			const sourceDir = path.resolve(__dirname, 'assets/fonts');
-			const destDir = path.resolve(__dirname, 'css/fonts');
+		compiler.hooks.afterEmit.tap("CopyFontsPlugin", () => {
+			const sourceDir = path.resolve(__dirname, "assets/fonts");
+			const destDir = path.resolve(__dirname, "css/fonts");
 
 			if (fs.existsSync(sourceDir)) {
 				this.copyRecursiveSync(sourceDir, destDir);
@@ -27,7 +29,7 @@ class CopyFontsPlugin {
 			fs.readdirSync(src).forEach((childItemName) => {
 				this.copyRecursiveSync(
 					path.join(src, childItemName),
-					path.join(dest, childItemName)
+					path.join(dest, childItemName),
 				);
 			});
 		} else {
@@ -39,36 +41,54 @@ class CopyFontsPlugin {
 module.exports = {
 	...defaultConfig,
 	entry: {
-		'courier-notices': [
-			path.resolve(__dirname, './assets/js/courier-notices.js'),
-			path.resolve(__dirname, './assets/scss/courier-notices.scss'),
+		"courier-notices": [
+			path.resolve(__dirname, "./assets/js/courier-notices.js"),
+			path.resolve(__dirname, "./assets/scss/courier-notices.scss"),
 		],
-		'courier-notices-admin': [
-			path.resolve(__dirname, './assets/js/courier-notices-admin.js'),
-			path.resolve(__dirname, './assets/scss/courier-notices-admin.scss'),
+		"courier-notices-admin": [
+			path.resolve(__dirname, "./assets/js/courier-notices-admin.js"),
+			path.resolve(__dirname, "./assets/scss/courier-notices-admin.scss"),
 		],
-		'courier-notices-admin-global': [
+		"courier-notices-admin-global": [
 			path.resolve(
 				__dirname,
-				'./assets/scss/courier-notices-admin-global.scss'
+				"./assets/scss/courier-notices-admin-global.scss",
 			),
 		],
 	},
-	output: {
-		...defaultConfig.output,
-		path: path.resolve(__dirname, './'),
-		filename: 'js/[name].js',
-		clean: {
-			keep: (asset) => {
-				// Keep everything except js/ and css/ directories
-				return !asset.includes('js/') && !asset.includes('css/');
+	module: {
+		...defaultConfig.module,
+		rules: [
+			...defaultConfig.module.rules,
+			{
+				test: /\.(woff|woff2|eot|ttf|svg)$/,
+				type: "asset/resource",
+				generator: {
+					filename: "fonts/[name][ext]",
+				},
 			},
+		],
+	},
+	resolve: {
+		extensions: [".js", ".jsx"],
+	},
+	output: {
+		path: path.resolve(__dirname, "./"),
+		filename: "js/[name].js",
+		clean: {
+			keep: /^(?!js\/|css\/).*$/,
 		},
 	},
 	externals: {
 		...defaultConfig.externals,
-		jquery: 'jQuery',
-		lodash: '_',
+		jquery: "jQuery",
+		lodash: "_",
 	},
-	plugins: [...defaultConfig.plugins, new CopyFontsPlugin()],
+	plugins: [
+		new MiniCssExtractPlugin({
+			filename: "css/[name].css",
+		}),
+		new DependencyExtractionWebpackPlugin(),
+		new CopyFontsPlugin(),
+	],
 };
