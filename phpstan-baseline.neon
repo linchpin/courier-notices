@@ -1076,58 +1076,8 @@ parameters:
 			path: includes/Controller/Integrations/Stream.php
 
 		-
-			message: "#^Call to static method add_command\\(\\) on an unknown class WP_CLI\\.$#"
-			count: 1
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
-			message: "#^Call to static method error\\(\\) on an unknown class WP_CLI\\.$#"
-			count: 10
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
-			message: "#^Call to static method log\\(\\) on an unknown class WP_CLI\\.$#"
-			count: 5
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
-			message: "#^Call to static method success\\(\\) on an unknown class WP_CLI\\.$#"
-			count: 2
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
-			message: "#^Call to static method warning\\(\\) on an unknown class WP_CLI\\.$#"
-			count: 2
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
 			message: "#^Cannot access offset 0 on non\\-empty\\-array\\<WP_Term\\>\\|WP_Error\\.$#"
 			count: 6
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
-			message: "#^Cannot access property \\$post_content on WP_Post\\|null\\.$#"
-			count: 1
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
-			message: "#^Cannot access property \\$post_date on WP_Post\\|null\\.$#"
-			count: 1
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
-			message: "#^Cannot access property \\$post_modified on WP_Post\\|null\\.$#"
-			count: 1
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
-			message: "#^Cannot access property \\$post_status on WP_Post\\|null\\.$#"
-			count: 2
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
-			message: "#^Cannot access property \\$post_title on WP_Post\\|null\\.$#"
-			count: 2
 			path: includes/Controller/Integrations/WP_CLI.php
 
 		-
@@ -1236,17 +1186,17 @@ parameters:
 			path: includes/Controller/Integrations/WP_CLI.php
 
 		-
-			message: "#^Parameter \\#1 \\$post of function get_the_terms expects int\\|WP_Post, bool\\|int given\\.$#"
+			message: "#^Parameter \\#1 \\$post of function get_the_terms expects int\\|WP_Post, int\\<min, \\-1\\>\\|int\\<1, max\\>\\|true given\\.$#"
 			count: 4
 			path: includes/Controller/Integrations/WP_CLI.php
 
 		-
-			message: "#^Parameter \\#1 \\$post_id of function update_post_meta expects int, bool\\|int given\\.$#"
+			message: "#^Parameter \\#1 \\$post_id of function update_post_meta expects int, int\\<min, \\-1\\>\\|int\\<1, max\\>\\|true given\\.$#"
 			count: 1
 			path: includes/Controller/Integrations/WP_CLI.php
 
 		-
-			message: "#^Parameter \\#1 \\$post_id of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) expects int, bool\\|int given\\.$#"
+			message: "#^Parameter \\#1 \\$post_id of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) expects int, int\\<min, \\-1\\>\\|int\\<1, max\\>\\|true given\\.$#"
 			count: 1
 			path: includes/Controller/Integrations/WP_CLI.php
 
@@ -1576,6 +1526,11 @@ parameters:
 			path: includes/Core/Database.php
 
 		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 2
+			path: includes/Core/View.php
+
+		-
 			message: "#^Constructor of class CourierNotices\\\\Core\\\\View has an unused parameter \\$config\\.$#"
 			count: 1
 			path: includes/Core/View.php
@@ -1587,6 +1542,11 @@ parameters:
 
 		-
 			message: "#^Method CourierNotices\\\\Core\\\\View\\:\\:init_assignments\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Core/View.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, int\\|false given\\.$#"
 			count: 1
 			path: includes/Core/View.php
 
