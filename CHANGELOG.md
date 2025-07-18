@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.5](https://github.com/linchpin/courier-notices/compare/v1.9.4...v1.9.5) (2025-07-18)
+
+
+### Miscellaneous Chores 🧹
+
+* **NO-TASK:** Strauss troubles ([525de11](https://github.com/linchpin/courier-notices/commit/525de11b4489d38e2d4883d1a0f1ece7389c107d))
+
 ## [1.9.4](https://github.com/linchpin/courier-notices/compare/v1.9.3...v1.9.4) (2025-07-18)
 
 
