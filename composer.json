@@ -85,7 +85,8 @@
 		"phpstan/php-8-stubs": "^0.4.14",
 		"phpstan/phpstan-strict-rules": "^1.6.2",
 		"wpackagist-plugin/plugin-check": "^1.5",
-		"php-stubs/wordpress-stubs": "^6.8.2"
+		"php-stubs/wordpress-stubs": "^6.8.2",
+		"saggre/phpdocumentor-markdown": "^1.0.0"
 	},
 	"extra": {
 		"installer-paths": {
@@ -129,7 +130,8 @@
 		"phpcs": "phpcs --standard=phpcs.xml.dist",
 		"phpstan": "phpstan analyse --memory-limit=2048M",
 		"phpunit": "phpunit",
-		"test": "phpunit --strict-coverage"
+		"test": "phpunit --strict-coverage",
+		"create-docs": "phpdoc --directory=includes --target=wiki --template='vendor/saggre/phpdocumentor-markdown/themes/markdown'"
 	},
 	"config": {
 		"allow-plugins": {

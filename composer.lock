@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d43721d2fe51cb37d5f149ef7b781413",
+    "content-hash": "14688a5be028faa08f355a813270d957",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -5254,6 +5254,66 @@
                 }
             ],
             "time": "2024-06-11T12:45:25+00:00"
+        },
+        {
+            "name": "saggre/phpdocumentor-markdown",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Saggre/phpDocumentor-markdown.git",
+                "reference": "6444899602e89a6b9da78badf67539c9d9b476d5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Saggre/phpDocumentor-markdown/zipball/6444899602e89a6b9da78badf67539c9d9b476d5",
+                "reference": "6444899602e89a6b9da78badf67539c9d9b476d5",
+                "shasum": ""
+            },
+            "require-dev": {
+                "cweagans/composer-patches": "^1.7",
+                "ext-json": "*",
+                "php": ">=8.1",
+                "phpdocumentor/phpdocumentor": "3.8.0",
+                "phpunit/phpunit": "^10",
+                "symfony/filesystem": "^6.4"
+            },
+            "type": "library",
+            "extra": {
+                "patches": {
+                    "phpdocumentor/phpdocumentor": [
+                        "./patches/phpdocumentor-resource-path.patch"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpDocumentorMarkdown\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Saggre",
+                    "email": "sakri.koskimies@hotmail.com"
+                }
+            ],
+            "description": "Markdown template for phpDocumentor3",
+            "keywords": [
+                "ai",
+                "ci",
+                "documentation",
+                "markdown",
+                "phpDocumentor",
+                "phpdoc"
+            ],
+            "support": {
+                "issues": "https://github.com/Saggre/phpDocumentor-markdown/issues",
+                "source": "https://github.com/Saggre/phpDocumentor-markdown/tree/1.0.0"
+            },
+            "time": "2025-07-10T16:57:04+00:00"
         },
         {
             "name": "sebastian/cli-parser",

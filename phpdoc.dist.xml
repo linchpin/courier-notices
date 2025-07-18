@@ -32,7 +32,5 @@
             </ignore>
         </api>
     </version>
-    <template name="./themes/markdown">
-        <parameter name="urlFileExtensions" value="yes"/>
-    </template>
+    <template name="./vendor/saggre/phpdocumentor-markdown/themes/markdown"/>
 </phpdocumentor>
