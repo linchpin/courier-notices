@@ -1,6 +1,7 @@
 on:
     release:
-        types: [published]
+        types:
+          - published
 
 name: Deploy to WordPress.org
 
