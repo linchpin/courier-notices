@@ -18,7 +18,8 @@
 		"tsc": "tsc",
 		"format-php": "composer format:all",
 		"phpstan": "composer phpstan",
-		"lint-php": "composer lint:all"
+		"lint-php": "composer lint:all",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"what-input": "5.2.12"
