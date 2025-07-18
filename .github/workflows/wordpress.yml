@@ -11,9 +11,17 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
-            - name: Get Version
+            - name: Get Version From Tag
               id: get_version
-              run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
+              uses: linchpin/action-get-latest-tag@v2.0.0
+              with:
+                  semver_only: true
+
+            - name: Latest Version
+              id: latest_version
+              run: |
+                  TAG=${{ steps.get_version.outputs.tag }}
+                  echo "VERSION=${TAG#v}" >> $GITHUB_OUTPUT
 
             - name: Cache Composer dependencies
               uses: actions/cache@v4
@@ -25,7 +33,8 @@ jobs:
               uses: php-actions/composer@v6
               with:
                   dev: no
-                  php_version: "7.4"
+                  php_version: "8.2"
+                  php_extensions: exif
 
             - name: Build Base Plugin Assets
               run: |
