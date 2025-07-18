@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.9](https://github.com/linchpin/courier-notices/compare/v1.9.8...v1.9.9) (2025-07-18)
+
+
+### Miscellaneous Chores 🧹
+
+* **NO-TASK:** WP.org deploy ([494c3c3](https://github.com/linchpin/courier-notices/commit/494c3c37b97315e7f7bf6b6576fe9b5dd513e430))
+
 ## [1.9.8](https://github.com/linchpin/courier-notices/compare/v1.9.7...v1.9.8) (2025-07-18)
 
 
