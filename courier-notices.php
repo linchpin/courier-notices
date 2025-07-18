@@ -27,9 +27,9 @@ if ( ! defined( 'WPINC' ) ) {
  */
 
 if ( ! defined( 'COURIER_NOTICES_VERSION' ) ) {
-	// x-release-please-start-version
+	// x-release-please-start-version.
 	define( 'COURIER_NOTICES_VERSION', '1.8.0' );
-	// x-release-please-end
+	// x-release-please-end.
 }
 
 if ( ! defined( 'COURIER_NOTICES_RELEASE_DATE' ) ) {
@@ -69,6 +69,11 @@ if ( file_exists( COURIER_NOTICES_PATH . 'vendor/autoload.php' ) ) {
 	require_once COURIER_NOTICES_PATH . 'vendor/autoload.php';
 }
 
+// Load Strauss prefixed dependencies.
+if ( file_exists( COURIER_NOTICES_PATH . 'vendor-prefixed/autoload.php' ) ) {
+	require_once COURIER_NOTICES_PATH . 'vendor-prefixed/autoload.php';
+}
+
 /***
  * Kick everything off when plugins are loaded
  */
@@ -85,8 +90,10 @@ add_action( 'plugins_loaded', 'courier_notices_init' );
 function courier_notices_init() {
 
 	// Deprecated hook.
-	_doing_it_wrong( 'before_courier_notices_init', 'Use courier_notices_before_init instead.', '1.7.0' );
-	do_action( 'before_courier_notices_init' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+	if ( has_action( 'before_courier_notices_init' ) ) {
+		_doing_it_wrong( 'before_courier_notices_init', 'Use courier_notices_before_init instead.', '1.7.0' );
+		do_action( 'before_courier_notices_init' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+	}
 
 	do_action( 'courier_notices_before_init' );
 
@@ -113,8 +120,10 @@ function courier_notices_init() {
 	}
 
 	// Deprecated hook.
-	_doing_it_wrong( 'after_courier_notices_init', 'Use courier_notices_after_init instead.', '1.7.0' );
-	do_action( 'after_courier_notices_init' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+	if ( has_action( 'after_courier_notices_init' ) ) {
+		_doing_it_wrong( 'after_courier_notices_init', 'Use courier_notices_after_init instead.', '1.7.0' );
+		do_action( 'after_courier_notices_init' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+	}
 
 	do_action( 'courier_notices_after_init' );
 }
@@ -153,13 +162,13 @@ register_deactivation_hook( __FILE__, 'courier_notices_deactivation' );
  *       upon uninstall.
  */
 function courier_notices_deactivation() {
-	// Clear legacy WP Cron hooks
+	// Clear legacy WP Cron hooks.
 	wp_clear_scheduled_hook( 'courier_notices_purge' );
 	wp_clear_scheduled_hook( 'courier_notices_expire' );
 	wp_clear_scheduled_hook( 'courier_purge' );
 	wp_clear_scheduled_hook( 'courier_expire' );
 
-	// Clear Action Scheduler actions if available
+	// Clear Action Scheduler actions if available.
 	if ( function_exists( 'as_unschedule_all_actions' ) ) {
 		as_unschedule_all_actions( null, [], 'courier_notices' );
 	}

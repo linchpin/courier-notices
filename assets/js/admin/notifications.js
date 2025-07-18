@@ -12,8 +12,6 @@
  * @since      1.0
  */
 
-
-
 const $ = jQuery;
 
 export default function notifications() {
@@ -25,10 +23,17 @@ export default function notifications() {
 	 * Initialize Notifications
 	 */
 	function init() {
-
 		$body
-			.on( 'click', '.courier-admin-notice .notice-dismiss', dismissNotification )
-			.on( 'click', '.courier-review-notice .review-dismiss, .courier-review-notice .notice-dismiss', dismissNotification );
+			.on(
+				'click',
+				'.courier-admin-notice .notice-dismiss',
+				dismissNotification
+			)
+			.on(
+				'click',
+				'.courier-review-notice .review-dismiss, .courier-review-notice .notice-dismiss',
+				dismissNotification
+			);
 	}
 
 	/**
@@ -36,22 +41,25 @@ export default function notifications() {
 	 *
 	 * @since 1.2
 	 */
-	function dismissNotification ( event ) {
-
+	function dismissNotification(event) {
 		event.preventDefault();
 
 		var $notice = $(this).parents('.courier-admin-notice');
 
-		$.post( ajaxurl, {
-			action                : 'courier_dismiss_notification',
-			courier_notification_type : $notice.attr('data-type'),
-			_ajax_nonce              : courier_notices_admin_data.dismiss_nonce
-		}, function( response ) {
-			$notice.fadeTo(100, 0,function() {
-				$notice.slideUp( 100, function(){
-					$notice.remove();
+		$.post(
+			ajaxurl,
+			{
+				action: 'courier_dismiss_notification',
+				courier_notification_type: $notice.attr('data-type'),
+				_ajax_nonce: courier_notices_admin_data.dismiss_nonce,
+			},
+			function (response) {
+				$notice.fadeTo(100, 0, function () {
+					$notice.slideUp(100, function () {
+						$notice.remove();
+					});
 				});
-			});
-		});
+			}
+		);
 	}
 }

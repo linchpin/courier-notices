@@ -23,7 +23,7 @@ jobs:
 
   # Update the readme but only when it's creating a new release, not during the build
   update-readme:
-    needs: [ release-please ]
+    needs: [release-please]
     if: github.event_name != 'pull_request' && github.event.pull_request.merged != true && ! needs.release-please.outputs.release_created
     uses: linchpin/actions/.github/workflows/update-readme.yml@v3
     secrets: inherit

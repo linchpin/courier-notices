@@ -30,9 +30,18 @@
 		{ "type": "test", "section": "Tests 🧪" },
 		{ "type": "perf", "section": "Performance Improvements ⚡️" },
 		{ "type": "chore", "section": "Miscellaneous Chores 🧹" },
-		{ "type": "tweak", "section": "Changes to Existing Features \uD83D\uDC85" },
-		{ "type": "refactor", "section": "Changes to Existing Features \uD83D\uDC85" },
-		{ "type": "improve", "section": "Changes to Existing Features \uD83D\uDC85" },
+		{
+			"type": "tweak",
+			"section": "Changes to Existing Features \uD83D\uDC85"
+		},
+		{
+			"type": "refactor",
+			"section": "Changes to Existing Features \uD83D\uDC85"
+		},
+		{
+			"type": "improve",
+			"section": "Changes to Existing Features \uD83D\uDC85"
+		},
 		{ "type": "revert", "section": "Reverts ⏪️" },
 		{ "type": "docs", "section": "Documentation", "hidden": true },
 		{ "type": "build", "section": "Build System ", "hidden": true },

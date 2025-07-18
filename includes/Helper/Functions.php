@@ -20,15 +20,25 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param string       $notice      The notice text.
  * @param string|array $types       The type(s) of notice.
- * @param bool         $global      Whether this notice is global or not.
+ * @param bool         $is_global   Whether this notice is global or not.
  * @param bool         $dismissible Whether this notice is dismissible or not.
  * @param int          $user_id     The ID of the user this notice is for.
+ * @param string       $style       The style of notice.
+ * @param array        $placement   The placement of the notice.
  *
  * @since 1.2.0
  *
  * @return bool|int Return either false or the Post ID for the created courier_notice.
  */
-function courier_notices_add_notice( $notice = '', $types = array( 'Informational' ), $global = false, $dismissible = true, $user_id = 0, $style = 'Informational', $placement = array( 'header' ) ) {
+function courier_notices_add_notice(
+	string $notice = '',
+	array $types = [ 'Informational' ],
+	bool $is_global = false,
+	bool $dismissible = true,
+	int $user_id = 0,
+	string $style = 'Informational',
+	array $placement = [ 'header' ]
+) {
 	$user_id = empty( $user_id ) ? get_current_user_id() : intval( $user_id );
 
 	if ( 0 !== $user_id ) {
@@ -70,7 +80,7 @@ function courier_notices_add_notice( $notice = '', $types = array( 'Informationa
 		wp_set_object_terms( $notice_id, $types, 'courier_type', true );
 		wp_set_object_terms( $notice_id, $placement, 'courier_placement', true );
 
-		if ( $global ) {
+		if ( $is_global ) {
 			wp_set_object_terms( $notice_id, array( 'Global' ), 'courier_scope', false );
 
 			// Clear the global notice cache.
@@ -134,12 +144,12 @@ function courier_notices_get_global_notices( $args = array() ) {
  *
  * @since 1.2.0
  *
- * @param array $args     Query Args
+ * @param array $args     Query Args.
  * @param bool  $ids_only Whether to return only IDs.
  *
  * @return array|bool|mixed
  */
-function courier_notices_get_dismissible_global_notices( $args = array(), $ids_only = false ) {
+function courier_notices_get_dismissible_global_notices( array $args = [], bool $ids_only = false ) {
 	$data = new Courier_Notice_Data();
 
 	return $data->get_dismissible_global_notices( $args, $ids_only );
@@ -155,7 +165,7 @@ function courier_notices_get_dismissible_global_notices( $args = array(), $ids_o
  *
  * @return array|bool|mixed
  */
-function courier_notices_get_persistent_global_notices( $args = array() ) {
+function courier_notices_get_persistent_global_notices( array $args = [] ) {
 	$data = new Courier_Notice_Data();
 
 	return $data->get_persistent_global_notices( $args );
@@ -310,15 +320,15 @@ function courier_notices_get_global_dismissed_notices( $user_id = 0 ) {
  * @return bool True if any notices exist, false otherwise.
  */
 function courier_notices_has_any_notices( $user_id = 0 ) {
-	// Check cache first
+	// Check cache first.
 	$cache_key = 'courier_has_notices_' . $user_id;
 	$cached    = wp_cache_get( $cache_key, 'courier-notices' );
-	
+
 	if ( false !== $cached ) {
 		return (bool) $cached;
 	}
-	
-	// Quick check for any published notices
+
+	// Quick check for any published notices.
 	$args = array(
 		'post_type'      => 'courier_notice',
 		'post_status'    => 'publish',
@@ -326,8 +336,8 @@ function courier_notices_has_any_notices( $user_id = 0 ) {
 		'fields'         => 'ids',
 		'no_found_rows'  => true,
 	);
-	
-	// If user ID provided, check for user-specific notices
+
+	// If user ID provided, check for user-specific notices.
 	if ( $user_id ) {
 		$args['tax_query'] = array(
 			'relation' => 'OR',
@@ -343,13 +353,13 @@ function courier_notices_has_any_notices( $user_id = 0 ) {
 			),
 		);
 	}
-	
-	$query      = new WP_Query( $args );
+
+	$query       = new WP_Query( $args );
 	$has_notices = $query->have_posts();
-	
-	// Cache for 5 minutes
+
+	// Cache for 5 minutes.
 	wp_cache_set( $cache_key, $has_notices, 'courier-notices', 300 );
-	
+
 	return $has_notices;
 }
 
@@ -451,7 +461,7 @@ function courier_notices_clear_cache() {
 	// Clear object cache for courier-notices group.
 	wp_cache_flush_group( 'courier-notices' );
 
-	// Clear has_notices cache for all users
+	// Clear has_notices cache for all users.
 	global $wpdb;
 	$wpdb->query(
 		"DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_courier_has_notices_%' OR option_name LIKE '_transient_timeout_courier_has_notices_%'"
@@ -518,14 +528,14 @@ function courier_notices_get_css() {
  *
  * @since 1.3.0
  *
- * @param        $title
- * @param string $before
- * @param string $after
- * @param bool   $echo
+ * @param string $title        The title of the notice.
+ * @param string $before       The HTML to display before the title.
+ * @param string $after        The HTML to display after the title.
+ * @param bool   $echo_output  Whether to echo the output or return it.
  *
  * @return mixed|string|void
  */
-function courier_notices_the_notice_title( $title, $before = '', $after = '', $echo = true ) {
+function courier_notices_the_notice_title( $title, $before = '', $after = '', bool $echo_output = true ) {
 	if ( 0 === strlen( $title ) ) {
 		return '';
 	}
@@ -533,7 +543,7 @@ function courier_notices_the_notice_title( $title, $before = '', $after = '', $e
 	$title = $before . $title . $after;
 	$title = apply_filters( 'courier_notices_the_notice_title', $title );
 
-	if ( $echo ) {
+	if ( $echo_output ) {
 		echo wp_kses_post( $title );
 	} else {
 		return $title;

@@ -1,0 +1,28 @@
+{
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll": "explicit",
+		"source.organizeImports": "explicit"
+	},
+	"[php]": {
+		"editor.defaultFormatter": "junstyle.php-cs-fixer",
+		"editor.formatOnSave": true
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true
+	},
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true
+	},
+	"php-cs-fixer.executablePath": "./vendor/bin/php-cs-fixer",
+	"php-cs-fixer.config": ".php-cs-fixer.dist.php",
+	"php-cs-fixer.onsave": true,
+	"php-cs-fixer.autoExecutable": true,
+	"prettier.configPath": "package.json"
+}

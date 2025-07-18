@@ -1,10 +1,10 @@
-import core from "./frontend/core";
-import dismiss from "./frontend/dismiss";
-import modal from "./frontend/modal";
+import core from './frontend/core';
+import dismiss from './frontend/dismiss';
+import modal from './frontend/modal';
 
 // Initialize modules when DOM is ready
-if (document.readyState === "loading") {
-	document.addEventListener("DOMContentLoaded", function() {
+if (document.readyState === 'loading') {
+	document.addEventListener('DOMContentLoaded', function () {
 		core();
 		dismiss();
 		modal();

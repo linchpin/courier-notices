@@ -1,0 +1,24 @@
+includes:
+    - phar://phpstan.phar/conf/bleedingEdge.neon
+    - phpstan-baseline.neon
+parameters:
+    level: 8
+    treatPhpDocTypesAsCertain: false
+    paths:
+        - courier-notices.php
+        - includes/
+    bootstrapFiles:
+        - tools/phpstan/constants.php
+    scanDirectories:
+        - vendor/wp-phpunit/wp-phpunit/
+    scanFiles:
+        # These are needed due config.platform.php being 7.2 in composer.json and wordpress-stubs not including polyfills.
+        # See <https://github.com/php-stubs/wordpress-stubs/issues/100>.
+        - vendor/phpstan/php-8-stubs/stubs/ext/standard/str_contains.php
+        - vendor/phpstan/php-8-stubs/stubs/ext/standard/str_starts_with.php
+        - vendor/phpstan/php-8-stubs/stubs/ext/standard/str_ends_with.php
+    strictRules:
+        strictArrayFilter: false
+    featureToggles:
+        # Ignore errors related to the plugin not running from inside a WP environment, so paths like ABSPATH . WPINC don't resolve.
+        requireFileExists: false

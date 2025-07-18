@@ -1,0 +1,2741 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Function courier_notices_activation\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: courier-notices.php
+
+		-
+			message: "#^Function courier_notices_deactivation\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: courier-notices.php
+
+		-
+			message: "#^Function courier_notices_flush_rewrite_rules\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: courier-notices.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, mixed given\\.$#"
+			count: 1
+			path: courier-notices.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, mixed given\\.$#"
+			count: 1
+			path: courier-notices.php
+
+		-
+			message: "#^Parameter \\#2 \\$timestamp of function gmdate expects int, int\\|false given\\.$#"
+			count: 1
+			path: courier-notices.php
+
+		-
+			message: "#^Access to property \\$post_type on an unknown class CourierNotices\\\\Controller\\\\WP_Post\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 2
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Function as_get_scheduled_actions not found\\.$#"
+			count: 2
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Function as_unschedule_all_actions not found\\.$#"
+			count: 2
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:bulk_expire_notices\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:cancel_all_scheduled_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:clear_notice_caches\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:expire_notice\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:get_all_scheduled_actions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:get_scheduled_actions_for_notice\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:init_recurring_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:purge_notices\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:reschedule_all_notices\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:unschedule_notice_expiration\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, WP_Post\\|null given\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Parameter \\#1 \\$post_id of function wp_trash_post expects int, int\\|WP_Post given\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Parameter \\#1 \\$post_id of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) expects int, int\\|WP_Post given\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Parameter \\#1 \\$post_id of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:unschedule_notice_expiration\\(\\) expects int, int\\|WP_Post given\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Parameter \\#1 \\$postarr of function wp_update_post expects array\\{ID\\?\\: int, post_author\\?\\: int, post_date\\?\\: string, post_date_gmt\\?\\: string, post_content\\?\\: string, post_content_filtered\\?\\: string, post_title\\?\\: string, post_excerpt\\?\\: string, \\.\\.\\.\\}, array\\{ID\\: int\\|WP_Post, post_status\\: 'courier_expired'\\} given\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Parameter \\#2 \\$post of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) expects CourierNotices\\\\Controller\\\\WP_Post, WP_Post\\|null given\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Parameter \\$post of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) has invalid type CourierNotices\\\\Controller\\\\WP_Post\\.$#"
+			count: 1
+			path: includes/Controller/Action_Scheduler.php
+
+		-
+			message: "#^Access to property \\$ID on an unknown class CourierNotices\\\\Controller\\\\Admin\\\\WP_Post\\.$#"
+			count: 4
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Access to property \\$post_type on an unknown class CourierNotices\\\\Controller\\\\Admin\\\\WP_Post\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Argument of an invalid type array\\<WP_Term\\>\\|WP_Error supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Cannot access property \\$base on WP_Screen\\|null\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Cannot access property \\$id on WP_Screen\\|null\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Cannot access property \\$labels on WP_Taxonomy\\|false\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 9
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:add_expired_row_actions\\(\\) has parameter \\$actions with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:add_expired_row_actions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:add_expired_row_class\\(\\) has parameter \\$classes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:add_expired_row_class\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:admin_enqueue_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:admin_enqueue_styles\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:admin_notices\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:filter_courier_notices\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:get_timestamp\\(\\) is unused\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:manage_posts_columns\\(\\) has parameter \\$columns with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:manage_posts_columns\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:manage_posts_custom_column\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:manage_posts_custom_column\\(\\) has parameter \\$column with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:post_updated_messages\\(\\) has parameter \\$messages with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:post_updated_messages\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Parameter \\#1 \\$text of function wp_strip_all_tags expects string, string\\|WP_Error\\|false given\\.$#"
+			count: 2
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Parameter \\#1 \\$url of function esc_url expects string, string\\|null given\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Parameter \\#2 \\$data of function wp_add_inline_style expects string, string\\|null given\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Parameter \\$post of method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:add_expired_row_actions\\(\\) has invalid type CourierNotices\\\\Controller\\\\Admin\\\\WP_Post\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Switch condition type \\(array\\) does not match case condition 'courier\\-date' \\(string\\)\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Switch condition type \\(array\\) does not match case condition 'courier\\-placement' \\(string\\)\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Switch condition type \\(array\\) does not match case condition 'courier\\-style' \\(string\\)\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Switch condition type \\(array\\) does not match case condition 'courier\\-summary' \\(string\\)\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Switch condition type \\(array\\) does not match case condition 'courier\\-type' \\(string\\)\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Admin.php
+
+		-
+			message: "#^Access to an undefined property object\\:\\:\\$ID\\.$#"
+			count: 4
+			path: includes/Controller/Admin/Courier_Notice_Metabox.php
+
+		-
+			message: "#^Cannot access offset 0 on non\\-empty\\-array\\<WP_Term\\>\\|WP_Error\\.$#"
+			count: 4
+			path: includes/Controller/Admin/Courier_Notice_Metabox.php
+
+		-
+			message: "#^Cannot access offset 0 on non\\-empty\\-array\\<int, WP_Term\\>\\|WP_Error\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Courier_Notice_Metabox.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 6
+			path: includes/Controller/Admin/Courier_Notice_Metabox.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Courier_Notice_Metabox\\:\\:add_meta_boxes\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Courier_Notice_Metabox.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Courier_Notice_Metabox\\:\\:meta_box\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Courier_Notice_Metabox.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Courier_Notice_Metabox\\:\\:post_submitbox_misc_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Courier_Notice_Metabox.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Courier_Notice_Metabox\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Courier_Notice_Metabox.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, array\\<string, string\\>\\|null given\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Courier_Notice_Metabox.php
+
+		-
+			message: "#^Parameter \\#1 \\$args of function wp_dropdown_categories expects array\\{show_option_all\\?\\: string, show_option_none\\?\\: string, option_none_value\\?\\: string, orderby\\?\\: string, pad_counts\\?\\: bool, show_count\\?\\: bool\\|int, echo\\?\\: bool\\|int, hierarchical\\?\\: bool\\|int, \\.\\.\\.\\}, array\\{orderby\\: 'name', taxonomy\\: 'courier_placement', value_field\\: 'slug', name\\: 'courier_placement…', class\\: 'widefat', hide_empty\\: false, required\\: true, option_none_value\\: mixed, \\.\\.\\.\\} given\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Courier_Notice_Metabox.php
+
+		-
+			message: "#^Parameter \\#2 \\$pieces of function implode expects array, array\\<WP_Term\\>\\|WP_Error given\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Courier_Notice_Metabox.php
+
+		-
+			message: "#^Cannot access offset 'field' on object\\.$#"
+			count: 2
+			path: includes/Controller/Admin/Fields/Fields.php
+
+		-
+			message: "#^Cannot access offset 'section' on object\\.$#"
+			count: 2
+			path: includes/Controller/Admin/Fields/Fields.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 11
+			path: includes/Controller/Admin/Fields/Fields.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Fields\\\\Fields\\:\\:add_checkbox\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Fields/Fields.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Fields\\\\Fields\\:\\:add_checkbox\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Fields/Fields.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Fields\\\\Fields\\:\\:add_select\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Fields/Fields.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Fields\\\\Fields\\:\\:add_select\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Fields/Fields.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Fields\\\\Fields\\:\\:add_table\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Fields/Fields.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Fields\\\\Fields\\:\\:add_table\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Fields/Fields.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Fields\\\\Fields\\:\\:add_textfield\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Fields/Fields.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 2
+			path: includes/Controller/Admin/Fields/Sections.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Fields\\\\Sections\\:\\:do_settings_fields\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Fields/Sections.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Fields\\\\Sections\\:\\:do_settings_sections\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Fields/Sections.php
+
+		-
+			message: "#^Callback expects 2 parameters, \\$accepted_args is set to 5\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 2
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$extended_settings does not exist\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:add_admin_menu\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:add_notice_title_display_options\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:add_settings_link\\(\\) has parameter \\$actions with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:add_settings_link\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:add_settings_page\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:apply_tab_slug_filters\\(\\) has parameter \\$default_settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:apply_tab_slug_filters\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:create_section\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:create_section\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:get_tabs\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:merge_options\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:merge_options\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:settings_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:setup_design_global_settings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:setup_design_type_settings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:setup_general_settings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:show_design_sub_settings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:show_design_sub_settings\\(\\) has parameter \\$options with no type specified\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Property CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:\\$options type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Static method CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:apply_tab_slug_filters\\(\\) is unused\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Static property CourierNotices\\\\Controller\\\\Admin\\\\Settings\\\\General\\:\\:\\$type_list_table is unused\\.$#"
+			count: 1
+			path: includes/Controller/Admin/Settings/General.php
+
+		-
+			message: "#^Access to an undefined property object\\:\\:\\$query_vars\\.$#"
+			count: 2
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:get\\(\\)\\.$#"
+			count: 5
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:is_main_query\\(\\)\\.$#"
+			count: 2
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:set\\(\\)\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Call to deprecated function courier_get_global_dismissed_notices\\(\\)\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Cannot access property \\$id on WP_Screen\\|null\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Cannot access property \\$post_type on array\\|WP_Post\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 16
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:add_expired_status\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:get_notice_selected_type\\(\\) should return string but returns array\\<WP_Term\\>\\|WP_Error\\|false\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:get_scope_options\\(\\) is unused\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:post_class\\(\\) has parameter \\$classes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:post_class\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:post_updated_messages\\(\\) has parameter \\$messages with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:pre_get_posts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:query_vars\\(\\) has parameter \\$vars with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:query_vars\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:remove_editor_styles\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:request\\(\\) has parameter \\$vars with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:save_post_courier_notice\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:save_post_courier_notice\\(\\) has parameter \\$post with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:views_addition\\(\\) has parameter \\$views with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:views_addition\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:wp_insert_post\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier\\:\\:wp_insert_post\\(\\) has parameter \\$post with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Only booleans are allowed in &&, int\\|false given on the right side\\.$#"
+			count: 2
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Only booleans are allowed in an elseif condition, array\\<string, string\\>\\|int\\|null given\\.$#"
+			count: 3
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, array\\|null given\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Only booleans are allowed in \\|\\|, int\\|false given on the left side\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Parameter \\#1 \\$url of function esc_url expects string, string\\|false given\\.$#"
+			count: 2
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Parameter \\#2 \\$terms of function wp_set_object_terms expects array\\|int\\|string, null given\\.$#"
+			count: 3
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Variable \\$notices in empty\\(\\) always exists and is not falsy\\.$#"
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: "#^Call to deprecated function courier_get_css\\(\\)\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Notices.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Notices.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Notices\\:\\:add_query_vars\\(\\) has parameter \\$vars with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Notices.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Notices\\:\\:add_query_vars\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Notices.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Notices\\:\\:clear_cache\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Notices.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Notices\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Notices.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Notices\\:\\:register_custom_post_type\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Notices.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Notices\\:\\:register_taxonomies\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Notices.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Notices\\:\\:wp_enqueue_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Notices.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Notices\\:\\:wp_enqueue_styles\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Notices.php
+
+		-
+			message: "#^Parameter \\#2 \\$data of function wp_add_inline_style expects string, string\\|null given\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Notices.php
+
+		-
+			message: "#^Parameter \\#3 \\$deps of function wp_register_style expects array\\<string\\>, string given\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Notices.php
+
+		-
+			message: "#^Property CourierNotices\\\\Controller\\\\Courier_Notices\\:\\:\\$dependencies type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Notices.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 2
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:dismiss_notice\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:display_all_notices\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:display_notices\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_collection_params\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_dismiss_notice_permissions_check\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_item_permissions_check\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_notice\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:prepare_item_for_response\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:register_routes\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:sanitize_placements\\(\\) has parameter \\$placements with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:sanitize_placements\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Parameter \\#1 \\$response of method WP_REST_Controller\\:\\:prepare_response_for_collection\\(\\) expects WP_REST_Response, array\\<string, int\\|string\\|false\\> given\\.$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Parameter \\#2 \\$haystack of function in_array expects array, array\\<int, WP_Term\\>\\|WP_Error given\\.$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Return type \\(bool\\|WP_Error\\) of method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_item_permissions_check\\(\\) should be covariant with return type \\(WP_Error\\|true\\) of method WP_REST_Controller\\:\\:get_item_permissions_check\\(\\)$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Return type \\(mixed\\) of method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:prepare_item_for_response\\(\\) should be covariant with return type \\(WP_Error\\|WP_REST_Response\\) of method WP_REST_Controller\\:\\:prepare_item_for_response\\(\\)$#"
+			count: 1
+			path: includes/Controller/Courier_REST_Controller.php
+
+		-
+			message: "#^Argument of an invalid type array\\<int, WP_Term\\>\\|WP_Error supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 20
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Types\\:\\:add_templates\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Types\\:\\:add_type\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Types\\:\\:delete_type\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Types\\:\\:insert_term_meta\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Types\\:\\:insert_term_meta\\(\\) has parameter \\$bg_color with no type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Types\\:\\:insert_term_meta\\(\\) has parameter \\$icon_color with no type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Types\\:\\:insert_term_meta\\(\\) has parameter \\$term with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Types\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Types\\:\\:save_css_transient\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Types\\:\\:update_type\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, array\\<string, string\\>\\|int\\|null given\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Parameter \\#1 \\$content of function wp_kses expects string, string\\|false given\\.$#"
+			count: 2
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Parameter \\#1 \\$text of function esc_html expects string, WP_Error given\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Parameter \\#3 \\$hex_color of method CourierNotices\\\\Controller\\\\Courier_Types\\:\\:insert_term_meta\\(\\) expects string, string\\|null given\\.$#"
+			count: 2
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Parameter \\#4 \\$label_color of method CourierNotices\\\\Controller\\\\Courier_Types\\:\\:insert_term_meta\\(\\) expects string, string\\|null given\\.$#"
+			count: 2
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Property CourierNotices\\\\Controller\\\\Courier_Types\\:\\:\\$kses_template has no type specified\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Types.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 1
+			path: includes/Controller/Cron.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Cron\\:\\:courier_expire\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Cron.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Cron\\:\\:courier_purge\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Cron.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Cron\\:\\:init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Cron.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Cron\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Cron.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, int\\|false given\\.$#"
+			count: 2
+			path: includes/Controller/Cron.php
+
+		-
+			message: "#^Parameter \\#1 \\$post_id of function wp_trash_post expects int, int\\|WP_Post given\\.$#"
+			count: 1
+			path: includes/Controller/Cron.php
+
+		-
+			message: "#^Parameter \\#1 \\$postarr of function wp_update_post expects array\\{ID\\?\\: int, post_author\\?\\: int, post_date\\?\\: string, post_date_gmt\\?\\: string, post_content\\?\\: string, post_content_filtered\\?\\: string, post_title\\?\\: string, post_excerpt\\?\\: string, \\.\\.\\.\\}, array\\{ID\\: int\\|WP_Post, post_status\\: 'courier_expired'\\} given\\.$#"
+			count: 1
+			path: includes/Controller/Cron.php
+
+		-
+			message: "#^Call to deprecated function courier_get_css\\(\\)\\.$#"
+			count: 1
+			path: includes/Controller/Install.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 1
+			path: includes/Controller/Install.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Install\\:\\:add_capabilities\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Install.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Install\\:\\:check_for_updates\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Install.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Install\\:\\:insert_term_meta\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Install.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Install\\:\\:insert_term_meta\\(\\) has parameter \\$term with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Install.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Install\\:\\:install\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Install.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Install\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Install.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, WP_Role\\|null given\\.$#"
+			count: 1
+			path: includes/Controller/Install.php
+
+		-
+			message: "#^Parameter \\#1 \\$term of method CourierNotices\\\\Controller\\\\Install\\:\\:insert_term_meta\\(\\) expects array, array\\<string, int\\|string\\>\\|WP_Error given\\.$#"
+			count: 6
+			path: includes/Controller/Install.php
+
+		-
+			message: "#^Property CourierNotices\\\\Controller\\\\Install\\:\\:\\$config is never read, only written\\.$#"
+			count: 1
+			path: includes/Controller/Install.php
+
+		-
+			message: "#^is_wp_error\\(array\\) will always evaluate to false\\.$#"
+			count: 1
+			path: includes/Controller/Install.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 2
+			path: includes/Controller/Integrations/Stream.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\Stream\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/Stream.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\Stream\\:\\:wp_stream_log_data\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/Stream.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\Stream\\:\\:wp_stream_log_data\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/Stream.php
+
+		-
+			message: "#^Call to static method add_command\\(\\) on an unknown class WP_CLI\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Call to static method error\\(\\) on an unknown class WP_CLI\\.$#"
+			count: 10
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Call to static method log\\(\\) on an unknown class WP_CLI\\.$#"
+			count: 5
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Call to static method success\\(\\) on an unknown class WP_CLI\\.$#"
+			count: 2
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Call to static method warning\\(\\) on an unknown class WP_CLI\\.$#"
+			count: 2
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Cannot access offset 0 on non\\-empty\\-array\\<WP_Term\\>\\|WP_Error\\.$#"
+			count: 6
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Cannot access property \\$post_content on WP_Post\\|null\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Cannot access property \\$post_date on WP_Post\\|null\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Cannot access property \\$post_modified on WP_Post\\|null\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Cannot access property \\$post_status on WP_Post\\|null\\.$#"
+			count: 2
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Cannot access property \\$post_title on WP_Post\\|null\\.$#"
+			count: 2
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 4
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Function WP_CLI\\\\Utils\\\\format_items not found\\.$#"
+			count: 3
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_CLI\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_CLI\\:\\:create\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_CLI\\:\\:create\\(\\) has parameter \\$assoc_args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_CLI\\:\\:expire\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_CLI\\:\\:expire\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_CLI\\:\\:expire\\(\\) has parameter \\$assoc_args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_CLI\\:\\:get\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_CLI\\:\\:get\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_CLI\\:\\:get\\(\\) has parameter \\$assoc_args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_CLI\\:\\:list\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_CLI\\:\\:list\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_CLI\\:\\:list\\(\\) has parameter \\$assoc_args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_CLI\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, WP_Post\\|null given\\.$#"
+			count: 2
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, bool\\|int given\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Only booleans are allowed in a ternary operator condition, array\\<WP_Term\\>\\|WP_Error\\|false given\\.$#"
+			count: 10
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Only booleans are allowed in a ternary operator condition, mixed given\\.$#"
+			count: 3
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Parameter \\#1 \\$input_list of function wp_list_pluck expects array, array\\<WP_Term\\>\\|WP_Error given\\.$#"
+			count: 4
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Parameter \\#1 \\$notice of function courier_notices_add_notice expects string, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Parameter \\#1 \\$post of function get_the_terms expects int\\|WP_Post, bool\\|int given\\.$#"
+			count: 4
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Parameter \\#1 \\$post_id of function update_post_meta expects int, bool\\|int given\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Parameter \\#1 \\$post_id of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) expects int, bool\\|int given\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Parameter \\#2 \\$post of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) expects CourierNotices\\\\Controller\\\\WP_Post, int\\<61, max\\> given\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Parameter \\#2 \\$timestamp of function gmdate expects int, int\\|false given\\.$#"
+			count: 3
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Ternary operator condition is always true\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_CLI.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_SEO\\:\\:exclude_courier_notice_taxonomies\\(\\) has parameter \\$taxonomy with no type specified\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_SEO.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_SEO\\:\\:exclude_courier_notice_taxonomies\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_SEO.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_SEO\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Integrations/WP_SEO.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Placement\\:\\:place_footer_notices\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Placement.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Placement\\:\\:place_header_notices\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Placement.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Placement\\:\\:place_modal_notices\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Placement.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Placement\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Placement.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:get_settings\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
+			count: 1
+			path: includes/Controller/Settings_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:get_settings\\(\\) should return string but returns WP_REST_Response\\.$#"
+			count: 1
+			path: includes/Controller/Settings_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Settings_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:register_routes\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Settings_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:update_settings\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
+			count: 1
+			path: includes/Controller/Settings_REST_Controller.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:update_settings\\(\\) should return string but returns WP_REST_Response\\.$#"
+			count: 1
+			path: includes/Controller/Settings_REST_Controller.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, int\\|false given\\.$#"
+			count: 1
+			path: includes/Controller/Settings_REST_Controller.php
+
+		-
+			message: "#^Call to function sprintf\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: includes/Controller/Shortcodes.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 2
+			path: includes/Controller/Shortcodes.php
+
+		-
+			message: "#^Function esc_attr invoked with 2 parameters, 1 required\\.$#"
+			count: 1
+			path: includes/Controller/Shortcodes.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Shortcodes\\:\\:courier_notice\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Shortcodes.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Shortcodes\\:\\:courier_notices\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Controller/Shortcodes.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Shortcodes\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Shortcodes.php
+
+		-
+			message: "#^Parameter \\#1 \\$text of function esc_html expects string, int\\|string\\|false given\\.$#"
+			count: 1
+			path: includes/Controller/Shortcodes.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Styles\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Styles.php
+
+		-
+			message: "#^Action callback returns string but should not return anything\\.$#"
+			count: 1
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Call to deprecated function courier_get_css\\(\\)\\.$#"
+			count: 1
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 4
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Upgrade\\:\\:dismiss_migration_notice\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Upgrade\\:\\:migrate_to_action_scheduler\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Upgrade\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Upgrade\\:\\:schedule_existing_notices_with_action_scheduler\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Upgrade\\:\\:show_action_scheduler_migration_notice\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Upgrade\\:\\:upgrade\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, WP_Screen\\|null given\\.$#"
+			count: 1
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, array\\<string, string\\>\\|null given\\.$#"
+			count: 3
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, int\\|false given\\.$#"
+			count: 1
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, mixed given\\.$#"
+			count: 1
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Only booleans are allowed in a ternary operator condition, mixed given\\.$#"
+			count: 1
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Parameter \\#1 \\$post_id of function get_post_meta expects int, int\\|WP_Post given\\.$#"
+			count: 1
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Property CourierNotices\\\\Controller\\\\Upgrade\\:\\:\\$config is never read, only written\\.$#"
+			count: 1
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Variable \\$plugins_options in empty\\(\\) is never defined\\.$#"
+			count: 1
+			path: includes/Controller/Upgrade.php
+
+		-
+			message: "#^Cannot access property \\$id on WP_Screen\\|null\\.$#"
+			count: 1
+			path: includes/Controller/Welcome.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 1
+			path: includes/Controller/Welcome.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Welcome\\:\\:admin_notices\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Welcome.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Welcome\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Welcome.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Welcome\\:\\:show_welcome\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Welcome.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Welcome\\:\\:update_welcome_panel\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Welcome.php
+
+		-
+			message: "#^Method CourierNotices\\\\Controller\\\\Welcome\\:\\:welcome_message\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Controller/Welcome.php
+
+		-
+			message: "#^Parameter \\#1 \\$message of function wp_die expects string\\|WP_Error, int given\\.$#"
+			count: 2
+			path: includes/Controller/Welcome.php
+
+		-
+			message: "#^Argument of an invalid type array\\|false supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: includes/Core/Bootstrap.php
+
+		-
+			message: "#^Cannot call method register_actions\\(\\) on class\\-string\\|object\\.$#"
+			count: 1
+			path: includes/Core/Bootstrap.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 1
+			path: includes/Core/Bootstrap.php
+
+		-
+			message: "#^Method CourierNotices\\\\Core\\\\Bootstrap\\:\\:load_controllers\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Core/Bootstrap.php
+
+		-
+			message: "#^Method CourierNotices\\\\Core\\\\Bootstrap\\:\\:load_textdomain\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Core/Bootstrap.php
+
+		-
+			message: "#^Method CourierNotices\\\\Core\\\\Bootstrap\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Core/Bootstrap.php
+
+		-
+			message: "#^Method CourierNotices\\\\Core\\\\Bootstrap\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Core/Bootstrap.php
+
+		-
+			message: "#^Property CourierNotices\\\\Core\\\\Bootstrap\\:\\:\\$config is never read, only written\\.$#"
+			count: 1
+			path: includes/Core/Bootstrap.php
+
+		-
+			message: "#^Property CourierNotices\\\\Core\\\\Bootstrap\\:\\:\\$config type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Core/Bootstrap.php
+
+		-
+			message: "#^Property CourierNotices\\\\Core\\\\Bootstrap\\:\\:\\$controllers type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Core/Bootstrap.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 4
+			path: includes/Core/Database.php
+
+		-
+			message: "#^Method CourierNotices\\\\Core\\\\Database\\:\\:get_column_defaults\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Core/Database.php
+
+		-
+			message: "#^Method CourierNotices\\\\Core\\\\Database\\:\\:get_columns\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Core/Database.php
+
+		-
+			message: "#^Method CourierNotices\\\\Core\\\\Database\\:\\:insert\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Core/Database.php
+
+		-
+			message: "#^Method CourierNotices\\\\Core\\\\Database\\:\\:update\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Core/Database.php
+
+		-
+			message: "#^Constructor of class CourierNotices\\\\Core\\\\View has an unused parameter \\$config\\.$#"
+			count: 1
+			path: includes/Core/View.php
+
+		-
+			message: "#^Method CourierNotices\\\\Core\\\\View\\:\\:get_text_view\\(\\) should return string but returns string\\|false\\.$#"
+			count: 1
+			path: includes/Core/View.php
+
+		-
+			message: "#^Method CourierNotices\\\\Core\\\\View\\:\\:init_assignments\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Core/View.php
+
+		-
+			message: "#^Property CourierNotices\\\\Core\\\\View\\:\\:\\$variables type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Core/View.php
+
+		-
+			message: "#^Variable variables are not allowed\\.$#"
+			count: 2
+			path: includes/Core/View.php
+
+		-
+			message: "#^Function courier_add_notice\\(\\) has parameter \\$types with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_add_notice\\(\\) should return bool but returns bool\\|int\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_dismiss_notices\\(\\) has parameter \\$notice_ids with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_display_modals\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_display_modals\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_display_notices\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_display_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_get_css\\(\\) never returns void so it can be removed from the return type\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_get_dismissed_notices\\(\\) never returns void so it can be removed from the return type\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_get_dismissed_notices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_get_dismissible_global_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_get_global_dismissed_notices\\(\\) never returns void so it can be removed from the return type\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_get_global_dismissed_notices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_get_global_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_get_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_get_notices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_get_persistent_global_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_get_user_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Function courier_get_user_notices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Parameter \\#2 \\$types of function courier_notices_add_notice expects array, array\\|string given\\.$#"
+			count: 1
+			path: includes/Helper/Deprecated.php
+
+		-
+			message: "#^Argument of an invalid type array\\<int, string\\>\\|false supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: includes/Helper/Files.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Files\\:\\:glob_recursive\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Files.php
+
+		-
+			message: "#^Parameter \\#1 \\$arr1 of function array_merge expects array, array\\<mixed\\>\\|false given\\.$#"
+			count: 1
+			path: includes/Helper/Files.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$args of function array_merge expects array, array\\|false given\\.$#"
+			count: 1
+			path: includes/Helper/Files.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 15
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_add_notice\\(\\) has parameter \\$placement with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_add_notice\\(\\) has parameter \\$types with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_add_notice\\(\\) never returns bool so it can be removed from the return type\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_add_notice\\(\\) never returns int so it can be removed from the return type\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_add_notice\\(\\) should return bool\\|int but returns string\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_clear_cache\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_dismiss_notices\\(\\) has parameter \\$notice_ids with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_display_modals\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_display_modals\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_display_notices\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_display_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_get_css\\(\\) never returns void so it can be removed from the return type\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_get_dismissed_notices\\(\\) never returns void so it can be removed from the return type\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_get_dismissed_notices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_get_dismissible_global_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_get_global_dismissed_notices\\(\\) never returns void so it can be removed from the return type\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_get_global_dismissed_notices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_get_global_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_get_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_get_notices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_get_persistent_global_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_get_user_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_get_user_notices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Function courier_notices_the_notice_title\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Offset 'post_content' does not exist on string\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Offset 'post_content' on array\\{post_type\\: 'courier_notice', post_status\\: 'publish', post_author\\: mixed, post_name\\: non\\-empty\\-string, post_title\\: '', post_excerpt\\: '', post_content\\: ''\\} in empty\\(\\) always exists and is always falsy\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Offset 'post_content' on string in empty\\(\\) does not exist\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Offset 'post_excerpt' does not exist on string\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Offset 'post_excerpt' on string in empty\\(\\) does not exist\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Offset 'post_title' does not exist on string\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Offset 'post_title' on array\\{post_type\\: 'courier_notice', post_status\\: 'publish', post_author\\: mixed, post_name\\: non\\-empty\\-string, post_title\\: '', post_excerpt\\: '', post_content\\: ''\\} in empty\\(\\) always exists and is always falsy\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Offset 'post_title' on string in empty\\(\\) does not exist\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, WP_Post\\|null given\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, int given\\.$#"
+			count: 3
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, mixed given\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, int given\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$types with type array\\|string is not subtype of native type array\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Parameter \\#1 \\$arr1 of function array_merge expects array, array\\|null given\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of function wp_cache_delete expects string, int given\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of function wp_cache_delete expects string, int\\<min, \\-1\\>\\|int\\<1, max\\> given\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Parameter \\#2 \\$ajax_post_data of method CourierNotices\\\\Model\\\\Courier_Notice\\\\Data\\:\\:get_dismissible_global_notices\\(\\) expects array, bool given\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Parameter \\#2 \\$haystack of function in_array expects array, array\\|null given\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$args of function array_merge expects array, array\\|null given\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Argument of an invalid type array\\<int, WP_Term\\>\\|WP_Error supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:render_screen_reader_content\\(\\)\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Cannot access offset 'ID' on object\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Cannot access offset 'slug' on object\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Cannot access offset 'title' on object\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 6
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:column_default\\(\\) has parameter \\$item with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:column_notice_default\\(\\) has parameter \\$item with no type specified\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:column_notice_delete\\(\\) has parameter \\$item with no type specified\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:column_title\\(\\) has parameter \\$item with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:display\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:fetch_table_data\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:filter_table_data\\(\\) has parameter \\$table_data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:filter_table_data\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:get_columns\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:get_hidden_columns\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:get_sortable_columns\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:handle_table_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:no_items\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:prepare_items\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, string given\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Parameter \\#1 \\$item \\(array\\) of method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:column_default\\(\\) should be compatible with parameter \\$item \\(object\\) of method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:column_default\\(\\)$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Parameter \\#1 \\$text of function esc_attr expects string, int given\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Parameter \\#2 \\$callback of function usort expects callable\\(mixed, mixed\\)\\: int, array\\{\\$this\\(CourierNotices\\\\Helper\\\\Type_List_Table\\), 'sort_data'\\} given\\.$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Return type \\(array\\|void\\) of method CourierNotices\\\\Helper\\\\Type_List_Table\\:\\:get_columns\\(\\) should be covariant with return type \\(array\\) of method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:get_columns\\(\\)$#"
+			count: 1
+			path: includes/Helper/Type_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\Utils\\:\\:courier_notices_debug_log\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/Utils.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between true and false will always evaluate to true\\.$#"
+			count: 1
+			path: includes/Helper/Utils.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: includes/Helper/Utils.php
+
+		-
+			message: "#^Access to an undefined property object\\:\\:\\$base\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Access to an undefined property object\\:\\:\\$id\\.$#"
+			count: 5
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Argument of an invalid type object supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:render_screen_reader_content\\(\\)\\.$#"
+			count: 3
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Call to function in_array\\(\\) requires parameter \\#3 to be set\\.$#"
+			count: 8
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Cannot access offset 0 on object\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 19
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Loose comparison via \"\\!\\=\" is not allowed\\.$#"
+			count: 2
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Loose comparison via \"\\=\\=\" is not allowed\\.$#"
+			count: 8
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:__call\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:__construct\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:__get\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:__isset\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:__set\\(\\) with return type void returns mixed but should not return anything\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:_js_vars\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:ajax_response\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:ajax_user_can\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:bulk_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:column_cb\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:column_default\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:comments_bubble\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:display\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:display_rows\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:display_rows_or_placeholder\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:display_tablenav\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:extra_tablenav\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:get_bulk_actions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:get_column_info\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:get_columns\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:get_pagination_arg\\(\\) should return int but return statement is missing\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:get_sortable_columns\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:get_table_classes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:get_views\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:months_dropdown\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:no_items\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:pagination\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:prepare_items\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:print_column_headers\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:search_box\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:set_pagination_args\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:set_pagination_args\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:single_row\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:single_row_columns\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:view_switcher\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Method CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:views\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, int given\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, int\\<0, max\\> given\\.$#"
+			count: 2
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, int\\|string given\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Only booleans are allowed in a ternary operator condition, int given\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Only booleans are allowed in a ternary operator condition, int\\<min, \\-1\\>\\|int\\<1, max\\> given\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Only booleans are allowed in a ternary operator condition, int\\|string given\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Only booleans are allowed in an elseif condition, int\\|string given\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, int given\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Parameter \\#1 \\$function of function call_user_func expects callable\\(\\)\\: mixed, array\\{\\$this\\(CourierNotices\\\\Helper\\\\WP_List_Table\\), non\\-falsy\\-string\\} given\\.$#"
+			count: 2
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Parameter \\#1 \\$function of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{\\$this\\(CourierNotices\\\\Helper\\\\WP_List_Table\\), string\\} given\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Parameter \\#1 \\$number of function number_format_i18n expects float, int\\|string given\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Parameter \\#1 \\$screen of function get_column_headers expects string\\|WP_Screen, object given\\.$#"
+			count: 2
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Parameter \\#1 \\$screen of function get_hidden_columns expects string\\|WP_Screen, object given\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Parameter \\#1 \\$var of function count expects array\\|Countable, object given\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Parameter \\#3 \\$number of function _n expects int, int\\|string given\\.$#"
+			count: 2
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Property CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:\\$_actions type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Property CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:\\$_args type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Property CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:\\$_column_headers \\(array\\) in isset\\(\\) is not nullable\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Property CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:\\$_column_headers type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Property CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:\\$_pagination_args type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Property CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:\\$compat_fields type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Property CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:\\$compat_methods type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Property CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:\\$items type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Property CourierNotices\\\\Helper\\\\WP_List_Table\\:\\:\\$modes type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Variable \\$class in empty\\(\\) always exists and is not falsy\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Variable property access on \\$this\\(CourierNotices\\\\Helper\\\\WP_List_Table\\)\\.$#"
+			count: 4
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Argument of an invalid type array\\|object supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: includes/Model/Config.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Config\\:\\:import\\(\\) has parameter \\$var with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Config.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Config\\:\\:\\$properties type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Config.php
+
+		-
+			message: "#^Access to an undefined property object\\:\\:\\$ID\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Cannot access offset 0 on array\\<WP_Term\\>\\|WP_Error\\|false\\.$#"
+			count: 2
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 19
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Courier_Notice\\\\Data\\:\\:get_dismissible_global_notices\\(\\) has parameter \\$ajax_post_data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Courier_Notice\\\\Data\\:\\:get_dismissible_global_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Courier_Notice\\\\Data\\:\\:get_global_dismissed_notices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Courier_Notice\\\\Data\\:\\:get_global_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Courier_Notice\\\\Data\\:\\:get_notice_meta\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Courier_Notice\\\\Data\\:\\:get_notices\\(\\) has parameter \\$ajax_post_data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Courier_Notice\\\\Data\\:\\:get_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Courier_Notice\\\\Data\\:\\:get_notices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Courier_Notice\\\\Data\\:\\:get_persistent_global_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Courier_Notice\\\\Data\\:\\:get_persistent_global_notices\\(\\) has parameter \\$global_notices with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Courier_Notice\\\\Data\\:\\:get_user_notices\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Courier_Notice\\\\Data\\:\\:get_user_notices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, mixed given\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Only booleans are allowed in a ternary operator condition, mixed given\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Only booleans are allowed in a ternary operator condition, string given\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Parameter \\#1 \\$data of function wp_hash expects string, string\\|false given\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(mixed\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Parameter \\#2 \\$haystack of function in_array expects array, array\\|null given\\.$#"
+			count: 2
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Ternary operator condition is always true\\.$#"
+			count: 1
+			path: includes/Model/Courier_Notice/Data.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Post_Type\\\\Courier_Notice\\:\\:get_args\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Post_Type/Courier_Notice.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Post_Type\\\\Courier_Notice\\:\\:\\$args type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Post_Type/Courier_Notice.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Post_Type\\\\Courier_Notice\\:\\:\\$config is never read, only written\\.$#"
+			count: 1
+			path: includes/Model/Post_Type/Courier_Notice.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Post_Type\\\\Courier_Notice\\:\\:\\$labels type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Post_Type/Courier_Notice.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 2
+			path: includes/Model/Settings.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Settings\\:\\:get_settings\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Settings.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Settings\\:\\:save_setting\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Settings.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Settings\\:\\:save_settings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Model/Settings.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Settings\\:\\:save_settings\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
+			count: 1
+			path: includes/Model/Settings.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Settings\\:\\:save_settings_array\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Model/Settings.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Settings\\:\\:save_settings_array\\(\\) has parameter \\$settings with no type specified\\.$#"
+			count: 1
+			path: includes/Model/Settings.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$settings$#"
+			count: 1
+			path: includes/Model/Settings.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Settings\\:\\:\\$defaults type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Settings.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Taxonomy\\\\Placement\\:\\:get_args\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Placement.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Taxonomy\\\\Placement\\:\\:\\$args type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Placement.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Taxonomy\\\\Placement\\:\\:\\$config is never read, only written\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Placement.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Taxonomy\\\\Placement\\:\\:\\$labels type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Placement.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Taxonomy\\\\Scope\\:\\:get_args\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Scope.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Taxonomy\\\\Scope\\:\\:\\$args type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Scope.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Taxonomy\\\\Scope\\:\\:\\$config is never read, only written\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Scope.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Taxonomy\\\\Scope\\:\\:\\$labels type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Scope.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Taxonomy\\\\Status\\:\\:get_args\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Status.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Taxonomy\\\\Status\\:\\:\\$args type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Status.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Taxonomy\\\\Status\\:\\:\\$config is never read, only written\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Status.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Taxonomy\\\\Status\\:\\:\\$labels type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Status.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Style.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Taxonomy\\\\Style\\:\\:get_args\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Style.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Taxonomy\\\\Style\\:\\:get_styles_options\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Style.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Taxonomy\\\\Style\\:\\:\\$args type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Style.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Taxonomy\\\\Style\\:\\:\\$config is never read, only written\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Style.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Taxonomy\\\\Style\\:\\:\\$labels type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Style.php
+
+		-
+			message: "#^Method CourierNotices\\\\Model\\\\Taxonomy\\\\Type\\:\\:get_args\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Type.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Taxonomy\\\\Type\\:\\:\\$args type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Type.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Taxonomy\\\\Type\\:\\:\\$config is never read, only written\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Type.php
+
+		-
+			message: "#^Property CourierNotices\\\\Model\\\\Taxonomy\\\\Type\\:\\:\\$labels type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: includes/Model/Taxonomy/Type.php

@@ -1,38 +1,38 @@
 on:
-  push:
-    paths:
-      - '**.php'
-  pull_request:
-    paths:
-      - '**.php'
+    push:
+        paths:
+            - "**.php"
+    pull_request:
+        paths:
+            - "**.php"
 
 name: WordPress Coding Standards Inspections
 
 jobs:
-  runPHPCSInspection:
-    name: Run PHPCS inspection
-    runs-on: ubuntu-latest
-    # Skip PRs if head_ref or Branches if head_name
-    # starts with the following auto-generated names.
-    # head_ref vs head_name: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs#github-context
-    if: |
-      ! startsWith( github.head_ref, 'release-please--' ) &&
-      ! startsWith( github.head_ref, 'phpcbf-' ) &&
-      ! startsWith( github.head_ref, 'renovate-' ) &&
-      ! startsWith( github.head_ref, 'dependabot-' ) &&
-      ! startsWith( github.ref_name, 'release-please--' ) &&
-      ! startsWith( github.ref_name, 'phpcbf-' ) &&
-      ! startsWith( github.ref_name, 'renovate-' ) &&
-      ! startsWith( github.ref_name, 'dependabot-' )
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-      - name: Run PHPCS inspection
-        uses: rtCamp/action-phpcs-code-review@v3.1.1
-        env:
-          GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
-          SKIP_FOLDERS: ".deployment,.github,assets,css,js,lib,sourcedata,wsdl,vendor"
-          PHPCS_STANDARD_FILE_NAME: "phpcs.xml"
-        with:
-          args: "WordPress,WordPress-Core,WordPress-Extra"
+    runPHPCSInspection:
+        name: Run PHPCS inspection
+        runs-on: ubuntu-latest
+        # Skip PRs if head_ref or Branches if head_name
+        # starts with the following auto-generated names.
+        # head_ref vs head_name: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs#github-context
+        if: |
+            ! startsWith( github.head_ref, 'release-please--' ) &&
+            ! startsWith( github.head_ref, 'phpcbf-' ) &&
+            ! startsWith( github.head_ref, 'renovate-' ) &&
+            ! startsWith( github.head_ref, 'dependabot-' ) &&
+            ! startsWith( github.ref_name, 'release-please--' ) &&
+            ! startsWith( github.ref_name, 'phpcbf-' ) &&
+            ! startsWith( github.ref_name, 'renovate-' ) &&
+            ! startsWith( github.ref_name, 'dependabot-' )
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.sha }}
+            - name: Run PHPCS inspection
+              uses: rtCamp/action-phpcs-code-review@v3.1.1
+              env:
+                  GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
+                  SKIP_FOLDERS: ".deployment,.github,assets,css,js,lib,sourcedata,wsdl,vendor"
+                  PHPCS_STANDARD_FILE_NAME: "phpcs.xml.dist"
+              with:
+                  args: "WordPress,WordPress-Core,WordPress-Extra"
