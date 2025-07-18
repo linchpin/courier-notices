@@ -3,6 +3,9 @@ bower_components
 .idea
 *.log
 *.js.map
+vendor
+vendor-prefixed
+bin/strauss.phar
 
 # Editors
 *.esproj
@@ -23,5 +26,3 @@ Session.vim
 # Windows
 Thumbs.db
 Desktop.ini
-vendor
-vendor-prefixed

@@ -73,7 +73,6 @@
 		"php-parallel-lint/php-console-highlighter": "^1.0.0",
 		"friendsofphp/php-cs-fixer": "^3.84.0",
 		"phpcompatibility/phpcompatibility-wp": "2.1.7",
-		"brianhenryie/strauss": "^0.24.0",
 		"phpstan/extension-installer": "^1.4.3",
 		"phpstan/phpstan": "^1.12.28",
 		"phpstan/phpstan-deprecation-rules": "^1.2.1",
@@ -115,14 +114,27 @@
 				"packages": [
 					"woocommerce/action-scheduler"
 				]
-			}
+			},
+			"delete_vendor_packages": false
 		}
 	},
 	"scripts": {
+		"prefix-namespaces": [
+			"sh -c 'test -f ./bin/strauss.phar || curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/latest/download/strauss.phar'",
+			"@php bin/strauss.phar",
+			"@composer dump-autoload"
+		],
+		"post-install-cmd": [
+			"@prefix-namespaces"
+		],
+		"post-update-cmd": [
+			"@prefix-namespaces"
+		],
+		"post-autoload-dump": [
+			"@php bin/strauss.phar include-autoloader"
+		],
 		"format": "phpcbf --report-summary --report-source",
-		"pre-autoload-dump": "mkdir -p vendor-prefixed",
 		"strauss": "strauss",
-		"post-autoload-dump": "composer strauss",
 		"fixer": "php-cs-fixer -v fix --allow-risky=yes",
 		"fixer:test": "php-cs-fixer fix -v --dry-run --stop-on-violation --using-cache=no --allow-risky=yes",
 		"lint": "phpcs",
