@@ -1,103 +1,93 @@
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main
 
 permissions:
-  contents: write
-  pull-requests: write
+    contents: write
+    pull-requests: write
 
 name: Release
 
 jobs:
-  release-please:
-    if: github.event_name != 'pull_request' && github.event.pull_request.merged != true
-    runs-on: ubuntu-latest
-    outputs:
-      release_created: ${{ steps.release.outputs.release_created }}
-    steps:
-      - uses: googleapis/release-please-action@v4
-        id: release
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+    release-please:
+        if: github.event_name != 'pull_request' && github.event.pull_request.merged != true
+        runs-on: ubuntu-latest
+        outputs:
+            release_created: ${{ steps.release.outputs.release_created }}
+        steps:
+            - uses: googleapis/release-please-action@v4
+              id: release
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
 
-  # Update the readme but only when it's creating a new release, not during the build
-  update-readme:
-    needs: [release-please]
-    if: github.event_name != 'pull_request' && github.event.pull_request.merged != true && ! needs.release-please.outputs.release_created
-    uses: linchpin/actions/.github/workflows/update-readme.yml@v3
-    secrets: inherit
+    # Update the readme but only when it's creating a new release, not during the build
+    update-readme:
+        needs: [release-please]
+        if: github.event_name != 'pull_request' && github.event.pull_request.merged != true && ! needs.release-please.outputs.release_created
+        uses: linchpin/actions/.github/workflows/update-readme.yml@v3
+        secrets: inherit
 
-  build:
-    needs: release-please
-    runs-on: ubuntu-latest
-    if: ${{ needs.release-please.outputs.release_created }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    build:
+        needs: release-please
+        runs-on: ubuntu-latest
+        if: ${{ needs.release-please.outputs.release_created }}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-      - name: Get Version From Tag
-        id: get_version
-        uses: linchpin/action-get-latest-tag@v2.0.0
-        with:
-          semver_only: true
+            - name: Get Version From Tag
+              id: get_version
+              uses: linchpin/action-get-latest-tag@v2.0.0
+              with:
+                  semver_only: true
 
-      - name: Latest Version
-        id: latest_version
-        run: |
-          TAG=${{ steps.get_version.outputs.tag }}
-          echo "VERSION=${TAG#v}" >> $GITHUB_OUTPUT
+            - name: Latest Version
+              id: latest_version
+              run: |
+                  TAG=${{ steps.get_version.outputs.tag }}
+                  echo "VERSION=${TAG#v}" >> $GITHUB_OUTPUT
 
-      - name: Cache Composer dependencies
-        uses: actions/cache@v4
-        with:
-          path: /tmp/composer-cache
-          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+            - name: Cache Composer dependencies
+              uses: actions/cache@v4
+              with:
+                  path: /tmp/composer-cache
+                  key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
 
-      - name: Composer Install
-        uses: php-actions/composer@v6
-        with:
-          working_dir: ./
-          dev: no
-          php_version: 8.2
-          php_extensions: exif
+            - name: Composer Install
+              uses: php-actions/composer@v6
+              with:
+                  working_dir: ./
+                  dev: no
+                  php_version: 8.2
+                  php_extensions: exif
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
 
-      - name: Build Base Plugin Assets
-        run: |
-          npm install && npm run build
-          rm -rf node_modules
+            - name: Build Base Plugin Assets
+              run: |
+                  npm install && npm run build
+                  rm -rf node_modules
 
-      - name: Build Blocks
-        run: |
-          cd ./blocks/
-          echo "${{ secrets.GSAP_NPMRC }}" > ./.npmrc
-          npm install
-          npm run build:blocks
-          npm run build:blocks:iapi
-          rm -rf node_modules
-          rm -f ./.npmrc
+            - name: Clean Build Files/Folders
+              run: |
+                  chmod +x ./.deployment/cleanup.sh
+                  sh ./.deployment/cleanup.sh;
 
-      - name: Clean Build Files/Folders
-        run: |
-          chmod +x ./.deployment/cleanup.sh
-          sh ./.deployment/cleanup.sh;
+            - name: Create Sync Zip
+              run: |
+                  cd ./zip
+                  zip -r ../courier-notices.zip ./
+                  cd ../
 
-      - name: Create Sync Zip
-        run: |
-          cd ./zip
-          zip -r ../courier-notices.zip ./
-          cd ../
-
-      - name: Upload files to a GitHub release
-        uses: svenstaro/upload-release-action@2.11.2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: courier-notices.zip
-          tag: ${{ steps.get_version.outputs.tag }}
-          asset_name: courier-notices.zip
-          overwrite: true
+            - name: Upload files to a GitHub release
+              uses: svenstaro/upload-release-action@2.11.2
+              with:
+                  repo_token: ${{ secrets.GITHUB_TOKEN }}
+                  file: courier-notices.zip
+                  tag: ${{ steps.get_version.outputs.tag }}
+                  asset_name: courier-notices.zip
+                  overwrite: true
