@@ -1,41 +1,41 @@
 on:
-  push:
-    branches:
-      - main
-      - master
-      - '!release-please-*'
-      - '!renovate/*'
-    tags:
-      - 'v*'
-      - '!maintenance'
-    paths:
-      - .github/workflows/wiki.yml
-      - '**.php'
+    push:
+        branches:
+            - main
+            - master
+            - "!release-please-*"
+            - "!renovate/*"
+        tags:
+            - "v*"
+            - "!maintenance"
+        paths:
+            - .github/workflows/wiki.yml
+            - "**.php"
 
 name: Update Wiki
 
 jobs:
-  update_wiki:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
+    update_wiki:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.head_ref }}
 
-      - name: Create Wiki Markdown
-        uses: php-actions/composer@v6
+            - name: Create Wiki Markdown
+              uses: php-actions/composer@v6
 
-      - name: Generate API docs
-        run: |
-          wget https://phpdoc.org/phpDocumentor.phar
-          php phpDocumentor.phar --directory=./src --target=./wiki --template='vendor/saggre/phpdocumentor-markdown/themes/markdown'
+            - name: Generate API docs
+              run: |
+                  wget https://phpdoc.org/phpDocumentor.phar
+                  php phpDocumentor.phar --directory=./src --target=./wiki --template='vendor/saggre/phpdocumentor-markdown/themes/markdown'
 
-      - name: Push Wiki Changes
-        uses: Andrew-Chen-Wang/github-wiki-action@v5
-        env:
-          # Make sure you have that / at the end. We use rsync
-          # WIKI_DIR's default is wiki/
-          WIKI_DIR: wiki/
-          GH_TOKEN: ${{ secrets.GH_WIKI_UPDATE_TOKEN }}
-          GH_MAIL: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          GH_NAME: ${{ github.repository_owner }}
+            - name: Push Wiki Changes
+              uses: Andrew-Chen-Wang/github-wiki-action@v5
+              env:
+                  # Make sure you have that / at the end. We use rsync
+                  # WIKI_DIR's default is wiki/
+                  WIKI_DIR: wiki/
+                  GH_TOKEN: ${{ secrets.GH_WIKI_UPDATE_TOKEN }}
+                  GH_MAIL: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+                  GH_NAME: ${{ github.repository_owner }}
