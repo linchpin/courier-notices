@@ -1,84 +1,84 @@
 on:
-  push:
-    paths:
-      - '**.php'
-  pull_request:
-    paths:
-      - '**.php'
+    push:
+        paths:
+            - "**.php"
+    pull_request:
+        paths:
+            - "**.php"
 
 name: WordPress Auto-fixer
 
 jobs:
-  phpcbf-fixer:
-    runs-on: ubuntu-latest
-    # Skip PRs if head_ref or Branches if head_name
-    # starts with the following auto-generated names.
-    # head_ref vs head_name: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs#github-context
-    if: |
-      ! startsWith( github.head_ref, 'release-please--' ) &&
-      ! startsWith( github.head_ref, 'phpcbf-' ) &&
-      ! startsWith( github.head_ref, 'renovate-' ) &&
-      ! startsWith( github.head_ref, 'dependabot-' ) &&
-      ! startsWith( github.ref_name, 'release-please--' ) &&
-      ! startsWith( github.ref_name, 'phpcbf-' ) &&
-      ! startsWith( github.ref_name, 'renovate-' ) &&
-      ! startsWith( github.ref_name, 'dependabot-' )
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
+    phpcbf-fixer:
+        runs-on: ubuntu-latest
+        # Skip PRs if head_ref or Branches if head_name
+        # starts with the following auto-generated names.
+        # head_ref vs head_name: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs#github-context
+        if: |
+            ! startsWith( github.head_ref, 'release-please--' ) &&
+            ! startsWith( github.head_ref, 'phpcbf-' ) &&
+            ! startsWith( github.head_ref, 'renovate-' ) &&
+            ! startsWith( github.head_ref, 'dependabot-' ) &&
+            ! startsWith( github.ref_name, 'release-please--' ) &&
+            ! startsWith( github.ref_name, 'phpcbf-' ) &&
+            ! startsWith( github.ref_name, 'renovate-' ) &&
+            ! startsWith( github.ref_name, 'dependabot-' )
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.head_ref }}
 
-      - name: Install PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          coverage: none
-          tools: cs2pr
+            - name: Install PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: "8.2"
+                  coverage: none
+                  tools: cs2pr
 
-      - name: Install Composer dependencies
-        run: |
-          composer update --no-interaction --no-progress --no-suggest
-          rm composer.lock # remove composer.lock to avoid conflicts
+            - name: Install Composer dependencies
+              run: |
+                  composer update --no-interaction --no-progress --no-suggest
+                  rm composer.lock # remove composer.lock to avoid conflicts
 
-      # Check the code-style consistency of the PHP files.
-      - name: Fix PHP code style
-        id: codestyle
-        run: |
-          ./vendor/squizlabs/php_codesniffer/bin/phpcbf ${{ github.workspace }}/application --standard=${{ github.workspace }}/phpcs.xml --report=summary --report-file=phpcbf-report.txt || true
-          if [ ! -f phpcbf-report.txt ]; then
-            echo "skip_pull_request=true" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-          if grep -q "No fixable errors were found" phpcbf-report.txt; then
-            echo "skip_pull_request=true" >> $GITHUB_OUTPUT
-            exit 0
-          fi
+            # Check the code-style consistency of the PHP files.
+            - name: Fix PHP code style
+              id: codestyle
+              run: |
+                  ./vendor/squizlabs/php_codesniffer/bin/phpcbf ${{ github.workspace }}/application --standard=${{ github.workspace }}/phpcs.xml --report=summary --report-file=phpcbf-report.txt || true
+                  if [ ! -f phpcbf-report.txt ]; then
+                    echo "skip_pull_request=true" >> $GITHUB_OUTPUT
+                    exit 0
+                  fi
+                  if grep -q "No fixable errors were found" phpcbf-report.txt; then
+                    echo "skip_pull_request=true" >> $GITHUB_OUTPUT
+                    exit 0
+                  fi
 
-      - name: Read PHPCBF report
-        id: read_report
-        if: ${{ steps.codestyle.outputs.skip_pull_request != 'true' }}
-        run: |
-          REPORT=$(cat phpcbf-report.txt)
-          echo "report=$REPORT" >> $GITHUB_OUTPUT
-          rm phpcbf-report.txt
+            - name: Read PHPCBF report
+              id: read_report
+              if: ${{ steps.codestyle.outputs.skip_pull_request != 'true' }}
+              run: |
+                  REPORT=$(cat phpcbf-report.txt)
+                  echo "report=$REPORT" >> $GITHUB_OUTPUT
+                  rm phpcbf-report.txt
 
-      - name: Create Pull Request
-        if: ${{ steps.codestyle.outputs.skip_pull_request != 'true' }}
-        id: cpr
-        uses: peter-evans/create-pull-request@v7
-        with:
-          token: ${{ secrets.GH_BOT_TOKEN }}
-          commit-message: PHPCBF Auto Fix
-          committer: Linchpin Bot <dev@linchpin.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          signoff: false
-          branch: phpcbf-${{ github.run_id }}-${{ github.run_attempt }}
-          delete-branch: true
-          title: 'Auto Fix Formatting - ${{ github.run_id }}'
-          body: |
-            ${{ steps.read_report.outputs.report }}
-          labels: |
-            phpcs
-            automated pr
-          milestone: 1
-          draft: false
+            - name: Create Pull Request
+              if: ${{ steps.codestyle.outputs.skip_pull_request != 'true' }}
+              id: cpr
+              uses: peter-evans/create-pull-request@v7
+              with:
+                  token: ${{ secrets.GH_BOT_TOKEN }}
+                  commit-message: PHPCBF Auto Fix
+                  committer: Linchpin Bot <dev@linchpin.com>
+                  author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+                  signoff: false
+                  branch: phpcbf-${{ github.run_id }}-${{ github.run_attempt }}
+                  delete-branch: true
+                  title: "Auto Fix Formatting - ${{ github.run_id }}"
+                  body: |
+                      ${{ steps.read_report.outputs.report }}
+                  labels: |
+                      phpcs
+                      automated pr
+                  milestone: 1
+                  draft: false
