@@ -24,3 +24,9 @@ echo "➤ Copying files to $TMP_DIR"
 
 # This will exclude everything in the .gitattributes file with the export-ignore flag
 rsync -rc --exclude-from="$GITHUB_WORKSPACE/.distignore" "$GITHUB_WORKSPACE/" "$TMP_DIR/" --delete
+
+# Remove the release-please marker lines
+sed -i '/x-release-please-start-version/d' "$TMP_DIR/readme.txt"
+sed -i '/x-release-please-end/d' "$TMP_DIR/readme.txt"
+
+echo "✅ Removed release-please marker lines from readme.txt for .org distribution"

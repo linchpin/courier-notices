@@ -13,10 +13,6 @@
 			"source.fixAll": "explicit",
 			"source.organizeImports": "explicit",
 		},
-		"[php]": {
-			"editor.defaultFormatter": "junstyle.php-cs-fixer",
-			"editor.formatOnSave": true,
-		},
 		"[javascript]": {
 			"editor.defaultFormatter": "esbenp.prettier-vscode",
 			"editor.formatOnSave": true,
@@ -32,9 +28,7 @@
 	},
 	"extensions": {
 		"recommendations": [
-			"junstyle.php-cs-fixer",
 			"esbenp.prettier-vscode",
-			"ms-vscode.vscode-typescript-next",
 			"bmewburn.vscode-intelephense-client",
 		],
 	},
