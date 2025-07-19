@@ -19,7 +19,7 @@ jobs:
             - uses: googleapis/release-please-action@v4
               id: release
               with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
+                  token: ${{ secrets.GH_BOT_TOKEN }}
 
     # Update the readme but only when it's creating a new release, not during the build
     update-readme:
