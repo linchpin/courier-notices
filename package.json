@@ -1,6 +1,6 @@
 {
 	"name": "courier-notices",
-	"version": "1.9.12",
+	"version": "1.9.13",
 	"description": "A way to display, manage, and control front end notifications for users, globally or individually, in the header,footer, by shortcode or by page.",
 	"author": "Linchpin <sayhi@linchpin.com>",
 	"license": "GPL-2.0-or-later",
