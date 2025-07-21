@@ -1,8 +1,14 @@
 on:
     push:
+        branches-ignore:
+            - "release-please--branches--*" # Ignore Release Please branches
+        tags-ignore:
+            - "v*.*.*" # Ignore version tags if needed
         paths:
             - "**.php"
     pull_request:
+        branches-ignore:
+            - "release-please--branches--*" # Ignore PRs from Release Please branches
         paths:
             - "**.php"
 

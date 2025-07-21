@@ -47,18 +47,26 @@ jobs:
 
             - name: Clean Build Files/Folders
               run: |
-                  chmod +x ./.deployment/cleanup.sh
-                  sh ./.deployment/cleanup.sh;
+                  sed -i '/x-release-please-start-version/d' "./readme.txt"
+                  sed -i '/x-release-please-end/d' "./readme.txt"
+                  echo "✅ Removed release-please marker lines from readme.txt for .org distribution"
 
             - name: WordPress Plugin Deploy
-              uses: 10up/action-wordpress-plugin-deploy@2.3.0
+              id: deploy
+              uses: 10up/action-wordpress-plugin-deploy@54bd289b8525fd23a5c365ec369185f2966529c2 # v2.3.0
+              with:
+                  generate-zip: true
               env:
-                  SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
                   SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+                  SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
                   SLUG: courier-notices
 
-            - name: WordPress.org plugin asset/readme update
-              uses: 10up/action-wordpress-plugin-asset-update@stable
+            - name: Upload release asset
+              uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
               env:
-                  SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-                  SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ github.event.release.upload_url }}
+                  asset_path: ${{ steps.deploy.outputs.zip-path }}
+                  asset_name: ${{ github.event.repository.name }}.zip
+                  asset_content_type: application/zip

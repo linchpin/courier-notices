@@ -22,7 +22,7 @@ fi;
 
 echo "➤ Copying files to $TMP_DIR"
 
-# This will exclude everything in the .gitattributes file with the export-ignore flag
+# This will exclude everything in the .distignore file
 rsync -rc --exclude-from="$GITHUB_WORKSPACE/.distignore" "$GITHUB_WORKSPACE/" "$TMP_DIR/" --delete
 
 # Remove the release-please marker lines
