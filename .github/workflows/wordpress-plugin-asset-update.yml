@@ -1,0 +1,41 @@
+name: Update asset/readme on WordPress.org
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    main:
+        name: Push to main
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+            - name: Composer Install
+              uses: php-actions/composer@v6
+              with:
+                  dev: no
+                  php_version: "8.2"
+                  php_extensions: exif
+
+            - name: Build Base Plugin Assets
+              run: |
+                  npm install && npm run build
+                  rm -rf node_modules
+
+            - name: Clean Build Files/Folders
+              run: |
+                  sed -i '/x-release-please-start-version/d' "./readme.txt"
+                  sed -i '/x-release-please-end/d' "./readme.txt"
+                  echo "✅ Removed release-please marker lines from readme.txt for .org distribution"
+
+            - name: WordPress.org plugin asset/readme update
+              uses: 10up/action-wordpress-plugin-asset-update@2480306f6f693672726d08b5917ea114cb2825f7 # v2.2.0
+              env:
+                  SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+                  SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
