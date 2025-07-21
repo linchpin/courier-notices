@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.14](https://github.com/linchpin/courier-notices/compare/v1.9.13...v1.9.14) (2025-07-21)
+
+
+### Bug Fixes 🐛
+
+* **deps:** update dependency league/commonmark to ^2.7.1 ([3776c04](https://github.com/linchpin/courier-notices/commit/3776c045ea9e4186486211827f1bc2f0ee32258a))
+* **deps:** update dependency league/commonmark to ^2.7.1 ([477d0d0](https://github.com/linchpin/courier-notices/commit/477d0d0d369f8305fdccce9b8bd2f258af589bab))
+
+
+### Changes to Existing Features 💅
+
+* **NO-TASK:** Release cleanup ([b6bf334](https://github.com/linchpin/courier-notices/commit/b6bf33474ece05c69e9c2981fb77b659346d9b81))
+
 ## [1.9.13](https://github.com/linchpin/courier-notices/compare/v1.9.12...v1.9.13) (2025-07-20)
 
 
