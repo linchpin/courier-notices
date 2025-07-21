@@ -4,6 +4,69 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.14](https://github.com/linchpin/courier-notices/compare/v1.9.13...v1.9.14) (2025-07-21)
+
+
+### Bug Fixes 🐛
+
+* **deps:** update dependency league/commonmark to ^2.7.1 ([3776c04](https://github.com/linchpin/courier-notices/commit/3776c045ea9e4186486211827f1bc2f0ee32258a))
+* **deps:** update dependency league/commonmark to ^2.7.1 ([477d0d0](https://github.com/linchpin/courier-notices/commit/477d0d0d369f8305fdccce9b8bd2f258af589bab))
+
+
+### Changes to Existing Features 💅
+
+* **NO-TASK:** Release cleanup ([b6bf334](https://github.com/linchpin/courier-notices/commit/b6bf33474ece05c69e9c2981fb77b659346d9b81))
+
+## [1.9.13](https://github.com/linchpin/courier-notices/compare/v1.9.12...v1.9.13) (2025-07-20)
+
+
+### Miscellaneous Chores 🧹
+
+* **NO-TASK:** Remove files from distribution ([60d3e13](https://github.com/linchpin/courier-notices/commit/60d3e13f91345fdb9ca14d7822f094f75dd3dd8d))
+* **NO-TASK:** Remove files from distribution ([02c1fa8](https://github.com/linchpin/courier-notices/commit/02c1fa8db2d49de697db1d2641ff68cfbf5f25ed))
+
+## [1.9.12](https://github.com/linchpin/courier-notices/compare/v1.9.11...v1.9.12) (2025-07-19)
+
+
+### Miscellaneous Chores 🧹
+
+* **NO-TASK:** Updating PAT permissions ([c993ed5](https://github.com/linchpin/courier-notices/commit/c993ed52502e133d43562d400ae03e8e0e991875))
+* **NO-TASK:** Updating PAT permissions ([8d6a7bd](https://github.com/linchpin/courier-notices/commit/8d6a7bd34d59ff530de2790a6e9fb3d465025daa))
+
+
+### Changes to Existing Features 💅
+
+* **NO-TASK:** Update token for releases ([a3c6bcd](https://github.com/linchpin/courier-notices/commit/a3c6bcdca9b9ced2075645bf76df88c1550f7ce4))
+
+## [1.9.11](https://github.com/linchpin/courier-notices/compare/v1.9.10...v1.9.11) (2025-07-19)
+
+
+### Changes to Existing Features 💅
+
+* **NO-TASK:** Update permissions ([5ea3d07](https://github.com/linchpin/courier-notices/commit/5ea3d07d06f61f424aa7dbfda76cdbb6a71b26cc))
+
+## [1.9.10](https://github.com/linchpin/courier-notices/compare/v1.9.9...v1.9.10) (2025-07-19)
+
+
+### Bug Fixes 🐛
+
+* **NO-TASK:** Build process issues marked during release to .org ([6f1967c](https://github.com/linchpin/courier-notices/commit/6f1967cfb49744dd9d3df241959523ef6e760a72))
+* **NO-TASK:** Build process issues marked during release to .org ([46e3ac7](https://github.com/linchpin/courier-notices/commit/46e3ac7b9122aa72b9031c83ef6f03ac1fef4a84))
+
+## [1.9.9](https://github.com/linchpin/courier-notices/compare/v1.9.8...v1.9.9) (2025-07-18)
+
+
+### Miscellaneous Chores 🧹
+
+* **NO-TASK:** WP.org deploy ([494c3c3](https://github.com/linchpin/courier-notices/commit/494c3c37b97315e7f7bf6b6576fe9b5dd513e430))
+
+## [1.9.8](https://github.com/linchpin/courier-notices/compare/v1.9.7...v1.9.8) (2025-07-18)
+
+
+### Changes to Existing Features 💅
+
+* **NO-TASK:** Readme adjustments ([14d17e0](https://github.com/linchpin/courier-notices/commit/14d17e053cbc26aa4eeee0b1f998596e4a9b3dd5))
+
 ## [1.9.7](https://github.com/linchpin/courier-notices/compare/v1.9.6...v1.9.7) (2025-07-18)
 
 
