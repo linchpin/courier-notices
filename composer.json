@@ -41,7 +41,7 @@
 		"php": "^7.4 || ^8.0",
 		"ext-json": "*",
 		"woocommerce/action-scheduler": "^3.9.3",
-		"league/commonmark": "^2.7"
+		"league/commonmark": "^2.7.1"
 	},
 	"repositories": [
 		{
