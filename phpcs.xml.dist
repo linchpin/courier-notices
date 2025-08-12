@@ -6,7 +6,7 @@
 		 For most standard PHP configurations, this means the memory limit will temporarily be raised.
 		 Ref: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#specifying-phpini-settings
 	-->
-	<ini name="memory_limit" value="512M"/>
+	<ini name="memory_limit" value="1024M"/>
 
 	<!-- Whenever possible, cache the scan results and re-use those for unchanged files on the next scan. -->
 	<arg name="cache"/>
