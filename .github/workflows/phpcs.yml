@@ -28,7 +28,7 @@ jobs:
             !contains('dependabot[bot],renovate[bot],mend-bot', github.actor)
             )
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
               with:
                   ref: ${{ github.event.pull_request.head.sha }}
             - name: Run PHPCS inspection
