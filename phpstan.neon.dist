@@ -20,5 +20,5 @@ parameters:
     strictRules:
         strictArrayFilter: false
     featureToggles:
-        # Ignore errors related to the plugin not runnnping from inside a WP environment, so paths like ABSPATH . WPINC don't resolve.
+        # Ignore errors related to the plugin not running from inside a WP environment, so paths like ABSPATH . WPINC don't resolve.
         requireFileExists: false
