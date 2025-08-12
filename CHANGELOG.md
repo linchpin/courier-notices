@@ -4,6 +4,50 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.15](https://github.com/linchpin/courier-notices/compare/v1.9.14...v1.9.15) (2025-08-12)
+
+
+### Bug Fixes 🐛
+
+* **COURIER-1008:** Fatal Error trying to output WP_Term type not bein… ([99a0117](https://github.com/linchpin/courier-notices/commit/99a0117ac4153b3f52ac1be462e810648dae9d80))
+* **COURIER-1008:** Fatal Error trying to output WP_Term type not being string ([43dccd3](https://github.com/linchpin/courier-notices/commit/43dccd3bfed620dd3a4c5610591ee61a8510cf18))
+* **NO-TASK:** Fixing minor typo in phpstan config ([a2783b0](https://github.com/linchpin/courier-notices/commit/a2783b060a6bf7cf8cb0a6b6f4c30dd56f30585e))
+
+
+### Miscellaneous Chores 🧹
+
+* **COURIER-1009:** Update package lock ([01a7506](https://github.com/linchpin/courier-notices/commit/01a75063ddac7fab73197abe70c379cf5aaffc5d))
+* **COURIER-1009:** Update package lock ([fcff1ab](https://github.com/linchpin/courier-notices/commit/fcff1ab12ec667dcd589064a9bf518befb28d189))
+* **deps-dev:** bump axios from 1.10.0 to 1.11.0 ([ce12260](https://github.com/linchpin/courier-notices/commit/ce122605099cfce15458216570cb51fc97b3b796))
+* **deps-dev:** bump axios from 1.10.0 to 1.11.0 ([305e51e](https://github.com/linchpin/courier-notices/commit/305e51e9a269a658d84657fee7dfe330617872c6))
+* **deps:** lock file maintenance ([172e197](https://github.com/linchpin/courier-notices/commit/172e197c01ee2b3a7ec9d77c413c18bd3dfaed32))
+* **deps:** lock file maintenance ([a0544e9](https://github.com/linchpin/courier-notices/commit/a0544e93ce24f60bc23741aa6be53153d448328f))
+* **deps:** update actions/checkout action to v5 ([4636d63](https://github.com/linchpin/courier-notices/commit/4636d63c39d7572c4da7bff6da9fc4f65ff2165f))
+* **deps:** update actions/checkout action to v5 ([2ec3b93](https://github.com/linchpin/courier-notices/commit/2ec3b93d2b68db43e1d83c8affc40dab88160995))
+* **deps:** update dependency friendsofphp/php-cs-fixer to ^3.85.1 ([10ea8ca](https://github.com/linchpin/courier-notices/commit/10ea8ca359026e7227132b606d1fca8af40ba90c))
+* **deps:** update dependency friendsofphp/php-cs-fixer to ^3.85.1 ([f495f44](https://github.com/linchpin/courier-notices/commit/f495f441e12d758241f46b93fc3ea3e70ba99426))
+* **deps:** update dependency phpstan/php-8-stubs to ^0.4.18 ([c4c7052](https://github.com/linchpin/courier-notices/commit/c4c705289206b65c55390dfb7cc4516d7bae576b))
+* **deps:** update dependency phpstan/php-8-stubs to ^0.4.18 ([46a2e0d](https://github.com/linchpin/courier-notices/commit/46a2e0d7cf376bf345673f30bab8097dc62953a6))
+* **deps:** update dependency slevomat/coding-standard to ^8.20.0 ([53e5de9](https://github.com/linchpin/courier-notices/commit/53e5de95d39235525cf83aca69ea0ac46b53c350))
+* **deps:** update dependency slevomat/coding-standard to ^8.20.0 ([2f49d54](https://github.com/linchpin/courier-notices/commit/2f49d54bcbb3c83392308bc96b8ad007a99fc062))
+* **deps:** update dependency wp-coding-standards/wpcs to ^3.2.0 ([8af17ef](https://github.com/linchpin/courier-notices/commit/8af17efae427691b4438761e4584a675a19f6c6c))
+* **deps:** update dependency wp-coding-standards/wpcs to ^3.2.0 ([94c7ae2](https://github.com/linchpin/courier-notices/commit/94c7ae2aaaac147e634b19a5f4b7ab478685d15b))
+* **deps:** update dependency wp-phpunit/wp-phpunit to ^6.8.2 ([fe8858f](https://github.com/linchpin/courier-notices/commit/fe8858f3c346056b22200907074355f02eb4cf90))
+* **deps:** update dependency wp-phpunit/wp-phpunit to ^6.8.2 ([e8c9041](https://github.com/linchpin/courier-notices/commit/e8c9041dfe7be870971ad181b43cf690389f6d8d))
+* **deps:** update dependency wpackagist-plugin/plugin-check to ^1.6.0 ([87b5b96](https://github.com/linchpin/courier-notices/commit/87b5b96ccf8a81308a4db94ec704d34b45497501))
+* **deps:** update dependency wpackagist-plugin/plugin-check to ^1.6.0 ([eb9e6a9](https://github.com/linchpin/courier-notices/commit/eb9e6a955ae1205a56fe208227be70d61ab2591d))
+* **deps:** update npm dev dependencies ([5b2a397](https://github.com/linchpin/courier-notices/commit/5b2a3976b75d596a003d5015a8ef97b711205292))
+* **deps:** update npm dev dependencies ([961e9a0](https://github.com/linchpin/courier-notices/commit/961e9a0ce184ff614887d48fe4714fa9e7e3ac6d))
+* **NO-TASK:** Minor build adjustment ([84c53c3](https://github.com/linchpin/courier-notices/commit/84c53c30c3509677b4184173584c3a8e09641169))
+* **NO-TASK:** Minor build adjustment ([84b0dda](https://github.com/linchpin/courier-notices/commit/84b0ddac7de8697cb8f38c6109b803c482d629c7))
+* **NO-TASK:** Separate readme and asset updates ([382bcab](https://github.com/linchpin/courier-notices/commit/382bcab640465fb7ce43be2dfe845354cc09cda1))
+* **NO-TASK:** Separate readme and asset updates ([9dbc01c](https://github.com/linchpin/courier-notices/commit/9dbc01c12d8a2b901ef6559eb874b86c70265c12))
+
+
+### Changes to Existing Features 💅
+
+* **COURIER-1009:** Deprecate old filter, added new filter courier_notices_default_notice_style ([43dccd3](https://github.com/linchpin/courier-notices/commit/43dccd3bfed620dd3a4c5610591ee61a8510cf18))
+
 ## [1.9.14](https://github.com/linchpin/courier-notices/compare/v1.9.13...v1.9.14) (2025-07-21)
 
 
