@@ -103,6 +103,9 @@ class Courier_Notice_Metabox {
 				$selected_courier_style = 'informational';
 			}
 
+			// @deprecated filter. Use courier_notices_default_notice_style instead.
+			$default_notice_style = apply_filters( 'courier_default_notice_style', 'informational' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+
 			// Create and display the dropdown menu.
 			wp_dropdown_categories(
 				array(
@@ -113,7 +116,7 @@ class Courier_Notice_Metabox {
 					'class'             => 'widefat',
 					'hide_empty'        => false,
 					'required'          => true,
-					'option_none_value' => apply_filters( 'courier_default_notice_style', 'informational' ),
+					'option_none_value' => apply_filters( 'courier_notices_default_notice_style', $default_notice_style ),
 					'selected'          => $selected_courier_style,
 				)
 			);
@@ -261,7 +264,7 @@ class Courier_Notice_Metabox {
 					$show_hide = 'hide';
 					?>
 						<div id="show-hide-info" class="courier-admin-notice notice inline">
-							<p>The <strong>Notice Style</strong> (<span id="selected-courier-notice-type" data-enable-title="<?php echo esc_attr( implode( ',', $selected_courier_style ) ); ?>"><?php echo esc_html( $selected_courier_style[0]->name ); ?></span>) is displaying this Notice's Title by default in the <a href="<?php echo esc_url( site_url( '/wp-admin/edit.php?post_type=courier_notice&page=courier&tab=design&subtab=global' ) ); ?>">global design settings</a>. Use the "Hide title" toggle below to override for this notice.</p>
+							<p>The <strong>Notice Style</strong> (<span id="selected-courier-notice-type" data-enable-title="<?php echo esc_attr( implode( ',', $selected_styles ) ); ?>"><?php echo esc_html( $selected_courier_style[0]->name ); ?></span>) is displaying this Notice's Title by default in the <a href="<?php echo esc_url( site_url( '/wp-admin/edit.php?post_type=courier_notice&page=courier&tab=design&subtab=global' ) ); ?>">global design settings</a>. Use the "Hide title" toggle below to override for this notice.</p>
 						</div>
 					<?php
 				}
