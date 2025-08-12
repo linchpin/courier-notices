@@ -356,11 +356,6 @@ parameters:
 			path: includes/Controller/Admin/Courier_Notice_Metabox.php
 
 		-
-			message: "#^Parameter \\#2 \\$pieces of function implode expects array, array\\<WP_Term\\>\\|WP_Error given\\.$#"
-			count: 1
-			path: includes/Controller/Admin/Courier_Notice_Metabox.php
-
-		-
 			message: "#^Cannot access offset 'field' on object\\.$#"
 			count: 2
 			path: includes/Controller/Admin/Fields/Fields.php
