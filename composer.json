@@ -74,7 +74,7 @@
 		"friendsofphp/php-cs-fixer": "^3.85.1",
 		"phpcompatibility/phpcompatibility-wp": "2.1.7",
 		"phpstan/extension-installer": "^1.4.3",
-		"phpstan/phpstan": "^1.12.28",
+		"phpstan/phpstan": "^1.12.32",
 		"phpstan/phpstan-deprecation-rules": "^1.2.1",
 		"phpstan/phpstan-phpunit": "^1.4.2",
 		"slevomat/coding-standard": "^8.20.0",
