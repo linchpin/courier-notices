@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "656d1607528f6bfb78df0288ba10f3c6",
+    "content-hash": "f4b9e7284604cef2a82ff17cbea15be0",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -2358,16 +2358,16 @@
         },
         {
             "name": "phpstan/php-8-stubs",
-            "version": "0.4.18",
+            "version": "0.4.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/php-8-stubs.git",
-                "reference": "3f322e4e98b0d74f27ea3dfb3d2fff6b6b964dd2"
+                "reference": "7820dd595773d3624003470519898bb76729d45e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/php-8-stubs/zipball/3f322e4e98b0d74f27ea3dfb3d2fff6b6b964dd2",
-                "reference": "3f322e4e98b0d74f27ea3dfb3d2fff6b6b964dd2",
+                "url": "https://api.github.com/repos/phpstan/php-8-stubs/zipball/7820dd595773d3624003470519898bb76729d45e",
+                "reference": "7820dd595773d3624003470519898bb76729d45e",
                 "shasum": ""
             },
             "type": "library",
@@ -2384,9 +2384,9 @@
             "description": "PHP stubs extracted from php-src",
             "support": {
                 "issues": "https://github.com/phpstan/php-8-stubs/issues",
-                "source": "https://github.com/phpstan/php-8-stubs/tree/0.4.18"
+                "source": "https://github.com/phpstan/php-8-stubs/tree/0.4.33"
             },
-            "time": "2025-08-12T00:23:03+00:00"
+            "time": "2025-10-13T00:23:21+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",

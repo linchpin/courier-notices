@@ -81,7 +81,7 @@
 		"szepeviktor/phpstan-wordpress": "^1.3.5",
 		"wp-phpunit/wp-phpunit": "^6.8.2",
 		"yoast/phpunit-polyfills": "^4.0",
-		"phpstan/php-8-stubs": "^0.4.18",
+		"phpstan/php-8-stubs": "^0.4.33",
 		"phpstan/phpstan-strict-rules": "^1.6.2",
 		"wpackagist-plugin/plugin-check": "^1.6.0",
 		"php-stubs/wordpress-stubs": "^6.8.2",
