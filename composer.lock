@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "656d1607528f6bfb78df0288ba10f3c6",
+    "content-hash": "20fdf6f5c030135948bb4084d4e1652b",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -6310,7 +6310,7 @@
         },
         {
             "name": "wp-phpunit/wp-phpunit",
-            "version": "6.8.2",
+            "version": "6.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-phpunit/wp-phpunit.git",
