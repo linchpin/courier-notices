@@ -4,7 +4,7 @@ Tags: notifications, notices, alerts, modal, dismissible
 Requires at least: 6.0
 Tested up to: 6.8.1
 x-release-please-start-version
-Stable tag: 1.9.15
+Stable tag: 1.9.16
 x-release-please-end
 Requires PHP: 7.4
 License: GPLv2 or later
