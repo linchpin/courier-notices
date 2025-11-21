@@ -112,6 +112,12 @@ class Bootstrap {
 	 */
 	private function register_actions() {
 		foreach ( $this->controllers as $name => $class ) {
+
+			// The Cron::register_actions method is deprecated. Avoid calling it.
+			if ( 'Cron' === $name ) {
+				continue;
+			}
+
 			if ( method_exists( $class, 'register_actions' ) ) {
 				$class->register_actions();
 			}
