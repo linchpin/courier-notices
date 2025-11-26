@@ -27,10 +27,10 @@
 	"devDependencies": {
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
-		"@wordpress/prettier-config": "^4.28.0",
-		"@wordpress/scripts": "^30.21.0",
+		"@wordpress/prettier-config": "^4.36.0",
+		"@wordpress/scripts": "^30.27.0",
 		"husky": "^9.0.11",
-		"lint-staged": "^16.1.5"
+		"lint-staged": "^16.2.7"
 	},
 	"repository": {
 		"type": "git",
