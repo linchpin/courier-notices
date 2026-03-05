@@ -130,6 +130,9 @@ export default function core() {
 			}
 		}
 
+		// Add timestamp to prevent caching.
+		queryParams.append('_ts', Date.now().toString());
+
 		// Make fetch call to get all notices
 		let headers = {};
 		// only send nonce if the user is logged in.
