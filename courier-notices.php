@@ -214,9 +214,9 @@ function courier_notices_wp_rocket_compat_admin_notice() {
 	}
 
 	// Only show when WP Rocket is active.
-	// if ( ! is_plugin_active( 'wp-rocket/wp-rocket.php' ) ) {
-	// 	return;
-	// }
+	if ( ! is_plugin_active( 'wp-rocket/wp-rocket.php' ) ) {
+		return;
+	}
 
 	// Per-user dismissal: don't show if the user already dismissed the notice.
 	$user_id = get_current_user_id();
