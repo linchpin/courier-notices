@@ -68,22 +68,26 @@ export default function dismiss() {
 				courier_notices_data.user_id &&
 				courier_notices_data.user_id > 0
 			) {
-				fetch(
+				// Build dismiss URL and optionally append timestamp to prevent caching
+				let url =
 					courier_notices_data.notice_endpoint +
-						notice_id +
-						'/dismiss',
-					{
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/x-www-form-urlencoded',
-							'X-WP-Nonce': courier_notices_data.wp_rest_nonce,
-						},
-						body: new URLSearchParams({
-							dismiss_nonce: courier_notices_data.dismiss_nonce,
-							user_id: courier_notices_data.user_id,
-						}),
-					}
-				)
+					notice_id +
+					'/dismiss';
+				if (courier_notices_data.prevent_ajax_cache) {
+					url += (url.indexOf('?') === -1 ? '?' : '&') + 'timestamp=' + Date.now();
+				}
+
+				fetch(url, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'X-WP-Nonce': courier_notices_data.wp_rest_nonce,
+					},
+					body: new URLSearchParams({
+						dismiss_nonce: courier_notices_data.dismiss_nonce,
+						user_id: courier_notices_data.user_id,
+					}),
+				})
 					.then(function (response) {
 						if (response.ok) {
 							hideNotice(notice_id);
@@ -190,7 +194,12 @@ export default function dismiss() {
 	 * @param notice_ids example 1 or 1,2,3
 	 */
 	function ajax(notice_ids) {
-		fetch(courier_notices_data.endpoint + notice_ids + '/')
+		let url = courier_notices_data.endpoint + notice_ids + '/';
+		if (courier_notices_data.prevent_ajax_cache) {
+			url += (url.indexOf('?') === -1 ? '?' : '&') + 'timestamp=' + Date.now();
+		}
+
+		fetch(url)
 			.then(function (response) {
 				if (response.ok) {
 					// Trigger click on all close buttons
@@ -206,7 +215,7 @@ export default function dismiss() {
 						let notice = document.querySelector(
 							".courier-notice[data-courier-notice-id='" +
 								value +
-								"']"
+							"']"
 						);
 						if (notice) {
 							notice.style.transition = 'opacity 0.5s ease';
@@ -229,7 +238,7 @@ export default function dismiss() {
 			})
 			.catch(function (error) {
 				console.error('Error dismissing notices:', error);
-			});
+				});
 	}
 
 	function setCookie(notice_id) {

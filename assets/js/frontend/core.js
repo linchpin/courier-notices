@@ -137,15 +137,19 @@ export default function core() {
 			headers['X-WP-Nonce'] = courier_notices_data.wp_rest_nonce;
 		}
 
-		fetch(
-			courier_notices_data.notices_all_endpoint +
-				'?' +
-				queryParams.toString(),
-			{
-				method: 'GET',
-				headers: headers,
-			}
-		)
+		let url =
+			courier_notices_data.notices_all_endpoint + '?' + queryParams.toString();
+
+		// Append timestamp to prevent caching when enabled in settings
+		if (courier_notices_data.prevent_ajax_cache) {
+			// Use Date.now() so it's current at request time
+			url += '&timestamp=' + Date.now();
+		}
+
+		fetch(url, {
+			method: 'GET',
+			headers: headers,
+		})
 			.then(function (response) {
 				if (!response.ok) {
 					throw new Error('Network response was not ok');

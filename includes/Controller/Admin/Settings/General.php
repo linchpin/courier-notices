@@ -279,8 +279,24 @@ class General {
 				'label'   => esc_html__( 'Yes clear data', 'courier-notices' ),
 			)
 		);
-	}
 
+		// Prevent AJAX Caching setting (off by default) moved here from design tab
+		add_settings_field(
+			'prevent_ajax_cache',
+			esc_html__( 'Prevent AJAX request caching', 'courier-notices' ),
+			array( '\CourierNotices\Controller\Admin\Fields\Fields', 'add_checkbox' ),
+			$tab_section,
+			'courier_general_settings_section',
+			array(
+				'field'       => 'prevent_ajax_cache',
+				'section'     => $tab_section,
+				'class'       => 'courier-field',
+				'options'     => $tab_section,
+				'label'       => esc_html__( 'Yes Prevent AJAX Caching', 'courier-notices' ),
+				'description' => esc_html__( 'Only enable this if you are experiencing issues with cached AJAX responses', 'courier-notices' ),
+			)
+		);
+	}
 
 	/**
 	 * Add option title display based on each "style" of notice
@@ -366,16 +382,19 @@ class General {
 	private function setup_design_type_settings() {
 		$tab_section = 'courier_design';
 
+		// Register the design settings for types and preserve options merge behavior
 		register_setting(
 			$tab_section,
 			$tab_section,
 			array( &$this, 'merge_options' )
 		);
 
-		// Default Settings Section.
+		// Add a section for type-specific design settings. Individual type fields
+		// are added elsewhere or via callbacks; keep this lightweight to avoid
+		// duplicating logic from other parts of the plugin.
 		add_settings_section(
 			'courier_types_design_settings',
-			'Type Design Settings',
+			esc_html__( 'Type Design Settings', 'courier-notices' ),
 			array( $this, 'create_section' ),
 			'courier'
 		);

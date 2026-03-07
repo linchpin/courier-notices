@@ -190,3 +190,83 @@ function courier_notices_flush_rewrite_rules() {
 		delete_option( 'courier_notices_flush_rewrite_rules' );
 	}
 }
+
+add_action( 'admin_notices', 'courier_notices_wp_rocket_compat_admin_notice' );
+
+/**
+ * Display an admin notice to administrators if WP Rocket is active.
+ * The notice includes a button that sets a per-user flag so dismissed users
+ * won't see it again.
+ */
+function courier_notices_wp_rocket_compat_admin_notice() {
+	// Only show in the admin area and to users with admin capabilities.
+	if ( ! is_admin() ) {
+		return;
+	}
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	// Ensure plugin functions are available.
+	if ( ! function_exists( 'is_plugin_active' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+
+	// Only show when WP Rocket is active.
+	// if ( ! is_plugin_active( 'wp-rocket/wp-rocket.php' ) ) {
+	// 	return;
+	// }
+
+	// Per-user dismissal: don't show if the user already dismissed the notice.
+	$user_id = get_current_user_id();
+	if ( get_user_meta( $user_id, 'courier_notices_dismiss_wp_rocket_notice', true ) ) {
+		return;
+	}
+
+	// Build a dismiss URL that posts to admin-post.php and includes a nonce.
+	$redirect_to = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( rawurldecode( $_SERVER['REQUEST_URI'] ) ) : admin_url();
+	$dismiss_url = wp_nonce_url( admin_url( 'admin-post.php?action=courier_dismiss_wp_rocket_notice&redirect_to=' . rawurlencode( $redirect_to ) ), 'courier_dismiss_wp_rocket_notice' );
+
+	// Display the notice.
+	?>
+	<div class="notice notice-warning">
+		<p>
+			<strong><?php esc_html_e( 'Courier Notices Compatibility: WP Rocker', 'courier-notices' ); ?></strong>
+		</p>
+		<p>
+			<?php esc_html_e( 'We detected WP Rocket is active on this site. WP Rocket needs to be configured to prevent caching of the Courier Notices AJAX URL. Configure WP Rocket to never cache this route "/wp-json/courier-notices/v1/notices/display/(.*)". You must also enable the Prevent AJAX Caching option on the Courier Notices settings page.', 'courier-notices' ); ?>
+		</p>
+		<p>
+			<a href="<?php echo esc_url( $dismiss_url ); ?>" class="button button-secondary"><?php esc_html_e( "Dismiss and don't show again", 'courier-notices' ); ?></a>
+		</p>
+	</div>
+	<?php
+}
+
+add_action( 'admin_post_courier_dismiss_wp_rocket_notice', 'courier_notices_handle_dismiss_wp_rocket_notice' );
+
+/**
+ * Handle dismissal of the WP Rocket compatibility notice for the current user.
+ * Stores a user meta flag so the notice won't be displayed again for that user.
+ */
+function courier_notices_handle_dismiss_wp_rocket_notice() {
+	if ( ! is_user_logged_in() ) {
+		wp_die( esc_html__( 'You must be logged in to perform this action.', 'courier-notices' ) );
+	}
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'Insufficient permissions to perform this action.', 'courier-notices' ), '', array( 'response' => 403 ) );
+	}
+
+	check_admin_referer( 'courier_dismiss_wp_rocket_notice' );
+
+	$user_id = get_current_user_id();
+	update_user_meta( $user_id, 'courier_notices_dismiss_wp_rocket_notice', 1 );
+
+	// Redirect back to the referring admin page if present and safe, otherwise to the dashboard.
+	$redirect = isset( $_REQUEST['redirect_to'] ) ? wp_unslash( $_REQUEST['redirect_to'] ) : '';
+	$redirect = wp_validate_redirect( esc_url_raw( $redirect ), admin_url() );
+	wp_safe_redirect( $redirect );
+	exit;
+}
