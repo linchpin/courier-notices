@@ -1,4 +1,5 @@
 import { getItem, setItem } from './cookie';
+import { addQueryArgs } from '@wordpress/url';
 
 export default function dismiss() {
 	let notices;
@@ -73,8 +74,9 @@ export default function dismiss() {
 					courier_notices_data.notice_endpoint +
 					notice_id +
 					'/dismiss';
+
 				if (courier_notices_data.prevent_ajax_cache) {
-					url += (url.indexOf('?') === -1 ? '?' : '&') + 'timestamp=' + Date.now();
+					url = addQueryArgs(url, { timestamp: Date.now() });
 				}
 
 				fetch(url, {
@@ -196,7 +198,7 @@ export default function dismiss() {
 	function ajax(notice_ids) {
 		let url = courier_notices_data.endpoint + notice_ids + '/';
 		if (courier_notices_data.prevent_ajax_cache) {
-			url += (url.indexOf('?') === -1 ? '?' : '&') + 'timestamp=' + Date.now();
+			url = addQueryArgs(url, { timestamp: Date.now() });
 		}
 
 		fetch(url)
@@ -213,9 +215,7 @@ export default function dismiss() {
 					let ids = String(notice_ids).split(',');
 					ids.forEach(function (value) {
 						let notice = document.querySelector(
-							".courier-notice[data-courier-notice-id='" +
-								value +
-							"']"
+							".courier-notice[data-courier-notice-id='" + parseInt(value, 10) + "']"
 						);
 						if (notice) {
 							notice.style.transition = 'opacity 0.5s ease';
@@ -238,7 +238,7 @@ export default function dismiss() {
 			})
 			.catch(function (error) {
 				console.error('Error dismissing notices:', error);
-				});
+			});
 	}
 
 	function setCookie(notice_id) {

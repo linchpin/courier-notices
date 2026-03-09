@@ -85,7 +85,7 @@ class Courier_Notices {
 
 		$config = new Config();
 
-		$js_dependencies = array();
+		$js_dependencies = array( 'wp-url' );
 
 		global $post;
 
