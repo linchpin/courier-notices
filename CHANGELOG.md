@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.17](https://github.com/linchpin/courier-notices/compare/v1.9.16...v1.9.17) (2026-03-09)
+
+
+### Bug Fixes 🐛
+
+* **NEIT-1445:** Address code review feedback ([1cb1fe3](https://github.com/linchpin/courier-notices/commit/1cb1fe31a0625cfe1a38bc18df1feb71abd9d1c7))
+* **NEIT-1445:** Uncomment check for WP Rocket plugin ([85fcea2](https://github.com/linchpin/courier-notices/commit/85fcea2817101b2aa4adca658f3ddafcd9ffdd6d))
+
+
+### Changes to Existing Features 💅
+
+* **NEIT-1445:** Add setting to prevent AJAX request caching ([9f4689d](https://github.com/linchpin/courier-notices/commit/9f4689d12cfe3423852f9d400b18baa1a43315bc))
+
 ## [1.9.16](https://github.com/linchpin/courier-notices/compare/v1.9.15...v1.9.16) (2025-11-21)
 
 
