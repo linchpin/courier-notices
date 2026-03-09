@@ -85,7 +85,7 @@ class Courier_Notices {
 
 		$config = new Config();
 
-		$js_dependencies = array();
+		$js_dependencies = array( 'wp-url' );
 
 		global $post;
 
@@ -106,6 +106,13 @@ class Courier_Notices {
 			'user_id'              => get_current_user_id(),
 			'has_notices'          => courier_notices_has_any_notices( get_current_user_id() ),
 		);
+
+		// Expose prevent_ajax_cache option (default: false)
+		// The setting was moved from the design settings to the general settings; check both places for compatibility.
+		$courier_design_settings  = get_option( 'courier_design', array() );
+		$courier_general_settings = get_option( 'courier_settings', array() );
+		$courier_settings         = array_merge( (array) $courier_design_settings, (array) $courier_general_settings );
+		$localized_data['prevent_ajax_cache'] = ( isset( $courier_settings['prevent_ajax_cache'] ) && 1 === (int) $courier_settings['prevent_ajax_cache'] ) ? true : false;
 
 		wp_register_script( 'courier-notices', $config->get( 'plugin_url' ) . 'js/courier-notices.js', $js_dependencies, $config->get( 'version' ), true );
 		wp_enqueue_script( 'courier-notices' );

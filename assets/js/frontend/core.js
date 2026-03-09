@@ -1,4 +1,5 @@
 import { getItem } from './cookie';
+import { addQueryArgs } from '@wordpress/url';
 
 export default function core() {
 	/**
@@ -112,21 +113,18 @@ export default function core() {
 		dismissed_notice_ids = dismissed_notice_ids || [];
 
 		// Build query string from settings
-		let queryParams = new URLSearchParams();
+		const queryParams = { placements: [] };
 		for (let key in settings) {
 			if (key === 'post_info') {
 				for (let subKey in settings[key]) {
-					queryParams.append(
-						`post_info[${subKey}]`,
-						settings[key][subKey]
-					);
+					queryParams[`post_info[${subKey}]`] = settings[key][subKey];
 				}
 			} else if (key === 'placements') {
 				settings[key].forEach(function (placement) {
-					queryParams.append('placements[]', placement);
+					queryParams.placements.push(placement);
 				});
 			} else {
-				queryParams.append(key, settings[key]);
+				queryParams[key] = settings[key];
 			}
 		}
 
@@ -137,15 +135,18 @@ export default function core() {
 			headers['X-WP-Nonce'] = courier_notices_data.wp_rest_nonce;
 		}
 
-		fetch(
-			courier_notices_data.notices_all_endpoint +
-				'?' +
-				queryParams.toString(),
-			{
-				method: 'GET',
-				headers: headers,
-			}
-		)
+		// Append timestamp to prevent caching when enabled in settings
+		if (courier_notices_data.prevent_ajax_cache) {
+			// Use Date.now() so it's current at request time
+			queryParams.timestamp = Date.now();
+		}
+
+		const url = addQueryArgs( courier_notices_data.notices_all_endpoint, queryParams );
+
+		fetch(url, {
+			method: 'GET',
+			headers: headers,
+		})
 			.then(function (response) {
 				if (!response.ok) {
 					throw new Error('Network response was not ok');

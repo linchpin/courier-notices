@@ -34,6 +34,7 @@ class Settings {
 		// Design Related Settings
 		'disable_css'             => false,
 		'enable_title'            => '', // Display the title of the notice on the front end
+		'prevent_ajax_cache'      => false, // Prevent AJAX request caching.
 	);
 
 
