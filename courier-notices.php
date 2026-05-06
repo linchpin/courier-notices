@@ -185,7 +185,7 @@ add_action( 'init', 'courier_notices_flush_rewrite_rules', 20 );
  * and then remove the flag.
  */
 function courier_notices_flush_rewrite_rules() {
-	if ( get_option( 'courier_notices_flush_rewrite_rules' ) ) {
+	if ( false !== get_option( 'courier_notices_flush_rewrite_rules', false ) ) {
 		flush_rewrite_rules();
 		delete_option( 'courier_notices_flush_rewrite_rules' );
 	}
@@ -197,6 +197,8 @@ add_action( 'admin_notices', 'courier_notices_wp_rocket_compat_admin_notice' );
  * Display an admin notice to administrators if WP Rocket is active.
  * The notice includes a button that sets a per-user flag so dismissed users
  * won't see it again.
+ *
+ * @return void
  */
 function courier_notices_wp_rocket_compat_admin_notice() {
 	// Only show in the admin area and to users with admin capabilities.
@@ -220,7 +222,7 @@ function courier_notices_wp_rocket_compat_admin_notice() {
 
 	// Per-user dismissal: don't show if the user already dismissed the notice.
 	$user_id = get_current_user_id();
-	if ( get_user_meta( $user_id, 'courier_notices_dismiss_wp_rocket_notice', true ) ) {
+	if ( '' !== get_user_meta( $user_id, 'courier_notices_dismiss_wp_rocket_notice', true ) ) {
 		return;
 	}
 
@@ -232,7 +234,7 @@ function courier_notices_wp_rocket_compat_admin_notice() {
 	?>
 	<div class="notice notice-warning">
 		<p>
-			<strong><?php esc_html_e( 'Courier Notices Compatibility: WP Rocker', 'courier-notices' ); ?></strong>
+			<strong><?php esc_html_e( 'Courier Notices Compatibility: WP Rocket', 'courier-notices' ); ?></strong>
 		</p>
 		<p>
 			<?php esc_html_e( 'We detected WP Rocket is active on this site. WP Rocket needs to be configured to prevent caching of the Courier Notices AJAX URL. Configure WP Rocket to never cache this route "/wp-json/courier-notices/v1/notices/display/(.*)". You must also enable the Prevent AJAX Caching option on the Courier Notices settings page.', 'courier-notices' ); ?>
@@ -249,6 +251,8 @@ add_action( 'admin_post_courier_dismiss_wp_rocket_notice', 'courier_notices_hand
 /**
  * Handle dismissal of the WP Rocket compatibility notice for the current user.
  * Stores a user meta flag so the notice won't be displayed again for that user.
+ *
+ * @return void
  */
 function courier_notices_handle_dismiss_wp_rocket_notice() {
 	if ( ! is_user_logged_in() ) {

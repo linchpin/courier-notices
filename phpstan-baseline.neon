@@ -21,11 +21,6 @@ parameters:
 			path: courier-notices.php
 
 		-
-			message: "#^Only booleans are allowed in an if condition, mixed given\\.$#"
-			count: 1
-			path: courier-notices.php
-
-		-
 			message: "#^Parameter \\#2 \\$timestamp of function gmdate expects int, int\\|false given\\.$#"
 			count: 1
 			path: courier-notices.php
