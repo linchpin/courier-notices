@@ -1,16 +1,29 @@
+<?xml version="1.0"?>
+<!--
+	Unit lane: WordPress-free tests that run anywhere, including on machines
+	whose local WordPress is Studio (PHP-WASM, not a PHPUnit host).
+
+	The integration lane lives in phpunit-integration.xml and needs a real
+	WordPress checkout plus MySQL - CI only. See docs/2.0-MIGRATION-PLAN.md,
+	"Testing runtime".
+-->
 <phpunit
-	bootstrap="tests/bootstrap.php"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+	bootstrap="tests/phpunit/bootstrap-unit.php"
 	backupGlobals="false"
-	processIsolation="false"
-	colors="false">
+	colors="true"
+	testdox="true"
+	cacheResultFile=".phpunit.result.cache"
+>
 	<testsuites>
-		<testsuite name="Default">
-			<directory suffix="Tests.php">./tests/phpunit</directory>
+		<testsuite name="Unit">
+			<directory suffix="Test.php">./tests/phpunit/Unit</directory>
 		</testsuite>
 	</testsuites>
 	<php>
-		<ini name="error_reporting" value="32767" />
-		<ini name="display_errors" value="1" />
-		<ini name="display_startup_errors" value="1" />
+		<ini name="error_reporting" value="32767"/>
+		<ini name="display_errors" value="1"/>
+		<ini name="display_startup_errors" value="1"/>
 	</php>
 </phpunit>

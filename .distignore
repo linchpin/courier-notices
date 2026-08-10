@@ -34,6 +34,7 @@ courier-notices.code-workspace
 /tools
 /zip
 webpack.config.js
+babel.config.js
 package.json
 package-lock.json
 yarn.lock
@@ -63,6 +64,10 @@ commitlint.config.js
 # Tests
 /tests
 phpunit.xml
+phpunit-integration.xml
+jest.config.js
+/test-results
+/coverage-js
 
 # Documentation not intended for the wordpress.org package
 /docs

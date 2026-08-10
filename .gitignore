@@ -5,6 +5,12 @@ bower_components
 *.js.map
 vendor
 
+# Test artifacts
+.phpunit.result.cache
+.phpunit-integration.result.cache
+/test-results
+/coverage-js
+
 # Editors
 *.esproj
 *.tmproj

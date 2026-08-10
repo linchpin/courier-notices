@@ -43,6 +43,7 @@
 	<file>./courier-notices.php</file>
 	<file>./includes</file>
 	<file>./templates</file>
+	<file>./tests</file>
 	<file>./uninstall.php</file>
 
 	<exclude-pattern>/build/*</exclude-pattern>
@@ -144,5 +145,17 @@
 		<!-- Emitting markup is what a view template is for. -->
 		<exclude-pattern>./templates/*</exclude-pattern>
 		<exclude-pattern>./src/blocks/*/render.php</exclude-pattern>
+		<!-- A PHPUnit bootstrap's whole job is side effects. -->
+		<exclude-pattern>./tests/phpunit/bootstrap-*</exclude-pattern>
+		<exclude-pattern>./tests/phpunit/wp-tests-config.php</exclude-pattern>
+	</rule>
+
+	<!--
+		wp-phpunit is configured through environment variables by design - its
+		bootstrap contract is "putenv() the tests-config path before loading".
+		Everywhere else the discouragement stands.
+	-->
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_putenv">
+		<exclude-pattern>./tests/phpunit/bootstrap-integration.php</exclude-pattern>
 	</rule>
 </ruleset>
