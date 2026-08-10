@@ -1,70 +1,94 @@
-/.wordpress-org
-/.deployment
+# Paths excluded from the plugin package deployed to wordpress.org.
+# Keep grouped and deduplicated - this file is easy to let rot.
+#
+# NOTE: CHANGELOG.md is deliberately NOT excluded. templates/admin/settings.php
+# reads it at runtime to render the admin Changelog tab, and fatals if it is
+# missing (the converter is instantiated inside a file_exists() guard but used
+# outside it). If you ever exclude it, fix that template first.
+
+# Version control and CI
 /.git
 /.github
+/.deployment
+.deployment
+.gitignore
+.gitattributes
+.vipgoci_lint_skip_folders
+/.vipgoci_phpcs_skip_folders
+.vipgoci_phpcs_skip_folders
+
+# Editor and agent config
 /.vscode
 /.cursor
+/.claude
+.editorconfig
+courier-notices.code-workspace
+
+# wordpress.org assets live outside the package
+/.wordpress-org
+
+# Build sources and tooling
 /node_modules
 /assets
+/bin
+/tools
+/zip
+webpack.config.js
+package.json
+package-lock.json
+yarn.lock
+yarn-error.log
+.yarnrc.yml
+gulpfile.babel.js
+
+# Linting, static analysis, formatting
+phpcs.xml
+phpcs.xml.dist
+.php-cs-fixer.dist.php
+.php-cs-fixer.cache
+phpstan.neon.dist
+phpstan-baseline.neon
+.phpstan.neon.dist
+.phpstan.neon.dist.yml
+.phpstan-baseline.neon
+.phplint.yml
+.eslintrc.js
+.eslintignore
+.prettierrc.js
+lint-staged.config.js
+commitlint.config.js
+.husky
+.codeclimate.yml
+
+# Tests
+/tests
+phpunit.xml
+
+# Documentation not intended for the wordpress.org package
+/docs
+/wiki
+phpdoc.dist.xml
+README.md
+FAQ.md
+
+# Release tooling
+release-please-config.json
+.release-please-manifest.json
+renovate.json
+
+# Composer manifests - vendor/ itself ships, these do not
+composer.json
+composer.lock
 /vendor/wp-coding-standards
 /vendor/squizlabs
 /vendor/dealerdirect
 /vendor/phpcompatibility
 /vendor/php-parallel-lint
-/zip
-/tests
-/wiki
-/bin
-/tools
-gulpfile.babel.js
-yarn.lock
+
+# Local and build artifacts
 config.yml
-renovate.json
-.codeclimate.yml
-.distignore
-.gitignore
-.editorconfig
-.gitattributes
-.phplint.yml
-.vipgoci_lint_skip_folders
-.vipgoci_phpcs_skip_folders
-.php-cs-fixer.dist.php
-composer.lock
-config.yml
-courier-notices.code-workspace
-gulpfile.babel.js
-phpcs.xml
-renovate.json
 courier-notices.zip
-DOCKER_ENV
-.deployment
-composer.json
-yarn-error.log
-courier-notices.zip
-.husky
-.release-please-manifest.json
-.yarnrc.yml
 output.log
-release-please-config.json
 docker_tag
-package.json
-.eslintrc.js
-.prettierrc.js
-.phpstan.neon.dist.yml
-.phpstan.neon.dist
-.phpstan-baseline.neon
-.phpstan.neon.dist.yml
-.phpstan.neon.dist
-.phpstan-baseline.neon
-phpstan-baseline.neon
-phpstan.neon.dist
-phpdoc.dist.xml
-phpcs.xml.dist
-lint-staged.config.js
-webpack.config.js
-.eslintignore
-package-lock.json
-webpack.config.js
-commitlint.config.js
-phpunit.xml
-.php-cs-fixer.cache
+DOCKER_ENV
+.distignore
