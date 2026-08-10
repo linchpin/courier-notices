@@ -288,6 +288,57 @@ class Data {
 
 
 	/**
+	 * Bring a notice back to life: republish it, clear its dismissed
+	 * status, and push a lapsed expiration 30 days out — the admin list
+	 * presents reactivation as "live again for 30 days".
+	 *
+	 * Republishing runs through wp_update_post so save_post fires and
+	 * Action Scheduler reschedules the expiry from the new timestamp.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param int $notice_id Notice to reactivate.
+	 *
+	 * @return true|\WP_Error
+	 */
+	public function reactivate_notice( $notice_id ) {
+		$notice = get_post( $notice_id );
+
+		if ( ! $notice instanceof \WP_Post || 'courier_notice' !== $notice->post_type ) {
+			return new \WP_Error(
+				'courier_notices_invalid_notice',
+				__( 'Notice not found.', 'courier-notices' ),
+				array( 'status' => 404 )
+			);
+		}
+
+		$expiration = (int) get_post_meta( $notice->ID, '_courier_expiration', true );
+
+		if ( $expiration > 0 && $expiration < time() ) {
+			update_post_meta( $notice->ID, '_courier_expiration', time() + 30 * DAY_IN_SECONDS );
+		}
+
+		wp_remove_object_terms( $notice->ID, 'dismissed', 'courier_status' );
+
+		$updated = wp_update_post(
+			array(
+				'ID'          => $notice->ID,
+				'post_status' => 'publish',
+			),
+			true
+		);
+
+		if ( is_wp_error( $updated ) ) {
+			return $updated;
+		}
+
+		courier_notices_clear_cache();
+
+		return true;
+	}
+
+
+	/**
 	 * Get Courier all notices.
 	 *
 	 * @since 1.0.5

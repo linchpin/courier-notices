@@ -53,6 +53,27 @@ class Courier_REST_Controller extends REST_Base {
 			]
 		);
 
+		// Reactivate an expired or dismissed notice.
+		register_rest_route(
+			$namespace,
+			'/reactivate/(?P<notice_id>\d+)/',
+			[
+				[
+					'methods'             => \WP_REST_Server::EDITABLE,
+					'callback'            => [ $this, 'reactivate_notice' ],
+					'permission_callback' => [ $this, 'get_reactivate_permissions' ],
+					'args'                => [
+						'notice_id' => [
+							'description'       => esc_html__( 'The notice to reactivate.', 'courier-notices' ),
+							'type'              => 'integer',
+							'sanitize_callback' => 'absint',
+							'validate_callback' => 'rest_validate_request_arg',
+						],
+					],
+				],
+			]
+		);
+
 		// Display all notices for the specific user.
 		register_rest_route(
 			$namespace,
@@ -203,6 +224,53 @@ class Courier_REST_Controller extends REST_Base {
 		update_user_option( $user_id, 'courier_notifications', $notifications );
 
 		return new WP_REST_Response( 1, 200 );
+	}
+
+
+	/**
+	 * Reactivating edits the notice, so the caller needs edit rights on
+	 * that specific post.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 *
+	 * @return bool
+	 */
+	public function get_reactivate_permissions( WP_REST_Request $request ): bool {
+		return current_user_can( 'edit_post', (int) $request['notice_id'] );
+	}
+
+
+	/**
+	 * Reactivate an expired or dismissed notice.
+	 *
+	 * The route existed in the admin UI for years without a handler — the
+	 * localized endpoint, the row action, and the edit-screen banner all
+	 * posted into a void. See COURIER-1031.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 *
+	 * @return WP_Error|WP_REST_Response
+	 */
+	public function reactivate_notice( WP_REST_Request $request ) {
+		$notice_id = (int) $request['notice_id'];
+		$result    = ( new Courier_Notice_Data() )->reactivate_notice( $notice_id );
+
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		}
+
+		return new WP_REST_Response(
+			array(
+				'success'    => true,
+				'notice_id'  => $notice_id,
+				'expiration' => (int) get_post_meta( $notice_id, '_courier_expiration', true ),
+			),
+			200
+		);
 	}
 
 

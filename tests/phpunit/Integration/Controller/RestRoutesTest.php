@@ -43,9 +43,63 @@ final class RestRoutesTest extends WP_UnitTestCase {
 		$routes = rest_get_server()->get_routes( 'courier-notices/v1' );
 		$keys   = implode( "\n", array_keys( $routes ) );
 
-		foreach ( array( '/notice/(?P<notice_id>\d+)', '/notice/(?P<notice_id>\d+)/dismiss', '/notices/display', '/notices/display/all', '/settings' ) as $route ) {
+		foreach ( array( '/notice/(?P<notice_id>\d+)', '/notice/(?P<notice_id>\d+)/dismiss', '/notices/display', '/notices/display/all', '/settings', '/reactivate/(?P<notice_id>\d+)' ) as $route ) {
 			$this->assertStringContainsString( $route, $keys, "Route {$route} must stay registered under courier-notices/v1." );
 		}
+	}
+
+	/**
+	 * Reactivating an expired notice republishes it and pushes the lapsed
+	 * expiration 30 days out — the feature the admin UI has linked to for
+	 * years while the route did not exist.
+	 *
+	 * @return void
+	 */
+	public function test_reactivate_republishes_an_expired_notice(): void {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+
+		$notice_id = self::factory()->post->create(
+			array(
+				'post_type'   => 'courier_notice',
+				'post_status' => 'courier_expired',
+			)
+		);
+		update_post_meta( $notice_id, '_courier_expiration', time() - HOUR_IN_SECONDS );
+		wp_set_object_terms( $notice_id, 'Dismissed', 'courier_status', false );
+
+		$response = rest_get_server()->dispatch( new WP_REST_Request( 'POST', "/courier-notices/v1/reactivate/{$notice_id}" ) );
+
+		$this->assertSame( 200, $response->get_status() );
+		$this->assertTrue( $response->get_data()['success'] );
+
+		$this->assertSame( 'publish', get_post_status( $notice_id ) );
+		$this->assertGreaterThan( time(), (int) get_post_meta( $notice_id, '_courier_expiration', true ), 'A lapsed expiration must be pushed into the future.' );
+		$this->assertFalse( has_term( 'dismissed', 'courier_status', $notice_id ), 'The dismissed status must be cleared.' );
+	}
+
+	/**
+	 * Reactivation edits the notice, so it needs edit rights — subscribers
+	 * and anonymous visitors are refused.
+	 *
+	 * @return void
+	 */
+	public function test_reactivate_requires_edit_rights(): void {
+		$notice_id = self::factory()->post->create(
+			array(
+				'post_type'   => 'courier_notice',
+				'post_status' => 'courier_expired',
+			)
+		);
+
+		wp_set_current_user( 0 );
+		$response = rest_get_server()->dispatch( new WP_REST_Request( 'POST', "/courier-notices/v1/reactivate/{$notice_id}" ) );
+		$this->assertSame( 401, $response->get_status() );
+
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
+		$response = rest_get_server()->dispatch( new WP_REST_Request( 'POST', "/courier-notices/v1/reactivate/{$notice_id}" ) );
+		$this->assertSame( 403, $response->get_status() );
+
+		$this->assertSame( 'courier_expired', get_post_status( $notice_id ), 'A refused request must not change the notice.' );
 	}
 
 	/**

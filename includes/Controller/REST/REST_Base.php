@@ -65,7 +65,7 @@ abstract class REST_Base implements Controller_Interface {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @return string
+	 * @return non-falsy-string
 	 */
 	public function get_api_namespace(): string {
 		return $this->api_namespace;
