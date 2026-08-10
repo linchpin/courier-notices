@@ -38,7 +38,7 @@
 	"license": "GPL-2.0-or-later",
 	"type": "wordpress-plugin",
 	"require": {
-		"php": "^7.4 || ^8.0",
+		"php": ">=8.2",
 		"ext-json": "*",
 		"woocommerce/action-scheduler": "^3.9.3",
 		"league/commonmark": "^2.7.1"
@@ -154,7 +154,7 @@
 			"phpstan/extension-installer": true
 		},
 		"platform": {
-			"php": "7.4"
+			"php": "8.2"
 		}
 	}
 }

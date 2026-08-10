@@ -15,7 +15,7 @@
 	<arg value="s"/>
 
 	<!-- WordPress Core currently supports PHP 8.2+. -->
-	<config name="testVersion" value="8.0-8.4"/>
+	<config name="testVersion" value="8.2-8.4"/>
 	<rule ref="PHPCompatibilityWP">
 		<include-pattern>*\.php</include-pattern>
 	</rule>
@@ -74,7 +74,7 @@
 	<!-- The minimum supported WordPress version. This should match what's listed in style.css. -->
 	<rule ref="WordPress.WP.DeprecatedFunctions">
 		<properties>
-			<property name="minimum_wp_version" value="6.4"/>
+			<property name="minimum_wp_version" value="6.8"/>
 		</properties>
 	</rule>
 	

@@ -9,8 +9,8 @@
  * Author:      Linchpin
  * Author URI:  https://linchpin.com
  * Text Domain: courier-notices
- * Requires at least: 5.7
- * Requires PHP: 7.4
+ * Requires at least: 6.8
+ * Requires PHP: 8.2
  * Tested up to: 6.8.1
  *
  * @package      CourierNotices
