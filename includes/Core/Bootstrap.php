@@ -7,13 +7,41 @@
 
 namespace CourierNotices\Core;
 
+use CourierNotices\Controller;
 use CourierNotices\Model\Config;
-use CourierNotices\Helper\Files;
 
 /**
  * Bootstrap Class
  */
 class Bootstrap {
+
+	/**
+	 * Every controller the plugin boots. Explicit on purpose: the old
+	 * glob/reflection loader was regex-coupled to directory names, and a
+	 * controller that failed the pattern silently disappeared. Add new
+	 * controllers here.
+	 *
+	 * @var array<int, class-string>
+	 */
+	private const CONTROLLERS = [
+		Controller\Action_Scheduler::class,
+		Controller\Admin\Admin::class,
+		Controller\Admin\Courier_Notice_Metabox::class,
+		Controller\Admin\Settings\General::class,
+		Controller\Courier::class,
+		Controller\Courier_Notices::class,
+		Controller\Courier_REST_Controller::class,
+		Controller\Courier_Types::class,
+		Controller\Install::class,
+		Controller\Integrations\Stream::class,
+		Controller\Integrations\WP_CLI::class,
+		Controller\Integrations\WP_SEO::class,
+		Controller\Placement::class,
+		Controller\Settings_REST_Controller::class,
+		Controller\Shortcodes::class,
+		Controller\Upgrade::class,
+		Controller\Welcome::class,
+	];
 
 	/**
 	 * Config
@@ -28,13 +56,6 @@ class Bootstrap {
 	 * @var array
 	 */
 	private $controllers = [];
-
-	/**
-	 * Namespace
-	 *
-	 * @var string
-	 */
-	private $namespace = 'CourierNotices';
 
 
 	/**
@@ -90,17 +111,8 @@ class Bootstrap {
 	 * @since 1.0.0
 	 */
 	private function load_controllers() {
-		foreach ( Files::glob_recursive( COURIER_NOTICES_PATH . 'includes/Controller/*.php' ) as $file ) {
-			preg_match( '/\/Controller\/(.+(?<!_Interface|SOAP|Generic))\.php/', $file, $matches, PREG_OFFSET_CAPTURE );
-
-			if ( empty( $matches ) ) {
-				continue;
-			}
-
-			$name  = str_replace( '/', '\\', $matches[1][0] );
-			$class = "\\{$this->namespace}\\Controller\\{$name}";
-
-			$this->controllers[ $name ] = new $class();
+		foreach ( self::CONTROLLERS as $class ) {
+			$this->controllers[ $class ] = new $class();
 		}
 	}
 
@@ -108,10 +120,15 @@ class Bootstrap {
 	/**
 	 * Initialize and Register any of our actions.
 	 *
+	 * The method_exists guard stays until every controller implements
+	 * Controller_Interface — the stragglers carry PHPCS debt owed by
+	 * later phases (Courier by the Phase 2 metabox rewrite, Courier_Types
+	 * and the settings controllers by the Phase 5 React admin).
+	 *
 	 * @since 1.0
 	 */
 	private function register_actions() {
-		foreach ( $this->controllers as $name => $class ) {
+		foreach ( $this->controllers as $class ) {
 			if ( method_exists( $class, 'register_actions' ) ) {
 				$class->register_actions();
 			}

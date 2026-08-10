@@ -12,7 +12,7 @@ use CourierNotices\Model\Config;
 /**
  * Install Class
  */
-class Install {
+class Install implements Controller_Interface {
 
 	/**
 	 * Configuration
@@ -35,7 +35,7 @@ class Install {
 	 *
 	 * @since 1.0
 	 */
-	public function register_actions() {
+	public function register_actions(): void {
 		add_action( 'admin_init', array( $this, 'check_for_updates' ) );
 		add_action( 'init', array( $this, 'add_capabilities' ), 11 );
 	}

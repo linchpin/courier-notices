@@ -9,6 +9,8 @@
 
 namespace CourierNotices\Controller\Admin;
 
+use CourierNotices\Controller\Controller_Interface;
+
 use CourierNotices\Core\View;
 use CourierNotices\Model\Taxonomy\Style;
 
@@ -17,7 +19,7 @@ use CourierNotices\Model\Taxonomy\Style;
  *
  * @package CourierNotices\Controller\Admin
  */
-class Courier_Notice_Metabox {
+class Courier_Notice_Metabox implements Controller_Interface {
 
 
 	/**
@@ -25,7 +27,7 @@ class Courier_Notice_Metabox {
 	 *
 	 * @since 1.1.0
 	 */
-	public function register_actions() {
+	public function register_actions(): void {
 		add_action( 'add_meta_boxes_courier_notice', array( $this, 'add_meta_boxes' ), 99 );
 
 		add_filter( 'use_block_editor_for_post_type', [ $this, 'disable_block_editor' ], 10, 2 );

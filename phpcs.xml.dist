@@ -142,6 +142,8 @@
 	<rule ref="PSR1.Files.SideEffects">
 		<exclude-pattern>./courier-notices.php</exclude-pattern>
 		<exclude-pattern>./uninstall.php</exclude-pattern>
+		<!-- The WP-CLI command file necessarily guards on the WP_CLI constant before declaring its class. -->
+		<exclude-pattern>./includes/Controller/Integrations/WP_CLI.php</exclude-pattern>
 		<!-- Emitting markup is what a view template is for. -->
 		<exclude-pattern>./templates/*</exclude-pattern>
 		<exclude-pattern>./src/blocks/*/render.php</exclude-pattern>

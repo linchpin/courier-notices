@@ -5,12 +5,14 @@
 
 namespace CourierNotices\Controller\Integrations;
 
+use CourierNotices\Controller\Controller_Interface;
+
 /**
  * Class WP_SEO
  *
  * @package CourierNotices\Controller
  */
-class WP_SEO {
+class WP_SEO implements Controller_Interface {
 
 
 	/**
@@ -19,7 +21,7 @@ class WP_SEO {
 	 *
 	 * @since 1.1
 	 */
-	public function register_actions() {
+	public function register_actions(): void {
 		add_filter( 'wpseo_sitemap_exclude_post_type', array( $this, 'exclude_courier_notice_from_search' ), 10, 2 );
 		add_filter( 'wpseo_sitemap_exclude_taxonomy', array( $this, 'exclude_courier_notice_taxonomies' ), 10, 2 );
 	}

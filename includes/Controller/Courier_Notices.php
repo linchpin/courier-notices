@@ -18,7 +18,7 @@ use CourierNotices\Model\Taxonomy\Style;
 /**
  * Courier_Notices Class
  */
-class Courier_Notices {
+class Courier_Notices implements Controller_Interface {
 
 	/**
 	 * JS handle
@@ -47,7 +47,7 @@ class Courier_Notices {
 	 *
 	 * @since 1.0
 	 */
-	public function register_actions() {
+	public function register_actions(): void {
 		add_action( 'init', array( $this, 'register_custom_post_type' ) );
 		add_action( 'init', array( $this, 'register_taxonomies' ), 0 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );

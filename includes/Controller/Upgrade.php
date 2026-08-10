@@ -12,7 +12,7 @@ use CourierNotices\Model\Config;
 /**
  * Class Upgrade
  */
-class Upgrade {
+class Upgrade implements Controller_Interface {
 
 	/**
 	 * Configuration
@@ -35,7 +35,7 @@ class Upgrade {
 	 *
 	 * @since 1.0
 	 */
-	public function register_actions() {
+	public function register_actions(): void {
 		add_action( 'admin_init', array( $this, 'upgrade' ), 999 );
 		add_action( 'admin_notices', array( $this, 'show_review_nag' ), 11 );
 		add_action( 'admin_notices', array( $this, 'show_action_scheduler_migration_notice' ), 10 );

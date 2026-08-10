@@ -8,6 +8,8 @@
 
 namespace CourierNotices\Controller\Integrations;
 
+use CourierNotices\Controller\Controller_Interface;
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -18,14 +20,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Provides WP-CLI commands for managing Courier Notices.
  */
-class WP_CLI {
+class WP_CLI implements Controller_Interface {
 
 	/**
 	 * Register actions and filters
 	 *
 	 * @since 1.8.0
 	 */
-	public function register_actions() {
+	public function register_actions(): void {
 		// Only register CLI commands if WP-CLI is available.
 		if ( ! defined( 'WP_CLI' ) || ! \WP_CLI ) {
 			return;

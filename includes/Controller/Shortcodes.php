@@ -10,7 +10,7 @@ namespace CourierNotices\Controller;
 /**
  * Shortcodes Class
  */
-class Shortcodes {
+class Shortcodes implements Controller_Interface {
 
 
 	/**
@@ -18,7 +18,7 @@ class Shortcodes {
 	 *
 	 * @since 1.0
 	 */
-	public function register_actions() {
+	public function register_actions(): void {
 		add_shortcode( 'courier_notices', array( $this, 'courier_notices' ) );
 		add_shortcode( 'courier_notice', array( $this, 'courier_notice' ) );
 	}

@@ -86,11 +86,6 @@ parameters:
 			path: includes/Controller/Action_Scheduler.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Action_Scheduler.php
-
-		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:reschedule_all_notices\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: includes/Controller/Action_Scheduler.php
@@ -251,11 +246,6 @@ parameters:
 			path: includes/Controller/Admin/Admin.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Admin/Admin.php
-
-		-
 			message: "#^Parameter \\#1 \\$text of function wp_strip_all_tags expects string, string\\|WP_Error\\|false given\\.$#"
 			count: 2
 			path: includes/Controller/Admin/Admin.php
@@ -332,11 +322,6 @@ parameters:
 
 		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Courier_Notice_Metabox\\:\\:post_submitbox_misc_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Admin/Courier_Notice_Metabox.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Courier_Notice_Metabox\\:\\:register_actions\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: includes/Controller/Admin/Courier_Notice_Metabox.php
 
@@ -737,11 +722,6 @@ parameters:
 			path: includes/Controller/Courier_Notices.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Notices\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Courier_Notices.php
-
-		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Notices\\:\\:register_custom_post_type\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: includes/Controller/Courier_Notices.php
@@ -788,11 +768,6 @@ parameters:
 
 		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_collection_params\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:register_actions\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: includes/Controller/Courier_REST_Controller.php
 
@@ -952,11 +927,6 @@ parameters:
 			path: includes/Controller/Install.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Install\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Install.php
-
-		-
 			message: "#^Only booleans are allowed in an if condition, WP_Role\\|null given\\.$#"
 			count: 1
 			path: includes/Controller/Install.php
@@ -979,11 +949,6 @@ parameters:
 		-
 			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
 			count: 2
-			path: includes/Controller/Integrations/Stream.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\Stream\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
 			path: includes/Controller/Integrations/Stream.php
 
 		-
@@ -1072,11 +1037,6 @@ parameters:
 			path: includes/Controller/Integrations/WP_CLI.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_CLI\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
 			message: "#^Only booleans are allowed in a negated boolean, WP_Post\\|null given\\.$#"
 			count: 2
 			path: includes/Controller/Integrations/WP_CLI.php
@@ -1147,11 +1107,6 @@ parameters:
 			path: includes/Controller/Integrations/WP_SEO.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_SEO\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Integrations/WP_SEO.php
-
-		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Placement\\:\\:place_footer_notices\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: includes/Controller/Placement.php
@@ -1163,11 +1118,6 @@ parameters:
 
 		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Placement\\:\\:place_modal_notices\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Placement.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Placement\\:\\:register_actions\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: includes/Controller/Placement.php
 
@@ -1222,11 +1172,6 @@ parameters:
 			path: includes/Controller/Shortcodes.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Shortcodes\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Shortcodes.php
-
-		-
 			message: "#^Parameter \\#1 \\$text of function esc_html expects string, int\\|string\\|false given\\.$#"
 			count: 1
 			path: includes/Controller/Shortcodes.php
@@ -1240,11 +1185,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$callback of function add_shortcode expects callable\\(array\\<string\\>, string\\|null, string\\)\\: string, array\\{\\$this\\(CourierNotices\\\\Controller\\\\Shortcodes\\), 'courier_notices'\\} given\\.$#"
 			count: 1
 			path: includes/Controller/Shortcodes.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Styles\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Styles.php
 
 		-
 			message: "#^Action callback returns string but should not return anything\\.$#"
@@ -1263,11 +1203,6 @@ parameters:
 
 		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Upgrade\\:\\:migrate_to_action_scheduler\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Upgrade.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Upgrade\\:\\:register_actions\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: includes/Controller/Upgrade.php
 
@@ -1342,11 +1277,6 @@ parameters:
 			path: includes/Controller/Welcome.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Welcome\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Welcome.php
-
-		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Welcome\\:\\:show_welcome\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: includes/Controller/Welcome.php
@@ -1367,17 +1297,7 @@ parameters:
 			path: includes/Controller/Welcome.php
 
 		-
-			message: "#^Argument of an invalid type array\\|false supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: includes/Core/Bootstrap.php
-
-		-
 			message: "#^Cannot call method register_actions\\(\\) on class\\-string\\|object\\.$#"
-			count: 1
-			path: includes/Core/Bootstrap.php
-
-		-
-			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
 			count: 1
 			path: includes/Core/Bootstrap.php
 

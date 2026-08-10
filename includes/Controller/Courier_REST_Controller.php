@@ -14,10 +14,10 @@ use CourierNotices\Model\Courier_Notice\Data as Courier_Notice_Data;
  *
  * @package CourierNotices\Controller
  */
-class Courier_REST_Controller extends WP_REST_Controller {
+class Courier_REST_Controller extends WP_REST_Controller implements Controller_Interface {
 
 
-	public function register_actions() {
+	public function register_actions(): void {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 	}
 

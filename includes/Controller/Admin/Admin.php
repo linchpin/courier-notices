@@ -7,10 +7,12 @@
 
 namespace CourierNotices\Controller\Admin;
 
+use CourierNotices\Controller\Controller_Interface;
+
 /**
  * Admin Class
  */
-class Admin {
+class Admin implements Controller_Interface {
 
 
 	/**
@@ -18,7 +20,7 @@ class Admin {
 	 *
 	 * @since 1.0
 	 */
-	public function register_actions() {
+	public function register_actions(): void {
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
 		add_action( 'manage_courier_notice_posts_custom_column', array( $this, 'manage_posts_custom_column' ), 10, 2 );

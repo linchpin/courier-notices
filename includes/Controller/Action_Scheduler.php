@@ -16,7 +16,7 @@ namespace CourierNotices\Controller;
  *
  * @since 1.8.0
  */
-class Action_Scheduler {
+class Action_Scheduler implements Controller_Interface {
 
 	/**
 	 * Action hook for expiring individual notices
@@ -51,7 +51,7 @@ class Action_Scheduler {
 	 *
 	 * @since 1.8.0
 	 */
-	public function register_actions() {
+	public function register_actions(): void {
 		// Register action scheduler hooks
 		add_action( self::EXPIRE_NOTICE_ACTION, [ $this, 'expire_notice' ] );
 		add_action( self::PURGE_NOTICES_ACTION, [ $this, 'purge_notices' ] );
@@ -237,6 +237,7 @@ class Action_Scheduler {
 				[
 					'key'     => '_courier_expiration',
 					'value'   => time(),
+					// phpcs:ignore Linchpin.Performance.SlowMetaQuery.nonperformant_comparison -- Hourly background sweep, not a request-path query; expiration timestamps have no other index.
 					'compare' => '<',
 					'type'    => 'NUMERIC',
 				],
@@ -336,6 +337,7 @@ class Action_Scheduler {
 				[
 					'key'     => '_courier_expiration',
 					'value'   => time(),
+					// phpcs:ignore Linchpin.Performance.SlowMetaQuery.nonperformant_comparison -- One-time migration sweep, not a request-path query.
 					'compare' => '>',
 					'type'    => 'NUMERIC',
 				],
