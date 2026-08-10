@@ -1,31 +1,37 @@
 /**
- * External dependencies
- */
-const fs = require("fs");
-
-/**
  * @type {import('lint-staged').Configuration}
  */
 const config = {
-	"**/*.{js,ts,mjs}": (filenames) => {
-		// Exclude config files from JS linting
-		const filteredFiles = filenames.filter(
-			(file) =>
-				!file.includes("lint-staged.config.js") &&
-				!file.includes("webpack.config.js") &&
-				!file.includes(".config.js"),
+	// Config files are excluded from JS linting - they are CommonJS and predate
+	// the shared eslint config.
+	'**/*.{js,mjs}': ( filenames ) => {
+		const linted = filenames.filter(
+			( file ) => ! /\.config\.(js|mjs)$/.test( file )
 		);
-		return filteredFiles.length > 0
-			? ["npm run lint-js", () => "npm run tsc"]
+
+		return linted.length > 0
+			? [ `wp-scripts lint-js ${ linted.join( ' ' ) }` ]
 			: [];
 	},
-	// Temporarily disable PHPStan due to memory issues
-	"**/*.php": () => "composer phpstan",
-	"courier-notices.php": "composer lint",
-	// Exclude problematic files from linting for now
-	"*.php": "composer lint",
-	"/tools/**.php": "composer lint",
-	"composer.json": () => "composer validate --strict",
+
+	'**/*.{css,scss}': [ 'wp-scripts lint-style' ],
+
+	// Staged files only, NOT the whole project. The project currently has a
+	// large PHPCS backlog (~120 errors outside the vendored WP_List_Table fork),
+	// so a project-wide pass would block every commit. Linting only what you
+	// touch means the debt gets paid down file by file as we migrate.
+	//
+	// Note: passing explicit paths OVERRIDES the <file> list in phpcs.xml.dist.
+	// That is intentional here - it means a staged templates/*.php gets linted
+	// even though templates/ is not yet in the ruleset's own scope.
+	//
+	// PHPStan is deliberately not run here: it needs the whole project loaded
+	// and carries a large suppression baseline. It runs in CI instead.
+	'**/*.php': ( filenames ) => [
+		`composer phpcs -- ${ filenames.map( ( f ) => `'${ f }'` ).join( ' ' ) }`,
+	],
+
+	'composer.json': () => 'composer validate --strict',
 };
 
 module.exports = config;

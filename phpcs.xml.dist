@@ -39,6 +39,13 @@
 	<!-- Exclude the tools directory. -->
 	<exclude-pattern>./tools/*</exclude-pattern>
 
+	<!-- Exclude the vendored fork of core's WP_List_Table.
+		 This is a copy of WordPress core code, not ours to restyle, and it
+		 accounts for roughly half the project's PHPCS errors on its own.
+		 It is slated for deletion when the React admin replaces the Design
+		 Studio table (see docs/2.0-MIGRATION-PLAN.md, Phase 5). -->
+	<exclude-pattern>./includes/Helper/WP_List_Table.php</exclude-pattern>
+
 	<!-- Exclude minified Javascript files. -->
 	<exclude-pattern>*.min.js</exclude-pattern>
 
