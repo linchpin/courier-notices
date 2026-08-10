@@ -36,6 +36,13 @@ require_once $courier_notices_wp_phpunit . '/includes/functions.php';
 tests_add_filter(
 	'muplugins_loaded',
 	static function () use ( $courier_notices_root ) {
+		// Action Scheduler is a composer-autoloaded file, but PHPUnit's own
+		// launcher pulls in vendor/autoload.php before WordPress exists, so
+		// its `function_exists( 'add_action' )` guard skipped everything and
+		// composer will not re-run the file. Requiring it again here — with
+		// WordPress loaded — is safe by design: every symbol inside is
+		// function_exists-guarded so bundled copies can coexist.
+		require $courier_notices_root . '/vendor/woocommerce/action-scheduler/action-scheduler.php';
 		require $courier_notices_root . '/courier-notices.php';
 	}
 );
