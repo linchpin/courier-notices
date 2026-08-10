@@ -257,6 +257,37 @@ class Data {
 
 
 	/**
+	 * Build the request-shaped context the live AJAX path posts from the
+	 * client, from server-side state instead.
+	 *
+	 * post_info and user_id decide which notices a visitor sees — they feed
+	 * both this plugin's own dismissal logic and the
+	 * courier_notices_display_notices_query filter Courier Pro's visibility
+	 * engine reads. The keys mirror what the frontend posts today (see
+	 * courier_notices_data in Courier_Notices::wp_enqueue_scripts()); widen
+	 * here if Pro ever needs more.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array<string, mixed> $args Notice query arguments, used for placement and format hints.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function get_request_context( $args = array() ) {
+		$queried_object_id = get_queried_object_id();
+
+		return array(
+			'post_info' => array(
+				'ID' => $queried_object_id > 0 ? $queried_object_id : -1,
+			),
+			'user_id'   => get_current_user_id(),
+			'placement' => isset( $args['placement'] ) ? $args['placement'] : 'header',
+			'format'    => isset( $args['format'] ) ? $args['format'] : '',
+		);
+	}
+
+
+	/**
 	 * Get Courier all notices.
 	 *
 	 * @since 1.0.5
@@ -284,19 +315,48 @@ class Data {
 		$number   = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
 		$number   = apply_filters( 'courier_notices_override_notices_number', $number );
 
-		$ajax_post_data = wp_parse_args( $ajax_post_data, $defaults );
+		// The courier_notices_display_notices_query filter must always fire
+		// with a real page and user, whichever path queried. The AJAX path
+		// posts them from the client; server-side callers used to pass
+		// nothing, so the filter fired with correct arity and no world.
+		// Posted values win over the synthesized context.
+		$ajax_post_data = wp_parse_args( $ajax_post_data, wp_parse_args( $this->get_request_context( $args ), $defaults ) );
 
-		// Create cache key based on arguments.
-		$cache_key = 'courier_notices_' . wp_hash( wp_json_encode( $args ) . wp_json_encode( $ajax_post_data ) );
-		$cache     = wp_cache_get( $cache_key, 'courier-notices' );
+		// Personalization context the cache key varies on. Anything a
+		// courier_notices_display_notices_query filter varies on beyond the
+		// two argument arrays MUST be declared here, or warm-cache results
+		// are served stale to everyone with matching arguments. The free
+		// plugin declares the anonymous dismissal cookie itself — logged-in
+		// users are already separated by the synthesized user_id.
+		$cache_context = array();
+
+		if ( ! is_user_logged_in() && isset( $_COOKIE['dismissed_notices'] ) ) {
+			$cache_context['dismissed_notices'] = sanitize_text_field( wp_unslash( $_COOKIE['dismissed_notices'] ) );
+		}
+
+		/**
+		 * Declare state the notice query cache key must vary on.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array $cache_context  Key/value context folded into the cache key.
+		 * @param array $args           Notice query arguments.
+		 * @param array $ajax_post_data Request-shaped context (post_info, user_id, placement, format).
+		 */
+		$cache_context = apply_filters( 'courier_notices_query_cache_context', $cache_context, $args, $ajax_post_data );
+
+		$cache_hash = wp_hash( wp_json_encode( $args ) . wp_json_encode( $ajax_post_data ) . wp_json_encode( $cache_context ) );
 
 		// Check object cache first.
+		$cache_key = 'courier_notices_' . $cache_hash;
+		$cache     = wp_cache_get( $cache_key, 'courier-notices' );
+
 		if ( false !== $cache ) {
 			return $cache;
 		}
 
 		// Check transient cache.
-		$transient_key   = 'courier_notices_transient_' . wp_hash( wp_json_encode( $args ) . wp_json_encode( $ajax_post_data ) );
+		$transient_key   = 'courier_notices_transient_' . $cache_hash;
 		$transient_cache = get_transient( $transient_key );
 		if ( false !== $transient_cache ) {
 			wp_cache_set( $cache_key, $transient_cache, 'courier-notices', 300 );
@@ -369,8 +429,13 @@ class Data {
 		 * @since 1.0
 		 */
 
-		$query_args          = apply_filters( 'courier_notices_display_notices_query', $query_args, $ajax_post_data );
-		$query_args          = wp_parse_args( $args, $query_args );
+		$query_args = apply_filters( 'courier_notices_display_notices_query', $query_args, $ajax_post_data );
+
+		// Filter output is FINAL. Until 2.0 a post-filter wp_parse_args
+		// overlaid the raw request arguments here, silently clobbering
+		// filter output on key collisions and leaking non-WP_Query keys
+		// (user_id, include_global, style) into the query. Removed
+		// deliberately - see COURIER-1028.
 		$final_notices_query = new \WP_Query( $query_args );
 
 		$result = ( $final_notices_query->have_posts() ) ? $final_notices_query->posts : array();
@@ -395,7 +460,15 @@ class Data {
 	public function get_global_dismissed_notices( $user_id = 0 ) {
 		// If user isn't logged in, use cookies.
 		if ( ! is_user_logged_in() && isset( $_COOKIE['dismissed_notices'] ) ) {
-			return array_map( 'intval', json_decode( stripslashes( $_COOKIE['dismissed_notices'] ) ) );
+			$dismissed_cookie = json_decode( sanitize_text_field( wp_unslash( $_COOKIE['dismissed_notices'] ) ) );
+
+			// A malformed cookie decodes to null, which used to fatal in
+			// the array_map below.
+			if ( ! is_array( $dismissed_cookie ) ) {
+				return array();
+			}
+
+			return array_map( 'intval', $dismissed_cookie );
 		}
 
 		if ( empty( $user_id ) ) {

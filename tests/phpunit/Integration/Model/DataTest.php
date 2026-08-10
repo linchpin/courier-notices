@@ -133,14 +133,69 @@ final class DataTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Inverse pin for COURIER-1028: a filter that varies on context outside
-	 * the two argument arrays is served stale on a warm cache. While the bug
-	 * exists this test reports incomplete; once the cache-context contract
-	 * lands (Phase 1), the desired assertion below goes live.
+	 * The COURIER-1028 cache-context contract: a filter that varies on
+	 * context outside the two argument arrays declares that context through
+	 * courier_notices_query_cache_context, and declared context is never
+	 * served stale. (This test was the inverse pin for the bug; the
+	 * contract landed and armed it.)
 	 *
 	 * @return void
 	 */
-	public function test_filter_context_outside_the_arguments_is_not_served_stale(): void {
+	public function test_declared_filter_context_is_not_served_stale(): void {
+		$visible = $this->create_notice( 'Header', 'Global', false );
+
+		add_filter(
+			'courier_notices_display_notices_query',
+			static function ( $query_args ) {
+				if ( ! empty( $GLOBALS['courier_notices_test_hide_all'] ) ) {
+					$query_args['post__in'] = array( 0 );
+				}
+
+				return $query_args;
+			},
+			10,
+			2
+		);
+
+		// The Pro-shaped half of the contract: whatever the query filter
+		// varies on gets declared here so it reaches the cache key.
+		add_filter(
+			'courier_notices_query_cache_context',
+			static function ( $context ) {
+				$context['hide_all'] = ! empty( $GLOBALS['courier_notices_test_hide_all'] );
+
+				return $context;
+			}
+		);
+
+		$data = new Data();
+
+		$cold = $data->get_notices( array( 'number' => 13 ) );
+		$this->assertContains( $visible, $cold, 'Cold cache must show the notice.' );
+
+		// Flip the context the filter varies on — think "user gained a role"
+		// or "the time window closed" in Courier Pro's visibility engine.
+		$GLOBALS['courier_notices_test_hide_all'] = true;
+
+		$warm = $data->get_notices( array( 'number' => 13 ) );
+
+		$this->assertNotContains( $visible, $warm, 'A declared context change must not be served stale.' );
+
+		// Flipping back reuses the original cache entry — the context is
+		// part of the key, not a cache buster.
+		unset( $GLOBALS['courier_notices_test_hide_all'] );
+
+		$this->assertSame( $cold, $data->get_notices( array( 'number' => 13 ) ) );
+	}
+
+	/**
+	 * The other side of the contract boundary: context the filter varies on
+	 * but does NOT declare cannot reach the cache key, so identical
+	 * arguments are served from cache. Vary on it — declare it.
+	 *
+	 * @return void
+	 */
+	public function test_undeclared_filter_context_is_served_from_cache(): void {
 		$visible = $this->create_notice( 'Header', 'Global', false );
 
 		add_filter(
@@ -157,28 +212,53 @@ final class DataTest extends WP_UnitTestCase {
 		);
 
 		$data = new Data();
+		$cold = $data->get_notices( array( 'number' => 14 ) );
 
-		$cold = $data->get_notices( array( 'number' => 13 ) );
-		$this->assertContains( $visible, $cold, 'Cold cache must show the notice.' );
-
-		// Flip the context the filter varies on — think "user gained a role"
-		// or "the time window closed" in Courier Pro's visibility engine.
 		$GLOBALS['courier_notices_test_hide_all'] = true;
 
-		$warm = $data->get_notices( array( 'number' => 13 ) );
+		$warm = $data->get_notices( array( 'number' => 14 ) );
 
 		unset( $GLOBALS['courier_notices_test_hide_all'] );
 
-		if ( $warm === $cold ) {
-			$this->markTestIncomplete(
-				'Pins COURIER-1028: Data::get_notices() returns cached results before the ' .
-				'courier_notices_display_notices_query filter runs, so filter context beyond ' .
-				'the argument arrays is frozen for the cache lifetime. When the cache-context ' .
-				'contract lands, delete this guard so the assertion below enforces it.'
-			);
-		}
+		$this->assertSame( $cold, $warm );
+		$this->assertContains( $visible, $warm );
+	}
 
-		$this->assertNotContains( $visible, $warm, 'A context change the filter honours must not be served stale.' );
+	/**
+	 * Anonymous dismissals arrive in a cookie the query used to read inside
+	 * the cached path while keying without it — one visitor's dismissal
+	 * state served to everyone. The cookie is now part of the default cache
+	 * context, so two anonymous visitors with different cookies cannot
+	 * share a cache entry.
+	 *
+	 * @return void
+	 */
+	public function test_anonymous_dismissal_cookies_do_not_share_a_cache_entry(): void {
+		$notice = $this->create_notice( 'Header', 'Global', false );
+
+		wp_set_current_user( 0 );
+
+		// prioritize_persistent_global re-adds persistent notices after the
+		// dismissal filter, which would mask the cookie's effect entirely -
+		// dismissal only observably filters this arg combination.
+		$args = array(
+			'number'                       => 15,
+			'prioritize_persistent_global' => false,
+		);
+
+		// Visitor A has dismissed the notice.
+		$_COOKIE['dismissed_notices'] = wp_json_encode( array( $notice ) );
+
+		$visitor_a = ( new Data() )->get_notices( $args );
+
+		// Visitor B has no dismissals; without cookie-aware keying B would
+		// be served visitor A's cached, already-filtered result.
+		unset( $_COOKIE['dismissed_notices'] );
+
+		$visitor_b = ( new Data() )->get_notices( $args );
+
+		$this->assertNotContains( $notice, $visitor_a, 'The dismissing visitor must not see the notice.' );
+		$this->assertContains( $notice, $visitor_b, 'A visitor without dismissals must see the notice.' );
 	}
 
 	/**
@@ -222,5 +302,23 @@ final class DataTest extends WP_UnitTestCase {
 		wp_set_current_user( 0 );
 
 		$this->assertSame( array(), ( new Data() )->get_global_dismissed_notices() );
+	}
+
+	/**
+	 * A malformed cookie is treated as no dismissals — json_decode returns
+	 * null for garbage, which used to fatal in an array_map.
+	 *
+	 * @return void
+	 */
+	public function test_a_malformed_dismissal_cookie_is_ignored(): void {
+		wp_set_current_user( 0 );
+
+		$_COOKIE['dismissed_notices'] = 'not-json{{{';
+
+		$dismissed = ( new Data() )->get_global_dismissed_notices();
+
+		unset( $_COOKIE['dismissed_notices'] );
+
+		$this->assertSame( array(), $dismissed );
 	}
 }

@@ -39,11 +39,19 @@ final class HookContractTest extends WP_UnitTestCase {
 	 * courier_notices_display_notices_query fires with two arguments: the
 	 * WP_Query arguments, and a request-shaped array carrying the keys the
 	 * live REST path posts today. Pro's visibility engine reads the second
-	 * argument to decide who sees what.
+	 * argument to decide who sees what — so this asserts its CONTENT, not
+	 * just its shape: with COURIER-1028, server-side callers get a
+	 * synthesized post_info and user_id instead of empty defaults.
 	 *
 	 * @return void
 	 */
 	public function test_display_notices_query_filter_receives_the_request_shape(): void {
+		$page_id = self::factory()->post->create( array( 'post_type' => 'page' ) );
+		$user_id = self::factory()->user->create();
+
+		wp_set_current_user( $user_id );
+		$this->go_to( get_permalink( $page_id ) );
+
 		$captured_query_args = null;
 		$captured_request    = null;
 
@@ -67,11 +75,13 @@ final class HookContractTest extends WP_UnitTestCase {
 
 		$this->assertIsArray( $captured_request );
 
-		foreach ( array( 'user_id', 'include_global', 'include_dismissed', 'prioritize_persistent_global', 'ids_only', 'number', 'placement', 'style' ) as $key ) {
+		foreach ( array( 'user_id', 'include_global', 'include_dismissed', 'prioritize_persistent_global', 'ids_only', 'number', 'placement', 'style', 'post_info', 'format' ) as $key ) {
 			$this->assertArrayHasKey( $key, $captured_request, "The second argument must carry '{$key}' — Pro reads this shape." );
 		}
 
 		$this->assertSame( 'header', $captured_request['placement'] );
+		$this->assertSame( $page_id, $captured_request['post_info']['ID'], 'A visibility engine deciding "show on page X" must receive the visited page.' );
+		$this->assertSame( $user_id, $captured_request['user_id'], 'A visibility engine deciding "show to role Y" must receive the real user.' );
 	}
 
 	/**
@@ -126,15 +136,14 @@ final class HookContractTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The post-filter wp_parse_args at Data.php:373 leaks the request
-	 * arguments into WP_Query — user_id, include_global and friends become
-	 * query vars, and any colliding key silently overrides filter output.
-	 * This pins today's semantics so Phase 1's decision to keep or remove
-	 * the line is a deliberate, visible change.
+	 * Filter output is FINAL. COURIER-1028 removed the post-filter
+	 * wp_parse_args that overlaid raw request arguments onto the filtered
+	 * query — request keys like user_id no longer leak into WP_Query, and
+	 * nothing silently clobbers what a filter returned.
 	 *
 	 * @return void
 	 */
-	public function test_request_args_currently_leak_into_the_final_query(): void {
+	public function test_filter_output_is_final_and_request_args_do_not_leak(): void {
 		$leaked = array();
 
 		add_action(
@@ -146,18 +155,38 @@ final class HookContractTest extends WP_UnitTestCase {
 			}
 		);
 
-		( new Data() )->get_notices(
+		add_filter(
+			'courier_notices_display_notices_query',
+			static function ( $query_args ) {
+				$query_args['posts_per_page'] = 1;
+
+				return $query_args;
+			},
+			10,
+			2
+		);
+
+		foreach ( array( 'First', 'Second' ) as $title ) {
+			$post_id = self::factory()->post->create(
+				array(
+					'post_type'   => 'courier_notice',
+					'post_status' => 'publish',
+					'post_title'  => $title,
+				)
+			);
+			wp_set_object_terms( $post_id, 'Global', 'courier_scope', false );
+			wp_set_object_terms( $post_id, 'Header', 'courier_placement', false );
+		}
+
+		$ids = ( new Data() )->get_notices(
 			array(
 				'number'  => 23,
 				'user_id' => 424242,
 			)
 		);
 
-		$this->assertSame(
-			array( 424242 ),
-			$leaked,
-			'Removing the post-filter wp_parse_args changes filter semantics; if this fails because the leak is gone, update the Pro contract notes for COURIER-1028 and delete this test deliberately.'
-		);
+		$this->assertSame( array(), $leaked, 'Request arguments must not become WP_Query vars.' );
+		$this->assertCount( 1, $ids, 'A filtered posts_per_page must survive to the query untouched.' );
 	}
 
 	/**
