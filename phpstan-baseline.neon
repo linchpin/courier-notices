@@ -561,7 +561,18 @@ parameters:
 			path: includes/Controller/Courier.php
 
 		-
-			message: "#^Call to deprecated function courier_get_global_dismissed_notices\\(\\)\\.$#"
+			message: """
+				#^Call to deprecated function courier_get_global_dismissed_notices\\(\\)\\:
+				1\\.2\\.0 Use courier_notices_get_global_dismissed_notices\\(\\)$#
+			"""
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: """
+				#^Call to deprecated function courier_get_notices\\(\\)\\:
+				1\\.2\\.0 Use courier_notices_get_notices\\(\\)$#
+			"""
 			count: 1
 			path: includes/Controller/Courier.php
 
@@ -704,11 +715,6 @@ parameters:
 			message: "#^Variable \\$notices in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: includes/Controller/Courier.php
-
-		-
-			message: "#^Call to deprecated function courier_get_css\\(\\)\\.$#"
-			count: 1
-			path: includes/Controller/Courier_Notices.php
 
 		-
 			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
@@ -954,11 +960,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$postarr of function wp_update_post expects array\\{ID\\?\\: int, post_author\\?\\: int, post_date\\?\\: string, post_date_gmt\\?\\: string, post_content\\?\\: string, post_content_filtered\\?\\: string, post_title\\?\\: string, post_excerpt\\?\\: string, \\.\\.\\.\\}, array\\{ID\\: int\\|WP_Post, post_status\\: 'courier_expired'\\} given\\.$#"
 			count: 1
 			path: includes/Controller/Cron.php
-
-		-
-			message: "#^Call to deprecated function courier_get_css\\(\\)\\.$#"
-			count: 1
-			path: includes/Controller/Install.php
 
 		-
 			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
@@ -1287,11 +1288,6 @@ parameters:
 
 		-
 			message: "#^Action callback returns string but should not return anything\\.$#"
-			count: 1
-			path: includes/Controller/Upgrade.php
-
-		-
-			message: "#^Call to deprecated function courier_get_css\\(\\)\\.$#"
 			count: 1
 			path: includes/Controller/Upgrade.php
 
