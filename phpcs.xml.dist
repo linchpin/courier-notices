@@ -145,9 +145,12 @@
 		<!-- Emitting markup is what a view template is for. -->
 		<exclude-pattern>./templates/*</exclude-pattern>
 		<exclude-pattern>./src/blocks/*/render.php</exclude-pattern>
-		<!-- A PHPUnit bootstrap's whole job is side effects. -->
-		<exclude-pattern>./tests/phpunit/bootstrap-*</exclude-pattern>
-		<exclude-pattern>./tests/phpunit/wp-tests-config.php</exclude-pattern>
+		<!--
+			A PHPUnit bootstrap's whole job is side effects, and test classes
+			require_once the shared WP-function-shadows file - inherent to the
+			mantle shadowing pattern, not debt.
+		-->
+		<exclude-pattern>./tests/*</exclude-pattern>
 	</rule>
 
 	<!--

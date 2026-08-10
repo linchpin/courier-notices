@@ -86,7 +86,7 @@ class Settings {
 
 		$settings = $this->get_settings();
 
-		return $settings[ $key ];
+		return $settings[ $key ] ?? null;
 	}
 
 
@@ -103,7 +103,7 @@ class Settings {
 	 * @return array|false
 	 */
 	public function save_setting( $key, $value ) {
-		if ( array_key_exists( $key, $this->defaults ) ) {
+		if ( ! array_key_exists( $key, $this->defaults ) ) {
 			return false;
 		}
 
