@@ -415,6 +415,26 @@ class Data {
 			'order'          => 'DESC',
 			// workaround: https://core.trac.wordpress.org/ticket/28099
 			'post__in'       => empty( $post_list ) ? [ 0 ] : $post_list,
+			// Expiry is enforced at query time, not scheduler time. Action
+			// Scheduler flips expired notices to courier_expired eventually,
+			// but a notice whose _courier_expiration has passed must stop
+			// rendering immediately, not when the next action runs. The
+			// query is already bounded by post__in, so the meta comparison
+			// costs nothing measurable.
+			'meta_query'     => array( // phpcs:ignore Linchpin.Performance.SlowMetaQuery.slow_db_query_meta_query -- Bounded by post__in above.
+				'relation' => 'OR',
+				array(
+					'key'     => '_courier_expiration',
+					'compare' => 'NOT EXISTS',
+				),
+				array(
+					'key'     => '_courier_expiration',
+					'value'   => time(),
+					// phpcs:ignore Linchpin.Performance.SlowMetaQuery.nonperformant_comparison -- Bounded by post__in above.
+					'compare' => '>=',
+					'type'    => 'NUMERIC',
+				),
+			),
 		);
 
 		if ( true === $args['ids_only'] ) {

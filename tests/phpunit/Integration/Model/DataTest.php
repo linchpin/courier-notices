@@ -101,6 +101,29 @@ final class DataTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Expiry is enforced at query time: a still-published notice whose
+	 * expiration timestamp has passed stops rendering immediately, without
+	 * waiting for the scheduler to flip its status. Future expirations and
+	 * notices with no expiration are unaffected.
+	 *
+	 * @return void
+	 */
+	public function test_expiry_is_enforced_at_query_time_before_the_scheduler_runs(): void {
+		$no_expiry    = $this->create_notice( 'Header', 'Global', false );
+		$expires_soon = $this->create_notice( 'Header', 'Global', false );
+		$lapsed       = $this->create_notice( 'Header', 'Global', false );
+
+		update_post_meta( $expires_soon, '_courier_expiration', time() + HOUR_IN_SECONDS );
+		update_post_meta( $lapsed, '_courier_expiration', time() - HOUR_IN_SECONDS );
+
+		$ids = ( new Data() )->get_notices( array( 'number' => 16 ) );
+
+		$this->assertContains( $no_expiry, $ids );
+		$this->assertContains( $expires_soon, $ids );
+		$this->assertNotContains( $lapsed, $ids, 'A lapsed notice must not render while the scheduler catches up.' );
+	}
+
+	/**
 	 * The warm path: identical arguments are served from cache without the
 	 * query pipeline running again. This is the mechanism behind the
 	 * COURIER-1028 bug — the cache key is only the two argument arrays, so
