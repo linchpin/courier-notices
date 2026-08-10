@@ -138,6 +138,6 @@ class Install {
 		wp_insert_term( esc_html__( 'Header', 'courier-notices' ), 'courier_placement' );
 		wp_insert_term( esc_html__( 'Footer', 'courier-notices' ), 'courier_placement' );
 
-		courier_get_css();
+		courier_notices_get_css();
 	}
 }
