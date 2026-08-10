@@ -138,6 +138,19 @@ register_activation_hook( __FILE__, 'courier_notices_activation' );
 function courier_notices_activation() {
 	add_option( 'courier_notices_activation', true );
 
+	// The review nag counts days from first_activated_on; it was never
+	// written anywhere, so the nag could never fire. Record it once.
+	$plugin_options = get_option( 'courier_notices_options', array() );
+
+	if ( ! is_array( $plugin_options ) ) {
+		$plugin_options = array();
+	}
+
+	if ( ! isset( $plugin_options['first_activated_on'] ) || '' === $plugin_options['first_activated_on'] ) {
+		$plugin_options['first_activated_on'] = time();
+		update_option( 'courier_notices_options', $plugin_options );
+	}
+
 	// Create our cron events.
 	if ( ! get_option( 'courier_notices_flush_rewrite_rules' ) ) {
 		add_option( 'courier_notices_flush_rewrite_rules', true );

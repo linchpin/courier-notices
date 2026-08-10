@@ -138,6 +138,27 @@ class Install {
 		wp_insert_term( esc_html__( 'Header', 'courier-notices' ), 'courier_placement' );
 		wp_insert_term( esc_html__( 'Footer', 'courier-notices' ), 'courier_placement' );
 
+		// The style taxonomy was never seeded, so a fresh install had no
+		// styles at all. informational is the query default; popup-modal
+		// doubles as a style and a placement until the display-type work
+		// untangles them (see docs/2.0-MIGRATION-PLAN.md).
+		wp_insert_term( esc_html__( 'Informational', 'courier-notices' ), 'courier_style' );
+		wp_insert_term( esc_html__( 'Popup Modal', 'courier-notices' ), 'courier_style' );
+
+		// Mark installation complete so check_for_updates() stops re-running
+		// this on every admin request until something else happens to write
+		// the option. Never clobber a version the upgrade ladder owns.
+		$plugin_options = get_option( 'courier_notices_options', array() );
+
+		if ( ! is_array( $plugin_options ) ) {
+			$plugin_options = array();
+		}
+
+		if ( ! isset( $plugin_options['plugin_version'] ) || '' === $plugin_options['plugin_version'] ) {
+			$plugin_options['plugin_version'] = COURIER_NOTICES_VERSION;
+			update_option( 'courier_notices_options', $plugin_options );
+		}
+
 		courier_notices_get_css();
 	}
 }
