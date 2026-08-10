@@ -767,16 +767,6 @@ parameters:
 			path: includes/Controller/Courier_REST_Controller.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_collection_params\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:register_routes\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:sanitize_placements\\(\\) has parameter \\$placements with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: includes/Controller/Courier_REST_Controller.php
@@ -787,22 +777,12 @@ parameters:
 			path: includes/Controller/Courier_REST_Controller.php
 
 		-
-			message: "#^Parameter \\#1 \\$response of method WP_REST_Controller\\:\\:prepare_response_for_collection\\(\\) expects WP_REST_Response, array\\<string, int\\|string\\|false\\> given\\.$#"
-			count: 1
+			message: "#^Parameter \\#1 \\$route_namespace of function register_rest_route expects non\\-falsy\\-string, string given\\.$#"
+			count: 4
 			path: includes/Controller/Courier_REST_Controller.php
 
 		-
 			message: "#^Parameter \\#2 \\$haystack of function in_array expects array, array\\<int, WP_Term\\>\\|WP_Error given\\.$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Return type \\(bool\\|WP_Error\\) of method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_item_permissions_check\\(\\) should be covariant with return type \\(WP_Error\\|true\\) of method WP_REST_Controller\\:\\:get_item_permissions_check\\(\\)$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Return type \\(mixed\\) of method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:prepare_item_for_response\\(\\) should be covariant with return type \\(WP_Error\\|WP_REST_Response\\) of method WP_REST_Controller\\:\\:prepare_item_for_response\\(\\)$#"
 			count: 1
 			path: includes/Controller/Courier_REST_Controller.php
 
@@ -1122,28 +1102,8 @@ parameters:
 			path: includes/Controller/Placement.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:get_settings\\(\\) should return string but returns WP_REST_Response\\.$#"
-			count: 1
-			path: includes/Controller/Settings_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Settings_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:register_routes\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Settings_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:update_settings\\(\\) should return string but returns WP_REST_Response\\.$#"
-			count: 1
-			path: includes/Controller/Settings_REST_Controller.php
-
-		-
-			message: "#^Only booleans are allowed in an if condition, int\\|false given\\.$#"
-			count: 1
+			message: "#^Parameter \\#1 \\$route_namespace of function register_rest_route expects non\\-falsy\\-string, string given\\.$#"
+			count: 2
 			path: includes/Controller/Settings_REST_Controller.php
 
 		-

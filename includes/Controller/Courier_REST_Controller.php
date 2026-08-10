@@ -3,9 +3,9 @@
 namespace CourierNotices\Controller;
 
 use WP_REST_Response;
-use WP_REST_Controller;
 use WP_Error;
 use WP_REST_Request;
+use CourierNotices\Controller\REST\REST_Base;
 use CourierNotices\Core\View;
 use CourierNotices\Model\Courier_Notice\Data as Courier_Notice_Data;
 
@@ -14,20 +14,15 @@ use CourierNotices\Model\Courier_Notice\Data as Courier_Notice_Data;
  *
  * @package CourierNotices\Controller
  */
-class Courier_REST_Controller extends WP_REST_Controller implements Controller_Interface {
-
-
-	public function register_actions(): void {
-		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
-	}
-
+class Courier_REST_Controller extends REST_Base {
 
 	/**
 	 * Register the routes for the objects of the controller.
+	 *
+	 * @return void
 	 */
-	public function register_routes() {
-		$version   = '1';
-		$namespace = 'courier-notices/v' . $version;
+	public function register_routes(): void {
+		$namespace = $this->get_api_namespace();
 		$base      = 'notice';
 
 		// Display a single notice
@@ -38,7 +33,7 @@ class Courier_REST_Controller extends WP_REST_Controller implements Controller_I
 				[
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => [ $this, 'get_notice' ],
-					'permission_callback' => [ $this, 'get_notice_permissions_check' ],
+					'permission_callback' => [ $this, 'get_public_permissions' ],
 					'args'                => [],
 				],
 			]
@@ -52,7 +47,7 @@ class Courier_REST_Controller extends WP_REST_Controller implements Controller_I
 				[
 					'methods'             => \WP_REST_Server::EDITABLE,
 					'callback'            => [ $this, 'dismiss_notice' ],
-					'permission_callback' => [ $this, 'get_dismiss_notice_permissions_check' ],
+					'permission_callback' => [ $this, 'get_logged_in_permissions' ],
 					'args'                => [],
 				],
 			]
@@ -66,7 +61,7 @@ class Courier_REST_Controller extends WP_REST_Controller implements Controller_I
 				[
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => [ $this, 'display_notices' ],
-					'permission_callback' => [ $this, 'get_notice_permissions_check' ],
+					'permission_callback' => [ $this, 'get_public_permissions' ],
 					'args'                => [
 						'placement' => [
 							'description'       => esc_html__( 'Set where the notices should display.', 'courier-notices' ),
@@ -104,7 +99,7 @@ class Courier_REST_Controller extends WP_REST_Controller implements Controller_I
 				[
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => [ $this, 'display_all_notices' ],
-					'permission_callback' => [ $this, 'get_notice_permissions_check' ],
+					'permission_callback' => [ $this, 'get_public_permissions' ],
 					'args'                => [
 						'format'    => [
 							'description'       => esc_html__( 'Set the response, either html or json.', 'courier-notices' ),
@@ -163,7 +158,7 @@ class Courier_REST_Controller extends WP_REST_Controller implements Controller_I
 					'description' => get_the_content(),
 				);
 
-				$data[] = $this->prepare_response_for_collection( $item );
+				$data[] = $item;
 			}
 
 			wp_reset_postdata();
@@ -208,17 +203,6 @@ class Courier_REST_Controller extends WP_REST_Controller implements Controller_I
 		update_user_option( $user_id, 'courier_notifications', $notifications );
 
 		return new WP_REST_Response( 1, 200 );
-	}
-
-
-	/**
-	 * Check if a given request has access to get items
-	 *
-	 * @param WP_REST_Request $request Full data about the request.
-	 * @return WP_Error|bool
-	 */
-	public function get_dismiss_notice_permissions_check( $request ) {
-		return is_user_logged_in();
 	}
 
 
@@ -458,65 +442,4 @@ class Courier_REST_Controller extends WP_REST_Controller implements Controller_I
 	}
 
 
-	/**
-	 * Check if a given request has access to get items
-	 *
-	 * @return WP_Error|bool
-	 */
-	public function get_notice_permissions_check() {
-		return true;
-	}
-
-
-	/**
-	 * Check if a given request has access to get a specific item
-	 *
-	 * @param WP_REST_Request $request Full data about the request.
-	 *
-	 * @return WP_Error|bool
-	 */
-	public function get_item_permissions_check( $request ) {
-		return $this->get_items_permissions_check( $request );
-	}
-
-
-	/**
-	 * Prepare the item for the REST response
-	 *
-	 * @param mixed           $item    WordPress representation of the item.
-	 * @param WP_REST_Request $request Request object.
-	 *
-	 * @return mixed
-	 */
-	public function prepare_item_for_response( $item, $request ) {
-		return array();
-	}
-
-
-	/**
-	 * Get the query params for collections
-	 *
-	 * @return array
-	 */
-	public function get_collection_params() {
-		return array(
-			'page'     => array(
-				'description'       => __( 'Current page of the collection.', 'courier-notices' ),
-				'type'              => 'integer',
-				'default'           => 1,
-				'sanitize_callback' => 'absint',
-			),
-			'per_page' => array(
-				'description'       => __( 'Maximum number of items to be returned in result set.', 'courier-notices' ),
-				'type'              => 'integer',
-				'default'           => 100,
-				'sanitize_callback' => 'absint',
-			),
-			'search'   => array(
-				'description'       => __( 'Limit results to those matching a string.', 'courier-notices' ),
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
-			),
-		);
-	}
 }

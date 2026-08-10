@@ -198,6 +198,44 @@ namespace CourierNotices\Helper {
 	}
 }
 
+namespace CourierNotices\Controller\REST {
+
+	/**
+	 * Record hook registrations for assertions.
+	 *
+	 * @param string   $hook     Hook name.
+	 * @param callable $callback Callback.
+	 * @param mixed    ...$args  Priority and accepted args.
+	 *
+	 * @return void
+	 */
+	function add_action( $hook, $callback, ...$args ) {
+		unset( $args );
+
+		$GLOBALS['courier_notices_test_added_actions'][] = array( $hook, $callback );
+	}
+
+	/**
+	 * Login state, driven by the test.
+	 *
+	 * @return bool
+	 */
+	function is_user_logged_in() {
+		return (bool) ( $GLOBALS['courier_notices_test_logged_in'] ?? false );
+	}
+
+	/**
+	 * Capability checks, driven by the test's capability list.
+	 *
+	 * @param string $capability Capability name.
+	 *
+	 * @return bool
+	 */
+	function current_user_can( $capability ) {
+		return in_array( $capability, $GLOBALS['courier_notices_test_caps'] ?? array(), true );
+	}
+}
+
 namespace CourierNotices\Tests\Unit\Support {
 
 	/**
@@ -223,6 +261,9 @@ namespace CourierNotices\Tests\Unit\Support {
 			$GLOBALS['courier_notices_test_cache_flushes']  = array();
 			$GLOBALS['courier_notices_test_cache_supports'] = true;
 			$GLOBALS['courier_notices_test_posts']          = array();
+			$GLOBALS['courier_notices_test_added_actions']  = array();
+			$GLOBALS['courier_notices_test_logged_in']      = false;
+			$GLOBALS['courier_notices_test_caps']           = array();
 		}
 
 		/**
