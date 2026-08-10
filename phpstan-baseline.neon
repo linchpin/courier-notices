@@ -21,7 +21,7 @@ parameters:
 			path: courier-notices.php
 
 		-
-			message: "#^Parameter \\#2 \\$timestamp of function gmdate expects int, int\\|false given\\.$#"
+			message: "#^Parameter \\#2 \\$timestamp of function gmdate expects int\\|null, int\\|false given\\.$#"
 			count: 1
 			path: courier-notices.php
 
@@ -686,7 +686,7 @@ parameters:
 			path: includes/Controller/Courier.php
 
 		-
-			message: "#^Only booleans are allowed in \\|\\|, int\\|false given on the left side\\.$#"
+			message: "#^Only booleans are allowed in \\|\\|, int\\<0, max\\>\\|false given on the left side\\.$#"
 			count: 1
 			path: includes/Controller/Courier.php
 
@@ -756,6 +756,11 @@ parameters:
 			path: includes/Controller/Courier_Notices.php
 
 		-
+			message: "#^Parameter \\#1 \\$post_type of function register_post_type expects lowercase\\-string&non\\-empty\\-string, string given\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Notices.php
+
+		-
 			message: "#^Parameter \\#2 \\$data of function wp_add_inline_style expects string, string\\|null given\\.$#"
 			count: 1
 			path: includes/Controller/Courier_Notices.php
@@ -776,42 +781,7 @@ parameters:
 			path: includes/Controller/Courier_REST_Controller.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:dismiss_notice\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:display_all_notices\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:display_notices\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_collection_params\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_dismiss_notice_permissions_check\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_item_permissions_check\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_notice\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:prepare_item_for_response\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
 			count: 1
 			path: includes/Controller/Courier_REST_Controller.php
 
@@ -1196,7 +1166,7 @@ parameters:
 			path: includes/Controller/Integrations/WP_CLI.php
 
 		-
-			message: "#^Parameter \\#2 \\$timestamp of function gmdate expects int, int\\|false given\\.$#"
+			message: "#^Parameter \\#2 \\$timestamp of function gmdate expects int\\|null, int\\|false given\\.$#"
 			count: 3
 			path: includes/Controller/Integrations/WP_CLI.php
 
@@ -1241,11 +1211,6 @@ parameters:
 			path: includes/Controller/Placement.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:get_settings\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Settings_REST_Controller.php
-
-		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:get_settings\\(\\) should return string but returns WP_REST_Response\\.$#"
 			count: 1
 			path: includes/Controller/Settings_REST_Controller.php
@@ -1257,11 +1222,6 @@ parameters:
 
 		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:register_routes\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Settings_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:update_settings\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
 			count: 1
 			path: includes/Controller/Settings_REST_Controller.php
 
@@ -1307,6 +1267,16 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$text of function esc_html expects string, int\\|string\\|false given\\.$#"
+			count: 1
+			path: includes/Controller/Shortcodes.php
+
+		-
+			message: "#^Parameter \\#2 \\$callback of function add_shortcode expects callable\\(array\\<string\\>, string\\|null, string\\)\\: string, array\\{\\$this\\(CourierNotices\\\\Controller\\\\Shortcodes\\), 'courier_notice'\\} given\\.$#"
+			count: 1
+			path: includes/Controller/Shortcodes.php
+
+		-
+			message: "#^Parameter \\#2 \\$callback of function add_shortcode expects callable\\(array\\<string\\>, string\\|null, string\\)\\: string, array\\{\\$this\\(CourierNotices\\\\Controller\\\\Shortcodes\\), 'courier_notices'\\} given\\.$#"
 			count: 1
 			path: includes/Controller/Shortcodes.php
 
@@ -1661,12 +1631,12 @@ parameters:
 			path: includes/Helper/Files.php
 
 		-
-			message: "#^Parameter \\#1 \\$arr1 of function array_merge expects array, array\\<mixed\\>\\|false given\\.$#"
+			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, array\\<mixed\\>\\|false given\\.$#"
 			count: 1
 			path: includes/Helper/Files.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$args of function array_merge expects array, array\\|false given\\.$#"
+			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge expects array, array\\|false given\\.$#"
 			count: 1
 			path: includes/Helper/Files.php
 
@@ -1841,7 +1811,7 @@ parameters:
 			path: includes/Helper/Functions.php
 
 		-
-			message: "#^Only booleans are allowed in a negated boolean, int given\\.$#"
+			message: "#^Only booleans are allowed in a negated boolean, int\\<0, max\\> given\\.$#"
 			count: 3
 			path: includes/Helper/Functions.php
 
@@ -1861,17 +1831,17 @@ parameters:
 			path: includes/Helper/Functions.php
 
 		-
-			message: "#^Parameter \\#1 \\$arr1 of function array_merge expects array, array\\|null given\\.$#"
-			count: 1
-			path: includes/Helper/Functions.php
-
-		-
 			message: "#^Parameter \\#1 \\$key of function wp_cache_delete expects string, int given\\.$#"
 			count: 1
 			path: includes/Helper/Functions.php
 
 		-
 			message: "#^Parameter \\#1 \\$key of function wp_cache_delete expects string, int\\<min, \\-1\\>\\|int\\<1, max\\> given\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, array\\|null given\\.$#"
 			count: 1
 			path: includes/Helper/Functions.php
 
@@ -1886,7 +1856,7 @@ parameters:
 			path: includes/Helper/Functions.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$args of function array_merge expects array, array\\|null given\\.$#"
+			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge expects array, array\\|null given\\.$#"
 			count: 1
 			path: includes/Helper/Functions.php
 
@@ -2301,12 +2271,17 @@ parameters:
 			path: includes/Helper/WP_List_Table.php
 
 		-
-			message: "#^Parameter \\#1 \\$function of function call_user_func expects callable\\(\\)\\: mixed, array\\{\\$this\\(CourierNotices\\\\Helper\\\\WP_List_Table\\), non\\-falsy\\-string\\} given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, array\\{\\$this\\(CourierNotices\\\\Helper\\\\WP_List_Table\\), non\\-falsy\\-string\\} given\\.$#"
 			count: 2
 			path: includes/Helper/WP_List_Table.php
 
 		-
-			message: "#^Parameter \\#1 \\$function of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{\\$this\\(CourierNotices\\\\Helper\\\\WP_List_Table\\), string\\} given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{\\$this\\(CourierNotices\\\\Helper\\\\WP_List_Table\\), string\\} given\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Parameter \\#1 \\$hook_name of function apply_filters expects non\\-empty\\-string, string given\\.$#"
 			count: 1
 			path: includes/Helper/WP_List_Table.php
 
@@ -2326,7 +2301,7 @@ parameters:
 			path: includes/Helper/WP_List_Table.php
 
 		-
-			message: "#^Parameter \\#1 \\$var of function count expects array\\|Countable, object given\\.$#"
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, object given\\.$#"
 			count: 1
 			path: includes/Helper/WP_List_Table.php
 
@@ -2552,11 +2527,6 @@ parameters:
 
 		-
 			message: "#^Method CourierNotices\\\\Model\\\\Settings\\:\\:save_settings\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Model/Settings.php
-
-		-
-			message: "#^Method CourierNotices\\\\Model\\\\Settings\\:\\:save_settings\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
 			count: 1
 			path: includes/Model/Settings.php
 
