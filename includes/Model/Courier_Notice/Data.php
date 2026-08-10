@@ -652,7 +652,15 @@ class Data {
 		$hide_title     = get_post_meta( $courier_notice_id, '_courier_hide_title', true );
 		$courier_style  = get_the_terms( $courier_notice_id, 'courier_style' ); // Get the style associated with the notice
 		$courier_type   = get_the_terms( $courier_notice_id, 'courier_type' );  // Get the type associated with the notice (typically for informational notices)
-		$courier_icon   = get_term_meta( $courier_type[0]->term_id, '_courier_type_icon', true );
+
+		// get_the_terms() returns false or WP_Error for a term-less notice -
+		// which is exactly what a freshly block-editor-created notice looks
+		// like. Every read below must survive that.
+		$courier_style = is_array( $courier_style ) ? $courier_style : array();
+		$courier_type  = is_array( $courier_type ) ? $courier_type : array();
+
+		$courier_icon    = array() !== $courier_type ? get_term_meta( $courier_type[0]->term_id, '_courier_type_icon', true ) : '';
+		$show_hide_title = '';
 		// Get all the options for showing the title by default
 		$courier_design_options = get_option( 'courier_design', array() );
 
@@ -670,7 +678,7 @@ class Data {
 			$global_show_title_rules = [];
 		}
 
-		if ( is_array( $global_show_title_rules ) ) {
+		if ( array() !== $courier_style && is_array( $global_show_title_rules ) ) {
 			$notice_style_global_show_title = in_array( $courier_style[0]->slug, $global_show_title_rules, true );
 		} else {
 			$notice_style_global_show_title = false;

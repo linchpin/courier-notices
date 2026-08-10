@@ -193,7 +193,7 @@ final class RestRoutesTest extends WP_UnitTestCase {
 
 		$data = $response->get_data();
 
-		$this->assertSame( array( 'header', 'popup-modal' ), array_keys( $data ), 'Unregistered placements must be stripped; popup-modal is always appended for the legacy frontend.' );
+		$this->assertSame( array( 'header', 'popup-modal', 'styles' ), array_keys( $data ), 'Unregistered placements must be stripped; popup-modal is appended for the legacy frontend; styles ride along for block supports.' );
 		$this->assertContains( $notice_id, wp_list_pluck( $data['header'], 'ID' ) );
 	}
 

@@ -2212,11 +2212,6 @@ parameters:
 			path: includes/Model/Courier_Notice/Data.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\<WP_Term\\>\\|WP_Error\\|false\\.$#"
-			count: 2
-			path: includes/Model/Courier_Notice/Data.php
-
-		-
 			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
 			count: 19
 			path: includes/Model/Courier_Notice/Data.php

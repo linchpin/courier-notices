@@ -1,0 +1,166 @@
+<?php
+/**
+ * Integration tests for block-aware notice rendering (COURIER-1036).
+ *
+ * The REST fragment path used to hand raw post_content to the templates,
+ * where wp_kses_post() mangled block comment delimiters and dynamic blocks
+ * never rendered. Classic content must keep rendering byte-identically.
+ *
+ * @package CourierNotices\Tests
+ */
+
+namespace CourierNotices\Tests\Integration\Controller;
+
+use WP_REST_Request;
+use WP_UnitTestCase;
+
+/**
+ * Class BlockRenderTest
+ */
+final class BlockRenderTest extends WP_UnitTestCase {
+
+	/**
+	 * Boot a REST server with the plugin's routes registered.
+	 *
+	 * @return void
+	 */
+	public function set_up(): void {
+		parent::set_up();
+
+		global $wp_rest_server;
+
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Core's own REST server global; this is how the WP test suite boots REST.
+		$wp_rest_server = new \WP_REST_Server();
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Firing core's hook, not declaring one.
+		do_action( 'rest_api_init', $wp_rest_server );
+
+		wp_cache_flush();
+	}
+
+	/**
+	 * Create a published global header notice with the given content.
+	 *
+	 * @param string $content   Post content.
+	 * @param bool   $with_type Whether to assign a courier_type term.
+	 *
+	 * @return int
+	 */
+	private function create_notice( string $content, bool $with_type = true ): int {
+		$notice_id = self::factory()->post->create(
+			array(
+				'post_type'    => 'courier_notice',
+				'post_status'  => 'publish',
+				'post_content' => $content,
+			)
+		);
+
+		wp_set_object_terms( $notice_id, 'Global', 'courier_scope', false );
+		wp_set_object_terms( $notice_id, 'Header', 'courier_placement', false );
+
+		if ( $with_type ) {
+			wp_set_object_terms( $notice_id, 'Info', 'courier_type', false );
+		}
+
+		return $notice_id;
+	}
+
+	/**
+	 * Fetch the rendered HTML fragment for a notice via the display endpoint.
+	 *
+	 * @param int $notice_id Notice to pull from the response.
+	 *
+	 * @return string
+	 */
+	private function fetch_fragment( int $notice_id ): string {
+		$request = new WP_REST_Request( 'GET', '/courier-notices/v1/notices/display' );
+		$request->set_param( 'placement', 'header' );
+		$request->set_param( 'format', 'html' );
+
+		$response = rest_get_server()->dispatch( $request );
+
+		$this->assertSame( 200, $response->get_status() );
+
+		$data = $response->get_data();
+
+		$this->assertArrayHasKey( $notice_id, $data['notices'], 'The notice must be in the response.' );
+
+		return $data['notices'][ $notice_id ];
+	}
+
+	/**
+	 * Static block content renders as HTML — no block comment delimiters,
+	 * real markup in the fragment.
+	 *
+	 * @return void
+	 */
+	public function test_static_block_content_renders_in_the_fragment(): void {
+		$notice_id = $this->create_notice(
+			"<!-- wp:paragraph -->\n<p>Hello from the block editor</p>\n<!-- /wp:paragraph -->"
+		);
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringContainsString( '<p>Hello from the block editor</p>', $fragment );
+		$this->assertStringNotContainsString( 'wp:paragraph', $fragment, 'Block delimiters must not leak into rendered output.' );
+	}
+
+	/**
+	 * Dynamic blocks render server-side — they used to output nothing at all.
+	 *
+	 * @return void
+	 */
+	public function test_dynamic_block_content_renders_in_the_fragment(): void {
+		self::factory()->post->create( array( 'post_title' => 'A published post for latest-posts' ) );
+
+		$notice_id = $this->create_notice( '<!-- wp:latest-posts /-->' );
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringContainsString( 'wp-block-latest-posts', $fragment, 'A dynamic block must render its output.' );
+		$this->assertStringContainsString( 'A published post for latest-posts', $fragment );
+	}
+
+	/**
+	 * Classic content passes through byte-identically — no wpautop, no
+	 * rendering surprises for the notices existing sites already have.
+	 *
+	 * @return void
+	 */
+	public function test_classic_content_is_untouched(): void {
+		$notice_id = $this->create_notice( 'Plain classic <strong>content</strong> stays as-is' );
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringContainsString( 'Plain classic <strong>content</strong> stays as-is', $fragment );
+		$this->assertStringNotContainsString( '<p>Plain classic', $fragment, 'Classic content must not gain wpautop paragraphs.' );
+	}
+
+	/**
+	 * Block-support styles generated during the fragment render ride along
+	 * in the response's styles key, ready for the consumer to inject —
+	 * they can never reach the already-loaded page on their own.
+	 *
+	 * @return void
+	 */
+	public function test_block_support_styles_ride_in_the_response(): void {
+		// Explicit spacing values serialize into the saved markup and travel
+		// inline; it is RENDER-time styles - layout rules like flex - that
+		// only exist in the style engine store and would otherwise be lost.
+		$this->create_notice(
+			'<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap"}} -->' .
+			'<div class="wp-block-group">' .
+			"<!-- wp:paragraph -->\n<p>Flexed</p>\n<!-- /wp:paragraph -->" .
+			'</div><!-- /wp:group -->'
+		);
+
+		$request = new WP_REST_Request( 'GET', '/courier-notices/v1/notices/display' );
+		$request->set_param( 'placement', 'header' );
+		$request->set_param( 'format', 'html' );
+
+		$response = rest_get_server()->dispatch( $request );
+		$data     = $response->get_data();
+
+		$this->assertArrayHasKey( 'styles', $data );
+		$this->assertStringContainsString( 'flex-wrap:nowrap', $data['styles'], 'The render-time layout CSS must be in the payload.' );
+	}
+}

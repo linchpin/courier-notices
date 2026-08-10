@@ -329,7 +329,9 @@ class Courier_REST_Controller extends REST_Base {
 				$notice_data    = $notices_data->get_notice_meta( $courier_notice->ID );
 				$notice         = new View();
 				$post_classes   = array( 'courier-notice courier_notice alert alert-box' );
-				$post_classes[] = 'courier_type-' . $notice_data['type'][0]->slug;
+				if ( is_array( $notice_data['type'] ) && array() !== $notice_data['type'] ) {
+					$post_classes[] = 'courier_type-' . $notice_data['type'][0]->slug;
+				}
 				$post_classes[] = $notice_data['is_confirmation'] ? 'gform-confirmation' : '';
 
 				$notice->assign( 'notice_id', $courier_notice->ID );
@@ -341,9 +343,9 @@ class Courier_REST_Controller extends REST_Base {
 				$notice->assign( 'notice_class', implode( ' ', get_post_class( $post_classes, $courier_notice->ID ) ) );
 				$notice->assign( 'dismissible', get_post_meta( $courier_notice->ID, '_courier_dismissible', true ) );
 				$notice->assign( 'icon', $notice_data['icon'] );
-				$notice->assign( 'notice_content', $courier_notice->post_content );
+				$notice->assign( 'notice_content', \CourierNotices\Helper\Utils::prepare_notice_content( $courier_notice->post_content ) );
 
-				if ( ! is_wp_error( $notice_data['style'] ) && is_array( $notice_data['style'] ) ) {
+				if ( is_array( $notice_data['style'] ) && array() !== $notice_data['style'] ) {
 					$style = 'notice-' . $notice_data['style'][0]->slug;
 				}
 
@@ -355,6 +357,11 @@ class Courier_REST_Controller extends REST_Base {
 
 		$dataset = array(
 			'notices' => $notice_posts,
+			// Block-support styles (padding, gap, color) generated while the
+			// fragments rendered. They never reach the already-loaded page on
+			// their own; consumers inject them - the Interactivity store does
+			// this in Phase 3, the legacy jQuery loader ignores the key.
+			'styles'  => wp_style_engine_get_stylesheet_from_context( 'block-supports' ),
 		);
 
 		/**
@@ -454,7 +461,9 @@ class Courier_REST_Controller extends REST_Base {
 					$notice_data    = $notices_data->get_notice_meta( $courier_notice->ID );
 					$notice         = new View();
 					$post_classes   = [ 'courier-notice courier_notice alert alert-box' ];
-					$post_classes[] = 'courier_type-' . $notice_data['type'][0]->slug;
+					if ( is_array( $notice_data['type'] ) && array() !== $notice_data['type'] ) {
+						$post_classes[] = 'courier_type-' . $notice_data['type'][0]->slug;
+					}
 					$post_classes[] = $notice_data['is_confirmation'] ? 'gform-confirmation' : '';
 
 					$notice->assign( 'notice_id', $courier_notice->ID );
@@ -466,14 +475,14 @@ class Courier_REST_Controller extends REST_Base {
 					$notice->assign( 'notice_class', implode( ' ', get_post_class( $post_classes, $courier_notice->ID ) ) );
 					$notice->assign( 'dismissible', get_post_meta( $courier_notice->ID, '_courier_dismissible', true ) );
 					$notice->assign( 'icon', $notice_data['icon'] );
-					$notice->assign( 'notice_content', $courier_notice->post_content );
+					$notice->assign( 'notice_content', \CourierNotices\Helper\Utils::prepare_notice_content( $courier_notice->post_content ) );
 
 					// Determine the correct template based on placement
 					if ( $placement === 'popup-modal' ) {
 						$style = 'notice-popup-modal';
 					} else {
 						$style = 'notice-informational';
-						if ( ! is_wp_error( $notice_data['style'] ) && is_array( $notice_data['style'] ) ) {
+						if ( is_array( $notice_data['style'] ) && array() !== $notice_data['style'] ) {
 							$style = 'notice-' . $notice_data['style'][0]->slug;
 						}
 					}
@@ -486,6 +495,9 @@ class Courier_REST_Controller extends REST_Base {
 				$dataset[ $placement ] = $notice_posts;
 			}
 		}
+
+		// Block-support styles for every fragment above - see display_notices().
+		$dataset['styles'] = wp_style_engine_get_stylesheet_from_context( 'block-supports' );
 
 		// Filter the dataset before returning
 		$dataset = apply_filters( 'courier_notices_display_all_notices', $dataset );

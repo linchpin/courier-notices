@@ -64,6 +64,31 @@ class Utils {
 
 
 	/**
+	 * Prepare notice content for rendering.
+	 *
+	 * Block content is rendered through do_blocks() — the templates used to
+	 * receive raw post_content, and wp_kses_post() mangled the block comment
+	 * delimiters while dynamic blocks never rendered at all. Classic content
+	 * passes through untouched so existing notices render exactly as before.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $content Raw notice post_content.
+	 *
+	 * @return string
+	 */
+	public static function prepare_notice_content( $content ) {
+		$content = (string) $content;
+
+		if ( has_blocks( $content ) ) {
+			return do_blocks( $content );
+		}
+
+		return $content;
+	}
+
+
+	/**
 	 * Get a random hex value
 	 * This is primarily used when adding a new notice type
 	 *
