@@ -83,7 +83,9 @@
 		"php-stubs/wordpress-stubs": "^6.8.2",
 		"saggre/phpdocumentor-markdown": "^1.0.0",
 		"linchpin/coding-standards": "^1.1.9",
-		"phpunit/phpunit": "^9.6.34"
+		"phpunit/phpunit": "^9.6.34",
+		"wp-cli/wp-cli": "^2",
+		"wp-cli/i18n-command": "^2"
 	},
 	"extra": {
 		"installer-paths": {
@@ -103,6 +105,7 @@
 		"phpcbf": "phpcbf --standard=phpcs.xml.dist",
 		"phpcs": "phpcs --standard=phpcs.xml.dist",
 		"phpstan": "phpstan analyse --memory-limit=2048M",
+		"i18n:pot": "wp i18n make-pot . languages/courier-notices.pot --slug=courier-notices --domain=courier-notices --exclude=vendor,node_modules,tests,build,docs,tools,js,wiki,plugin-build",
 		"phpunit": "phpunit",
 		"phpunit:integration": "phpunit -c phpunit-integration.xml",
 		"test": [

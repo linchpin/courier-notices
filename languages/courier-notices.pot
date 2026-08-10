@@ -1,0 +1,1383 @@
+# Copyright (C) 2026 Linchpin
+# This file is distributed under the same license as the Courier Notices plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Courier Notices 1.9.18\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/courier-notices\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-08-10T22:21:03+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: courier-notices\n"
+
+#. Plugin Name of the plugin
+#: courier-notices.php:3
+#: includes/Model/Post_Type/Courier_Notice.php:54
+#: includes/Model/Post_Type/Courier_Notice.php:66
+msgid "Courier Notices"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: courier-notices.php:4
+msgid "https://wordpress.org/plugins/courier-notices"
+msgstr ""
+
+#. Description of the plugin
+#: courier-notices.php:5
+msgid "A way to display, manage, and control front end user notifications for your WordPress install."
+msgstr ""
+
+#. Author of the plugin
+#: courier-notices.php:9
+#: templates/admin/settings-about-linchpin.php:80
+msgid "Linchpin"
+msgstr ""
+
+#. Author URI of the plugin
+#: courier-notices.php:10
+#: templates/admin/welcome.php:53
+msgid "https://linchpin.com"
+msgstr ""
+
+#: courier-notices.php:101
+msgid "Courier Notices is not properly installed. If you are seeing this message, are you in developement mode? Please run `composer install` in the plugin directory."
+msgstr ""
+
+#: courier-notices.php:245
+msgid "Courier Notices Compatibility: WP Rocket"
+msgstr ""
+
+#: courier-notices.php:248
+msgid "We detected WP Rocket is active on this site. WP Rocket needs to be configured to prevent caching of the Courier Notices AJAX URL. Configure WP Rocket to never cache this route \"/wp-json/courier-notices/v1/notices/display/(.*)\". You must also enable the Prevent AJAX Caching option on the Courier Notices settings page."
+msgstr ""
+
+#: courier-notices.php:251
+msgid "Dismiss and don't show again"
+msgstr ""
+
+#: courier-notices.php:267
+msgid "You must be logged in to perform this action."
+msgstr ""
+
+#: courier-notices.php:271
+msgid "Insufficient permissions to perform this action."
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:51
+msgid "Courier Notice Published."
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:76
+msgid "Summary"
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:77
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:127
+#: includes/Helper/Type_List_Table.php:35
+msgid "Type"
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:78
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:93
+#: includes/Model/Taxonomy/Style.php:55
+msgid "Style"
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:79
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:158
+#: includes/Model/Taxonomy/Placement.php:55
+msgid "Placement"
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:81
+msgid "Expiration <a href=\"#\" class=\"courier-info-icon courier-help\" title=\"Non-expiry notices do not expire and will always be shown to users if the notice is not dismissable\">?</a>"
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:151
+msgid "EXPIRED"
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:159
+msgid "Non-expiry"
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:192
+msgid "This is a global notice and may have been dismissed by some users. It is recommended that you create a new global notice to ensure every user sees your new information."
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:205
+msgid "This notice has already been dismissed. Any changes made will not be seen by the user."
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:207
+msgid "Reactivate this notice"
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:270
+#: includes/Controller/Admin/Admin.php:271
+#: includes/Controller/Courier.php:214
+msgid "Expired"
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:272
+msgid "Copy this shortcode to your clipboard"
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:273
+msgid "Courier Notice shortcode has been copied to your clipboard."
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:274
+msgid "Confirm Delete?"
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:275
+msgid "Deleting..."
+msgstr ""
+
+#. translators: %1$s escaped taxonomy name.
+#: includes/Controller/Admin/Admin.php:410
+#, php-format
+msgid "All %1$s"
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:481
+msgid "Reactivate"
+msgstr ""
+
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:65
+msgid "Notice Information"
+msgstr ""
+
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:214
+msgid "Notice Expiration"
+msgstr ""
+
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:215
+msgid "The date and time this notice should expire."
+msgstr ""
+
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:217
+msgid "Expiration date and time"
+msgstr ""
+
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:243
+msgid "Dismissible Notice:"
+msgstr ""
+
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:245
+msgid "Allow this notice to be dismissed by users. If your notice is a Pop Over/Modal. We force the notice to be dismissible"
+msgstr ""
+
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:278
+msgid "Show Title?"
+msgstr ""
+
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:280
+msgid "Show the title for this notice? You can also set this globally or override for this specific notice"
+msgstr ""
+
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:283
+msgid "Hide Title?"
+msgstr ""
+
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:285
+msgid "Hide the title for this notice overriding the global settings?"
+msgstr ""
+
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:293
+msgid "Copy this notice <strong>shortcode</strong> to display in your content or in a widget!"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:107
+msgid "Design Studio"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:109
+#: includes/Controller/Admin/Settings/General.php:135
+msgid "Settings"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:139
+msgid "FAQ"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:140
+#: includes/Controller/Admin/Settings/General.php:503
+msgid "Go Pro"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:271
+msgid "Remove All Data on Uninstall?"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:279
+msgid "Yes clear data"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:286
+msgid "Prevent AJAX request caching"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:295
+msgid "Yes Prevent AJAX Caching"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:296
+msgid "Only enable this if you are experiencing issues with cached AJAX responses"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:314
+msgid "Display Courier Notice Titles on the frontend"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:358
+msgid "Disable CSS on front end"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:367
+msgid "Yes disable CSS"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:368
+msgid "This is useful if you are using your own styles as part of your theme or overriding the css using the Appearance -> Customizer"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:397
+msgid "Type Design Settings"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:404
+#: includes/Model/Taxonomy/Type.php:55
+#: includes/Model/Taxonomy/Type.php:69
+msgid "Types"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:413
+#: includes/Controller/Courier_Types.php:169
+#: includes/Controller/Courier_Types.php:237
+msgid "Courier Types"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:414
+#: includes/Controller/Courier_Types.php:170
+#: includes/Controller/Courier_Types.php:238
+msgid "From this panel you can create and edit different types of Courier notices."
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:487
+msgid "General Settings"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:492
+msgid "Notice Types / Design"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:495
+msgid "Global Design Settings"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:498
+msgid "Informational Settings"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:507
+msgid "About Courier"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:511
+msgid "What's New"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:515
+msgid "Change Log"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:519
+#: templates/admin/welcome.php:53
+msgid "About Linchpin"
+msgstr ""
+
+#: includes/Controller/Admin/Settings/General.php:528
+msgid "Action Scheduler"
+msgstr ""
+
+#: includes/Controller/Courier.php:67
+msgctxt "courier_notice"
+msgid "Expired"
+msgstr ""
+
+#. translators: %1$s count of hoow many terms have expired.
+#: includes/Controller/Courier.php:73
+#, php-format
+msgid "Expired <span class=\"count\">(%s)</span>"
+msgid_plural "Expired <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Controller/Courier.php:95
+msgid "Courier notice updated."
+msgstr ""
+
+#: includes/Controller/Courier.php:96
+msgid "Custom field updated."
+msgstr ""
+
+#: includes/Controller/Courier.php:97
+msgid "Custom field deleted."
+msgstr ""
+
+#: includes/Controller/Courier.php:98
+msgid "Notice updated."
+msgstr ""
+
+#. translators: %s: date and time of the revision
+#: includes/Controller/Courier.php:100
+#, php-format
+msgid "Notice restored to revision from %s"
+msgstr ""
+
+#. translators: %s: link to notice
+#: includes/Controller/Courier.php:102
+#, php-format
+msgid "Notice published. <a href=\"%1$s\">View notice</a>"
+msgstr ""
+
+#: includes/Controller/Courier.php:103
+msgid "Notice saved."
+msgstr ""
+
+#. translators: %1$s: link to preview
+#: includes/Controller/Courier.php:105
+#, php-format
+msgid "Notice submitted. <a target=\"_blank\" href=\"%1$s\">Preview notice</a>"
+msgstr ""
+
+#. translators: %1$s: date and time of the revision, %2$s: link to notice
+#: includes/Controller/Courier.php:108
+#, php-format
+msgid "Notice scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview notice</a>"
+msgstr ""
+
+#. translators: Publish box date format, see http://php.net/date.
+#: includes/Controller/Courier.php:110
+msgid "M j, Y @ G:i"
+msgstr ""
+
+#. translators: %1$s: date and time of the revision, %2$s: link to notice
+#: includes/Controller/Courier.php:114
+#, php-format
+msgid "Notice draft updated. <a target=\"_blank\" href=\"%s\">Preview notice</a>"
+msgstr ""
+
+#: includes/Controller/Courier.php:173
+#: includes/Controller/Install.php:131
+msgid "Global"
+msgstr ""
+
+#: includes/Controller/Courier.php:240
+msgid "Global (All Users)"
+msgstr ""
+
+#: includes/Controller/Courier.php:244
+msgid "User"
+msgstr ""
+
+#: includes/Controller/Courier.php:546
+msgid "Notifications"
+msgstr ""
+
+#: includes/Controller/Courier_Notices.php:103
+msgid "Close"
+msgstr ""
+
+#: includes/Controller/Courier_Notices.php:104
+#: templates/admin/welcome.php:29
+msgid "Dismiss"
+msgstr ""
+
+#: includes/Controller/Courier_REST_Controller.php:72
+msgid "Set where the notices should display."
+msgstr ""
+
+#: includes/Controller/Courier_REST_Controller.php:78
+#: includes/Controller/Courier_REST_Controller.php:110
+msgid "Set the response, either html or json."
+msgstr ""
+
+#: includes/Controller/Courier_REST_Controller.php:84
+#: includes/Controller/Courier_REST_Controller.php:89
+#: includes/Controller/Courier_REST_Controller.php:116
+msgid "Our queried post info"
+msgstr ""
+
+#: includes/Controller/Courier_REST_Controller.php:121
+msgid "User ID"
+msgstr ""
+
+#: includes/Controller/Courier_REST_Controller.php:504
+msgid "Current page of the collection."
+msgstr ""
+
+#: includes/Controller/Courier_REST_Controller.php:510
+msgid "Maximum number of items to be returned in result set."
+msgstr ""
+
+#: includes/Controller/Courier_REST_Controller.php:516
+msgid "Limit results to those matching a string."
+msgstr ""
+
+#: includes/Controller/Install.php:107
+msgid "Primary"
+msgstr ""
+
+#: includes/Controller/Install.php:111
+msgid "Success"
+msgstr ""
+
+#: includes/Controller/Install.php:115
+msgid "Alert"
+msgstr ""
+
+#: includes/Controller/Install.php:119
+msgid "Warning"
+msgstr ""
+
+#: includes/Controller/Install.php:123
+msgid "Feedback"
+msgstr ""
+
+#: includes/Controller/Install.php:127
+msgid "Info"
+msgstr ""
+
+#: includes/Controller/Install.php:134
+msgid "Viewed"
+msgstr ""
+
+#: includes/Controller/Install.php:135
+msgid "Dismissed"
+msgstr ""
+
+#: includes/Controller/Install.php:138
+msgid "Header"
+msgstr ""
+
+#: includes/Controller/Install.php:139
+msgid "Footer"
+msgstr ""
+
+#: includes/Controller/Install.php:145
+#: includes/Controller/Upgrade.php:77
+msgid "Informational"
+msgstr ""
+
+#: includes/Controller/Install.php:146
+msgid "Popup Modal"
+msgstr ""
+
+#: includes/Controller/Upgrade.php:81
+#: includes/Controller/Upgrade.php:86
+msgid "Pop Over / Modal"
+msgstr ""
+
+#: includes/Controller/Upgrade.php:185
+msgid "Courier Notices: Migration Complete"
+msgstr ""
+
+#: includes/Controller/Upgrade.php:187
+msgid "Great news! Courier Notices has been successfully upgraded to use Action Scheduler for more reliable notice expiration."
+msgstr ""
+
+#: includes/Controller/Upgrade.php:190
+msgid "Benefits of this upgrade:"
+msgstr ""
+
+#: includes/Controller/Upgrade.php:193
+msgid "• More reliable notice expiration timing"
+msgstr ""
+
+#: includes/Controller/Upgrade.php:194
+msgid "• Better performance and scalability"
+msgstr ""
+
+#: includes/Controller/Upgrade.php:195
+msgid "• Individual notice scheduling instead of bulk checking"
+msgstr ""
+
+#: includes/Controller/Upgrade.php:196
+msgid "• Improved error handling and retry logic"
+msgstr ""
+
+#: includes/Controller/Upgrade.php:199
+msgid "Your existing notices have been automatically migrated. No further action is required."
+msgstr ""
+
+#: includes/Core/View.php:64
+msgid "Invalid file path"
+msgstr ""
+
+#: includes/Helper/Functions.php:411
+msgid "The notice you tried to dismiss does not exist."
+msgstr ""
+
+#: includes/Helper/Functions.php:423
+msgid "This notice is not dismissible."
+msgstr ""
+
+#: includes/Helper/Type_List_Table.php:34
+msgid "Default"
+msgstr ""
+
+#: includes/Helper/Type_List_Table.php:36
+msgid "Notice Preview"
+msgstr ""
+
+#: includes/Helper/Type_List_Table.php:73
+msgid "No types available."
+msgstr ""
+
+#. translators: %1$s Title of the term.
+#: includes/Helper/Type_List_Table.php:195
+#, php-format
+msgid "Select %1$s"
+msgstr ""
+
+#. translators: %1$s Title of the term.
+#: includes/Helper/Type_List_Table.php:231
+#: includes/Helper/Type_List_Table.php:275
+#: includes/Helper/Type_List_Table.php:290
+#, php-format
+msgid "%1$s Color"
+msgstr ""
+
+#. translators: %1$s Title of the term.
+#: includes/Helper/Type_List_Table.php:260
+#: templates/admin/notice-preview.php:76
+#, php-format
+msgid "%1$s Text Color"
+msgstr ""
+
+#: includes/Helper/Type_List_Table.php:388
+msgid "Title"
+msgstr ""
+
+#: includes/Helper/Type_List_Table.php:390
+msgid "Icon Class"
+msgstr ""
+
+#: includes/Helper/Type_List_Table.php:398
+msgid "Edit"
+msgstr ""
+
+#: includes/Helper/Type_List_Table.php:422
+msgid "Save"
+msgstr ""
+
+#: includes/Helper/Type_List_Table.php:426
+msgid "Cancel"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:55
+#: includes/Model/Post_Type/Courier_Notice.php:67
+#: includes/Model/Post_Type/Courier_Notice.php:86
+msgid "Notice"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:56
+msgid "All Notices"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:57
+msgid "New notice"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:58
+msgid "Add New"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:59
+msgid "Add New notice"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:60
+msgid "Edit notice"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:61
+msgid "View notice"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:62
+msgid "Search notices"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:63
+msgid "No notices found"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:64
+msgid "No notices found in trash"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:65
+msgid "Parent notice"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:68
+msgid "Notice Archives"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:69
+msgid "Notice Attributes"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:70
+msgid "Update Notice"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:71
+msgid "View Notice"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:72
+msgid "Featured Image"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:73
+msgid "Set featured image"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:74
+msgid "Remove featured image"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:75
+msgid "Use as featured image"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:76
+msgid "Insert into Notice"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:77
+msgid "Uploaded to this Notice"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:78
+msgid "Notice list"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:79
+msgid "Notice list navigation"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:80
+msgid "Filter Notice list"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:87
+msgid "Notices"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:56
+msgctxt "taxonomy general name"
+msgid "Placement"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:57
+msgid "Search notice placements"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:58
+msgid "Popular notice placements"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:59
+msgid "All notice placements"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:60
+msgid "Parent notice placement"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:61
+msgid "Parent notice placement:"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:62
+msgid "Edit notice placement"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:63
+msgid "Update notice placement"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:64
+#: includes/Model/Taxonomy/Placement.php:65
+msgid "New notice placement"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:66
+msgid "Notice Placements separated by comma"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:67
+msgid "Add or remove notice placements"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:68
+msgid "Choose from the most used notice placements"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:69
+msgid "Notice Placements"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:70
+msgid "View Notice Placements"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:71
+#: includes/Model/Taxonomy/Scope.php:71
+#: includes/Model/Taxonomy/Status.php:71
+#: includes/Model/Taxonomy/Style.php:71
+#: includes/Model/Taxonomy/Type.php:71
+msgid "Not Found"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:72
+#: includes/Model/Taxonomy/Scope.php:72
+#: includes/Model/Taxonomy/Status.php:72
+#: includes/Model/Taxonomy/Style.php:72
+#: includes/Model/Taxonomy/Type.php:72
+msgid "No types"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:73
+msgid "Notice Placements list"
+msgstr ""
+
+#: includes/Model/Taxonomy/Placement.php:74
+msgid "Notice Placements list navigation"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:55
+#: includes/Model/Taxonomy/Scope.php:69
+msgid "Notice Scopes"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:56
+msgctxt "taxonomy general name"
+msgid "Notice Scope"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:57
+msgid "Search notice scopes"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:58
+msgid "Popular notice scopes"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:59
+msgid "All notice scopes"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:60
+msgid "Parent notice scope"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:61
+msgid "Parent notice scope:"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:62
+msgid "Edit notice scope"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:63
+msgid "Update notice scope"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:64
+#: includes/Model/Taxonomy/Scope.php:65
+msgid "New notice scope"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:66
+msgid "Notice Scopes separated by comma"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:67
+msgid "Add or remove notice scopes"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:68
+msgid "Choose from the most used notice scopes"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:70
+#: includes/Model/Taxonomy/Status.php:70
+msgid "View Notice Scopes"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:73
+#: includes/Model/Taxonomy/Status.php:73
+msgid "Notice Scopes list"
+msgstr ""
+
+#: includes/Model/Taxonomy/Scope.php:74
+#: includes/Model/Taxonomy/Status.php:74
+msgid "Notice Scopes list navigation"
+msgstr ""
+
+#: includes/Model/Taxonomy/Status.php:55
+#: includes/Model/Taxonomy/Status.php:69
+msgid "Statuses"
+msgstr ""
+
+#: includes/Model/Taxonomy/Status.php:56
+msgctxt "taxonomy general name"
+msgid "Status"
+msgstr ""
+
+#: includes/Model/Taxonomy/Status.php:57
+msgid "Search statuses"
+msgstr ""
+
+#: includes/Model/Taxonomy/Status.php:58
+msgid "Popular statuses"
+msgstr ""
+
+#: includes/Model/Taxonomy/Status.php:59
+msgid "All statuses"
+msgstr ""
+
+#: includes/Model/Taxonomy/Status.php:60
+msgid "Parent status"
+msgstr ""
+
+#: includes/Model/Taxonomy/Status.php:61
+msgid "Parent statuses:"
+msgstr ""
+
+#: includes/Model/Taxonomy/Status.php:62
+msgid "Edit statuses"
+msgstr ""
+
+#: includes/Model/Taxonomy/Status.php:63
+msgid "Update statuses"
+msgstr ""
+
+#: includes/Model/Taxonomy/Status.php:64
+#: includes/Model/Taxonomy/Status.php:65
+msgid "New statuses"
+msgstr ""
+
+#: includes/Model/Taxonomy/Status.php:66
+msgid "Statuses separated by comma"
+msgstr ""
+
+#: includes/Model/Taxonomy/Status.php:67
+msgid "Add or remove statuses"
+msgstr ""
+
+#: includes/Model/Taxonomy/Status.php:68
+msgid "Choose from the most used statuses"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:56
+msgctxt "taxonomy general name"
+msgid "Style"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:57
+msgid "Search notice styles"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:58
+msgid "Popular notice styles"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:59
+msgid "All notice styles"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:60
+msgid "Parent notice style"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:61
+msgid "Parent notice style:"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:62
+msgid "Edit notice style"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:63
+msgid "Update notice style"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:64
+#: includes/Model/Taxonomy/Style.php:65
+msgid "New notice style"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:66
+msgid "Notice Styles separated by comma"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:67
+msgid "Add or remove notice styles"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:68
+msgid "Choose from the most used notice styles"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:69
+msgid "Notice Styles"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:70
+msgid "View Notice Styles"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:73
+msgid "Notice Styles list"
+msgstr ""
+
+#: includes/Model/Taxonomy/Style.php:74
+msgid "Notice Styles list navigation"
+msgstr ""
+
+#: includes/Model/Taxonomy/Type.php:56
+msgctxt "taxonomy general name"
+msgid "Notice Type"
+msgstr ""
+
+#: includes/Model/Taxonomy/Type.php:57
+msgid "Search notice types"
+msgstr ""
+
+#: includes/Model/Taxonomy/Type.php:58
+msgid "Popular notice types"
+msgstr ""
+
+#: includes/Model/Taxonomy/Type.php:59
+msgid "All notice types"
+msgstr ""
+
+#: includes/Model/Taxonomy/Type.php:60
+msgid "Parent notice type"
+msgstr ""
+
+#: includes/Model/Taxonomy/Type.php:61
+msgid "Parent notice type:"
+msgstr ""
+
+#: includes/Model/Taxonomy/Type.php:62
+msgid "Edit notice type"
+msgstr ""
+
+#: includes/Model/Taxonomy/Type.php:63
+msgid "Update notice type"
+msgstr ""
+
+#: includes/Model/Taxonomy/Type.php:64
+#: includes/Model/Taxonomy/Type.php:65
+msgid "New notice type"
+msgstr ""
+
+#: includes/Model/Taxonomy/Type.php:66
+msgid "Notice Types separated by comma"
+msgstr ""
+
+#: includes/Model/Taxonomy/Type.php:67
+msgid "Add or remove notice types"
+msgstr ""
+
+#: includes/Model/Taxonomy/Type.php:68
+msgid "Choose from the most used notice types"
+msgstr ""
+
+#: includes/Model/Taxonomy/Type.php:70
+msgid "View Type"
+msgstr ""
+
+#: includes/Model/Taxonomy/Type.php:73
+msgid "Types list"
+msgstr ""
+
+#: includes/Model/Taxonomy/Type.php:74
+msgid "Types list navigation"
+msgstr ""
+
+#: templates/admin/copy-shortcode.php:11
+msgid "Courier Shortcode"
+msgstr ""
+
+#: templates/admin/copy-shortcode.php:13
+msgid "Copy Courier Shortcode"
+msgstr ""
+
+#: templates/admin/fields/field-table.php:28
+msgid "Add a new Courier Type"
+msgstr ""
+
+#. translators: %1$s Title of the term.
+#: templates/admin/notice-preview.php:60
+#, php-format
+msgid "%1$s Accent Color"
+msgstr ""
+
+#. translators: %1$s Title of the term.
+#: templates/admin/notice-preview.php:68
+#, php-format
+msgid "%1$s Icon Color"
+msgstr ""
+
+#. translators: %1$s Title of the term.
+#: templates/admin/notice-preview.php:84
+#, php-format
+msgid "%1$s Background Color"
+msgstr ""
+
+#: templates/admin/review-notice.php:19
+#: templates/admin/welcome.php:34
+msgid "Courier Logo"
+msgstr ""
+
+#. translators: %1$s: human readable time %2$s: Link to review tab on wordpress.org.
+#: templates/admin/review-notice.php:27
+#, php-format
+msgid "Thanks for using Courier for the past %1$s. <strong>This is a huge compliment</strong> and we could really use your help with a <a href=\"%2$s\">review on wordpress.org</a>"
+msgstr ""
+
+#: templates/admin/review-notice.php:35
+msgid "If you like Courier and want us to continue development (including block editor and more plugin integrations) we could use the support! <a href=\"#\" class=\"review-dismiss\">No Thanks</a>"
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:23
+msgid "Thank you for installing Courier Notices"
+msgstr ""
+
+#. translators: %1$s Getting Started, %2$s Using Courier.
+#: templates/admin/settings-about-courier.php:34
+#, php-format
+msgid "<span class=\"bold\">%1$s</span> %2$s"
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:47
+msgid "A Quick 2 Minute Primer"
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:48
+msgid "Courier allows you to notify your site visitors/users of different information and events on your site."
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:49
+msgid "We built this plugin as a base notification system for a few other projects and decided to share it with the community."
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:52
+msgid "Recommendation: If you are using the default WP Cron, we suggest utilizing an alternate cron so the timing of notice expiration is more accurate."
+msgstr ""
+
+#. translators: %1$s WP Cron Documentation.
+#: templates/admin/settings-about-courier.php:59
+#, php-format
+msgid "You can read more about <a href=\"%1$s\" target=\"_blank\" rel=\"noopener\">WP Cron Here</a>."
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:72
+msgid "More Quick Tips"
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:80
+msgid "Easy to Use"
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:81
+msgid "Create site notices using an interface similar to default pages and posts in WordPress."
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:92
+msgid "Quickly get started"
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:94
+msgid "Different notice types"
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:95
+msgid "Easy to design/style"
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:96
+msgid "Easy to extend"
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:98
+msgid "More features coming soon."
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:109
+msgid "Create Your Own Notice Types "
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:110
+msgid "You can use the default Courier notice types or feel free to add your own."
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:111
+msgid "Pick your own notice colors and icons, disable the styles completely to theme Courier yourself."
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:122
+msgid "Plays Well with Others"
+msgstr ""
+
+#. translators: %s Courier github URL.
+#: templates/admin/settings-about-courier.php:127
+#, php-format
+msgid "Continually updated with hooks and filters to extend functionality. For a full list, check out <a href=\"%s\" target=\"_blank\" rel=\"noopener\">Courier on github.com</a>."
+msgstr ""
+
+#: templates/admin/settings-about-courier.php:142
+#: templates/admin/settings-addons.php:22
+msgid "Addons"
+msgstr ""
+
+#. translators: %s Courier github URL.
+#: templates/admin/settings-about-courier.php:147
+msgid "If you're using gravity forms, you can even use courier as your gravity forms confirmation. Simply visit your forms confirmation area and you will see a new confirmation type of \"Courier Notice\""
+msgstr ""
+
+#: templates/admin/settings-about-linchpin.php:23
+msgid "About the Team Behind Courier"
+msgstr ""
+
+#. translators: %1$s Linchpin URL, %2$s Linchpin Profile URL, %3$s WordPress RI meetup URL.
+#: templates/admin/settings-about-linchpin.php:35
+#, php-format
+msgid ""
+"<a href=\"%1$s\">Linchpin</a> is a Digital Agency that specializes in WordPress.\n"
+"\t\t\t\t\t\t\t\t\t\tCommitted to contributing to the WordPress community, Linchpin has released several\n"
+"\t\t\t\t\t\t\t\t\t\t<a href=\"%2$s\">plugins</a> on WordPress.org. Linchpin is also an active member in\n"
+"\t\t\t\t\t\t\t\t\t\ttheir local WordPress communities, not only leading the <a href=\"%3$s\">WordPress\n"
+"\t\t\t\t\t\t\t\t\t\tRhode Island Meetup</a> group for several years, but also organizing, volunteering,\n"
+"\t\t\t\t\t\t\t\t\t\tspeaking at or sponsoring local WordCamp conferences in the greater New England area."
+msgstr ""
+
+#. translators: %s Linchpin URL.
+#: templates/admin/settings-about-linchpin.php:57
+#, php-format
+msgid " <a href=\"%s\">Check out our website</a>, connect with us or come say hi at a local event."
+msgstr ""
+
+#. translators: %1$s Linchpin URL, %2$s Linchpin. %3$s Jetpack.pro url, %4$s Jetpack.pro label.
+#: templates/admin/settings-about-linchpin.php:73
+#, php-format
+msgid "<a href=\"%1$s\">%2$s</a> |"
+msgstr ""
+
+#. translators: %1$s Linchpin Facebook URL, %2$s Facebook Label. %3$s Linchpin Twitter url, %4$s Twitter label.
+#: templates/admin/settings-about-linchpin.php:87
+#, php-format
+msgid "<a href=\"%1$s\">%2$s</a> | <a href=\"%3$s\">%4$s</a> | "
+msgstr ""
+
+#: templates/admin/settings-about-linchpin.php:94
+msgid "Facebook"
+msgstr ""
+
+#: templates/admin/settings-about-linchpin.php:96
+msgid "Twitter"
+msgstr ""
+
+#. translators: %1$s Linchpin Instagram URL, %2$s Instagram Label.
+#: templates/admin/settings-about-linchpin.php:103
+#, php-format
+msgid "<a href=\"%1$s\">%2$s</a>"
+msgstr ""
+
+#: templates/admin/settings-about-linchpin.php:110
+msgid "Instagram"
+msgstr ""
+
+#: templates/admin/settings-addons.php:28
+msgid "More Add Ons Coming Soon"
+msgstr ""
+
+#: templates/admin/settings-addons.php:33
+msgid "Add Ons are a great way to extend the functionality of Courier"
+msgstr ""
+
+#: templates/admin/settings-addons.php:34
+msgid "There are numerous ways to do this including our own premium library of plugins"
+msgstr ""
+
+#: templates/admin/settings-addons.php:35
+msgid "Or take a look at our growing developer documentation"
+msgstr ""
+
+#: templates/admin/settings-changelog.php:27
+msgid "Release notes on GitHub"
+msgstr ""
+
+#: templates/admin/settings-changelog.php:28
+msgid "Every release, with the changes grouped by type."
+msgstr ""
+
+#: templates/admin/settings-changelog.php:32
+msgid "Full changelog"
+msgstr ""
+
+#: templates/admin/settings-changelog.php:33
+msgid "The complete history in one file."
+msgstr ""
+
+#: templates/admin/settings-changelog.php:52
+msgid "Courier Changelog"
+msgstr ""
+
+#. translators: %s: the installed plugin version number.
+#: templates/admin/settings-changelog.php:58
+#, php-format
+msgid "You are running version %s."
+msgstr ""
+
+#: templates/admin/settings-design.php:19
+msgid "Notice Types / Design Settings"
+msgstr ""
+
+#: templates/admin/settings-general.php:19
+msgid "Courier Settings"
+msgstr ""
+
+#: templates/admin/settings-global-design.php:20
+msgid "Design Settings / Global Settings"
+msgstr ""
+
+#: templates/admin/settings-gopro.php:22
+msgid "Now Available Courier Notices Pro"
+msgstr ""
+
+#: templates/admin/settings-gopro.php:28
+msgid "Features"
+msgstr ""
+
+#: templates/admin/settings-gopro.php:31
+msgid "Tons of visibility options"
+msgstr ""
+
+#: templates/admin/settings-gopro.php:32
+msgid "Show courier notices per user, role, logged / logged out"
+msgstr ""
+
+#: templates/admin/settings-gopro.php:33
+msgid "Show courier notices for pages, posts, custom post types"
+msgstr ""
+
+#: templates/admin/settings-gopro.php:34
+msgid "Show courier notices for custom urls and more"
+msgstr ""
+
+#: templates/admin/settings-gopro.php:35
+msgid "Integrations with Gravity Forms confirmation messages"
+msgstr ""
+
+#: templates/admin/settings-types-design.php:20
+msgid "Design Settings / Info/Types Settings"
+msgstr ""
+
+#: templates/admin/settings-whats-new.php:21
+msgid "Quality of Life Update"
+msgstr ""
+
+#: templates/admin/settings-whats-new.php:38
+msgid "Making Courier Notices easier to use and more extensible"
+msgstr ""
+
+#: templates/admin/settings-whats-new.php:43
+msgid "This release is the culmination of 50+ commits for bug fixes and enhancements."
+msgstr ""
+
+#: templates/admin/settings-whats-new.php:44
+msgid "For more specifics please see the change log."
+msgstr ""
+
+#: templates/admin/settings.php:31
+msgid "Courier"
+msgstr ""
+
+#. translators: %1$s: Linchpin Website URL %2$s: Visit CTA Image/logo
+#: templates/admin/settings.php:51
+#, php-format
+msgid "<a href=\"%1$s\" class=\"button visit-linchpin-cta\" target=\"_blank\">Visit <img src=\"%2$s\" /></a>"
+msgstr ""
+
+#. translators: %1$s: Version Number %2$s: Link to what's new tab.
+#: templates/admin/upgrade-notice.php:30
+#, php-format
+msgid "Thanks for updating Courier to v. (%1$s). <strong>Major release</strong>. <a href=\"%2$s\">what's new</a>"
+msgstr ""
+
+#: templates/admin/upgrade-notice.php:38
+msgid "Initial Release"
+msgstr ""
+
+#: templates/admin/welcome.php:29
+msgid "Dismiss the Courier welcome panel"
+msgstr ""
+
+#: templates/admin/welcome.php:31
+msgid "Get ready to keep your users in the loop with Courier"
+msgstr ""
+
+#: templates/admin/welcome.php:37
+msgid "Courier allows you to notify users about the happening(s) on your site"
+msgstr ""
+
+#: templates/admin/welcome.php:38
+msgid "You can have notices displayed globally, per user, per page, by shortcode or even using it's numerous filters"
+msgstr ""
+
+#: templates/admin/welcome.php:39
+msgid "We&#8217;ve assembled some links to get you started:"
+msgstr ""
+
+#: templates/admin/welcome.php:44
+msgid "Get Started"
+msgstr ""
+
+#: templates/admin/welcome.php:46
+msgid "Create New Courier Notice"
+msgstr ""
+
+#: templates/admin/welcome.php:50
+msgid "More Actions"
+msgstr ""
+
+#: templates/admin/welcome.php:52
+msgid "Learn more about Courier"
+msgstr ""
+
+#: templates/admin/welcome.php:52
+msgid "https://github.com/linchpin/courier"
+msgstr ""
+
+#: templates/admin/welcome.php:54
+msgid "View Features Requests"
+msgstr ""
+
+#: templates/admin/welcome.php:54
+msgid "https://github.com/linchpin/courier/issues"
+msgstr ""
