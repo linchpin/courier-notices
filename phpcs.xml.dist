@@ -1,98 +1,105 @@
 <?xml version="1.0"?>
-<ruleset name="WordPress Coding Standards">
-	<description>Apply WordPress Coding Standards with Linchpin Flavors</description>
+<ruleset name="Courier Notices">
+	<description>Linchpin coding standards with Courier Notices project overrides.</description>
 
-	<!-- Set the memory limit to 512M.
-		 For most standard PHP configurations, this means the memory limit will temporarily be raised.
-		 Ref: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#specifying-phpini-settings
+	<!--
+		Base standard comes from linchpin/coding-standards.
+
+		We use Linchpin-Minimum rather than the full Linchpin ruleset, matching
+		linchpin-blocks. Measured against this codebase on 2026-08-10:
+
+		  Linchpin-Minimum   96 violations across 9 sniffs - all security,
+		                     performance and correctness, zero style noise
+		  Linchpin (full)    899 violations, of which ~666 are two auto-fixable
+		                     style sniffs (long array syntax 438, multiple empty
+		                     lines 228)
+
+		Moving to full Linchpin is worth doing, but it is a mechanical reformat
+		that touches nearly every file and should land as its own PR rather than
+		riding along with feature work. Tracked in docs/2.0-MIGRATION-PLAN.md.
 	-->
-	<ini name="memory_limit" value="1024M"/>
+	<rule ref="Linchpin-Minimum"/>
 
-	<!-- Whenever possible, cache the scan results and re-use those for unchanged files on the next scan. -->
-	<arg name="cache"/>
-
-	<!-- Show sniff codes in all reports. -->
-	<arg value="s"/>
-
-	<!-- WordPress Core currently supports PHP 8.2+. -->
+	<!--
+		testVersion is REQUIRED, not optional. Linchpin-Minimum pulls in
+		PHPCompatibility, and without testVersion its Sniff.php passes null to
+		trim() and throws an internal exception that ABORTS checking on every
+		file - reporting "an error occurred during processing" instead of real
+		violations. Keep this in sync with "Requires PHP" in courier-notices.php.
+	-->
 	<config name="testVersion" value="8.2-8.4"/>
-	<rule ref="PHPCompatibilityWP">
-		<include-pattern>*\.php</include-pattern>
-	</rule>
 
 	<!-- Only sniff PHP files. -->
 	<arg name="extensions" value="php"/>
 
-	<!-- Only sniff the plugin. -->
+	<!--
+		Paths in scope.
+
+		NOTE: passing explicit file paths on the command line OVERRIDES this
+		list. lint-staged does exactly that so it can lint only staged files,
+		which means a staged file outside this list still gets checked. Keep
+		this list complete anyway - it is what a bare `composer phpcs` uses.
+	-->
 	<file>./courier-notices.php</file>
 	<file>./includes</file>
+	<file>./templates</file>
+	<file>./uninstall.php</file>
 
-	<!-- Exclude the build directory. -->
 	<exclude-pattern>/build/*</exclude-pattern>
-
-	<!-- Exclude the Composer Vendor directory. -->
 	<exclude-pattern>./vendor/*</exclude-pattern>
-
-	<!-- Exclude the Node Modules directory. -->
+	<exclude-pattern>./vendor-prefixed/*</exclude-pattern>
 	<exclude-pattern>/node_modules/*</exclude-pattern>
-
-	<!-- Exclude the tools directory. -->
 	<exclude-pattern>./tools/*</exclude-pattern>
+	<exclude-pattern>*.min.js</exclude-pattern>
+	<exclude-pattern>*.asset.php</exclude-pattern>
 
-	<!-- Exclude the vendored fork of core's WP_List_Table.
-		 This is a copy of WordPress core code, not ours to restyle, and it
-		 accounts for roughly half the project's PHPCS errors on its own.
-		 It is slated for deletion when the React admin replaces the Design
-		 Studio table (see docs/2.0-MIGRATION-PLAN.md, Phase 5). -->
+	<!--
+		Vendored fork of core's WP_List_Table - a copy of WordPress core code,
+		not ours to restyle. Slated for deletion when the React admin replaces
+		the Design Studio table (migration plan, Phase 5).
+	-->
 	<exclude-pattern>./includes/Helper/WP_List_Table.php</exclude-pattern>
 
-	<!-- Exclude minified Javascript files. -->
-	<exclude-pattern>*.min.js</exclude-pattern>
-
-	<!-- Strip the filepaths down to the relevant bit. -->
 	<arg name="basepath" value="."/>
-
-	<!-- Check up to 8 files simultaneously. -->
+	<arg name="cache"/>
 	<arg name="parallel" value="8"/>
+	<arg value="s"/>
 
-	<!-- Use WordPress "Extra" Coding Standards. -->
-	<rule ref="WordPress-Extra">
-		<!-- Allow array short syntax. -->
-		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found" />
-		<!-- Allow short prefixes. -->
-		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.ShortPrefixPassed"/>
-		<!-- Exclude deprecated sniff -->
-		<exclude name="Generic.Functions.CallTimePassByReference"/>
-		<!-- Exclude filename rules -->
-		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
-		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
-	</rule>
-
-	<!-- Use WordPress "Docs" Coding Standards. -->
-	<rule ref="WordPress-Docs" />
-
-	<!-- The minimum supported WordPress version. This should match what's listed in style.css. -->
-	<rule ref="WordPress.WP.DeprecatedFunctions">
-		<properties>
-			<property name="minimum_wp_version" value="6.8"/>
-		</properties>
-	</rule>
-	
-
-	<!-- Verify that everything in the global namespace is prefixed with a theme specific prefix.
-		 Multiple valid prefixes can be provided as a comma-delimited list. -->
+	<!--
+		Linchpin-Minimum does not include PrefixAllGlobals. We want it: this
+		plugin ships on wordpress.org, where an unprefixed global is both a
+		review finding and a real collision risk. It currently flags legitimate
+		back-compat hooks such as `courier_notice_labels` and `courier_excerpt`,
+		which are public API and cannot simply be renamed - see the back-compat
+		landmines section of the migration plan.
+	-->
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<property name="prefixes" type="array">
 				<element value="CourierNotices"/>
 				<element value="courier_notices"/>
-				<element value="courier_notices_"/>
 			</property>
 		</properties>
 	</rule>
 
-	<!-- Custom capabilities for the integration post type. -->
-	<rule ref="WordPress.WP.Capabilities.Unknown">
+	<!--
+		Template variables are NOT globals here, so the variable-prefix check is
+		a false positive in templates/ (79 of them).
+
+		Core\View::render() assigns them with ${$key} = $value inside a method
+		and then includes the template from that same method, so they are
+		function-scoped. The sniff cannot see that and assumes global scope.
+
+		Function and hook name prefixing still applies to templates - only the
+		variable check is excluded.
+	-->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound">
+		<exclude-pattern>./templates/*</exclude-pattern>
+		<exclude-pattern>./src/blocks/*/render.php</exclude-pattern>
+	</rule>
+
+	<!-- Custom capabilities registered by Install::add_capabilities(). -->
+	<rule ref="WordPress.WP.Capabilities">
 		<properties>
 			<property name="custom_capabilities" type="array">
 				<element value="edit_courier_notices"/>
@@ -104,8 +111,6 @@
 		</properties>
 	</rule>
 
-	<!-- Verify that the text_domain is set to the desired text-domain.
-		 Multiple valid text domains can be provided as a comma-delimited list. -->
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" type="array">
@@ -114,13 +119,31 @@
 		</properties>
 	</rule>
 
-	<!-- Exclude deprecated sniff -->
-	<rule ref="Generic.Functions.CallTimePassByReference">
-		<exclude />
+	<!-- Minimum supported WordPress version, matching the plugin header. -->
+	<rule ref="WordPress.WP.DeprecatedFunctions">
+		<properties>
+			<property name="minimum_wp_version" value="6.8"/>
+		</properties>
 	</rule>
 
-	<rule ref="Generic.WhiteSpace.LanguageConstructSpacing">
-		<exclude />
+	<!--
+		PSR-4 layout uses Studly_Snake_Case class files (Courier_REST_Controller.php),
+		which WordPress' hyphenated-lowercase filename sniffs reject.
+	-->
+	<rule ref="WordPress.Files.FileName">
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
 	</rule>
 
+	<!--
+		The main plugin file and uninstall.php necessarily mix declarations with
+		side effects (constants, hook registration, the WP_UNINSTALL_PLUGIN guard).
+	-->
+	<rule ref="PSR1.Files.SideEffects">
+		<exclude-pattern>./courier-notices.php</exclude-pattern>
+		<exclude-pattern>./uninstall.php</exclude-pattern>
+		<!-- Emitting markup is what a view template is for. -->
+		<exclude-pattern>./templates/*</exclude-pattern>
+		<exclude-pattern>./src/blocks/*/render.php</exclude-pattern>
+	</rule>
 </ruleset>

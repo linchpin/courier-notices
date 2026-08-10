@@ -1,0 +1,20 @@
+{
+	"wordpress": {
+		"pluginSlug": "courier-notices",
+		"defaultEnvironment": "studio-courier-notices",
+		"environments": {
+			"studio-courier-notices": "~/Studio/courier-notices/wp-content/plugins/courier-notices"
+		}
+	},
+	"clickup": {
+		"space": "Courier Notices",
+		"folder": "2.0 Migration",
+		"taskPrefix": "COURIER"
+	},
+	"notes": [
+		"The Studio site symlinks this repo in as wp-content/plugins/courier-notices, so edits are live.",
+		"Studio runs PHP-WASM: paths inside `wp eval` must use ABSPATH (resolves to /wordpress/), never host filesystem paths.",
+		"Studio is not a PHPUnit host. PHP unit tests are WordPress-free; integration tests run in CI against wp-phpunit + MySQL.",
+		"See docs/2.0-MIGRATION-PLAN.md for the 2.0 architecture and phasing."
+	]
+}
