@@ -102,9 +102,9 @@ class Courier_REST_Controller extends REST_Base {
 							'validate_callback' => 'rest_validate_request_arg',
 						],
 						'user_id'   => [
-							'description'       => esc_html__( 'Our queried post info', 'courier-notices' ),
-							'type'              => 'int',
-							'sanitize_callback' => 'sanitize_text_field',
+							'description'       => esc_html__( 'The user the notices are for.', 'courier-notices' ),
+							'type'              => 'integer',
+							'sanitize_callback' => 'absint',
 							'validate_callback' => 'rest_validate_request_arg',
 						],
 					],
@@ -122,6 +122,15 @@ class Courier_REST_Controller extends REST_Base {
 					'callback'            => [ $this, 'display_all_notices' ],
 					'permission_callback' => [ $this, 'get_public_permissions' ],
 					'args'                => [
+						'placements' => [
+							'description'       => esc_html__( 'Placements to fetch notices for.', 'courier-notices' ),
+							'type'              => 'array',
+							'items'             => [
+								'type' => 'string',
+							],
+							'sanitize_callback' => [ $this, 'sanitize_placements' ],
+							'validate_callback' => 'rest_validate_request_arg',
+						],
 						'format'    => [
 							'description'       => esc_html__( 'Set the response, either html or json.', 'courier-notices' ),
 							'type'              => 'string',
@@ -377,25 +386,39 @@ class Courier_REST_Controller extends REST_Base {
 			'query_args'                   => [],
 		];
 
-		$defaults       = apply_filters( 'courier_notices_get_notices_default_settings', $defaults );
-		$placements     = $request->get_param( 'placements' );
-		$format         = $request->get_param( 'format' );
-		$ajax_post_data = wp_parse_args( $request->get_params(), $defaults );
-		$notices_data   = new Courier_Notice_Data();
-		$dataset        = [];
+		$defaults     = apply_filters( 'courier_notices_get_notices_default_settings', $defaults );
+		$placements   = $request->get_param( 'placements' );
+		$format       = $request->get_param( 'format' );
+		$notices_data = new Courier_Notice_Data();
+		$dataset      = [];
+
+		// Posted values win over the synthesized server context, which wins
+		// over the plain defaults - the same composition get_notices() uses.
+		$ajax_post_data = wp_parse_args(
+			$request->get_params(),
+			wp_parse_args( $notices_data->get_request_context(), $defaults )
+		);
 
 		// If no placements specified, return all
 		if ( empty( $placements ) ) {
 			$placements = [ 'header', 'footer', 'popup-modal' ];
 		}
 
-		// Always include popup-modal if not already specified
+		// Always include popup-modal if not already specified. The legacy
+		// frontend depends on this; the Phase 3 block path must NOT inherit
+		// the special case - see the display-type work in the migration plan.
 		if ( ! in_array( 'popup-modal', $placements, true ) ) {
 			$placements[] = 'popup-modal';
 		}
 
-		// Create cache key for the entire response
-		$cache_key = 'courier_notices_display_all_' . md5( serialize( $placements ) . serialize( $ajax_post_data ) . $format );
+		// This response-level cache varies on the same personalization
+		// context as the query layer - synthesized user_id plus whatever
+		// courier_notices_query_cache_context declares - so one visitor's
+		// filtered response is never served to another.
+		$cache_context = $notices_data->get_query_cache_context( [ 'placements' => $placements ], $ajax_post_data );
+		$cache_hash    = wp_hash( wp_json_encode( $placements ) . wp_json_encode( $ajax_post_data ) . wp_json_encode( $cache_context ) . $format );
+
+		$cache_key = 'courier_notices_display_all_' . $cache_hash;
 		$cache     = wp_cache_get( $cache_key, 'courier-notices' );
 
 		// Check object cache first
@@ -404,7 +427,7 @@ class Courier_REST_Controller extends REST_Base {
 		}
 
 		// Check transient cache
-		$transient_key   = 'courier_notices_display_all_transient_' . md5( serialize( $placements ) . serialize( $ajax_post_data ) . $format );
+		$transient_key   = 'courier_notices_display_all_transient_' . $cache_hash;
 		$transient_cache = get_transient( $transient_key );
 		if ( false !== $transient_cache ) {
 			wp_cache_set( $cache_key, $transient_cache, 'courier-notices', 300 );
@@ -489,13 +512,20 @@ class Courier_REST_Controller extends REST_Base {
 			return [];
 		}
 
-		// This comes from the placement taxonomy terms.
+		// Only registered placement terms pass. This existed since 1.7.2
+		// but was never wired as a sanitize_callback - and compared strings
+		// against WP_Term objects, so it would have rejected everything.
 		$valid_placements = get_terms(
 			[
 				'taxonomy'   => 'courier_placement',
 				'hide_empty' => false,
+				'fields'     => 'slugs',
 			]
 		);
+
+		if ( is_wp_error( $valid_placements ) ) {
+			return [];
+		}
 
 		$sanitized = [];
 

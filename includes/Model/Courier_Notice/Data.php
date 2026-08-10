@@ -288,6 +288,41 @@ class Data {
 
 
 	/**
+	 * Personalization context every notice-query cache key varies on.
+	 * Anything a courier_notices_display_notices_query filter varies on
+	 * beyond the two argument arrays MUST be declared here, or warm-cache
+	 * results are served stale to everyone with matching arguments. The
+	 * free plugin declares the anonymous dismissal cookie itself —
+	 * logged-in users are already separated by the synthesized user_id.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array<string, mixed> $args           Notice query arguments.
+	 * @param array<string, mixed> $ajax_post_data Request-shaped context (post_info, user_id, placement, format).
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function get_query_cache_context( $args = array(), $ajax_post_data = array() ) {
+		$cache_context = array();
+
+		if ( ! is_user_logged_in() && isset( $_COOKIE['dismissed_notices'] ) ) {
+			$cache_context['dismissed_notices'] = sanitize_text_field( wp_unslash( $_COOKIE['dismissed_notices'] ) );
+		}
+
+		/**
+		 * Declare state the notice query cache key must vary on.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array $cache_context  Key/value context folded into the cache key.
+		 * @param array $args           Notice query arguments.
+		 * @param array $ajax_post_data Request-shaped context (post_info, user_id, placement, format).
+		 */
+		return apply_filters( 'courier_notices_query_cache_context', $cache_context, $args, $ajax_post_data );
+	}
+
+
+	/**
 	 * Bring a notice back to life: republish it, clear its dismissed
 	 * status, and push a lapsed expiration 30 days out — the admin list
 	 * presents reactivation as "live again for 30 days".
@@ -373,28 +408,7 @@ class Data {
 		// Posted values win over the synthesized context.
 		$ajax_post_data = wp_parse_args( $ajax_post_data, wp_parse_args( $this->get_request_context( $args ), $defaults ) );
 
-		// Personalization context the cache key varies on. Anything a
-		// courier_notices_display_notices_query filter varies on beyond the
-		// two argument arrays MUST be declared here, or warm-cache results
-		// are served stale to everyone with matching arguments. The free
-		// plugin declares the anonymous dismissal cookie itself — logged-in
-		// users are already separated by the synthesized user_id.
-		$cache_context = array();
-
-		if ( ! is_user_logged_in() && isset( $_COOKIE['dismissed_notices'] ) ) {
-			$cache_context['dismissed_notices'] = sanitize_text_field( wp_unslash( $_COOKIE['dismissed_notices'] ) );
-		}
-
-		/**
-		 * Declare state the notice query cache key must vary on.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param array $cache_context  Key/value context folded into the cache key.
-		 * @param array $args           Notice query arguments.
-		 * @param array $ajax_post_data Request-shaped context (post_info, user_id, placement, format).
-		 */
-		$cache_context = apply_filters( 'courier_notices_query_cache_context', $cache_context, $args, $ajax_post_data );
+		$cache_context = $this->get_query_cache_context( $args, $ajax_post_data );
 
 		$cache_hash = wp_hash( wp_json_encode( $args ) . wp_json_encode( $ajax_post_data ) . wp_json_encode( $cache_context ) );
 

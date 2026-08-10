@@ -166,6 +166,78 @@ final class RestRoutesTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Only registered placement terms survive sanitization, popup-modal is
+	 * force-appended for the legacy frontend, and the response is grouped
+	 * by placement.
+	 *
+	 * @return void
+	 */
+	public function test_display_all_sanitizes_placements_and_groups_by_placement(): void {
+		wp_set_current_user( 0 );
+
+		$notice_id = self::factory()->post->create(
+			array(
+				'post_type'   => 'courier_notice',
+				'post_status' => 'publish',
+			)
+		);
+		wp_set_object_terms( $notice_id, 'Global', 'courier_scope', false );
+		wp_set_object_terms( $notice_id, 'Header', 'courier_placement', false );
+
+		$request = new WP_REST_Request( 'GET', '/courier-notices/v1/notices/display/all' );
+		$request->set_param( 'placements', array( 'header', '<script>bogus</script>' ) );
+
+		$response = rest_get_server()->dispatch( $request );
+
+		$this->assertSame( 200, $response->get_status() );
+
+		$data = $response->get_data();
+
+		$this->assertSame( array( 'header', 'popup-modal' ), array_keys( $data ), 'Unregistered placements must be stripped; popup-modal is always appended for the legacy frontend.' );
+		$this->assertContains( $notice_id, wp_list_pluck( $data['header'], 'ID' ) );
+	}
+
+	/**
+	 * user_id declares a real JSON Schema type — a non-integer value is
+	 * rejected by validation instead of flowing into the query.
+	 *
+	 * @return void
+	 */
+	public function test_display_rejects_a_non_integer_user_id(): void {
+		$request = new WP_REST_Request( 'GET', '/courier-notices/v1/notices/display' );
+		$request->set_param( 'user_id', 'not-a-number' );
+
+		$this->assertSame( 400, rest_get_server()->dispatch( $request )->get_status() );
+	}
+
+	/**
+	 * The localized endpoints are built with rest_url(), which honors
+	 * non-pretty permalinks and custom REST prefixes.
+	 *
+	 * @return void
+	 */
+	public function test_localized_endpoints_use_rest_url(): void {
+		$captured = null;
+
+		add_filter(
+			'courier_notices_localized_data',
+			static function ( $data ) use ( &$captured ) {
+				$captured = $data;
+
+				return $data;
+			}
+		);
+
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Firing core's hook, not declaring one.
+		do_action( 'wp_enqueue_scripts' );
+
+		$this->assertIsArray( $captured );
+		$this->assertSame( rest_url( 'courier-notices/v1/notices/display/all/' ), $captured['notices_all_endpoint'] );
+		$this->assertSame( rest_url( 'courier-notices/v1/notices/display/' ), $captured['notices_endpoint'] );
+		$this->assertSame( rest_url( 'courier-notices/v1/notice/' ), $captured['notice_endpoint'] );
+	}
+
+	/**
 	 * The settings write path only accepts the two known option keys — the
 	 * key used to be caller-controlled, letting any manage_options request
 	 * write an arbitrary option name.

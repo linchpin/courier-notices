@@ -90,9 +90,11 @@ class Courier_Notices implements Controller_Interface {
 		global $post;
 
 		$localized_data = array(
-			'notice_endpoint'      => site_url( '/wp-json/courier-notices/v1/notice/' ),
-			'notices_endpoint'     => site_url( '/wp-json/courier-notices/v1/notices/display/' ),
-			'notices_all_endpoint' => site_url( '/wp-json/courier-notices/v1/notices/display/all/' ),
+			// rest_url() honors non-pretty permalinks and custom REST
+			// prefixes; the hardcoded wp-json paths broke on both.
+			'notice_endpoint'      => rest_url( 'courier-notices/v1/notice/' ),
+			'notices_endpoint'     => rest_url( 'courier-notices/v1/notices/display/' ),
+			'notices_all_endpoint' => rest_url( 'courier-notices/v1/notices/display/all/' ),
 			'notices_nonce'        => wp_create_nonce( 'courier_notices_get_notices' ),
 			'wp_rest_nonce'        => wp_create_nonce( 'wp_rest' ),
 			'dismiss_nonce'        => wp_create_nonce( 'courier_notices_dismiss_' . get_current_user_id() . '_notice_nonce' ),

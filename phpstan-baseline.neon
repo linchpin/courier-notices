@@ -777,11 +777,6 @@ parameters:
 			path: includes/Controller/Courier_REST_Controller.php
 
 		-
-			message: "#^Parameter \\#2 \\$haystack of function in_array expects array, array\\<int, WP_Term\\>\\|WP_Error given\\.$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
 			message: "#^Argument of an invalid type array\\<int, WP_Term\\>\\|WP_Error supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: includes/Controller/Courier_Types.php
