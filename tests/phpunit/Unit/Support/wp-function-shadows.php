@@ -164,6 +164,40 @@ namespace CourierNotices\Model {
 	}
 }
 
+namespace CourierNotices\Helper {
+
+	/**
+	 * Run callbacks registered through WP_Shadow_State::add_filter().
+	 *
+	 * @param string $hook  Hook name.
+	 * @param mixed  $value Value being filtered.
+	 * @param mixed  ...$args Additional filter arguments.
+	 *
+	 * @return mixed
+	 */
+	function apply_filters( $hook, $value, ...$args ) {
+		foreach ( $GLOBALS['courier_notices_test_filters'][ $hook ] ?? array() as $callback ) {
+			$value = $callback( $value, ...$args );
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Deterministic stand-in for core's RNG; tests seed the value.
+	 *
+	 * @param int $min Lower bound.
+	 * @param int $max Upper bound.
+	 *
+	 * @return int
+	 */
+	function wp_rand( $min = 0, $max = 0 ) {
+		unset( $min, $max );
+
+		return (int) ( $GLOBALS['courier_notices_test_wp_rand'] ?? 0 );
+	}
+}
+
 namespace CourierNotices\Tests\Unit\Support {
 
 	/**
@@ -177,11 +211,18 @@ namespace CourierNotices\Tests\Unit\Support {
 		 * @return void
 		 */
 		public static function reset(): void {
-			$GLOBALS['courier_notices_test_filters']      = array();
-			$GLOBALS['courier_notices_test_options']      = array();
-			$GLOBALS['courier_notices_test_cache']        = array();
-			$GLOBALS['courier_notices_test_file_reads']   = array();
-			$GLOBALS['courier_notices_test_file_headers'] = array();
+			$GLOBALS['courier_notices_test_filters']        = array();
+			$GLOBALS['courier_notices_test_options']        = array();
+			$GLOBALS['courier_notices_test_cache']          = array();
+			$GLOBALS['courier_notices_test_file_reads']     = array();
+			$GLOBALS['courier_notices_test_file_headers']   = array();
+			$GLOBALS['courier_notices_test_wp_rand']        = 0;
+			$GLOBALS['courier_notices_test_transients']     = array();
+			$GLOBALS['courier_notices_test_actions']        = array();
+			$GLOBALS['courier_notices_test_cache_deletes']  = array();
+			$GLOBALS['courier_notices_test_cache_flushes']  = array();
+			$GLOBALS['courier_notices_test_cache_supports'] = true;
+			$GLOBALS['courier_notices_test_posts']          = array();
 		}
 
 		/**
