@@ -1,10 +1,10 @@
 # Paths excluded from the plugin package deployed to wordpress.org.
 # Keep grouped and deduplicated - this file is easy to let rot.
 #
-# NOTE: CHANGELOG.md is deliberately NOT excluded. templates/admin/settings.php
-# reads it at runtime to render the admin Changelog tab, and fatals if it is
-# missing (the converter is instantiated inside a file_exists() guard but used
-# outside it). If you ever exclude it, fix that template first.
+# CHANGELOG.md used to be required at runtime: the admin Changelog tab read and
+# rendered it through league/commonmark. That dependency is gone - the tab now
+# links to the published changelog on GitHub - so the file no longer ships.
+# readme.txt carries the changelog wordpress.org displays.
 
 # Version control and CI
 /.git
@@ -70,6 +70,7 @@ phpunit.xml
 phpdoc.dist.xml
 README.md
 FAQ.md
+CHANGELOG.md
 
 # Release tooling
 release-please-config.json

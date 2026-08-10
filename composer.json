@@ -40,8 +40,7 @@
 	"require": {
 		"php": ">=8.2",
 		"ext-json": "*",
-		"woocommerce/action-scheduler": "^3.9.3",
-		"league/commonmark": "^2.7.1"
+		"woocommerce/action-scheduler": "^3.9.3"
 	},
 	"repositories": [
 		{
@@ -59,9 +58,6 @@
 		},
 		"files": [
 			"vendor/woocommerce/action-scheduler/action-scheduler.php"
-		],
-		"classmap": [
-			"vendor-prefixed/"
 		]
 	},
 	"require-dev": {
@@ -91,48 +87,10 @@
 			"vendor/{$vendor}/{$name}/": [
 				"wpackagist-plugin/plugin-check"
 			]
-		},
-		"strauss": {
-			"target_directory": "vendor-prefixed",
-			"namespace_prefix": "CourierNotices\\Vendor\\",
-			"classmap_prefix": "CourierNotices_Vendor_",
-			"constant_prefix": "COURIER_NOTICES_VENDOR_",
-			"packages": [
-				"league/commonmark"
-			],
-			"update_call_sites": true,
-			"exclude_from_prefix": {
-				"packages": [
-					"woocommerce/action-scheduler"
-				]
-			},
-			"exclude_from_copy": {
-				"packages": [
-					"woocommerce/action-scheduler"
-				]
-			},
-			"delete_vendor_packages": false
 		}
 	},
 	"scripts": {
-		"prefix-namespaces": [
-			"mkdir -p vendor-prefixed",
-			"mkdir -p bin",
-			"sh -c 'test -f ./bin/strauss.phar || curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/latest/download/strauss.phar'",
-			"@composer dump-autoload",
-			"@php bin/strauss.phar"
-		],
-		"pre-autoload-dump": [
-			"mkdir -p vendor-prefixed"
-		],
-		"post-install-cmd": [
-			"@prefix-namespaces"
-		],
-		"post-update-cmd": [
-			"@prefix-namespaces"
-		],
 		"format": "phpcbf --report-summary --report-source",
-		"strauss": "strauss",
 		"fixer": "php-cs-fixer -v fix --allow-risky=yes",
 		"fixer:test": "php-cs-fixer fix -v --dry-run --stop-on-violation --using-cache=no --allow-risky=yes",
 		"lint": "phpcs",

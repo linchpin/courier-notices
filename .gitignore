@@ -4,8 +4,6 @@ bower_components
 *.log
 *.js.map
 vendor
-vendor-prefixed
-bin/strauss.phar
 
 # Editors
 *.esproj

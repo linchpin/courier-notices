@@ -69,11 +69,6 @@ if ( file_exists( COURIER_NOTICES_PATH . 'vendor/autoload.php' ) ) {
 	require_once COURIER_NOTICES_PATH . 'vendor/autoload.php';
 }
 
-// Load Strauss prefixed dependencies.
-if ( file_exists( COURIER_NOTICES_PATH . 'vendor-prefixed/autoload.php' ) ) {
-	require_once COURIER_NOTICES_PATH . 'vendor-prefixed/autoload.php';
-}
-
 /***
  * Kick everything off when plugins are loaded
  */
@@ -269,8 +264,8 @@ function courier_notices_handle_dismiss_wp_rocket_notice() {
 	update_user_meta( $user_id, 'courier_notices_dismiss_wp_rocket_notice', 1 );
 
 	// Redirect back to the referring admin page if present and safe, otherwise to the dashboard.
-	$redirect = isset( $_REQUEST['redirect_to'] ) ? wp_unslash( $_REQUEST['redirect_to'] ) : '';
-	$redirect = wp_validate_redirect( esc_url_raw( $redirect ), admin_url() );
+	$redirect = isset( $_REQUEST['redirect_to'] ) ? esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) ) : '';
+	$redirect = wp_validate_redirect( $redirect, admin_url() );
 	wp_safe_redirect( $redirect );
 	exit;
 }

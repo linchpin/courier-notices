@@ -11,7 +11,6 @@
 
 // Make sure we don't expose any info if called directly.
 use CourierNotices\Core\View;
-use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 if ( ! function_exists( 'add_action' ) ) {
 	exit;
@@ -156,20 +155,7 @@ if ( ! function_exists( 'add_action' ) ) {
 					<?php elseif ( 'changelog' === $active_tab ) : ?>
 						<?php
 						$changelog_view = new View();
-
-						$changelog_path = COURIER_NOTICES_PATH . '/CHANGELOG.md';
-
-						if ( file_exists( $changelog_path ) ) {
-							$converter = new GithubFlavoredMarkdownConverter(
-								array(
-									'html_input'         => 'strip',
-									'allow_unsafe_links' => false,
-								)
-							);
-							$changelog = file_get_contents( $changelog_path, true );
-						}
-
-						$changelog_view->assign( 'changelog', $converter->convert( $changelog ) );
+						$changelog_view->assign( 'courier_version', COURIER_NOTICES_VERSION );
 						$changelog_view->render( 'admin/settings-changelog' );
 						?>
 					<?php elseif ( 'new' === $active_tab ) : ?>
