@@ -30,6 +30,7 @@ class Settings {
 		// Overarching Plugin Settings
 		'ajax_notices'            => true,
 		'clear_data_on_uninstall' => false,
+		'enable_block_editor'     => false, // Per-site opt-in while Phase 2 lands; flips with the rendering-mode work.
 
 		// Design Related Settings
 		'disable_css'             => false,

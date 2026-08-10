@@ -12,6 +12,7 @@ namespace CourierNotices\Controller\Admin;
 use CourierNotices\Controller\Controller_Interface;
 
 use CourierNotices\Core\View;
+use CourierNotices\Model\Settings;
 use CourierNotices\Model\Taxonomy\Style;
 
 /**
@@ -30,27 +31,38 @@ class Courier_Notice_Metabox implements Controller_Interface {
 	public function register_actions(): void {
 		add_action( 'add_meta_boxes_courier_notice', array( $this, 'add_meta_boxes' ), 99 );
 
-		add_filter( 'use_block_editor_for_post_type', [ $this, 'disable_block_editor' ], 10, 2 );
+		add_filter( 'use_block_editor_for_post_type', [ $this, 'use_block_editor' ], 10, 2 );
 	}
 
 
 	/**
-	 * Disable the block editor for courier notices
+	 * Gate the block editor for courier notices behind the per-site opt-in.
 	 *
-	 * Until we create blocks
+	 * Off by default while Phase 2 lands; the default flips with the
+	 * rendering-mode work in Phase 7 (see docs/2.0-MIGRATION-PLAN.md).
+	 *
+	 * @since 2.0.0
 	 *
 	 * @param bool   $current_status The current status of the post type.
 	 * @param string $post_type The post type.
 	 *
 	 * @return bool
 	 */
-	public function disable_block_editor( $current_status, $post_type ) {
-
-		if ( 'courier_notice' === $post_type ) {
-			return false;
+	public function use_block_editor( $current_status, $post_type ) {
+		if ( 'courier_notice' !== $post_type ) {
+			return $current_status;
 		}
 
-		return $current_status;
+		$settings = new Settings();
+
+		/**
+		 * Opt the courier_notice editing screen into the block editor.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param bool $enabled Whether the block editor is enabled for notices.
+		 */
+		return (bool) apply_filters( 'courier_notices_use_block_editor', (bool) $settings->get_setting( 'enable_block_editor' ) );
 	}
 
 

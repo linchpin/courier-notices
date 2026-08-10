@@ -181,6 +181,52 @@ class Courier_Notices implements Controller_Interface {
 	public function register_custom_post_type() {
 		$courier_post_type_model = new Courier_Notice_Post_Type();
 		register_post_type( $courier_post_type_model->name, $courier_post_type_model->get_args() );
+
+		$this->register_notice_meta();
+	}
+
+
+	/**
+	 * Register the notice meta keys for REST and the block editor.
+	 *
+	 * The plugin wrote these five keys for years with zero register_post_meta
+	 * calls, so nothing could read or save them through REST. Protected
+	 * (underscore) keys require the auth_callback to be writable at all.
+	 *
+	 * Note the dismissible/persistent queries split on EXISTS / NOT EXISTS —
+	 * editor UI saving _courier_dismissible must delete the meta rather than
+	 * write false, or a "false" row reads as dismissible (see COURIER-1037).
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return void
+	 */
+	private function register_notice_meta() {
+		$auth_callback = static function ( $allowed, $meta_key, $object_id ) {
+			return current_user_can( 'edit_post', $object_id );
+		};
+
+		$meta_keys = array(
+			'_courier_dismissible' => 'boolean',
+			'_courier_show_title'  => 'boolean',
+			'_courier_hide_title'  => 'boolean',
+			'_courier_expiration'  => 'integer',
+			'_courier_sender'      => 'integer',
+		);
+
+		foreach ( $meta_keys as $meta_key => $type ) {
+			register_post_meta(
+				'courier_notice',
+				$meta_key,
+				array(
+					'show_in_rest'      => true,
+					'single'            => true,
+					'type'              => $type,
+					'auth_callback'     => $auth_callback,
+					'sanitize_callback' => 'boolean' === $type ? 'rest_sanitize_boolean' : 'absint',
+				)
+			);
+		}
 	}
 
 

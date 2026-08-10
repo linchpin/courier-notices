@@ -80,14 +80,16 @@ class Courier_Notice {
 			'filter_items_list'     => esc_html__( 'Filter Notice list', 'courier-notices' ),
 		);
 
-		$this->labels = apply_filters( 'courier_notice_labels', $default_labels );
+		$this->labels = apply_filters( 'courier_notice_labels', $default_labels ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public back-compat filter since 1.0; renaming it breaks existing consumers. See the back-compat landmines section of docs/2.0-MIGRATION-PLAN.md.
 
 		$default_args = array(
 			'label'               => esc_html__( 'Notice', 'courier-notices' ),
 			'description'         => esc_html__( 'Notices', 'courier-notices' ),
 			'labels'              => $this->labels,
-			'supports'            => array( 'title', 'editor' ),
-			'taxonomies'          => array( 'courier_type', 'courier_status', 'courier_scope' ),
+			// custom-fields is load-bearing: without it, registered post meta
+			// is not exposed over REST and the block editor cannot save it.
+			'supports'            => array( 'title', 'editor', 'custom-fields' ),
+			'taxonomies'          => array( 'courier_type', 'courier_status', 'courier_scope', 'courier_style', 'courier_placement' ),
 			'hierarchical'        => false,
 			'public'              => false,
 			'show_ui'             => true,
@@ -96,7 +98,8 @@ class Courier_Notice {
 			'show_in_admin_bar'   => true,
 			'show_in_nav_menus'   => false,
 			'can_export'          => true,
-			'show_in_rest'        => false,
+			'show_in_rest'        => true,
+			'rest_base'           => 'courier-notices',
 			'has_archive'         => false,
 			'exclude_from_search' => true,
 			'publicly_queryable'  => false,

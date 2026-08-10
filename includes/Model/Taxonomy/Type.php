@@ -86,6 +86,8 @@ class Type {
 			'show_admin_column' => false,
 			'query_var'         => true,
 			'rewrite'           => false,
+			'show_in_rest' => true,
+			'rest_base' => 'courier-types',
 			'show_tagcloud'     => false,
 			'capabilities'      => array(
 				'manage_terms' => 'edit_posts',
