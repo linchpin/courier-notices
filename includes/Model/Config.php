@@ -39,10 +39,12 @@ class Config {
 	 */
 	private function setup_plugin_config() {
 		$config = wp_cache_get( 'config', 'courier-notices' );
-		/*
-		if ( false !== $config ) {
-			return $config;
-		} */
+
+		if ( is_array( $config ) && array() !== $config ) {
+			$this->import( $config );
+
+			return $this->properties;
+		}
 
 		$this->set( 'plugin_base_name', plugin_basename( COURIER_NOTICES_FILE ) );
 
@@ -68,9 +70,9 @@ class Config {
 		$this->set( 'plugin_url', COURIER_NOTICES_PLUGIN_URL );
 		$this->set( 'namespace', 'CourierNotices' );
 
-		wp_cache_set( 'config', $config, 'courier-notices' );
+		wp_cache_set( 'config', $this->properties, 'courier-notices' );
 
-		return $config;
+		return $this->properties;
 	}
 
 
