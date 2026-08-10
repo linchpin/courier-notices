@@ -68,6 +68,8 @@ phpunit-integration.xml
 jest.config.js
 /test-results
 /coverage-js
+.phpunit.result.cache
+.phpunit-integration.result.cache
 
 # Documentation not intended for the wordpress.org package
 /docs
@@ -92,6 +94,7 @@ composer.lock
 /vendor/php-parallel-lint
 
 # Local and build artifacts
+.linchpin.json
 config.yml
 courier-notices.zip
 output.log
