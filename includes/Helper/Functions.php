@@ -202,6 +202,14 @@ function courier_notices_display_notices( $args = array() ) {
 		return false;
 	}
 
+	// Render each region once per request. Both the legacy hook placements and
+	// the courier/notices block reach this, and a page carrying both would
+	// otherwise show every notice twice. The courier_notices_render_once
+	// filter restores the old behavior for a site that wants it.
+	if ( ! \CourierNotices\Helper\Render_Registry::claim( $courier_placement ) ) {
+		return false;
+	}
+
 	$courier_style        = ( ! empty( $args['style'] ) ) ? $args['style'] : '';
 	$courier_options      = get_option( 'courier_settings', array() );
 	$courier_notices_view = new View();
