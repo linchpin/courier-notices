@@ -142,6 +142,7 @@ final class BlockEditorTest extends WP_UnitTestCase {
 		);
 
 		$this->assertTrue( has_term( 'global', 'courier_scope', $notice_id ), 'The default scope must be assigned on create.' );
+		$this->assertTrue( has_term( 'header', 'courier_placement', $notice_id ), 'A notice with no explicit placement must deliver to the header - the placement queries never see a term-less notice.' );
 
 		$global_ids = ( new Data() )->get_global_notices(
 			array(
