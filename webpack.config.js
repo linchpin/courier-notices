@@ -55,6 +55,13 @@ module.exports = {
 				'./assets/scss/courier-notices-admin-global.scss'
 			),
 		],
+		// The block editor experience for the courier_notice CPT. Lives in
+		// src/ - the destination layout from the migration plan - while the
+		// legacy assets stay in assets/ until Phase 3 moves them.
+		'courier-notices-editor': [
+			path.resolve(__dirname, './src/editor/index.js'),
+			path.resolve(__dirname, './src/editor/editor.scss'),
+		],
 	},
 	module: {
 		...defaultConfig.module,

@@ -1,0 +1,83 @@
+/**
+ * Editor-only canvas chrome for courier notices.
+ *
+ * None of this ships to the front end: it is injected into the editor
+ * canvas through block_editor_settings_all, and every rule is scoped to
+ * .editor-styles-wrapper. The data-courier-style attribute is kept in sync
+ * with the selected style term by StylePreviewSync in index.js.
+ */
+
+.editor-styles-wrapper {
+	background: #f0f0f1;
+
+	// The post title reads as an admin label, not page content - notices
+	// don't render their title unless the author opts in.
+	.wp-block-post-title,
+	.editor-post-title {
+		font-size: 1.1rem;
+		opacity: 0.6;
+	}
+
+	// The locked wrapper group is the notice being authored.
+	.courier-notice-body {
+		position: relative;
+		margin: 16px auto;
+		padding: 20px 56px 20px 72px;
+		background: #fff;
+		border-left: 4px solid #039ad6;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+
+		// The type icon affordance.
+		&::before {
+			content: "i";
+			position: absolute;
+			top: 50%;
+			left: 24px;
+			transform: translateY(-50%);
+			width: 28px;
+			height: 28px;
+			border-radius: 50%;
+			background: #039ad6;
+			color: #fff;
+			font-weight: 700;
+			font-style: italic;
+			text-align: center;
+			line-height: 28px;
+		}
+
+		// The dismiss affordance.
+		&::after {
+			content: "\00d7";
+			position: absolute;
+			top: 12px;
+			right: 20px;
+			font-size: 20px;
+			line-height: 1;
+			color: #787c82;
+		}
+	}
+}
+
+// Modal presentation: the canvas becomes the dimmed overlay and the notice
+// becomes a centered card.
+.editor-styles-wrapper[data-courier-style="popup-modal"] {
+	background: #3c434a;
+
+	.courier-notice-body {
+		max-width: 520px;
+		margin: 64px auto;
+		padding: 40px 48px;
+		border-left: none;
+		border-radius: 8px;
+		box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+
+		&::before {
+			display: none;
+		}
+
+		&::after {
+			top: 16px;
+			right: 16px;
+		}
+	}
+}

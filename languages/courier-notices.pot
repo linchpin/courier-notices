@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-10T22:21:03+00:00\n"
+"POT-Creation-Date: 2026-08-11T00:09:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: courier-notices\n"
@@ -67,129 +67,140 @@ msgstr ""
 msgid "Insufficient permissions to perform this action."
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:51
+#: includes/Controller/Admin/Admin.php:55
 msgid "Courier Notice Published."
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:76
+#: includes/Controller/Admin/Admin.php:80
 msgid "Summary"
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:77
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:127
+#: includes/Controller/Admin/Admin.php:81
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:214
 #: includes/Helper/Type_List_Table.php:35
+#: src/editor/index.js:127
 msgid "Type"
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:78
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:93
+#: includes/Controller/Admin/Admin.php:82
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:180
 #: includes/Model/Taxonomy/Style.php:55
+#: src/editor/index.js:118
 msgid "Style"
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:79
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:158
+#: includes/Controller/Admin/Admin.php:83
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:245
 #: includes/Model/Taxonomy/Placement.php:55
+#: src/editor/index.js:136
 msgid "Placement"
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:81
+#: includes/Controller/Admin/Admin.php:85
 msgid "Expiration <a href=\"#\" class=\"courier-info-icon courier-help\" title=\"Non-expiry notices do not expire and will always be shown to users if the notice is not dismissable\">?</a>"
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:151
+#: includes/Controller/Admin/Admin.php:155
 msgid "EXPIRED"
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:159
+#: includes/Controller/Admin/Admin.php:163
 msgid "Non-expiry"
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:192
+#: includes/Controller/Admin/Admin.php:196
 msgid "This is a global notice and may have been dismissed by some users. It is recommended that you create a new global notice to ensure every user sees your new information."
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:205
+#: includes/Controller/Admin/Admin.php:209
 msgid "This notice has already been dismissed. Any changes made will not be seen by the user."
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:207
+#: includes/Controller/Admin/Admin.php:211
 msgid "Reactivate this notice"
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:270
-#: includes/Controller/Admin/Admin.php:271
+#: includes/Controller/Admin/Admin.php:274
+#: includes/Controller/Admin/Admin.php:275
 #: includes/Controller/Courier.php:214
 msgid "Expired"
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:272
+#: includes/Controller/Admin/Admin.php:276
 msgid "Copy this shortcode to your clipboard"
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:273
+#: includes/Controller/Admin/Admin.php:277
 msgid "Courier Notice shortcode has been copied to your clipboard."
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:274
+#: includes/Controller/Admin/Admin.php:278
 msgid "Confirm Delete?"
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:275
+#: includes/Controller/Admin/Admin.php:279
 msgid "Deleting..."
 msgstr ""
 
 #. translators: %1$s escaped taxonomy name.
-#: includes/Controller/Admin/Admin.php:410
+#: includes/Controller/Admin/Admin.php:414
 #, php-format
 msgid "All %1$s"
 msgstr ""
 
-#: includes/Controller/Admin/Admin.php:481
+#: includes/Controller/Admin/Admin.php:485
 msgid "Reactivate"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:65
+#: includes/Controller/Admin/Admin.php:507
+msgid "Invalid nonce."
+msgstr ""
+
+#: includes/Controller/Admin/Admin.php:511
+msgid "You are not allowed to reactivate this notice."
+msgstr ""
+
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:149
 msgid "Notice Information"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:214
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:301
 msgid "Notice Expiration"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:215
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:302
 msgid "The date and time this notice should expire."
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:217
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:304
 msgid "Expiration date and time"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:243
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:330
 msgid "Dismissible Notice:"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:245
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:332
 msgid "Allow this notice to be dismissed by users. If your notice is a Pop Over/Modal. We force the notice to be dismissible"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:278
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:365
 msgid "Show Title?"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:280
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:367
 msgid "Show the title for this notice? You can also set this globally or override for this specific notice"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:283
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:370
 msgid "Hide Title?"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:285
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:372
 msgid "Hide the title for this notice overriding the global settings?"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:293
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:380
 msgid "Copy this notice <strong>shortcode</strong> to display in your content or in a widget!"
 msgstr ""
 
@@ -391,44 +402,43 @@ msgstr ""
 msgid "Notifications"
 msgstr ""
 
-#: includes/Controller/Courier_Notices.php:103
+#: includes/Controller/Courier_Notices.php:105
 msgid "Close"
 msgstr ""
 
-#: includes/Controller/Courier_Notices.php:104
+#: includes/Controller/Courier_Notices.php:106
 #: templates/admin/welcome.php:29
 msgid "Dismiss"
 msgstr ""
 
-#: includes/Controller/Courier_REST_Controller.php:72
+#: includes/Controller/Courier_REST_Controller.php:67
+msgid "The notice to reactivate."
+msgstr ""
+
+#: includes/Controller/Courier_REST_Controller.php:88
 msgid "Set where the notices should display."
 msgstr ""
 
-#: includes/Controller/Courier_REST_Controller.php:78
-#: includes/Controller/Courier_REST_Controller.php:110
+#: includes/Controller/Courier_REST_Controller.php:94
+#: includes/Controller/Courier_REST_Controller.php:135
 msgid "Set the response, either html or json."
 msgstr ""
 
-#: includes/Controller/Courier_REST_Controller.php:84
-#: includes/Controller/Courier_REST_Controller.php:89
-#: includes/Controller/Courier_REST_Controller.php:116
+#: includes/Controller/Courier_REST_Controller.php:100
+#: includes/Controller/Courier_REST_Controller.php:141
 msgid "Our queried post info"
 msgstr ""
 
-#: includes/Controller/Courier_REST_Controller.php:121
+#: includes/Controller/Courier_REST_Controller.php:105
+msgid "The user the notices are for."
+msgstr ""
+
+#: includes/Controller/Courier_REST_Controller.php:126
+msgid "Placements to fetch notices for."
+msgstr ""
+
+#: includes/Controller/Courier_REST_Controller.php:146
 msgid "User ID"
-msgstr ""
-
-#: includes/Controller/Courier_REST_Controller.php:504
-msgid "Current page of the collection."
-msgstr ""
-
-#: includes/Controller/Courier_REST_Controller.php:510
-msgid "Maximum number of items to be returned in result set."
-msgstr ""
-
-#: includes/Controller/Courier_REST_Controller.php:516
-msgid "Limit results to those matching a string."
 msgstr ""
 
 #: includes/Controller/Install.php:107
@@ -530,6 +540,7 @@ msgid "This notice is not dismissible."
 msgstr ""
 
 #: includes/Helper/Type_List_Table.php:34
+#: src/editor/index.js:64
 msgid "Default"
 msgstr ""
 
@@ -582,9 +593,14 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+#: includes/Model/Courier_Notice/Data.php:345
+msgid "Notice not found."
+msgstr ""
+
 #: includes/Model/Post_Type/Courier_Notice.php:55
 #: includes/Model/Post_Type/Courier_Notice.php:67
 #: includes/Model/Post_Type/Courier_Notice.php:86
+#: src/editor/index.js:113
 msgid "Notice"
 msgstr ""
 
@@ -682,6 +698,10 @@ msgstr ""
 
 #: includes/Model/Post_Type/Courier_Notice.php:87
 msgid "Notices"
+msgstr ""
+
+#: includes/Model/Post_Type/Courier_Notice.php:112
+msgid "Write the notice content…"
 msgstr ""
 
 #: includes/Model/Taxonomy/Placement.php:56
@@ -1380,4 +1400,16 @@ msgstr ""
 
 #: templates/admin/welcome.php:54
 msgid "https://github.com/linchpin/courier/issues"
+msgstr ""
+
+#: src/editor/index.js:119
+msgid "How the notice presents - the editor preview follows."
+msgstr ""
+
+#: src/editor/index.js:128
+msgid "What kind of message this is - drives color and icon."
+msgstr ""
+
+#: src/editor/index.js:137
+msgid "Where on the page the notice shows."
 msgstr ""

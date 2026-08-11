@@ -3,10 +3,14 @@
  */
 const config = {
 	// Config files are excluded from JS linting - they are CommonJS and predate
-	// the shared eslint config.
+	// the shared eslint config. js/ and css/ hold committed BUILD OUTPUT
+	// (the wp.org deploy ships them) - lint the sources in src/ and assets/,
+	// never the artifacts.
 	'**/*.{js,mjs}': ( filenames ) => {
 		const linted = filenames.filter(
-			( file ) => ! /\.config\.(js|mjs)$/.test( file )
+			( file ) =>
+				! /\.config\.(js|mjs)$/.test( file ) &&
+				! /\/(js|css)\//.test( file.replace( process.cwd(), '' ) )
 		);
 
 		return linted.length > 0
@@ -14,7 +18,15 @@ const config = {
 			: [];
 	},
 
-	'**/*.{css,scss}': [ 'wp-scripts lint-style' ],
+	'**/*.{css,scss}': ( filenames ) => {
+		const linted = filenames.filter(
+			( file ) => ! /\/css\//.test( file.replace( process.cwd(), '' ) )
+		);
+
+		return linted.length > 0
+			? [ `wp-scripts lint-style ${ linted.join( ' ' ) }` ]
+			: [];
+	},
 
 	// Staged files only, NOT the whole project. The project currently has a
 	// large PHPCS backlog (~120 errors outside the vendored WP_List_Table fork),

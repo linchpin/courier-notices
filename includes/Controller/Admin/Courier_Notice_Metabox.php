@@ -32,6 +32,76 @@ class Courier_Notice_Metabox implements Controller_Interface {
 		add_action( 'add_meta_boxes_courier_notice', array( $this, 'add_meta_boxes' ), 99 );
 
 		add_filter( 'use_block_editor_for_post_type', [ $this, 'use_block_editor' ], 10, 2 );
+
+		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
+		add_filter( 'block_editor_settings_all', [ $this, 'add_editor_canvas_styles' ], 10, 2 );
+	}
+
+
+	/**
+	 * Load the Notice panel and preview sync in the notice editor.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return void
+	 */
+	public function enqueue_block_editor_assets() {
+		$screen = get_current_screen();
+
+		if ( ! $screen instanceof \WP_Screen || 'courier_notice' !== $screen->post_type ) {
+			return;
+		}
+
+		$asset_file = COURIER_NOTICES_PATH . 'js/courier-notices-editor.asset.php';
+
+		if ( ! file_exists( $asset_file ) ) {
+			return;
+		}
+
+		$assets = require $asset_file;
+
+		wp_enqueue_script(
+			'courier-notices-editor',
+			COURIER_NOTICES_PLUGIN_URL . 'js/courier-notices-editor.js',
+			$assets['dependencies'],
+			$assets['version'],
+			true
+		);
+
+		wp_set_script_translations( 'courier-notices-editor', 'courier-notices', COURIER_NOTICES_PATH . 'languages' );
+	}
+
+
+	/**
+	 * Inject the notice canvas chrome into the editor.
+	 *
+	 * enqueue_block_editor_assets styles never reach an iframed canvas;
+	 * settings styles do, iframed or not. Editor-only - nothing here ships
+	 * to the front end.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array<string, mixed>     $settings Block editor settings.
+	 * @param \WP_Block_Editor_Context $context  Editor context.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function add_editor_canvas_styles( $settings, $context ) {
+		if ( ! $context->post instanceof \WP_Post || 'courier_notice' !== $context->post->post_type ) {
+			return $settings;
+		}
+
+		$stylesheet = COURIER_NOTICES_PATH . 'css/courier-notices-editor.css';
+
+		if ( ! file_exists( $stylesheet ) ) {
+			return $settings;
+		}
+
+		$settings['styles'][] = array(
+			'css' => file_get_contents( $stylesheet ), // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local plugin file, not a remote request.
+		);
+
+		return $settings;
 	}
 
 
@@ -80,7 +150,10 @@ class Courier_Notice_Metabox implements Controller_Interface {
 			[ $this, 'meta_box' ],
 			'courier_notice',
 			'side',
-			'default'
+			'default',
+			// The block editor gets the React Notice panel instead; this
+			// metabox keeps serving the classic editor.
+			[ '__back_compat_meta_box' => true ]
 		);
 	}
 
