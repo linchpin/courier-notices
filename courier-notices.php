@@ -9,8 +9,8 @@
  * Author:      Linchpin
  * Author URI:  https://linchpin.com
  * Text Domain: courier-notices
- * Requires at least: 5.7
- * Requires PHP: 7.4
+ * Requires at least: 6.8
+ * Requires PHP: 8.2
  * Tested up to: 6.8.1
  *
  * @package      CourierNotices
@@ -67,11 +67,6 @@ if ( ! defined( 'COURIER_NOTICES_DEBUG' ) ) {
  */
 if ( file_exists( COURIER_NOTICES_PATH . 'vendor/autoload.php' ) ) {
 	require_once COURIER_NOTICES_PATH . 'vendor/autoload.php';
-}
-
-// Load Strauss prefixed dependencies.
-if ( file_exists( COURIER_NOTICES_PATH . 'vendor-prefixed/autoload.php' ) ) {
-	require_once COURIER_NOTICES_PATH . 'vendor-prefixed/autoload.php';
 }
 
 /***
@@ -142,6 +137,19 @@ register_activation_hook( __FILE__, 'courier_notices_activation' );
  */
 function courier_notices_activation() {
 	add_option( 'courier_notices_activation', true );
+
+	// The review nag counts days from first_activated_on; it was never
+	// written anywhere, so the nag could never fire. Record it once.
+	$plugin_options = get_option( 'courier_notices_options', array() );
+
+	if ( ! is_array( $plugin_options ) ) {
+		$plugin_options = array();
+	}
+
+	if ( ! isset( $plugin_options['first_activated_on'] ) || '' === $plugin_options['first_activated_on'] ) {
+		$plugin_options['first_activated_on'] = time();
+		update_option( 'courier_notices_options', $plugin_options );
+	}
 
 	// Create our cron events.
 	if ( ! get_option( 'courier_notices_flush_rewrite_rules' ) ) {
@@ -269,8 +277,8 @@ function courier_notices_handle_dismiss_wp_rocket_notice() {
 	update_user_meta( $user_id, 'courier_notices_dismiss_wp_rocket_notice', 1 );
 
 	// Redirect back to the referring admin page if present and safe, otherwise to the dashboard.
-	$redirect = isset( $_REQUEST['redirect_to'] ) ? wp_unslash( $_REQUEST['redirect_to'] ) : '';
-	$redirect = wp_validate_redirect( esc_url_raw( $redirect ), admin_url() );
+	$redirect = isset( $_REQUEST['redirect_to'] ) ? esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) ) : '';
+	$redirect = wp_validate_redirect( $redirect, admin_url() );
 	wp_safe_redirect( $redirect );
 	exit;
 }

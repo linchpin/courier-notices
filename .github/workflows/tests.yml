@@ -1,0 +1,200 @@
+name: Tests
+
+# The three test lanes from docs/2.0-MIGRATION-PLAN.md ("Testing runtime"):
+#
+#   php-unit         WordPress-free PHPUnit; runs anywhere
+#   php-integration  wp-phpunit + MySQL service; the only place this lane can
+#                    run - Studio is PHP-WASM and is not a PHPUnit host
+#   js               Jest with the @wordpress/interactivity mock
+#   e2e              Playwright over WordPress Playground (WASM, no MySQL)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.php'
+      - '**.js'
+      - '**.ts'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'phpunit.xml'
+      - 'phpunit-integration.xml'
+      - 'jest.config.js'
+      - 'babel.config.js'
+      - 'tests/**'
+      - '.github/workflows/tests.yml'
+  pull_request:
+    paths:
+      - '**.php'
+      - '**.js'
+      - '**.ts'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'phpunit.xml'
+      - 'phpunit-integration.xml'
+      - 'jest.config.js'
+      - 'babel.config.js'
+      - 'tests/**'
+      - '.github/workflows/tests.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  php-unit:
+    name: PHP Unit (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.2', '8.3', '8.4']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, intl
+          coverage: none
+          tools: composer:v2
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v6
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run the unit lane
+        run: composer phpunit
+
+  php-integration:
+    name: PHP Integration (wp-phpunit + MySQL)
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: wordpress_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, intl, mysqli
+          coverage: none
+          tools: composer:v2
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v6
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Install WordPress
+        # The core version must match the installed wp-phpunit version - the
+        # package mirrors core's test library release for release, so derive
+        # one from the other rather than letting them drift.
+        run: |
+          WP_VERSION=$(composer show wp-phpunit/wp-phpunit --format=json | jq -r '.versions[0]')
+          echo "Installing WordPress ${WP_VERSION} to match wp-phpunit"
+          curl -sL "https://wordpress.org/wordpress-${WP_VERSION}.tar.gz" | tar -xz -C /tmp
+
+      - name: Run the integration lane
+        run: composer phpunit:integration
+
+  js:
+    name: JS Unit (Jest)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Run the Jest lane
+        run: npm run test:unit
+
+  e2e:
+    name: e2e (Playwright + Playground)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install Composer dependencies
+        # The plugin requires vendor/autoload.php at runtime and the whole
+        # repo is mounted into Playground, vendor included.
+        run: composer install --prefer-dist --no-progress
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Run the e2e lane
+        run: npm run test:e2e
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-test-results
+          path: test-results/
+          retention-days: 7

@@ -1,0 +1,29 @@
+/**
+ * courier/notices outlet block — frontend.
+ *
+ * The legacy stylesheet conflates placement with POSITION: it pins
+ * `.courier-location-footer` to the viewport bottom with `position: fixed`, and
+ * frames the modal region as an overlay, because in 1.x the only way a region
+ * existed was hook injection into a known spot.
+ *
+ * An outlet block renders where the template puts it, so inheriting that
+ * pinning defeats the whole point of the block — a footer region dropped
+ * mid-content would jump to the bottom of the screen. These rules neutralize
+ * position for block-rendered regions ONLY: `.wp-block-courier-notices` is on
+ * the block wrapper and never on a hook-injected region, so the legacy
+ * placements keep behaving exactly as they always have.
+ *
+ * Phase 6 replaces placement-as-position properly with the displayType and
+ * screenPosition axes; until then a positioned presentation is the legacy
+ * hook's job, not the block's.
+ */
+
+.courier-notices.wp-block-courier-notices {
+	position: static;
+	inset: auto;
+	width: auto;
+	max-width: none;
+	max-height: none;
+	transform: none;
+	z-index: auto;
+}

@@ -1,0 +1,26 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "courier/notice-icon",
+	"version": "2.0.0",
+	"title": "Notice Icon",
+	"category": "widgets",
+	"icon": "info-outline",
+	"description": "The notice's icon. Follows the notice type unless overridden.",
+	"parent": [ "courier/notice" ],
+	"textdomain": "courier-notices",
+	"attributes": {
+		"icon": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"usesContext": [ "postId" ],
+	"supports": {
+		"html": false,
+		"multiple": false
+	},
+	"editorScript": "courier-notices-notice-block",
+	"style": "courier-notices",
+	"render": "file:./render.php"
+}

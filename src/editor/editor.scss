@@ -1,0 +1,152 @@
+/**
+ * Editor-only canvas staging for courier notices.
+ *
+ * This replicates the LEGACY frontend notice design inside the canvas -
+ * type-colored bars, the icon column, the close affordance - so what the
+ * author sees matches what the legacy stylesheet renders on the site.
+ * The compiled per-type colors and the icon font are injected alongside
+ * through block_editor_settings_all; none of this ships to the front end.
+ */
+
+// Shared essentials: title/content spacing and the icon glyphs.
+@import "../blocks/notice/style";
+
+.editor-styles-wrapper {
+	background: #f0f0f1;
+
+	// The post title reads as an admin label - notices hide their title on
+	// the front end unless the author opts in, and the opted-in title
+	// renders inside the notice block itself.
+	.wp-block-post-title,
+	.editor-post-title {
+		font-size: 1.1rem;
+		opacity: 0.6;
+	}
+
+	// The legacy notice bar, faithfully.
+	.wp-block-courier-notice {
+		position: relative;
+		margin: 16px auto;
+		background: #e8e8e8;
+
+		.courier-content-wrapper {
+			position: relative;
+			padding: 0.75rem 3rem 0.75rem 3.75rem;
+
+			// The type-colored icon column - the injected compiled type CSS
+			// paints it, exactly as the legacy frontend stylesheet does.
+			&::before {
+				content: "";
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				width: 3rem;
+			}
+		}
+
+		// The editor positions inner-block layout containers, which would
+		// hijack the icon's absolute anchor away from the notice itself.
+		.courier-content {
+			position: static;
+		}
+
+		// The bound title heading is a locked part of the informational
+		// template, so it is always present in the canvas; the Show title
+		// toggle governs whether it shows. render.php drops it from the
+		// front end outright, so this is canvas-only and the two agree.
+		&.courier-title-hidden .courier-notice-title {
+			display: none;
+		}
+
+		.courier-icon {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			width: 3rem;
+			z-index: 2;
+
+			&::before {
+				position: absolute;
+				top: 50%;
+				right: 0;
+				left: 0;
+				transform: translateY(-50%);
+				text-align: center;
+			}
+		}
+
+		.courier-close {
+			position: absolute;
+			top: 0;
+			right: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 3rem;
+			height: 100%;
+			color: inherit;
+			font-size: 1.5rem;
+			text-decoration: none;
+		}
+
+		// The six stock type backgrounds, matching the legacy frontend;
+		// custom types come through the injected compiled type CSS.
+		&.courier_type-primary {
+			background: #039ad6;
+		}
+
+		&.courier_type-success {
+			background: #04a84e;
+		}
+
+		&.courier_type-alert {
+			background: #f97600;
+		}
+
+		&.courier_type-warning {
+			background: #ea3118;
+		}
+
+		&.courier_type-feedback {
+			background: #8839d3;
+		}
+
+		&.courier_type-info {
+			background: #878787;
+		}
+	}
+}
+
+// Modal layout: the canvas dims into the page the modal sits over, and the
+// notice becomes the legacy white modal card.
+.editor-styles-wrapper:has(.courier-layout-popup-modal) {
+	background: #3c434a;
+
+	.wp-block-post-title,
+	.editor-post-title {
+		color: #fff;
+	}
+
+	.wp-block-courier-notice {
+		max-width: 520px;
+		margin: 64px auto;
+		background: #fff;
+		border-radius: 4px;
+		box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+
+		&.courier_type-primary,
+		&.courier_type-success,
+		&.courier_type-alert,
+		&.courier_type-warning,
+		&.courier_type-feedback,
+		&.courier_type-info {
+			background: #fff;
+		}
+
+		.courier-content-wrapper {
+			padding: 2em 2.5em;
+		}
+	}
+}

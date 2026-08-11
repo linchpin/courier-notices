@@ -1,12 +1,12 @@
 === Courier Notices ===
 Contributors: linchpin_agency, aware, ncallen, maxinacube, fischfood, desrosj
 Tags: notifications, notices, alerts, modal, dismissible
-Requires at least: 6.0
+Requires at least: 6.8
 Tested up to: 6.8.1
 x-release-please-start-version
 Stable tag: 1.9.18
 x-release-please-end
-Requires PHP: 7.4
+Requires PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 

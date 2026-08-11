@@ -1,0 +1,49 @@
+name: i18n
+
+# Keeps languages/courier-notices.pot from drifting: regenerates it and
+# fails if the committed file no longer matches the strings in the code.
+# The POT-Creation-Date header changes on every run, so the diff ignores it.
+#
+# Refresh locally with: composer i18n:pot
+
+on:
+  pull_request:
+    paths:
+      - '**.php'
+      - 'languages/**'
+      - 'composer.json'
+      - '.github/workflows/i18n.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pot-freshness:
+    name: POT file freshness
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Regenerate the POT file
+        run: composer i18n:pot
+
+      - name: Fail if the committed POT drifted
+        run: |
+          if ! git diff -I '^"POT-Creation-Date' --exit-code languages/courier-notices.pot; then
+            echo '::error::languages/courier-notices.pot is stale. Run `composer i18n:pot` and commit the result.'
+            exit 1
+          fi

@@ -1,0 +1,431 @@
+<?php
+/**
+ * Integration tests for block-aware notice rendering (COURIER-1036).
+ *
+ * The REST fragment path used to hand raw post_content to the templates,
+ * where wp_kses_post() mangled block comment delimiters and dynamic blocks
+ * never rendered. Classic content must keep rendering byte-identically.
+ *
+ * @package CourierNotices\Tests
+ */
+
+namespace CourierNotices\Tests\Integration\Controller;
+
+use WP_REST_Request;
+use WP_UnitTestCase;
+
+/**
+ * Class BlockRenderTest
+ */
+final class BlockRenderTest extends WP_UnitTestCase {
+
+	/**
+	 * Boot a REST server with the plugin's routes registered.
+	 *
+	 * @return void
+	 */
+	public function set_up(): void {
+		parent::set_up();
+
+		global $wp_rest_server;
+
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Core's own REST server global; this is how the WP test suite boots REST.
+		$wp_rest_server = new \WP_REST_Server();
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Firing core's hook, not declaring one.
+		do_action( 'rest_api_init', $wp_rest_server );
+
+		wp_cache_flush();
+	}
+
+	/**
+	 * Create a published global header notice with the given content.
+	 *
+	 * @param string $content   Post content.
+	 * @param bool   $with_type Whether to assign a courier_type term.
+	 *
+	 * @return int
+	 */
+	private function create_notice( string $content, bool $with_type = true ): int {
+		$notice_id = self::factory()->post->create(
+			array(
+				'post_type'    => 'courier_notice',
+				'post_status'  => 'publish',
+				'post_content' => $content,
+			)
+		);
+
+		wp_set_object_terms( $notice_id, 'Global', 'courier_scope', false );
+		wp_set_object_terms( $notice_id, 'Header', 'courier_placement', false );
+
+		if ( $with_type ) {
+			wp_set_object_terms( $notice_id, 'Info', 'courier_type', false );
+		}
+
+		return $notice_id;
+	}
+
+	/**
+	 * Fetch the rendered HTML fragment for a notice via the display endpoint.
+	 *
+	 * @param int $notice_id Notice to pull from the response.
+	 *
+	 * @return string
+	 */
+	private function fetch_fragment( int $notice_id ): string {
+		$request = new WP_REST_Request( 'GET', '/courier-notices/v1/notices/display' );
+		$request->set_param( 'placement', 'header' );
+		$request->set_param( 'format', 'html' );
+
+		$response = rest_get_server()->dispatch( $request );
+
+		$this->assertSame( 200, $response->get_status() );
+
+		$data = $response->get_data();
+
+		$this->assertArrayHasKey( $notice_id, $data['notices'], 'The notice must be in the response.' );
+
+		return $data['notices'][ $notice_id ];
+	}
+
+	/**
+	 * Static block content renders as HTML — no block comment delimiters,
+	 * real markup in the fragment.
+	 *
+	 * @return void
+	 */
+	public function test_static_block_content_renders_in_the_fragment(): void {
+		$notice_id = $this->create_notice(
+			"<!-- wp:paragraph -->\n<p>Hello from the block editor</p>\n<!-- /wp:paragraph -->"
+		);
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringContainsString( '<p>Hello from the block editor</p>', $fragment );
+		$this->assertStringNotContainsString( 'wp:paragraph', $fragment, 'Block delimiters must not leak into rendered output.' );
+	}
+
+	/**
+	 * Dynamic blocks render server-side — they used to output nothing at all.
+	 *
+	 * @return void
+	 */
+	public function test_dynamic_block_content_renders_in_the_fragment(): void {
+		self::factory()->post->create( array( 'post_title' => 'A published post for latest-posts' ) );
+
+		$notice_id = $this->create_notice( '<!-- wp:latest-posts /-->' );
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringContainsString( 'wp-block-latest-posts', $fragment, 'A dynamic block must render its output.' );
+		$this->assertStringContainsString( 'A published post for latest-posts', $fragment );
+	}
+
+	/**
+	 * Classic content passes through byte-identically — no wpautop, no
+	 * rendering surprises for the notices existing sites already have.
+	 *
+	 * @return void
+	 */
+	public function test_classic_content_is_untouched(): void {
+		$notice_id = $this->create_notice( 'Plain classic <strong>content</strong> stays as-is' );
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringContainsString( 'Plain classic <strong>content</strong> stays as-is', $fragment );
+		$this->assertStringNotContainsString( '<p>Plain classic', $fragment, 'Classic content must not gain wpautop paragraphs.' );
+	}
+
+	/**
+	 * A courier/notice block IS the notice: the fragment is the block's own
+	 * chrome — id hook, type class, layout class, dismiss affordance, the
+	 * opted-in title — with no legacy template double-wrap around it.
+	 *
+	 * @return void
+	 */
+	public function test_a_courier_notice_block_renders_as_itself(): void {
+		$notice_id = $this->create_notice(
+			'<!-- wp:courier/notice {"layout":"informational","showTitle":true} -->' .
+			"<!-- wp:paragraph -->\n<p>Block notice body</p>\n<!-- /wp:paragraph -->" .
+			'<!-- /wp:courier/notice -->'
+		);
+		update_post_meta( $notice_id, '_courier_dismissible', 1 );
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringContainsString( 'wp-block-courier-notice', $fragment );
+		$this->assertStringContainsString( 'courier-layout-informational', $fragment );
+		$this->assertStringContainsString( 'courier_type-info', $fragment, 'The type class must ride on the block for the color CSS.' );
+		$this->assertStringContainsString( 'data-courier-notice-id="' . $notice_id . '"', $fragment, 'The dismissal JS hook must be present.' );
+		$this->assertStringContainsString( 'data-closable', $fragment );
+		$this->assertStringContainsString( 'courier-close', $fragment );
+		$this->assertStringContainsString( 'courier-notice-title', $fragment, 'The opted-in title must render.' );
+		$this->assertStringContainsString( '<p>Block notice body</p>', $fragment );
+		$this->assertSame( 1, substr_count( $fragment, 'courier-content-wrapper' ), 'The legacy template must not double-wrap a block notice.' );
+	}
+
+	/**
+	 * Each notice resolves its own template.
+	 *
+	 * The `display` handler used to hoist its $style variable outside the loop
+	 * and only reassign it when a notice carried a courier_style term — so a
+	 * notice with no style term rendered through the PREVIOUS notice's
+	 * template. Notice_Renderer resolves per notice, which fixes it by
+	 * construction. Rendered through the helper directly so the ordering is
+	 * deterministic rather than dependent on post_date ties.
+	 *
+	 * @return void
+	 */
+	public function test_each_notice_resolves_its_own_template(): void {
+		$styled = $this->create_notice( 'Modal-styled classic notice' );
+		wp_set_object_terms( $styled, 'popup-modal', 'courier_style', false );
+
+		$unstyled = $this->create_notice( 'Plain classic notice' );
+
+		$rendered = \CourierNotices\Helper\Notice_Renderer::render_many(
+			array( get_post( $styled ), get_post( $unstyled ) )
+		);
+
+		$this->assertStringContainsString(
+			'courier-notices modal',
+			$rendered[ $styled ],
+			'A popup-modal style term must select the modal template.'
+		);
+		$this->assertStringNotContainsString(
+			'courier-notices modal',
+			$rendered[ $unstyled ],
+			'A notice with no style term must not inherit the previous notice template.'
+		);
+	}
+
+	/**
+	 * The modal placement forces the modal template regardless of style term —
+	 * the one behavior that differed between the two handlers the renderer
+	 * replaced, so it has to survive the extraction.
+	 *
+	 * @return void
+	 */
+	public function test_the_modal_placement_forces_the_modal_template(): void {
+		$notice_id = $this->create_notice( 'Classic notice with no style term' );
+
+		$rendered = \CourierNotices\Helper\Notice_Renderer::render_many(
+			array( get_post( $notice_id ) ),
+			'popup-modal'
+		);
+
+		$this->assertStringContainsString( 'courier-notices modal', $rendered[ $notice_id ] );
+	}
+
+	/**
+	 * A notice that is not dismissible must not render a dismiss affordance.
+	 *
+	 * The editor canvas reads the same meta to decide whether to draw the ×,
+	 * so this is the front-end half of that contract — it was showing an ×
+	 * the front end would never render (Aaron, 2026-08-11).
+	 *
+	 * @return void
+	 */
+	public function test_a_non_dismissible_notice_renders_no_dismiss_affordance(): void {
+		$notice_id = $this->create_notice(
+			'<!-- wp:courier/notice {"layout":"informational"} -->' .
+			"<!-- wp:paragraph -->\n<p>Persistent notice</p>\n<!-- /wp:paragraph -->" .
+			'<!-- /wp:courier/notice -->'
+		);
+
+		// No _courier_dismissible meta at all — the persistent case.
+		$this->assertFalse( metadata_exists( 'post', $notice_id, '_courier_dismissible' ) );
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringContainsString( '<p>Persistent notice</p>', $fragment );
+		$this->assertStringNotContainsString( 'courier-close', $fragment, 'A persistent notice must not render a close link.' );
+		$this->assertStringNotContainsString( 'data-closable', $fragment, 'A persistent notice must not be marked closable.' );
+	}
+
+	/**
+	 * Build informational content whose title is a bound core/heading, the way
+	 * the block's template now seeds it.
+	 *
+	 * @param bool $show_title Value of the block's showTitle attribute.
+	 *
+	 * @return string
+	 */
+	private function bound_title_content( bool $show_title ): string {
+		return sprintf(
+			'<!-- wp:courier/notice {"layout":"informational","showTitle":%s} -->',
+			$show_title ? 'true' : 'false'
+		) .
+			'<!-- wp:heading {"level":6,"className":"courier-notice-title","metadata":{"bindings":' .
+			'{"content":{"source":"courier/notice","args":{"key":"title"}}}}} -->' .
+			"\n<h6 class=\"courier-notice-title\"></h6>\n" .
+			'<!-- /wp:heading -->' .
+			"<!-- wp:paragraph -->\n<p>Block notice body</p>\n<!-- /wp:paragraph -->" .
+			'<!-- /wp:courier/notice -->';
+	}
+
+	/**
+	 * The informational title is a core/heading bound to the notice's own
+	 * title, so the heading renders the post title without the block echoing
+	 * one itself — and without doubling up with the legacy markup.
+	 *
+	 * @return void
+	 */
+	public function test_the_bound_title_heading_renders_the_notice_title(): void {
+		$notice_id = $this->create_notice( $this->bound_title_content( true ) );
+
+		wp_update_post(
+			array(
+				'ID'         => $notice_id,
+				'post_title' => 'Scheduled maintenance tonight',
+			)
+		);
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringContainsString( 'Scheduled maintenance tonight', $fragment, 'The bound heading must resolve the notice title.' );
+		$this->assertSame(
+			1,
+			substr_count( $fragment, 'courier-notice-title' ),
+			'The bound heading must not be joined by the legacy title markup.'
+		);
+		$this->assertStringContainsString( '<p>Block notice body</p>', $fragment );
+	}
+
+	/**
+	 * Switching the title off drops the bound heading from the front end
+	 * entirely rather than rendering it empty or hiding it with CSS.
+	 *
+	 * @return void
+	 */
+	public function test_the_bound_title_heading_is_dropped_when_the_title_is_off(): void {
+		$notice_id = $this->create_notice( $this->bound_title_content( false ) );
+
+		wp_update_post(
+			array(
+				'ID'         => $notice_id,
+				'post_title' => 'Scheduled maintenance tonight',
+			)
+		);
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringNotContainsString( 'courier-notice-title', $fragment, 'The heading must not render at all.' );
+		$this->assertStringNotContainsString( 'Scheduled maintenance tonight', $fragment );
+		$this->assertStringContainsString( '<p>Block notice body</p>', $fragment, 'The message must still render.' );
+	}
+
+	/**
+	 * Notices authored before the title became a bound heading have no heading
+	 * to render, so the legacy title markup still serves them.
+	 *
+	 * @return void
+	 */
+	public function test_a_notice_without_a_bound_heading_falls_back_to_the_legacy_title(): void {
+		$notice_id = $this->create_notice(
+			'<!-- wp:courier/notice {"layout":"informational","showTitle":true} -->' .
+			"<!-- wp:paragraph -->\n<p>Older block notice</p>\n<!-- /wp:paragraph -->" .
+			'<!-- /wp:courier/notice -->'
+		);
+
+		wp_update_post(
+			array(
+				'ID'         => $notice_id,
+				'post_title' => 'Authored before bindings',
+			)
+		);
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringContainsString( 'courier-notice-title', $fragment );
+		$this->assertStringContainsString( 'Authored before bindings', $fragment, 'An older notice must not lose its title.' );
+	}
+
+	/**
+	 * The icon block follows the notice type's _courier_type_icon term
+	 * meta — the same source the legacy templates read — and an explicit
+	 * attribute overrides it.
+	 *
+	 * @return void
+	 */
+	public function test_the_notice_icon_follows_the_type_and_honors_overrides(): void {
+		$term = wp_insert_term( 'Breaking', 'courier_type' );
+		add_term_meta( $term['term_id'], '_courier_type_icon', 'warning', true );
+
+		$following = $this->create_notice(
+			'<!-- wp:courier/notice --><!-- wp:courier/notice-icon /-->' .
+			"<!-- wp:paragraph -->\n<p>Following</p>\n<!-- /wp:paragraph --><!-- /wp:courier/notice -->",
+			false
+		);
+		wp_set_object_terms( $following, 'Breaking', 'courier_type', false );
+
+		$overridden = $this->create_notice(
+			'<!-- wp:courier/notice --><!-- wp:courier/notice-icon {"icon":"success"} /-->' .
+			"<!-- wp:paragraph -->\n<p>Overridden</p>\n<!-- /wp:paragraph --><!-- /wp:courier/notice -->"
+		);
+
+		$this->assertStringContainsString( 'courier-icon icon-warning', $this->fetch_fragment( $following ), 'The icon must follow the type term meta.' );
+		$this->assertStringContainsString( 'courier-icon icon-success', $this->fetch_fragment( $overridden ), 'An explicit icon must win over the type.' );
+	}
+
+	/**
+	 * The block's layout drives the legacy delivery terms: popup-modal
+	 * routes as a modal, and leaving the modal layout leaves the modal
+	 * placement too.
+	 *
+	 * @return void
+	 */
+	public function test_notice_layout_syncs_the_delivery_terms(): void {
+		$modal_content = '<!-- wp:courier/notice {"layout":"popup-modal"} -->' .
+			"<!-- wp:paragraph -->\n<p>Modal body</p>\n<!-- /wp:paragraph -->" .
+			'<!-- /wp:courier/notice -->';
+
+		$notice_id = self::factory()->post->create(
+			array(
+				'post_type'    => 'courier_notice',
+				'post_status'  => 'publish',
+				'post_content' => $modal_content,
+			)
+		);
+
+		$this->assertTrue( has_term( 'popup-modal', 'courier_style', $notice_id ), 'A modal layout must set the modal style term.' );
+		$this->assertTrue( has_term( 'popup-modal', 'courier_placement', $notice_id ), 'A modal layout must route to the modal placement.' );
+
+		wp_update_post(
+			array(
+				'ID'           => $notice_id,
+				'post_content' => str_replace( 'popup-modal', 'informational', $modal_content ),
+			)
+		);
+
+		$this->assertTrue( has_term( 'informational', 'courier_style', $notice_id ) );
+		$this->assertTrue( has_term( 'header', 'courier_placement', $notice_id ), 'Leaving the modal layout must leave the modal placement.' );
+	}
+
+	/**
+	 * Block-support styles generated during the fragment render ride along
+	 * in the response's styles key, ready for the consumer to inject —
+	 * they can never reach the already-loaded page on their own.
+	 *
+	 * @return void
+	 */
+	public function test_block_support_styles_ride_in_the_response(): void {
+		// Explicit spacing values serialize into the saved markup and travel
+		// inline; it is RENDER-time styles - layout rules like flex - that
+		// only exist in the style engine store and would otherwise be lost.
+		$this->create_notice(
+			'<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap"}} -->' .
+			'<div class="wp-block-group">' .
+			"<!-- wp:paragraph -->\n<p>Flexed</p>\n<!-- /wp:paragraph -->" .
+			'</div><!-- /wp:group -->'
+		);
+
+		$request = new WP_REST_Request( 'GET', '/courier-notices/v1/notices/display' );
+		$request->set_param( 'placement', 'header' );
+		$request->set_param( 'format', 'html' );
+
+		$response = rest_get_server()->dispatch( $request );
+		$data     = $response->get_data();
+
+		$this->assertArrayHasKey( 'styles', $data );
+		$this->assertStringContainsString( 'flex-wrap:nowrap', $data['styles'], 'The render-time layout CSS must be in the payload.' );
+	}
+}

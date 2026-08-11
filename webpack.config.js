@@ -44,6 +44,12 @@ module.exports = {
 		'courier-notices': [
 			path.resolve(__dirname, './assets/js/courier-notices.js'),
 			path.resolve(__dirname, './assets/scss/courier-notices.scss'),
+			// The notice block's shared skeleton - the same rules the editor
+			// canvas loads, so front end and editor match.
+			path.resolve(__dirname, './src/blocks/notice/style.scss'),
+			// Last, so it can neutralize the legacy placement positioning for
+			// block-rendered regions on source order as well as specificity.
+			path.resolve(__dirname, './src/blocks/notices/style.scss'),
 		],
 		'courier-notices-admin': [
 			path.resolve(__dirname, './assets/js/courier-notices-admin.js'),
@@ -54,6 +60,28 @@ module.exports = {
 				__dirname,
 				'./assets/scss/courier-notices-admin-global.scss'
 			),
+		],
+		// The block editor experience for the courier_notice CPT. Lives in
+		// src/ - the destination layout from the migration plan - while the
+		// legacy assets stay in assets/ until Phase 3 moves them.
+		'courier-notices-editor': [
+			path.resolve(__dirname, './src/editor/index.js'),
+			path.resolve(__dirname, './src/editor/editor.scss'),
+		],
+		// The Notice panel's sidebar chrome. Separate from the entry above
+		// because that one's CSS is the canvas replica, injected through
+		// block_editor_settings_all and therefore only ever reaching the
+		// iframed canvas. Sidebar styles have to be enqueued normally.
+		'courier-notices-editor-panel': [
+			path.resolve(__dirname, './src/editor/panel.scss'),
+		],
+		'courier-notices-notice-block': [
+			path.resolve(__dirname, './src/blocks/notice/index.js'),
+		],
+		// The outlet block - a region notices render into, as opposed to
+		// courier/notice, which is a notice.
+		'courier-notices-notices-block': [
+			path.resolve(__dirname, './src/blocks/notices/index.js'),
 		],
 	},
 	module: {

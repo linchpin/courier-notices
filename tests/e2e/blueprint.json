@@ -1,0 +1,10 @@
+{
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"login": true,
+	"steps": [
+		{
+			"step": "activatePlugin",
+			"pluginPath": "/wordpress/wp-content/plugins/courier-notices/courier-notices.php"
+		}
+	]
+}

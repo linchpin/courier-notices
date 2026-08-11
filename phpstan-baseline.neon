@@ -21,14 +21,9 @@ parameters:
 			path: courier-notices.php
 
 		-
-			message: "#^Parameter \\#2 \\$timestamp of function gmdate expects int, int\\|false given\\.$#"
+			message: "#^Parameter \\#2 \\$timestamp of function gmdate expects int\\|null, int\\|false given\\.$#"
 			count: 1
 			path: courier-notices.php
-
-		-
-			message: "#^Access to property \\$post_type on an unknown class CourierNotices\\\\Controller\\\\WP_Post\\.$#"
-			count: 1
-			path: includes/Controller/Action_Scheduler.php
 
 		-
 			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
@@ -86,11 +81,6 @@ parameters:
 			path: includes/Controller/Action_Scheduler.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Action_Scheduler.php
-
-		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:reschedule_all_notices\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: includes/Controller/Action_Scheduler.php
@@ -129,26 +119,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$postarr of function wp_update_post expects array\\{ID\\?\\: int, post_author\\?\\: int, post_date\\?\\: string, post_date_gmt\\?\\: string, post_content\\?\\: string, post_content_filtered\\?\\: string, post_title\\?\\: string, post_excerpt\\?\\: string, \\.\\.\\.\\}, array\\{ID\\: int\\|WP_Post, post_status\\: 'courier_expired'\\} given\\.$#"
 			count: 1
 			path: includes/Controller/Action_Scheduler.php
-
-		-
-			message: "#^Parameter \\#2 \\$post of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) expects CourierNotices\\\\Controller\\\\WP_Post, WP_Post\\|null given\\.$#"
-			count: 1
-			path: includes/Controller/Action_Scheduler.php
-
-		-
-			message: "#^Parameter \\$post of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) has invalid type CourierNotices\\\\Controller\\\\WP_Post\\.$#"
-			count: 1
-			path: includes/Controller/Action_Scheduler.php
-
-		-
-			message: "#^Access to property \\$ID on an unknown class CourierNotices\\\\Controller\\\\Admin\\\\WP_Post\\.$#"
-			count: 4
-			path: includes/Controller/Admin/Admin.php
-
-		-
-			message: "#^Access to property \\$post_type on an unknown class CourierNotices\\\\Controller\\\\Admin\\\\WP_Post\\.$#"
-			count: 1
-			path: includes/Controller/Admin/Admin.php
 
 		-
 			message: "#^Argument of an invalid type array\\<WP_Term\\>\\|WP_Error supplied for foreach, only iterables are supported\\.$#"
@@ -251,11 +221,6 @@ parameters:
 			path: includes/Controller/Admin/Admin.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Admin/Admin.php
-
-		-
 			message: "#^Parameter \\#1 \\$text of function wp_strip_all_tags expects string, string\\|WP_Error\\|false given\\.$#"
 			count: 2
 			path: includes/Controller/Admin/Admin.php
@@ -267,11 +232,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$data of function wp_add_inline_style expects string, string\\|null given\\.$#"
-			count: 1
-			path: includes/Controller/Admin/Admin.php
-
-		-
-			message: "#^Parameter \\$post of method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:add_expired_row_actions\\(\\) has invalid type CourierNotices\\\\Controller\\\\Admin\\\\WP_Post\\.$#"
 			count: 1
 			path: includes/Controller/Admin/Admin.php
 
@@ -317,7 +277,7 @@ parameters:
 
 		-
 			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
-			count: 6
+			count: 5
 			path: includes/Controller/Admin/Courier_Notice_Metabox.php
 
 		-
@@ -332,11 +292,6 @@ parameters:
 
 		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Courier_Notice_Metabox\\:\\:post_submitbox_misc_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Admin/Courier_Notice_Metabox.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Admin\\\\Courier_Notice_Metabox\\:\\:register_actions\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: includes/Controller/Admin/Courier_Notice_Metabox.php
 
@@ -561,7 +516,18 @@ parameters:
 			path: includes/Controller/Courier.php
 
 		-
-			message: "#^Call to deprecated function courier_get_global_dismissed_notices\\(\\)\\.$#"
+			message: """
+				#^Call to deprecated function courier_get_global_dismissed_notices\\(\\)\\:
+				1\\.2\\.0 Use courier_notices_get_global_dismissed_notices\\(\\)$#
+			"""
+			count: 1
+			path: includes/Controller/Courier.php
+
+		-
+			message: """
+				#^Call to deprecated function courier_get_notices\\(\\)\\:
+				1\\.2\\.0 Use courier_notices_get_notices\\(\\)$#
+			"""
 			count: 1
 			path: includes/Controller/Courier.php
 
@@ -577,7 +543,7 @@ parameters:
 
 		-
 			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
-			count: 16
+			count: 13
 			path: includes/Controller/Courier.php
 
 		-
@@ -676,17 +642,12 @@ parameters:
 			path: includes/Controller/Courier.php
 
 		-
-			message: "#^Only booleans are allowed in an elseif condition, array\\<string, string\\>\\|int\\|null given\\.$#"
-			count: 3
-			path: includes/Controller/Courier.php
-
-		-
 			message: "#^Only booleans are allowed in an if condition, array\\|null given\\.$#"
 			count: 1
 			path: includes/Controller/Courier.php
 
 		-
-			message: "#^Only booleans are allowed in \\|\\|, int\\|false given on the left side\\.$#"
+			message: "#^Only booleans are allowed in \\|\\|, int\\<0, max\\>\\|false given on the left side\\.$#"
 			count: 1
 			path: includes/Controller/Courier.php
 
@@ -697,18 +658,13 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$terms of function wp_set_object_terms expects array\\|int\\|string, null given\\.$#"
-			count: 3
+			count: 1
 			path: includes/Controller/Courier.php
 
 		-
 			message: "#^Variable \\$notices in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: includes/Controller/Courier.php
-
-		-
-			message: "#^Call to deprecated function courier_get_css\\(\\)\\.$#"
-			count: 1
-			path: includes/Controller/Courier_Notices.php
 
 		-
 			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
@@ -727,11 +683,6 @@ parameters:
 
 		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Notices\\:\\:clear_cache\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Courier_Notices.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_Notices\\:\\:register_actions\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: includes/Controller/Courier_Notices.php
 
@@ -756,6 +707,11 @@ parameters:
 			path: includes/Controller/Courier_Notices.php
 
 		-
+			message: "#^Parameter \\#1 \\$post_type of function register_post_type expects lowercase\\-string&non\\-empty\\-string, string given\\.$#"
+			count: 1
+			path: includes/Controller/Courier_Notices.php
+
+		-
 			message: "#^Parameter \\#2 \\$data of function wp_add_inline_style expects string, string\\|null given\\.$#"
 			count: 1
 			path: includes/Controller/Courier_Notices.php
@@ -776,82 +732,12 @@ parameters:
 			path: includes/Controller/Courier_REST_Controller.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:dismiss_notice\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:display_all_notices\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:display_notices\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_collection_params\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_dismiss_notice_permissions_check\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_item_permissions_check\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_notice\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:prepare_item_for_response\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:register_routes\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:sanitize_placements\\(\\) has parameter \\$placements with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: includes/Controller/Courier_REST_Controller.php
 
 		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:sanitize_placements\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Parameter \\#1 \\$response of method WP_REST_Controller\\:\\:prepare_response_for_collection\\(\\) expects WP_REST_Response, array\\<string, int\\|string\\|false\\> given\\.$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$haystack of function in_array expects array, array\\<int, WP_Term\\>\\|WP_Error given\\.$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Return type \\(bool\\|WP_Error\\) of method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:get_item_permissions_check\\(\\) should be covariant with return type \\(WP_Error\\|true\\) of method WP_REST_Controller\\:\\:get_item_permissions_check\\(\\)$#"
-			count: 1
-			path: includes/Controller/Courier_REST_Controller.php
-
-		-
-			message: "#^Return type \\(mixed\\) of method CourierNotices\\\\Controller\\\\Courier_REST_Controller\\:\\:prepare_item_for_response\\(\\) should be covariant with return type \\(WP_Error\\|WP_REST_Response\\) of method WP_REST_Controller\\:\\:prepare_item_for_response\\(\\)$#"
 			count: 1
 			path: includes/Controller/Courier_REST_Controller.php
 
@@ -948,51 +834,6 @@ parameters:
 		-
 			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
 			count: 1
-			path: includes/Controller/Cron.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Cron\\:\\:courier_expire\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Cron.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Cron\\:\\:courier_purge\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Cron.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Cron\\:\\:init\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Cron.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Cron\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Cron.php
-
-		-
-			message: "#^Only booleans are allowed in a negated boolean, int\\|false given\\.$#"
-			count: 2
-			path: includes/Controller/Cron.php
-
-		-
-			message: "#^Parameter \\#1 \\$post_id of function wp_trash_post expects int, int\\|WP_Post given\\.$#"
-			count: 1
-			path: includes/Controller/Cron.php
-
-		-
-			message: "#^Parameter \\#1 \\$postarr of function wp_update_post expects array\\{ID\\?\\: int, post_author\\?\\: int, post_date\\?\\: string, post_date_gmt\\?\\: string, post_content\\?\\: string, post_content_filtered\\?\\: string, post_title\\?\\: string, post_excerpt\\?\\: string, \\.\\.\\.\\}, array\\{ID\\: int\\|WP_Post, post_status\\: 'courier_expired'\\} given\\.$#"
-			count: 1
-			path: includes/Controller/Cron.php
-
-		-
-			message: "#^Call to deprecated function courier_get_css\\(\\)\\.$#"
-			count: 1
-			path: includes/Controller/Install.php
-
-		-
-			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
-			count: 1
 			path: includes/Controller/Install.php
 
 		-
@@ -1021,11 +862,6 @@ parameters:
 			path: includes/Controller/Install.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Install\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Install.php
-
-		-
 			message: "#^Only booleans are allowed in an if condition, WP_Role\\|null given\\.$#"
 			count: 1
 			path: includes/Controller/Install.php
@@ -1048,11 +884,6 @@ parameters:
 		-
 			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
 			count: 2
-			path: includes/Controller/Integrations/Stream.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\Stream\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
 			path: includes/Controller/Integrations/Stream.php
 
 		-
@@ -1141,11 +972,6 @@ parameters:
 			path: includes/Controller/Integrations/WP_CLI.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_CLI\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
 			message: "#^Only booleans are allowed in a negated boolean, WP_Post\\|null given\\.$#"
 			count: 2
 			path: includes/Controller/Integrations/WP_CLI.php
@@ -1186,17 +1012,7 @@ parameters:
 			path: includes/Controller/Integrations/WP_CLI.php
 
 		-
-			message: "#^Parameter \\#1 \\$post_id of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) expects int, int\\<min, \\-1\\>\\|int\\<1, max\\>\\|true given\\.$#"
-			count: 1
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
-			message: "#^Parameter \\#2 \\$post of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) expects CourierNotices\\\\Controller\\\\WP_Post, int\\<61, max\\> given\\.$#"
-			count: 1
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
-			message: "#^Parameter \\#2 \\$timestamp of function gmdate expects int, int\\|false given\\.$#"
+			message: "#^Parameter \\#2 \\$timestamp of function gmdate expects int\\|null, int\\|false given\\.$#"
 			count: 3
 			path: includes/Controller/Integrations/WP_CLI.php
 
@@ -1216,11 +1032,6 @@ parameters:
 			path: includes/Controller/Integrations/WP_SEO.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Integrations\\\\WP_SEO\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Integrations/WP_SEO.php
-
-		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Placement\\:\\:place_footer_notices\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: includes/Controller/Placement.php
@@ -1236,44 +1047,9 @@ parameters:
 			path: includes/Controller/Placement.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Placement\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			message: "#^Method CourierNotices\\\\Controller\\\\REST\\\\REST_Base\\:\\:get_api_namespace\\(\\) should return non\\-falsy\\-string but returns string\\.$#"
 			count: 1
-			path: includes/Controller/Placement.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:get_settings\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Settings_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:get_settings\\(\\) should return string but returns WP_REST_Response\\.$#"
-			count: 1
-			path: includes/Controller/Settings_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Settings_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:register_routes\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Settings_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:update_settings\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
-			count: 1
-			path: includes/Controller/Settings_REST_Controller.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Settings_REST_Controller\\:\\:update_settings\\(\\) should return string but returns WP_REST_Response\\.$#"
-			count: 1
-			path: includes/Controller/Settings_REST_Controller.php
-
-		-
-			message: "#^Only booleans are allowed in an if condition, int\\|false given\\.$#"
-			count: 1
-			path: includes/Controller/Settings_REST_Controller.php
+			path: includes/Controller/REST/REST_Base.php
 
 		-
 			message: "#^Call to function sprintf\\(\\) on a separate line has no effect\\.$#"
@@ -1301,27 +1077,22 @@ parameters:
 			path: includes/Controller/Shortcodes.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Shortcodes\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Shortcodes.php
-
-		-
 			message: "#^Parameter \\#1 \\$text of function esc_html expects string, int\\|string\\|false given\\.$#"
 			count: 1
 			path: includes/Controller/Shortcodes.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Styles\\:\\:register_actions\\(\\) has no return type specified\\.$#"
+			message: "#^Parameter \\#2 \\$callback of function add_shortcode expects callable\\(array\\<string\\>, string\\|null, string\\)\\: string, array\\{\\$this\\(CourierNotices\\\\Controller\\\\Shortcodes\\), 'courier_notice'\\} given\\.$#"
 			count: 1
-			path: includes/Controller/Styles.php
+			path: includes/Controller/Shortcodes.php
+
+		-
+			message: "#^Parameter \\#2 \\$callback of function add_shortcode expects callable\\(array\\<string\\>, string\\|null, string\\)\\: string, array\\{\\$this\\(CourierNotices\\\\Controller\\\\Shortcodes\\), 'courier_notices'\\} given\\.$#"
+			count: 1
+			path: includes/Controller/Shortcodes.php
 
 		-
 			message: "#^Action callback returns string but should not return anything\\.$#"
-			count: 1
-			path: includes/Controller/Upgrade.php
-
-		-
-			message: "#^Call to deprecated function courier_get_css\\(\\)\\.$#"
 			count: 1
 			path: includes/Controller/Upgrade.php
 
@@ -1337,11 +1108,6 @@ parameters:
 
 		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Upgrade\\:\\:migrate_to_action_scheduler\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Upgrade.php
-
-		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Upgrade\\:\\:register_actions\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: includes/Controller/Upgrade.php
 
@@ -1416,11 +1182,6 @@ parameters:
 			path: includes/Controller/Welcome.php
 
 		-
-			message: "#^Method CourierNotices\\\\Controller\\\\Welcome\\:\\:register_actions\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Controller/Welcome.php
-
-		-
 			message: "#^Method CourierNotices\\\\Controller\\\\Welcome\\:\\:show_welcome\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: includes/Controller/Welcome.php
@@ -1441,17 +1202,7 @@ parameters:
 			path: includes/Controller/Welcome.php
 
 		-
-			message: "#^Argument of an invalid type array\\|false supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: includes/Core/Bootstrap.php
-
-		-
 			message: "#^Cannot call method register_actions\\(\\) on class\\-string\\|object\\.$#"
-			count: 1
-			path: includes/Core/Bootstrap.php
-
-		-
-			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
 			count: 1
 			path: includes/Core/Bootstrap.php
 
@@ -1661,12 +1412,12 @@ parameters:
 			path: includes/Helper/Files.php
 
 		-
-			message: "#^Parameter \\#1 \\$arr1 of function array_merge expects array, array\\<mixed\\>\\|false given\\.$#"
+			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, array\\<mixed\\>\\|false given\\.$#"
 			count: 1
 			path: includes/Helper/Files.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$args of function array_merge expects array, array\\|false given\\.$#"
+			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge expects array, array\\|false given\\.$#"
 			count: 1
 			path: includes/Helper/Files.php
 
@@ -1841,7 +1592,7 @@ parameters:
 			path: includes/Helper/Functions.php
 
 		-
-			message: "#^Only booleans are allowed in a negated boolean, int given\\.$#"
+			message: "#^Only booleans are allowed in a negated boolean, int\\<0, max\\> given\\.$#"
 			count: 3
 			path: includes/Helper/Functions.php
 
@@ -1861,17 +1612,17 @@ parameters:
 			path: includes/Helper/Functions.php
 
 		-
-			message: "#^Parameter \\#1 \\$arr1 of function array_merge expects array, array\\|null given\\.$#"
-			count: 1
-			path: includes/Helper/Functions.php
-
-		-
 			message: "#^Parameter \\#1 \\$key of function wp_cache_delete expects string, int given\\.$#"
 			count: 1
 			path: includes/Helper/Functions.php
 
 		-
 			message: "#^Parameter \\#1 \\$key of function wp_cache_delete expects string, int\\<min, \\-1\\>\\|int\\<1, max\\> given\\.$#"
+			count: 1
+			path: includes/Helper/Functions.php
+
+		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, array\\|null given\\.$#"
 			count: 1
 			path: includes/Helper/Functions.php
 
@@ -1886,7 +1637,7 @@ parameters:
 			path: includes/Helper/Functions.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$args of function array_merge expects array, array\\|null given\\.$#"
+			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge expects array, array\\|null given\\.$#"
 			count: 1
 			path: includes/Helper/Functions.php
 
@@ -2301,12 +2052,17 @@ parameters:
 			path: includes/Helper/WP_List_Table.php
 
 		-
-			message: "#^Parameter \\#1 \\$function of function call_user_func expects callable\\(\\)\\: mixed, array\\{\\$this\\(CourierNotices\\\\Helper\\\\WP_List_Table\\), non\\-falsy\\-string\\} given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, array\\{\\$this\\(CourierNotices\\\\Helper\\\\WP_List_Table\\), non\\-falsy\\-string\\} given\\.$#"
 			count: 2
 			path: includes/Helper/WP_List_Table.php
 
 		-
-			message: "#^Parameter \\#1 \\$function of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{\\$this\\(CourierNotices\\\\Helper\\\\WP_List_Table\\), string\\} given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{\\$this\\(CourierNotices\\\\Helper\\\\WP_List_Table\\), string\\} given\\.$#"
+			count: 1
+			path: includes/Helper/WP_List_Table.php
+
+		-
+			message: "#^Parameter \\#1 \\$hook_name of function apply_filters expects non\\-empty\\-string, string given\\.$#"
 			count: 1
 			path: includes/Helper/WP_List_Table.php
 
@@ -2326,7 +2082,7 @@ parameters:
 			path: includes/Helper/WP_List_Table.php
 
 		-
-			message: "#^Parameter \\#1 \\$var of function count expects array\\|Countable, object given\\.$#"
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, object given\\.$#"
 			count: 1
 			path: includes/Helper/WP_List_Table.php
 
@@ -2408,11 +2164,6 @@ parameters:
 		-
 			message: "#^Access to an undefined property object\\:\\:\\$ID\\.$#"
 			count: 1
-			path: includes/Model/Courier_Notice/Data.php
-
-		-
-			message: "#^Cannot access offset 0 on array\\<WP_Term\\>\\|WP_Error\\|false\\.$#"
-			count: 2
 			path: includes/Model/Courier_Notice/Data.php
 
 		-
@@ -2552,11 +2303,6 @@ parameters:
 
 		-
 			message: "#^Method CourierNotices\\\\Model\\\\Settings\\:\\:save_settings\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: includes/Model/Settings.php
-
-		-
-			message: "#^Method CourierNotices\\\\Model\\\\Settings\\:\\:save_settings\\(\\) has parameter \\$request with generic class WP_REST_Request but does not specify its types\\: T$#"
 			count: 1
 			path: includes/Model/Settings.php
 

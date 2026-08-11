@@ -3,9 +3,9 @@
 namespace CourierNotices\Controller;
 
 use WP_REST_Response;
-use WP_REST_Controller;
 use WP_Error;
 use WP_REST_Request;
+use CourierNotices\Controller\REST\REST_Base;
 use CourierNotices\Core\View;
 use CourierNotices\Model\Courier_Notice\Data as Courier_Notice_Data;
 
@@ -14,20 +14,15 @@ use CourierNotices\Model\Courier_Notice\Data as Courier_Notice_Data;
  *
  * @package CourierNotices\Controller
  */
-class Courier_REST_Controller extends WP_REST_Controller {
-
-
-	public function register_actions() {
-		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
-	}
-
+class Courier_REST_Controller extends REST_Base {
 
 	/**
 	 * Register the routes for the objects of the controller.
+	 *
+	 * @return void
 	 */
-	public function register_routes() {
-		$version   = '1';
-		$namespace = 'courier-notices/v' . $version;
+	public function register_routes(): void {
+		$namespace = $this->get_api_namespace();
 		$base      = 'notice';
 
 		// Display a single notice
@@ -38,7 +33,7 @@ class Courier_REST_Controller extends WP_REST_Controller {
 				[
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => [ $this, 'get_notice' ],
-					'permission_callback' => [ $this, 'get_notice_permissions_check' ],
+					'permission_callback' => [ $this, 'get_public_permissions' ],
 					'args'                => [],
 				],
 			]
@@ -52,8 +47,29 @@ class Courier_REST_Controller extends WP_REST_Controller {
 				[
 					'methods'             => \WP_REST_Server::EDITABLE,
 					'callback'            => [ $this, 'dismiss_notice' ],
-					'permission_callback' => [ $this, 'get_dismiss_notice_permissions_check' ],
+					'permission_callback' => [ $this, 'get_logged_in_permissions' ],
 					'args'                => [],
+				],
+			]
+		);
+
+		// Reactivate an expired or dismissed notice.
+		register_rest_route(
+			$namespace,
+			'/reactivate/(?P<notice_id>\d+)/',
+			[
+				[
+					'methods'             => \WP_REST_Server::EDITABLE,
+					'callback'            => [ $this, 'reactivate_notice' ],
+					'permission_callback' => [ $this, 'get_reactivate_permissions' ],
+					'args'                => [
+						'notice_id' => [
+							'description'       => esc_html__( 'The notice to reactivate.', 'courier-notices' ),
+							'type'              => 'integer',
+							'sanitize_callback' => 'absint',
+							'validate_callback' => 'rest_validate_request_arg',
+						],
+					],
 				],
 			]
 		);
@@ -66,7 +82,7 @@ class Courier_REST_Controller extends WP_REST_Controller {
 				[
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => [ $this, 'display_notices' ],
-					'permission_callback' => [ $this, 'get_notice_permissions_check' ],
+					'permission_callback' => [ $this, 'get_public_permissions' ],
 					'args'                => [
 						'placement' => [
 							'description'       => esc_html__( 'Set where the notices should display.', 'courier-notices' ),
@@ -86,9 +102,9 @@ class Courier_REST_Controller extends WP_REST_Controller {
 							'validate_callback' => 'rest_validate_request_arg',
 						],
 						'user_id'   => [
-							'description'       => esc_html__( 'Our queried post info', 'courier-notices' ),
-							'type'              => 'int',
-							'sanitize_callback' => 'sanitize_text_field',
+							'description'       => esc_html__( 'The user the notices are for.', 'courier-notices' ),
+							'type'              => 'integer',
+							'sanitize_callback' => 'absint',
 							'validate_callback' => 'rest_validate_request_arg',
 						],
 					],
@@ -104,8 +120,17 @@ class Courier_REST_Controller extends WP_REST_Controller {
 				[
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => [ $this, 'display_all_notices' ],
-					'permission_callback' => [ $this, 'get_notice_permissions_check' ],
+					'permission_callback' => [ $this, 'get_public_permissions' ],
 					'args'                => [
+						'placements' => [
+							'description'       => esc_html__( 'Placements to fetch notices for.', 'courier-notices' ),
+							'type'              => 'array',
+							'items'             => [
+								'type' => 'string',
+							],
+							'sanitize_callback' => [ $this, 'sanitize_placements' ],
+							'validate_callback' => 'rest_validate_request_arg',
+						],
 						'format'    => [
 							'description'       => esc_html__( 'Set the response, either html or json.', 'courier-notices' ),
 							'type'              => 'string',
@@ -135,9 +160,9 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 1.0
 	 *
-	 * @param WP_REST_Request $request Full data about the request.
+	 * @param \WP_REST_Request $request Full data about the request.
 	 *
-	 * @return WP_Error|WP_REST_Response
+	 * @return \WP_Error|\WP_REST_Response
 	 */
 	public function get_notice( WP_REST_Request $request ) {
 		$data = [];
@@ -163,7 +188,7 @@ class Courier_REST_Controller extends WP_REST_Controller {
 					'description' => get_the_content(),
 				);
 
-				$data[] = $this->prepare_response_for_collection( $item );
+				$data[] = $item;
 			}
 
 			wp_reset_postdata();
@@ -178,9 +203,9 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 1.0.5
 	 *
-	 * @param $request WP_REST_Request
+	 * @param $request \WP_REST_Request
 	 *
-	 * @return WP_REST_Response
+	 * @return \WP_REST_Response
 	 */
 	public function dismiss_notice( WP_REST_Request $request ) {
 		$defaults = array(
@@ -212,22 +237,58 @@ class Courier_REST_Controller extends WP_REST_Controller {
 
 
 	/**
-	 * Check if a given request has access to get items
+	 * Reactivating edits the notice, so the caller needs edit rights on
+	 * that specific post.
 	 *
-	 * @param WP_REST_Request $request Full data about the request.
-	 * @return WP_Error|bool
+	 * @since 2.0.0
+	 *
+	 * @param \WP_REST_Request $request Full data about the request.
+	 *
+	 * @return bool
 	 */
-	public function get_dismiss_notice_permissions_check( $request ) {
-		return is_user_logged_in();
+	public function get_reactivate_permissions( WP_REST_Request $request ): bool {
+		return current_user_can( 'edit_post', (int) $request['notice_id'] );
+	}
+
+
+	/**
+	 * Reactivate an expired or dismissed notice.
+	 *
+	 * The route existed in the admin UI for years without a handler — the
+	 * localized endpoint, the row action, and the edit-screen banner all
+	 * posted into a void. See COURIER-1031.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param \WP_REST_Request $request Full data about the request.
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
+	public function reactivate_notice( WP_REST_Request $request ) {
+		$notice_id = (int) $request['notice_id'];
+		$result    = ( new Courier_Notice_Data() )->reactivate_notice( $notice_id );
+
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		}
+
+		return new WP_REST_Response(
+			array(
+				'success'    => true,
+				'notice_id'  => $notice_id,
+				'expiration' => (int) get_post_meta( $notice_id, '_courier_expiration', true ),
+			),
+			200
+		);
 	}
 
 
 	/**
 	 * Display all notices on the frontend based on our logic
 	 *
-	 * @param WP_REST_Request $request Full data about the request.
+	 * @param \WP_REST_Request $request Full data about the request.
 	 *
-	 * @return WP_Error|WP_REST_Response
+	 * @return \WP_Error|\WP_REST_Response
 	 * @since 1.0
 	 *
 	 * Retrieves the following courier notices
@@ -258,42 +319,19 @@ class Courier_REST_Controller extends WP_REST_Controller {
 		);
 		$ajax_post_data = wp_parse_args( $request->get_params(), $defaults );
 		$notices_data   = new Courier_Notice_Data();
-		$notice_posts   = $notices_data->get_notices( $args, $ajax_post_data );
-		$style          = 'notice-informational';
+		$notice_posts = $notices_data->get_notices( $args, $ajax_post_data );
 
 		if ( 'html' === $args['format'] ) {
-			$notices = [];
-
-			foreach ( $notice_posts as $courier_notice ) {
-				$notice_data    = $notices_data->get_notice_meta( $courier_notice->ID );
-				$notice         = new View();
-				$post_classes   = array( 'courier-notice courier_notice alert alert-box' );
-				$post_classes[] = 'courier_type-' . $notice_data['type'][0]->slug;
-				$post_classes[] = $notice_data['is_confirmation'] ? 'gform-confirmation' : '';
-
-				$notice->assign( 'notice_id', $courier_notice->ID );
-				$notice->assign( 'show_hide_title', $notice_data['show_hide_title'] );
-
-				$notice_title = courier_notices_the_notice_title( $courier_notice->post_title, '<h6 class="courier-notice-title">', '</h6>', false );
-
-				$notice->assign( 'notice_title', $notice_title );
-				$notice->assign( 'notice_class', implode( ' ', get_post_class( $post_classes, $courier_notice->ID ) ) );
-				$notice->assign( 'dismissible', get_post_meta( $courier_notice->ID, '_courier_dismissible', true ) );
-				$notice->assign( 'icon', $notice_data['icon'] );
-				$notice->assign( 'notice_content', $courier_notice->post_content );
-
-				if ( ! is_wp_error( $notice_data['style'] ) && is_array( $notice_data['style'] ) ) {
-					$style = 'notice-' . $notice_data['style'][0]->slug;
-				}
-
-				$notices[ $courier_notice->ID ] = $notice->get_text_view( $style );
-			}
-
-			$notice_posts = $notices;
+			$notice_posts = \CourierNotices\Helper\Notice_Renderer::render_many( $notice_posts );
 		}
 
 		$dataset = array(
 			'notices' => $notice_posts,
+			// Block-support styles (padding, gap, color) generated while the
+			// fragments rendered. They never reach the already-loaded page on
+			// their own; consumers inject them - the Interactivity store does
+			// this in Phase 3, the legacy jQuery loader ignores the key.
+			'styles'  => wp_style_engine_get_stylesheet_from_context( 'block-supports' ),
 		);
 
 		/**
@@ -310,9 +348,9 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	 *
 	 * @since 1.7.2
 	 *
-	 * @param WP_REST_Request $request Full data about the request.
+	 * @param \WP_REST_Request $request Full data about the request.
 	 *
-	 * @return WP_Error|WP_REST_Response
+	 * @return \WP_Error|\WP_REST_Response
 	 */
 	public function display_all_notices( WP_REST_Request $request ) {
 		$defaults = [
@@ -325,25 +363,39 @@ class Courier_REST_Controller extends WP_REST_Controller {
 			'query_args'                   => [],
 		];
 
-		$defaults       = apply_filters( 'courier_notices_get_notices_default_settings', $defaults );
-		$placements     = $request->get_param( 'placements' );
-		$format         = $request->get_param( 'format' );
-		$ajax_post_data = wp_parse_args( $request->get_params(), $defaults );
-		$notices_data   = new Courier_Notice_Data();
-		$dataset        = [];
+		$defaults     = apply_filters( 'courier_notices_get_notices_default_settings', $defaults );
+		$placements   = $request->get_param( 'placements' );
+		$format       = $request->get_param( 'format' );
+		$notices_data = new Courier_Notice_Data();
+		$dataset      = [];
+
+		// Posted values win over the synthesized server context, which wins
+		// over the plain defaults - the same composition get_notices() uses.
+		$ajax_post_data = wp_parse_args(
+			$request->get_params(),
+			wp_parse_args( $notices_data->get_request_context(), $defaults )
+		);
 
 		// If no placements specified, return all
 		if ( empty( $placements ) ) {
 			$placements = [ 'header', 'footer', 'popup-modal' ];
 		}
 
-		// Always include popup-modal if not already specified
+		// Always include popup-modal if not already specified. The legacy
+		// frontend depends on this; the Phase 3 block path must NOT inherit
+		// the special case - see the display-type work in the migration plan.
 		if ( ! in_array( 'popup-modal', $placements, true ) ) {
 			$placements[] = 'popup-modal';
 		}
 
-		// Create cache key for the entire response
-		$cache_key = 'courier_notices_display_all_' . md5( serialize( $placements ) . serialize( $ajax_post_data ) . $format );
+		// This response-level cache varies on the same personalization
+		// context as the query layer - synthesized user_id plus whatever
+		// courier_notices_query_cache_context declares - so one visitor's
+		// filtered response is never served to another.
+		$cache_context = $notices_data->get_query_cache_context( [ 'placements' => $placements ], $ajax_post_data );
+		$cache_hash    = wp_hash( wp_json_encode( $placements ) . wp_json_encode( $ajax_post_data ) . wp_json_encode( $cache_context ) . $format );
+
+		$cache_key = 'courier_notices_display_all_' . $cache_hash;
 		$cache     = wp_cache_get( $cache_key, 'courier-notices' );
 
 		// Check object cache first
@@ -352,7 +404,7 @@ class Courier_REST_Controller extends WP_REST_Controller {
 		}
 
 		// Check transient cache
-		$transient_key   = 'courier_notices_display_all_transient_' . md5( serialize( $placements ) . serialize( $ajax_post_data ) . $format );
+		$transient_key   = 'courier_notices_display_all_transient_' . $cache_hash;
 		$transient_cache = get_transient( $transient_key );
 		if ( false !== $transient_cache ) {
 			wp_cache_set( $cache_key, $transient_cache, 'courier-notices', 300 );
@@ -370,47 +422,15 @@ class Courier_REST_Controller extends WP_REST_Controller {
 			);
 
 			$notice_posts = $notices_data->get_notices( $args, $ajax_post_data );
-			$style        = 'notice-informational';
-
 			if ( 'html' === $format ) {
-				$notices = [];
-
-				foreach ( $notice_posts as $courier_notice ) {
-					$notice_data    = $notices_data->get_notice_meta( $courier_notice->ID );
-					$notice         = new View();
-					$post_classes   = [ 'courier-notice courier_notice alert alert-box' ];
-					$post_classes[] = 'courier_type-' . $notice_data['type'][0]->slug;
-					$post_classes[] = $notice_data['is_confirmation'] ? 'gform-confirmation' : '';
-
-					$notice->assign( 'notice_id', $courier_notice->ID );
-					$notice->assign( 'show_hide_title', $notice_data['show_hide_title'] );
-
-					$notice_title = courier_notices_the_notice_title( $courier_notice->post_title, '<h6 class="courier-notice-title">', '</h6>', false );
-
-					$notice->assign( 'notice_title', $notice_title );
-					$notice->assign( 'notice_class', implode( ' ', get_post_class( $post_classes, $courier_notice->ID ) ) );
-					$notice->assign( 'dismissible', get_post_meta( $courier_notice->ID, '_courier_dismissible', true ) );
-					$notice->assign( 'icon', $notice_data['icon'] );
-					$notice->assign( 'notice_content', $courier_notice->post_content );
-
-					// Determine the correct template based on placement
-					if ( $placement === 'popup-modal' ) {
-						$style = 'notice-popup-modal';
-					} else {
-						$style = 'notice-informational';
-						if ( ! is_wp_error( $notice_data['style'] ) && is_array( $notice_data['style'] ) ) {
-							$style = 'notice-' . $notice_data['style'][0]->slug;
-						}
-					}
-
-					$notices[ $courier_notice->ID ] = $notice->get_text_view( $style );
-				}
-
-				$dataset[ $placement ] = $notices;
+				$dataset[ $placement ] = \CourierNotices\Helper\Notice_Renderer::render_many( $notice_posts, $placement );
 			} else {
 				$dataset[ $placement ] = $notice_posts;
 			}
 		}
+
+		// Block-support styles for every fragment above - see display_notices().
+		$dataset['styles'] = wp_style_engine_get_stylesheet_from_context( 'block-supports' );
 
 		// Filter the dataset before returning
 		$dataset = apply_filters( 'courier_notices_display_all_notices', $dataset );
@@ -437,13 +457,20 @@ class Courier_REST_Controller extends WP_REST_Controller {
 			return [];
 		}
 
-		// This comes from the placement taxonomy terms.
+		// Only registered placement terms pass. This existed since 1.7.2
+		// but was never wired as a sanitize_callback - and compared strings
+		// against WP_Term objects, so it would have rejected everything.
 		$valid_placements = get_terms(
 			[
 				'taxonomy'   => 'courier_placement',
 				'hide_empty' => false,
+				'fields'     => 'slugs',
 			]
 		);
+
+		if ( is_wp_error( $valid_placements ) ) {
+			return [];
+		}
 
 		$sanitized = [];
 
@@ -458,65 +485,4 @@ class Courier_REST_Controller extends WP_REST_Controller {
 	}
 
 
-	/**
-	 * Check if a given request has access to get items
-	 *
-	 * @return WP_Error|bool
-	 */
-	public function get_notice_permissions_check() {
-		return true;
-	}
-
-
-	/**
-	 * Check if a given request has access to get a specific item
-	 *
-	 * @param WP_REST_Request $request Full data about the request.
-	 *
-	 * @return WP_Error|bool
-	 */
-	public function get_item_permissions_check( $request ) {
-		return $this->get_items_permissions_check( $request );
-	}
-
-
-	/**
-	 * Prepare the item for the REST response
-	 *
-	 * @param mixed           $item    WordPress representation of the item.
-	 * @param WP_REST_Request $request Request object.
-	 *
-	 * @return mixed
-	 */
-	public function prepare_item_for_response( $item, $request ) {
-		return array();
-	}
-
-
-	/**
-	 * Get the query params for collections
-	 *
-	 * @return array
-	 */
-	public function get_collection_params() {
-		return array(
-			'page'     => array(
-				'description'       => __( 'Current page of the collection.', 'courier-notices' ),
-				'type'              => 'integer',
-				'default'           => 1,
-				'sanitize_callback' => 'absint',
-			),
-			'per_page' => array(
-				'description'       => __( 'Maximum number of items to be returned in result set.', 'courier-notices' ),
-				'type'              => 'integer',
-				'default'           => 100,
-				'sanitize_callback' => 'absint',
-			),
-			'search'   => array(
-				'description'       => __( 'Limit results to those matching a string.', 'courier-notices' ),
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
-			),
-		);
-	}
 }

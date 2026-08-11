@@ -38,10 +38,9 @@
 	"license": "GPL-2.0-or-later",
 	"type": "wordpress-plugin",
 	"require": {
-		"php": "^7.4 || ^8.0",
+		"php": ">=8.2",
 		"ext-json": "*",
-		"woocommerce/action-scheduler": "^3.9.3",
-		"league/commonmark": "^2.7.1"
+		"woocommerce/action-scheduler": "^3.9.3"
 	},
 	"repositories": [
 		{
@@ -59,20 +58,17 @@
 		},
 		"files": [
 			"vendor/woocommerce/action-scheduler/action-scheduler.php"
-		],
-		"classmap": [
-			"vendor-prefixed/"
 		]
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"CourierNotices\\Tests\\": "tests/phpunit/"
+		}
+	},
 	"require-dev": {
-		"dealerdirect/phpcodesniffer-composer-installer": "^1.1.2",
-		"wp-coding-standards/wpcs": "^3.2.0",
-		"squizlabs/php_codesniffer": "^3.13.2",
-		"phpcompatibility/php-compatibility": "^9.3.5",
 		"php-parallel-lint/php-parallel-lint": "^v1.4.0",
 		"php-parallel-lint/php-console-highlighter": "^1.0.0",
 		"friendsofphp/php-cs-fixer": "^3.85.1",
-		"phpcompatibility/phpcompatibility-wp": "2.1.7",
 		"phpstan/extension-installer": "^1.4.3",
 		"phpstan/phpstan": "^1.12.28",
 		"phpstan/phpstan-deprecation-rules": "^1.2.1",
@@ -85,7 +81,11 @@
 		"phpstan/phpstan-strict-rules": "^1.6.2",
 		"wpackagist-plugin/plugin-check": "^1.6.0",
 		"php-stubs/wordpress-stubs": "^6.8.2",
-		"saggre/phpdocumentor-markdown": "^1.0.0"
+		"saggre/phpdocumentor-markdown": "^1.0.0",
+		"linchpin/coding-standards": "^1.1.9",
+		"phpunit/phpunit": "^9.6.34",
+		"wp-cli/wp-cli": "^2",
+		"wp-cli/i18n-command": "^2"
 	},
 	"extra": {
 		"installer-paths": {
@@ -95,56 +95,23 @@
 			"vendor/{$vendor}/{$name}/": [
 				"wpackagist-plugin/plugin-check"
 			]
-		},
-		"strauss": {
-			"target_directory": "vendor-prefixed",
-			"namespace_prefix": "CourierNotices\\Vendor\\",
-			"classmap_prefix": "CourierNotices_Vendor_",
-			"constant_prefix": "COURIER_NOTICES_VENDOR_",
-			"packages": [
-				"league/commonmark"
-			],
-			"update_call_sites": true,
-			"exclude_from_prefix": {
-				"packages": [
-					"woocommerce/action-scheduler"
-				]
-			},
-			"exclude_from_copy": {
-				"packages": [
-					"woocommerce/action-scheduler"
-				]
-			},
-			"delete_vendor_packages": false
 		}
 	},
 	"scripts": {
-		"prefix-namespaces": [
-			"mkdir -p vendor-prefixed",
-			"mkdir -p bin",
-			"sh -c 'test -f ./bin/strauss.phar || curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/latest/download/strauss.phar'",
-			"@composer dump-autoload",
-			"@php bin/strauss.phar"
-		],
-		"pre-autoload-dump": [
-			"mkdir -p vendor-prefixed"
-		],
-		"post-install-cmd": [
-			"@prefix-namespaces"
-		],
-		"post-update-cmd": [
-			"@prefix-namespaces"
-		],
 		"format": "phpcbf --report-summary --report-source",
-		"strauss": "strauss",
 		"fixer": "php-cs-fixer -v fix --allow-risky=yes",
 		"fixer:test": "php-cs-fixer fix -v --dry-run --stop-on-violation --using-cache=no --allow-risky=yes",
 		"lint": "phpcs",
 		"phpcbf": "phpcbf --standard=phpcs.xml.dist",
 		"phpcs": "phpcs --standard=phpcs.xml.dist",
 		"phpstan": "phpstan analyse --memory-limit=2048M",
+		"i18n:pot": "wp i18n make-pot . languages/courier-notices.pot --slug=courier-notices --domain=courier-notices --exclude=vendor,node_modules,tests,build,docs,tools,js,wiki,plugin-build",
 		"phpunit": "phpunit",
-		"test": "phpunit --strict-coverage",
+		"phpunit:integration": "phpunit -c phpunit-integration.xml",
+		"test": [
+			"@lint",
+			"@phpunit"
+		],
 		"create-docs": "phpdoc --directory=includes --target=wiki --template='vendor/saggre/phpdocumentor-markdown/themes/markdown'"
 	},
 	"config": {
@@ -154,7 +121,7 @@
 			"phpstan/extension-installer": true
 		},
 		"platform": {
-			"php": "7.4"
+			"php": "8.2"
 		}
 	}
 }

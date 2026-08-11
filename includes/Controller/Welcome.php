@@ -9,13 +9,13 @@ use CourierNotices\Core\View;
  *
  * @package CourierNotices\Controller
  */
-class Welcome {
+class Welcome implements Controller_Interface {
 
 
 	/**
 	 * Register our actions for where notifications will be placed.
 	 */
-	public function register_actions() {
+	public function register_actions(): void {
 		add_action( 'wp_ajax_courier_notices_update_welcome_panel', array( $this, 'update_welcome_panel' ) );
 		add_action( 'admin_init', array( $this, 'show_welcome' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
@@ -80,7 +80,8 @@ class Welcome {
 			$courier_notice_count = wp_count_posts( 'courier_notice' );
 
 			// Send new users to the welcome so they learn how to use Courier.
-			if ( ! isset( $_GET['activate-multi'] ) && 0 === $courier_notice_count ) { // WPCS: CSRF ok, input var okay.
+			// phpcs:ignore Linchpin.Security.NonceVerification.Recommended -- Read-only presence check of core's bulk-activation flag during the activation redirect; no state change depends on its value.
+			if ( ! isset( $_GET['activate-multi'] ) && 0 === $courier_notice_count ) {
 				wp_safe_redirect( admin_url( 'options-general.php?page=courier&tab=about' ) );
 				exit;
 			}

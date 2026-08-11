@@ -257,6 +257,123 @@ class Data {
 
 
 	/**
+	 * Build the request-shaped context the live AJAX path posts from the
+	 * client, from server-side state instead.
+	 *
+	 * post_info and user_id decide which notices a visitor sees — they feed
+	 * both this plugin's own dismissal logic and the
+	 * courier_notices_display_notices_query filter Courier Pro's visibility
+	 * engine reads. The keys mirror what the frontend posts today (see
+	 * courier_notices_data in Courier_Notices::wp_enqueue_scripts()); widen
+	 * here if Pro ever needs more.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array<string, mixed> $args Notice query arguments, used for placement and format hints.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function get_request_context( $args = array() ) {
+		$queried_object_id = get_queried_object_id();
+
+		return array(
+			'post_info' => array(
+				'ID' => $queried_object_id > 0 ? $queried_object_id : -1,
+			),
+			'user_id'   => get_current_user_id(),
+			'placement' => isset( $args['placement'] ) ? $args['placement'] : 'header',
+			'format'    => isset( $args['format'] ) ? $args['format'] : '',
+		);
+	}
+
+
+	/**
+	 * Personalization context every notice-query cache key varies on.
+	 * Anything a courier_notices_display_notices_query filter varies on
+	 * beyond the two argument arrays MUST be declared here, or warm-cache
+	 * results are served stale to everyone with matching arguments. The
+	 * free plugin declares the anonymous dismissal cookie itself —
+	 * logged-in users are already separated by the synthesized user_id.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array<string, mixed> $args           Notice query arguments.
+	 * @param array<string, mixed> $ajax_post_data Request-shaped context (post_info, user_id, placement, format).
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function get_query_cache_context( $args = array(), $ajax_post_data = array() ) {
+		$cache_context = array();
+
+		if ( ! is_user_logged_in() && isset( $_COOKIE['dismissed_notices'] ) ) {
+			$cache_context['dismissed_notices'] = sanitize_text_field( wp_unslash( $_COOKIE['dismissed_notices'] ) );
+		}
+
+		/**
+		 * Declare state the notice query cache key must vary on.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array $cache_context  Key/value context folded into the cache key.
+		 * @param array $args           Notice query arguments.
+		 * @param array $ajax_post_data Request-shaped context (post_info, user_id, placement, format).
+		 */
+		return apply_filters( 'courier_notices_query_cache_context', $cache_context, $args, $ajax_post_data );
+	}
+
+
+	/**
+	 * Bring a notice back to life: republish it, clear its dismissed
+	 * status, and push a lapsed expiration 30 days out — the admin list
+	 * presents reactivation as "live again for 30 days".
+	 *
+	 * Republishing runs through wp_update_post so save_post fires and
+	 * Action Scheduler reschedules the expiry from the new timestamp.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param int $notice_id Notice to reactivate.
+	 *
+	 * @return true|\WP_Error
+	 */
+	public function reactivate_notice( $notice_id ) {
+		$notice = get_post( $notice_id );
+
+		if ( ! $notice instanceof \WP_Post || 'courier_notice' !== $notice->post_type ) {
+			return new \WP_Error(
+				'courier_notices_invalid_notice',
+				__( 'Notice not found.', 'courier-notices' ),
+				array( 'status' => 404 )
+			);
+		}
+
+		$expiration = (int) get_post_meta( $notice->ID, '_courier_expiration', true );
+
+		if ( $expiration > 0 && $expiration < time() ) {
+			update_post_meta( $notice->ID, '_courier_expiration', time() + 30 * DAY_IN_SECONDS );
+		}
+
+		wp_remove_object_terms( $notice->ID, 'dismissed', 'courier_status' );
+
+		$updated = wp_update_post(
+			array(
+				'ID'          => $notice->ID,
+				'post_status' => 'publish',
+			),
+			true
+		);
+
+		if ( is_wp_error( $updated ) ) {
+			return $updated;
+		}
+
+		courier_notices_clear_cache();
+
+		return true;
+	}
+
+
+	/**
 	 * Get Courier all notices.
 	 *
 	 * @since 1.0.5
@@ -284,19 +401,27 @@ class Data {
 		$number   = min( $args['number'], 100 ); // Catch if someone tries to pass more than 100 notices in one shot. Bad practice and should be filtered.
 		$number   = apply_filters( 'courier_notices_override_notices_number', $number );
 
-		$ajax_post_data = wp_parse_args( $ajax_post_data, $defaults );
+		// The courier_notices_display_notices_query filter must always fire
+		// with a real page and user, whichever path queried. The AJAX path
+		// posts them from the client; server-side callers used to pass
+		// nothing, so the filter fired with correct arity and no world.
+		// Posted values win over the synthesized context.
+		$ajax_post_data = wp_parse_args( $ajax_post_data, wp_parse_args( $this->get_request_context( $args ), $defaults ) );
 
-		// Create cache key based on arguments.
-		$cache_key = 'courier_notices_' . wp_hash( wp_json_encode( $args ) . wp_json_encode( $ajax_post_data ) );
-		$cache     = wp_cache_get( $cache_key, 'courier-notices' );
+		$cache_context = $this->get_query_cache_context( $args, $ajax_post_data );
+
+		$cache_hash = wp_hash( wp_json_encode( $args ) . wp_json_encode( $ajax_post_data ) . wp_json_encode( $cache_context ) );
 
 		// Check object cache first.
+		$cache_key = 'courier_notices_' . $cache_hash;
+		$cache     = wp_cache_get( $cache_key, 'courier-notices' );
+
 		if ( false !== $cache ) {
 			return $cache;
 		}
 
 		// Check transient cache.
-		$transient_key   = 'courier_notices_transient_' . wp_hash( wp_json_encode( $args ) . wp_json_encode( $ajax_post_data ) );
+		$transient_key   = 'courier_notices_transient_' . $cache_hash;
 		$transient_cache = get_transient( $transient_key );
 		if ( false !== $transient_cache ) {
 			wp_cache_set( $cache_key, $transient_cache, 'courier-notices', 300 );
@@ -355,6 +480,26 @@ class Data {
 			'order'          => 'DESC',
 			// workaround: https://core.trac.wordpress.org/ticket/28099
 			'post__in'       => empty( $post_list ) ? [ 0 ] : $post_list,
+			// Expiry is enforced at query time, not scheduler time. Action
+			// Scheduler flips expired notices to courier_expired eventually,
+			// but a notice whose _courier_expiration has passed must stop
+			// rendering immediately, not when the next action runs. The
+			// query is already bounded by post__in, so the meta comparison
+			// costs nothing measurable.
+			'meta_query'     => array( // phpcs:ignore Linchpin.Performance.SlowMetaQuery.slow_db_query_meta_query -- Bounded by post__in above.
+				'relation' => 'OR',
+				array(
+					'key'     => '_courier_expiration',
+					'compare' => 'NOT EXISTS',
+				),
+				array(
+					'key'     => '_courier_expiration',
+					'value'   => time(),
+					// phpcs:ignore Linchpin.Performance.SlowMetaQuery.nonperformant_comparison -- Bounded by post__in above.
+					'compare' => '>=',
+					'type'    => 'NUMERIC',
+				),
+			),
 		);
 
 		if ( true === $args['ids_only'] ) {
@@ -369,8 +514,13 @@ class Data {
 		 * @since 1.0
 		 */
 
-		$query_args          = apply_filters( 'courier_notices_display_notices_query', $query_args, $ajax_post_data );
-		$query_args          = wp_parse_args( $args, $query_args );
+		$query_args = apply_filters( 'courier_notices_display_notices_query', $query_args, $ajax_post_data );
+
+		// Filter output is FINAL. Until 2.0 a post-filter wp_parse_args
+		// overlaid the raw request arguments here, silently clobbering
+		// filter output on key collisions and leaking non-WP_Query keys
+		// (user_id, include_global, style) into the query. Removed
+		// deliberately - see COURIER-1028.
 		$final_notices_query = new \WP_Query( $query_args );
 
 		$result = ( $final_notices_query->have_posts() ) ? $final_notices_query->posts : array();
@@ -395,7 +545,15 @@ class Data {
 	public function get_global_dismissed_notices( $user_id = 0 ) {
 		// If user isn't logged in, use cookies.
 		if ( ! is_user_logged_in() && isset( $_COOKIE['dismissed_notices'] ) ) {
-			return array_map( 'intval', json_decode( stripslashes( $_COOKIE['dismissed_notices'] ) ) );
+			$dismissed_cookie = json_decode( sanitize_text_field( wp_unslash( $_COOKIE['dismissed_notices'] ) ) );
+
+			// A malformed cookie decodes to null, which used to fatal in
+			// the array_map below.
+			if ( ! is_array( $dismissed_cookie ) ) {
+				return array();
+			}
+
+			return array_map( 'intval', $dismissed_cookie );
 		}
 
 		if ( empty( $user_id ) ) {
@@ -494,7 +652,15 @@ class Data {
 		$hide_title     = get_post_meta( $courier_notice_id, '_courier_hide_title', true );
 		$courier_style  = get_the_terms( $courier_notice_id, 'courier_style' ); // Get the style associated with the notice
 		$courier_type   = get_the_terms( $courier_notice_id, 'courier_type' );  // Get the type associated with the notice (typically for informational notices)
-		$courier_icon   = get_term_meta( $courier_type[0]->term_id, '_courier_type_icon', true );
+
+		// get_the_terms() returns false or WP_Error for a term-less notice -
+		// which is exactly what a freshly block-editor-created notice looks
+		// like. Every read below must survive that.
+		$courier_style = is_array( $courier_style ) ? $courier_style : array();
+		$courier_type  = is_array( $courier_type ) ? $courier_type : array();
+
+		$courier_icon    = array() !== $courier_type ? get_term_meta( $courier_type[0]->term_id, '_courier_type_icon', true ) : '';
+		$show_hide_title = '';
 		// Get all the options for showing the title by default
 		$courier_design_options = get_option( 'courier_design', array() );
 
@@ -512,7 +678,7 @@ class Data {
 			$global_show_title_rules = [];
 		}
 
-		if ( is_array( $global_show_title_rules ) ) {
+		if ( array() !== $courier_style && is_array( $global_show_title_rules ) ) {
 			$notice_style_global_show_title = in_array( $courier_style[0]->slug, $global_show_title_rules, true );
 		} else {
 			$notice_style_global_show_title = false;

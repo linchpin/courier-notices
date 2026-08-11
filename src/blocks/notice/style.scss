@@ -1,0 +1,59 @@
+/**
+ * courier/notice block — shared essentials.
+ *
+ * The legacy frontend stylesheet owns the notice design (type-colored
+ * bars, icon column, close button); the block emits the same classes, so
+ * nothing here may fight it. The editor canvas replica of that design
+ * lives in src/editor/editor.scss.
+ */
+
+.wp-block-courier-notice {
+
+	.courier-notice-title {
+		margin: 0 0 0.5em;
+		font-size: 1rem;
+	}
+
+	.courier-content > :first-child {
+		margin-top: 0;
+	}
+
+	.courier-content > :last-child {
+		margin-bottom: 0;
+	}
+}
+
+// The icon glyphs, unscoped so the editor canvas can render them — on the
+// front end the legacy stylesheet carries the same rules scoped to the
+// notices container.
+.courier-icon {
+	speak: none;
+	font-family: courier, sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1;
+
+	&.icon-success::before {
+		content: "\e900";
+	}
+
+	&.icon-alert::before {
+		content: "\e901";
+	}
+
+	&.icon-info::before {
+		content: "\e902";
+	}
+
+	&.icon-warning::before {
+		content: "\e903";
+	}
+
+	&.icon-primary::before {
+		content: "\e904";
+	}
+
+	&.icon-feedback::before {
+		content: "\e905";
+	}
+}

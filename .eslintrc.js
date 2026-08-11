@@ -19,8 +19,19 @@ const config = {
 		'/build',
 		'/dist',
 		'/tools',
-		'/tests',
+		// Playwright e2e files are TypeScript, which Playwright transpiles
+		// itself; this setup has no TS parser, so eslint cannot read them.
+		'/tests/e2e',
 		'/**/*.min.js',
+	],
+	overrides: [
+		...(wpConfig?.overrides || []),
+		{
+			files: ['tests/jest/**/*.js'],
+			env: {
+				jest: true,
+			},
+		},
 	],
 };
 

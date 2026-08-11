@@ -202,6 +202,14 @@ function courier_notices_display_notices( $args = array() ) {
 		return false;
 	}
 
+	// Render each region once per request. Both the legacy hook placements and
+	// the courier/notices block reach this, and a page carrying both would
+	// otherwise show every notice twice. The courier_notices_render_once
+	// filter restores the old behavior for a site that wants it.
+	if ( ! \CourierNotices\Helper\Render_Registry::claim( $courier_placement ) ) {
+		return false;
+	}
+
 	$courier_style        = ( ! empty( $args['style'] ) ) ? $args['style'] : '';
 	$courier_options      = get_option( 'courier_settings', array() );
 	$courier_notices_view = new View();
@@ -458,28 +466,38 @@ function courier_notices_dismiss_notices( $notice_ids, $user_id = 0, $force_dism
  * @since 1.7.2
  */
 function courier_notices_clear_cache() {
-	// Clear object cache for courier-notices group.
-	wp_cache_flush_group( 'courier-notices' );
+	// Flush the plugin's object-cache group where the backend supports it.
+	// Persistent cache drop-ins that predate group flushing define neither
+	// the capability nor, in some cases, the function - calling it blind
+	// was a fatal waiting to happen. Fall back to the group's known keys.
+	if ( function_exists( 'wp_cache_supports' ) && wp_cache_supports( 'flush_group' ) ) {
+		wp_cache_flush_group( 'courier-notices' );
+	} else {
+		foreach ( array( 'global-notices', 'global-dismissible-notices', 'global-persistent-notices' ) as $courier_cache_key ) {
+			wp_cache_delete( $courier_cache_key, 'courier-notices' );
+		}
+	}
 
-	// Clear has_notices cache for all users.
 	global $wpdb;
-	$wpdb->query(
-		"DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_courier_has_notices_%' OR option_name LIKE '_transient_timeout_courier_has_notices_%'"
+
+	// Transient families this plugin has written over the years: the query
+	// caches (courier_notices_) and the legacy has-notices flags. Each needs
+	// its value and timeout rows removed, with escaped, prepared patterns.
+	$courier_transient_prefixes = array(
+		'_transient_courier_notices_',
+		'_transient_timeout_courier_notices_',
+		'_transient_courier_has_notices_',
+		'_transient_timeout_courier_has_notices_',
 	);
 
-	// Clear transients that start with courier_notices_.
-	$wpdb->query(
-		$wpdb->prepare(
-			"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
-			'_transient_courier_notices_%'
-		)
-	);
-	$wpdb->query(
-		$wpdb->prepare(
-			"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
-			'_transient_timeout_courier_notices_%'
-		)
-	);
+	foreach ( $courier_transient_prefixes as $courier_transient_prefix ) {
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
+				$wpdb->esc_like( $courier_transient_prefix ) . '%'
+			)
+		);
+	}
 
 	// Clear WordPress post cache for courier notices.
 	$courier_notices = get_posts(

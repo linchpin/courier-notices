@@ -1,99 +1,92 @@
 <?php
-namespace CourierNotices\Controller;
-
 /**
  * Settings Endpoint
  *
  * @package CourierNotices\Controller
  */
-class Settings_REST_Controller {
 
+namespace CourierNotices\Controller;
+
+use CourierNotices\Controller\REST\REST_Base;
+use CourierNotices\Model\Settings;
+
+/**
+ * Class Settings_REST_Controller
+ */
+class Settings_REST_Controller extends REST_Base {
 
 	/**
-	 * Register all actions for status cake integration
+	 * Option keys the settings screens may write to. The key used to be
+	 * caller-controlled, which let any manage_options request write an
+	 * arbitrary option name.
 	 *
-	 * @since 0.2.0
+	 * @var string[]
 	 */
-	public function register_actions() {
-		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
-	}
-
+	private const ALLOWED_OPTION_KEYS = [ 'courier_settings', 'courier_design' ];
 
 	/**
 	 * Add routes
+	 *
+	 * @return void
 	 */
-	public function register_routes() {
-		$version   = '1';
-		$namespace = 'courier-notices/v' . $version;
-
+	public function register_routes(): void {
 		register_rest_route(
-			$namespace,
+			$this->get_api_namespace(),
 			'/settings',
 			array(
 				'methods'             => 'POST',
 				'callback'            => array( $this, 'update_settings' ),
 				'args'                => array(),
-				'permission_callback' => array( $this, 'permissions' ),
+				'permission_callback' => array( $this, 'get_manage_settings_permissions' ),
 			)
 		);
 
 		register_rest_route(
-			$namespace,
+			$this->get_api_namespace(),
 			'/settings',
 			array(
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'get_settings' ),
 				'args'                => array(),
-				'permission_callback' => array( $this, 'permissions' ),
+				'permission_callback' => array( $this, 'get_manage_settings_permissions' ),
 			)
 		);
 	}
-
-
-	/**
-	 * Check request permissions
-	 *
-	 * @return bool
-	 */
-	public function permissions() {
-		if ( wp_verify_nonce( 'wp_rest', $_REQUEST['_wpnonce'] ) ) {
-			return current_user_can( 'manage_options' );
-		}
-
-		return current_user_can( 'manage_options' );
-	}
-
 
 	/**
 	 * Update settings
 	 *
 	 * @param \WP_REST_Request $request The request.
 	 *
-	 * @return string
+	 * @return \WP_REST_Response
 	 */
 	public function update_settings( \WP_REST_Request $request ) {
-		$option_key = $request->get_param( 'settings_key' ); // get the settings from
+		$option_key = $request->get_param( 'settings_key' );
 
-		$settings_model = new \CourierNotices\Model\Settings( $option_key );
+		// The admin screens post their Settings API option_page as the key
+		// (general -> courier_settings, design -> courier_design). Anything
+		// else falls back to the primary settings option.
+		if ( ! in_array( $option_key, self::ALLOWED_OPTION_KEYS, true ) ) {
+			$option_key = 'courier_settings';
+		}
+
+		$settings_model = new Settings( $option_key );
 
 		$settings_model->save_settings_array( $request->get_params() );
 
 		return new \WP_REST_Response( $settings_model->get_settings() );
 	}
 
-
 	/**
 	 * Get settings via API
 	 *
 	 * @param \WP_REST_Request $request The request.
 	 *
-	 * @return string
+	 * @return \WP_REST_Response|\WP_Error
 	 */
 	public function get_settings( \WP_REST_Request $request ) {
-		$settings_model = new \CourierNotices\Model\Settings();
+		$settings_model = new Settings();
 
-		$results = $settings_model->get_settings();
-
-		return rest_ensure_response( $results );
+		return rest_ensure_response( $settings_model->get_settings() );
 	}
 }

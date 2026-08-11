@@ -30,6 +30,7 @@ class Settings {
 		// Overarching Plugin Settings
 		'ajax_notices'            => true,
 		'clear_data_on_uninstall' => false,
+		'enable_block_editor'     => false, // Per-site opt-in while Phase 2 lands; flips with the rendering-mode work.
 
 		// Design Related Settings
 		'disable_css'             => false,
@@ -86,7 +87,7 @@ class Settings {
 
 		$settings = $this->get_settings();
 
-		return $settings[ $key ];
+		return $settings[ $key ] ?? null;
 	}
 
 
@@ -103,7 +104,7 @@ class Settings {
 	 * @return array|false
 	 */
 	public function save_setting( $key, $value ) {
-		if ( array_key_exists( $key, $this->defaults ) ) {
+		if ( ! array_key_exists( $key, $this->defaults ) ) {
 			return false;
 		}
 

@@ -84,7 +84,7 @@ class Type_List_Table extends WP_List_Table {
 
 		$this->screen->render_screen_reader_content( 'heading_list' );
 		?>
-		<table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>">
+		<table class="wp-list-table <?php echo esc_attr( implode( ' ', $this->get_table_classes() ) ); ?>">
 			<thead>
 			<tr>
 				<?php $this->print_column_headers(); ?>
@@ -94,7 +94,7 @@ class Type_List_Table extends WP_List_Table {
 			<tbody id="the-list"
 				<?php
 				if ( $singular ) {
-					echo " data-wp-lists='list:$singular'";
+					printf( " data-wp-lists='list:%s'", esc_attr( $singular ) );
 				}
 				?>
 			>
@@ -121,7 +121,8 @@ class Type_List_Table extends WP_List_Table {
 	 */
 	public function prepare_items() {
 		// check if a search was performed.
-		$term_search_key = isset( $_REQUEST['s'] ) ? wp_unslash( trim( $_REQUEST['s'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, Linchpin.Security.NonceVerification.Recommended -- Read-only list-table search term; no action is taken on it.
+		$term_search_key = isset( $_REQUEST['s'] ) ? trim( sanitize_text_field( wp_unslash( $_REQUEST['s'] ) ) ) : '';
 
 		// check and process any actions such as bulk actions.
 		$this->handle_table_actions();

@@ -85,6 +85,15 @@ class Placement {
 			'show_admin_column' => false,
 			'query_var'         => true,
 			'rewrite'           => false,
+			// A notice with no explicit placement delivers to the header -
+			// the placement-filtered queries never see a term-less notice,
+			// and header was always the 1.x metabox default.
+			'default_term' => array(
+				'name' => 'Header',
+				'slug' => 'header',
+			),
+			'show_in_rest' => true,
+			'rest_base' => 'courier-placements',
 			'capabilities'      => array(
 				'manage_terms' => 'edit_posts',
 				'edit_terms'   => 'edit_posts',

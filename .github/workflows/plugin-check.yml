@@ -1,0 +1,92 @@
+name: WordPress Plugin Check
+
+# Runs plugin-check against the same package the wp.org deploy ships:
+# composer --no-dev, built assets, .distignore applied. Checking the raw
+# repo instead reports dozens of artifacts (dotfiles, dev vendor phars,
+# tests) that never reach wordpress.org.
+#
+# The check step is ADVISORY (continue-on-error) while the known security
+# sniff debt is burned down - see the PHPCS baseline notes in
+# docs/2.0-MIGRATION-PLAN.md. Flip it to blocking once the plugin checks
+# clean; do not let it stay advisory past Phase 2.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.php'
+      - '**.js'
+      - '**.css'
+      - 'readme.txt'
+      - 'composer.json'
+      - 'composer.lock'
+      - '.distignore'
+      - '.github/workflows/plugin-check.yml'
+  pull_request:
+    paths:
+      - '**.php'
+      - '**.js'
+      - '**.css'
+      - 'readme.txt'
+      - 'composer.json'
+      - 'composer.lock'
+      - '.distignore'
+      - '.github/workflows/plugin-check.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plugin-check:
+    name: Plugin Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: exif
+          coverage: none
+          tools: composer:v2
+
+      - name: Install Composer dependencies (production)
+        run: composer install --no-dev --prefer-dist --no-progress
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Build assets
+        run: |
+          npm ci
+          npm run build
+
+      - name: Build the distributable package
+        # Mirrors what 10up/action-wordpress-plugin-deploy ships: the tree
+        # minus .distignore. rsync needs the extra exclude so the build
+        # directory does not copy into itself.
+        run: |
+          mkdir -p plugin-build/courier-notices
+          rsync -rc --exclude-from=.distignore --exclude=plugin-build ./ plugin-build/courier-notices/ --delete --delete-excluded
+
+      - name: Run Plugin Check (advisory)
+        continue-on-error: true
+        uses: wordpress/plugin-check-action@v1
+        with:
+          build-dir: './plugin-build/courier-notices'
+          exclude-directories: 'vendor'
+          categories: |
+            general
+            performance
+            accessibility
+            security
+            plugin_repo
+          include-experimental: true

@@ -9,7 +9,10 @@
 
 namespace CourierNotices\Controller\Admin;
 
+use CourierNotices\Controller\Controller_Interface;
+
 use CourierNotices\Core\View;
+use CourierNotices\Model\Settings;
 use CourierNotices\Model\Taxonomy\Style;
 
 /**
@@ -17,7 +20,7 @@ use CourierNotices\Model\Taxonomy\Style;
  *
  * @package CourierNotices\Controller\Admin
  */
-class Courier_Notice_Metabox {
+class Courier_Notice_Metabox implements Controller_Interface {
 
 
 	/**
@@ -25,30 +28,142 @@ class Courier_Notice_Metabox {
 	 *
 	 * @since 1.1.0
 	 */
-	public function register_actions() {
+	public function register_actions(): void {
 		add_action( 'add_meta_boxes_courier_notice', array( $this, 'add_meta_boxes' ), 99 );
 
-		add_filter( 'use_block_editor_for_post_type', [ $this, 'disable_block_editor' ], 10, 2 );
+		add_filter( 'use_block_editor_for_post_type', [ $this, 'use_block_editor' ], 10, 2 );
+
+		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
+		add_filter( 'block_editor_settings_all', [ $this, 'add_editor_canvas_styles' ], 10, 2 );
 	}
 
 
 	/**
-	 * Disable the block editor for courier notices
+	 * Load the Notice panel and preview sync in the notice editor.
 	 *
-	 * Until we create blocks
+	 * @since 2.0.0
+	 *
+	 * @return void
+	 */
+	public function enqueue_block_editor_assets() {
+		$screen = get_current_screen();
+
+		if ( ! $screen instanceof \WP_Screen || 'courier_notice' !== $screen->post_type ) {
+			return;
+		}
+
+		$asset_file = COURIER_NOTICES_PATH . 'js/courier-notices-editor.asset.php';
+
+		if ( ! file_exists( $asset_file ) ) {
+			return;
+		}
+
+		$assets = require $asset_file;
+
+		wp_enqueue_script(
+			'courier-notices-editor',
+			COURIER_NOTICES_PLUGIN_URL . 'js/courier-notices-editor.js',
+			$assets['dependencies'],
+			$assets['version'],
+			true
+		);
+
+		wp_set_script_translations( 'courier-notices-editor', 'courier-notices', COURIER_NOTICES_PATH . 'languages' );
+
+		// The panel's own sidebar chrome. Unlike the canvas replica, which has
+		// to be injected through block_editor_settings_all, sidebar styles live
+		// in the main document and enqueue normally.
+		$panel_stylesheet = COURIER_NOTICES_PATH . 'css/courier-notices-editor-panel.css';
+
+		if ( file_exists( $panel_stylesheet ) ) {
+			wp_enqueue_style(
+				'courier-notices-editor-panel',
+				COURIER_NOTICES_PLUGIN_URL . 'css/courier-notices-editor-panel.css',
+				array(),
+				(string) filemtime( $panel_stylesheet )
+			);
+		}
+	}
+
+
+	/**
+	 * Inject the notice canvas chrome into the editor.
+	 *
+	 * enqueue_block_editor_assets styles never reach an iframed canvas;
+	 * settings styles do, iframed or not. Editor-only - nothing here ships
+	 * to the front end.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array<string, mixed>     $settings Block editor settings.
+	 * @param \WP_Block_Editor_Context $context  Editor context.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function add_editor_canvas_styles( $settings, $context ) {
+		if ( ! $context->post instanceof \WP_Post || 'courier_notice' !== $context->post->post_type ) {
+			return $settings;
+		}
+
+		$stylesheet = COURIER_NOTICES_PATH . 'css/courier-notices-editor.css';
+
+		if ( ! file_exists( $stylesheet ) ) {
+			return $settings;
+		}
+
+		$settings['styles'][] = array(
+			'css' => file_get_contents( $stylesheet ), // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local plugin file, not a remote request.
+		);
+
+		// The icon font, with an absolute URL - the frontend stylesheet's
+		// relative font path cannot resolve from inlined canvas CSS.
+		$settings['styles'][] = array(
+			'css' => sprintf(
+				'@font-face{font-family:"courier";src:url("%s") format("woff2");font-weight:normal;font-style:normal;font-display:block;}',
+				esc_url( COURIER_NOTICES_PLUGIN_URL . 'css/fonts/courier.woff2' )
+			),
+		);
+
+		// The compiled per-type colors, so the canvas shows the same accents
+		// the front end does.
+		if ( function_exists( 'courier_notices_get_css' ) ) {
+			$settings['styles'][] = array(
+				'css' => (string) courier_notices_get_css(),
+			);
+		}
+
+		return $settings;
+	}
+
+
+	/**
+	 * Gate the block editor for courier notices behind the per-site opt-in.
+	 *
+	 * Off by default while Phase 2 lands; the default flips with the
+	 * rendering-mode work in Phase 7 (see docs/2.0-MIGRATION-PLAN.md).
+	 *
+	 * @since 2.0.0
 	 *
 	 * @param bool   $current_status The current status of the post type.
 	 * @param string $post_type The post type.
 	 *
 	 * @return bool
 	 */
-	public function disable_block_editor( $current_status, $post_type ) {
-
-		if ( 'courier_notice' === $post_type ) {
-			return false;
+	public function use_block_editor( $current_status, $post_type ) {
+		if ( 'courier_notice' !== $post_type ) {
+			return $current_status;
 		}
 
-		return $current_status;
+		$settings = new Settings();
+
+		/**
+		 * Opt the courier_notice editing screen into the block editor.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param bool $enabled Whether the block editor is enabled for notices.
+		 */
+		return (bool) apply_filters( 'courier_notices_use_block_editor', (bool) $settings->get_setting( 'enable_block_editor' ) );
 	}
 
 
@@ -66,7 +181,10 @@ class Courier_Notice_Metabox {
 			[ $this, 'meta_box' ],
 			'courier_notice',
 			'side',
-			'default'
+			'default',
+			// The block editor gets the React Notice panel instead; this
+			// metabox keeps serving the classic editor.
+			[ '__back_compat_meta_box' => true ]
 		);
 	}
 
@@ -202,12 +320,18 @@ class Courier_Notice_Metabox {
 		<?php
 
 		// Date Display.
-		$current_date = (int) get_post_meta( $post->ID, '_courier_expiration', true );
+		$expiration   = (int) get_post_meta( $post->ID, '_courier_expiration', true );
+		$current_date = '';
 
-		if ( ! empty( $current_date ) ) {
-			$current_date = gmdate( get_option( 'date_format' ) . ' h:i A', $current_date );
-		} else {
-			$current_date = '';
+		if ( $expiration > 0 ) {
+			// Site timezone, not UTC — the stored value is a real instant and
+			// the field round-trips through the site timezone on save. See the
+			// note in Courier::save_post_courier_notice().
+			$formatted = wp_date( get_option( 'date_format' ) . ' h:i A', $expiration );
+
+			if ( is_string( $formatted ) ) {
+				$current_date = $formatted;
+			}
 		}
 		?>
 		<div id="courier-notice_expiration_container">

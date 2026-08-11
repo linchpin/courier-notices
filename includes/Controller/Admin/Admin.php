@@ -7,10 +7,13 @@
 
 namespace CourierNotices\Controller\Admin;
 
+use CourierNotices\Controller\Controller_Interface;
+use CourierNotices\Model\Courier_Notice\Data;
+
 /**
  * Admin Class
  */
-class Admin {
+class Admin implements Controller_Interface {
 
 
 	/**
@@ -18,13 +21,14 @@ class Admin {
 	 *
 	 * @since 1.0
 	 */
-	public function register_actions() {
+	public function register_actions(): void {
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
 		add_action( 'manage_courier_notice_posts_custom_column', array( $this, 'manage_posts_custom_column' ), 10, 2 );
 		add_filter( 'manage_courier_notice_posts_columns', array( $this, 'manage_posts_columns' ), 998 );
 		add_filter( 'post_class', array( $this, 'add_expired_row_class' ), 10, 3 );
 		add_filter( 'post_row_actions', array( $this, 'add_expired_row_actions' ), 10, 2 );
+		add_action( 'admin_action_courier_reactivate_notice', array( $this, 'handle_reactivate_notice_action' ) );
 
 		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ), 10, 1 );
 
@@ -451,8 +455,8 @@ class Admin {
 	 *
 	 * @since 1.0
 	 *
-	 * @param array   $actions An array of row action links.
-	 * @param WP_Post $post The post object.
+	 * @param array    $actions An array of row action links.
+	 * @param \WP_Post $post    The post object.
 	 *
 	 * @return array Modified array of row action links.
 	 */
@@ -477,11 +481,49 @@ class Admin {
 			$actions['reactivate'] = sprintf(
 				'<a href="%s" class="courier-reactivate-notice-link" data-courier-notice-id="%d">%s</a>',
 				esc_url( $reactivate_url ),
-				esc_attr( $post->ID ),
+				(int) $post->ID,
 				esc_html__( 'Reactivate', 'courier-notices' )
 			);
 		}
 
 		return $actions;
+	}
+
+
+	/**
+	 * No-JS fallback for the row-action Reactivate link. The link carried
+	 * this action name and a nonce for years with no handler behind it —
+	 * see COURIER-1031. The JS path posts to the REST route instead.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return void
+	 */
+	public function handle_reactivate_notice_action() {
+		$notice_id = isset( $_GET['notice'] ) ? absint( $_GET['notice'] ) : 0;
+		$nonce     = isset( $_GET['nonce'] ) ? sanitize_key( wp_unslash( $_GET['nonce'] ) ) : '';
+
+		if ( false === wp_verify_nonce( $nonce, 'courier_reactivate_notice_' . $notice_id ) ) {
+			wp_die( esc_html__( 'Invalid nonce.', 'courier-notices' ), '', array( 'response' => 403 ) );
+		}
+
+		if ( ! current_user_can( 'edit_post', $notice_id ) ) {
+			wp_die( esc_html__( 'You are not allowed to reactivate this notice.', 'courier-notices' ), '', array( 'response' => 403 ) );
+		}
+
+		$result = ( new Data() )->reactivate_notice( $notice_id );
+
+		if ( is_wp_error( $result ) ) {
+			wp_die( esc_html( $result->get_error_message() ), '', array( 'response' => 404 ) );
+		}
+
+		$redirect = wp_get_referer();
+
+		if ( false === $redirect ) {
+			$redirect = admin_url( 'edit.php?post_type=courier_notice' );
+		}
+
+		wp_safe_redirect( $redirect );
+		exit;
 	}
 }

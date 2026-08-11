@@ -10,7 +10,7 @@ namespace CourierNotices\Controller;
 /**
  * Shortcodes Class
  */
-class Shortcodes {
+class Shortcodes implements Controller_Interface {
 
 
 	/**
@@ -18,7 +18,7 @@ class Shortcodes {
 	 *
 	 * @since 1.0
 	 */
-	public function register_actions() {
+	public function register_actions(): void {
 		add_shortcode( 'courier_notices', array( $this, 'courier_notices' ) );
 		add_shortcode( 'courier_notice', array( $this, 'courier_notice' ) );
 	}
@@ -46,7 +46,7 @@ class Shortcodes {
 			)
 		);
 
-		$notices = courier_get_notices(
+		$notices = courier_notices_get_notices(
 			array(
 				'user_id'                      => $atts['user_id'],
 				'include_global'               => $atts['include_global'],
@@ -80,7 +80,7 @@ class Shortcodes {
 					implode( ' ', array_map( 'esc_attr', get_post_class( array(), $notice->ID ) ) ),
 					esc_attr( $notice->ID ),
 					esc_html( get_the_time( 'm.j.y', $notice ) ),
-					wp_kses_post( apply_filters( 'courier_excerpt', $notice->post_content ) )
+					wp_kses_post( apply_filters( 'courier_excerpt', $notice->post_content ) ) // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public back-compat filter since 1.0; renaming it breaks existing consumers. See the back-compat landmines section of docs/2.0-MIGRATION-PLAN.md.
 				);
 
 			endforeach;

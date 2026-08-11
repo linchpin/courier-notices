@@ -85,6 +85,15 @@ class Scope {
 			'show_admin_column'     => false,
 			'query_var'             => true,
 			'rewrite'               => false,
+			'show_in_rest' => true,
+			'rest_base' => 'courier-scopes',
+			// Every notice needs a scope or the queries cannot see it - a
+			// REST or programmatic save that assigns none gets global by
+			// default, without stomping an explicit user scope (COURIER-1034).
+			'default_term' => array(
+				'name' => 'Global',
+				'slug' => 'global',
+			),
 			'capabilities'          => array(
 				'manage_terms' => 'edit_posts',
 				'edit_terms'   => 'edit_posts',

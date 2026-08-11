@@ -12,7 +12,7 @@ use CourierNotices\Model\Config;
 /**
  * Class Upgrade
  */
-class Upgrade {
+class Upgrade implements Controller_Interface {
 
 	/**
 	 * Configuration
@@ -35,7 +35,7 @@ class Upgrade {
 	 *
 	 * @since 1.0
 	 */
-	public function register_actions() {
+	public function register_actions(): void {
 		add_action( 'admin_init', array( $this, 'upgrade' ), 999 );
 		add_action( 'admin_notices', array( $this, 'show_review_nag' ), 11 );
 		add_action( 'admin_notices', array( $this, 'show_action_scheduler_migration_notice' ), 10 );
@@ -117,7 +117,7 @@ class Upgrade {
 
 			delete_transient( 'courier_notices_notice_css' );
 			delete_transient( 'courier_notice_css' );
-			courier_get_css();
+			courier_notices_get_css();
 
 			$plugin_options['plugin_version'] = COURIER_NOTICES_VERSION;
 			update_option( 'courier_notices_options', $plugin_options );
@@ -219,7 +219,9 @@ class Upgrade {
 	 */
 	public function dismiss_migration_notice() {
 		// Verify nonce.
-		if ( ! wp_verify_nonce( $_POST['nonce'], 'courier_notices_dismiss_migration' ) ) {
+		$nonce = isset( $_POST['nonce'] ) ? sanitize_key( wp_unslash( $_POST['nonce'] ) ) : '';
+
+		if ( ! wp_verify_nonce( $nonce, 'courier_notices_dismiss_migration' ) ) {
 			wp_die( 'Invalid nonce' );
 		}
 
@@ -275,6 +277,7 @@ class Upgrade {
 				[
 					'key'     => '_courier_expiration',
 					'value'   => time(),
+					// phpcs:ignore Linchpin.Performance.SlowMetaQuery.nonperformant_comparison -- One-time Action Scheduler migration sweep, not a request-path query; expiration timestamps have no other index.
 					'compare' => '>',
 					'type'    => 'NUMERIC',
 				],

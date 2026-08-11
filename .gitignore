@@ -4,8 +4,12 @@ bower_components
 *.log
 *.js.map
 vendor
-vendor-prefixed
-bin/strauss.phar
+
+# Test artifacts
+.phpunit.result.cache
+.phpunit-integration.result.cache
+/test-results
+/coverage-js
 
 # Editors
 *.esproj

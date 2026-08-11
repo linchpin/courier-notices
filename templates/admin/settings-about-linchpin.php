@@ -39,7 +39,7 @@ use CourierNotices\Helper\Utils as Utils;
 										their local WordPress communities, not only leading the <a href="%3$s">WordPress
 										Rhode Island Meetup</a> group for several years, but also organizing, volunteering,
 										speaking at or sponsoring local WordCamp conferences in the greater New England area.',
-										'courier'
+										'courier-notices'
 									),
 									Utils::get_safe_markup()
 								),
@@ -56,7 +56,7 @@ use CourierNotices\Helper\Utils as Utils;
 								// translators: %s Linchpin URL.
 									__(
 										' <a href="%s">Check out our website</a>, connect with us or come say hi at a local event.',
-										'courier'
+										'courier-notices'
 									),
 									Utils::get_safe_markup()
 								),
@@ -72,7 +72,7 @@ use CourierNotices\Helper\Utils as Utils;
 								// translators: %1$s Linchpin URL, %2$s Linchpin. %3$s Jetpack.pro url, %4$s Jetpack.pro label.
 									__(
 										'<a href="%1$s">%2$s</a> |',
-										'courier'
+										'courier-notices'
 									),
 									Utils::get_safe_markup()
 								),
@@ -86,7 +86,7 @@ use CourierNotices\Helper\Utils as Utils;
 								// translators: %1$s Linchpin Facebook URL, %2$s Facebook Label. %3$s Linchpin Twitter url, %4$s Twitter label.
 									__(
 										'<a href="%1$s">%2$s</a> | <a href="%3$s">%4$s</a> | ',
-										'courier'
+										'courier-notices'
 									),
 									Utils::get_safe_markup()
 								),
@@ -102,7 +102,7 @@ use CourierNotices\Helper\Utils as Utils;
 								// translators: %1$s Linchpin Instagram URL, %2$s Instagram Label.
 									__(
 										'<a href="%1$s">%2$s</a>',
-										'courier'
+										'courier-notices'
 									),
 									Utils::get_safe_markup()
 								),

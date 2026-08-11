@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+	Integration lane: tests that need real WordPress - WP_Query, taxonomies,
+	transients, the object cache. Runs in CI against wp-phpunit plus a MySQL
+	service container (see .github/workflows/tests.yml); it cannot run against
+	Studio, which is PHP-WASM and not a PHPUnit host.
+
+	The WordPress checkout is located via WP_CORE_DIR and the database via
+	WP_DB_* - see tests/phpunit/wp-tests-config.php for the defaults.
+-->
+<phpunit
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+	bootstrap="tests/phpunit/bootstrap-integration.php"
+	backupGlobals="false"
+	colors="true"
+	testdox="true"
+	cacheResultFile=".phpunit-integration.result.cache"
+>
+	<testsuites>
+		<testsuite name="Integration">
+			<directory suffix="Test.php">./tests/phpunit/Integration</directory>
+		</testsuite>
+	</testsuites>
+	<php>
+		<ini name="error_reporting" value="32767"/>
+		<ini name="display_errors" value="1"/>
+		<ini name="display_startup_errors" value="1"/>
+	</php>
+</phpunit>
