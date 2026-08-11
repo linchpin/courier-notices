@@ -147,10 +147,13 @@ class WP_CLI implements Controller_Interface {
 			$expiration_time = time() + ( $expires_minutes * 60 );
 			update_post_meta( $notice_id, '_courier_expiration', $expiration_time );
 
-			// Schedule expiration via Action Scheduler if available.
+			// Schedule expiration via Action Scheduler if available. The
+			// second argument is the notice, not the timestamp — passing the
+			// timestamp made this bail on ->post_type, so a notice created
+			// with --expires never had its expiry scheduled.
 			if ( class_exists( 'ActionScheduler' ) ) {
 				$action_scheduler = new \CourierNotices\Controller\Action_Scheduler();
-				$action_scheduler->schedule_notice_expiration( $notice_id, $expiration_time );
+				$action_scheduler->schedule_notice_expiration( (int) $notice_id, get_post( (int) $notice_id ) );
 			}
 		}
 

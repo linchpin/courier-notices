@@ -60,6 +60,14 @@ class Action_Scheduler implements Controller_Interface {
 		// Hook into notice save to schedule expiration
 		add_action( 'save_post', [ $this, 'schedule_notice_expiration' ], 10, 2 );
 
+		// The block editor reaches save_post through REST, which writes meta
+		// *after* wp_update_post fires — so the save_post pass above reads the
+		// previous _courier_expiration and schedules the wrong instant (or,
+		// for a new notice, nothing at all). Run again once meta has landed;
+		// scheduling unschedules first, so the second pass is idempotent.
+		// Priority 20 keeps it behind Courier_Notices::normalize_notice_meta().
+		add_action( 'rest_after_insert_courier_notice', [ $this, 'schedule_notice_expiration_after_rest' ], 20 );
+
 		// Initialize recurring actions
 		add_action( 'init', [ $this, 'init_recurring_actions' ] );
 
@@ -101,12 +109,21 @@ class Action_Scheduler implements Controller_Interface {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param int     $post_id The post ID.
-	 * @param WP_Post $post    The post object.
+	 * Callers reach this from save_post (which always supplies the post), from
+	 * the bulk reschedule, and from WP-CLI. The post is resolved from the ID
+	 * when it is missing or not a WP_Post, so a caller that only has an ID
+	 * still schedules correctly rather than tripping over ->post_type.
+	 *
+	 * @param int           $post_id The post ID.
+	 * @param \WP_Post|null $post    The post object, when the caller has one.
 	 */
-	public function schedule_notice_expiration( $post_id, $post ) {
+	public function schedule_notice_expiration( $post_id, $post = null ) {
+		if ( ! $post instanceof \WP_Post ) {
+			$post = get_post( $post_id );
+		}
+
 		// Only process courier_notice post type
-		if ( 'courier_notice' !== $post->post_type ) {
+		if ( ! $post instanceof \WP_Post || 'courier_notice' !== $post->post_type ) {
 			return;
 		}
 
@@ -125,6 +142,23 @@ class Action_Scheduler implements Controller_Interface {
 				self::SCHEDULER_GROUP
 			);
 		}
+	}
+
+	/**
+	 * Reschedule expiration once a REST save has written the notice meta.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param \WP_Post $post The notice that was just written.
+	 *
+	 * @return void
+	 */
+	public function schedule_notice_expiration_after_rest( $post ) {
+		if ( ! $post instanceof \WP_Post ) {
+			return;
+		}
+
+		$this->schedule_notice_expiration( $post->ID, $post );
 	}
 
 	/**

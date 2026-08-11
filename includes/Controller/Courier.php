@@ -97,7 +97,7 @@ class Courier {
 			3  => esc_html__( 'Custom field deleted.', 'courier-notices' ),
 			4  => esc_html__( 'Notice updated.', 'courier-notices' ),
 			/* translators: %s: date and time of the revision */
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Notice restored to revision from %s', 'courier-notices' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // phpcs:ignore WordPress.Security.NonceVerification
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Notice restored to revision from %s', 'courier-notices' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // phpcs:ignore WordPress.Security.NonceVerification, Linchpin.Security.NonceVerification -- Read-only admin list-table state, no action taken.
 			/* translators: %s: link to notice */
 			6  => sprintf( __( 'Notice published. <a href="%1$s">View notice</a>', 'courier-notices' ), esc_url( $permalink ) ),
 			7  => esc_html__( 'Notice saved.', 'courier-notices' ),
@@ -162,7 +162,7 @@ class Courier {
 
 			$notice_class = '';
 
-			if ( isset( $_GET['courier_scope'] ) && 'global' === $_GET['courier_scope'] ) { // phpcs:ignore WordPress.Security.NonceVerification
+			if ( isset( $_GET['courier_scope'] ) && 'global' === $_GET['courier_scope'] ) { // phpcs:ignore WordPress.Security.NonceVerification, Linchpin.Security.NonceVerification -- Read-only admin list-table state, no action taken.
 				$notice_class = ' class="current"';
 			}
 
@@ -203,7 +203,7 @@ class Courier {
 
 			$expired_notice_class = '';
 
-			if ( isset( $_GET['post_status'] ) && 'courier_expired' === $_GET['post_status'] ) { // phpcs:ignore WordPress.Security.NonceVerification
+			if ( isset( $_GET['post_status'] ) && 'courier_expired' === $_GET['post_status'] ) { // phpcs:ignore WordPress.Security.NonceVerification, Linchpin.Security.NonceVerification -- Read-only admin list-table state, no action taken.
 				$expired_notice_class = ' class="current"';
 			}
 
@@ -336,22 +336,19 @@ class Courier {
 				update_post_meta( $post_id, '_courier_show_title', 1 );
 			}
 
-			if ( empty( $_POST['courier_placement'] ) ) {
-				wp_set_object_terms( $post_id, null, 'courier_placement' );
-			} elseif ( term_exists( $_POST['courier_placement'], 'courier_placement' ) ) {
-				wp_set_object_terms( $post_id, (string) $_POST['courier_placement'], 'courier_placement' );
-			}
+			// Each of the three delivery terms is submitted as a slug, checked
+			// against term_exists() before it is assigned.
+			foreach ( array( 'courier_placement', 'courier_style', 'courier_type' ) as $taxonomy ) {
+				if ( empty( $_POST[ $taxonomy ] ) ) {
+					wp_set_object_terms( $post_id, null, $taxonomy );
+					continue;
+				}
 
-			if ( empty( $_POST['courier_style'] ) ) {
-				wp_set_object_terms( $post_id, null, 'courier_style' );
-			} elseif ( term_exists( $_POST['courier_style'], 'courier_style' ) ) {
-				wp_set_object_terms( $post_id, (string) $_POST['courier_style'], 'courier_style' );
-			}
+				$term_slug = sanitize_text_field( wp_unslash( $_POST[ $taxonomy ] ) );
 
-			if ( empty( $_POST['courier_type'] ) ) {
-				wp_set_object_terms( $post_id, null, 'courier_type' );
-			} elseif ( term_exists( $_POST['courier_type'], 'courier_type' ) ) {
-				wp_set_object_terms( $post_id, (string) $_POST['courier_type'], 'courier_type' );
+				if ( null !== term_exists( $term_slug, $taxonomy ) ) {
+					wp_set_object_terms( $post_id, $term_slug, $taxonomy );
+				}
 			}
 		}
 
@@ -360,9 +357,21 @@ class Courier {
 
 			if ( empty( $_POST['courier_expire_date'] ) ) {
 				delete_post_meta( $post_id, '_courier_expiration' );
-			} elseif ( ! empty( $_POST['courier_expire_date'] ) ) {
-				$expire_date = strtotime( $_POST['courier_expire_date'] );
-				update_post_meta( $post_id, '_courier_expiration', $expire_date );
+			} else {
+				// The field holds a wall-clock string with no offset. WordPress
+				// pins PHP's default timezone to UTC, so a bare strtotime()
+				// read it as UTC and a notice on a UTC-5 site expired five
+				// hours before the author's stated time. Interpret it in the
+				// site timezone instead — matching both core's own scheduler
+				// and the block editor's DateTimePicker. Stored values are
+				// untouched; they simply now display as the moment they fire.
+				$expire_date = strtotime( get_gmt_from_date( sanitize_text_field( wp_unslash( $_POST['courier_expire_date'] ) ) ) . ' UTC' );
+
+				if ( false !== $expire_date && $expire_date > 0 ) {
+					update_post_meta( $post_id, '_courier_expiration', $expire_date );
+				} else {
+					delete_post_meta( $post_id, '_courier_expiration' );
+				}
 			}
 		}
 

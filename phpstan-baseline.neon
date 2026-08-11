@@ -26,11 +26,6 @@ parameters:
 			path: courier-notices.php
 
 		-
-			message: "#^Access to property \\$post_type on an unknown class CourierNotices\\\\Controller\\\\WP_Post\\.$#"
-			count: 1
-			path: includes/Controller/Action_Scheduler.php
-
-		-
 			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
 			count: 2
 			path: includes/Controller/Action_Scheduler.php
@@ -122,16 +117,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$postarr of function wp_update_post expects array\\{ID\\?\\: int, post_author\\?\\: int, post_date\\?\\: string, post_date_gmt\\?\\: string, post_content\\?\\: string, post_content_filtered\\?\\: string, post_title\\?\\: string, post_excerpt\\?\\: string, \\.\\.\\.\\}, array\\{ID\\: int\\|WP_Post, post_status\\: 'courier_expired'\\} given\\.$#"
-			count: 1
-			path: includes/Controller/Action_Scheduler.php
-
-		-
-			message: "#^Parameter \\#2 \\$post of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) expects CourierNotices\\\\Controller\\\\WP_Post, WP_Post\\|null given\\.$#"
-			count: 1
-			path: includes/Controller/Action_Scheduler.php
-
-		-
-			message: "#^Parameter \\$post of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) has invalid type CourierNotices\\\\Controller\\\\WP_Post\\.$#"
 			count: 1
 			path: includes/Controller/Action_Scheduler.php
 
@@ -307,7 +292,7 @@ parameters:
 
 		-
 			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
-			count: 6
+			count: 5
 			path: includes/Controller/Admin/Courier_Notice_Metabox.php
 
 		-
@@ -573,7 +558,7 @@ parameters:
 
 		-
 			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
-			count: 16
+			count: 13
 			path: includes/Controller/Courier.php
 
 		-
@@ -672,11 +657,6 @@ parameters:
 			path: includes/Controller/Courier.php
 
 		-
-			message: "#^Only booleans are allowed in an elseif condition, array\\<string, string\\>\\|int\\|null given\\.$#"
-			count: 3
-			path: includes/Controller/Courier.php
-
-		-
 			message: "#^Only booleans are allowed in an if condition, array\\|null given\\.$#"
 			count: 1
 			path: includes/Controller/Courier.php
@@ -693,7 +673,7 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$terms of function wp_set_object_terms expects array\\|int\\|string, null given\\.$#"
-			count: 3
+			count: 1
 			path: includes/Controller/Courier.php
 
 		-
@@ -1043,16 +1023,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$post_id of function update_post_meta expects int, int\\<min, \\-1\\>\\|int\\<1, max\\>\\|true given\\.$#"
-			count: 1
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
-			message: "#^Parameter \\#1 \\$post_id of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) expects int, int\\<min, \\-1\\>\\|int\\<1, max\\>\\|true given\\.$#"
-			count: 1
-			path: includes/Controller/Integrations/WP_CLI.php
-
-		-
-			message: "#^Parameter \\#2 \\$post of method CourierNotices\\\\Controller\\\\Action_Scheduler\\:\\:schedule_notice_expiration\\(\\) expects CourierNotices\\\\Controller\\\\WP_Post, int\\<61, max\\> given\\.$#"
 			count: 1
 			path: includes/Controller/Integrations/WP_CLI.php
 

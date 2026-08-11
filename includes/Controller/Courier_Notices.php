@@ -60,6 +60,10 @@ class Courier_Notices implements Controller_Interface {
 		// Hook into notice save/delete to clear cache.
 		add_action( 'save_post_courier_notice', [ $this, 'clear_cache' ] );
 		add_action( 'deleted_post', [ $this, 'clear_cache' ] );
+
+		// REST writes meta after save_post, so the EXISTS-sensitive keys are
+		// normalized here rather than in the save_post handler.
+		add_action( 'rest_after_insert_courier_notice', [ $this, 'normalize_notice_meta' ] );
 	}
 
 
@@ -317,6 +321,53 @@ class Courier_Notices implements Controller_Interface {
 					'sanitize_callback' => 'boolean' === $type ? 'rest_sanitize_boolean' : 'absint',
 				)
 			);
+		}
+	}
+
+
+	/**
+	 * Delete, rather than store, the falsy values of EXISTS-sensitive meta.
+	 *
+	 * Two display queries branch on whether a meta row exists at all, not on
+	 * what it holds:
+	 *
+	 * - `_courier_dismissible` splits dismissible (EXISTS, `Data.php:167`)
+	 *   from persistent (NOT EXISTS, `Data.php:244`) notices.
+	 * - `_courier_expiration` gates display on `NOT EXISTS OR value >= now`
+	 *   (`Data.php:492`).
+	 *
+	 * The block editor posts the whole meta object on every save, so clearing
+	 * a toggle arrives as `false` and clearing a date as `0`. Core stores
+	 * those as rows holding `''` and `'0'`, and a row that merely exists
+	 * inverts both queries: a non-dismissible notice starts reading as
+	 * dismissible, and a notice with no expiry date stops rendering entirely
+	 * — `'0' >= now` is false, and the row itself defeats NOT EXISTS.
+	 *
+	 * Deleting keeps REST saves matching what the classic metabox has always
+	 * done (`Courier::save_post_courier_notice()`), so both editors agree.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param \WP_Post $post The notice that was just written.
+	 *
+	 * @return void
+	 */
+	public function normalize_notice_meta( $post ) {
+		if ( ! $post instanceof \WP_Post ) {
+			return;
+		}
+
+		foreach ( array( '_courier_dismissible', '_courier_expiration' ) as $meta_key ) {
+			// An absent key is not the same as a cleared one: only normalize
+			// what this save actually wrote, so an untouched notice is left
+			// alone.
+			if ( ! metadata_exists( 'post', $post->ID, $meta_key ) ) {
+				continue;
+			}
+
+			if ( 0 === (int) get_post_meta( $post->ID, $meta_key, true ) ) {
+				delete_post_meta( $post->ID, $meta_key );
+			}
 		}
 	}
 

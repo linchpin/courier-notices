@@ -306,12 +306,18 @@ class Courier_Notice_Metabox implements Controller_Interface {
 		<?php
 
 		// Date Display.
-		$current_date = (int) get_post_meta( $post->ID, '_courier_expiration', true );
+		$expiration   = (int) get_post_meta( $post->ID, '_courier_expiration', true );
+		$current_date = '';
 
-		if ( ! empty( $current_date ) ) {
-			$current_date = gmdate( get_option( 'date_format' ) . ' h:i A', $current_date );
-		} else {
-			$current_date = '';
+		if ( $expiration > 0 ) {
+			// Site timezone, not UTC — the stored value is a real instant and
+			// the field round-trips through the site timezone on save. See the
+			// note in Courier::save_post_courier_notice().
+			$formatted = wp_date( get_option( 'date_format' ) . ' h:i A', $expiration );
+
+			if ( is_string( $formatted ) ) {
+				$current_date = $formatted;
+			}
 		}
 		?>
 		<div id="courier-notice_expiration_container">
