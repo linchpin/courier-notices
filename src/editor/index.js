@@ -8,6 +8,7 @@
  */
 import { registerPlugin } from '@wordpress/plugins';
 import { PluginDocumentSettingPanel } from '@wordpress/editor';
+import { store as blockEditorStore } from '@wordpress/block-editor';
 import {
 	BaseControl,
 	Button,
@@ -17,11 +18,12 @@ import {
 	SelectControl,
 	ToggleControl,
 } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 import { useEntityProp } from '@wordpress/core-data';
 import { dateI18n, getDate, getSettings } from '@wordpress/date';
 import { __ } from '@wordpress/i18n';
 
+import { LAYOUT_OPTIONS, NOTICE_BLOCK_NAME } from '../blocks/notice/layouts';
 import {
 	buildTermOptions,
 	isTwelveHourFormat,
@@ -92,6 +94,100 @@ function TermSelect({ taxonomy, restBase, label, help }) {
 				setTermIds(termId ? [termId] : []);
 			}}
 		/>
+	);
+}
+
+/**
+ * Read and write the one courier/notice block's attributes.
+ *
+ * A notice post holds exactly one of these blocks, so its attributes are really
+ * notice-level settings. Surfacing them here means an author never has to
+ * select the block to reach them, and the Block tab is left to core supports.
+ *
+ * Returns a null clientId for a classic notice, which has no block at all.
+ *
+ * @return {Object} { clientId, attributes, setAttribute }.
+ */
+function useNoticeBlock() {
+	const { clientId, attributes } = useSelect((select) => {
+		const { getBlocksByName, getBlockAttributes } =
+			select(blockEditorStore);
+
+		const [found] = getBlocksByName(NOTICE_BLOCK_NAME);
+
+		return {
+			clientId: found || null,
+			attributes: found ? getBlockAttributes(found) : null,
+		};
+	}, []);
+
+	const { updateBlockAttributes } = useDispatch(blockEditorStore);
+
+	const setAttribute = (key, value) => {
+		if (clientId) {
+			updateBlockAttributes(clientId, { [key]: value });
+		}
+	};
+
+	return { clientId, attributes, setAttribute };
+}
+
+/**
+ * A labelled group of related controls.
+ *
+ * @param {Object} props          Component props.
+ * @param {string} props.title    Group heading.
+ * @param {Object} props.children Controls.
+ * @return {Object} Element.
+ */
+function Group({ title, children }) {
+	return (
+		<div className="courier-notice-panel__group">
+			<h3 className="courier-notice-panel__heading">{title}</h3>
+			{children}
+		</div>
+	);
+}
+
+/**
+ * How the notice is composed, and whether its title shows.
+ *
+ * Writes to the courier/notice block; renders nothing for a classic notice.
+ *
+ * @return {Object|null} Element.
+ */
+function PresentationControls() {
+	const { clientId, attributes, setAttribute } = useNoticeBlock();
+
+	if (!clientId) {
+		return null;
+	}
+
+	return (
+		<Group title={__('Presentation', 'courier-notices')}>
+			<SelectControl
+				__nextHasNoMarginBottom
+				__next40pxDefaultSize
+				label={__('Layout', 'courier-notices')}
+				help={__(
+					'Informational is a simple message. Robust allows any blocks. Popup / Modal displays in a modal.',
+					'courier-notices'
+				)}
+				value={attributes.layout}
+				options={LAYOUT_OPTIONS}
+				onChange={(value) => setAttribute('layout', value)}
+			/>
+			<ToggleControl
+				__nextHasNoMarginBottom
+				label={__('Show title', 'courier-notices')}
+				help={__(
+					'Notices hide their title by default.',
+					'courier-notices'
+				)}
+				checked={!!attributes.showTitle}
+				onChange={(value) => setAttribute('showTitle', value)}
+			/>
+		</Group>
 	);
 }
 
@@ -224,26 +320,31 @@ function NoticePanel() {
 			name="courier-notice-settings"
 			title={__('Notice', 'courier-notices')}
 		>
-			<TermSelect
-				taxonomy="courier_type"
-				restBase="courier-types"
-				label={__('Type', 'courier-notices')}
-				help={__(
-					'What kind of message this is - drives color and icon.',
-					'courier-notices'
-				)}
-			/>
-			<TermSelect
-				taxonomy="courier_placement"
-				restBase="courier-placements"
-				label={__('Placement', 'courier-notices')}
-				help={__(
-					'Where on the page the notice shows.',
-					'courier-notices'
-				)}
-			/>
-			<DismissibleToggle />
-			<ExpirationControl />
+			<Group title={__('Delivery', 'courier-notices')}>
+				<TermSelect
+					taxonomy="courier_type"
+					restBase="courier-types"
+					label={__('Type', 'courier-notices')}
+					help={__(
+						'What kind of message this is - drives color and icon.',
+						'courier-notices'
+					)}
+				/>
+				<TermSelect
+					taxonomy="courier_placement"
+					restBase="courier-placements"
+					label={__('Placement', 'courier-notices')}
+					help={__(
+						'Where on the page the notice shows.',
+						'courier-notices'
+					)}
+				/>
+			</Group>
+			<PresentationControls />
+			<Group title={__('Behavior', 'courier-notices')}>
+				<DismissibleToggle />
+				<ExpirationControl />
+			</Group>
 		</PluginDocumentSettingPanel>
 	);
 }

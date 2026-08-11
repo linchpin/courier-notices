@@ -65,6 +65,13 @@ module.exports = {
 			path.resolve(__dirname, './src/editor/index.js'),
 			path.resolve(__dirname, './src/editor/editor.scss'),
 		],
+		// The Notice panel's sidebar chrome. Separate from the entry above
+		// because that one's CSS is the canvas replica, injected through
+		// block_editor_settings_all and therefore only ever reaching the
+		// iframed canvas. Sidebar styles have to be enqueued normally.
+		'courier-notices-editor-panel': [
+			path.resolve(__dirname, './src/editor/panel.scss'),
+		],
 		'courier-notices-notice-block': [
 			path.resolve(__dirname, './src/blocks/notice/index.js'),
 		],

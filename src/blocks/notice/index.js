@@ -5,15 +5,20 @@
  * Three layouts: informational locks composition to a message (plus the
  * optional title), robust frees the inner blocks entirely, and popup-modal
  * previews as the modal it will display in.
+ *
+ * The block deliberately has NO inspector controls. A notice post holds
+ * exactly one of these blocks, so "block settings" and "post settings" are the
+ * same thing to an author; every control lives in the Notice document panel
+ * (src/editor/) and writes through to this block's attributes. Keeping a
+ * second copy here would be a second way to reach the same state.
  */
 import { registerBlockType } from '@wordpress/blocks';
 import {
 	useBlockProps,
 	useInnerBlocksProps,
 	InnerBlocks,
-	InspectorControls,
 } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, ToggleControl } from '@wordpress/components';
+import { useEntityProp } from '@wordpress/core-data';
 import { __ } from '@wordpress/i18n';
 
 import metadata from './block.json';
@@ -22,15 +27,6 @@ import { useNoticeTypeSlug } from './use-notice-type';
 import { SOURCE_NAME } from './bindings';
 
 import '../notice-icon';
-
-const LAYOUTS = [
-	{
-		value: 'informational',
-		label: __('Informational', 'courier-notices'),
-	},
-	{ value: 'robust', label: __('Robust', 'courier-notices') },
-	{ value: 'popup-modal', label: __('Popup / Modal', 'courier-notices') },
-];
 
 // Informational notices are an icon, a title and a message. The icon follows
 // the notice type unless the author overrides it.
@@ -88,16 +84,22 @@ const INFORMATIONAL_TEMPLATE = [
 /**
  * Edit component.
  *
- * @param {Object}   props               Block props.
- * @param {Object}   props.attributes    Block attributes.
- * @param {Function} props.setAttributes Attribute setter.
+ * @param {Object} props            Block props.
+ * @param {Object} props.attributes Block attributes.
  * @return {Object} Element.
  */
-function Edit({ attributes, setAttributes }) {
+function Edit({ attributes }) {
 	const { layout, showTitle } = attributes;
 
 	const locked = 'informational' === layout;
 	const typeSlug = useNoticeTypeSlug();
+
+	// render.php only emits the dismiss affordance when the notice is
+	// dismissible, so the canvas must not show an × the front end will not.
+	// Reading the meta here also means the panel's Dismissible toggle
+	// re-frames the preview live.
+	const [meta] = useEntityProp('postType', 'courier_notice', 'meta');
+	const dismissible = !!meta?._courier_dismissible;
 
 	const blockProps = useBlockProps({
 		className:
@@ -118,44 +120,16 @@ function Edit({ attributes, setAttributes }) {
 	);
 
 	return (
-		<>
-			<InspectorControls>
-				<PanelBody title={__('Notice layout', 'courier-notices')}>
-					<SelectControl
-						__nextHasNoMarginBottom
-						__next40pxDefaultSize
-						label={__('Layout', 'courier-notices')}
-						help={__(
-							'Informational is a simple message. Robust allows any blocks. Popup / Modal displays in a modal.',
-							'courier-notices'
-						)}
-						value={layout}
-						options={LAYOUTS}
-						onChange={(value) => setAttributes({ layout: value })}
-					/>
-					<ToggleControl
-						__nextHasNoMarginBottom
-						label={__('Show title', 'courier-notices')}
-						help={__(
-							'Notices hide their title by default.',
-							'courier-notices'
-						)}
-						checked={showTitle}
-						onChange={(value) =>
-							setAttributes({ showTitle: value })
-						}
-					/>
-				</PanelBody>
-			</InspectorControls>
-			<div {...blockProps}>
-				<div className="courier-content-wrapper">
-					<div {...innerBlocksProps} />
+		<div {...blockProps}>
+			<div className="courier-content-wrapper">
+				<div {...innerBlocksProps} />
+				{dismissible && (
 					<span className="courier-close close" aria-hidden="true">
 						&times;
 					</span>
-				</div>
+				)}
 			</div>
-		</>
+		</div>
 	);
 }
 

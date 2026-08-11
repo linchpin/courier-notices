@@ -1,0 +1,22 @@
+/**
+ * Notice document panel — sidebar chrome.
+ *
+ * Deliberately a separate entry from editor.scss. That file is the canvas
+ * replica, read with file_get_contents() and injected through
+ * block_editor_settings_all, so it only ever reaches the (iframed) canvas.
+ * These rules style the sidebar, which lives in the main document and needs a
+ * normally enqueued stylesheet.
+ */
+
+.courier-notice-panel__group + .courier-notice-panel__group {
+	margin-top: 24px;
+}
+
+.courier-notice-panel__heading {
+	margin: 0 0 8px;
+	color: #757575;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1.4;
+	text-transform: uppercase;
+}

@@ -69,6 +69,20 @@ class Courier_Notice_Metabox implements Controller_Interface {
 		);
 
 		wp_set_script_translations( 'courier-notices-editor', 'courier-notices', COURIER_NOTICES_PATH . 'languages' );
+
+		// The panel's own sidebar chrome. Unlike the canvas replica, which has
+		// to be injected through block_editor_settings_all, sidebar styles live
+		// in the main document and enqueue normally.
+		$panel_stylesheet = COURIER_NOTICES_PATH . 'css/courier-notices-editor-panel.css';
+
+		if ( file_exists( $panel_stylesheet ) ) {
+			wp_enqueue_style(
+				'courier-notices-editor-panel',
+				COURIER_NOTICES_PLUGIN_URL . 'css/courier-notices-editor-panel.css',
+				array(),
+				(string) filemtime( $panel_stylesheet )
+			);
+		}
 	}
 
 

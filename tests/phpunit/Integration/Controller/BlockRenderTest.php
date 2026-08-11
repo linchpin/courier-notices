@@ -164,6 +164,32 @@ final class BlockRenderTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * A notice that is not dismissible must not render a dismiss affordance.
+	 *
+	 * The editor canvas reads the same meta to decide whether to draw the ×,
+	 * so this is the front-end half of that contract — it was showing an ×
+	 * the front end would never render (Aaron, 2026-08-11).
+	 *
+	 * @return void
+	 */
+	public function test_a_non_dismissible_notice_renders_no_dismiss_affordance(): void {
+		$notice_id = $this->create_notice(
+			'<!-- wp:courier/notice {"layout":"informational"} -->' .
+			"<!-- wp:paragraph -->\n<p>Persistent notice</p>\n<!-- /wp:paragraph -->" .
+			'<!-- /wp:courier/notice -->'
+		);
+
+		// No _courier_dismissible meta at all — the persistent case.
+		$this->assertFalse( metadata_exists( 'post', $notice_id, '_courier_dismissible' ) );
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringContainsString( '<p>Persistent notice</p>', $fragment );
+		$this->assertStringNotContainsString( 'courier-close', $fragment, 'A persistent notice must not render a close link.' );
+		$this->assertStringNotContainsString( 'data-closable', $fragment, 'A persistent notice must not be marked closable.' );
+	}
+
+	/**
 	 * Build informational content whose title is a bound core/heading, the way
 	 * the block's template now seeds it.
 	 *
