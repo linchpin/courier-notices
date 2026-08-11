@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "courier/notice",
+	"version": "2.0.0",
+	"title": "Notice",
+	"category": "widgets",
+	"icon": "megaphone",
+	"description": "The notice being authored — what you compose here is what visitors see.",
+	"keywords": [ "notice", "alert", "banner", "modal" ],
+	"textdomain": "courier-notices",
+	"attributes": {
+		"layout": {
+			"type": "string",
+			"default": "informational",
+			"enum": [ "informational", "robust", "popup-modal" ]
+		},
+		"showTitle": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"usesContext": [ "postId", "postType" ],
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"inserter": false,
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"spacing": {
+			"padding": true
+		}
+	},
+	"editorScript": "courier-notices-notice-block",
+	"style": "courier-notices",
+	"render": "file:./render.php"
+}

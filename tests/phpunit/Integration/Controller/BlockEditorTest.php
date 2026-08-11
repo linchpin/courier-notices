@@ -104,18 +104,18 @@ final class BlockEditorTest extends WP_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_the_cpt_template_is_a_locked_notice_wrapper(): void {
+	public function test_the_cpt_template_is_a_locked_notice_block(): void {
 		$post_type = get_post_type_object( 'courier_notice' );
 
 		$this->assertIsArray( $post_type->template );
 
 		list( $block_name, $attributes ) = $post_type->template[0];
 
-		$this->assertSame( 'core/group', $block_name );
-		$this->assertSame( 'courier-notice-body', $attributes['className'] );
-		$this->assertTrue( $attributes['lock']['remove'], 'The wrapper must not be removable.' );
-		$this->assertTrue( $attributes['lock']['move'], 'The wrapper must not be movable.' );
-		$this->assertNull( $post_type->template_lock ?: null, 'Inner content must stay free — only the wrapper is locked.' );
+		$this->assertSame( 'courier/notice', $block_name );
+		$this->assertTrue( $attributes['lock']['remove'], 'The notice block must not be removable.' );
+		$this->assertTrue( $attributes['lock']['move'], 'The notice block must not be movable.' );
+		$this->assertNull( $post_type->template_lock ?: null, 'Composition inside the block is governed by its layout, not a post-level lock.' );
+		$this->assertTrue( \WP_Block_Type_Registry::get_instance()->is_registered( 'courier/notice' ), 'The courier/notice block must be registered.' );
 	}
 
 	/**

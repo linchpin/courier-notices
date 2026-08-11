@@ -326,6 +326,14 @@ class Courier_REST_Controller extends REST_Base {
 			$notices = [];
 
 			foreach ( $notice_posts as $courier_notice ) {
+				// A courier/notice block IS the notice - it renders its own
+				// chrome with postId context, so the legacy template wrapper
+				// must not double-wrap it.
+				if ( has_block( 'courier/notice', $courier_notice ) ) {
+					$notices[ $courier_notice->ID ] = \CourierNotices\Helper\Utils::prepare_notice_content( $courier_notice->post_content, $courier_notice->ID );
+					continue;
+				}
+
 				$notice_data    = $notices_data->get_notice_meta( $courier_notice->ID );
 				$notice         = new View();
 				$post_classes   = array( 'courier-notice courier_notice alert alert-box' );
@@ -458,6 +466,14 @@ class Courier_REST_Controller extends REST_Base {
 				$notices = [];
 
 				foreach ( $notice_posts as $courier_notice ) {
+					// A courier/notice block IS the notice - it renders its own
+					// chrome with postId context, so the legacy template wrapper
+					// must not double-wrap it.
+					if ( has_block( 'courier/notice', $courier_notice ) ) {
+						$notices[ $courier_notice->ID ] = \CourierNotices\Helper\Utils::prepare_notice_content( $courier_notice->post_content, $courier_notice->ID );
+						continue;
+					}
+
 					$notice_data    = $notices_data->get_notice_meta( $courier_notice->ID );
 					$notice         = new View();
 					$post_classes   = [ 'courier-notice courier_notice alert alert-box' ];

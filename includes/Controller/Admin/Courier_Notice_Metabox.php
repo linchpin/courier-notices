@@ -101,6 +101,14 @@ class Courier_Notice_Metabox implements Controller_Interface {
 			'css' => file_get_contents( $stylesheet ), // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local plugin file, not a remote request.
 		);
 
+		// The compiled per-type colors, so the canvas shows the same accents
+		// the front end does.
+		if ( function_exists( 'courier_notices_get_css' ) ) {
+			$settings['styles'][] = array(
+				'css' => (string) courier_notices_get_css(),
+			);
+		}
+
 		return $settings;
 	}
 

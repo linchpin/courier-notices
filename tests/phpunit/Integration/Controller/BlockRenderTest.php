@@ -136,6 +136,68 @@ final class BlockRenderTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * A courier/notice block IS the notice: the fragment is the block's own
+	 * chrome — id hook, type class, layout class, dismiss affordance, the
+	 * opted-in title — with no legacy template double-wrap around it.
+	 *
+	 * @return void
+	 */
+	public function test_a_courier_notice_block_renders_as_itself(): void {
+		$notice_id = $this->create_notice(
+			'<!-- wp:courier/notice {"layout":"informational","showTitle":true} -->' .
+			"<!-- wp:paragraph -->\n<p>Block notice body</p>\n<!-- /wp:paragraph -->" .
+			'<!-- /wp:courier/notice -->'
+		);
+		update_post_meta( $notice_id, '_courier_dismissible', 1 );
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringContainsString( 'wp-block-courier-notice', $fragment );
+		$this->assertStringContainsString( 'courier-layout-informational', $fragment );
+		$this->assertStringContainsString( 'courier_type-info', $fragment, 'The type class must ride on the block for the color CSS.' );
+		$this->assertStringContainsString( 'data-courier-notice-id="' . $notice_id . '"', $fragment, 'The dismissal JS hook must be present.' );
+		$this->assertStringContainsString( 'data-closable', $fragment );
+		$this->assertStringContainsString( 'courier-close', $fragment );
+		$this->assertStringContainsString( 'courier-notice-title', $fragment, 'The opted-in title must render.' );
+		$this->assertStringContainsString( '<p>Block notice body</p>', $fragment );
+		$this->assertSame( 1, substr_count( $fragment, 'courier-content-wrapper' ), 'The legacy template must not double-wrap a block notice.' );
+	}
+
+	/**
+	 * The block's layout drives the legacy delivery terms: popup-modal
+	 * routes as a modal, and leaving the modal layout leaves the modal
+	 * placement too.
+	 *
+	 * @return void
+	 */
+	public function test_notice_layout_syncs_the_delivery_terms(): void {
+		$modal_content = '<!-- wp:courier/notice {"layout":"popup-modal"} -->' .
+			"<!-- wp:paragraph -->\n<p>Modal body</p>\n<!-- /wp:paragraph -->" .
+			'<!-- /wp:courier/notice -->';
+
+		$notice_id = self::factory()->post->create(
+			array(
+				'post_type'    => 'courier_notice',
+				'post_status'  => 'publish',
+				'post_content' => $modal_content,
+			)
+		);
+
+		$this->assertTrue( has_term( 'popup-modal', 'courier_style', $notice_id ), 'A modal layout must set the modal style term.' );
+		$this->assertTrue( has_term( 'popup-modal', 'courier_placement', $notice_id ), 'A modal layout must route to the modal placement.' );
+
+		wp_update_post(
+			array(
+				'ID'           => $notice_id,
+				'post_content' => str_replace( 'popup-modal', 'informational', $modal_content ),
+			)
+		);
+
+		$this->assertTrue( has_term( 'informational', 'courier_style', $notice_id ) );
+		$this->assertTrue( has_term( 'header', 'courier_placement', $notice_id ), 'Leaving the modal layout must leave the modal placement.' );
+	}
+
+	/**
 	 * Block-support styles generated during the fragment render ride along
 	 * in the response's styles key, ready for the consumer to inject —
 	 * they can never reach the already-loaded page on their own.

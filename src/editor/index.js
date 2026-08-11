@@ -1,20 +1,19 @@
 /**
  * The block editor experience for courier notices.
  *
- * Replaces the classic Notice Information metabox with a document settings
- * panel driven by the REST surface (COURIER-1035), and keeps the editor
- * canvas notice-shaped: the selected style re-frames the preview live —
- * informational renders as the notice bar, popup-modal as a centered card.
+ * The Notice document panel: delivery controls (Type, Placement) driven by
+ * the REST surface. Presentation lives on the courier/notice block itself -
+ * its layout attribute re-frames the canvas and syncs the legacy delivery
+ * terms on save.
  */
 import { registerPlugin } from '@wordpress/plugins';
 import { PluginDocumentSettingPanel } from '@wordpress/editor';
 import { SelectControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { useEntityProp } from '@wordpress/core-data';
-import { useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-import { buildTermOptions, termSlug } from './utils';
+import { buildTermOptions } from './utils';
 
 const POST_TYPE = 'courier_notice';
 
@@ -71,37 +70,6 @@ function TermSelect({ taxonomy, restBase, label, help }) {
 }
 
 /**
- * Mirror the selected style onto the editor canvas so the preview re-frames
- * live. The canvas may or may not be iframed depending on what else renders
- * on the screen, so both documents are handled; this is editor-only sugar
- * and fails silently if the canvas is not there yet.
- *
- * @return {null} Renders nothing.
- */
-function StylePreviewSync() {
-	const styles = useAllTerms('courier_style');
-	const [styleIds] = useEntityProp('postType', POST_TYPE, 'courier-styles');
-	const slug =
-		termSlug(styles, styleIds && styleIds.length ? styleIds[0] : 0) ||
-		'informational';
-
-	useEffect(() => {
-		const iframe = document.querySelector('iframe[name="editor-canvas"]');
-		const canvasDocument =
-			iframe && iframe.contentDocument
-				? iframe.contentDocument
-				: document;
-		const wrapper = canvasDocument.querySelector('.editor-styles-wrapper');
-
-		if (wrapper) {
-			wrapper.setAttribute('data-courier-style', slug);
-		}
-	}, [slug]);
-
-	return null;
-}
-
-/**
  * The Notice panel in the document sidebar.
  *
  * @return {Object} Element.
@@ -112,15 +80,6 @@ function NoticePanel() {
 			name="courier-notice-settings"
 			title={__('Notice', 'courier-notices')}
 		>
-			<TermSelect
-				taxonomy="courier_style"
-				restBase="courier-styles"
-				label={__('Style', 'courier-notices')}
-				help={__(
-					'How the notice presents - the editor preview follows.',
-					'courier-notices'
-				)}
-			/>
 			<TermSelect
 				taxonomy="courier_type"
 				restBase="courier-types"
@@ -139,7 +98,6 @@ function NoticePanel() {
 					'courier-notices'
 				)}
 			/>
-			<StylePreviewSync />
 		</PluginDocumentSettingPanel>
 	);
 }

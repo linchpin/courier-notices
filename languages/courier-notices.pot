@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-11T00:09:04+00:00\n"
+"POT-Creation-Date: 2026-08-11T00:56:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: courier-notices\n"
@@ -76,23 +76,22 @@ msgid "Summary"
 msgstr ""
 
 #: includes/Controller/Admin/Admin.php:81
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:214
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:222
 #: includes/Helper/Type_List_Table.php:35
-#: src/editor/index.js:127
+#: src/editor/index.js:86
 msgid "Type"
 msgstr ""
 
 #: includes/Controller/Admin/Admin.php:82
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:180
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:188
 #: includes/Model/Taxonomy/Style.php:55
-#: src/editor/index.js:118
 msgid "Style"
 msgstr ""
 
 #: includes/Controller/Admin/Admin.php:83
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:245
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:253
 #: includes/Model/Taxonomy/Placement.php:55
-#: src/editor/index.js:136
+#: src/editor/index.js:95
 msgid "Placement"
 msgstr ""
 
@@ -160,47 +159,47 @@ msgstr ""
 msgid "You are not allowed to reactivate this notice."
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:149
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:157
 msgid "Notice Information"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:301
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:309
 msgid "Notice Expiration"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:302
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:310
 msgid "The date and time this notice should expire."
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:304
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:312
 msgid "Expiration date and time"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:330
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:338
 msgid "Dismissible Notice:"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:332
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:340
 msgid "Allow this notice to be dismissed by users. If your notice is a Pop Over/Modal. We force the notice to be dismissible"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:365
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:373
 msgid "Show Title?"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:367
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:375
 msgid "Show the title for this notice? You can also set this globally or override for this specific notice"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:370
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:378
 msgid "Hide Title?"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:372
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:380
 msgid "Hide the title for this notice overriding the global settings?"
 msgstr ""
 
-#: includes/Controller/Admin/Courier_Notice_Metabox.php:380
+#: includes/Controller/Admin/Courier_Notice_Metabox.php:388
 msgid "Copy this notice <strong>shortcode</strong> to display in your content or in a widget!"
 msgstr ""
 
@@ -402,11 +401,11 @@ msgstr ""
 msgid "Notifications"
 msgstr ""
 
-#: includes/Controller/Courier_Notices.php:105
+#: includes/Controller/Courier_Notices.php:106
 msgid "Close"
 msgstr ""
 
-#: includes/Controller/Courier_Notices.php:106
+#: includes/Controller/Courier_Notices.php:107
 #: templates/admin/welcome.php:29
 msgid "Dismiss"
 msgstr ""
@@ -483,6 +482,7 @@ msgstr ""
 
 #: includes/Controller/Install.php:145
 #: includes/Controller/Upgrade.php:77
+#: src/blocks/notice/index.js:26
 msgid "Informational"
 msgstr ""
 
@@ -540,7 +540,7 @@ msgid "This notice is not dismissible."
 msgstr ""
 
 #: includes/Helper/Type_List_Table.php:34
-#: src/editor/index.js:64
+#: src/editor/index.js:63
 msgid "Default"
 msgstr ""
 
@@ -600,7 +600,7 @@ msgstr ""
 #: includes/Model/Post_Type/Courier_Notice.php:55
 #: includes/Model/Post_Type/Courier_Notice.php:67
 #: includes/Model/Post_Type/Courier_Notice.php:86
-#: src/editor/index.js:113
+#: src/editor/index.js:81
 msgid "Notice"
 msgstr ""
 
@@ -698,10 +698,6 @@ msgstr ""
 
 #: includes/Model/Post_Type/Courier_Notice.php:87
 msgid "Notices"
-msgstr ""
-
-#: includes/Model/Post_Type/Courier_Notice.php:112
-msgid "Write the notice content…"
 msgstr ""
 
 #: includes/Model/Taxonomy/Placement.php:56
@@ -1037,6 +1033,10 @@ msgstr ""
 
 #: includes/Model/Taxonomy/Type.php:74
 msgid "Types list navigation"
+msgstr ""
+
+#: src/blocks/notice/render.php:53
+msgid "Dismiss this notice"
 msgstr ""
 
 #: templates/admin/copy-shortcode.php:11
@@ -1402,14 +1402,100 @@ msgstr ""
 msgid "https://github.com/linchpin/courier/issues"
 msgstr ""
 
-#: src/editor/index.js:119
-msgid "How the notice presents - the editor preview follows."
+#: src/blocks/notice/index.js:28
+msgid "Robust"
 msgstr ""
 
-#: src/editor/index.js:128
+#: src/blocks/notice/index.js:29
+msgid "Popup / Modal"
+msgstr ""
+
+#: src/blocks/notice/index.js:36
+msgid "Write the notice message…"
+msgstr ""
+
+#: src/blocks/notice/index.js:73
+msgid "Notice layout"
+msgstr ""
+
+#: src/blocks/notice/index.js:77
+msgid "Layout"
+msgstr ""
+
+#: src/blocks/notice/index.js:78
+msgid "Informational is a simple message. Robust allows any blocks. Popup / Modal displays in a modal."
+msgstr ""
+
+#: src/blocks/notice/index.js:88
+msgid "Show title"
+msgstr ""
+
+#: src/blocks/notice/index.js:89
+msgid "Notices hide their title by default."
+msgstr ""
+
+#: src/blocks/notice/index.js:106
+msgid "Notice title…"
+msgstr ""
+
+#: src/blocks/notice/index.js:130
+msgid "Informational notice"
+msgstr ""
+
+#: src/blocks/notice/index.js:131
+msgid "A simple message with an optional title."
+msgstr ""
+
+#: src/blocks/notice/index.js:142
+msgid "Robust notice"
+msgstr ""
+
+#: src/blocks/notice/index.js:143
+msgid "Compose the notice from any blocks."
+msgstr ""
+
+#: src/blocks/notice/index.js:154
+msgid "Popup / Modal notice"
+msgstr ""
+
+#: src/blocks/notice/index.js:155
+msgid "Displays in a modal over the page."
+msgstr ""
+
+#: src/editor/index.js:87
 msgid "What kind of message this is - drives color and icon."
 msgstr ""
 
-#: src/editor/index.js:137
+#: src/editor/index.js:96
 msgid "Where on the page the notice shows."
+msgstr ""
+
+#: src/blocks/notice/block.json
+msgctxt "block title"
+msgid "Notice"
+msgstr ""
+
+#: src/blocks/notice/block.json
+msgctxt "block description"
+msgid "The notice being authored — what you compose here is what visitors see."
+msgstr ""
+
+#: src/blocks/notice/block.json
+msgctxt "block keyword"
+msgid "notice"
+msgstr ""
+
+#: src/blocks/notice/block.json
+msgctxt "block keyword"
+msgid "alert"
+msgstr ""
+
+#: src/blocks/notice/block.json
+msgctxt "block keyword"
+msgid "banner"
+msgstr ""
+
+#: src/blocks/notice/block.json
+msgctxt "block keyword"
+msgid "modal"
 msgstr ""

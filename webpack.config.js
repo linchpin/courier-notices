@@ -44,6 +44,9 @@ module.exports = {
 		'courier-notices': [
 			path.resolve(__dirname, './assets/js/courier-notices.js'),
 			path.resolve(__dirname, './assets/scss/courier-notices.scss'),
+			// The notice block's shared skeleton - the same rules the editor
+			// canvas loads, so front end and editor match.
+			path.resolve(__dirname, './src/blocks/notice/style.scss'),
 		],
 		'courier-notices-admin': [
 			path.resolve(__dirname, './assets/js/courier-notices-admin.js'),
@@ -61,6 +64,9 @@ module.exports = {
 		'courier-notices-editor': [
 			path.resolve(__dirname, './src/editor/index.js'),
 			path.resolve(__dirname, './src/editor/editor.scss'),
+		],
+		'courier-notices-notice-block': [
+			path.resolve(__dirname, './src/blocks/notice/index.js'),
 		],
 	},
 	module: {

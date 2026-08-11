@@ -1,0 +1,79 @@
+/**
+ * courier/notice block — shared structure for the editor AND the front end.
+ *
+ * This is deliberately the same skeleton the legacy templates produce, so
+ * the existing type-color CSS (.courier_type-*) and dismissal JS keep
+ * working. Imported into the main frontend bundle and injected into the
+ * editor canvas — one source of truth for how a notice looks.
+ */
+
+.wp-block-courier-notice,
+.courier-notice.courier_notice {
+	position: relative;
+	background: #fff;
+	border-left: 4px solid #878787;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+
+	.courier-content-wrapper {
+		position: relative;
+		padding: 16px 48px 16px 24px;
+	}
+
+	.courier-notice-title {
+		margin: 0 0 8px;
+		font-size: 1rem;
+	}
+
+	.courier-content > :first-child {
+		margin-top: 0;
+	}
+
+	.courier-content > :last-child {
+		margin-bottom: 0;
+	}
+
+	.courier-close {
+		position: absolute;
+		top: 10px;
+		right: 16px;
+		font-size: 20px;
+		line-height: 1;
+		color: #787c82;
+		text-decoration: none;
+	}
+
+	// Type accents fall back to the legacy defaults; the compiled type CSS
+	// (and later the Phase 4 tokens) override these per term.
+	&.courier_type-info {
+		border-left-color: #878787;
+	}
+
+	&.courier_type-primary {
+		border-left-color: #039ad6;
+	}
+
+	&.courier_type-success,
+	&.courier_type-feedback {
+		border-left-color: #04a84e;
+	}
+
+	&.courier_type-alert {
+		border-left-color: #f97600;
+	}
+
+	&.courier_type-warning {
+		border-left-color: #ea3118;
+	}
+
+	// The modal layout is a card rather than a bar.
+	&.courier-layout-popup-modal {
+		max-width: 520px;
+		border-left: none;
+		border-radius: 8px;
+		box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+
+		.courier-content-wrapper {
+			padding: 32px 40px;
+		}
+	}
+}

@@ -89,28 +89,19 @@ class Courier_Notice {
 			// custom-fields is load-bearing: without it, registered post meta
 			// is not exposed over REST and the block editor cannot save it.
 			'supports'            => array( 'title', 'editor', 'custom-fields' ),
-			// Authors compose inside a locked notice wrapper rather than a
-			// blank post canvas. The wrapper cannot be removed or moved; its
-			// inner content stays free so richer presentations like modals
-			// can hold full layouts. The editor chrome in src/editor styles
-			// this wrapper as the notice being authored.
+			// Authors compose inside the courier/notice block rather than a
+			// blank post canvas - the same block markup renders in the
+			// editor and on the front end. The block cannot be removed or
+			// moved; its layouts govern what goes inside (informational is
+			// a locked message, robust is free-form, popup-modal previews
+			// as the modal it displays in).
 			'template'            => array(
 				array(
-					'core/group',
+					'courier/notice',
 					array(
-						'className' => 'courier-notice-body',
-						'lock'      => array(
+						'lock' => array(
 							'move'   => true,
 							'remove' => true,
-						),
-						'layout'    => array( 'type' => 'constrained' ),
-					),
-					array(
-						array(
-							'core/paragraph',
-							array(
-								'placeholder' => esc_html__( 'Write the notice content…', 'courier-notices' ),
-							),
 						),
 					),
 				),

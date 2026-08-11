@@ -49,6 +49,7 @@ class Courier_Notices implements Controller_Interface {
 	 */
 	public function register_actions(): void {
 		add_action( 'init', array( $this, 'register_custom_post_type' ) );
+		add_action( 'save_post_courier_notice', array( $this, 'sync_notice_layout_terms' ), 20, 2 );
 		add_action( 'init', array( $this, 'register_taxonomies' ), 0 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_styles' ) );
@@ -183,6 +184,95 @@ class Courier_Notices implements Controller_Interface {
 		register_post_type( $courier_post_type_model->name, $courier_post_type_model->get_args() );
 
 		$this->register_notice_meta();
+		$this->register_notice_block();
+	}
+
+
+	/**
+	 * Register the courier/notice authoring block.
+	 *
+	 * The editor script rides the plugin's existing build pipeline as a
+	 * registered handle block.json points at; block.json and render.php
+	 * are committed source under src/blocks/notice.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return void
+	 */
+	private function register_notice_block() {
+		if ( \WP_Block_Type_Registry::get_instance()->is_registered( 'courier/notice' ) ) {
+			return;
+		}
+
+		$asset_file = COURIER_NOTICES_PATH . 'js/courier-notices-notice-block.asset.php';
+
+		if ( file_exists( $asset_file ) ) {
+			$assets = require $asset_file;
+
+			wp_register_script(
+				'courier-notices-notice-block',
+				COURIER_NOTICES_PLUGIN_URL . 'js/courier-notices-notice-block.js',
+				$assets['dependencies'],
+				$assets['version'],
+				true
+			);
+
+			wp_set_script_translations( 'courier-notices-notice-block', 'courier-notices', COURIER_NOTICES_PATH . 'languages' );
+		}
+
+		register_block_type( COURIER_NOTICES_PATH . 'src/blocks/notice' );
+	}
+
+
+	/**
+	 * Keep the legacy delivery terms in step with the block's layout.
+	 *
+	 * The 1.x pipeline routes modals by courier_style and courier_placement
+	 * terms; authors should not have to set them separately from the
+	 * block's layout. Explicit placements are preserved except where they
+	 * contradict the layout.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param int      $post_id Notice ID.
+	 * @param \WP_Post $post    Notice post object.
+	 *
+	 * @return void
+	 */
+	public function sync_notice_layout_terms( $post_id, $post ) {
+		if ( false !== wp_is_post_revision( $post_id ) || false !== wp_is_post_autosave( $post_id ) ) {
+			return;
+		}
+
+		if ( ! has_block( 'courier/notice', $post ) ) {
+			return;
+		}
+
+		$layout = 'informational';
+
+		foreach ( parse_blocks( $post->post_content ) as $parsed_block ) {
+			if ( 'courier/notice' === $parsed_block['blockName'] ) {
+				if ( isset( $parsed_block['attrs']['layout'] ) ) {
+					$layout = $parsed_block['attrs']['layout'];
+				}
+				break;
+			}
+		}
+
+		if ( 'popup-modal' === $layout ) {
+			wp_set_object_terms( $post_id, 'popup-modal', 'courier_style', false );
+			wp_set_object_terms( $post_id, 'popup-modal', 'courier_placement', false );
+
+			return;
+		}
+
+		wp_set_object_terms( $post_id, 'informational', 'courier_style', false );
+
+		// Leaving the modal layout must also leave the modal placement, or
+		// the notice keeps delivering as a modal.
+		if ( has_term( 'popup-modal', 'courier_placement', $post_id ) ) {
+			wp_set_object_terms( $post_id, 'header', 'courier_placement', false );
+		}
 	}
 
 

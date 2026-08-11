@@ -71,20 +71,39 @@ class Utils {
 	 * delimiters while dynamic blocks never rendered at all. Classic content
 	 * passes through untouched so existing notices render exactly as before.
 	 *
+	 * When a notice id is given, blocks render with postId context - the
+	 * courier/notice block and core post bindings read the notice they
+	 * belong to instead of whatever the global query holds.
+	 *
 	 * @since 2.0.0
 	 *
-	 * @param string $content Raw notice post_content.
+	 * @param string $content   Raw notice post_content.
+	 * @param int    $notice_id The notice the content belongs to.
 	 *
 	 * @return string
 	 */
-	public static function prepare_notice_content( $content ) {
+	public static function prepare_notice_content( $content, $notice_id = 0 ) {
 		$content = (string) $content;
 
-		if ( has_blocks( $content ) ) {
-			return do_blocks( $content );
+		if ( ! has_blocks( $content ) ) {
+			return $content;
 		}
 
-		return $content;
+		if ( $notice_id > 0 ) {
+			$rendered = '';
+			$context  = array(
+				'postId'   => $notice_id,
+				'postType' => 'courier_notice',
+			);
+
+			foreach ( parse_blocks( $content ) as $parsed_block ) {
+				$rendered .= ( new \WP_Block( $parsed_block, $context ) )->render();
+			}
+
+			return $rendered;
+		}
+
+		return do_blocks( $content );
 	}
 
 
