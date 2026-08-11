@@ -47,6 +47,9 @@ module.exports = {
 			// The notice block's shared skeleton - the same rules the editor
 			// canvas loads, so front end and editor match.
 			path.resolve(__dirname, './src/blocks/notice/style.scss'),
+			// Last, so it can neutralize the legacy placement positioning for
+			// block-rendered regions on source order as well as specificity.
+			path.resolve(__dirname, './src/blocks/notices/style.scss'),
 		],
 		'courier-notices-admin': [
 			path.resolve(__dirname, './assets/js/courier-notices-admin.js'),
@@ -74,6 +77,11 @@ module.exports = {
 		],
 		'courier-notices-notice-block': [
 			path.resolve(__dirname, './src/blocks/notice/index.js'),
+		],
+		// The outlet block - a region notices render into, as opposed to
+		// courier/notice, which is a notice.
+		'courier-notices-notices-block': [
+			path.resolve(__dirname, './src/blocks/notices/index.js'),
 		],
 	},
 	module: {

@@ -44,6 +44,12 @@ final class FunctionsTest extends TestCase {
 
 		WP_Shadow_State::reset();
 
+		// courier_notices_display_notices() claims its region through the
+		// render-once registry, whose statics outlive a single test. Without
+		// this, two tests rendering the same placement would silently get an
+		// empty string from the second one.
+		\CourierNotices\Helper\Render_Registry::reset();
+
 		$this->wpdb      = new WPDB_Spy();
 		$GLOBALS['wpdb'] = $this->wpdb;
 	}

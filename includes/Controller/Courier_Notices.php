@@ -155,6 +155,28 @@ class Courier_Notices implements Controller_Interface {
 		wp_register_style( 'courier-notices', $config->get( 'plugin_url' ) . 'css/courier-notices.css', '', $config->get( 'version' ) );
 		wp_enqueue_style( 'courier-notices' );
 
+		/*
+		 * The block stylesheets. @wordpress/scripts routes any entry file named
+		 * style.scss into a `style-` prefixed bundle rather than the entry's own
+		 * CSS, so this file exists separately from courier-notices.css - and was
+		 * never enqueued, meaning the notice block's shared skeleton has not
+		 * been reaching the front end at all. It went unnoticed because the
+		 * legacy stylesheet already covers most of what it declares.
+		 *
+		 * Depends on courier-notices so it prints after, which is what lets the
+		 * outlet block's rules override the legacy placement positioning.
+		 */
+		$courier_block_styles = COURIER_NOTICES_PATH . 'css/style-courier-notices.css';
+
+		if ( file_exists( $courier_block_styles ) ) {
+			wp_enqueue_style(
+				'courier-notices-blocks',
+				$config->get( 'plugin_url' ) . 'css/style-courier-notices.css',
+				array( 'courier-notices' ),
+				$config->get( 'version' )
+			);
+		}
+
 		wp_add_inline_style( 'courier-notices', courier_notices_get_css() );
 	}
 
@@ -208,24 +230,33 @@ class Courier_Notices implements Controller_Interface {
 			return;
 		}
 
-		$asset_file = COURIER_NOTICES_PATH . 'js/courier-notices-notice-block.asset.php';
+		foreach ( array( 'courier-notices-notice-block', 'courier-notices-notices-block' ) as $handle ) {
+			$asset_file = COURIER_NOTICES_PATH . 'js/' . $handle . '.asset.php';
 
-		if ( file_exists( $asset_file ) ) {
+			if ( ! file_exists( $asset_file ) ) {
+				continue;
+			}
+
 			$assets = require $asset_file;
 
 			wp_register_script(
-				'courier-notices-notice-block',
-				COURIER_NOTICES_PLUGIN_URL . 'js/courier-notices-notice-block.js',
+				$handle,
+				COURIER_NOTICES_PLUGIN_URL . 'js/' . $handle . '.js',
 				$assets['dependencies'],
 				$assets['version'],
 				true
 			);
 
-			wp_set_script_translations( 'courier-notices-notice-block', 'courier-notices', COURIER_NOTICES_PATH . 'languages' );
+			wp_set_script_translations( $handle, 'courier-notices', COURIER_NOTICES_PATH . 'languages' );
 		}
 
 		register_block_type( COURIER_NOTICES_PATH . 'src/blocks/notice' );
 		register_block_type( COURIER_NOTICES_PATH . 'src/blocks/notice-icon' );
+
+		// The outlet block: a region notices render into. Unlike the two
+		// above it is inserted by an author into a template or post, so it
+		// stays available regardless of the notice-editor opt-in.
+		register_block_type( COURIER_NOTICES_PATH . 'src/blocks/notices' );
 	}
 
 

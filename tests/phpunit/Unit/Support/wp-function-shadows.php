@@ -196,6 +196,18 @@ namespace CourierNotices\Helper {
 
 		return (int) ( $GLOBALS['courier_notices_test_wp_rand'] ?? 0 );
 	}
+
+	/**
+	 * Core's sanitize_key(), reached through Render_Registry when
+	 * courier_notices_display_notices() claims its region.
+	 *
+	 * @param string $key Key to sanitize.
+	 *
+	 * @return string
+	 */
+	function sanitize_key( $key ) {
+		return preg_replace( '/[^a-z0-9_\-]/', '', strtolower( (string) $key ) );
+	}
 }
 
 namespace CourierNotices\Controller\REST {
