@@ -144,6 +144,18 @@
 		<exclude-pattern>./uninstall.php</exclude-pattern>
 		<!-- The WP-CLI command file necessarily guards on the WP_CLI constant before declaring its class. -->
 		<exclude-pattern>./includes/Controller/Integrations/WP_CLI.php</exclude-pattern>
+		<!--
+			Three legacy admin files open with a direct-access guard
+			(`if ( ! function_exists( 'add_action' ) ) exit;`) before declaring
+			their class. Most class files in the plugin carry no such guard, so
+			this is inconsistency rather than a pattern worth keeping - but the
+			sniff reports at line 1, so it cannot be silenced inline, and all
+			three are retired by the Phase 5 React admin. Excluded rather than
+			stripping a guard purely to satisfy a linter.
+		-->
+		<exclude-pattern>./includes/Controller/Admin/Fields/Fields.php</exclude-pattern>
+		<exclude-pattern>./includes/Controller/Admin/Settings/General.php</exclude-pattern>
+		<exclude-pattern>./includes/Helper/Type_List_Table.php</exclude-pattern>
 		<!-- Emitting markup is what a view template is for. -->
 		<exclude-pattern>./templates/*</exclude-pattern>
 		<exclude-pattern>./src/blocks/*/render.php</exclude-pattern>

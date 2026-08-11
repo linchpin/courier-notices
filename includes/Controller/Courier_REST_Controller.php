@@ -160,9 +160,9 @@ class Courier_REST_Controller extends REST_Base {
 	 *
 	 * @since 1.0
 	 *
-	 * @param WP_REST_Request $request Full data about the request.
+	 * @param \WP_REST_Request $request Full data about the request.
 	 *
-	 * @return WP_Error|WP_REST_Response
+	 * @return \WP_Error|\WP_REST_Response
 	 */
 	public function get_notice( WP_REST_Request $request ) {
 		$data = [];
@@ -203,9 +203,9 @@ class Courier_REST_Controller extends REST_Base {
 	 *
 	 * @since 1.0.5
 	 *
-	 * @param $request WP_REST_Request
+	 * @param $request \WP_REST_Request
 	 *
-	 * @return WP_REST_Response
+	 * @return \WP_REST_Response
 	 */
 	public function dismiss_notice( WP_REST_Request $request ) {
 		$defaults = array(
@@ -242,7 +242,7 @@ class Courier_REST_Controller extends REST_Base {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_REST_Request $request Full data about the request.
+	 * @param \WP_REST_Request $request Full data about the request.
 	 *
 	 * @return bool
 	 */
@@ -260,9 +260,9 @@ class Courier_REST_Controller extends REST_Base {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_REST_Request $request Full data about the request.
+	 * @param \WP_REST_Request $request Full data about the request.
 	 *
-	 * @return WP_Error|WP_REST_Response
+	 * @return \WP_Error|\WP_REST_Response
 	 */
 	public function reactivate_notice( WP_REST_Request $request ) {
 		$notice_id = (int) $request['notice_id'];
@@ -286,9 +286,9 @@ class Courier_REST_Controller extends REST_Base {
 	/**
 	 * Display all notices on the frontend based on our logic
 	 *
-	 * @param WP_REST_Request $request Full data about the request.
+	 * @param \WP_REST_Request $request Full data about the request.
 	 *
-	 * @return WP_Error|WP_REST_Response
+	 * @return \WP_Error|\WP_REST_Response
 	 * @since 1.0
 	 *
 	 * Retrieves the following courier notices
@@ -386,9 +386,9 @@ class Courier_REST_Controller extends REST_Base {
 	 *
 	 * @since 1.7.2
 	 *
-	 * @param WP_REST_Request $request Full data about the request.
+	 * @param \WP_REST_Request $request Full data about the request.
 	 *
-	 * @return WP_Error|WP_REST_Response
+	 * @return \WP_Error|\WP_REST_Response
 	 */
 	public function display_all_notices( WP_REST_Request $request ) {
 		$defaults = [

@@ -336,6 +336,35 @@ final class NoticeMetaTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * A classic save must not warn on a site whose courier_status terms were
+	 * never created (COURIER-1079).
+	 *
+	 * wp_remove_object_terms() does not skip a string term that does not
+	 * exist — it dereferences term_exists()'s null, which on WP 6.9 is a PHP
+	 * warning the test suite promotes to an error. This test deliberately does
+	 * NOT seed the 'dismissed' term, so it fails without the guard.
+	 *
+	 * @return void
+	 */
+	public function test_the_classic_save_survives_missing_courier_status_terms(): void {
+		$notice_id = $this->create_notice();
+
+		$this->assertNull(
+			term_exists( 'dismissed', 'courier_status' ),
+			'This test is only meaningful while the term is absent.'
+		);
+
+		$_POST['courier_notice_info_noncename'] = wp_create_nonce( 'courier_notice_info_nonce' );
+
+		( new \CourierNotices\Controller\Courier() )->save_post_courier_notice( $notice_id, get_post( $notice_id ) );
+
+		unset( $_POST['courier_notice_info_noncename'] );
+
+		// The save still did its job.
+		$this->assertTrue( has_term( 'global', 'courier_scope', $notice_id ) );
+	}
+
+	/**
 	 * An unparseable expiration string clears the date rather than storing a
 	 * falsy row that would stop the notice displaying.
 	 *

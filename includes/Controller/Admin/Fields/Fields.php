@@ -127,7 +127,7 @@ class Fields {
 					$selected = selected( $option['value'], $args['default'], false );
 				}
 				?>
-				<option value="<?php echo esc_attr( $option['value'] ); ?>" <?php echo $selected; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html( $option['label'] ); ?></option>
+				<option value="<?php echo esc_attr( $option['value'] ); ?>" <?php echo $selected; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, Linchpin.Security.EscapeOutput.OutputNotEscaped -- selected()/checked() return pre-escaped attribute markup. ?>><?php echo esc_html( $option['label'] ); ?></option>
 			<?php endforeach; ?>
 		</select>
 		<?php
@@ -206,7 +206,7 @@ class Fields {
 							id="<?php echo esc_attr( $args['id'] ); ?>"
 							name="<?php echo esc_attr( $args['name'] . '[]' ); ?>"
 							value="<?php echo esc_attr( $option['value'] ); ?>"
-						<?php echo $checked; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php echo $checked; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, Linchpin.Security.EscapeOutput.OutputNotEscaped -- selected()/checked() return pre-escaped attribute markup. ?>
 					/>
 				</div>
 			<?php endforeach; ?>
@@ -238,7 +238,8 @@ class Fields {
 		self::$type_list_table = new Type_List_Table( array( 'screen' => 'courier_notice_page_courier' ) );
 		self::$type_list_table->prepare_items();
 
-		$page = ( isset( $_REQUEST['page'] ) && '' !== $_REQUEST['page'] ) ? $_REQUEST['page'] : ''; // phpcs:ignore WordPress.Security.NonceVerification
+		// phpcs:ignore WordPress.Security.NonceVerification, Linchpin.Security.NonceVerification -- Admin screen slug read for display only; no action is taken on it.
+		$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
 
 		// Create Table View
 		$table = new View();

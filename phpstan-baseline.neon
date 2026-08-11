@@ -121,16 +121,6 @@ parameters:
 			path: includes/Controller/Action_Scheduler.php
 
 		-
-			message: "#^Access to property \\$ID on an unknown class CourierNotices\\\\Controller\\\\Admin\\\\WP_Post\\.$#"
-			count: 4
-			path: includes/Controller/Admin/Admin.php
-
-		-
-			message: "#^Access to property \\$post_type on an unknown class CourierNotices\\\\Controller\\\\Admin\\\\WP_Post\\.$#"
-			count: 1
-			path: includes/Controller/Admin/Admin.php
-
-		-
 			message: "#^Argument of an invalid type array\\<WP_Term\\>\\|WP_Error supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: includes/Controller/Admin/Admin.php
@@ -242,11 +232,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$data of function wp_add_inline_style expects string, string\\|null given\\.$#"
-			count: 1
-			path: includes/Controller/Admin/Admin.php
-
-		-
-			message: "#^Parameter \\$post of method CourierNotices\\\\Controller\\\\Admin\\\\Admin\\:\\:add_expired_row_actions\\(\\) has invalid type CourierNotices\\\\Controller\\\\Admin\\\\WP_Post\\.$#"
 			count: 1
 			path: includes/Controller/Admin/Admin.php
 

@@ -455,8 +455,8 @@ class Admin implements Controller_Interface {
 	 *
 	 * @since 1.0
 	 *
-	 * @param array   $actions An array of row action links.
-	 * @param WP_Post $post The post object.
+	 * @param array    $actions An array of row action links.
+	 * @param \WP_Post $post    The post object.
 	 *
 	 * @return array Modified array of row action links.
 	 */
@@ -481,7 +481,7 @@ class Admin implements Controller_Interface {
 			$actions['reactivate'] = sprintf(
 				'<a href="%s" class="courier-reactivate-notice-link" data-courier-notice-id="%d">%s</a>',
 				esc_url( $reactivate_url ),
-				esc_attr( $post->ID ),
+				(int) $post->ID,
 				esc_html__( 'Reactivate', 'courier-notices' )
 			);
 		}

@@ -305,7 +305,15 @@ class Courier {
 
 			// By default set an object to be global.
 			wp_set_object_terms( $post_id, 'global', 'courier_scope', false );
-			wp_remove_object_terms( $post_id, array( 'dismissed' ), 'courier_status' );
+
+			// wp_remove_object_terms() does not skip a string term that does
+			// not exist: it dereferences term_exists()'s null and warns on
+			// WP 6.9. Install::install() is not a reliable source of the
+			// courier_status terms (see the lifecycle notes in
+			// docs/2.0-MIGRATION-PLAN.md), so the term is checked first.
+			if ( null !== term_exists( 'dismissed', 'courier_status' ) ) {
+				wp_remove_object_terms( $post_id, array( 'dismissed' ), 'courier_status' );
+			}
 
 			if ( empty( $_POST['courier_dismissible'] ) ) {
 				delete_post_meta( $post_id, '_courier_dismissible' );
