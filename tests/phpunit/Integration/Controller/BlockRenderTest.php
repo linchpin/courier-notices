@@ -164,6 +164,33 @@ final class BlockRenderTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * The icon block follows the notice type's _courier_type_icon term
+	 * meta — the same source the legacy templates read — and an explicit
+	 * attribute overrides it.
+	 *
+	 * @return void
+	 */
+	public function test_the_notice_icon_follows_the_type_and_honors_overrides(): void {
+		$term = wp_insert_term( 'Breaking', 'courier_type' );
+		add_term_meta( $term['term_id'], '_courier_type_icon', 'warning', true );
+
+		$following = $this->create_notice(
+			'<!-- wp:courier/notice --><!-- wp:courier/notice-icon /-->' .
+			"<!-- wp:paragraph -->\n<p>Following</p>\n<!-- /wp:paragraph --><!-- /wp:courier/notice -->",
+			false
+		);
+		wp_set_object_terms( $following, 'Breaking', 'courier_type', false );
+
+		$overridden = $this->create_notice(
+			'<!-- wp:courier/notice --><!-- wp:courier/notice-icon {"icon":"success"} /-->' .
+			"<!-- wp:paragraph -->\n<p>Overridden</p>\n<!-- /wp:paragraph --><!-- /wp:courier/notice -->"
+		);
+
+		$this->assertStringContainsString( 'courier-icon icon-warning', $this->fetch_fragment( $following ), 'The icon must follow the type term meta.' );
+		$this->assertStringContainsString( 'courier-icon icon-success', $this->fetch_fragment( $overridden ), 'An explicit icon must win over the type.' );
+	}
+
+	/**
 	 * The block's layout drives the legacy delivery terms: popup-modal
 	 * routes as a modal, and leaving the modal layout leaves the modal
 	 * placement too.

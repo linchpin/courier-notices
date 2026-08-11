@@ -19,6 +19,9 @@ import { useEntityProp } from '@wordpress/core-data';
 import { __ } from '@wordpress/i18n';
 
 import metadata from './block.json';
+import { useNoticeTypeSlug } from './use-notice-type';
+
+import '../notice-icon';
 
 const LAYOUTS = [
 	{
@@ -29,8 +32,10 @@ const LAYOUTS = [
 	{ value: 'popup-modal', label: __('Popup / Modal', 'courier-notices') },
 ];
 
-// Informational notices are a message, nothing more.
+// Informational notices are an icon and a message, nothing more. The
+// icon follows the notice type unless the author overrides it.
 const INFORMATIONAL_TEMPLATE = [
+	['courier/notice-icon'],
 	[
 		'core/paragraph',
 		{ placeholder: __('Write the notice message…', 'courier-notices') },
@@ -54,9 +59,12 @@ function Edit({ attributes, setAttributes }) {
 	);
 
 	const locked = 'informational' === layout;
+	const typeSlug = useNoticeTypeSlug();
 
 	const blockProps = useBlockProps({
-		className: `courier-notice courier_notice courier-layout-${layout}`,
+		className:
+			`courier-notice courier_notice courier-layout-${layout}` +
+			(typeSlug ? ` courier_type-${typeSlug}` : ''),
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(

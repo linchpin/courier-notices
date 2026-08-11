@@ -221,6 +221,7 @@ class Courier_Notices implements Controller_Interface {
 		}
 
 		register_block_type( COURIER_NOTICES_PATH . 'src/blocks/notice' );
+		register_block_type( COURIER_NOTICES_PATH . 'src/blocks/notice-icon' );
 	}
 
 

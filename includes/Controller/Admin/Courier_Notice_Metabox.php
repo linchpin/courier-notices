@@ -101,6 +101,15 @@ class Courier_Notice_Metabox implements Controller_Interface {
 			'css' => file_get_contents( $stylesheet ), // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local plugin file, not a remote request.
 		);
 
+		// The icon font, with an absolute URL - the frontend stylesheet's
+		// relative font path cannot resolve from inlined canvas CSS.
+		$settings['styles'][] = array(
+			'css' => sprintf(
+				'@font-face{font-family:"courier";src:url("%s") format("woff2");font-weight:normal;font-style:normal;font-display:block;}',
+				esc_url( COURIER_NOTICES_PLUGIN_URL . 'css/fonts/courier.woff2' )
+			),
+		);
+
 		// The compiled per-type colors, so the canvas shows the same accents
 		// the front end does.
 		if ( function_exists( 'courier_notices_get_css' ) ) {
