@@ -98,6 +98,27 @@ final class BlockEditorTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * New notices open inside a locked wrapper the author cannot remove or
+	 * move — the notice-shaped canvas from COURIER-1037. Inner content
+	 * stays free so richer presentations can hold full layouts.
+	 *
+	 * @return void
+	 */
+	public function test_the_cpt_template_is_a_locked_notice_wrapper(): void {
+		$post_type = get_post_type_object( 'courier_notice' );
+
+		$this->assertIsArray( $post_type->template );
+
+		list( $block_name, $attributes ) = $post_type->template[0];
+
+		$this->assertSame( 'core/group', $block_name );
+		$this->assertSame( 'courier-notice-body', $attributes['className'] );
+		$this->assertTrue( $attributes['lock']['remove'], 'The wrapper must not be removable.' );
+		$this->assertTrue( $attributes['lock']['move'], 'The wrapper must not be movable.' );
+		$this->assertNull( $post_type->template_lock ?: null, 'Inner content must stay free — only the wrapper is locked.' );
+	}
+
+	/**
 	 * COURIER-1034, the Phase 2 blocker: a notice created without an
 	 * explicit scope — exactly what a block-editor REST save does — gets
 	 * the global scope by default and is visible to the queries.
