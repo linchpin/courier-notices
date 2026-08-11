@@ -106,6 +106,16 @@ class Courier_Notice {
 					),
 				),
 			),
+			// A notice IS the courier/notice block, so the root accepts
+			// nothing else. Without this lock the per-block move/remove lock
+			// above still left the root inserter open, and a sibling
+			// paragraph or heading dropped at the root would serialize into
+			// post_content outside the notice - invisible to render.php and
+			// silently dropped by the legacy wp_kses_post render path.
+			// The lock applies to the ROOT list only: courier/notice passes
+			// its own templateLock explicitly per layout, and an explicit
+			// value overrides inheritance, so robust stays free-form.
+			'template_lock'       => 'all',
 			'taxonomies'          => array( 'courier_type', 'courier_status', 'courier_scope', 'courier_style', 'courier_placement' ),
 			'hierarchical'        => false,
 			'public'              => false,

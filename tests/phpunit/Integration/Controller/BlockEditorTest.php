@@ -40,7 +40,50 @@ final class BlockEditorTest extends WP_UnitTestCase {
 		// site init re-registers it every request. Mirror that here.
 		( new \CourierNotices\Controller\Courier_Notices() )->register_custom_post_type();
 
+		$this->restore_default_terms();
+
 		wp_cache_flush();
+	}
+
+	/**
+	 * Recreate the registered default terms this class depends on.
+	 *
+	 * register_taxonomy() creates a taxonomy's default_term and records its ID
+	 * in the `default_term_{$taxonomy}` option — but only once, at init. The
+	 * suite's tear_down_after_class() then runs _delete_all_data(), which
+	 * DELETEs every term and commits, so those bootstrap-created terms are
+	 * gone for every test class after the first. Courier_Notices::
+	 * register_taxonomies() cannot restore them either: it is guarded by
+	 * taxonomy_exists(), which is still true.
+	 *
+	 * Without this, the two default-term assertions below passed only because
+	 * this class happened to sort first among the integration tests — adding
+	 * any test file that sorts earlier broke them, which is exactly what
+	 * BlockBindingsTest did.
+	 *
+	 * @return void
+	 */
+	private function restore_default_terms(): void {
+		$defaults = array(
+			'courier_scope'     => array( 'Global', 'global' ),
+			'courier_placement' => array( 'Header', 'header' ),
+		);
+
+		foreach ( $defaults as $taxonomy => $term ) {
+			list( $name, $slug ) = $term;
+
+			$existing = term_exists( $slug, $taxonomy );
+
+			if ( null === $existing ) {
+				$existing = wp_insert_term( $name, $taxonomy, array( 'slug' => $slug ) );
+			}
+
+			if ( is_wp_error( $existing ) || ! isset( $existing['term_id'] ) ) {
+				continue;
+			}
+
+			update_option( 'default_term_' . $taxonomy, (int) $existing['term_id'] );
+		}
 	}
 
 	/**
@@ -99,8 +142,17 @@ final class BlockEditorTest extends WP_UnitTestCase {
 
 	/**
 	 * New notices open inside a locked wrapper the author cannot remove or
-	 * move — the notice-shaped canvas from COURIER-1037. Inner content
-	 * stays free so richer presentations can hold full layouts.
+	 * move — the notice-shaped canvas from COURIER-1037 — and the root itself
+	 * takes nothing else.
+	 *
+	 * The root lock is a reversal, per Aaron (2026-08-11): the per-block
+	 * move/remove lock still left the root inserter open, so an author could
+	 * drop a sibling paragraph at the root, where it serializes into
+	 * post_content outside the notice and is silently dropped by render.php
+	 * and the legacy wp_kses_post path. A notice IS the block, so the root
+	 * accepts only the block. Composition INSIDE it is still governed by the
+	 * layout, which passes its own templateLock explicitly — see
+	 * test_the_root_lock_does_not_reach_inside_the_notice_block().
 	 *
 	 * @return void
 	 */
@@ -114,8 +166,41 @@ final class BlockEditorTest extends WP_UnitTestCase {
 		$this->assertSame( 'courier/notice', $block_name );
 		$this->assertTrue( $attributes['lock']['remove'], 'The notice block must not be removable.' );
 		$this->assertTrue( $attributes['lock']['move'], 'The notice block must not be movable.' );
-		$this->assertNull( $post_type->template_lock ?: null, 'Composition inside the block is governed by its layout, not a post-level lock.' );
+		$this->assertSame( 'all', $post_type->template_lock, 'The root block list must not accept anything but the notice block.' );
 		$this->assertTrue( \WP_Block_Type_Registry::get_instance()->is_registered( 'courier/notice' ), 'The courier/notice block must be registered.' );
+	}
+
+	/**
+	 * The root lock must reach the root block list only.
+	 *
+	 * Core hands template_lock to the editor as `templateLock`
+	 * (wp-admin/edit-form-blocks.php), and inner block lists inherit it only
+	 * when they do not set their own. courier/notice always passes an
+	 * explicit value per layout — 'all' for informational, false for robust
+	 * and popup-modal — so inheritance never applies and a robust notice
+	 * stays free-form. This pins the block.json side of that contract; the
+	 * explicit pass lives in src/blocks/notice/index.js.
+	 *
+	 * @return void
+	 */
+	public function test_the_root_lock_does_not_reach_inside_the_notice_block(): void {
+		$block_type = \WP_Block_Type_Registry::get_instance()->get_registered( 'courier/notice' );
+
+		$this->assertNotNull( $block_type );
+
+		// The layout attribute is what the edit component switches the inner
+		// templateLock on, so it has to survive as a real attribute.
+		$this->assertArrayHasKey( 'layout', $block_type->attributes );
+		$this->assertSame( 'informational', $block_type->attributes['layout']['default'] );
+
+		// A dynamic block: render.php owns the front-end wrapper, so the
+		// block must not also declare a templateLock that would freeze the
+		// inner list regardless of layout.
+		$this->assertArrayNotHasKey(
+			'templateLock',
+			$block_type->attributes,
+			'templateLock must stay a runtime decision per layout, not a fixed attribute.'
+		);
 	}
 
 	/**

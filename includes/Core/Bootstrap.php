@@ -28,6 +28,7 @@ class Bootstrap {
 		Controller\Admin\Admin::class,
 		Controller\Admin\Courier_Notice_Metabox::class,
 		Controller\Admin\Settings\General::class,
+		Controller\Block_Bindings::class,
 		Controller\Courier::class,
 		Controller\Courier_Notices::class,
 		Controller\Courier_REST_Controller::class,

@@ -20,6 +20,8 @@ import { __ } from '@wordpress/i18n';
 
 import metadata from './block.json';
 import { useNoticeTypeSlug } from './use-notice-type';
+// Imported for its side effect too: registers the bindings source.
+import { SOURCE_NAME } from './bindings';
 
 import '../notice-icon';
 
@@ -34,11 +36,32 @@ const LAYOUTS = [
 
 // Informational notices are an icon and a message, nothing more. The
 // icon follows the notice type unless the author overrides it.
+//
+// The message paragraph carries a courier/notice binding on its content.
+// The source returns no value for `message` by default, and core leaves a
+// bound attribute alone when the source has none - so what the author wrote
+// is what renders, in post_content, on the legacy path as much as the block
+// path. The courier_notices_binding_value filter is the seam that lets a
+// notice be adjusted dynamically without moving its message anywhere.
+//
+// core/paragraph.content is on core's hardcoded bindable allowlist
+// (get_block_bindings_supported_attributes), so this works on the WP 6.8
+// floor - the filter that would open up custom block attributes is 6.9+.
 const INFORMATIONAL_TEMPLATE = [
 	['courier/notice-icon'],
 	[
 		'core/paragraph',
-		{ placeholder: __('Write the notice message…', 'courier-notices') },
+		{
+			placeholder: __('Write the notice message…', 'courier-notices'),
+			metadata: {
+				bindings: {
+					content: {
+						source: SOURCE_NAME,
+						args: { key: 'message' },
+					},
+				},
+			},
+		},
 	],
 ];
 
