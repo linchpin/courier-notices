@@ -164,6 +164,58 @@ final class BlockRenderTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Each notice resolves its own template.
+	 *
+	 * The `display` handler used to hoist its $style variable outside the loop
+	 * and only reassign it when a notice carried a courier_style term — so a
+	 * notice with no style term rendered through the PREVIOUS notice's
+	 * template. Notice_Renderer resolves per notice, which fixes it by
+	 * construction. Rendered through the helper directly so the ordering is
+	 * deterministic rather than dependent on post_date ties.
+	 *
+	 * @return void
+	 */
+	public function test_each_notice_resolves_its_own_template(): void {
+		$styled = $this->create_notice( 'Modal-styled classic notice' );
+		wp_set_object_terms( $styled, 'popup-modal', 'courier_style', false );
+
+		$unstyled = $this->create_notice( 'Plain classic notice' );
+
+		$rendered = \CourierNotices\Helper\Notice_Renderer::render_many(
+			array( get_post( $styled ), get_post( $unstyled ) )
+		);
+
+		$this->assertStringContainsString(
+			'courier-notices modal',
+			$rendered[ $styled ],
+			'A popup-modal style term must select the modal template.'
+		);
+		$this->assertStringNotContainsString(
+			'courier-notices modal',
+			$rendered[ $unstyled ],
+			'A notice with no style term must not inherit the previous notice template.'
+		);
+	}
+
+	/**
+	 * The modal placement forces the modal template regardless of style term —
+	 * the one behavior that differed between the two handlers the renderer
+	 * replaced, so it has to survive the extraction.
+	 *
+	 * @return void
+	 */
+	public function test_the_modal_placement_forces_the_modal_template(): void {
+		$notice_id = $this->create_notice( 'Classic notice with no style term' );
+
+		$rendered = \CourierNotices\Helper\Notice_Renderer::render_many(
+			array( get_post( $notice_id ) ),
+			'popup-modal'
+		);
+
+		$this->assertStringContainsString( 'courier-notices modal', $rendered[ $notice_id ] );
+	}
+
+	/**
 	 * A notice that is not dismissible must not render a dismiss affordance.
 	 *
 	 * The editor canvas reads the same meta to decide whether to draw the ×,

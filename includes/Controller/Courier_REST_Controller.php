@@ -319,48 +319,10 @@ class Courier_REST_Controller extends REST_Base {
 		);
 		$ajax_post_data = wp_parse_args( $request->get_params(), $defaults );
 		$notices_data   = new Courier_Notice_Data();
-		$notice_posts   = $notices_data->get_notices( $args, $ajax_post_data );
-		$style          = 'notice-informational';
+		$notice_posts = $notices_data->get_notices( $args, $ajax_post_data );
 
 		if ( 'html' === $args['format'] ) {
-			$notices = [];
-
-			foreach ( $notice_posts as $courier_notice ) {
-				// A courier/notice block IS the notice - it renders its own
-				// chrome with postId context, so the legacy template wrapper
-				// must not double-wrap it.
-				if ( has_block( 'courier/notice', $courier_notice ) ) {
-					$notices[ $courier_notice->ID ] = \CourierNotices\Helper\Utils::prepare_notice_content( $courier_notice->post_content, $courier_notice->ID );
-					continue;
-				}
-
-				$notice_data    = $notices_data->get_notice_meta( $courier_notice->ID );
-				$notice         = new View();
-				$post_classes   = array( 'courier-notice courier_notice alert alert-box' );
-				if ( is_array( $notice_data['type'] ) && array() !== $notice_data['type'] ) {
-					$post_classes[] = 'courier_type-' . $notice_data['type'][0]->slug;
-				}
-				$post_classes[] = $notice_data['is_confirmation'] ? 'gform-confirmation' : '';
-
-				$notice->assign( 'notice_id', $courier_notice->ID );
-				$notice->assign( 'show_hide_title', $notice_data['show_hide_title'] );
-
-				$notice_title = courier_notices_the_notice_title( $courier_notice->post_title, '<h6 class="courier-notice-title">', '</h6>', false );
-
-				$notice->assign( 'notice_title', $notice_title );
-				$notice->assign( 'notice_class', implode( ' ', get_post_class( $post_classes, $courier_notice->ID ) ) );
-				$notice->assign( 'dismissible', get_post_meta( $courier_notice->ID, '_courier_dismissible', true ) );
-				$notice->assign( 'icon', $notice_data['icon'] );
-				$notice->assign( 'notice_content', \CourierNotices\Helper\Utils::prepare_notice_content( $courier_notice->post_content ) );
-
-				if ( is_array( $notice_data['style'] ) && array() !== $notice_data['style'] ) {
-					$style = 'notice-' . $notice_data['style'][0]->slug;
-				}
-
-				$notices[ $courier_notice->ID ] = $notice->get_text_view( $style );
-			}
-
-			$notice_posts = $notices;
+			$notice_posts = \CourierNotices\Helper\Notice_Renderer::render_many( $notice_posts );
 		}
 
 		$dataset = array(
@@ -460,53 +422,8 @@ class Courier_REST_Controller extends REST_Base {
 			);
 
 			$notice_posts = $notices_data->get_notices( $args, $ajax_post_data );
-			$style        = 'notice-informational';
-
 			if ( 'html' === $format ) {
-				$notices = [];
-
-				foreach ( $notice_posts as $courier_notice ) {
-					// A courier/notice block IS the notice - it renders its own
-					// chrome with postId context, so the legacy template wrapper
-					// must not double-wrap it.
-					if ( has_block( 'courier/notice', $courier_notice ) ) {
-						$notices[ $courier_notice->ID ] = \CourierNotices\Helper\Utils::prepare_notice_content( $courier_notice->post_content, $courier_notice->ID );
-						continue;
-					}
-
-					$notice_data    = $notices_data->get_notice_meta( $courier_notice->ID );
-					$notice         = new View();
-					$post_classes   = [ 'courier-notice courier_notice alert alert-box' ];
-					if ( is_array( $notice_data['type'] ) && array() !== $notice_data['type'] ) {
-						$post_classes[] = 'courier_type-' . $notice_data['type'][0]->slug;
-					}
-					$post_classes[] = $notice_data['is_confirmation'] ? 'gform-confirmation' : '';
-
-					$notice->assign( 'notice_id', $courier_notice->ID );
-					$notice->assign( 'show_hide_title', $notice_data['show_hide_title'] );
-
-					$notice_title = courier_notices_the_notice_title( $courier_notice->post_title, '<h6 class="courier-notice-title">', '</h6>', false );
-
-					$notice->assign( 'notice_title', $notice_title );
-					$notice->assign( 'notice_class', implode( ' ', get_post_class( $post_classes, $courier_notice->ID ) ) );
-					$notice->assign( 'dismissible', get_post_meta( $courier_notice->ID, '_courier_dismissible', true ) );
-					$notice->assign( 'icon', $notice_data['icon'] );
-					$notice->assign( 'notice_content', \CourierNotices\Helper\Utils::prepare_notice_content( $courier_notice->post_content ) );
-
-					// Determine the correct template based on placement
-					if ( $placement === 'popup-modal' ) {
-						$style = 'notice-popup-modal';
-					} else {
-						$style = 'notice-informational';
-						if ( is_array( $notice_data['style'] ) && array() !== $notice_data['style'] ) {
-							$style = 'notice-' . $notice_data['style'][0]->slug;
-						}
-					}
-
-					$notices[ $courier_notice->ID ] = $notice->get_text_view( $style );
-				}
-
-				$dataset[ $placement ] = $notices;
+				$dataset[ $placement ] = \CourierNotices\Helper\Notice_Renderer::render_many( $notice_posts, $placement );
 			} else {
 				$dataset[ $placement ] = $notice_posts;
 			}
