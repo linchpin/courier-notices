@@ -28,14 +28,21 @@ abstract class REST_Base implements Controller_Interface {
 	 *
 	 * @var string
 	 */
-	private $api_base_path = 'courier-notices';
+	protected $api_base_path = 'courier-notices';
 
 	/**
 	 * API version.
 	 *
+	 * Protected, not private, so a controller can opt into a later version
+	 * with a single property. `courier-notices/v1` is FROZEN as of 2.0
+	 * (COURIER-1033, ratified by Aaron 2026-08-11): it is the contract the
+	 * legacy frontend and Courier Pro consume, and it takes additive or
+	 * security-corrective changes only. New 2.x surface declares
+	 * `protected $api_version = 'v2';`.
+	 *
 	 * @var string
 	 */
-	private $api_version = 'v1';
+	protected $api_version = 'v1';
 
 	/**
 	 * Composed namespace within the base path.

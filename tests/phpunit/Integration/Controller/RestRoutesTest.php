@@ -49,6 +49,47 @@ final class RestRoutesTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * The v1 freeze (COURIER-1033, ratified by Aaron 2026-08-11) only works if
+	 * a controller can actually opt into a later version. REST_Base composes
+	 * its namespace from two properties; they were private, so no subclass
+	 * could override them and "new surface goes under v2" was unimplementable.
+	 *
+	 * This pins the mechanism rather than any particular v2 endpoint — none
+	 * exists yet, and nothing needs building until one does.
+	 *
+	 * @return void
+	 */
+	public function test_a_controller_can_declare_a_later_api_version(): void {
+		$v1 = new class() extends \CourierNotices\Controller\REST\REST_Base {
+			/**
+			 * No routes; this fixture exists to read the composed namespace.
+			 *
+			 * @return void
+			 */
+			public function register_routes(): void {}
+		};
+
+		$v2 = new class() extends \CourierNotices\Controller\REST\REST_Base {
+			/**
+			 * API version under test.
+			 *
+			 * @var string
+			 */
+			protected $api_version = 'v2';
+
+			/**
+			 * No routes; this fixture exists to read the composed namespace.
+			 *
+			 * @return void
+			 */
+			public function register_routes(): void {}
+		};
+
+		$this->assertSame( 'courier-notices/v1', $v1->get_api_namespace(), 'v1 stays the default so existing controllers do not move.' );
+		$this->assertSame( 'courier-notices/v2', $v2->get_api_namespace(), 'New 2.x surface must be reachable with a single property.' );
+	}
+
+	/**
 	 * Reactivating an expired notice republishes it and pushes the lapsed
 	 * expiration 30 days out — the feature the admin UI has linked to for
 	 * years while the route did not exist.
