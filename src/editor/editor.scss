@@ -51,6 +51,14 @@
 			position: static;
 		}
 
+		// The bound title heading is a locked part of the informational
+		// template, so it is always present in the canvas; the Show title
+		// toggle governs whether it shows. render.php drops it from the
+		// front end outright, so this is canvas-only and the two agree.
+		&.courier-title-hidden .courier-notice-title {
+			display: none;
+		}
+
 		.courier-icon {
 			position: absolute;
 			top: 0;

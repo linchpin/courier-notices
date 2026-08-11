@@ -164,6 +164,104 @@ final class BlockRenderTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Build informational content whose title is a bound core/heading, the way
+	 * the block's template now seeds it.
+	 *
+	 * @param bool $show_title Value of the block's showTitle attribute.
+	 *
+	 * @return string
+	 */
+	private function bound_title_content( bool $show_title ): string {
+		return sprintf(
+			'<!-- wp:courier/notice {"layout":"informational","showTitle":%s} -->',
+			$show_title ? 'true' : 'false'
+		) .
+			'<!-- wp:heading {"level":6,"className":"courier-notice-title","metadata":{"bindings":' .
+			'{"content":{"source":"courier/notice","args":{"key":"title"}}}}} -->' .
+			"\n<h6 class=\"courier-notice-title\"></h6>\n" .
+			'<!-- /wp:heading -->' .
+			"<!-- wp:paragraph -->\n<p>Block notice body</p>\n<!-- /wp:paragraph -->" .
+			'<!-- /wp:courier/notice -->';
+	}
+
+	/**
+	 * The informational title is a core/heading bound to the notice's own
+	 * title, so the heading renders the post title without the block echoing
+	 * one itself — and without doubling up with the legacy markup.
+	 *
+	 * @return void
+	 */
+	public function test_the_bound_title_heading_renders_the_notice_title(): void {
+		$notice_id = $this->create_notice( $this->bound_title_content( true ) );
+
+		wp_update_post(
+			array(
+				'ID'         => $notice_id,
+				'post_title' => 'Scheduled maintenance tonight',
+			)
+		);
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringContainsString( 'Scheduled maintenance tonight', $fragment, 'The bound heading must resolve the notice title.' );
+		$this->assertSame(
+			1,
+			substr_count( $fragment, 'courier-notice-title' ),
+			'The bound heading must not be joined by the legacy title markup.'
+		);
+		$this->assertStringContainsString( '<p>Block notice body</p>', $fragment );
+	}
+
+	/**
+	 * Switching the title off drops the bound heading from the front end
+	 * entirely rather than rendering it empty or hiding it with CSS.
+	 *
+	 * @return void
+	 */
+	public function test_the_bound_title_heading_is_dropped_when_the_title_is_off(): void {
+		$notice_id = $this->create_notice( $this->bound_title_content( false ) );
+
+		wp_update_post(
+			array(
+				'ID'         => $notice_id,
+				'post_title' => 'Scheduled maintenance tonight',
+			)
+		);
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringNotContainsString( 'courier-notice-title', $fragment, 'The heading must not render at all.' );
+		$this->assertStringNotContainsString( 'Scheduled maintenance tonight', $fragment );
+		$this->assertStringContainsString( '<p>Block notice body</p>', $fragment, 'The message must still render.' );
+	}
+
+	/**
+	 * Notices authored before the title became a bound heading have no heading
+	 * to render, so the legacy title markup still serves them.
+	 *
+	 * @return void
+	 */
+	public function test_a_notice_without_a_bound_heading_falls_back_to_the_legacy_title(): void {
+		$notice_id = $this->create_notice(
+			'<!-- wp:courier/notice {"layout":"informational","showTitle":true} -->' .
+			"<!-- wp:paragraph -->\n<p>Older block notice</p>\n<!-- /wp:paragraph -->" .
+			'<!-- /wp:courier/notice -->'
+		);
+
+		wp_update_post(
+			array(
+				'ID'         => $notice_id,
+				'post_title' => 'Authored before bindings',
+			)
+		);
+
+		$fragment = $this->fetch_fragment( $notice_id );
+
+		$this->assertStringContainsString( 'courier-notice-title', $fragment );
+		$this->assertStringContainsString( 'Authored before bindings', $fragment, 'An older notice must not lose its title.' );
+	}
+
+	/**
 	 * The icon block follows the notice type's _courier_type_icon term
 	 * meta — the same source the legacy templates read — and an explicit
 	 * attribute overrides it.

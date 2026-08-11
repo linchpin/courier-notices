@@ -40,14 +40,50 @@ $courier_wrapper = get_block_wrapper_attributes(
 	)
 );
 
+$courier_show_title = ! empty( $attributes['showTitle'] );
+
+/*
+ * The informational template's title is a core/heading bound to this block's
+ * `title` binding, so it lives among the inner blocks rather than being echoed
+ * here. Render them one at a time so the bound heading can be dropped when the
+ * author has the title switched off - the template is locked, so the heading is
+ * always present and visibility is a render decision, not a block-presence one.
+ */
+$courier_inner            = '';
+$courier_has_bound_title  = false;
+
+foreach ( $block->inner_blocks as $courier_inner_block ) {
+	$courier_bindings = isset( $courier_inner_block->parsed_block['attrs']['metadata']['bindings'] )
+		? $courier_inner_block->parsed_block['attrs']['metadata']['bindings']
+		: array();
+
+	$courier_binds_title = isset( $courier_bindings['content']['source'], $courier_bindings['content']['args']['key'] )
+		&& 'courier/notice' === $courier_bindings['content']['source']
+		&& 'title' === $courier_bindings['content']['args']['key'];
+
+	if ( $courier_binds_title ) {
+		$courier_has_bound_title = true;
+
+		if ( ! $courier_show_title ) {
+			continue;
+		}
+	}
+
+	$courier_inner .= $courier_inner_block->render();
+}
+
+// Notices authored before the title became a bound heading have no heading to
+// render, so the legacy markup still serves them.
+$courier_legacy_title = $courier_show_title && ! $courier_has_bound_title;
+
 ?>
 <div <?php echo $courier_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, Linchpin.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() output is pre-escaped. ?> <?php echo $courier_dismiss ? 'data-closable' : ''; ?>>
 	<div class="courier-content-wrapper">
-		<?php if ( ! empty( $attributes['showTitle'] ) ) : ?>
+		<?php if ( $courier_legacy_title ) : ?>
 			<h6 class="courier-notice-title"><?php echo esc_html( get_the_title( $courier_notice_id ) ); ?></h6>
 		<?php endif; ?>
 		<div class="courier-content">
-			<?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, Linchpin.Security.EscapeOutput.OutputNotEscaped -- Inner blocks, already rendered and escaped by their own renderers. ?>
+			<?php echo $courier_inner; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, Linchpin.Security.EscapeOutput.OutputNotEscaped -- Inner blocks, already rendered and escaped by their own renderers. ?>
 		</div>
 		<?php if ( $courier_dismiss ) : ?>
 			<a href="#" class="courier-close close" aria-label="<?php esc_attr_e( 'Dismiss this notice', 'courier-notices' ); ?>">&times;</a>

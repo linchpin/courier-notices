@@ -12,10 +12,8 @@ import {
 	useInnerBlocksProps,
 	InnerBlocks,
 	InspectorControls,
-	RichText,
 } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, ToggleControl } from '@wordpress/components';
-import { useEntityProp } from '@wordpress/core-data';
 import { __ } from '@wordpress/i18n';
 
 import metadata from './block.json';
@@ -34,21 +32,43 @@ const LAYOUTS = [
 	{ value: 'popup-modal', label: __('Popup / Modal', 'courier-notices') },
 ];
 
-// Informational notices are an icon and a message, nothing more. The
-// icon follows the notice type unless the author overrides it.
+// Informational notices are an icon, a title and a message. The icon follows
+// the notice type unless the author overrides it.
 //
-// The message paragraph carries a courier/notice binding on its content.
-// The source returns no value for `message` by default, and core leaves a
-// bound attribute alone when the source has none - so what the author wrote
-// is what renders, in post_content, on the legacy path as much as the block
-// path. The courier_notices_binding_value filter is the seam that lets a
-// notice be adjusted dynamically without moving its message anywhere.
+// Both text blocks bind their content to the courier/notice source, which is
+// what makes an informational notice dynamically adjustable. core/heading and
+// core/paragraph are the two blocks this layout defaults to, and `content` on
+// both is on core's hardcoded bindable allowlist
+// (get_block_bindings_supported_attributes), so this works on the WP 6.8 floor
+// without needing the 6.9-only filter that would open up custom attributes.
 //
-// core/paragraph.content is on core's hardcoded bindable allowlist
-// (get_block_bindings_supported_attributes), so this works on the WP 6.8
-// floor - the filter that would open up custom block attributes is 6.9+.
+// The two keys behave differently on purpose:
+//
+// - `title` resolves the notice's post title and is writable, so typing in the
+//   heading edits the real post title. This replaces a hand-rolled RichText
+//   wired straight to useEntityProp.
+// - `message` resolves to nothing by default. Core leaves a bound attribute
+//   alone when its source has no value, so the authored paragraph is what
+//   renders - staying in post_content, on the legacy path as much as the block
+//   path - until courier_notices_binding_value substitutes something.
 const INFORMATIONAL_TEMPLATE = [
 	['courier/notice-icon'],
+	[
+		'core/heading',
+		{
+			level: 6,
+			className: 'courier-notice-title',
+			placeholder: __('Notice title…', 'courier-notices'),
+			metadata: {
+				bindings: {
+					content: {
+						source: SOURCE_NAME,
+						args: { key: 'title' },
+					},
+				},
+			},
+		},
+	],
 	[
 		'core/paragraph',
 		{
@@ -75,11 +95,6 @@ const INFORMATIONAL_TEMPLATE = [
  */
 function Edit({ attributes, setAttributes }) {
 	const { layout, showTitle } = attributes;
-	const [title, setTitle] = useEntityProp(
-		'postType',
-		'courier_notice',
-		'title'
-	);
 
 	const locked = 'informational' === layout;
 	const typeSlug = useNoticeTypeSlug();
@@ -87,7 +102,11 @@ function Edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps({
 		className:
 			`courier-notice courier_notice courier-layout-${layout}` +
-			(typeSlug ? ` courier_type-${typeSlug}` : ''),
+			(typeSlug ? ` courier_type-${typeSlug}` : '') +
+			// The bound title heading is a locked part of the template, so it
+			// is always present; showTitle governs whether it shows. render.php
+			// drops it outright, and the canvas hides it, so both sides agree.
+			(showTitle ? '' : ' courier-title-hidden'),
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(
@@ -130,16 +149,6 @@ function Edit({ attributes, setAttributes }) {
 			</InspectorControls>
 			<div {...blockProps}>
 				<div className="courier-content-wrapper">
-					{showTitle && (
-						<RichText
-							tagName="h6"
-							className="courier-notice-title"
-							placeholder={__('Notice title…', 'courier-notices')}
-							value={title}
-							onChange={setTitle}
-							allowedFormats={[]}
-						/>
-					)}
 					<div {...innerBlocksProps} />
 					<span className="courier-close close" aria-hidden="true">
 						&times;
