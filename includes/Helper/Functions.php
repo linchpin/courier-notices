@@ -189,6 +189,66 @@ function courier_notices_get_notices( $args = array() ) {
 
 
 /**
+ * Get the accessible name used to label a placement's notice container.
+ *
+ * The header and footer containers are exposed as ARIA landmarks (role="region")
+ * so that notices are not reported as content outside of a landmark, and the
+ * modal container is exposed as a dialog. Neither role carries any meaning
+ * without an accessible name, so every placement needs a unique, human readable
+ * label.
+ *
+ * @since 1.10.0
+ *
+ * @param string $placement The placement slug. e.g. header, footer, popup-modal.
+ *
+ * @return string The accessible name for the placement's container.
+ */
+function courier_notices_get_placement_region_label( $placement = '' ) {
+	$placement = sanitize_title( $placement );
+
+	/**
+	 * Filter the accessible names used for each known placement.
+	 *
+	 * @since 1.10.0
+	 *
+	 * @param array $labels Array of placement slugs => accessible names.
+	 */
+	$labels = apply_filters(
+		'courier_notices_placement_region_labels',
+		array(
+			'header'      => __( 'Header notices', 'courier-notices' ),
+			'footer'      => __( 'Footer notices', 'courier-notices' ),
+			'popup-modal' => __( 'Modal notices', 'courier-notices' ),
+		)
+	);
+
+	if ( isset( $labels[ $placement ] ) ) {
+		$label = $labels[ $placement ];
+	} else {
+		$term = get_term_by( 'slug', $placement, 'courier_placement' );
+		$name = ( $term && ! is_wp_error( $term ) ) ? $term->name : ucwords( str_replace( array( '-', '_' ), ' ', $placement ) );
+
+		if ( empty( $name ) ) {
+			$label = __( 'Notices', 'courier-notices' );
+		} else {
+			/* translators: %s: The name of the notice placement. e.g. Header. */
+			$label = sprintf( __( '%s notices', 'courier-notices' ), $name );
+		}
+	}
+
+	/**
+	 * Filter the accessible name for a single placement's notice container.
+	 *
+	 * @since 1.10.0
+	 *
+	 * @param string $label     The accessible name.
+	 * @param string $placement The placement slug.
+	 */
+	return apply_filters( 'courier_notices_placement_region_label', $label, $placement );
+}
+
+
+/**
  * Display Courier notices on the page on the front end
  *
  * @since 1.2.0
@@ -207,6 +267,7 @@ function courier_notices_display_notices( $args = array() ) {
 	$courier_notices_view = new View();
 	$courier_notices_view->assign( 'courier_placement', $courier_placement );
 	$courier_notices_view->assign( 'courier_style', $courier_style );
+	$courier_notices_view->assign( 'courier_region_label', courier_notices_get_placement_region_label( $courier_placement ) );
 
 	$output = $courier_notices_view->get_text_view( 'notices-ajax' );
 
@@ -240,6 +301,7 @@ function courier_notices_display_modals( $args = array() ) {
 	$courier_notices   = new \CourierNotices\Core\View();
 	$courier_notices->assign( 'courier_placement', $courier_placement );
 	$courier_notices->assign( 'courier_style', $courier_style );
+	$courier_notices->assign( 'courier_region_label', courier_notices_get_placement_region_label( $courier_placement ) );
 
 	$output = $courier_notices->get_text_view( 'notices-ajax-modal' );
 

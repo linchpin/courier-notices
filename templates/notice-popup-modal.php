@@ -5,7 +5,7 @@
 ?>
 <div class="courier-notices modal <?php echo esc_attr( $notice_class ); ?>" <?php esc_attr( $dismissible ); ?> data-courier-notice-id="<?php echo esc_attr( $notice_id ); ?>">
 	<?php if ( $dismissible ) : ?>
-		<a href="#" class="courier-close modal-close close">&times;</a>
+		<a href="#" class="courier-close modal-close close" aria-label="<?php esc_attr_e( 'Close notice', 'courier-notices' ); ?>">&times;</a>
 	<?php endif; ?>
 	<?php if ( 'hide' !== $show_hide_title ) : ?>
 		<h6><?php echo wp_kses_post( $notice_title ); ?></h6>

@@ -39,6 +39,10 @@ class Utils {
 		$safe_content = array(
 			'div'   => array(
 				'class'                  => array(),
+				'role'                   => array(),
+				'aria-label'             => array(),
+				'aria-modal'             => array(),
+				'tabindex'               => array(),
 				'data-courier'           => array(),
 				'data-courier-notice-id' => array(),
 				'data-courier-ajax'      => array(),
